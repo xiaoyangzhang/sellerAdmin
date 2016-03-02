@@ -1,0 +1,13 @@
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
+<div class="tableGroup whole">
+    <table class="table table-hover">
+        <tr>
+            <th>名称</th>
+            <th>会员价格</th>
+        </tr>
+            <tr>
+				<td>$!lineDetail.name</td>
+                <td>$!lineDetail.memberPrice</td>
+            </tr>
+    </table>
+</div>

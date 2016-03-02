@@ -1,0 +1,65 @@
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js"></script>
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<div class="btnBottomMargin">
+            <button type="button" class="btn btn-primary addCommodityBtn" id="addCommodityBtn">创建</button>
+            #*
+            	<button type="button" class="btn btn-primary commodityBatchBtn batchUp" btnType="1">批量上架</button>
+            	<button type="button" class="btn btn-primary commodityBatchBtn batchDown" btnType="2">批量下架</button>
+			*#
+			</div>
+	
+	<form class="form-signin" id="themeListForm" name="themeListForm" action="$!utilWebconfig.getActionDefaultFontPath()/B2C/recommended/list" method="GET" role="form">
+
+        <div class="tableGroup whole">
+            <table class="table table-hover">
+                    <tr>
+                        <th>#</th>
+                        <th>标题</th>
+                        <th>类型</th>
+                        <th>内容</th>
+                        <th>关联城市</th>
+                        <th>操作</th>
+                    </tr>
+                    #foreach($data in $list)
+                    <tr>
+                        <td>$!velocityCount <input class="subChecked" type="checkbox" value="$!{data.id}"></td>
+                        <td>$!data.title</td>
+                        <td>#RECOMMEND_TYPE($!data.type)</td>
+                        <td>$!data.content</td>
+                        <td>$!data.cityName</td>
+                       <td>
+                       		#*<button type="button" class="btn btn-primary themeDelete" themeId="$data.id">删除</button>*#
+                       		<button type="button" class="btn btn-primary themeDetail" themeId="$data.id">编辑</button>
+                       </td>
+                    </tr>
+                    #end
+            </table>
+        </div>
+    #*分页*#
+    #parse("/page.vm")
+    #pageStyle("themeListForm")
+    </form>
+
+<script>
+	$('.themeDetail').each(function(){
+            $(this).click(function(){
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/recommended/edit/'+ $(this).attr('themeId');
+                top.tabsAdd("",url,2,$(this).text());
+            });
+        });
+	$('.themeDelete').each(function(){
+            $(this).click(function(){
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/recommended/del/'+ $(this).attr('themeId');
+                top.tabsAdd("",url,2,$(this).text());
+            });
+        });
+
+	    //新建
+    $('.addCommodityBtn').click(function(){
+        var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/recommended/toAdd';
+        top.tabsAdd("addCommodityBtn",url,2,$(this).text())
+    });
+	
+</script>

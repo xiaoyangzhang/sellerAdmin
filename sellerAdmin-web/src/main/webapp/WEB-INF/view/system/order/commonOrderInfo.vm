@@ -1,0 +1,91 @@
+<!-- 订单状态 -->
+<div class="orderState">
+	<div>
+		<span>订单状态：<span>
+		<span>#ORDER_STATUS($!order.orderState)<span>
+	</div>
+</div>
+<!-- 买家信息 -->
+<div class="buyerInfo">
+	<div>买家信息</div>
+	<div>
+		<span>手机号：$order.buyerMobile</span>
+		<span>昵称：$order.buyerNickname</span>
+		<span>姓名：$order.buyerName</span>
+	</div>
+</div>
+<!-- 订单基础信息 -->
+<div class="orderBaseInfo">
+	<div>订单基础信息</div>
+	<table class="table table-hover">
+            <tr>
+                <td>订单编号：</td>
+                <td>$!order.orderNO</td>
+                <td>下单时间：</td>
+                <td>$utilDate.date2String($order.orderTime)</td>
+            </tr>
+            <tr>
+                <td>付款时间：</td>
+                <td>$utilDate.date2String($order.paymentTime)</td>
+                <td>付款方式：</td>
+                <td>$!order.paymentMethod</td>
+            </tr>
+            <tr>
+                <td>买家备注：</td>
+                <td>$!order.buyerNote</td>
+                <td>发票：</td>
+                <td>$!order.invoice</td>
+            </tr>
+            <tr>
+                <td>客服备注：</td>
+                <td>$!order.customerServiceNote</td>
+                <td></td>
+                <td></td>
+            </tr>
+    </table>
+</div>
+<!-- 联系人信息 -->
+<div class="contacts">
+	<div>联系人信息</div>
+	<table class="table table-hover">
+        <tr>
+            <th>序号</th>
+            <th>姓名</th>
+            <th>手机号</th>
+            <th>邮箱</th>
+        </tr>
+            #foreach($contact in $order.contacts)
+            <tr>
+                <td>$velocityCount</td>
+                <td>$!contact.name</td>
+                <td>$!contact.mobile</td>
+                <td>$!contact.email</td>
+            </tr>
+            #end
+    </table>
+</div>
+<!-- 游客信息 -->
+<div class="turistInfo">
+	<div>游客信息</div>
+	<table class="table table-hover">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>类型</th>
+            <th>姓名</th>
+            <th>手机号</th>
+            <th>证件类型</th>
+            <th>证件号</th>
+        </tr>
+            #foreach($tourist in $order.tourists)
+            <tr>
+                <td>$velocityCount</td>
+                <td>#ORDER_TOURIST_TYPE($!tourist.touristType)</td>
+                <td>$!tourist.name</td>
+                <td>$!tourist.mobile</td>
+                <td>#ORDER_TOURIST_DOCTYPE($!tourist.docType)</td>
+                <td>$!tourist.docNo</td>
+            </tr>
+            #end
+    </table>
+</div>

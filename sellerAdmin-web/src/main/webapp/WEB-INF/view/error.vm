@@ -1,0 +1,30 @@
+
+<div class="alert alert-warning with-icon alertPageNote" style="width: 60%;position: fixed;top: 50%;left: 50%;margin-left: -30%;margin-top: -101px;">
+
+    <div class="content" style="text-align: center;">
+        <i class="icon-frown" style="font-size: 50px;"></i>
+        <br />
+        <h4 style="font-size: 16px;margin-top: 20px;"></h4>
+        <div class="content" style="font-size: 14px;">#if($!message) $!message #else 服务器出现未知错误，请联系管理员 #end</div>
+        <br/>
+        <div class="modalFooter" style="width: 100%;">
+            <button type="button" class="btn errorBack" style="background: #fff;margin-right: 25px;">返回上一页</button>
+            <button type="button" class="btn btn-default closeBtn" data-dismiss="modal">关闭</button>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script>
+    $(function(){
+        $(".errorBack").on("click",function(){
+            history.go(-1);
+            //history.back();
+        });
+        $('.closeBtn').click(function(){
+            window.close();
+        });
+    })
+</script>

@@ -1,0 +1,214 @@
+ <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
+ <div class="tripInfo">
+	<div class='panel add-fight'>
+		<div class='panel-heading travelPanel'><i class='icon icon-2x icon-home '></i><span class="tripAddSp">航班信息</span></div>
+		<div class='panel-body'>
+			<table class="table">
+				<tr>
+					<td>
+						<div>
+							<input class="has-flight" type="radio" value="0" id="no-flight" name="has-flight" #if(${product.tripPackageInfo.hasFlight}!=1) checked #end><label for="no-flight">无航班信息</label>
+                        </div>
+						<div class="has-flight-0" #if(${product.tripPackageInfo.hasFlight}==1) style="display:none;" #end>
+							<button class='btn btn-primary set-flight-info'>填写航班信息</button>
+						</div>
+						<div class="flight-info has-flight-0" #if(${product.tripPackageInfo.hasFlight}==1) style="display:none;" #end>
+						#if(${product.tripPackageInfo.flightInfo})
+							#set($flightInfo = ${product.tripPackageInfo.flightInfo})
+							<div class="flight">
+								<div class="forward">
+									<span>去程：</span>
+									<span>${flightInfo.forwardDepartCity}(${flightInfo.forwardDepartDate})</span>
+									<span class="label label-badge label-info">飞机</span>
+									<span>${flightInfo.forwardArriveCity}(${flightInfo.forwardArriveDate})</span>
+								</div>
+								<div class="back">
+									<span>返程：</span>
+									<span>${flightInfo.returnDepartCity}(${flightInfo.returnDepartDate})</span>
+									<span class="label label-badge label-info">飞机</span>
+									<span>${flightInfo.returnArriveCity}(${flightInfo.returnArriveDate})</span>
+								</div>
+								<input type="hidden" class="flight-info-data" value='${utilText.toJSONString(${flightInfo})}'/>
+								<button class="btn btn-primary remove-parent">删除</button>
+							</div>
+						#end
+						</div>
+                    </td>
+					<td>
+						<div>
+							<input class="has-flight" type="radio" value="1" id="has-flight" name="has-flight" #if(${product.tripPackageInfo.hasFlight}==1) checked #end><label for="has-flight">有航班信息</label>
+                        </div>
+						<div class="has-flight-1" #if(${product.tripPackageInfo.hasFlight}!=1) style="display:none;" #end>
+							<button class='btn btn-primary add-flight-detail'>添加航班信息</button>
+						</div>
+						<div class="flight-details has-flight-1" #if(${product.tripPackageInfo.hasFlight}!=1) style="display:none;" #end>
+						#foreach($flightDetail in ${product.tripPackageInfo.flightDetails})
+							<div class="flight-detail">
+    							<div class="forward">
+    								<span>去程：</span>
+    								<span>${flightDetail.forwardDepartCity}($utilDate.longToString($flightDetail.forwardDepartTime,"yyyy年MM月dd日 hh:mm"))</span>
+    								<span class="label label-badge label-info">飞机</span>
+    								<span>${flightDetail.forwardArriveCity}($utilDate.longToString($flightDetail.forwardArriveTime,"yyyy年MM月dd日 hh:mm"))</span>
+    							</div>
+    							<div class="back">
+    								<span>返程：</span>
+    								<span>${flightDetail.returnDepartCity}($utilDate.longToString($flightDetail.returnDepartTime,"yyyy年MM月dd日 hh:mm"))</span>
+    								<span class="label label-badge label-info">飞机</span>
+    								<span>${flightDetail.returnArriveCity}($utilDate.longToString($flightDetail.returnArriveTime,"yyyy年MM月dd日 hh:mm"))</span>
+    							</div>
+								<input type="hidden" class="flight-detail-data" value='${utilText.toJSONString(${flightDetail})}'/>
+								<button class="btn btn-primary remove-parent">删除</button>
+							</div>
+						#end
+						</div>
+                    </td>
+                </tr>
+            </table>
+		</div>
+	</div>
+	<div class='panel add-hotel'>
+		<div class='panel-heading travelPanel'><i class='icon icon-2x icon-home'></i><span class="tripAddSp">添加酒店</span></div>
+		<div class='panel-body hotel' id='day_hotel'>
+		#foreach($hotel in $product.tripPackageInfo.hotels)
+			<button class="btn btn-info hotel_item remove-self" rNd="$!{hotel.id}" rName="$!{hotel.name}" rAddress="$!{hotel.address}">$!{hotel.name}</button>
+		#end
+		</div>
+		<div class="panel-body"><button class='btn btn-primary select-hotel'>选择酒店</button></div>
+	</div>
+</div> 
+<script type="text/javascript">
+	$(".set-flight-info").click(setFlightInfo);
+	$(".add-flight-detail").click(addFlightDetail);
+	$(".select-hotel").click(selectHotel);
+	$(".has-flight").click(function() {
+		var status = $(this).val();
+		var other = status==1?0:1;
+		$(".has-flight-"+status).show();
+		$(".has-flight-"+other).hide();
+	});
+	function removeSelf() {
+		$(this).remove();
+	}
+	$(".remove-self").click(removeSelf);
+	function removeParent(){
+		$(this).parent().remove();
+	}
+	$(".remove-parent").click(removeParent);
+	// 添加航班
+	function addFlightDetail(){
+		openModalForForm(actionDefaultPath + '/B2C/comm/selfServiceTravel/addFlightDetail','添加航班 ',function() {
+			var flightDetail = win.getFlightDetail();
+			// console.log(JSON.stringify(flightDetail));
+			var content = $(".flight-details");
+			// 数据绑定点：开始
+			var flight = $("<div class='flight'/>");
+			var forward = $("<div class='forward flightSelList'/>");
+			forward.append($("<span>去程：</span>"));
+			forward.append($("<span/>").text(flightDetail.forwardDepartCity+"（"+flightDetail.forwardDepartDate+"）"));
+			forward.append($("<span class='label label-badge label-info'>飞机</span>"));
+			forward.append($("<span/>").text(flightDetail.forwardArriveCity+"（"+flightDetail.forwardArriveDate+"）"));
+			flight.append(forward);
+			var back = $("<div class='back flightSelList'/>");
+			back.append($("<span>返程：</span>"));
+			back.append($("<span/>").text(flightDetail.returnDepartCity+"（"+flightDetail.returnDepartDate+"）"));
+			back.append($("<span class='label label-badge label-info'>飞机</span>"));
+			back.append($("<span/>").text(flightDetail.returnArriveCity+"（"+flightDetail.returnArriveDate+"）"));
+			flight.append(back);
+			var data = $("<div class='data'/>");
+			var data_input = $("<input type='hidden' class='flight-detail-data'/>");
+			data_input.val(JSON.stringify(flightDetail));
+			data.append(data_input);
+			flight.append(data);
+			var del_btn = $("<button class='btn btn-primary remove-parent'>删除</button>");
+			del_btn.click(removeParent);
+			flight.append(del_btn);
+			content.append(flight);
+			// 数据绑定点：结束
+			//一般设定yes回调，必须进行手工关闭
+			return true;
+		});
+	}
+	// 填写航班
+	function setFlightInfo(){
+		openModalForForm(actionDefaultPath + '/B2C/comm/selfServiceTravel/setFlightInfo','添加航班 ',function() {
+			var flightInfo = win.getFlightInfo();
+			// console.log(JSON.stringify(flights));
+			var content = $(".flight-info");
+			content.empty();
+			// 数据绑定点：开始
+			var flight = $("<div class='flight'/>");
+			var forward = $("<div class='forward flightSelList'/>");
+			forward.append($("<span>去程：</span>"));
+			forward.append($("<span/>").text(flightInfo.forwardDepartCity+"("+flightInfo.forwardDepartDate+")"));
+			forward.append($("<span class='label label-badge label-info'>飞机</span>"));
+			forward.append($("<span/>").text(flightInfo.forwardArriveCity+"("+flightInfo.forwardArriveDate+")"));
+			flight.append(forward);
+			var back = $("<div class='back flightSelList'/>");
+			back.append($("<span>返程：</span>"));
+			back.append($("<span/>").text(flightInfo.returnDepartCity+"("+flightInfo.returnDepartDate+")"));
+			back.append($("<span class='label label-badge label-info'>飞机</span>"));
+			back.append($("<span/>").text(flightInfo.returnArriveCity+"("+flightInfo.returnArriveDate+")"));
+			flight.append(back);
+			var data = $("<div class='data'/>");
+			var data_input = $("<input type='hidden' class='flight-info-data'/>");
+			data_input.val(JSON.stringify(flightInfo));
+			data.append(data_input);
+			flight.append(data);
+			var del_btn = $("<button class='btn btn-primary remove-parent'>删除</button>");
+			del_btn.click(removeParent);
+			flight.append(del_btn);
+			content.append(flight);
+			// 数据绑定点：结束
+			//一般设定yes回调，必须进行手工关闭
+			return true;
+		});
+	}
+	// 选择酒店
+	function selectHotel(){
+		openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectHotel','选择酒店 ',function() {
+			var hot = win.getItems(); 
+			var content = $("#day_hotel");
+			content.empty();
+            for(var i in hot) {
+				var _hot = hot[i];
+				var btn = $("<button class='btn btn-info hotel_item'></button>");
+				btn.attr("rId", _hot.id);
+				btn.attr("rName", _hot.name);
+				btn.attr("rAddress", (_hot.locationProvinceName||"")+(_hot.locationCityName||"")+(_hot.locationTownName||"")+(_hot.locationText||""));
+				btn.click(function() {
+					$(this).remove();
+				});
+				content.append(btn.text(hot[i].name));
+			}
+			//console.log(JSON.stringify(hot));
+			//一般设定yes回调，必须进行手工关闭
+			return true;
+		});
+    }
+	function getTripPackageInfo(){
+		var result = {};
+		var flight_status = $("[name='has-flight']:checked").val();
+		result["hasFlight"] = flight_status;
+		if(flight_status == 0) {
+			if($(".flight-info-data").val()) {
+				result["flightInfo"] = JSON.parse($(".flight-info-data").val());
+			}
+		} else {
+			var flights = [];
+			$(".flight-detail-data").each(function() {
+				flights.push(JSON.parse($(this).val()));
+			});
+			result["flightDetails"] = flights;
+		}
+		// 酒店
+		var hotels = [];
+		$(".hotel_item").each(function(){
+			var rId = $(this).attr("rId");
+			var rName = $(this).attr("rName");
+			var rAddress = $(this).attr("rAddress");
+			hotels.push({id:rId,name:rName,address:rAddress});
+		});
+		result["hotels"] = hotels;
+		return result;
+	}
+</script>

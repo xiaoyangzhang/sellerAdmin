@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tools>
+    <toolbox scope="application">
+        <tool key="utilDate" class="com.yimayhd.sellerAdmin.util.DateUtil"></tool>
+        <tool key="utilNum" class="com.yimayhd.sellerAdmin.util.NumUtil"></tool>
+        <tool key="utilText" class="com.yimayhd.sellerAdmin.util.TextUtil"></tool>
+        <tool key="utilWebconfig" class="com.yimayhd.sellerAdmin.util.WebResourceConfigUtil"></tool>
+        <tool key="utilPhone" class="com.yimayhd.sellerAdmin.util.PhoneUtil"></tool>
+    </toolbox>
+
+</tools>

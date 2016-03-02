@@ -1,0 +1,28 @@
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/input.js" type="text/javascript"></script>
+<div>
+	#foreach($persionPropertyValue in $persionPropertyValues)
+	<div class="input-group block" v-id="$!{persionPropertyValue.id}">
+		<span class="input-group-addon" block-name="$!{persionPropertyValue.text}">$!{persionPropertyValue.text}：</span>
+		<input type="text" class="form-control double-only item-$!{persionPropertyValue.id}-1" block-type="$!{persionPropertyValue.id}" id="item_$!{persionPropertyValue.id}_1" placeholder="请输入价格">
+		<span class="input-group-addon">库存：</span>
+		<input type="text" class="form-control int-only item-$!{persionPropertyValue.id}-2" block-type="$!{persionPropertyValue.id}" id="item_$!{persionPropertyValue.id}_2" placeholder="请输入库存">
+		<span class="input-group-addon">会员优惠：</span>
+		<input type="text" class="form-control double-only item-$!{persionPropertyValue.id}-3" block-type="$!{persionPropertyValue.id}" id="item_$!{persionPropertyValue.id}_3" placeholder="请输入会员优惠">
+	</div>
+	#end
+</div>
+<script type="text/javascript">
+	function getData() {
+		var blocks = [];
+		$(".block").each(function(){
+			var VId = $(this).attr("v-id");
+			blocks.push({
+				id:VId,
+				price:$(".item-"+VId+"-1").val(),
+				stock:$(".item-"+VId+"-2").val(),
+				discount:$(".item-"+VId+"-3").val()
+			});
+		});
+		return blocks;
+	}
+</script>

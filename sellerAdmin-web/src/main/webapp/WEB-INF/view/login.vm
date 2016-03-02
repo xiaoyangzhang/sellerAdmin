@@ -1,0 +1,39 @@
+#set($layout = "/system/layout/blank.vm")
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/css/login.css" rel="stylesheet" />
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/supersized/supersized.css" rel="stylesheet" />
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/md5.min.js"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/common.js"></script>
+<div class="page-container">
+
+    <form action="" method="post" id="loginForm">
+        <div class="loginBox">
+            <div class="head">
+            #*<p class="logo left"></p>*#<h1 style="float: none;text-align: center;">商家后台</h1></div>
+            <div class="clear"></div>
+            <div class="row">
+                <p class="ico_02 left"></p><p class="right"><input type="text" name="loginUsername" id="loginUsername" placeholder="用户名" maxlength="20" class="input inp_w1" /></p>
+            </div>
+            <div class="clear"></div>
+            <div class="row">
+                <p class="ico_03 left"></p><p class="right"><input type="password" name="loginPassword" id="loginPassword" maxlength="20" placeholder="密码" class="input inp_w1"  oncontextmenu="return false" onpaste="return false" /></p>
+            </div>
+            #*<div class="clear"></div>
+            <div class="row">
+                <p class="ico_04 left"></p><p class="right">
+                <input type="text" name="loginVerify" id="loginVerify" placeholder="验证码" class="input inp_w2" maxlength="5"  oncontextmenu="return false" onpaste="return false" />
+                <img src="/chkcode/gen" onclick="refresh(this)"/>*##*<b class="ico_05" onclick="refresh(this.previousSbiling)"></b>*##*
+            </p>
+            </div>*#
+
+            <div class="clear"></div>
+            <input type="button" name="loginSubmit" id="loginSubmit" value="登 录" class="btn" />
+        </div>
+    </form>
+
+</div>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/jquery.js"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/layer-v2.1/layer.js"></script>
+<script type="text/javascript" src="$utilWebconfig.getStaticResourcesPath()/resources/supersized/supersized.3.2.7.min.js"></script>
+<script type="text/javascript" src="$utilWebconfig.getStaticResourcesPath()/resources/js/jquery.cookie.js"></script>
+#*<script type="text/javascript" src="$utilWebconfig.getStaticResourcesPath()/resources/js/verify.js"></script>*#
+<script type="text/javascript" src="$utilWebconfig.getStaticResourcesPath()/resources/js/loginT.js"></script>

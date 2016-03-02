@@ -1,0 +1,78 @@
+<style>
+    .sendPointRuleAdd{padding: 20px 0px;}
+    .sendPointRuleAdd .pTop{margin-left: 20px;font-size: 19px;font-weight: bold;}
+    .sendPointRuleAdd .listDetail{}
+    .sendPointRuleAdd .listDetail label{}
+    .sendPointRuleAdd .listDetail input{margin: 8px;width: 60px;}
+    .sendPointRuleAdd .listDetail .sendPontAddBtn{margin-top: 10px;}
+</style>
+<div class="sendPointRuleAdd">
+    <p class="pTop">积分使用规则：1积分=1RMB</p>
+    <form class="form-signin" id="sendPontAddForm" name="sendPontAddForm" action="" method="POST" role="form">
+        <ul class="listDetail">
+            <li>
+                <label>积分赠送规则：</label>
+                消费<input type="text" name="paymentY" value="">元=1积分
+            </li>
+            <li>
+                <label>积分有效期：</label>
+                <input type="text" name="validityDays" value="">天
+            </li>
+            <li>
+                <button type="button" class="btn btn-primary sendPontAddBtn">新增并生效</button>
+            </li>
+        </ul>
+    </form>
+</div>
+<script>
+    $("#sendPontAddForm").validate({
+        rules:{
+            paymentY:{
+                required:true,
+                number:true,
+                range:[1,10000]
+            },
+            validityDays:{
+                required:true,
+                number:true,
+                range:[1,10000]
+            }
+        },
+        messages:{
+            paymentY:{
+                required:"请填写",
+                number:"请输入数字",
+                range:"输入的数字必须介于1至10000之间"
+            },
+            validityDays:{
+                required:"请填写",
+                number:"请输入数字",
+                range:"输入的数字必须介于1至10000之间"
+            }
+        },
+        //错误信息显示位置
+        errorPlacement: function(error, element) {
+            element.parent().append(error);
+        }
+    })
+    var openConfirm = function(){
+        layer.open({
+            content: '确定新增并立即生效吗？',
+            btn: ['确定', '取消'],
+            yes: function(index, layero){
+                $('#sendPontAddForm').submit();
+                layer.close(index);
+            }
+        });
+    }
+    $(function(){
+        $('#sendPontAddForm').attr('action',actionDefaultPath + '/trade/PointManage/sendPointRule/add');
+        $('.sendPontAddBtn').click(function(){
+            if($("#sendPontAddForm").valid()){
+                openConfirm();
+            }
+        });
+    })
+
+
+</script>

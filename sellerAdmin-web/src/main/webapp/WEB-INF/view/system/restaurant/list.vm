@@ -1,0 +1,175 @@
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+    <form class="form-signin" id="restaurantDOListForm" name="restaurantDOListForm" action="$!utilWebconfig.getActionDefaultFontPath()/B2C/restaurantManage/list" method="GET" role="form">
+        <div class="inputGroup whole">
+            <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">餐厅名称</button>
+                    </span>
+                <input type="text" class="form-control" name="name" value="$!query.name">
+            </div>
+            <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">状态：</button>
+                </span>
+                <select class="form-control" name="status">
+                    <option value="" >全部</option>
+                    <option value="1" #if($!query.status == 1) selected #end>启用</option>
+                    <option value="2" #if($!query.status == 2) selected #end>停用</option>
+                </select>
+            </div>
+            #*<div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">区域</button>
+                    </span>
+            </div>*#
+			
+            #*<div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">联系人</button>
+                    </span>
+                <input type="text" class="form-control" name="hotelNameOrTel" value="$!hotelListQuery.hotelNameOrTel">
+            </div>*#
+
+            <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">创建时间</button>
+                    </span>
+                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="beginTime" value="$!query.beginTime">
+                <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
+                <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endTime" value="$!query.endTime">
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary submitBtn">查询</button>
+            </div>
+            <div class="btn-group">
+                <button type="reset" class="btn btn-primary">重置</button>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary restaurantAddBtn">添加餐厅</button>
+        <button type="button" class="btn btn-primary restaurantBatchBtn" btnType="1">批量启用</button>
+        <button type="button" class="btn btn-primary restaurantBatchBtn" btnType="2">批量禁用</button>
+        <div class="tableGroup whole">
+            <table class="datatable">
+				<thead >
+                    <tr>
+                        <th>餐厅名称</th>
+                        <th>状态</th>
+                        <th>区域</th>
+                        <th>联系人</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+				<tbody>
+                    #foreach($restaurant in $pageVo.itemList)
+                    <tr id="item_$!{velocityCount}" rId="$!restaurant.id">
+                        <td>
+                            <p>$!{restaurant.name}</p>
+                            <p>商品编码:$!{restaurant.id}</p>
+                        </td>
+                        <td>#RESTAURANT_STATUS($!{restaurant.status})</td>
+                        <td>$!{restaurant.locationProvinceName} $!{restaurant.locationCityName} $!{restaurant.locationTownName}</td>
+                        <td>
+							${restaurant.contactPerson}：$!{restaurant.contactPhone}
+                        </td>
+                        <td>
+                        	<button type="button" class="btn btn-primary toView" restaurantId="$restaurant.id">查看</button>
+                        	<button type="button" class="btn btn-primary updateRestaurantStatus"  restaurantId="$restaurant.id" status="2">停用   </button>
+                        </td>
+                    </tr>
+					#end
+				</tbody>
+            </table>
+        </div>
+    #*分页*#
+    #parse("/page.vm")
+    #pageStyle("restaurantDOListForm")
+    </form>
+	<script>
+    $(".form-date").datetimepicker({
+        language:  "zh-CN",
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0,
+        format: "yyyy-mm-dd"
+    });
+	$('table.datatable').datatable({
+		checkable: true
+		,checksChanged:function(event){
+			checkedList = event.checks.checks;
+		}
+	});
+    $('.submitBtn').click(function(){
+        $('#restaurantDOListForm').submit();
+    });
+    $('.toView').click(function(){
+		window.parent.tabsAdd("restaurantView",actionDefaultPath + '/B2C/restaurantManage/edit/'+ $(this).attr('restaurantId'), 2, "添加餐厅");
+    });
+    $('.updateRestaurantStatus').click(function(){
+		layer.msg("该功能暂不启用");
+		return;
+        $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/restaurantManage/updateStatus/' + $(this).attr('restaurantId') ,{'restaurantStatus':$(this).attr('status')} ,function(data){
+            if(data.status == 200){
+                layer.alert('操作成功', {
+                    icon: 1,
+                    time: 1500
+                }, function(){
+                    window.location.href = window.location.href;
+                });
+            }else{
+                layer.alert('操作失败', {
+                    icon: 2,
+                    time: 2000
+                }, function(){
+                    window.location.href = window.location.href;
+                });
+
+            }
+        })
+    });
+    //批量
+	var checkedList;
+    $('.restaurantBatchBtn').click(function(){
+		// 暂时禁用
+		layer.msg("该功能暂不启用");
+		return;
+		// END
+        var arr = new Array();
+		// TODO 遍历 checkedList
+        if(arr==null||arr==""){
+    	  	layer.alert('请选择', {
+                icon: 2,
+                time: 2000
+            });
+        } else {
+        	$.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/restaurantManage/batchupdateStatus',{scenicIdList:arr,scenicStatus:$(this).attr('btnType')},function(data){
+                if(data&&data.status == 200){
+                    layer.alert('操作成功', {
+                        icon: 1,
+                        time: 1500
+                    }, function(){
+                        window.location.href = window.location.href;
+                    });
+                } else {
+                    layer.alert('操作失败', {
+                        icon: 2,
+                        time: 2000
+                    }, function(){
+                        $(this).prop('disabled',false);
+                    });
+                }
+           	 });
+        }
+       
+    });
+    //新建
+    $('.restaurantAddBtn').click(function(){
+        var url = actionDefaultPath + '/B2C/restaurantManage/toAdd';
+		window.parent.tabsAdd("restaurantAdd", url, 2, "添加餐厅");
+        //window.openwin(url);
+    });
+</script>

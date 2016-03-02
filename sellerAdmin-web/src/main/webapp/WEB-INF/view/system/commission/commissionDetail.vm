@@ -1,0 +1,54 @@
+<div>
+    <form class="form-signin" id="commisssionDetailForm" name="commisssionDetailForm" action="$!utilWebconfig.getActionDefaultFontPath()/commission/queryCommissionDetail" method="GET" role="form">
+
+		<input type="hidden" name="userId" value="$!commissionDetailQuery.userId">
+        <!-- Unnamed (Shape) -->
+        <div id="u37" class="ax_paragraph">
+            <img id="u37_img" class="img " src="$utilWebconfig.getStaticResourcesPath()/resources/img/transparent.gif"/>
+            <!-- Unnamed () -->
+            <div id="u38" class="text">
+                <p><span>会员名称：$!{userName} </span></p>
+            </div>
+
+##            <img id="u39_img" class="img " src="$utilWebconfig.getStaticResourcesPath()/resources/img/transparent.gif"/>
+##            <!-- Unnamed () -->
+##            <div id="u40" class="text">
+##                <p><span>用户账号：$!{userName}</span></p>
+##            </div>
+        </div>
+
+
+
+        <!-- Unnamed (Shape) -->
+        <div id="u43" class="ax_paragraph">
+            <img id="u43_img" class="img " src="$utilWebconfig.getStaticResourcesPath()/resources/img/transparent.gif"/>
+            <!-- Unnamed () -->
+            <div id="u44" class="text">
+                <p><span style="color:#333333;">总计</span><span style="color:#333333;">提现金额：$utilNum.moneyTransform($!totalAmount)</span><span style="color:#FF0000;"></span><span style="color:#333333;"> 元</span></p>
+            </div>
+        </div>
+
+        <div class="tableGroup whole">
+            <table class="table table-hover">
+                <tr>
+                    <th>流水号</th>
+                    <th>转账时间</th>
+                    <th>金额(元))</th>
+                    <th>转账帐号</th>
+                    <th>操作人员</th>
+                </tr>
+                #foreach($commission in $commissionList)
+                    <tr>
+                        <td>$!commission.serialId</td>
+                        <td>$!commission.buildTime</td>
+                        <td>$utilNum.moneyTransform($!commission.commissionAmt)</td>
+                        <td>$!commission.payeeAccount</td>
+                        <td>$!commission.operator</td>
+                    </tr>
+                #end
+            </table>
+        </div>
+    #*分页*#
+        #parse("/page.vm")
+        #pageStyle("commisssionDetailForm")
+    </form>

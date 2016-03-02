@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+        >
+    <import resource="spring-consumer-item.xml"/>
+    <import resource="spring-consumer-resource.xml"/>
+    <import resource="spring-consumer-user.xml"/>
+    <import resource="spring-consumer-paycore.xml"/>
+    <import resource="spring-consumer-trade.xml"/>
+    <import resource="spring-consumer-member.xml"/>
+    <import resource="spring-consumer-sns.xml"/>
+    <import resource="spring-consumer-comment.xml"/>
+    <import resource="spring-consumer-commission.xml"/>
+    <import resource="spring-consumer-voucher.xml"/>
+    <import resource="spring-consumer-activity.xml"/>
+    <import resource="spring-consumer-marketing.xml"/>
+</beans>

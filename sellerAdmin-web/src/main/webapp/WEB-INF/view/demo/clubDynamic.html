@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+    <title></title>
+</head>
+<body>
+<div class="clubDynamicPage whole">
+    <div class="dynamicTop">
+        <p>审核备注：（200字以内）</p>
+        <textarea name="summary" id="" rows="2" class="form-control"></textarea>
+        <button type="button" class="btn btn-lg btn-info illegalBtn">违规</button>
+        <button type="button" class="btn btn-lg btn-info recoveryBtn" data-toggle="modal" data-target="#recoveryModal">恢复</button>
+    </div>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>用户信息</td>
+                <td>
+                    <img src="images/11.jpg" alt="" class="img-circle imgCircle"/>
+                    <span>Tracy</span>
+                    <span>18612345678</span>
+                </td>
+            </tr>
+            <tr>
+                <td>动态内容</td>
+                <td>你在北京的寒夜里四季如春，我在丽江的艳阳里大雪纷飞</td>
+            </tr>
+            <tr>
+                <td>动态图片</td>
+                <td>
+                    <img src="images/11.jpg" alt="" class="imgRectangular"/>
+                    <img src="images/11.jpg" alt="" class="imgRectangular"/>
+                    <img src="images/11.jpg" alt="" class="imgRectangular"/>
+                    <img src="images/11.jpg" alt="" class="imgRectangular"/>
+                    <img src="images/11.jpg" alt="" class="imgRectangular"/>
+                    <img src="images/11.jpg" alt="" class="imgRectangular"/>
+                    <img src="images/11.jpg" alt="" class="imgRectangular"/>
+                </td>
+            </tr>
+            <tr>
+                <td>发布时间</td>
+                <td>2015-7-1 15:30:23</td>
+            </tr>
+            <tr>
+                <td>状态</td>
+                <td>正常</td>
+            </tr>
+            <tr>
+                <td>审核状态</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>评论数</td>
+                <td>122
+                    <button type="button" class="btn btn-info viewBtn">查看</button>
+                </td>
+            </tr>
+            <tr>
+                <td>点赞数</td>
+                <td>122</td>
+            </tr>
+            <tr>
+                <td>IP地址</td>
+                <td>192.168.30.220</td>
+            </tr>
+        </tbody>
+    </table>
+    <!--动态详情查看大图start-->
+    <div id="triggerModal" class="modal modal-trigger fade in" aria-hidden="false" style="display: none;">
+        <div class="icon-spinner icon-spin loader"></div>
+        <div class="modal-dialog" style="margin-top: 98.3333px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title"><i class="modal-icon icon-undefined"></i> <span class="modal-title-name">使用函数生成内容</span>
+                    </h4></div>
+                <div class="modal-body">当模态框显示时，时间是：Fri Nov 06 2015 15:37:42 GMT+0800 (中国标准时间)</div>
+            </div>
+        </div>
+    </div>
+    <!--动态详情查看大图end-->
+    <!--恢复模态框start-->
+    <div class="modal modal-for-page fade" id="recoveryModal" aria-hidden="true" style="display: none;" data-backdrop="static">
+        <div class="modal-dialog" style="margin-top: 55.6667px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                    <h4 class="modal-title">请选择</h4>
+                </div>
+                <div class="modal-body">
+                    <p>是否确认恢复该条内容状态为正常？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--恢复模态框end-->
+</div>
+</body>
+</html>

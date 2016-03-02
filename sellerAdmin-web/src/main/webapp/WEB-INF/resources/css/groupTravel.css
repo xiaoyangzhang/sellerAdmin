@@ -1,0 +1,53 @@
+/*商品管理-发布线路-基本信息*/
+.baseInfo{padding: 10px;}
+.baseInfoList{padding-bottom: 20px;}
+.baseInfoList label{font-weight: normal;}
+.baseInfoList .lineDetail{font-weight: bold;font-size: 16px;}
+.baseInfoList table{width: 100%;}
+.baseInfoList table tr{line-height: 30px;}
+.baseInfoList table td:nth-child(1){width: 100px;}
+.baseInfoList table .fileWrap{position: relative;}
+.baseInfoList table .fileWrap .fileBtn{position: absolute;width: 80px;height: 32px;top: 50%;left: 0;margin-top: -16px;font-size: 25px;opacity: 0;filter: alpha(opacity=0);}
+.baseInfoList table .img-circle{width: 100px;margin-left: 10px;}
+.baseInfoApply .applyNote{font-weight: bold;font-size: 16px;}
+.baseInfoApply table{width: 100%;border-collapse: collapse;border: 1px solid #d5d5d5;}
+.baseInfoApply table th{text-align: center;border: 1px solid #d5d5d5;background: #dedede;line-height: 35px;}
+.baseInfoApply table td{border: 1px solid #d5d5d5;padding: 10px !important;text-align: center;}
+/*商品管理-发布线路-行程信息*/
+.tripInfo{padding: 10px;position: relative;}
+.tripInfo .tripInfoNav{position: absolute;width: 150px;height: 600px;background: #9C9898;overflow: auto;text-align: center;padding: 10px;z-index: 100;}
+.tripInfo .tripInfoNav li{float: none;position: relative;}
+.tripInfo .tripInfoNav li .icon-trash{position: absolute;right: 10px;top: 9px;font-size: 18px;cursor: pointer;}
+.tripInfo .tripInfoNav li.day_tab{margin-bottom: 5px;}
+.tripInfo .tripInfoNav li.day_tab.active a{background: #FFFFFF;}
+.tripInfo .tripInfoNav li.day_tab a{background: #CAC4C4;border-radius: 5px;}
+.tripInfo .tripInfoNav li.day_tab a:hover{background: #EBE8E8;}
+.tripInfo .tripInfoNav li.day_btn{margin-top: 15px;}
+.tripInfo .tab-content{margin-left: 180px;}
+.tripInfo .travelPanel i{margin-top: 5px;font-size: 20px;margin-right: 5px;}
+.tripInfo .travelPanel .tripAddSp{display: inline-block;font-size: 18px;font-weight: bold;}
+.tripInfo .travelPanelDe{line-height: 30px;}
+.tripInfo .panel-body .label-info{margin-right: 5px;}
+.tripInfo .panel-body .remove-self{margin-right: 5px;}
+.tripInfo .panel-body .hotel_item{margin-right: 5px;}
+.tripInfo .panel-body table td{border-bottom: none;}
+.tripInfo .panel-body table td .flight{margin: 15px 0;}
+.tripInfo .panel-body table td .flight .flightSelList{margin: 0 0 10px;font-size: 12px;}
+.tripInfo .panel-body table td .flight .flightSelList .label-info{margin-left: 10px;}
+/*商品管理-发布线路-价格信息*/
+.priceInfo{padding: 10px;}
+.priceInfo .tc-main .nav-tabs{border-bottom: none;}
+.priceInfo .tc-main .navCombo{background: #DCD9D9;}
+.priceInfo .tc-main .navCombo li{position: relative;}
+.priceInfo .tc-main .navCombo li.active a{background: #F7F6F6;}
+.priceInfo .tc-main .navCombo li .icon-remove{position: absolute;top: 10px;right: 10px;color: #666;}
+.priceInfo .tc-main .tabCombo>.active{padding: 10px;border: 1px solid #d5d5d5;background: #F7F6F6;}
+.priceInfo .tc-main .tabCombo table{border: none;border-color: transparent;border-collapse: separate;}
+.priceInfo .tc-main .tabCombo table td{border: none;border-color: transparent;padding: 5px !important;}
+.priceInfo .tc-main .tabCombo table .input-group-addon{padding: 5px;}
+.priceInfo .tc-main .tabCombo table .input-group.block{margin-bottom: 2px;}
+.priceInfo .tc-main .tabCombo table .batch-insert{margin: 3px 20px;}
+.priceInfo .tc-main .tabCombo table .pBot{margin-bottom: 5px;}
+/*保存*/
+.groupTravelBot{text-align: center;margin: 20px auto;}
+.groupTravelBot .btn{width: 150px;}

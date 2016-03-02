@@ -1,0 +1,151 @@
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js" type="text/javascript"></script>
+
+
+
+<form name="addHotel" id="hotelForm" action="" method="post" recommendedId="$!regionIntroduceDO.id">
+<div class="tab-content grogInfoWrap"  style="">
+    <div class="tab-pane active" id="grogshopInfo">
+        <div class="createHotrlTable">
+            <table>
+                <tr>
+                    <td><span class="spColor">*</span>名称</td>
+                    <td> <input type="text" name="title" class="form-control extra-info-item-title" value="$!regionIntroduceDO.title"></td>
+                </tr>
+                 <tr>
+                    <td><span class="spColor">*</span>关联城市</td>
+                    <td><select id="cityId" ></select></td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>标签</td>
+                    <td>
+                        <div class="selectList">
+                            <select class="selCity inpControl provinceSelect" name="type">
+                                <option value="21" #if($!regionIntroduceDO.type == 21) selected #end>当地指南-亮点</option>
+                                <option value="10" #if($!regionIntroduceDO.type == 10) selected #end >必买推荐须</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+            #**
+             * <tr>
+             <td><span class="spColor">*</span>简介</td>
+             <td>
+             <textarea class="form-control extra-info-item-text"  name="desc" rows="3">$!regionIntroduceDO.desc</textarea>
+             </td>
+             </tr>
+             *#
+				
+				<tr>
+                    <td><span class="spColor">*</span>图片</td>
+                    <td>
+                        <div class="fileImgWrap">
+                            <button type="button" class="btn btn-success">选择图片</button>
+                            <input type="file" class="fileInp" id="FMUploadFile" accept="image/png,image/gif">
+                            <input type="hidden" name="imgUrl" value="$!regionIntroduceDO.imgUrl"  id="FMReturnInput">
+                            <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
+                        </div>
+                        <div class="propagandaView">
+                            <img height="100" width="100"  src="#if($regionIntroduceDO.imgUrl) $utilWebconfig.getTfsRootPath()$!regionIntroduceDO.imgUrl #end" id="FMReturnInputImg">
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><span class="spColor">*</span>内容</td>
+                    <td>
+                          <textarea class="form-control extra-info-item-text"  name="content" rows="3">$!regionIntroduceDO.content</textarea>
+                    </td>
+                </tr>
+                
+            </table>
+        </div>
+    </div>
+    <input type="hidden" class="inpControl" id="cityCodeId" name="cityCode" value="">
+    <input type="hidden" class="inpControl" id="cityNameId" name="cityName" value="">
+    
+    
+    <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
+</div>
+</form>
+
+
+
+<script>
+   
+
+ 	//上传图片
+	 $(document).delegate("#FMUploadFile",'change',function(){
+	     fileUpload('#FMUploadFile',1,pictureUploadCallBack);
+	 })
+		
+ 	var pictureUploadCallBack = function(data){
+    if(data && data.status == 200){
+		console.log(data.data);
+        $('#FMReturnInput').val(data.data);
+        $('#FMReturnInputImg').attr('src',tfsRootPath + data.data);
+			
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }
+	
+ 	//保存的
+ 	$('#btnSubmit').click(function(){
+    	//if($("#hotelForm").valid()) {}
+        $(this).prop('disabled', true);
+			var cityName=$('select option:selected').attr("cityName");;
+        	//设置选中的citycode
+        	var cityCode=""; 
+            var level = $('select option:selected').attr("level");
+            if(level==1){
+            	cityCode=$('select option:selected').attr("provinceCode");
+            }else if(level==2){
+            	cityCode=$('select option:selected').attr("cityCode");
+            }
+            $("#cityCodeId").val(cityCode);
+            $("#cityNameId").val(cityName);
+            var actionUrl = "";
+            var recommendedId = $('#hotelForm').attr('recommendedId');
+            if(recommendedId){
+               actionUrl = actionDefaultPath + '/B2C/recommended/edit/'+recommendedId;
+            }else{
+               actionUrl = actionDefaultPath + '/B2C/recommended/add';
+            }
+            $('#hotelForm').attr('action',actionUrl);
+            $('#hotelForm').submit();
+   });
+   
+   	//关联城市
+   	var thlist = [];
+	thlist='$cityCode';
+	
+   	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"4",isAll:"false"} ,function(data){
+	    	if(data.status == 200){
+	    	var html="";
+	    		$.each(data.data, function(n,val){ 
+                   console.log("data:"+val.id+"  _"+val.name);
+                   var dbCityCode="";
+                    var level=val.level;
+                    if(1==level){
+                        dbCityCode=val.provinceCode;
+                    }else{
+                        dbCityCode=val.cityCode;
+                    }
+                    html+="<option id="+val.id+" cityName="+val.name+ " level="+val.level+" cityCode="+val.cityCode+" provinceCode="+val.provinceCode+" value="+val.id
+	               if(thlist.indexOf(dbCityCode)>-1){
+               	        html+= " selected = 'selected' ";
+                   }
+	           html+=">"+val.name+"</option>";
+                });
+            $("#cityId").html(html);
+	        }else{
+	            var msg = new $.zui.Messager('获取城市列表失败', {placement: 'center',type:'warning',time:'1000'});
+	            msg.show();
+	            $(this).prop('disabled',false);
+	        }                                      
+    	})
+   	
+   	
+        
+</script>

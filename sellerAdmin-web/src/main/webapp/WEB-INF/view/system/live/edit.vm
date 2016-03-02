@@ -1,0 +1,147 @@
+<link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+<div class="clubDynamicPage whole">
+    <form name="liveForm" id="liveForm" action="" method="post" liveId="$!live.id">
+        <table class="table">
+                <tr>
+                    <td><span class="spColor">*</span>直播内容：</td>
+                    <td>
+                         <textarea name="textContent" id="" rows="2" class="form-control summary textContent">$!live.textContent</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>发布时间</td>
+                    <td><input type="text" class='form-control form-date dateInp gmtCreatedStr' placeholder='发布时间' readonly name="gmtCreatedStr" value="$!live.gmtCreatedStr" ></td>
+                </tr>
+                <tr>
+                    <td>直播标签</td>
+                    <td>
+                        <select class="form-control" name="tagId">
+                            <option value="0">请选择标签</option>
+                            #foreach($comTag in $comTagList)
+                                <option #if($comTag.id == $!live.tagId) selected #end value="$comTag.id">$!esc.html($!comTag.name)</option>
+                            #end
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>直播地点</td>
+                    <td> <input type="text" class="inpCtlBlock snsPOIDetail" name="snsPOI.detail"  value="$!esc.html($!live.snsPOI.detail)"></td>
+                </tr>
+                <tr>
+                    <td>作者信息：</td>
+                    <td>
+                        <button type="button" class="btn btn-info selectUser">选择用户</button>
+                        <img src="#if($!live.userDO.avatar)$utilWebconfig.getTfsRootPath()$!live.userDO.avatar#end" alt="头像" class="img-circle grogUserLogo" id="userImg">
+                        <span id="userName">$!esc.html($!live.userDO.nickname)</span>
+                        <input type="hidden" id="userId" name="userId" value="$!live.userDO.id" >
+                    </td>
+                </tr>
+                <tr>
+                    <td>直播图片：</td>
+                    <td class="picUrlsTd">
+                                <input id="batchUploadBtn" type="file" multiple="multiple" >
+                                #foreach($pic in $live.picList)
+                                   <img class="picUrlsUrl uploadImgFile" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic">
+                                #end
+                            </td>
+                            <input class="picUrlsVal" type="hidden" name="picListStr" value="">
+                    </td>
+                </tr>
+
+        </table>
+        <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
+    </form>
+</div>
+<script>
+
+
+ $(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                forceParse: 0,
+                showMeridian: 1,
+                format: "yyyy-mm-dd hh:ii"
+            });
+     //非空验证
+     var validate = function(){
+         if(!$('.textContent').val()){
+             return '直播内容不能为空';
+         }else if($('.textContent').val().length > 200){
+            return '直播内容不能超过200字';
+         }
+         if(!$('.gmtCreatedStr').val()){
+             return '发布时间不能为空';
+         }
+         if(!$('.snsPOIDetail').val()){
+             return '直播地点不能为空';
+         }else if($('.snsPOIDetail').val().length > 20){
+             return '直播地点不能超过20字';
+         }
+         if(!$('#userId').val()){
+             return '作者信息不能为空';
+         }
+         if($('.picUrlsUrl').length > 9){
+             return '直播图片不能超过9张';
+         }
+     }
+   var batchCallBack = function(dataVal){
+        for(var key in dataVal.data){
+             $('.picUrlsTd').append('<img class="picUrlsUrl uploadImgFile" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
+        }
+    }
+    $(function(){
+		 $(document).delegate("#batchUploadBtn",'change',function(){
+           		 fileUpload('#batchUploadBtn',2,batchCallBack);
+         });
+
+        //选择大咖
+        $('.selectUser').click(function(){
+            openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneUser','选择用户',function() {
+                var user = win.getItem();
+                if(user == null){
+                    return;
+                }
+                $("#userImg").attr('src',tfsRootPath + user.avatar);
+                $("#userId").val(user.id);
+                $("#userName").html(user.nickName);
+                return true;
+            });
+        });
+
+        $('#btnSubmit').click(function(){
+            //非空验证
+            var msg = validate();
+            if(msg){
+                layer.msg(msg, {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+            //列表长图片
+            var picUrls = new Array();
+            $('.picUrlsUrl').each(function(){
+                picUrls.push( $(this).attr('imgUrl'));
+            });
+            $('.picUrlsVal').val(JSON.stringify(picUrls));
+            var actionUrl;
+            var liveId = $('#liveForm').attr('liveId');
+            if (liveId) {
+                actionUrl = actionDefaultPath + '/B2C/liveManage/edit/' + liveId;
+            } else {
+                actionUrl = actionDefaultPath + '/B2C/liveManage/add';
+            }
+            $('#liveForm').attr('action',actionUrl)
+            $('#liveForm').submit();
+        });
+    });
+</script>

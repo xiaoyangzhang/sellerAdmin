@@ -1,0 +1,131 @@
+<link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<div class="clubDynamicPage whole">
+    <div class="dynamicTop">
+        <p>审核备注：（200字以内）</p>
+        <input type="hidden" name="id" value="$trend.id" id="trendId">
+        <textarea name="summary" id="" rows="2" class="form-control summary"></textarea>
+        <div class="btn-group">
+            #if($trend.trendStatus == 1)
+                <button type="button" class="btn btn-info setTrendStatusBtn" trendStatus="2">违规</button>
+            #elseif($trend.trendStatus == 2)
+                <button type="button" class="btn btn-info setTrendStatusBtn" trendStatus="1">恢复</button>
+            #end
+        </div>
+    </div>
+
+    <table class="table">
+            <tr>
+                <td>用户信息</td>
+                <td>
+                    <img src="images/11.jpg" alt="" class="img-circle imgCircle"/>
+                    <span>$!trend.user.name</span>
+                    <span>$!trend.user.tel</span>
+                </td>
+            </tr>
+            <tr>
+                <td>动态内容</td>
+                <td>$!trend.content</td>
+            </tr>
+            <tr>
+                <td>动态图片</td>
+                <td>
+                    <div id="layer-photos-demo">
+                        #foreach($pictureUrl in $!trend.pictureUrlList)
+                            <img  layer-src="http://192.168.1.209:7500/v1/tfs/T1IthTByZT1RCvBVdK" src="$!utilWebconfig.getTfsRootPath()$pictureUrl" alt="图片" class="imgRectangular">
+                        #end
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>发布时间</td>
+                <td>$utilDate.dateToString($!trend.publishDate,"yyyy-MM-dd HH:mm:ss")</td>
+            </tr>
+            <tr>
+                <td>状态</td>
+                <td>#TREND_STATUS($!trend.trendStatus)</td>
+            </tr>
+            <tr>
+                <td>审核记录</td>
+                <td>
+                    #foreach($auditHistory in $!trend.auditHistoryList)
+                        #if($velocityCount == 1)
+                            $auditHistory
+                        #else
+                            -$auditHistory
+                        #end
+                    #end
+                </td>
+            </tr>
+            <tr>
+                <td>评论数</td>
+                <td>$!trend.commentNum
+                    <button type="button" class="btn btn-info viewBtn">查看</button>
+                </td>
+            </tr>
+            <tr>
+                <td>点赞数</td>
+                <td>$!trend.praiseNum</td>
+            </tr>
+            <tr>
+                <td>IP地址</td>
+                <td>$!trend.ip</td>
+            </tr>
+    </table>
+</div>
+<script>
+
+    $(function(){
+
+        $('.setTrendStatusBtn').click(function(){
+            $.post('$!utilWebconfig.getActionDefaultFontPath()/B2C/trendManage/setTrendStatus',{trendStatus:$(this).attr('trendStatus'),id:$('#trendId').val(),summary:$('.summary').val()},function(data){
+                if(data.status==200){
+                    layer.alert('操作成功');
+                    window.location.href = window.location.href;
+                }else{
+                    layer.alert('操作失败');
+                }
+            });
+        });
+
+        $('.imgRectangular').click(function(){
+
+                layer.photos({
+                    area: ['450px', '300px'],
+                    photos: '#layer-photos-demo',
+                    tab: function(pic, layero){
+                        console.log(pic) //当前图片的一些信息
+                    }
+                });
+            /*var index = $(this).index();
+            $.getJSON('$!utilWebconfig.getActionDefaultFontPath()/B2C/trendManage/picture/' + $('#trendId').val(), function(data){
+
+                if(data && data.status == 200 && data.data.length > 0){
+                    var pictureArr = new Array();
+                    for(var picture in data.data){
+                        pictureArr.push({
+,                                            "alt": "图片名",
+                                            "pid": 666, //图片id
+                                            "src": "http://192.168.1.209:7500/v1/tfs/T1IthTByZT1RCvBVdK",//data.data[picture], //原图地址
+                                            "thumb": "" //缩略图地址
+                                        });
+
+                    }
+                    var json={
+                        "title": "动态图片预览", //相册标题
+                        "start": index, //初始显示的图片序号，默认0
+                        "data": pictureArr
+                    };
+
+                    layer.photos({
+                        area: ['450px', '300px'],
+                        photos: json
+                    });
+
+                }else{
+                    alert('请求错误');
+                }
+
+            });*/
+        });
+    });
+</script>

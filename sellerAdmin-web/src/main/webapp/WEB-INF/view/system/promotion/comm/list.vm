@@ -1,0 +1,173 @@
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+    <form class="form-signin" id="promotionListForm" name="promotionListForm" action="$!utilWebconfig.getActionDefaultFontPath()/GF/promotionCommManage/list" method="GET" role="form">
+        <div class="inputGroup whole">
+            <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">优惠名称</button>
+                </span>
+                <input type="text" class="form-control" name="title" value="$!promotionListQuery.title">
+            </div>
+            <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">状态：</button>
+                </span>
+                <select class="form-control" name="status">
+                    <option value="0">全部</option>
+                    #foreach($promotionStatus in $promotionStatusList)
+                        <option value="$!promotionStatus.status" #if($!promotionListQuery.status == $!promotionStatus.status) selected #end>$!promotionStatus.desc</option>
+                    #end
+                </select>
+            </div>
+
+            <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">优惠时间</button>
+                </span>
+                <input type="text" class='form-control form-date dateInp beginTime' readonly name="beginTime" value="$!promotionListQuery.beginTime">
+                <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
+                <input type="text" class='form-control form-date endTime dateInp' readonly name="endTime" value="$!promotionListQuery.endTime">
+            </div>
+            <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">优惠类型：</button>
+                </span>
+                <select class="form-control" name="type">
+                    <option value="0">全部</option>
+                    #foreach($promotionType in $promotionTypeList)
+                        <option value="$!promotionType.type" #if($!promotionListQuery.type == $!promotionType.type) selected #end>$!promotionType.desc</option>
+                    #end
+                </select>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-primary" id="btnSubmit">查询</button>
+            </div>
+        </div>
+        <div class="inputGroup whole">
+            <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">优惠类型：</button>
+                </span>
+                <select class="form-control addPromotionType">
+                    <option value="">请选择优惠类型</option>
+                    #foreach($promotionType in $promotionTypeList)
+                        <option value="$!promotionType.type" #if($!promotionListQuery.promotionType == $!promotionType.type) selected #end>$!promotionType.desc</option>
+                    #end
+                </select>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-add">新增商品优惠</button>
+            </div>
+        </div>
+        <div class="tableGroup whole">
+            <table class="table table-hover">
+                <tr>
+                    <th>序号</th>
+                    <th>活动名称</th>
+                    <th>活动类型</th>
+                    <th>活动开始时间</th>
+                    <th>活动结束时间</th>
+                    <th>活动状态</th>
+                    <th>操作</th>
+                </tr>
+                #set($promotionList = $!pageVo.itemList)
+                #foreach($promotion in $promotionList)
+                <tr>
+                    <td>$!velocityCount</td>
+                    <td>$!promotion.title</td>
+                    <td>#PROMOTION_TYPE($!promotion.type)</td>
+                    <td>$!utilDate.dateToString($!promotion.startDate,"yyyy-MM-dd HH:mm:ss")</td>
+                    <td>$!utilDate.dateToString($!promotion.endDate,"yyyy-MM-dd HH:mm:ss")</td>
+                    <td>#PROMOTION_STATUS($!promotion.status)</td>
+                    <td>
+                        <button type="button" class="btn btn-primary themeDetail" promotionStatus="$promotion.status" promotioId="$promotion.id">
+                            #if($!promotion.status == 1) 编辑  #else  查看  #end
+                        </button>
+                        #if($!promotion.status != 4)
+                            <button type="button" class="btn btn-primary themeStop" themeId="$promotion.id">停用</button>
+                        #end
+                        </td>
+                </tr>
+                #end
+            </table>
+        </div>
+    </form>
+    #*分页*#
+    #parse("/page.vm")
+    #pageStyle("promotionListForm")
+<script>
+    $(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy-mm-dd"
+            });
+
+    $(function(){
+        $('.btn-add').click(function(){
+            if(!$('.addPromotionType').val() || $('.addPromotionType').val() != 6){
+                layer.msg('单品优惠暂时只支持直降优惠', {
+                    icon: 2,
+                    time: 1500
+                });
+                return false;
+            }
+            var url = actionDefaultPath +'/GF/promotionCommManage/toAdd?promotionType=' + $('.addPromotionType').val();
+            top.tabsAdd("",url,2,'优惠');
+        });
+
+        $('.themeStop').click(function(){
+            $(this).prop('disabled',true);
+            var id = $(this).attr('themeId');
+            var url;
+            url = '/GF/promotionCommManage/close/' + id;
+            $.post(actionDefaultPath + url ,function(data){
+                if(data.status == 200){
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1500
+                    });
+                    setTimeout(function () {
+                        window.location.href = window.location.href;
+                    },1500);
+                }else{
+                    layer.msg('操作失败', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    $(this).prop('disabled',false);
+                }
+            })
+        });
+
+        $('.themeDetail').each(function(){
+            $(this).click(function(){
+                var url = actionDefaultPath + '/GF/promotionCommManage/edit/'+ $(this).attr('promotioId');
+                top.tabsAdd("",url,2,$(this).text());
+            });
+        });
+
+        $('#btnSubmit').click(function(){
+            if($('.beginTime').val() && $('.endTime').val()){
+                if($('.beginTime').val() > $('.endTime').val()){
+                    if($("#phone-error").length != 0){
+                        return false;
+                    }else {
+                        $('.endTime').parent().parent().append('<label id="phone-error" class="error" for="phone">结束日期必须大于开始日期!</label>');
+                        return false;
+                    }
+                }
+            }
+            if($("#promotionListForm").valid()){
+                $('#promotionListForm').attr('action',actionDefaultPath + '/GF/promotionCommManage/list')
+                $('#promotionListForm').submit();
+            }
+        });
+    });
+</script>

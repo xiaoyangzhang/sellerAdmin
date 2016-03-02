@@ -1,0 +1,386 @@
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css"
+      rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js"
+        type="text/javascript"></script>
+<div>
+
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active"><a href="#orderInfo" data-toggle="tab"></a>订单详情</li>
+        <li><a href="#logisticsInfo" data-toggle="tab">物流信息</a></li>
+    </ul>
+
+    <br><br>
+    <!-- 位置 -->
+	<div class="position">
+		<div>您所在的位置： 订单管理>酒店订单>订单详情</div>
+	</div>
+
+
+
+    <br><br>
+    <div class="tab-content grogInfoWrap" style="">
+        <div class="tab-pane active" id="scenicInfo">
+            <!-- 订单状态 -->
+            <div class="orderState" >
+                <div>
+                <span>订单状态：<span>
+                    #if($order.mainOrder.orderShowState == 1)
+                        <span>
+                            未付款
+                            <button type="button" class="btn btn-primary cancel"
+                                    data-target="#cancelModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">取消订单
+                            </button>
+                        </span>
+                    #elseif($order.mainOrder.orderShowState == 2)
+                        <span>
+                            已发货；发货时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.consignTime)
+                            <button type="button" class="btn btn-primary affirm"
+                                    data-target="#affirmModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">确认
+                            </button>
+        ##                    <button type="button" class="btn btn-primary refund"
+        ##                            data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">退款
+        ##                    </button>
+                        </span>
+                    #elseif($order.mainOrder.orderShowState == 3)
+                        <span>
+                            已发货
+                            <button type="button" class="btn btn-primary finish"
+                                 data-target="#finishModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">完成
+                            </button>
+        ##                    <button type="button" class="btn btn-primary refund"
+        ##                        data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">退款
+        ##                    </button>
+                        </span>
+                    #elseif($order.mainOrder.orderShowState == 4)
+                        <span>
+                            交易成功
+        ##                    <button type="button" class="btn btn-primary refund"
+        ##                            data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">退款
+        ##                    </button>
+                        </span>
+                    #elseif($order.mainOrder.orderShowState == 5)
+                        <span>
+                            交易关闭；
+                        </span>
+                        <span>
+                            关闭时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.bizOrderDO.endTime)
+                        </span>
+                        <span>
+                            取消原因：$!order.closeReason
+                        </span>
+                    #elseif($order.mainOrder.orderShowState == 6)
+                        <span>
+                            待处理
+        ##                    <button type="button" class="btn btn-primary refund"
+        ##                            data-target="#refundModal" orderId="$!order.mainOrder.bizOrderDO.bizOrderId">退款
+        ##                    </button>
+                        </span>
+                    #elseif($order.mainOrder.orderShowState == 7)
+                        已退款
+                    #end
+                    <span>
+                </div>
+            </div>
+            <br><br>
+            <!-- 买家信息 -->
+            <div class="buyerInfo">
+                <div>买家信息</div>
+                <div>
+                    <span>手机号：$!order.buyerPhoneNum</span>
+                    <span>昵称：$!order.buyerNiceName</span>
+                    <span>姓名：$!order.buyerName</span>
+                </div>
+            </div>
+            <br><br>
+            <!-- 订单基础信息 -->
+            <div class="orderBaseInfo">
+                <div>订单基础信息</div>
+                <table class="table table-hover">
+                    <tr>
+                        <td>订单编号：</td>
+                        <td>$!order.mainOrder.bizOrderDO.bizOrderId</td>
+                        <td>下单时间：</td>
+                        <td>$utilDate.date2String($!order.mainOrder.bizOrderDO.gmtCreated)</td>
+                    </tr>
+                    <tr>
+                        <td>付款时间：</td>
+                        <td>$utilDate.date2String($!order.mainOrder.bizOrderDO.payTime)</td>
+        ##                <td>付款方式：#PAY_CHANNEL($!order.payChannel)</td>
+                        <td>
+                            付款方式：
+                            #if($order.mainOrder.orderShowState != 1 && $order.mainOrder.orderShowState != 5)
+                                支付宝
+                            #end
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>买家备注：</td>
+                        <td>$!order.buyerMemo</td>
+                        <td>发票：</td>
+                        <td>$!order.invoice</td>
+                    </tr>
+                    <tr>
+                        <td>客服备注：</td>
+                        <td>$!order.customerServiceNote</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <br><br>
+            <!-- 联系人信息 -->
+            #*
+            <div class="contacts">
+                <div>联系人信息</div>
+                <table class="table table-hover">
+                    <tr>
+                        <th>姓名</th>
+                        <th>手机号</th>
+                        <th>邮箱</th>
+                    </tr>
+                    <tr>
+                        <td>$!order.contacts.contactName</td>
+                        <td>$!order.contacts.contactPhone</td>
+                        <td>$!order.contacts.contactEmail</td>
+                    </tr>
+                </table>
+            </div>
+            * *#
+            <br><br>
+            <!-- 游客信息 -->
+            #*
+                <div class="turistInfo">
+                <div>游客信息</div>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>类型</th>
+                        <th>姓名</th>
+                        <th>手机号</th>
+        ##                <th>证件类型</th>
+                        <th>证件号</th>
+                    </tr>
+                        #foreach($tourist in $order.tourists)
+                        <tr>
+                            <td>$velocityCount</td>
+                            <td>#ORDER_TOURIST_TYPE($!tourist.certificatesType)</td>
+                            <td>$!tourist.contactName</td>
+                            <td>$!tourist.contactPhone</td>
+        ##                    <td>#ORDER_TOURIST_DOCTYPE($!tourist.docType)</td>
+                            <td>$!tourist.certificatesNum</td>
+                        </tr>
+                        #end
+                </table>
+            </div>
+
+            * *#
+            <br><br>
+            <!-- 订单商品信息 -->
+            <div class="orderInfo">
+                <div>订单商品信息</div>
+                <div>
+                    <span>订单总额：￥$!utilNum.moneyTransform($!order.actualTotalFee)</span>
+        ##    		<span>
+        ##    			<span>优惠券：</span>
+        ##    			#foreach($coupon in $order.coupons)
+        ##    			<span>$!coupon.count / $!coupon.price元</span> |
+        ##    			#end
+        ##            </span>
+                    <span>实付价:￥$!utilNum.moneyTransform($!order.actualTotalFee)</span>
+                </div>
+                <table class="table table-hover">
+                    <tr>
+                        <th colspan="2">商品</th>
+                        <th>单价</th>
+                        <th>数量</th>
+                        <th>交易状态</th>
+                        <th>优惠</th>
+                    </tr>
+                        #foreach($subOrder in $order.mainOrder.subOrderList)
+                        <tr>
+                            <td></td>
+                            <td>
+                                <div class="goods-item">
+                                    <div class="t-img">
+                                        <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!subOrder.bizOrderDO.itemPic">
+                                    </div>
+                                    <div class="t-msg">
+                                        <div class="t-name">$!subOrder.bizOrderDO.itemTitle</div>
+                                        #if($!subOrder.startTime != 0 || $!subOrder.endTime != 0)
+                                            <div class="t-date">开始日期：$!date.format('yyyy-MM-dd',$!subOrder.startTime)</div>
+                                            <div class="t-date">结束日期：$!date.format('yyyy-MM-dd',$!subOrder.endTime)</div>
+                                        #end
+                                        <div class="t-userType">$!subOrder.bizOrderDO.itemSubTitle</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="order-price">
+                                    $!utilNum.moneyTransform($!subOrder.bizOrderDO.itemPrice)
+                                </div>
+                            </td>
+                            <td>
+                                <div class="order-number">
+                                    $!subOrder.bizOrderDO.buyAmount
+                                </div>
+                            </td>
+                            <td>
+                                <div class="">
+                                    #if($order.mainOrder.orderShowState == 1)
+                                        未付款
+                                    #elseif($order.mainOrder.orderShowState == 2)
+                                        已付款
+                                    #elseif($order.mainOrder.orderShowState == 3)
+                                        已发货
+                                    #elseif($order.mainOrder.orderShowState == 4)
+                                        交易成功
+                                    #elseif($order.mainOrder.orderShowState == 5)
+                                        交易关闭
+                                    #elseif($order.mainOrder.orderShowState == 6)
+                                        待处理
+                                    #elseif($order.mainOrder.orderShowState == 7)
+                                        已退款
+                                    #end
+                                </div>
+                            </td>
+                            <td>-</td>
+                        </tr>
+                        #end
+                </table>
+            </div>
+
+
+
+            <!-- 退款模态框 -->
+            <div class="modal fade" id="refundModal">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                                    class="sr-only">关闭</span></button>
+                            <h4 class="modal-title">对话框标题</h4>
+                        </div>
+                        <div class="modal-body dialogPoint">
+                            <form class="form-signin" id="refundAddForm" action="/refundManage/add" method="POST" role="form">
+                                <div class="form-group">
+                                    <ul class="formPoint">
+                                        <li> 退款金额：￥86.00 退款路径：支付宝/微信/银联</li>
+                                        <li>
+                                            <label for="refundMoney">退款金额</label>
+                                            <input id="refundMoney" type="text" class="form-control refundMoney"
+                                                   placeholder="退款金额" name="refundMoney" value="">
+                                        </li>
+                                        <li>
+                                            <label for="shouldRefundPoint">需返还积分</label>
+                                            <input type="text" class="form-control shouldRefundPoint pointShow"
+                                                   placeholder="需返还积分" name="shouldRefundPoint" value="" readonly="">
+                                        </li>
+                                        <li>
+                                            <label for="availablePoint">可返还积分</label>
+                                            <input type="text" class="form-control availablePoint pointShow" placeholder="可返还积分"
+                                                   name="availablePoint" value="" readonly="">
+                                        </li>
+                                    </ul>
+                                    <button id="btnSubmit" class="btn btn-large btn-block btn-primary" type="button"
+                                            disabled="">提交
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="logisticsInfo">
+            #parse("/system/order/gflogisticsInfo.vm")
+        </div>
+    </div>
+
+
+
+
+
+
+    <script>
+        $(function () {
+            $(".finish").click(function(){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/buyerConfirmGoods/',{'orderId':$(this).attr('orderId')} ,function(data){
+                    if(data.status == 200){
+                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                        msg.show();
+                    }else{
+                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                        msg.show();
+                    }
+                    //TODO暂时先刷新页面
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1050);
+                })
+            });
+
+            //退款
+            $('.refund').each(function(){
+                $(this).click(function(){
+                    $(this).prop('disabled',true);
+                    $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/refundOrder/',{'orderId':$(this).attr('orderId')} ,function(data){
+                        if(data.status == 200){
+                            var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                            msg.show();
+                        }else{
+                            var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                            msg.show();
+                        }
+                        //TODO暂时先刷新页面
+                        setTimeout(function(){
+                            window.location.href = window.location.href;
+                        },1050);
+                    })
+                });
+            });
+
+            //发货、确认
+            $(".affirm").click(function(){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/sellerSendGoods/',{'orderId':$(this).attr('orderId')} ,function(data){
+                    if(data.status == 200){
+                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                        msg.show();
+                    }else{
+                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                        msg.show();
+                    }
+                    //TODO暂时先刷新页面
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1050);
+                })
+            });
+
+
+            //取消订单
+            $(".cancel").click(function(){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/closeOrder/',{'orderId':$(this).attr('orderId')} ,function(data){
+                    if(data.status == 200){
+                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                        msg.show();
+                    }else{
+                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                        msg.show();
+                    }
+                    //TODO暂时先刷新页面
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1050);
+                })
+            });
+
+
+        });
+    </script>
+</div>

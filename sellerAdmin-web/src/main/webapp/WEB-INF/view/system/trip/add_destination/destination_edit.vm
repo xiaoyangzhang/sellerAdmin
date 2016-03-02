@@ -1,0 +1,530 @@
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/map.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/ckeditor/ckeditor.js" type="text/javascript"></script>
+
+<style type="text/css">
+.demo{width:850px;margin:20px auto;display:none;}
+#l-map{height:400px;width:600px;float:left;border:1px solid #bcbcbc;}
+#r-result{height:400px;width:230px;float:right;}
+</style>
+
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active">
+        <a href="#mddInfo" data-toggle="tab">目的地基础信息</a>
+    </li>
+	<li>
+        <a href="#bimaituijian" id="bimaituijianId" data-toggle="tab">必买推荐</a>
+    </li>
+    #*
+    	<li>
+        	<a href="#tieShi" id="tieShiId" data-toggle="tab">贴士</a>
+    	</li>
+    *#
+    <li>
+        <a href="#biqujingdian" id="biqujingdianId" data-toggle="tab">必去景点</a>
+    </li>
+	<li>
+        <a href="#jingxuanjiudian" id="jingxuanjiudianId" data-toggle="tab">精选酒店</a>
+    </li>
+
+    <li>
+        <a href="#jingxuanzhibo" id="jingxuanzhiboId" data-toggle="tab">精选直播</a>
+    </li>
+
+
+    <li>
+        <a href="#jingxuanzhibo" id="tuiJianLuXianId" data-toggle="tab">推荐路线</a>
+    </li>
+
+    <li>
+        <a href="#jingxuanzhibo" id="lianDianId" data-toggle="tab">亮点</a>
+    </li>
+
+
+
+</ul>
+
+
+<form name="trip" id="tripForm" action="" method="post" tripId="$!tripBo.id">
+<div class="tab-content grogInfoWrap"  style="">
+    <div class="tab-pane active" id="grogshopInfo">
+        <div class="createHotrlTable">
+            <table>
+                <tr>
+                    <td><span class="spColor">*</span>目的地名称</td>
+                    <td><select id="cityId" ></select></td>
+                </tr>
+                #*
+                <tr>
+                    <td><span class="spColor">*</span>标签</td>
+                    <td>
+                        <div class="selectList">
+                            <select class="selCity inpControl provinceSelect" name="tag">
+                                <option value="1">国内目的地</option>
+                                <option value="2">热门目的地</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                *#
+				<tr>
+                    <td><span class="spColor">*</span>封面图</td>
+                    <td>
+                        <div class="fileImgWrap">
+                            <button type="button" class="btn btn-success">选择图片</button>
+                            <input type="file"  name="file" class="fileInp" id="FMUploadFile" accept="image/png,image/gif">
+                            <input type="hidden" name="coverURL" value=""  id="FMReturnInput">
+                            <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
+                        </div>
+                        <div class="propagandaView">
+                            <img height="100" width="100" src="#if($tripBo.coverURL) $utilWebconfig.getTfsRootPath()$!tripBo.coverURL  #end " id="FMReturnInputImg"> #* #if($tripBo.picturePoster) $utilWebconfig.getTfsRootPath()$!tripBo.picturePoster  #end *#
+                        </div>
+                    </td>
+                </tr>
+                
+              
+                
+                <tr>
+                    <td><span class="spColor">*</span>目的地LOGO</td>
+                    <td>
+                        <div class="fileImgWrap">
+                            <button type="button" class="btn btn-success">选择图片</button>
+                            <input type="file"  name="file" class="fileInp" id="LOGOUploadFile" accept="image/png,image/gif">
+                            <input type="hidden" name="logoURL" value=""  id="LOGOReturnInput">
+                            <p>注：图片大小不超过5M<br />建议尺寸：687*237</p>
+                        </div>
+                        <div class="propagandaView">
+                            <img height="100" width="100"  src="#if($tripBo.logoURL) $utilWebconfig.getTfsRootPath()$!tripBo.logoURL  #end" id="LOGOReturnInputImg">
+                        </div>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td><span class="spColor">*</span>景点副标题</td>
+                    <td><input type="text" id="scenicSubheadId" name="scenicSubhead" value="$!tripBo.scenicSubhead" ></td>
+                </tr>
+                
+               <tr>
+                    <td><span class="spColor">*</span>酒店副标题</td>
+                    <td><input type="text" id="hotelSubheadId" name="hotelSubhead" value="$!tripBo.hotelSubhead" ></td>
+                </tr>
+                
+                 <tr>
+                    <td><span class="spColor">*</span>直播副标题</td>
+                    <td><input type="text" id="liveSubheadId" name="liveSubhead" value="$!tripBo.liveSubhead"></td>
+                </tr>
+
+                #*
+                #if($isEdit)
+                    <tr>
+                        <td><span class="spColor">*</span>已选买必推荐</td>
+                        <td><input type="button" id="hotelSubheadId" name="hotelSubhead"  >已选买必推荐</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>已选必去景点</td>
+                        <td><input type="button" id="hotelSubheadId" name="hotelSubhead"  >已选必去景点</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>已选精选酒店</td>
+                        <td><input type="button" id="hotelSubheadId" name="hotelSubhead"  >已选精选酒店</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>已选精选直播</td>
+                        <td><input type="button" id="hotelSubheadId" name="hotelSubhead"  >已选精选直播</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>已选推荐路线</td>
+                        <td><input type="button" id="hotelSubheadId" name="hotelSubhead"  >已选推荐路线</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>已选亮点</td>
+                        <td><input type="button" id="hotelSubheadId" name="hotelSubhead"  >已选亮点</button></td>
+                    </tr>
+                #end
+                *#
+                
+				<tr>
+                    <td><span class="spColor">*</span>概况</td>
+                    <td>
+                    	<button type="button" class="btn btn-default addNeedKnow" id="gaikuang" onclick="addItemCall(this)">增加条目</button>
+        	            <table class="table">
+                            <tr>
+                                <th>标题（10个字以内）</th>
+                                <th>内容（500字以内）</th>
+                                <th></th>
+                            </tr>
+                            #if(${tripBo.gaikuang})
+                                #foreach($frontNeedKnow in $tripBo.gaikuang.frontNeedKnow)
+                                    <tr class="needKnow">
+                                        <td>
+                                            <input type="text" name="gaikuang.frontNeedKnow[$!{velocityCount}].title" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control extra-info-item-text" name="gaikuang.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                        </td>
+                                    </tr>
+                                #end
+                            #else
+                                <tr class="needKnow">
+                                    <td>
+                                        <input type="text" name="gaikuang.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
+                                    </td>
+                                    <td>
+                                        <textarea class="form-control extra-info-item-text" name="gaikuang.frontNeedKnow[1].content" rows="3"></textarea>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                    </td>
+                                </tr>
+                            #end
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>民俗</td>
+                    <td>
+                        <button type="button" class="btn btn-default addNeedKnow" id="minsu" onclick="addItemCall(this)">增加条目</button>
+                        <table class="table">
+                            <tr>
+                                <th>标题（10个字以内）</th>
+                                <th>内容（500字以内）</th>
+                                <th></th>
+                            </tr>
+                                #if($tripBo.minsu)
+                                    #foreach($minsus in $tripBo.minsu.frontNeedKnow)
+                                        <tr class="needKnow">
+                                            <td>
+                                                <input type="text" name="minsu.frontNeedKnow[$!{velocityCount}].title" class="form-control extra-info-item-title"  value="$!{minsus.title}">
+                                            </td>
+                                            <td>
+                                                <textarea class="form-control extra-info-item-text" name="minsu.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{minsus.content}</textarea>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                            </td>
+                                        </tr>
+                                    #end
+                                #else
+                                    <tr class="needKnow">
+                                        <td>
+                                            <input type="text" name="minsu.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control extra-info-item-text" name="minsu.frontNeedKnow[1].content" rows="3"></textarea>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                        </td>
+                                    </tr>
+                                #end
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>消费</td>
+                    <td>
+                        <button type="button" class="btn btn-default addNeedKnow" id="xiaofei" onclick="addItemCall(this)">增加条目</button>
+                        <table class="table">
+                                <tr>
+                                    <th>标题（10个字以内）</th>
+                                    <th>内容（500字以内）</th>
+                                    <th></th>
+                                </tr>
+                                #if($tripBo.xiaofei)
+                                    #foreach($frontNeedKnow in $tripBo.xiaofei.frontNeedKnow)
+                                        <tr class="needKnow">
+                                            <td>
+                                                <input type="text" name="xiaofei.frontNeedKnow[$!{velocityCount}].title" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
+                                            </td>
+                                            <td>
+                                                <textarea class="form-control extra-info-item-text" name="xiaofei.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                            </td>
+                                        </tr>
+                                    #end
+                                #else
+                                    <tr class="needKnow">
+                                        <td>
+                                            <input type="text" name="xiaofei.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control extra-info-item-text" name="xiaofei.frontNeedKnow[1].content" rows="3"></textarea>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                        </td>
+                                    </tr>
+                                #end
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>贴示</td>
+                    <td>
+                        <button type="button" class="btn btn-default addNeedKnow" id="tieshi" onclick="addItemCall(this)">增加条目</button>
+                        <table class="table">
+                            <tr>
+                                <th>标题（10个字以内）</th>
+                                <th>内容（500字以内）</th>
+                                <th></th>
+                            </tr>
+                            #if($tripBo.tieshi)
+                                #foreach($frontNeedKnow in $tripBo.tieshi.frontNeedKnow)
+                                    <tr class="needKnow">
+                                        <td>
+                                            <input type="text" name="tieshi.frontNeedKnow[$!{velocityCount}].title" class="form-control extra-info-item-title"  value="$!{frontNeedKnow.title}">
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control extra-info-item-text" name="tieshi.frontNeedKnow[$!{velocityCount}].content" rows="3">$!{frontNeedKnow.content}</textarea>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                        </td>
+                                    </tr>
+                                #end
+                            #else
+                                <tr class="needKnow">
+                                    <td>
+                                        <input type="text" name="tieshi.frontNeedKnow[1].title" class="form-control extra-info-item-title" >
+                                    </td>
+                                    <td>
+                                        <textarea class="form-control extra-info-item-text" name="tieshi.frontNeedKnow[1].content" rows="3"></textarea>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button>
+                                    </td>
+                                </tr>
+                            #end
+                        </table>
+                    </td>
+                </tr>
+                <input type="hidden" class="inpControl" name="type" value="4">
+                <input type="hidden" class="inpControl" id="cityIds" name="id" value="">
+                <input type="hidden" class="inpControl" id="cityCodeId" name="cityCode" value="">
+            </table>
+        </div>
+    </div>
+    
+    <input type="hidden" class="inpControl" id="biMaiId" name="biMai"          value="$!tripBo.biMai">
+    <input type="hidden" class="inpControl" id="biQuId" name="biQu"            value="$!tripBo.biQu">
+    <input type="hidden" class="inpControl" id="jiuDianId" name="jiuDian"      value="$!tripBo.jiuDian">
+    <input type="hidden" class="inpControl" id="zhiBoId" name="zhiBo"     	   value="$!tripBo.zhiBo">
+    <input type="hidden" class="inpControl" id="xianLuId" name="xianLu"        value="$!tripBo.xianLu">
+    <input type="hidden" class="inpControl" id="liangDianId" name="liangDian"  value="$!tripBo.liangDian">
+    
+    <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
+</div>
+</form>
+
+
+<script>
+function setArrId(obj,textId){ 
+		var arrItems = [] ;
+		var arrZhiBo = [];
+		arrItems =  obj;
+		console.log(arrItems);//zhiBo
+		if(arrItems == null){
+			return;
+		}else{
+			 $.each(arrItems, function(n, val) {
+             	console.log("id="+val);
+             	arrZhiBo.push(val.id);
+             	console.log("arrZhiBo="+arrZhiBo);
+             	$("#"+textId).val(arrZhiBo);
+             });
+		}
+	}  
+	
+    var addItemCall = function (obj) {
+    	var conTr =$(obj).next().find(".needKnow");
+    	console.log(conTr);
+    	var i = conTr.length;
+    	++i;
+    	var itemId = $(obj).attr("id");
+        var itemList = '<tr class="needKnow"><td>'+
+                '<input type="text" name="'+itemId+'.frontNeedKnow['+i+'].title" class="form-control extra-info-item-title" ></td>'+
+                '<td><textarea name="'+itemId+'.frontNeedKnow['+i+'].content" class="form-control extra-info-item-text" rows="3"></textarea></td>'+
+                '<td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td></tr>'
+        $(obj).next().append(itemList);
+       
+    };
+
+ 	//上传图片
+	 $(document).delegate("#FMUploadFile",'change',function(){
+	     fileUpload('#FMUploadFile',1,pictureUploadCallBack);
+	 })
+		
+ 	var pictureUploadCallBack = function(data){
+    if(data && data.status == 200){
+		console.log(data.data);
+        $('#FMReturnInput').val(data.data);
+        $('#FMReturnInputImg').attr('src',tfsRootPath + data.data);
+	}else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }
+	
+	 //上传图片
+	 $(document).delegate("#LOGOUploadFile",'change',function(){
+	     fileUpload('#LOGOUploadFile',1,LOGOUploadCallBack);
+	 })
+		
+     var LOGOUploadCallBack = function(data){
+        if(data && data.status == 200){
+		    console.log(data.data);
+            $('#LOGOReturnInput').val(data.data);
+            $('#LOGOReturnInputImg').attr('src',tfsRootPath + data.data);
+
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+     }
+	
+	//概况的
+	/*var conTr =$(".needKnow").length;
+	$(".addNeedKnow").unbind("click").click(function () {
+    	var addhtml="";
+    	var html1 = $("#needKnowTemp").html();
+    	var i = ++conTr;
+    	addhtml = addhtml + html1.replace('$index', i).replace('$index1', i);
+    	$(".needKnowTable").prev().append(addhtml);
+	});	*/
+	
+ 	function delneedKnowTR(obj){
+		$(obj).parent().parent().remove(); 
+ 	}
+ 	
+ 	function delBracket(obj){
+		obj=obj.replace("[","");
+		obj=obj.replace("]","");
+		return obj;
+ 	}
+ 	
+ 	//保存的
+ 	$('#btnSubmit').click(function(){
+        var cityId=$('select option:selected').attr("value");
+        $("#cityIds").val(cityId);
+        var cityCode="";
+        var level = $('select option:selected').attr("level");
+        if(level==1){
+            cityCode=$('select option:selected').attr("provinceCode");
+        }else if(level==2){
+            cityCode=$('select option:selected').attr("cityCode");
+        }
+        $("#cityCodeId").val(cityCode);
+        console.log($("tripForm").serialize());
+
+        $(this).prop('disabled', true);
+        var actionUrl="";
+        var tripId = $('#tripForm').attr('tripId');
+        if(tripId){
+            actionUrl = actionDefaultPath + '/B2C/trip/edit/'+tripId;
+        }else{
+            actionUrl = actionDefaultPath + '/B2C/trip/add';
+        }
+        $('#tripForm').attr('action', actionUrl);
+		var bm= delBracket($("#biMaiId").val());
+		var bq= delBracket($("#biQuId").val());
+		var jd= delBracket($("#jiuDianId").val());
+		var zb= delBracket($("#zhiBoId").val());
+		var xl= delBracket($("#xianLuId").val());
+		var ld= delBracket($("#liangDianId").val());
+		console.log("bm="+bm+",bq="+bq+",jd="+jd+",zb="+zb+",xl="+xl+",ld="+ld);
+		$("#biMaiId").val(bm);
+		$("#biQuId").val(bq);
+		$("#jiuDianId").val(jd);
+		$("#zhiBoId").val(zb);
+		$("#xianLuId").val(xl);
+		$("#liangDianId").val(ld);
+        $('#tripForm').submit();
+    });
+
+	Array.prototype.indexOf = function(val) {              
+		for (var i = 0; i < this.length; i++) {  
+			if (this[i] == val) return i;  
+		}  
+		return -1;  
+	};
+	
+	//获取目的地列表数据
+	var isEdit='$isEdit';
+	var thlist = []; 
+	thlist='$cityId';
+	//$("#cityId").focus( function(){});
+	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"4"} ,function(data){
+		if(data.status == 200){
+		var html="";
+			$.each(data.data, function(n,val){ 
+	           console.log("data:"+val.id+"  _"+val.name);
+	           html+="<option id="+val.id+" level="+val.level+" cityCode="+val.cityCode+" provinceCode="+val.provinceCode+" value="+val.id
+	           if(thlist.indexOf(val.id)>-1){
+               	html+= " selected = 'selected' ";
+               }
+	           html+=">"+val.name+"</option>";
+	        });
+	    $("#cityId").html(html);
+	    }else{
+	        var msg = new $.zui.Messager('获取城市列表失败', {placement: 'center',type:'warning',time:'1000'});
+	        msg.show();
+	        $(this).prop('disabled',false);
+	    }                                      
+	})
+//---------------------------------------------------------------------------------------------------------------------
+   
+$('#bimaituijianId').click(function(){
+	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectMustBuy','买必推荐',function() {
+		setArrId(win.getItems(),"biMaiId");
+		return true;
+		});
+});
+
+$('#biqujingdianId').click(function(){
+	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectScenic','选择景区',function() {
+		setArrId(win.getItems(),"biQuId");
+		return true;
+	});
+});
+
+
+
+$('#jingxuanjiudianId').click(function(){
+	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectHotel','选择酒店',function() {
+			setArrId(win.getItems(),"jiuDianId");
+			return true;
+		});
+});
+
+$('#jingxuanzhiboId').click(function(){
+	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectLive','选择直播',function() {
+		setArrId(win.getItems(),"zhiBoId");
+		return true;
+	});
+});
+
+
+
+
+$('#tuiJianLuXianId').click(function(){
+    openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectline','推荐路线',function() {
+        setArrId(win.getSelected(),"xianLuId");
+        return true;
+    });
+});
+
+$('#lianDianId').click(function(){
+    openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectLightSpot','亮点',function() {
+        setArrId(win.getItems(),"liangDianId");
+        return true;
+    });
+});
+
+
+
+</script>

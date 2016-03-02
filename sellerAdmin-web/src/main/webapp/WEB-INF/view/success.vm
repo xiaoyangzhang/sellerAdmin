@@ -1,0 +1,40 @@
+<div class="alert alert-success with-icon alertPageNote" style="width: 60%;position: fixed;top: 50%;left: 50%;margin-left: -30%;margin-top: -101px;">
+
+    <div class="content" style="text-align: center;">
+        <i class="icon-ok-sign" style="font-size: 50px;"></i>
+        <br />
+        <h4 style="font-size: 16px;margin-top: 20px;">操作成功!</h4>
+        <div class="content" style="font-size: 14px;"><strong>页面将在<date class="sucDate" style="color: #ff0000;margin: 0 10px;font-size: 14px;">2</date>s后关闭。</strong></div>
+        <br/>
+        <div class="modalFooter" style="width: 100%;">
+            <button type="button" class="btn btn-default closeBtn" data-dismiss="modal">关闭</button>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    $(function(){
+        setTimeout(function(){
+            /*window.opener.location.href = window.opener.location.href;
+            window.close();*/
+            var tabId = top.$(".tab-pane.active").attr("id");
+            top.$("#myTabList li").each(function(){
+                if($(this).attr("dataid") == tabId){
+                    $(this).prev().addClass("active");
+                    $(this).remove();
+                }
+            });
+            top.freshPrevFrame();
+            top.$("#"+tabId).prev().addClass("active");
+            top.$("#"+tabId).prev().show();
+            top.$("#"+tabId).remove();
+        },2000)
+    })
+    $('.closeBtn').click(function(){
+        top.freshPrevFrame();
+        window.close();
+    });
+
+</script>

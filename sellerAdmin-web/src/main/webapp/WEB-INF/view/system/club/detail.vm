@@ -1,0 +1,95 @@
+<link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<script src="$!utilWebconfig.getStaticResourcesPath()/resources/js/ajaxfileupload.js" type="text/javascript"></script>
+<div class="createClubTable whole">
+        <table class="table">
+            <tr>
+                <td>俱乐部名称</td>
+                <td><input type="text" disabled class="form-control" value="$!club.name"></td>
+            </tr>
+             <tr>
+                <td>俱乐部描述</td>
+                <td><textarea  row='3'  class="form-control" value="$!club.clubDes" /></td>
+            </tr>
+            <tr>
+                <td>俱乐部LOGO</td>
+                <td>
+                    <div class="logoView">
+                        <img src="#if($!club.logoUrl) $!utilWebconfig.getTfsRootPath()$!club.logoUrl #end" class="img-circle">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td></span>俱乐部宣传图</td>
+                <td>
+                    <div class="propagandaView">
+                        <img src="#if($!club.picturePoster) $!utilWebconfig.getTfsRootPath()$!club.picturePoster  #end">
+                    </div>
+                </td>
+            </tr>
+          
+            <tr>
+                <td>部长</td>
+                <td>
+                    <div class="userBtn">
+                        <input type="text" disabled name="manageUserName" value="$!club.manageUserName">
+                    </div>
+                    <div class="userView">
+                        <img src="#if($!club.manageUserLogoUrl) $!utilWebconfig.getTfsRootPath()$!club.manageUserLogoUrl  #end">
+                    #*TODO*#
+                        <span>Tracy</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>排序</td>
+                <td><input type="text" disabled value="$!club.sequenceNum"></td>
+            </tr>
+            <tr>
+                <td>状态</td>
+                <td class="radioSel">
+                    <div class="col-md-10">
+                        <label class="radio-inline"> #if($!club.joinStatus == 1) 允许加入 #elseif($!club.joinStatus == 2) 禁止加入 #end </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>前台显示</td>
+                <td class="radioSel">
+                    <div class="col-md-10">
+                        <label class="radio-inline"> #if($!club.showStatus == 1) 显示 #elseif($!club.showStatus == 2) 隐藏 #end </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>创建时间</td>
+                <td><input type="text" disabled value="$!club.sequenceNum"></td>
+            </tr>
+            <tr>
+                <td>修改时间</td>
+                <td><input type="text" disabled value="$!club.sequenceNum"></td>
+            </tr>
+            <tr>
+                <td>累计活动</td>
+                <td><input type="text" disabled value="$!club.sequenceNum"><button type="button" class="btn btn-primary clubActivity" clubId="$!club.id">查看</button></td>
+            </tr>
+            <tr>
+                <td>成员</td>
+                <td><input type="text" disabled value="$!club.sequenceNum"><button type="button" class="btn btn-primary clubMember" clubId="$club.id">查看</button></td>
+            </tr>
+        </table>
+</div>
+<script>
+    function openwin(url) {
+        var a = document.createElement("a");
+        a.setAttribute("href", url);
+        a.setAttribute("target", "_blank");
+        a.setAttribute("id", "camnpr");
+        document.body.appendChild(a);
+        a.click();
+    }
+
+    $('.clubMember').click(function(){
+        var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/clubManage/clubMember/'+ $(this).attr('clubId');
+        top.tabsAdd("",url,2,$(this).text());
+    });
+</script>

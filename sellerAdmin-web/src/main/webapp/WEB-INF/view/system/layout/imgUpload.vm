@@ -1,0 +1,26 @@
+#macro(imgEdit $picInputName)
+    <link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/img_manage.css?version=$!{utilWebconfig.getResourceVersion()}"/>
+    <div class="grogBatchWrap">
+        <div class="grogBatchUpload">
+            <input type="button" name="" value="批量上传" class="btn">
+            <input type="file" name="" multiple="multiple" id="batchUploadBtn" class="btn btnFile">
+        </div>
+    </div>
+    <div id="img-manage">
+    <div action="" name="saveimgform" id="saveimgform">
+        <ul class="itemlist clearfix">
+            #foreach($picture in $pictureList)
+                <li data-id="$!picture.id" #if($picture.top) istop="true" #end data-name="$!picture.name" data-value="$!picture.value">
+                    <a href="" class="img"><img src="$utilWebconfig.getTfsRootPath()$!picture.value" width="240"/></a>
+                    <span><a href="javascript:" class="settop">#if($picture.top) 取消 #else 置顶 #end </a><a href="javascript:" class="delimg">删除</a></span>
+                </li>
+            #end
+        </ul>
+        #*提交表单的input框*#
+        <input type="hidden" id="imgids" name="$picInputName" value="" />
+    </div>
+        <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/json.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+        <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+        <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/img-manage.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+    </div>
+#end

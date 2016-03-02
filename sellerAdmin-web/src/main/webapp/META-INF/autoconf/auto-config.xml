@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+
+	<group name="jdbc">
+		<property name="jdbc.driverClassName" defaultValue="com.mysql.jdbc.Driver" description="#数据库驱动" />
+		<property name="jdbc.url" defaultValue="jdbc:mysql://192.168.1.202:3306/seller_console?useUnicode=true&amp;characterEncoding=UTF-8" description="#" />
+		<property name="jdbc.user" defaultValue="root" description="#" />
+		<property name="jdbc.password" defaultValue="123456" description="#" />
+	</group>
+	<group name="log">
+		<property name="sellerAdmin.logger.dir" defaultValue="/home/admin/logs/sellerAdmin" description="日志目录"/>
+	</group>
+	<group name="tfs">
+		<property name="tfs.nsip" defaultValue="192.168.1.209:9999" description="#" />
+		<property name="tfs.uniqueServerList" defaultValue="192.168.1.209:5198" description="#" />
+		<property name="tfs.groupName" defaultValue="group_1" description="#" />
+		<property name="tfs.namespace" defaultValue="201" description="#" />
+		<property name="sellerAdmin.tfsRootPath" defaultValue="//192.168.1.209:7500/v1/tfs/" description="#tfs默认访问地址" />
+	</group>
+	<group name="tair">
+		<property name="tair.configServer.main" defaultValue="tair01.test.yimayholiday.net:5198" description="#tair服务器的地址" />
+		<property name="tair.configServer.slave" defaultValue="tair01.test.yimayholiday.net:5198" description="#tair服务器的地址" />
+		<property name="tair.groupName.per" defaultValue="group_1" description="#持久化tair的namespace" />
+		<property name="tair.groupName.temp" defaultValue="group_1" description="#持久化tair的namespace" />
+		<property name="tair.sellerAdmin.namespace" defaultValue="299" description="#tair命名空间" />
+		<property name="tair.timeout" defaultValue="5000" description="#tair超时" />
+		<property name="session.tair.namespace" defaultValue="40" description="#session.tair" />
+	</group>
+
+	<group name="default">
+		<property name="sellerAdmin.staticResourcesPath" defaultValue="http://console.test.yimayholiday.com/sellerAdmin" description="#静态文件地址" />
+		<property name="sellerAdmin.actionDefaultFontPath" defaultValue="http://console.test.yimayholiday.com/sellerAdmin" description="#请求地址默认前缀" />
+		<property name="actionUploadFilePath" defaultValue="http://console.test.yimayholiday.com/sellerAdmin/upload/file" description="#上传附件地址(单个)" />
+		<property name="actionUploadFilesPath" defaultValue="http://console.test.yimayholiday.com/sellerAdmin/upload/files" description="#上传附件地址(多个)" />
+	</group>
+
+	<group name="dubbo">
+		<property name="app.name" defaultValue="sellerAdmin" description="#" />
+		<property name="dubbo.port" defaultValue="-1" description="#" />
+		<property name="dubbo.registry.url" defaultValue="192.168.1.202:2181" description="#" />
+		<property name="dubbo.retries" defaultValue="0" description="#" />
+		<property name="consumer.dubbo.timeout" defaultValue="4000" description="#" />
+
+		<property name="consumer.dubbo.item.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.item.version" defaultValue="1.0.0.test" description="#" />
+
+		<property name="dubbo.import.user.version" defaultValue="1.0.0.test" description="#" />
+		<property name="dubbo.import.consumer.user.check" defaultValue="false" description="#" />
+
+		<property name="consumer.resources.dubbo.check" defaultValue="false" description="#" />
+		<property name="consumer.resource.dubbo.version" defaultValue="1.0.0.test" description="#" />
+
+		<property name="consumer.dubbo.member.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.member.version" defaultValue="1.0.0.test" description="#" />
+
+
+		<property name="consumer.dubbo.paycore.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.paycore.version" defaultValue="1.0.0.test" description="#" />
+
+		<property name="consumer.dubbo.trade.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.trade.version" defaultValue="1.0.0.test" description="#" />
+
+		<property name="consumer.dubbo.sns.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.sns.version" defaultValue="1.0.0.test" description="#" />
+
+		<property name="consumer.dubbo.comment.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.comment.version" defaultValue="1.0.0.test" description="#" />
+
+		<property name="consumer.dubbo.commission.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.commission.version" defaultValue="1.0.0.test" description="#" />
+
+		<property name="consumer.dubbo.voucher.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.voucher.version" defaultValue="1.0.0.test" description="#" />
+
+		<property name="consumer.dubbo.marketing.check" defaultValue="false" description="#"/>
+		<property name="consumer.dubbo.marketing.version" defaultValue="1.0.0.test" description="#"/>
+
+		<property name="consumer.dubbo.activity.check" defaultValue="false" description="#"/>
+		<property name="consumer.dubbo.activity.version" defaultValue="1.0.0.test" description="#"/>
+
+	</group>
+
+	<group name="session">
+		<property name="jedis.host" defaultValue="192.168.1.207" description="redis的ip"/>
+		<property name="jedis.port" defaultValue="6380" description="redis端口"/>
+		<property name="jedis.password" defaultValue="yimay2015" description="redis密码"/>
+		<property name="jedis.timeout" defaultValue="2000" description="jedis超时时间，单位s"/>
+		<property name="jedis.pool.maxIdle" defaultValue="8" description=""/>
+		<property name="jedis.pool.maxTotal" defaultValue="20" description="redis 最大连接数"/>
+		<property name="jedis.sentinel" defaultValue="192.168.1.207:26379" description="哨兵地址"/>
+		<property name="verify.code.expire" defaultValue="120" description=""/>
+		<property name="session.time.out" defaultValue="180" description="会话有效期，单位秒"/>
+		<property name="jedis.usePool" defaultValue="true" description="是否使用jedis连接池"/>
+		<property name="jedis.master" defaultValue="mymaster" description=""/>
+
+	</group>
+	<script>
+		<generate template="config.properties.vm" destfile="WEB-INF/config.properties"	charset="UTF-8" />
+		<generate template="redis.properties.vm" destfile="WEB-INF/redis.properties"	charset="UTF-8" />
+		<generate template="logback.xml" destfile="WEB-INF/logback.xml" charset="UTF-8"/>
+	</script>
+</config>

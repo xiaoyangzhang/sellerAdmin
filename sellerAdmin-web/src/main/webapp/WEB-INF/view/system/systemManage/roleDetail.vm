@@ -1,0 +1,85 @@
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
+<div>
+	<div class="position">
+		<div>您所在的位置： 系统管理>角色管理>角色详情</div>
+	</div>
+    <form class="form-signin" id="roleDetailForm" name="roleDetailForm" action="/systemManage/roleDetail/$!roleId" method="GET" accept-charset="utf-8" role="form">
+        <div class="tableGroup whole">
+            <table class="table table-hover">
+                  <tr>
+                    <td colspan="8" align="center"><h2>角色详情</h2></td>
+                  </tr>
+                <tr>
+					<th>菜单ID</th>
+                    <th>菜单名称</th>
+					<th>菜单链接</th>
+                    <th>是否归属本角色</th>
+                    <th>操作</th>
+                </tr>
+                  #foreach($roleDetail in $roleDetailList)
+	                <tr>
+	                   <td>菜单ID：$!roleDetail.id</td>
+					   <td>$!roleDetail.menuName</td>
+					   <td>$!roleDetail.menuUrl</td>
+					   #if($!roleDetail.isOwn)
+							<td>是</td>
+							<td>
+							<!--<button type="button" class="btn btn-lg btn-primary addRefund" data-toggle="modal" data-target="#refundModal" tradeNO="$!trade.tradNO">退款</button>-->
+								<button type="button" class="btn btn-primary roleDetailEdit" roleId="$!roleId" roleMenuId="$!roleDetail.roleMenuId" roleStatus="0">移除</button>
+								<!--<button type="button" class="btn btn-primary roleStatus" roleStatus="$!role.status">删除</button>-->
+							</td>
+					   #else
+							<td>否</td>
+							<td>
+							<!--<button type="button" class="btn btn-lg btn-primary addRefund" data-toggle="modal" data-target="#refundModal" tradeNO="$!trade.tradNO">退款</button>-->
+								<button type="button" class="btn btn-primary roleDetailEdit" roleId="$!roleId" roleMenuId="$!roleDetail.roleMenuId" roleStatus="1">添加</button>
+								<!-- <button type="button" class="btn btn-primary roleStatus" roleStatus="$!role.status">启用</button> -->
+							</td>
+					   #end
+	                </tr>
+                  #end
+            </table>
+        </div>
+    #*分页*#
+    #parse("/page.vm")
+    #pageStyle("roleDetailForm")
+    </form>
+
+</div>
+<script>
+    $(function(){
+ 
+		$(".roleDetailEdit").click(function() {
+      		
+			var roleId = $(this).attr("roleId");
+			var roleMenuId = $(this).attr("roleMenuId");
+			var roleStatus = $(this).attr("roleStatus");
+			
+			$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/systemManage/roleDetail/updateStatus/'+roleMenuId,
+					{'roleStatus': roleStatus,
+					 'roleId': roleId},
+					function(data) {
+                    	if(data.status == 200){
+                        	layer.alert('操作成功', {
+                            	icon: 1,
+                            	time: 1500
+                        	}, function(){
+                            	window.location.href = window.location.href;
+                        	});
+                    	}else{
+                        	layer.alert('操作失败', {
+                            	icon: 2,
+                            	time: 2000
+                        	}, function(){
+                            	window.location.href = window.location.href;
+                        	});
+
+                    	}						
+			});			
+			
+      	});
+		
+    });
+</script>

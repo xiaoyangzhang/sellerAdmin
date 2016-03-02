@@ -1,0 +1,63 @@
+
+    <form class="form-signin" id="userListForm" name="userListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/memberList" method="GET" role="form">
+        <div class="inputGroup whole">
+                <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">会员名</button>
+                    </span>
+                    <input type="text" class="form-control" name="nickName" value="$!tradeMemberQuery.nickName">
+                </div>
+                <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">手机号</button>
+                    </span>
+                    <input type="text" class="form-control" name="tel" value="$!tradeMemberQuery.tel">
+                </div>
+                <div class="input-group inpSingle">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">城市</button>
+                        </span>
+                    <input type="text" class="form-control" name="cityName" value="$!tradeMemberQuery.cityName">
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">查询</button>
+                </div>
+
+        </div>
+
+        <div class="tableGroup whole">
+            <table class="table table-hover">
+                <tr>
+                    <th>序号</th>
+                    <th>会员名</th>
+                    <th>真实姓名</th>
+                    <th>性别</th>
+                    <th>手机号</th>
+                    <th>身份证</th>
+                    <th>年龄</th>
+                    <th>省</th>
+                    <th>城市</th>
+                    <th>注册时间</th>
+                    #*<th>备注</th>*#
+                </tr>
+                    #foreach($user in $userList)
+                    <tr>
+                        <td>$!velocityCount</td>
+                        <td>$!user.nickname</td>
+                        <td>$!user.name</td>
+                        <td>#GENDER($!user.gender)</td>
+                        <td>$!user.mobileNo</td>
+                        <td>$!user.certId</td>
+                        <td>$!user.age</td>
+                        <td>$!user.province</td>
+                        <td>$!user.city</td>
+                        <td>$utilDate.dateToString($!user.gmtCreate,"yyyy-MM-dd HH:mm:ss")</td>
+                        #*<td>$!user.remark</td>*#
+                    </tr>
+                    #end
+            </table>
+        </div>
+    #*分页*#
+    #parse("/page.vm")
+    #pageStyle("userListForm")
+    </form>

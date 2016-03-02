@@ -1,0 +1,137 @@
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js"></script>
+<div class="example whole">
+    <form name="itemForm" id="itemForm" action="" method="post" itemId="$!item.id">
+            <div class="">
+                <table class="table">
+                    <tr>
+                        <td><span class="spColor">*</span>分类</td>
+                        <td>
+                            $!{category.parent.name}-$!{category.name}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>商品名称</td>
+                        <td>
+                            <button type="button" class="btn btn-info selectItemBtn">选择酒店</button>
+                            <input type="text" name="title" value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>宣传图</td>
+                        <td>
+                            <input id="fileID" type="file" accept="image/png,image/gif">
+                            <img class="picUrlImg" src="#if($!item.logoUrl)$utilWebconfig.getTfsRootPath()$!item.picUrls #end">
+                            <input class="picUrlVal" type="hidden" name="picUrls" value="$!item.picUrls">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="spColor">*</span>排序</td>
+                        <td><input type="text" name="index" value="$!item.index" disabled></td>
+                    </tr>
+                    <tr>
+                        <td>*时间区间</td>
+                        <td>用户可选入住时间为<input type="text" name="dateInterval" value="$!item.dateInterval" disabled></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="">
+                <table class="table table-hover">
+                    <tr>
+                        <th>商品名称</th>
+                        <th>说明</th>
+                        <th>单价</th>
+                        <th>会员优惠额度</th>
+                        <th>会员限购</th>
+                        <th>图片</th>
+
+                    </tr>
+                        <tr class="subCheckedTR">
+                            <td><input type="text" name="title" value="$!item.title"></td>
+                            <td><input type="text" name="subTitle" value="$!item.subTitle"></td>
+                            <td><input type="text" name="price" value="$!item.price"></td>
+                            <td><input type="text" name="huiyuanyouhuiedu" value="$!item.huiyuanyouhuiedu" disabled></td>
+                            <td><input type="text" name="huiyuanxiangou" value="$!item.huiyuanxiangou" disabled></td>
+                            <td>
+                                <input id="fileID" type="file" accept="image/png,image/gif">
+                                <img class="picUrlImg" src="#if($!item.logoUrl)$utilWebconfig.getTfsRootPath()$!item.logoUrl #end">
+                                <input class="picUrlVal" type="hidden" name="picUrls" value="$!item.picUrls">
+                            </td>
+                        </tr>
+                </table>
+            </div>
+            <div class="clubBotBtn">
+                <div class="btn-group">
+                    <button class="btn btn-success" type="button" id="btnSubmit" >添加</button>
+                </div>
+                <div class="btn-group">
+                    <button type="button"  class="btn closBtn">取消</button>
+                </div>
+            </div>
+        <div class="">
+            #if($!item.id)
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>创建时间</td>
+                        <td>
+                            $!utilDate.dateToString($!item.gmtCreated,"yyyy-MM-dd HH:mm:ss")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>更新时间</td>
+                        <td>
+                            $!utilDate.dateToString($!item.gmtModified,"yyyy-MM-dd HH:mm:ss")
+                        </td>
+                    </tr>
+                </table>
+            #end
+        </div>
+    </form>
+</div>
+<script>
+    var pictureUploadCallBack = function(data){
+        if(data && data.status == 200){
+            $('.picUrlVal').val(data.data);
+            $('.picUrlImg').attr('src',tfsRootPath + data.data);
+
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }
+    var selectUserCallBack = function(data){
+        if(data){
+            $('.itemName').text(data['name']);
+            $('.itemNameInp').val(data['id']);
+        }
+    }
+    $(function(){
+        //上传图片
+        $(document).delegate("#fileID",'change',function(){
+            fileUpload('#fileID',1,pictureUploadCallBack);
+        })
+        //选择酒店
+        $('.selectItemBtn').click(function(){
+            openModal(actionDefaultPath + '/B2C/commodityManage/selectList?multiSelect=1','选择酒店',selectUserCallBack);
+        });
+        //提交
+        $('#btnSubmit').click(function(){
+            $(this).prop('disabled',true);
+            var actionUrl;
+            var itemId = $('#itemForm').attr('itemId');
+            if(itemId){
+                actionUrl = actionDefaultPath + '/B2C/comm/commodityManage/edit/' + itemId;
+            }else{
+                actionUrl = actionDefaultPath + '/B2C/comm/commodityManage/add';
+            }
+            $('#itemForm').attr('action',actionUrl);
+            $('#itemForm').submit();
+        });
+
+        $('.closBtn').click(function(){
+            window.close();
+        });
+
+    });
+</script>

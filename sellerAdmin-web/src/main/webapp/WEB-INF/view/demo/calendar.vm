@@ -1,0 +1,44 @@
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/calendar/zui.calendar.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/calendar/zui.calendar.min.js" type="text/javascript"></script>
+<section>
+    <header><h2>日历</h2></header>
+    <article>
+        <div class="example">
+            <div class="calendar" id="calendarExample"></div>
+        </div>
+        <h2>已选择的日期</h2>
+        <div class="selectDate"></div>
+    </article>
+</section>
+<script>
+
+    $('.calendar').calendar(
+            {
+                clickTodayBtn: function(event)
+                {
+                    console.log(event);
+                },
+                clickCell: function(event)
+                {
+                    if($('.date'+Date.parse(event.date)).length > 0){
+
+                    }else{
+                        $('.selectDate').append('<div class="date'+Date.parse(event.date)+'">'+event.date+'<a onclick="rm(this)">删除</a>'+'</div>');
+                    }
+
+                },
+                clickPrevBtn: function(event)
+                {
+                    console.log(event);
+
+                }
+    })
+    function rm(obj){
+        $(obj).parent().remove();
+    }
+
+
+
+
+
+</script>

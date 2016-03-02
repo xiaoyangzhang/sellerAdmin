@@ -1,0 +1,13 @@
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
+<div class="tableGroup whole">
+    <table class="table table-hover">
+        <tr>
+            <th>昵称</th>
+            <th>姓名</th>
+        </tr>
+            <tr>
+				<td>$!travleKaDetail.nickname</td>
+                <td>$!travleKaDetail.name</td>
+            </tr>
+    </table>
+</div>

@@ -1,0 +1,101 @@
+#*资源管理下的 餐厅、酒店、景区公用*#
+<section class="cards grogCards grogBatchAddWrap">
+    <div>
+        <input type="button" name="grogBatchAdd" id="grogBatchAdd" value="添加" class="btn">
+    </div>
+</section>
+
+<div class="grogBatchWrap">
+    <div class="grogBatchUpload">
+        <input type="button" name="" value="批量上传" class="btn">
+        <input type="file" name="" multiple="multiple" id="batchUploadBtn" class="btn btnFile">
+    </div>
+    <div>
+        <input type="button" name="grogBatchManager" id="grogBatchManager" value="批量管理" class="btn">
+    </div>
+</div>
+<div class="grogImgsWrap">
+    <input type="checkbox" name=""><span>本页全选</span>
+    <input type="button" value="设为展示图" class="btn">
+    <input type="button" value="批量删除" class="btn">
+    <span>请选择3张图作为展示图</span>
+</div>
+<section class="cards grogCards grogBatchAll">
+    <div class="col-md-4 col-sm-6 col-lg-3 grogImgWrap">
+        #foreach($picture in $pictureList)
+            <div class="card">
+                <div href="#" class="media-wrapper">
+                    <img src="$!utilWebconfig.getStaticResourcesPath()/resources/img/grogImg/img1.jpg" alt="">
+                    <input type="hidden" class="pictureListUrl" name="pictureList[$velocityCount].url" value="$!picture.url">
+                    <input type="hidden" class="pictureListName" name="pictureList[$velocityCount].name" value="$!picture.name">
+                    <input type="hidden" class="pictureListTop" name="pictureList[$velocityCount].top" value="$!picture.top">
+                </div>
+                <span class="grogImgFlag"><i class="icon icon-flag"></i></span>
+                <span class="grogImgCircle"><i class="icon icon-circle-thin icon-check-circle-o"></i></span>
+                <a href="#" class="card-heading"><strong>$!picture.name</strong></a>
+            </div>
+        #end
+
+    </div>
+</section>
+
+<script>
+    var batchCallBack = function(dataVal){
+        for(key in dataVal.data){
+            if(dataVal.data.hasOwnProperty(key)){
+                var addImgs =   '<div class="col-md-4 col-sm-6 col-lg-3 grogImgWrap">'+
+                                '<div class="card">'+
+                                '<div href="#" class="media-wrapper">'+
+                                '<img src="'+tfsRootPath + dataVal.data[key]+'" alt="">'+
+                                '<input type="hidden" name="pictures.url" value="'+ dataVal.data[key] +'">'+
+                                '<input type="hidden" name="pictures.top" value="0">'+
+                                '</div>'+
+                                '<span class="grogImgFlag"><i class="icon"></i></span>'+
+                                '<span class="grogImgCircle"><i class="icon icon-circle-thin icon-check-circle-o"></i></span>'+
+                                '<a href="#" class="card-heading"><strong>'+key+'</strong></a>'+
+                                '</div>'+
+                                '</div>'
+                $(".grogBatchAddWrap").append(addImgs);
+            }
+        }
+        $(".grogBatchAddWrap").show();
+    }
+
+
+    $(function(){
+        /*点击批量管理*/
+        $("#grogBatchManager").on("click",function(){
+            $(".grogBatchWrap").hide();
+            $(".grogImgsWrap").show();
+            $(".grogImgFlag").show()
+            $(".grogImgCircle").show()
+        });
+
+        //添加图片
+        $("#grogBatchAdd").on("click",function(){
+            var addImgDiv = $(".grogBatchAddWrap .grogImgWrap");
+            console.log(addImgDiv);
+            addImgDiv.remove();
+            $(".grogBatchAddWrap").hide();
+            $(".grogBatchAll").append(addImgDiv);
+        })
+    })
+
+    /*图片是否设为展示图*/
+    $(document).delegate(".grogImgFlag","click",function(){
+        $(this).find("i").toggleClass("icon-flag");
+        $(this).find('.pictureListTop').val(1-$(this).find('.pictureListTop').val());
+    })
+
+    //可改为删除
+    /*图片选中*/
+    $(document).delegate(".grogImgCircle","click",function(){
+        $(this).find("i").toggleClass("icon-check-circle-o");
+    })
+
+    /****************批量上传*****************/
+    $(document).delegate("#batchUploadBtn",'change',function(){
+        fileUpload('#batchUploadBtn',2,batchCallBack);
+    })
+
+</script>

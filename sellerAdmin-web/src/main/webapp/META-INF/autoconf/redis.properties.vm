@@ -1,0 +1,15 @@
+jedis.host=${jedis.host}
+jedis.port=${jedis.port}
+jedis.password=${jedis.password}
+jedis.timeout=${jedis.timeout}
+
+jedis.pool.maxIdle=${jedis.pool.maxIdle}
+jedis.pool.maxTotal=${jedis.pool.maxTotal}
+
+jedis.sentinel=${jedis.sentinel}
+jedis.usePool=${jedis.usePool}
+jedis.master=${jedis.master}
+
+#seconds
+verify.code.expire=${verify.code.expire}
+session.time.out=${session.time.out}

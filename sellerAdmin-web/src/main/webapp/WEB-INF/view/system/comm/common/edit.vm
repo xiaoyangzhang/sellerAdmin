@@ -1,0 +1,723 @@
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.all.min.js"> </script>
+<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/lang/zh-cn/zh-cn.js"></script>
+<div class="example whole">
+    <form name="commodityForm" id="commodityForm" action="" method="post" commodityId="$!commodity.id">
+        <div class="">
+                <table class="table">
+                    <input type="hidden" name="categoryId" value="$!category.id">
+                    <input type="hidden" name="rootCategoryId" value="$!category.parent.id">
+                    #*商品类型，此页面全是普通商品发布 新增的时候需要，修改的时候不更新此字段*#
+                    #*<input type="hidden" name="itemType" value="#if($!itemType)$!itemType#else$!commodity.itemType#end">*#
+                    <input type="hidden" name="itemType" value="1">
+
+                    #*pay_type 暂时设置为1*#
+                    <input type="hidden" name="payType" value="1">
+                    #*source 来源暂时都为1*#
+                    <input type="hidden" name="source" value="1">
+
+                    #*version 新增时为1*#
+                    <input type="hidden" name="version" value="1">
+                    #*有没有sku*#
+                    <input type="hidden" name="options" value="#if($!category.sellCategoryPropertyDOs) 1 #else 0 #end">
+
+
+                    <tbody>
+                    <tr>
+                        <td><span class="spColor">*</span>分类</td>
+                        <td>
+                            $!category.name
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>商品名称</td>
+                        <td>
+                            <input class="title" type="text" name="title" value="$!commodity.title">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>商品价格</td>
+                        <td>
+                            <input class="priceY" type="text" name="priceY" value="$!commodity.priceY">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>商品库存</td>
+                        <td>
+                            <input class="stockNum" type="text" name="stockNum" value="$!commodity.stockNum">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>减库存方式</td>
+                        <td>
+                            #foreach($reduceType in $reduceTypeList)
+                                <label class='radio-inline'> <input class="reduceType" type="radio" name="reduceType" value="$!reduceType.bizType" #if($!reduceType.bizType == $!commodity.reduceType)checked#end #if(!$!commodity.reduceType && $!reduceType.bizType == $!reduceTypeList.get(0).bizType)checked#end>$!reduceType.des</label>
+                            #end
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>评分</td>
+                        <td>
+                            <input class="grade" type="text" name="grade" value="$!commodity.grade">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>副标题</td>
+                        <td>
+                            <input class="subTitle" type="text" name="subTitle" value="$!commodity.subTitle">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>二级副标题</td>
+                        <td>
+                            <input class="oneWord" type="text" name="oneWord" value="$!commodity.oneWord">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>商品描述</td>
+                        <td>
+                            <textarea class="form-control extra-info-item-text description"
+                                      name="description"
+                                      rows="3">$!commodity.description</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>商品详细描述</td>
+                        <td>
+                            <script type="text/javascript">
+                                $(function() {
+                                    window.UEDITOR_HOME_URL = "${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/";
+                                    var ue = UE.getEditor('editor');
+                                });
+                            </script>
+                            <script id="editor" type="text/plain" name="detailUrl" style="width: 100%; height:350px">$!commodity.detailUrl</script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>宣传图</td>
+                        <td class="bigListPicTd">
+                            <label>选择列表图</label>
+                            <input id="bigListPicUrl" type="file">
+                            <img class="bigListPicUrl uploadImgFile" src="#if($!commodity.bigListPic)$utilWebconfig.getTfsRootPath()$!commodity.bigListPic #end">
+                            <input class="bigListPicVal" type="hidden" name="bigListPic" value="$!commHotel.bigListPic">
+                        </td>
+                        <td class="smallListPicTd">
+                            <label>选择订单图</label>
+                            <input id="smallListPicUrl" type="file">
+                            <img class="smallListPicUrl uploadImgFile" src="#if($!commodity.smallListPic)$utilWebconfig.getTfsRootPath()$!commodity.smallListPic #end">
+                            <input class="smallListPicVal" type="hidden" name="smallListPic" value="$!commHotel.smallListPic">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>详情竖图</td>
+                        <td class="picUrlsTd">
+                            <input id="batchUploadBtn" type="file" multiple="multiple" >
+                            #foreach($pic in $!commodity.picList)
+                                <img class="picUrlsUrl uploadImgFile" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic">
+                            #end
+                        </td>
+                        <input class="picUrlsVal" type="hidden" name="coverPics" value="$!commodity.coverPics">
+                    </tr>
+
+                    #*<tr>
+                        <td><span class="spColor">*</span>排序</td>
+                        <td><input type="text" name="index" value="$!commodity.index" disabled></td>
+                    </tr>*#
+
+                    #*解析关键属性*#
+                    #foreach($keyCategoryProperty in $category.keyCategoryPropertyDOs)
+                        <tr class="property keyProperty" pId="$!keyCategoryProperty.categoryPropertyDO.id" pTxt="$!keyCategoryProperty.categoryPropertyDO.text" pType="$!keyCategoryProperty.categoryPropertyDO.type">
+                            <td><span class="spColor">*</span>$!keyCategoryProperty.categoryPropertyDO.text</td>
+                            <td>
+                                #*编辑的时候回填属性*#
+                                    #set($propertyEditPId = 100)
+                                    #set($propertyEditVId = 200)
+                                    #set($propertyEditVTxt = '')
+                                    #foreach($itemProperty in $commodity.itemPropertyList)
+                                        #if($itemProperty.pId == $keyCategoryProperty.categoryPropertyDO.id)
+                                            #set($propertyEditPId = $itemProperty.pId)
+                                            #set($propertyEditVId = $itemProperty.vId)
+                                            #if($itemProperty.vId == 0)
+                                                #set($propertyEditVTxt = $itemProperty.vTxt)
+                                            #end
+                                            #break
+                                        #end
+                                    #end
+                                    #*属性可选值*#
+                                    <select class="form-control propertySelect">
+                                        <option value="0" >请选择</option>
+                                        #foreach($categoryValueDO in $keyCategoryProperty.categoryPropertyDO.categoryValueDOs)
+                                            <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($propertyEditVId == $!categoryValueDO.id)selected#end>$!categoryValueDO.text</option>
+                                        #end
+                                    </select>
+                                    #*支持自定义*#
+                                    #if($!keyCategoryProperty.canCustom == 1)
+                                    #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
+                                        #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
+                                            <span><input class="propertyInput" type="text" value="$propertyEditVTxt"></span>
+                                        #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
+                                            <input type="text" class='form-control form-date propertyInput propertyInput' placeholder='yyyy-MM-dd' readonly value="$propertyEditVTxt">
+                                        #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
+                                            3
+                                        #elseif($!keyCategoryProperty.categoryPropertyDO.type == 4)
+                                            4
+                                        #elseif($!keyCategoryProperty.categoryPropertyDO.type == 5)
+                                            5
+                                        #end
+                                    #end
+                            </td>
+                        </tr>
+                    #end
+                    #*解析普通属性*#
+                        #foreach($keyCategoryProperty in $category.nonKeyCategoryPropertyDOs)
+                        <tr class="property nonKeyProperty" pId="$!keyCategoryProperty.categoryPropertyDO.id" pTxt="$!keyCategoryProperty.categoryPropertyDO.text" pType="$!keyCategoryProperty.categoryPropertyDO.type">
+                            <td>$!keyCategoryProperty.categoryPropertyDO.text</td>
+                            <td>
+                                #*编辑的时候回填属性*#
+                                    #foreach($itemProperty in $commodity.itemPropertyList)
+                                        #if($itemProperty.pId == $keyCategoryProperty.categoryPropertyDO.id)
+                                            #set($propertyEditPId = $itemProperty.pId)
+                                            #set($propertyEditVId = $itemProperty.vId)
+                                            #if($itemProperty.vId == 0)
+                                                #set($propertyEditVTxt = $itemProperty.vTxt)
+                                            #end
+                                            #break
+                                        #end
+                                    #end
+                            #*属性可选值*#
+                                <select class="form-control propertySelect">
+                                    <option value="0" >请选择</option>
+                                    #foreach($categoryValueDO in $keyCategoryProperty.categoryPropertyDO.categoryValueDOs)
+                                        <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($propertyEditVId == $!categoryValueDO.id)selected#end>$!categoryValueDO.text</option>
+                                    #end
+                                </select>
+                            #*支持自定义*#
+                                #if($!keyCategoryProperty.canCustom == 1)
+                                #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
+                                    #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
+                                        <span><input type="text" class="propertyInput" value="$propertyEditVTxt"></span>
+                                    #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
+                                        <input type="text" class='form-control form-date propertyInput' placeholder='yyyy-MM-dd' readonly value="$propertyEditVTxt">
+                                    #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
+                                        3
+                                    #elseif($!keyCategoryProperty.categoryPropertyDO.type == 4)
+                                        4
+                                    #elseif($!keyCategoryProperty.categoryPropertyDO.type == 5)
+                                        5
+                                    #end
+                                #end
+                            </td>
+                        </tr>
+                        #end
+                    #*解析销售属性(sku属性)*#
+                        #foreach($sellCategoryProperty in $category.sellCategoryPropertyVOs)
+                        <tr class="sellProperty" sellPropertyType="$!sellCategoryProperty.categoryPropertyVO.type"  sellPropertyId="$!sellCategoryProperty.categoryPropertyVO.id" sellPropertyText="$!sellCategoryProperty.categoryPropertyVO.text">
+                            <td>$!sellCategoryProperty.categoryPropertyVO.text</td>
+                            <td>
+                                #foreach($categoryValue in $sellCategoryProperty.categoryPropertyVO.categoryValueVOs)
+                                #*sku可选值*#
+                                        <span><input type="checkbox" class="skuCheckbox" sellValueId="$!{categoryValue.id}" sellValueText="$!categoryValue.text" name="" value="$!{categoryValue.id}" #if($!categoryValue.checked) checked #end>$!categoryValue.text</span>
+                                #end
+                            </td>
+                        </tr>
+                        #end
+                    </tbody>
+                </table>
+            </div>
+            <div class="skuTable">
+                #if($commodity.itemSkuVOList && $commodity.itemSkuVOList.size() > 0)
+                    <table>
+                        <caption>销售属性匹配表</caption>
+                        <thead>
+                        #foreach($sellCategoryProperty in $category.sellCategoryPropertyVOs)
+                            <th><span>$!sellCategoryProperty.categoryPropertyVO.text</span></th>
+                        #end
+
+                            <th><span>价格</span></th>
+                            <th><span>数量</span></th>
+                        </thead>
+                        #foreach($itemSkuVO in $commodity.itemSkuVOList)
+                            #set($index = $velocityCount - 1)
+                            <tr class="skuTbEdit" skuTrId="$!itemSkuVO.id">
+                                #foreach($itemSkuPVPair in $itemSkuVO.itemSkuPVPairList)
+                                    #set($index2 = $velocityCount - 1)
+                                    #set($showFlag = $index % $commodity.skuTdRowNumList.get($index2) == 0)
+                                    #if($showFlag)
+                                        <td rowspan="$commodity.skuTdRowNumList.get($index2)"><span>$itemSkuPVPair.vTxt</span></td>
+                                    #end
+                                #end
+                                <td><input class="price" type="text" value="$!itemSkuVO.priceY"></td>
+                                <td><input class="stock" type="text" value="$!itemSkuVO.stockNum"></td>
+                            </tr>
+                        #end
+                    </table>
+                #else
+                    您需要选择所有的销售属性，才能组合成完整的规格信息。
+                #end
+            </div>
+            <div class="">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr class="subCheckedTR">
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="clubBotBtn">
+                <div class="btn-group">
+                    #*json string 提交*#
+                    <input type="hidden" name="itemProperties" id="itemProperties" value="$!commodity.itemProperties">
+                    <input type="hidden" name="itemSkuVOStr" id="itemSkuVOStr" value="$!commodity.itemSkuVOStr">
+                    <button class="btn btn-success btnSubmit" type="button" >保存</button>
+                </div>
+                <div class="btn-group">
+                    <button type="button"  class="btn closBtn">取消</button>
+                </div>
+            </div>
+        <div class="">
+            #if($!commodity.id)
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>创建时间</td>
+                        <td>
+                            $!utilDate.dateToString($!commodity.gmtCreated,"yyyy-MM-dd HH:mm:ss")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>更新时间</td>
+                        <td>
+                            $!utilDate.dateToString($!commodity.gmtModified,"yyyy-MM-dd HH:mm:ss")
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            #end
+        </div>
+    </form>
+</div>
+<script>
+    //生成sku最终数组(初始化是check偶是false)
+    var skuPropertyAll;
+    #if($!commodity.itemSkuVOListAllStr)
+        skuPropertyAll = $!commodity.itemSkuVOListAllStr;
+    #else
+        skuPropertyAll = $!category.itemSkuVOListAllStr;
+    #end
+    //sku属性数组
+    var skuProperty = new Array();
+    //显示的sku数组
+    var skuPropertyShowAll = new Array();
+    //sku表格显示标志
+    var skuTableShowFlag = false;
+</script>
+<script>
+    //验证
+    var validate = function(){
+        if(!$('.title').val()){
+            return '请输入商品名称';
+        }else if($('.title').val().length > 20){
+            return '商品名称不能超过20个字';
+        }
+        if(!$('.priceY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
+            return '请输入正确的价格';
+        }
+        if(!$('.stockNum').val() || !/^[1-9]\d*|0$/.test($('.stockNum').val())){
+            return '请输入正确的库存';
+        }
+
+        if(!$('.grade').val() || !/^[0-5]$/.test($('.grade').val())){
+            return '请输入正确的评分（0-5）';
+        }
+
+        if(!$('.subTitle').val()){
+            return '请输入副标题';
+        }else if($('.subTitle').val().length > 30){
+            return '副标题不能超过30个字';
+        }
+
+        if(!$('.oneWord').val()){
+            return '请输入二级副标题';
+        }else if($('.oneWord').val().length > 30){
+            return '二级副标题不能超过30个字';
+        }
+        if(!$('.description').val()){
+            return '请输入商品描述';
+        }else if($('.description').val().length > 300){
+            return '商品描述不能超过300个字';
+        }
+
+        if(!$('.bigListPicUrl').attr('src')){
+            return '请选择列表图';
+        }
+        if(!$('.smallListPicUrl').attr('src')){
+            return '请选择订单图';
+        }
+        if($('.picUrlsUrl').length <= 0){
+            return '请选择详情竖图';
+        }
+        //必填属性
+        var msg;
+
+        $('.keyProperty').each(function(){
+            if($(this).find('.propertySelect').val() == '0' && !$(this).find('.propertyInput').val()){
+                msg = '请填写必填属性' + $(this).attr('pTxt');
+                return false;
+            }else if($(this).find('.propertyInput').val() && $(this).find('.propertyInput').val().length > 30){
+                msg = $(this).attr('pTxt') + '长度不能超过30个字';
+                return false;
+            }
+        });
+        if(msg){
+            return msg;
+        }
+        //非必填属性
+        $('.nonKeyProperty').each(function(){
+            if($(this).find('.propertyInput').val() && $(this).find('.propertyInput').val().length > 30){
+                msg = $(this).attr('pTxt') + '长度不能超过30个字';
+                return false;
+            }
+        });
+        if(msg){
+            return msg;
+        }
+        //sku
+        if(!skuTableShowFlag){
+            return '您需要选择所有的销售属性，才能组合成完整的规格信息。';
+        }
+        $('.price').each(function(){
+            if(!$(this).val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($(this).val())){
+                msg = '请检查sku价格格式';
+            }
+        });
+        $('.stock').each(function(){
+            if(!$(this).val() || !/^[1-9]\d*|0$/.test($(this).val())){
+                msg = '请检查sku库存格式';
+            }
+        });
+
+        if(msg){
+            return msg;
+        }
+    }
+    $(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy-mm-dd"
+            });
+
+    var bigListPicUploadCallBack = function(data){
+        if(data && data.status == 200){
+            $('.bigListPicVal').val(data.data);
+            $('.bigListPicUrl').attr('src',tfsRootPath + data.data);
+
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }
+    var smallListPicUploadCallBack = function(data){
+        if(data && data.status == 200){
+            $('.smallListPicVal').val(data.data);
+            $('.smallListPicUrl').attr('src',tfsRootPath + data.data);
+
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }
+    var batchCallBack = function(dataVal){
+        for(var key in dataVal.data){
+             $('.picUrlsTd').append('<img class="picUrlsUrl" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
+        }
+    }
+
+    //构建sku属性数组
+    var createSkuProperty = function(){
+        //生成sku属性选项数组
+        skuProperty = new Array();
+        $('.sellProperty').each(function(i){
+            var sku = {pId:$(this).attr('sellPropertyId'),pTxt:$(this).attr('sellPropertyText'),pType:$(this).attr('sellPropertyType'),pValue:new Array()};
+            $(this).find('.skuCheckbox:checked').each(function(){
+                sku.pValue.push({vId:$(this).attr('sellValueId'),vTxt:$(this).attr('sellValueText')});
+            });
+            skuProperty.push(sku);
+        });
+    }
+
+    //设置表格是否显示的flag
+    var setTableShowFlag = function(){
+        //TODO 判断是否生成sku表格
+        $('.sellProperty').each(function(){
+            skuTableShowFlag = true;
+            if($(this).find('.skuCheckbox:checked').length < 1){
+                //属性没有完全填写不显示表格
+                skuTableShowFlag = false;
+            }
+        });
+    }
+    //构建生成sku表格
+    var createTable = function(){
+        //TODO 先用filter取出显示的sku
+        skuPropertyShowAll = skuPropertyAll.filter(function(v){
+            if(v['checked']){
+                return v;
+            }
+        })
+        //计算生成sku表格时各属性td占用的行数
+        var tdRowSpanNumArr = new Array();//sku属性td占的行数
+        $('.sellProperty').each(function(){
+            tdRowSpanNumArr.push($(this).find('.skuCheckbox:checked').length)
+        });
+        var len = tdRowSpanNumArr.length;
+        for(var i = 0;i < len;i++){
+            if(i === len - 1){
+                tdRowSpanNumArr[i] = 1;
+            }else if(i === len - 2){
+                tdRowSpanNumArr[i] = tdRowSpanNumArr[i + 1];
+            }else{
+                tdRowSpanNumArr[i] = tdRowSpanNumArr[i + 1] * tdRowSpanNumArr[i + 2];
+            }
+        }
+        //生成sku表格
+        var tableStart = '<table>'
+                + '<caption>销售属性匹配表</caption>'
+                + '<thead>';
+        var titleTrBody = '<tr>';
+        for(var i = 0;i < skuProperty.length;i++){
+            titleTrBody += '<th><span>' +skuProperty[i]["pTxt"]+ '</span></th>';
+        }
+        titleTrBody += '<th><span>价格</span></th>';
+        titleTrBody += '<th><span>数量</span></th>'
+        titleTrBody += '</thead>';
+        titleTrBody += '</tr>';
+        var trBody = '';
+
+        for(var i = 0;i < skuPropertyShowAll.length;i++){
+            trBody += '<tr class="skuTbEdit" skuTrId="' + skuPropertyShowAll[i]['id'] + '">';
+            for(var j = 0;j < skuPropertyShowAll[i]['itemSkuPVPairList'].length; j++){
+                if(i % tdRowSpanNumArr[j] === 0){
+                    trBody += '<td rowspan="' + tdRowSpanNumArr[j] + '"><span>' + skuPropertyShowAll[i]['itemSkuPVPairList'][j]["vTxt"] + '</span></td>';
+                }
+            }
+            trBody += '<td><input class="price" type="text" value="' + skuPropertyShowAll[i]['priceY'] + '"></td>';
+            trBody += '<td><input class="stock" type="text" value="' + skuPropertyShowAll[i]['stockNum'] + '"></td>';
+            trBody += '</tr>';
+        }
+        var talbeEnd = '</table>';
+        return tableStart + titleTrBody + trBody + talbeEnd;
+    }
+
+    $(function(){
+        //修改页时检查sku
+        setTableShowFlag();
+        //上传图片detailUrl
+        $(document).delegate("#bigListPicUrl",'change',function(){
+            fileUpload('#bigListPicUrl',1,bigListPicUploadCallBack);
+        })
+        //上传图片detailUrl
+        $(document).delegate("#smallListPicUrl",'change',function(){
+            fileUpload('#smallListPicUrl',1,smallListPicUploadCallBack);
+        })
+        /****************批量上传pic_urls*****************/
+        $(document).delegate("#batchUploadBtn",'change',function(){
+            fileUpload('#batchUploadBtn',2,batchCallBack);
+        })
+        $(document).delegate(".stock",'change',function(){
+            var index = $(this).parents('.skuTbEdit').index();
+            var i = 0;
+            for(var j = 0; j < skuPropertyAll.length;j++){
+                if(skuPropertyAll[j]['checked']){
+                    i += 1;
+                    if(i == index + 1){
+                        skuPropertyAll[j]['stockNum'] = $(this).val();
+                        skuPropertyAll[j]['modifyStatus'] = true;
+                    }
+                }
+            }
+
+        })
+        $(document).delegate(".price",'change',function(){
+            var index = $(this).parents('.skuTbEdit').index();
+            var i = 0;
+            for(var j = 0; j < skuPropertyAll.length;j++){
+                if(skuPropertyAll[j]['checked']){
+                    i += 1;
+                    if(i == index + 1){
+                        skuPropertyAll[j]['priceY'] = $(this).val();
+                        skuPropertyAll[j]['modifyStatus'] = true;
+                    }
+                }
+            }
+
+        })
+
+        //初始化时构建sku属性数组
+        createSkuProperty();
+
+        /*var checkSkuAllSelect = function(){
+
+            for(var name in skuProperty){
+                if(this.hasOwnProperty(name) && typeof skuProperty[name] !== 'function'){
+                    if(JSON.stringify(skuProperty[name]['value']) === '{}'){
+                        //有没有填的属性时直接停止执行
+                        if(skuTableShowFlag){
+                            skuTableShowFlag = false;
+                        }
+                        return false;
+                    }
+                }
+            }
+        }*/
+        //生成sku最终数组(初始化是check偶是false)
+        /*for(var i = 0;i < skuProperty.length;i++){
+            var tranArr = new Array();
+            if(skuPropertyAll.length){
+                skuPropertyAll.map(function(vArr){
+                    for(var j = 0;j < skuProperty[i]['pValue'].length;j++){
+                        var pv = {
+                            "pId": skuProperty[i]['pId'],
+                            "pTxt": skuProperty[i]['pTxt'],
+                            "pType": skuProperty[i]['pType'],
+                            "vId": skuProperty[i]['pValue'][j]['vId'],
+                            "vTxt": skuProperty[i]['pValue'][j]['vTxt'],
+                            "check":false
+                        };
+                        var vArrClone = $.extend([], vArr);
+                        vArrClone.push(pv);
+                        tranArr.push(vArrClone);
+                    }
+                });
+
+            }else{
+                for(var j = 0;j < skuProperty[i]['pValue'].length;j++){
+                    var pv = {
+                        "pId": skuProperty[i]['pId'],
+                        "pTxt": skuProperty[i]['pTxt'],
+                        "pType": skuProperty[i]['pType'],
+                        "vId": skuProperty[i]['pValue'][j]['vId'],
+                        "vTxt": skuProperty[i]['pValue'][j]['vTxt'],
+                        "check":false
+                    };
+                    tranArr.push([pv]);
+                }
+            }
+            skuPropertyAll = $.extend([], tranArr);//JSON.parse(JSON.stringify(tranArr));//避免引用
+        }*/
+
+
+        //选择sku
+        $('.skuCheckbox').click(function(){
+            //TODO 变更前保存编辑结果
+
+            //重新构建sellProperty数组
+            createSkuProperty();
+            var pId = $(this).parents('tr').attr('sellPropertyId');
+            var pTxt = $(this).parents('tr').attr('sellPropertyText');
+            var vId = $(this).attr('sellValueId');
+            var vTxt = $(this).attr('sellValueText');
+            //选中状态
+            var checkStatus = $(this).prop("checked");
+            //重新计算选中状态
+            for(var i = 0;i < skuPropertyAll.length;i++){
+                //sku组合checkStatus
+                var checkedStatus1 = true;
+                var itemSkuPVPairList = skuPropertyAll[i]['itemSkuPVPairList'];
+                for(var j = 0;j < itemSkuPVPairList.length;j++){
+                    //sku组合中的属性checkStatus
+                    var checkedStatus2 = false;
+                    for(var k = 0;k < skuProperty[j]['pValue'].length;k++){
+                        if(itemSkuPVPairList[j]['vId'] == skuProperty[j]['pValue'][k]['vId'] && itemSkuPVPairList[j]['vTxt'] == skuProperty[j]['pValue'][k]['vTxt']){
+                            checkedStatus2 = true;
+                            break;
+                        }
+                    }
+                    if(!checkedStatus2){
+                        checkedStatus1 = false;
+                    }
+                }
+                skuPropertyAll[i]['checked'] = checkedStatus1;
+            }
+            //设置表格是否显示的flag
+            setTableShowFlag();
+            if(skuTableShowFlag){
+                $('.skuTable').html(createTable());
+            }else{
+                $('.skuTable').html('您需要选择所有的销售属性，才能组合成完整的规格信息。');
+            }
+        });
+        $('.btnSubmit').click(function(){
+            //非空验证
+            var msg = validate();
+            if(msg){
+                layer.msg(msg, {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //property
+            var propertyArr = new Array();
+            $('.keyProperty').each(function(){
+                //TODO 判断必填项
+            });
+            $('.property').each(function(){
+                //
+                var v = $(this).find('.propertySelect');
+                var vId = 0;
+                var vTxt = '';
+                if(v && $(v).val() != '0'){
+                    vId = $(v).val();
+                    vTxt = $(v).find(':checked').text();
+                }else{
+                    vTxt = $(this).find('.propertyInput').val();
+                }
+                var property = {
+                    'pId':$(this).attr('pId'),
+                    'pTxt':$(this).attr('pTxt'),
+                    'pType':$(this).attr('pType'),
+                    'vId':vId,
+                    'vTxt':vTxt
+                }
+                propertyArr.push(property);
+            });
+            $('#itemProperties').val(JSON.stringify(propertyArr));
+
+            //图片列表
+            var picUrls = '';
+            $('.picUrlsUrl').each(function(){
+                if(picUrls){
+                    picUrls += '|' + $(this).attr('imgUrl');
+                }else{
+                    picUrls += $(this).attr('imgUrl');
+                }
+            });
+            $('.picUrlsVal').val(picUrls);
+            $('#itemSkuVOStr').val(JSON.stringify(skuPropertyAll));
+            var url = '';
+            if($('#commodityForm').attr('commodityId')){
+                url = actionDefaultPath + '/B2C/commodityManage/common/edit/' + $('#commodityForm').attr('commodityId');
+            }else{
+                url = actionDefaultPath + '/B2C/commodityManage/common/add';
+            }
+            $('#commodityForm').attr('action',url);
+            $('#commodityForm').submit();
+        });
+
+    });
+</script>

@@ -1,0 +1,48 @@
+
+<div style="margin: 15px;">
+        <div class="tableGroup">
+            <table class="table table-hover">
+                <tr>
+                    <th><input class="allChecked" type="checkbox">全选</th>
+                    <th>商品编码</th>
+                    <th>sku编码</th>
+                    <th>商品名称</th>
+                    <th>单价</th>
+                    <th>总库存</th>
+                </tr>
+                    #foreach($sku in $skuList)
+                    <tr class="subCheckedTR">
+                        <td><input class="subChecked" itemId="$!sku.itemId" skuTitle="$!sku.title" skuPriceY="$!sku.priceY" skuStockNum="$!sku.stockNum" type="checkbox" value="$!sku.id"></td>
+                        <td>$!sku.itemId</td>
+                        <td>$!sku.id</td>
+                        <td>$!sku.title</td>
+                        <td>$!sku.priceY</td>
+                        <td>$!sku.stockNum</td>
+                    </tr>
+                    #end
+            </table>
+        </div>
+    <script>
+       var selSkuList = function(){
+            var resultValue = new Array();
+            $('.subChecked:checked').each(function(){
+                var sku = {skuId:$(this).val(),itemId:$(this).attr('itemId'),skuTitle:$(this).attr('skuTitle'),skuPriceY:$(this).attr('skuPriceY'),skuStockNum:$(this).attr('skuStockNum')};
+                resultValue.push(sku);
+            });
+            top.resultValue = resultValue;
+        }
+        $(function(){
+
+            $('.allChecked').click(function(){
+                $('.subChecked').prop('checked',$(this).prop('checked'));
+                selSkuList();
+            });
+            $('.subCheckedTR').click(function(){
+                $(this).find('.subChecked').prop('checked',!$(this).find('.subChecked').prop('checked'));
+                selSkuList();
+            });
+        });
+
+    </script>
+</div>
+</div>

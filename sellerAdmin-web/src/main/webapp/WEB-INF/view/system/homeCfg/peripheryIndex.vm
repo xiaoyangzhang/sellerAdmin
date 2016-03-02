@@ -1,0 +1,346 @@
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/ajaxfileupload.js" type="text/javascript"></script>
+<div class="example whole">
+    
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active">
+                <a href="#tab1" data-toggle="tab">俱乐部主题</a>
+            </li>
+            <li class="">
+                <a href="#tab2" data-toggle="tab">热门周边</a>
+            </li>
+            <li class="">
+                <a href="#tab3" data-toggle="tab">精彩活动</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
+            <form id="clubCategoryForm" action="" method="post">
+                <div class="createClubTable">
+                    <table class="table">
+                        <tr>
+                            <td><span class="spColor">*</span>副标题</td>
+                            <td>
+								<input type="hidden" name="boothId" value="$!peripheryCfg.clubCategoryList.boothId">
+								<input type="hidden" name="boothCode" value="$!peripheryCfg.clubCategoryList.boothCode">
+                                <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!peripheryCfg.clubCategoryList.boothDesc"><button type="button" class="btn btn-success selectClubCategoryBtn">选择主题</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table clubCategoryTable">
+                    	<tr>
+                            <td>主题</td>
+                            <td>图片</td>
+                            <td>操作</td>
+                        </tr>
+							#foreach($clubCategory in $peripheryCfg.clubCategoryList.cfgInfoList)
+								<tr >
+									<td><input type='text' name='itemTitle' readonly value='$clubCategory.itemTitle'></td>
+									<td>
+										<input type='hidden' name='itemIds' value='$!clubCategory.itemId'> <img id='' src='$!clubCategory.itemImg' width=100px height=80px alt='头像' >
+										<input type='file' name='file' class='fileInp' id='clubCategoryImg_$!clubCategory.itemId'>
+										<input type='hidden' id='url_clubCategoryImg_$!clubCategory.itemId' name='imgUrl' value='$!clubCategory.itemImg'>
+									</td>
+    								<td class='delItem'><a>删除</a></td>
+								</tr>
+							#end
+                    </table>
+                </div>
+                 <div class="clubBotBtn">
+                <div class="btn-group">
+                    <button class="btn btn-success" type="button" id="clubCategorySubmit" >保存</button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn">取消</button>
+                </div>
+            </div>
+            </form>
+            </div>
+            <div class="tab-pane" id="tab2">
+                 <form id="cityForm" action="" method="post">
+                    <div class="createClubTable">
+                        <table class="table">
+                            <tr>
+                                <td><span class="spColor">*</span>副标题</td>
+                                <td>
+									<input type="hidden" name="boothId" value="$!peripheryCfg.cityList.boothId">
+									<input type="hidden" name="boothCode" value="$!peripheryCfg.cityList.boothCode">
+                                    <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!peripheryCfg.cityList.boothDesc"> <button type="button" class="btn btn-success selectCityBtn">选择目的地</button>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table cityTable">
+                            <tr>
+                                <td>目的地</td>
+                                <td>操作</td>
+                            </tr>
+								#foreach($city in $peripheryCfg.cityList.cfgInfoList)
+									<tr>
+										<td><input type='hidden' name='itemIds' value='$!city.itemId'>$!city.itemTitle</td>
+										<td class='delItem'><a>删除</a></td></tr>
+								#end
+                        </table>
+                    </div>
+                     <div class="clubBotBtn">
+                    <div class="btn-group">
+                        <button class="btn btn-success"  type="button"  id="citySubmit" >保存</button>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn">取消</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+            <div class="tab-pane" id="tab3">
+            <form id="activityForm" action="" method="post">
+                    <div class="createClubTable">
+                        <table class="table">
+                            <tr>
+                                <td><span class="spColor">*</span>副标题</td>
+                                <td>
+									<input type="hidden" name="boothId" value="$!peripheryCfg.activityList.boothId">
+									<input type="hidden" name="boothCode" value="$!peripheryCfg.activityList.boothCode">
+                                    <input type="text" class="form-control" placeholder="请输入20个字以内" name="subTitle" value="$!peripheryCfg.activityList.boothDesc"> <button type="button" class="btn btn-success selectActivityBtn">选择活动</button>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table activityTable">
+                            <tr>
+                                <td>活动名称</td>
+                                <td>操作</td>
+                            </tr>
+								#foreach($activity in $peripheryCfg.activityList.cfgInfoList)
+									<tr >
+										<td><input type='hidden' name='itemIds' value='$!activity.itemId'>
+											$!activity.itemTitle
+										</td>
+										<td class='delItem'><a>删除</a></td>
+									</tr>
+								#end
+                        </table>
+                    </div>
+                     <div class="clubBotBtn">
+                    <div class="btn-group">
+                        <button class="btn btn-success"  type="button"  id="activitySubmit" >保存</button>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn">取消</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+</div>
+<script>
+
+    $(function(){
+    
+	    $(document).on("click",".delItem a",function(){
+			 $(this).parents("tr:eq(0)").remove();
+		}); 
+    	
+        
+         //选择用户信息
+        $('.selectClubCategoryBtn').click(function(){
+            layer.open({
+                type: 2,
+                btn: ['确定', '取消'],
+                title: '用户选择',
+                fix: false,
+                shadeClose: true,
+                maxmin: true,
+                area: ['1000px', '500px'],
+                content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
+                yes: function(index){
+                    if(top.resultValue&&top.resultValue.length==0){
+                        layer.alert("请选择用户信息");
+                        return false;
+                    }else{
+                    console.log(resultValue);
+						var tr = "";
+                    	for(var i = 0;i<resultValue.length;i++){
+                    		tr += "<tr><td><input type='text' name='itemTitle' readonly value='"+resultValue[i].name+"'></td>"+
+							"<td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'> <img src='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK' width=100px height=80px alt='头像' >"+ 
+                    		"<input type='file' name='file' class='fileInp' id='clubCategoryImg_"+resultValue[i].id+"'><input type='hidden' id='url_clubCategoryImg_"+resultValue[i].id+"' name='imgUrl' value='http://192.168.1.209:7500/v1/tfs/T1QyJTByKT1RCvBVdK'></td>"+
+                    		"<td class='delItem'><a>删除</a></td></tr>";
+                    		_uploadImg("clubCategoryImg_"+resultValue[i].id);
+                    	}
+                    	$(".clubCategoryTable").append(tr);
+                    	
+                    	 layer.close(index);
+                    }
+                }
+            });
+		});
+			
+		 //选择目的地信息
+        $('.selectCityBtn').click(function(){
+            layer.open({
+                type: 2,
+                btn: ['确定', '取消'],
+                title: '用户选择',
+                fix: false,
+                shadeClose: true,
+                maxmin: true,
+                area: ['1000px', '500px'],
+                content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
+                yes: function(index){
+                    if(top.resultValue&&top.resultValue.length==0){
+                        layer.alert("请选择目的地信息");
+                        return false;
+                    }else{
+                    console.log(resultValue);
+                    	var tbody = $(".userTable");
+						var tr = "";
+                    	for(var i = 0;i<resultValue.length;i++){
+                    		tr += "<tr ><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'><td>"+resultValue[i].name+"</td>"+
+                    		"<td class='delItem'><a>删除</a></td></tr>";
+                    	}
+                    	$(".cityTable").append(tr);
+                    	
+                    	 layer.close(index);
+                    }
+                }
+            });
+		});
+		
+		 //选择游记信息
+        $('.selectActivityBtn').click(function(){
+            layer.open({
+                type: 2,
+                btn: ['确定', '取消'],
+                title: '用户选择',
+                fix: false,
+                shadeClose: true,
+                maxmin: true,
+                area: ['1000px', '500px'],
+                content: '$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList',
+                yes: function(index){
+                    if(top.resultValue&&top.resultValue.length==0){
+                        layer.alert("请选择游记信息");
+                        return false;
+                    }else{
+                    console.log(resultValue);
+						var tr = "";
+                    	for(var i = 0;i<resultValue.length;i++){
+                    		tr += "<tr ><td><input type='hidden' name='itemIds' value='"+resultValue[i].id+"'> "+resultValue[i].name+"</td>"+
+                    		"<td class='delItem'><a>删除</a></td></tr>";
+                    	}
+                    	$(".activityTable").append(tr);
+                    	
+                    	 layer.close(index);
+                    }
+                }
+            });
+		});
+            
+      
+        
+        $('#clubCategorySubmit').click(function(){
+            $(this).prop('disabled',true);
+            $.ajax({
+				type:'post',
+				url:'addPeripheryClubCategory',
+				data:$("#clubCategoryForm").serialize(),
+				error:function(){
+					$("#clubCategorySubmit").attr("disabled",false);
+					alert('服务器忙，请稍后再试！');
+				},
+				success:function(data){
+				
+					if(data.status==200){
+						 layer.alert('操作成功');
+						 $("#clubCategorySubmit").attr("disabled",false);
+                    }else{
+                   		$("#clubCategorySubmit").attr("disabled",false);
+                        layer.alert('操作失败');
+                    }
+				}
+			});
+        });
+		
+        $('#citySubmit').click(function(){
+            $(this).prop('disabled',true);
+            $.ajax({
+				type:'post',
+				url:'addPeripheryCity',
+				data:$("#cityForm").serialize(),
+				error:function(){
+					$("#citySubmit").attr("disabled",false);
+					alert('服务器忙，请稍后再试！');
+				},
+				success:function(data){
+				
+					if(data.status==200){
+						 layer.alert('操作成功');
+						 $("#citySubmit").attr("disabled",false);
+                    }else{
+                   		$("#citySubmit").attr("disabled",false);
+                        layer.alert('操作失败');
+                    }
+				}
+			});
+        });
+		
+		
+        $('#activitySubmit').click(function(){
+            $(this).prop('disabled',true);
+            $.ajax({
+				type:'post',
+				url:'addPeripheryActivity',
+				data:$("#acivityForm").serialize(),
+				error:function(){
+					$("#activitySubmit").attr("disabled",false);
+					alert('服务器忙，请稍后再试！');
+				},
+				success:function(data){
+				
+					if(data.status==200){
+						 layer.alert('操作成功');
+						 $("#activitySubmit").attr("disabled",false);
+                    }else{
+                   		$("#activitySubmit").attr("disabled",false);
+                        layer.alert('操作失败');
+                    }
+				}
+			});
+        });
+		
+		initUploadImg();
+		
+		
+    });
+   function initUploadImg(){
+   		$(".tab-content input.fileInp").each(function(i,item){
+			var id = item.id;
+			_uploadImg(id);
+		})
+   }
+    
+  function _uploadImg(id){
+	 $(document).delegate('#'+id,'change',function(){
+            $.ajaxFileUpload({
+                url: '/upload/file', //用于文件上传的服务器端请求地址
+                secureuri: false, //是否需要安全协议，一般设置为false
+                fileElementId: id, //文件上传域的ID
+                dataType: 'json', //返回值类型 一般设置为json
+                success: function (data,status)  //服务器成功响应处理函数
+                {
+                    if(data && data.status==200){
+                        var tfsPath = '$utilWebconfig.getTfsRootPath()';
+						$('#'+id).parent().find("img").attr("src",tfsPath + data.data)
+                        $('#url_'+id).val(tfsPath + data.data);
+                       //$('#imgUploadUrl'+id).attr('src',tfsPath + data.data);
+
+                    }else{
+                        layer.alert('上传失败');
+                    }
+                },
+                error: function (data)//服务器响应失败处理函数
+                {
+                    layer.alert('服务器异常');
+                }
+            });
+        });
+}
+</script>

@@ -1,0 +1,147 @@
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/ajaxfileupload.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+
+    <div class="createClubTable whole">
+        <form name="addClub" id="clubForm" action="" method="post" clubId="$!travelOfficial.id">
+
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active"><a href="#scenicInfo" data-toggle="tab">游记基础信息</a></li>
+                <li><a href="#scenicImgs" data-toggle="tab">游记详情</a></li>
+            </ul>
+
+            <div class="tab-content grogInfoWrap" style="">
+                <div class="tab-pane active" id="scenicInfo">
+                    <table class="table">
+                        <tr>
+                            <td><span class="spColor">*</span>游记标题</td>
+
+                            <td><input type="text" class="form-control" placeholder="请输入20个字以内" name="title" id="titleId" value="$!travelOfficial.title"></td>
+                        </tr>
+
+                        <tr>
+                          <td>*前言</td>
+                          <td>
+                            <textarea name="preface" id="prefaceId" value="$!travelOfficial.preface"  class="form-control" rows="5">$!travelOfficial.preface</textarea>
+                          </td>
+                        </tr>
+
+                        <tr>
+                            <td><span class="spColor">*</span>发布时间</td>
+                            <td><input type="text" class='form-control form-date dateInp' placeholder='' readonly id="publishDateId" name="publishDate" value="$!utilDate.dateToString($!travelOfficial.publishDate,"yyyy-MM-dd HH:mm:ss")"></td>
+                        </tr>
+
+                        <tr>
+                            <td><span class="spColor">*</span>作者信息</td>
+                            <td>
+                                <div class="userBtn">
+                                    <button type="button" class="btn btn-info selectUserBtn">选择用户</button>
+                                    <input type="hidden" id="nickNameId"  name="nickName" value="$!travelOfficial.nickName">
+                                    <input type="hidden" id="userPhotoId"  name="userPhoto" value="$!travelOfficial.userPhoto">
+                                    <input type="hidden" id="createIdId"  name="createId" value="$!travelOfficial.createId">#* $!travelOfficial.createId *#
+                                </div>
+                                <div class="userView">
+                                    <img src=" #if($travelOfficial.userPhoto) $utilWebconfig.getTfsRootPath()$!travelOfficial.userPhoto  #end">
+                                    <span id="shownickNameId">$!travelOfficial.createUserName</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><span class="spColor">*</span>游记封面</td>
+                            <td>
+                                <div class="fileImg">
+                                    <button type="button" class="btn btn-success">选择图片</button>
+                                    <input type="file" name="file" class="fileInp" id="logoUrlUploadFile">
+                                    <input type="hidden" name="logoUrl" value="$!travelOfficial.backImg" id="logoUrlUploadFileReturnInput" >
+                                    <p>注：图片大小不超过5M<br />建议尺寸：300*300</p>
+                                </div>
+                                <div class="logoView">
+                                    <img name="backImg" src="#if($travelOfficial.backImg) $utilWebconfig.getTfsRootPath()$!travelOfficial.backImg #end" class="img-circle" id="logoUrlUploadFileReturnImg">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tab-pane" id="scenicImgs">
+                    #parse("/system/travelOfficial/detail_item.vm")
+                </div>
+            </div>
+        </form>
+    </div>
+
+<script>
+
+    $(".form-date").datetimepicker({
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy-mm-dd"
+            });
+/**
+    $('#btnSubmit').click(function(){
+            $(this).prop('disabled',true);
+            var actionUrl;
+            var clubId = $('#clubForm').attr('clubId');
+            if(clubId){
+                actionUrl = '/B2C/travelOfficialManage/edit';
+            }else{
+                actionUrl = '/B2C/travelOfficialManage/add';
+            }
+            $('#clubForm').attr('action',actionUrl);
+            $.post(actionUrl,$('#clubForm').serialize(),function(data){
+                if(data.status == 200){
+                   layer.alert('操作成功');
+                   window.location.href = window.location.href;
+                }else{
+                 	layer.alert('操作失败');
+                    $(this).prop('disabled',false);
+                }
+            });
+    });
+*/
+    //选择用户
+     $('.selectUserBtn').click(function(){
+            '$!utilWebconfig.getActionDefaultFontPath()',
+                    openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneUser', "选择用户",function(){
+                        var item = win.getItem();
+                        console.log(item);
+                        console.log(win.getItem().nickname);
+                        if(null != item){
+                            $("#nickNameId").val(item.nickname);
+                            $("#shownickNameId").text(item.name);
+                            
+                            $("#userPhotoId").val(item.avatar);
+                            $("#createIdId").val(item.id);
+                       }
+                       return true;
+                    });
+     })
+
+    //上传图片
+    $(document).delegate("#logoUrlUploadFile",'change',function(){
+        fileUpload('#logoUrlUploadFile',1,LogoPicloadCallBack);
+    })
+
+    var LogoPicloadCallBack = function(data){
+        if(data && data.status == 200){
+            console.log(data.data);
+            $('#logoUrlUploadFileReturnInput').val(data.data);
+            $('#logoUrlUploadFileReturnImg').attr('src',tfsRootPath + data.data);
+
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }
+
+
+     
+</script>

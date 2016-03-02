@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="gFTagRepo" class="com.yimayhd.gf.repo.GFTagRepo" />
+	<bean id="hotelRepo" class="com.yimayhd.sellerAdmin.repo.HotelRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.TagRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.LineRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.RestaurantRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.ScenicRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.PictureRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.ResourceRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.ActivityRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.TravelKaRepo"></bean>
+	<bean id="commissionRepo" class="com.yimayhd.commission.repo.CommissionRepo"/>
+	<bean id="itemRebateRepo" class="com.yimayhd.commission.repo.ItemRebateRepo"/>
+	<bean id="userRelationRepo" class="com.yimayhd.commission.repo.UserRelationRepo"/>
+</beans>

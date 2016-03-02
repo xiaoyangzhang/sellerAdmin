@@ -1,0 +1,20 @@
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
+<div class="tableGroup whole">
+    <table class="table table-hover">
+        <tr>
+            <th>序号</th>
+            <th>商品名称</th>
+            <th>单价</th>
+            <th>数量</th>
+        </tr>
+            #foreach($refundDetail in $refundDetailList)
+            <tr>
+                <td>$!velocityCount</td>
+                <td>$!refundDetail.goodsName</td>
+                <td>$!utilNum.moneyTransform($!refundDetail.goodsPrice)</td>
+                <td>$!refundDetail.goodsNum</td>
+            </tr>
+            #end
+    </table>
+</div>
+

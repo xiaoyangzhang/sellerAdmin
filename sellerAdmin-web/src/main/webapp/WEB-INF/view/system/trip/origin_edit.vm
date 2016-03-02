@@ -1,0 +1,74 @@
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js" type="text/javascript"></script>
+
+<form name="addHotel" id="hotelForm" action="" method="post" >
+	<div class="tab-content grogInfoWrap"  style="">
+	    <div class="tab-pane active" id="grogshopInfo">
+	        <div class="createHotrlTable">
+	            <table class="table">
+		                <tr>
+		                    <td><span class="spColor">*</span>出发地名称</td>
+		                    <td>
+		                    	#* <input type="text" class="inpControl" name="cityName" id="cityNameId" placeholder="请输入20个字以内"> *#
+								<select id="sid" >  
+								</select>
+							</td>	  
+		                    <td><input type="hiddent" class="inpControl" name="type" value="3" ></td>
+		                    <td><input type="hiddent" class="inpControl" name="cityLevel"  id="cityLevelId" value="" ></td>
+		                    <td><input type="hiddent" class="inpControl" name="cityCode"  id="cityCodelId" value="" ></td>
+		                    <td><input type="hiddent" class="inpControl" name="id"  id="cityId" value="" ></td>
+		                </tr>
+	            </table>
+	        </div>
+	    </div>
+	    <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
+	</div>
+</form>
+
+<script>
+
+ 	$('#btnSubmit').click(function(){
+    	//if($("#hotelForm").valid()) {}
+    	//设置选中的城市的级别
+    	if($('select option:selected')){
+    	var level = $('select option:selected').attr('level');
+    	var ids = $('select option:selected').attr('value');
+    	$("#cityId").val(ids);
+    	console.log("level="+level);
+    	$("#cityLevelId").val(level);
+    	var cityCode ="";
+    	if(level==1){
+    		cityCode = $('select option:selected').attr('provinceCode');
+    	}else if (level==2){
+    		cityCode = $('select option:selected').attr('cityCode');
+    	}
+    	$("#cityCodelId").val(cityCode);
+    	console.log("cityCode="+cityCode);
+    }
+    	
+        $(this).prop('disabled', true);
+        var actionUrl = actionDefaultPath + '/B2C/trip/add';
+        $('#hotelForm').attr('action', actionUrl);
+        $('#hotelForm').submit();
+        // alert("提交成功")
+        });
+        
+        
+	$("#sid").focus( function(){
+    	$.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/trip/selectRegion' ,{type:"3"} ,function(data){
+	    	if(data.status == 200){
+	    	var html="";
+	    		$.each(data.data, function(n,val){ 
+                   console.log("data:"+val.id+"  _"+val.name);
+                   html+="<option level="+val.level+" cityCode="+val.cityCode+" provinceCode="+val.provinceCode+" value="+val.id+">"+val.name+"</option>"
+                });
+            $("#sid").html(html);
+	        }else{
+	            var msg = new $.zui.Messager('获取城市列表失败', {placement: 'center',type:'warning',time:'1000'});
+	            msg.show();
+	            $(this).prop('disabled',false);
+	        }                                      
+    	})
+    });
+    
+</script>

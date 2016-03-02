@@ -1,0 +1,138 @@
+
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/json2.js" type="text/javascript"></script>
+
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.all.min.js"> </script>
+<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/lang/zh-cn/zh-cn.js"></script>
+$!esc.html($htmel)
+<section class="cards grogCards grogBatchAddWrap">
+    <div>
+        <input type="button" name="grogBatchAdd" id="grogBatchAdd" value="添加" class="btn">
+    </div>
+</section>
+
+<div class="grogBatchWrap">
+    <div class="grogBatchUpload">
+        <input type="button" name="" value="批量上传" class="btn">
+        <input type="file" name="" multiple="multiple" id="batchUploadBtn" class="btn btnFile">
+    </div>
+    <div>
+        <input type="button" name="grogBatchManager" id="grogBatchManager" value="批量管理" class="btn">
+    </div>
+</div>
+<div class="grogImgsWrap">
+    <input type="checkbox" name=""><span>本页全选</span>
+    <input type="button" value="设为展示图" class="btn">
+    <input type="button" value="批量删除" class="btn">
+    <span>请选择3张图作为展示图</span>
+</div>
+<section class="cards grogCards grogBatchAll">
+    <div class="col-md-4 col-sm-6 col-lg-3 grogImgWrap">
+        #foreach($picture in $pictureList)
+            <div class="card">
+                <div href="#" class="media-wrapper">
+                    <img src="$!utilWebconfig.getStaticResourcesPath()/resources/img/grogImg/img1.jpg" alt="">
+                    <input type="hidden" class="pictureListUrl" name="pictureList[$velocityCount].url" value="$!picture.url">
+                    <input type="hidden" class="pictureListName" name="pictureList[$velocityCount].name" value="$!picture.name">
+                    <input type="hidden" class="pictureListTop" name="pictureList[$velocityCount].top" value="$!picture.top">
+                </div>
+                <span class="grogImgFlag"><i class="icon icon-flag"></i></span>
+                <span class="grogImgCircle"><i class="icon icon-circle-thin icon-check-circle-o"></i></span>
+                <a href="#" class="card-heading"><strong>$!picture.name</strong></a>
+            </div>
+        #end
+
+    </div>
+</section>
+<form name="myform" id="myform" action="${utilWebconfig.getStaticResourcesPath()}/view/testUploadImgOrUe" method="post">
+    <div>
+        <td>
+            <label class="uploadAddrShow"></label>
+            <script type="text/javascript">
+                $(function() {
+                    window.UEDITOR_HOME_URL = "${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/";
+                    var ue = UE.getEditor('editor');
+                });
+            </script>
+            <script id="editor" type="text/plain" name="description" style="width: 100%; height:350px">$!commodity.description</script>
+        </td>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" id="submitBtn" type="button">提交</button>
+</form>
+<script>
+    var batchCallBack = function(dataVal){
+        for(key in dataVal.data){
+            if(dataVal.data.hasOwnProperty(key)){
+                var addImgs =   '<div class="col-md-4 col-sm-6 col-lg-3 grogImgWrap">'+
+                                '<div class="card">'+
+                                '<div href="#" class="media-wrapper">'+
+                                '<img src="'+tfsRootPath + dataVal.data[key]+'" alt="">'+
+                                '<input type="hidden" name="pictures.url" value="'+ dataVal.data[key] +'">'+
+                                '<input type="hidden" name="pictures.top" value="0">'+
+                                '</div>'+
+                                '<span class="grogImgFlag"><i class="icon"></i></span>'+
+                                '<span class="grogImgCircle"><i class="icon icon-circle-thin icon-check-circle-o"></i></span>'+
+                                '<a href="#" class="card-heading"><strong>'+key+'</strong></a>'+
+                                '</div>'+
+                                '</div>'
+                $(".grogBatchAddWrap").append(addImgs);
+            }
+        }
+        $(".grogBatchAddWrap").show();
+    }
+
+
+    $(function(){
+        $('#submitBtn').click(function(){
+            $.post($('#myform').attr('action'),$('#myform').serialize(),function(data){
+                if(data && data.status == 200){
+                    $('.uploadAddrShow').text(data.data);
+                }else{
+                    $('.uploadAddrShow').text('上传出错');
+                }
+            });
+        });
+
+        /*点击批量管理*/
+        $("#grogBatchManager").on("click",function(){
+            $(".grogBatchWrap").hide();
+            $(".grogImgsWrap").show();
+            $(".grogImgFlag").show()
+            $(".grogImgCircle").show()
+        });
+
+        //添加图片
+        $("#grogBatchAdd").on("click",function(){
+            var addImgDiv = $(".grogBatchAddWrap .grogImgWrap");
+            console.log(addImgDiv);
+            addImgDiv.remove();
+            $(".grogBatchAddWrap").hide();
+            $(".grogBatchAll").append(addImgDiv);
+        })
+    })
+
+    /*图片是否设为展示图*/
+    $(document).delegate(".grogImgFlag","click",function(){
+        $(this).find("i").toggleClass("icon-flag");
+        $(this).find('.pictureListTop').val(1-$(this).find('.pictureListTop').val());
+    })
+
+    //可改为删除
+    /*图片选中*/
+    $(document).delegate(".grogImgCircle","click",function(){
+        $(this).find("i").toggleClass("icon-check-circle-o");
+    })
+
+    /****************批量上传*****************/
+    $(document).delegate("#batchUploadBtn",'change',function(){
+        fileUpload('#batchUploadBtn',2,batchCallBack);
+    })
+
+</script>

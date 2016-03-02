@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yimayhd.sellerAdmin.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.yimayhd.sellerAdmin.model.User">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="tel" property="tel" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="INTEGER"/>
+        <result column="created_on" property="createdOn" jdbcType="TIMESTAMP"/>
+        <result column="updated_on" property="updatedOn" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        t1.id, t1.name, t1.tel, t1.user_name,  t1.gender,  t1.created_on,  t1.updated_on,  t1.status
+    </sql>
+
+    <resultMap id="DetailResultMap" type="com.yimayhd.sellerAdmin.model.User" extends="BaseResultMap">
+        <collection property="addressList" columnPrefix="address_" resultMap="com.yimayhd.mapper.AddressMapper.BaseResultMap" />
+    </resultMap>
+
+    <insert id="add" parameterType="com.yimayhd.sellerAdmin.model.User">
+        insert into user (id, name,user_name,password,tel, gender, created_on)
+        values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR}
+        , #{password,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}
+        ,#{createdOn,jdbcType=TIMESTAMP})
+    </insert>
+
+    <update id="modify" parameterType="com.yimayhd.sellerAdmin.model.User">
+        update user
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <sql id="search_clause">
+        <where>
+            <if test="entity!=null">
+                <if test="entity.status == null">
+                    and t1.status = 1
+                </if>
+                <if test="entity.status != null">
+                    and t1.status = #{entity.status}
+                </if>
+                <if test="entity.gender != null">
+                    and t1.gender = #{entity.gender}
+                </if>
+                <if test="entity.name != null">
+                    and t1.name like '%${entity.name}%'
+                </if>
+            </if>
+        </where>
+    </sql>
+
+    <select id="getList" parameterType="com.yimayhd.sellerAdmin.base.PageQuery" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user t1
+        <include refid="search_clause"/>
+        order by t1.created_on desc
+        <if test="isPaging != 0">
+            limit #{from},#{size}
+        </if>
+    </select>
+
+    <select id="getCount" resultType="long">
+        select count(1) total from user t1
+        <include refid="search_clause"/>
+    </select>
+    <select id="login" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />
+        from user t1
+        where t1.tel=#{tel,jdbcType=VARCHAR} and t1.password=#{password,jdbcType=VARCHAR} and t1.status = 1
+    </select>
+    <select id="getCountByTel" resultType="long" parameterType="java.lang.String">
+        select count(1) total from user
+        where tel = #{tel,jdbcType=VARCHAR} and status = 1
+    </select>
+    <select id="getUserDetail" resultMap="DetailResultMap" parameterType="java.lang.String">
+        select t.id id, t.name name, t.tel tel, t.gender gender, a.id address_id, a.addressee address_addressee,
+            a.post_code address_post_code, a.address address_address, a.tel address_tel, a.is_default address_is_default,
+            r1.id address_province, r1.name address_provinceName, r2.id address_city, r2.name address_cityName,
+            r3.id address_region, r3.name address_regionName
+        from user t left join address a on t.id = a.user_id  and a.status = 1
+            left join region r1 on a.province = r1.id
+            left join region r2 on a.city = r2.id
+            left join region r3 on a.region = r3.id
+        where t.id = #{id,jdbcType=VARCHAR}
+    </select>
+    <update id="passwordModify" parameterType="com.yimayhd.sellerAdmin.model.User">
+        update user
+        <set>
+            password = #{password,jdbcType=INTEGER},
+        </set>
+        where tel = #{tel,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

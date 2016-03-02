@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="$!utilWebconfig.getStaticResourcesPath()/resources/zui/css/zui.min.css?version=$!{utilWebconfig.getResourceVersion()}" rel="stylesheet">
+    <link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/common.css?version=$!{utilWebconfig.getResourceVersion()}"/>
+    <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/jquery.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+    <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/js/zui.min.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+    <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/respond.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+    <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/common.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+    <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/layer-v2.1/layer.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+	<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/jquery-form.js?version=$!{utilWebconfig.getResourceVersion()}" type="text/javascript"></script>
+    <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/jquery.validate.min.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+    <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/JQ_verify.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+    <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/jquery.metadata.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+	<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/validate/messages_zh.min.js?version=$!{utilWebconfig.getResourceVersion()}" type="text/javascript"></script>
+    <title>运营管理系统</title>
+    <script>
+        layer.config({
+            extend: 'extend/layer.ext.js',
+            extend:['skin/mySkin/style.css'],
+            skin:'layer-ext-mySkin'
+        });
+        var actionDefaultPath = '$!{utilWebconfig.getActionDefaultFontPath()}';
+        var tfsRootPath = '$!{utilWebconfig.getTfsRootPath()}';
+        var staticResourcesPath='$!{utilWebconfig.getStaticResourcesPath()}';
+        var uploadFile='$!{utilWebconfig.getActionUploadFilePath()}';
+        var uploadFiles='$!{utilWebconfig.getActionUploadFilesPath()}';
+    </script>
+</head>
+<body>
+    $screen_content
+</body>
+</html>
+

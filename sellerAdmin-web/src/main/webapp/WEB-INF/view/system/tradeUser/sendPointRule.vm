@@ -1,0 +1,42 @@
+
+    <form class="form-signin" id="sendPointRuleListForm" name="sendPointRuleListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/PointManage/sendPointRule/list" method="GET" role="form">
+        <div class="inputGroup whole">
+            <p style="font-size: 16px;font-weight: bold;">当前规则：<button style="margin-left: 165px;" type="button" class="btn btn-primary sendPointRuleAdd" id="sendPointRuleAdd">新增规则</button></p>
+            <span>积分发放规则：$!utilNum.moneyTrans($!sendPointRule.payment)元 = 1积分</span><br>
+            <span>积分使用规则：1积分 = 1元</span><br>
+            <span>积分有效期：$!{sendPointRule.validityDays}天</span>
+        </div>
+        <div class="tableGroup whole">
+            <h3>规则历史</h3>
+            <table class="table table-hover">
+                <tr>
+                    <th>序号</th>
+                    <th>发放规则</th>
+                    <th>有效期</th>
+                    #*<th>操作人</th>*#
+                    <th>生效时间</th>
+                </tr>
+                    #foreach($sendPointRule in $sendPointRuleList)
+                    <tr>
+                        <td>$!velocityCount</td>
+                        <td>$!utilNum.moneyTransform($!sendPointRule.payment)元 = 1积分</td>
+                        <td>$!sendPointRule.validityDays</td>
+                        #*<td>$!user.vendorName</td>*#
+                        <td>$!utilDate.dateToString($!sendPointRule.beginTime,"yyyy-MM-dd HH:mm:ss")</td>
+                    </tr>
+                    #end
+            </table>
+        </div>
+    #*分页*#
+    #parse("/page.vm")
+    #pageStyle("sendPointRuleListForm")
+    </form>
+    <script>
+        $(function(){
+            $('.sendPointRuleAdd').click(function(){
+                window.parent.tabsAdd('sendPointRuleAdd',actionDefaultPath + '/trade/PointManage/sendPointRule/toAdd',2,$(this).text())
+                /*var url = actionDefaultPath + '/trade/PointManage/sendPointRule/toAdd';
+                window.openwin(url);*/
+            });
+        });
+    </script>

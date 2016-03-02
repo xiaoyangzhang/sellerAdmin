@@ -1,0 +1,112 @@
+<h1>资源内容列表</h1>
+    <form class="form-signin" id="showcaseListForm" name="showcaseListForm" action="$!utilWebconfig.getActionDefaultFontPath()/rcBooth/showList" method="GET" role="form">
+        <div class="inputGroup whole">
+			<input type="hidden" name="page" value="$!page"/>
+            <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">状态：</button>
+                </span>
+                <select class="form-control" name="status">
+                    <option value="0">全部</option>
+                    <option value="10" #if($!status == 10) selected #end>上架</option>
+                    <option value="20" #if($!status == 20) selected #end>下架</option>
+                </select>
+            </div>
+            <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">展位：</button>
+                </span>
+                <select class="form-control" name="boothId">
+                    <option value="0">全部</option>
+                    #foreach($booth in $boothList)
+                    	<option value="$!booth.id" #if($!booth.id == $boothId) selected #end>$!booth.name</option>
+                    #end
+                </select>
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">查询</button>
+            </div>
+            <div class="btn-group">
+                <button type="reset" class="btn btn-primary">重置</button>
+            </div>
+        </div>
+
+        <div class="tableGroup whole">
+            <button type="button" class="btn btn-primary showcaseAdd">新建</button>
+            <table class="table table-hover">
+                <tr>
+                    <th>#</th>
+                    <th>展位名称</th>
+                    <th>内容标题</th>
+                    <th>内容概要</th>
+                    <th>操作类型</th>
+                    <th>显示顺序</th>
+                    <th>最后修改时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                    #foreach($showcase in $showCaseResult)
+                    <tr>
+                        <td>$!velocityCount</td>
+                        <td>$!showcase.boothDO.name</td>
+                        <td>$!showcase.showcaseDO.title</td>
+                        <td>$!showcase.showcaseDO.summary</td>
+                        <td>$!showcase.operationDO.name</td>
+                        <td>$!showcase.showcaseDO.serialNo</td>
+                        <td>$utilDate.dateToString($!showcase.showcaseDO.gmtModified,"yyyy-MM-dd HH:mm")</td>
+                        <td>  #if($!showcase.showcaseDO.status == 10)上架#elseif($!showcase.showcaseDO.status == 20)下架 #end</td>
+                        <td>
+                        
+                        
+                        #if($booth.status == 10)
+                        	 <button type="button" class="btn btn-primary showcaseUpdown"  showcaseId="$showcase.showcaseDO.id" isStatus="20"> 上架  </button>
+                        #elseif($booth.status == 20)
+                        	<button type="button" class="btn btn-primary showcaseEdit" showcaseId="$showcase.showcaseDO.id">修改</button>
+                        	<button type="button" class="btn btn-primary showcaseUpdown"  showcaseId="$showcase.showcaseDO.id" isStatus="10"> 下架  </button>
+                        #end
+                        </td>
+                    </tr>
+                    #end
+            </table>
+        </div>
+    #*分页*#
+    #parse("/page.vm")
+    #pageStyle("showcaseListForm")
+    </form>
+<script>
+    $(function(){
+        $('.showcaseAdd').click(function(){
+            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/rcBooth/initShow';
+            top.tabsAdd("",url,2,$(this).text());
+        });
+
+        $('.boothEdit').each(function(){
+            $(this).click(function(){
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/rcBooth/initShow?id='+ $(this).attr('showcaseId');
+                top.tabsAdd("",url,2,$(this).text());
+            });
+
+        });
+
+        $('.activityBtn').each(function(){
+            $(this).click(function(){
+                $(this).prop('disabled',true);
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/activityManage/setIsStatus/' + $(this).attr('activityId') ,{'isStatus':$(this).attr('isStatus')} ,function(data){
+                    if(data.status == 200){
+                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                        msg.show();
+                        //TODO暂时先刷新页面
+                        setTimeout(function(){
+                            window.location.href = window.location.href;
+                        },1050);
+                        //window.location.href = window.location.href;
+                    }else{
+                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                        msg.show();
+                        $(this).prop('disabled',false);
+                    }
+                })
+            });
+        });
+    });
+</script>

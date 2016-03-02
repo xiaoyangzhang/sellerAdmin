@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yimayhd.sellerAdmin.mapper.HaMenuMapper">
+	<resultMap id="BaseResultMap" type="com.yimayhd.sellerAdmin.model.HaMenuDO">
+
+		<id column="id" property="id" jdbcType="BIGINT" />
+
+		<result column="name" property="name" jdbcType="VARCHAR" />
+
+		<result column="url" property="url" jdbcType="VARCHAR" />
+
+		<result column="reqtype" property="reqtype" jdbcType="INTEGER" />
+
+		<result column="type" property="type" jdbcType="INTEGER" />
+
+		<result column="level" property="level" jdbcType="INTEGER" />
+
+		<result column="leaf" property="leaf" jdbcType="INTEGER" />
+
+		<result column="parent_id" property="parentId" jdbcType="BIGINT" />
+
+		<result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+
+		<result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+
+		<result column="status" property="status" jdbcType="INTEGER" />
+
+	</resultMap>
+	<resultMap id="menuList" extends="BaseResultMap"
+		type="com.yimayhd.sellerAdmin.model.HaMenuDO">
+		<collection property="haMenuDOList" columnPrefix="hm_"
+			resultMap="BaseResultMap"></collection>
+	</resultMap>
+
+	<resultMap id="menuListAll" extends="BaseResultMap"
+		type="com.yimayhd.sellerAdmin.model.HaMenuDO">
+		<collection property="haMenuDOList" columnPrefix="B_"
+			resultMap="menuList">
+		</collection>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,name,url,reqtype,type,level,leaf,parent_id,gmt_created,gmt_modified,status
+	</sql>
+
+	<!--insert的时候要去掉ID，创建时间，更新时间和状态 -->
+	<insert id="add" parameterType="com.yimayhd.sellerAdmin.model.HaMenuDO"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into ha_menu
+		(id,name,url,reqtype,type,level,leaf,parent_id,gmt_created,gmt_modified,status)
+		values (
+
+		#{id,jdbcType=BIGINT},
+
+		#{name,jdbcType=VARCHAR},
+
+		#{url,jdbcType=VARCHAR},
+
+		#{reqtype,jdbcType=INTEGER},
+
+		#{type,jdbcType=INTEGER},
+
+		#{level,jdbcType=INTEGER},
+
+		#{leaf,jdbcType=INTEGER},
+
+		#{parentId,jdbcType=BIGINT},
+
+		#{gmtCreated,jdbcType=TIMESTAMP},
+
+		#{gmtModified,jdbcType=TIMESTAMP},
+
+		#{status,jdbcType=INTEGER}
+
+		)
+	</insert>
+
+	<select id="getById" resultMap="BaseResultMap" parameterType="long">
+		select
+		<include refid="Base_Column_List" />
+		from ha_menu t
+		where
+		t.id = #{id}
+	</select>
+
+	<!--<select id="getCount" resultType="long" parameterType="com.yimayhd.palacee.model.HaMenuDO">
+		select count(1) from ha_menu t <include refid="search_clause"/> </select> -->
+
+	<update id="modify" parameterType="com.yimayhd.sellerAdmin.model.HaMenuDO">
+		update ha_menu t
+		<set>
+
+			<if test="name != null">
+				t.name = #{name,jdbcType=VARCHAR},
+			</if>
+
+			<if test="url != null">
+				t.url = #{url,jdbcType=VARCHAR},
+			</if>
+
+			<if test="reqtype != null">
+				t.reqtype = #{reqtype,jdbcType=INTEGER},
+			</if>
+
+			<if test="type != null">
+				t.type = #{type,jdbcType=INTEGER},
+			</if>
+
+			<if test="level != null">
+				t.level = #{level,jdbcType=INTEGER},
+			</if>
+
+			<if test="leaf != null">
+				t.leaf = #{leaf,jdbcType=INTEGER},
+			</if>
+
+			<if test="parentId != null">
+				t.parent_id = #{parentId,jdbcType=BIGINT},
+			</if>
+
+			<if test="gmtCreated != null">
+				t.gmt_created = #{gmtCreated,jdbcType=TIMESTAMP},
+			</if>
+
+			<if test="gmtModified != null">
+				t.gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+			</if>
+
+			<if test="status != null">
+				t.status = #{status,jdbcType=INTEGER}
+			</if>
+
+		</set>
+		where
+		t.id = #{id}
+	</update>
+
+	<update id="delete" parameterType="long">
+		update ha_menu t set t.status = 0 where t.id = #{value}
+	</update>
+
+
+
+	<!--<select id="pageQuery" resultMap="BaseResultMap" parameterType="com.yimayhd.palacee.model.query.SubjectPageQuery">
+		SELECT <include refid="Base_Column_List" /> FROM ha_menu <include refid="querySqlString" 
+		/> ORDER BY gmt_created desc limit #{startRow},#{pageSize} </select> <select 
+		id="queryCount" resultType="int" parameterType="com.yimayhd.palacee.model.query.SubjectPageQuery">
+		SELECT COUNT(*) FROM ha_menu <include refid="querySqlString" /> </select> -->
+	<sql id="querySqlString">
+		<where>
+			community_id = #{communityId}
+			<if test="ids != null">
+				and id in
+				<foreach item="item" index="index" collection="ids" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="userId != null">
+				and
+				user_id = #{userId}
+			</if>
+			<if test="objId != null">
+				and
+				obj_id = #{objId}
+			</if>
+			<if test="status != null">
+				AND
+				status = #{status}
+			</if>
+			<if test="hotStartDate != null">
+				AND
+				score_date <![CDATA[>]]>
+				#{hotStartDate}
+			</if>
+			<if test="lastGmtCreated != null">
+				AND
+				gmt_created <![CDATA[<]]>
+				#{lastGmtCreated}
+			</if>
+			<if test="gmtCreateStart != null">
+				AND
+				gmt_created <![CDATA[>]]>
+				#{gmtCreateStart}
+			</if>
+			<if test="gmtCreateEnd != null">
+				AND
+				gmt_created <![CDATA[<]]>
+				#{gmtCreateEnd}
+			</if>
+			<if test="textContent != null">
+				AND
+				text_content like CONCAT('%', #{textContent}, '%')
+			</if>
+			<if test="hasTextContent == true">
+				and
+				text_content is not null
+			</if>
+		</where>
+	</sql>
+
+	<select id="getMenuListByUserId" parameterType="long" resultMap="menuList">
+		SELECT DISTINCT
+		hm.id hm_id,
+		hm.name hm_name,
+		hm.url hm_url,
+		hhmm.id,
+		hhmm.name
+		FROM
+		ha_user_role hur,
+		ha_role hr,
+		ha_role_menu hrm,
+		ha_menu hm,
+		ha_menu hhmm
+		WHERE
+		1 = 1
+		AND hur.ha_role_id = hr.id
+		AND hr.id = hrm.ha_role_id
+		AND hrm.ha_menu_id = hm.id
+		AND hm.parent_id = hhmm.id
+		AND hm. STATUS = 1
+		AND hhmm. STATUS = 1
+		AND hr. STATUS = 1
+		AND hrm. STATUS = 1
+		AND hur. STATUS = 1
+		AND hm. LEVEL = 2
+		AND hm.type = 1
+		AND hm.leaf = 1
+		AND hur.ha_user_id = #{id}
+
+	</select>
+	<select id="getUrlListByUserId" parameterType="long" resultMap="BaseResultMap">
+		SELECT DISTINCT
+		hm.id,
+		hm.NAME,
+		hm.url,
+		hm.req_type
+		FROM
+		ha_user_role hur,
+		ha_role hr,
+		ha_role_menu hrm,
+		ha_menu hm
+		WHERE
+		1 = 1
+		AND hur.ha_role_id = hr.id
+		AND hr.id = hrm.ha_role_id
+		AND hrm.ha_menu_id = hm.id
+		AND hm. STATUS = 1
+		AND hr. STATUS = 1
+		AND hrm. STATUS = 1
+		AND hur. STATUS = 1
+		AND hur.ha_user_id = 10
+		AND hm.url != "#"
+
+	</select>
+
+	<select id="getMenuList" resultMap="menuListAll">
+		SELECT
+		A.id,
+		A.name,
+		A.link_url,
+		A.level,
+		A.parent_id,
+		B.id B_id,
+		B.name B_name,
+		B.link_url B_link_url,
+		B.level B_level,
+		B.parent_id B_parent_id,
+		C.id B_C_id,
+		C.name B_C_name,
+		C.link_url B_C_link_url,
+		C.level B_C_level,
+		C.parent_id B_C_parent_id
+
+		from
+		(select hm.id,hm.name,hm.link_url,hm.level,hm.parent_id from
+		ha_menu hm
+		where 1 = 1
+		and hm.status = 1
+		and hm.level = 1) A
+		left join
+		(select hm.id,hm.name,hm.link_url,hm.level,hm.parent_id from
+		ha_menu hm
+		where 1 = 1
+		and hm.status = 1
+		and hm.level = 2) B
+		on A.id = B.parent_id
+		left join
+		(select hm.id,hm.name,hm.link_url,hm.level,hm.parent_id from
+		ha_menu hm
+		where 1 = 1
+		and hm.status = 1
+		and hm.level = 3) C
+		on B.id = C.parent_id
+	</select>
+</mapper>

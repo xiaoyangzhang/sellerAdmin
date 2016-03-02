@@ -1,0 +1,369 @@
+#macro(IS_JOIN_STATUS $type)
+    #if($type == '1')
+    允许加入
+    #elseif($type == '2')
+    禁止加入
+    #end
+#end
+
+#macro(IS_SHOW_STATUS $type)
+    #if($type == '1')
+    显示
+    #elseif($type == '2')
+    隐藏
+    #end
+#end
+#*活动状态*#
+#macro(ACTIVITY_STATUS $type)
+    #if($type == '1')
+    上架
+    #elseif($type == '2')
+    下架
+    #end
+#end
+#*活动报名架状态*#
+#macro(ACTIVITY_ENROLL_STATUS $type)
+    #if($type == '1')
+    未开始
+    #elseif($type == '2')
+    已满员
+    #elseif($type == '3')
+    报名中
+    #elseif($type == '4')
+    已结束
+    #end
+#end
+#*性别*#
+#macro(GENDER $type)
+    #if($type == '2')
+    男
+    #elseif($type == '3')
+    女
+    #else
+    未知
+    #end
+#end
+
+#*标签-状态*#
+#macro(TAG_STATUS $type)
+    #if($type == '1')
+	启用
+    #elseif($type == '2')
+	停用
+    #else
+	未知
+    #end
+#end
+
+#*标签-类型*#
+#macro(TAG_TYPE $type)
+    #if($type == '1')
+	热门标签
+    #elseif($type == '2')
+	普通标签
+	#else
+	未知
+    #end
+#end
+
+
+#*俱乐部-动态状态(评论状态、直播状态也用这个)*#
+#macro(TREND_STATUS $type)
+    #if($type == '1')
+    正常
+    #elseif($type == '2')
+    违规
+    #end
+#end
+#*官方游记状态*#
+#macro(TRAVELOFFICIAL_STATUS $type)
+    #if($type == '1')
+    上架
+    #elseif($type == '2')
+    下架
+    #end
+#end
+
+#*酒店（资源）状态*#
+#macro(HOTEL_STATUS $type)
+    #if($type == '1')
+    启用
+    #elseif($type == '2')
+    停用
+    #else
+    未知
+    #end
+#end
+
+#*餐厅（资源）状态*#
+#macro(RESTAURANT_STATUS $type)
+    #if($type == '1')
+    启用
+    #elseif($type == '2')
+    停用
+	#else
+    未知
+    #end
+#end
+
+#*景区状态*#
+#macro(ITEMSCENIC_STATUS $type)
+    #if($type == '1')
+     初始化
+    #elseif($type == '2')
+    启用
+    #elseif($type == '3')
+   停用
+    #end
+#end
+#*景点级别 1-五星级 2-四星级 3-三星级 4-连锁酒店*#
+#macro(SCENIC_LEVEL $type)
+    #if($type == '5')
+    AAAAA
+    #elseif($type == '4')
+    AAAA
+    #elseif($type == '3')
+    AAA
+    #elseif($type == '2')
+   AA
+    #elseif($type == '1')
+   A
+    #end
+#end
+#*商品状态*#
+#macro(COMMODITY_STATUS $type)
+    #if($type == '2')
+        启用
+    #elseif($type == '3')
+        停用
+    #else
+        未知
+    #end
+#end
+#*支付方式*#
+#macro(PAY_CHANNEL $type)
+    #if($type == '1')
+    支付宝条码
+    #elseif($type == '2')
+    支付宝网页
+    #elseif($type == '3')
+    支付宝手机
+    #elseif($type == '4')
+    微信扫码
+    #elseif($type == '5')
+    微信JS
+    #else
+    其他
+    #end
+#end
+#*交易状态*#
+#macro(PAY_STATUS $type)
+    #if($type == '1')
+    未付款
+    #elseif($type == '2')
+    已付款
+    #elseif($type == '4')
+    退款后交易关闭
+    #elseif($type == '6')
+    交易成功
+    #elseif($type == '8')
+    未付款关闭
+    #elseif($type == '9')
+    待商户确认
+    #else
+    其他
+    #end
+#end
+#*交易状态(仅在商贸系统中使用:交易状态变更为    交易创建、交易成功和交易关闭)*#
+#macro(TRADE_PAY_STATUS $type)
+    #if($type == '1')
+    交易创建
+    #elseif($type == '2')
+    已付款
+    #elseif($type == '4')
+    退款后交易关闭
+    #elseif($type == '6')
+    交易成功
+    #elseif($type == '8')
+    交易关闭
+    #elseif($type == '9')
+    待商户确认
+    #else
+    其他
+    #end
+#end
+#*支付记录支付状态*#
+#macro(PAY_RECORD_STATUS $type)
+    #if($type == '1')
+    未支付
+    #elseif($type == '2')
+    已支付
+    #elseif($type == '3')
+    全额退款
+    #elseif($type == '4')
+    部分退款
+    #else
+    其他
+    #end
+#end
+#*订单管理*#
+#*订单状态*#
+#macro(ORDER_STATUS $type)
+    #if($type == '1')
+    待付款
+    #elseif($type == '2')
+    待确认
+    #elseif($type == '3')
+    待出行
+    #elseif($type == '4')
+    已完成
+    #elseif($type == '5')
+    交易关闭
+    #elseif($type == '6')
+    待处理
+    #elseif($type == '7')
+    已退款
+    #end
+#end
+#macro(COMMENT_STATUS $type)
+    #if($type == '1')
+    动态
+    #elseif($type == '2')
+    直播
+    #else
+    其他
+    #end
+#end
+#*订单操作*#
+#macro(ORDER_OPERATE $type)
+    #if($type == '1')
+    <span><input type="button" value="取消订单"></span>
+    #elseif($type == '2')
+   	<span><input type="button" value="确认"></span>
+   	<span><input type="button" value="退款"></span>
+    #elseif($type == '3')
+    <span><input type="button" value="完成"></span>
+   	<span><input type="button" value="退款"></span>
+    #elseif($type == '4')
+    <span>完成时间：2015-02-05 18：45</span>
+    #elseif($type == '5')
+    <span>取消来源：XXX客服</span>
+    <span>取消时间：2015-02-05 18：45</span>
+    <span>取消原因：买家信息填错了，重拍</span>         
+    #elseif($type == '6')
+   	<span>退款来源：客服/用户</span>
+    <span>退款理由：用户申请退款</span>
+    <span>退款金额：￥86.00</span> 
+    <span>退款时间：2015-02-05 18：45</span>
+    #elseif($type == '7')
+    <span>退款来源：客服/用户</span>
+    <span>退款理由：用户申请退款</span>
+    <span>退款金额：￥86.00</span> 
+    <span>退款时间：2015-02-05 18：45</span>·
+    #end
+#end
+#*订单-游客-游客类型*#
+#macro(ORDER_TOURIST_TYPE $type)
+    #if($type == '1')
+    成人
+    #elseif($type == '2')
+    儿童
+    #end
+#end
+#*订单-游客-证件类型*#
+#macro(ORDER_TOURIST_DOCTYPE $type)
+    #if($type == '1')
+    身份证
+    #end
+#end
+
+#macro(IS_RECOMMEND_SELECTED $isRecommend)
+<option value="">全部</option> 
+<option value="true" #if($isRecommend=="true")selected#end>已推荐</option> 
+<option value="false" #if($isRecommend=="false")selected#end>未推荐</option> 
+#end
+##doctorcenter 外部医生列表
+#macro(DOCTOR_LIST_STATUS $status)
+    <option value="-1">全部</option>
+    <option value="20" #if($status==20) selected="selected" #end>审核已通过</option>
+    <option value="40" #if($status==40) selected="selected" #end>账户锁定</option>
+#end
+##外部医生审核列表
+#macro(DOCTOR_AUDITS_STATUS $status)
+<option value="-1">全部</option>
+<option value="15" #if($status==15) selected="selected" #end>等待审核</option>
+<option value="30" #if($status==30) selected="selected" #end>审核未通过</option>
+#end
+
+##推荐列表
+#macro(RECOMMEND_TYPE $type)
+    #if($type == '10')
+    必买推荐
+    #elseif($type == '18')
+    概况
+    #elseif($type == '19')
+    民俗
+    #elseif($type == '20')
+    消费
+    #elseif($type == '21')
+    亮点
+    #elseif($type == '22')
+    贴士
+    #else
+    其他
+    #end
+#end
+
+##券状态
+        #macro(VOUCHER_STATUS $status)
+            #if($status == '1')
+            初始
+            #elseif($status == '2')
+            上架
+            #elseif($status == '3')
+            下架
+    #elseif($status == '4')
+    已领完
+    #end
+#end
+
+##券类型
+#macro(VOUCHER_TYPE $type)
+    #if($type == '1')
+    满减券
+    #elseif($type == '2')
+    满折券
+    #elseif($type == '3')
+    兑换券
+    #end
+#end
+
+##优惠状态
+#macro(PROMOTION_STATUS $status)
+    #if($status == '1')
+    未开始
+    #elseif($status == '2')
+    进行中
+    #elseif($status == '3')
+    已结束
+    #elseif($status == '4')
+    已停用
+    #end
+#end
+
+##优惠类型
+#macro(PROMOTION_TYPE $type)
+    #if($type == '1')
+    满折
+    #elseif($type == '2')
+    满减
+    #elseif($type == '3')
+    满个折
+    #elseif($type == '4')
+    满个减
+    #elseif($type == '5')
+    每满减
+    #elseif($type == '6')
+    直降
+    #end
+#end

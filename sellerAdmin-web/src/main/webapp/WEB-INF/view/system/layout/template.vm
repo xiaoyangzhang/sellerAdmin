@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	#set( $base_path = $!request.getContextPath() )
+    <base href="$base_path">
+	<title>$params.title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link href="$base_path/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="$base_path/bootstrap/css/reset.css" rel="stylesheet" media="screen">
+	<link href="$base_path/css/normal.css" rel="stylesheet" media="screen">
+</head>
+<body>
+	<div class="bb-alert alert alert-info" style="display:none;">
+        <span>信息！</span>
+    </div>
+	<script type="text/javascript" src="$base_path/js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="$base_path/js/common.js"></script>
+    <script type="text/javascript" src="$base_path/js/jquery.form.js"></script>
+    <script type="text/javascript" src="$base_path/js/ajaxfileupload.js"></script>
+    <script type="text/javascript" src="$base_path/js/jquery.validate.js"></script>
+	<script type="text/javascript" src="$base_path/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="$base_path/js/bootbox.min.js"></script>
+	<script type="text/javascript" src="$base_path/js/example.js"></script>
+	<script type="text/javascript" src="$base_path/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="$base_path/bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script>
+	//多个modal，冲突问题
+	$.fn.modal.Constructor.prototype.enforceFocus = function () {};
+    function prepareErrorMessage(dataDt,dataDd){
+        return "<div class='space-info-box'><div class='box-info'><span class='fl'></span><dl><dt>"+dataDt+"</dt><dd>"+dataDd+"</dd></dl></div></div>";
+    }
+        $(function() {
+            Example.init({
+                "selector": ".bb-alert"
+            });
+            $.extend($.fn,{
+                // 加载 内容
+                loadContent:function(url){
+                    var _this=this;
+                    var message = prepareErrorMessage("正在加载...","<img src='$base_path/images/loading.gif'/>");
+                    $(_this).html(message);
+                    $.ajaxSetup({
+                        timeout: 30000,//30秒超时时间
+                        error: function (xhr, status, e){
+                            if(status=="timeout"){
+                                //var message = prepareErrorMessage("页面链接超时，请重新刷新","<a href='javascript:void(0)' onclick='window.location.reload();'>刷新</a>");
+                                //$(_this).html(message);
+                            }
+                        }
+                    });
+                    $.get(url,function($html){
+                        if($html.msg){
+                            var message = prepareErrorMessage($html.msg,"");
+                            $(_this).html(message);
+                            return false;
+                        }
+                        $(_this).html($html);
+                    });
+                }
+            });
+        });
+        bath_path = "$base_path";
+    </script>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12 ">
+        $screen_content
+        </div>
+            </div></div>
+</body>
+</html>

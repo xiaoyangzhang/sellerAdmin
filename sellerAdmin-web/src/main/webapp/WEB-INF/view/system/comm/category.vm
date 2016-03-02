@@ -1,0 +1,60 @@
+
+<div class="categoryWrap">
+    <div class="selectCategoryList">
+        <p>请选择分类：</p>
+        <select class="form-control selectCategory" name="">
+            <option value="" >请选择</option>
+            #foreach($category in $!categoryList)
+                <option value="$!category.id" leaf="$!category.leaf">$!category.name</option>
+            #end
+        </select>
+    </div>
+    <div class="btn-group selectBtn">
+        <form name="commodityForm" id="commodityForm" action="" method="get">
+            <input type="hidden" class="selectCategoryId" name="categoryId" value="">
+            <button type="button" class="btn btn-primary submitBtn">选择</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        $(document).delegate('.selectCategory','change',function(){
+            //清除掉之后的选项
+            $(this).nextAll().remove();
+            //清除掉已选择的叶子节点id
+            $('.selectCategoryId').val('');
+            var id = $(this).val();
+            var leaf = $(this).find(':selected').attr('leaf');
+            //非叶子节点,加载子节点
+            if(id && '0' != id && 'true' != leaf){
+                $.get(actionDefaultPath + '/B2C/commodityManage/subCategory/' + id,function(data){
+                    if(data && data.status == 200){
+                        var selectCategoryStart = '<select class="form-control selectCategory" name="commStatus"><option value="0" >请选择</option>';
+                        var selectCategoryEnd= '</select>';
+                        for(var key in data.data){
+                            selectCategoryStart += '<option value="' + data.data[key].id + '" leaf="' + data.data[key].leaf + '" >' + data.data[key].name + '</option>'
+                        }
+                        $('.selectCategoryList').append(selectCategoryStart + selectCategoryEnd);
+
+                    }else{
+                        layer.alert('请求出错，请重试',{icon:2});
+                    }
+                });
+            }else{
+                //叶子节点处理
+                $('.selectCategoryId').val(id);
+            }
+        });
+
+        $('.submitBtn').click(function(){
+            if(!$('.selectCategoryId').val()){
+                layer.alert('请选择分类',{icon:2});
+            }else{
+                $('#commodityForm').attr('action', actionDefaultPath + '/B2C/commodityManage/toAdd');
+                $('#commodityForm').submit();
+            }
+        });
+
+    });
+</script>

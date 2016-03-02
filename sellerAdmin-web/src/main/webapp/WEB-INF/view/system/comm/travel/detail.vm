@@ -1,0 +1,136 @@
+<link href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/css/groupTravel.css?version=$!{utilWebconfig.getResourceVersion()}"/>
+<style type="text/css">
+	//禁用输入法
+	.double-only{ime-mode:"disabled"}
+	.int-only{ime-mode:"disabled"}
+</style>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/moment.js" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/calendar-tool.js" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/input.js" type="text/javascript"></script>
+<!-- 富文本编辑 -->
+<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/lang/zh-cn/zh-cn.js"></script>
+<ul class="nav nav-tabs">
+    <li class="active">
+      <a href="#baseInfo" data-toggle="tab">基本信息</a>
+    </li>
+	<li>
+      <a href="#extraInfos" data-toggle="tab">报名须知</a>
+    </li>
+	#if($categoryId == 6)
+    <li>
+      <a href="#tripInfo" data-toggle="tab">行程信息</a>
+    </li>
+	#elseif($categoryId == 7)
+	<li>
+      <a href="#tripPackageInfo" data-toggle="tab">套餐信息</a>
+    </li>
+	#end
+    <li>
+      <a href="#priceInfo" data-toggle="tab">价格信息</a>
+    </li>
+	<li>
+      <a href="#importantInfos" data-toggle="tab">重要事项</a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane baseInfo in active" id="baseInfo">
+        #parse("/system/comm/travel/baseInfo.vm")
+    </div>
+	<div class="tab-pane bigEditor" id="extraInfos" style="width: 96%;margin: 15px auto;">
+		<script type="text/javascript">
+			var extra_infos_ue;
+            $(function() {
+                window.UEDITOR_HOME_URL = "$utilWebconfig.getStaticResourcesPath()/resources/ueditor/";
+                extra_infos_ue = UE.getEditor('extraInfos_editor');
+            });
+            function getExtraInfos() {
+            	return extra_infos_ue.getContent();
+            }
+        </script>
+        <script id="extraInfos_editor" type="text/plain" name="extraInfos" style="width: 100%; height:350px">$!{extraInfos}</script>
+    </div>
+	#if($categoryId == 6)
+    <div class="tab-pane tripInfo" id="tripInfo">
+		<input type="hidden" value="$!{product.routeId}" id="route-id"/>
+        #parse("/system/comm/travel/groupTravel/tripInfo.vm")
+    </div>
+	#elseif($categoryId == 7)
+	<div class="tab-pane tripPackageInfo" id="tripPackageInfo">
+        #parse("/system/comm/travel/selfServiceTravel/tripPackageInfo.vm")
+    </div>
+	#end
+    <div class="tab-pane priceInfo" id="priceInfo">
+        #parse("/system/comm/travel/priceInfo.vm")
+    </div>
+	<div class="tab-pane bigEditor" id="importantInfos" style="width: 96%;margin: 15px auto;">
+		<script type="text/javascript">
+			var important_infos_ue;
+            $(function() {
+                window.UEDITOR_HOME_URL = "$utilWebconfig.getStaticResourcesPath()/resources/ueditor/";
+                important_infos_ue = UE.getEditor('importantInfos_editor');
+            });
+			function getImportantInfos() {
+        		return important_infos_ue.getContent();
+        	}
+        </script>
+        <script id="importantInfos_editor" type="text/plain" name="importantInfos" style="width: 100%; height:350px">$!{importantInfos}</script>
+	</div>
+  </div>
+  #if(!${product.isReadonly()})
+  <div class="groupTravelBot">
+    <button class="btn btn-primary save">保  存</button>
+  </div>
+  #end
+  <script type="text/javascript">
+    $(".save").click(function(){
+        var result = {
+			categoryId:$!{categoryId},
+			options:$!{options},
+            baseInfo:getBaseInfo(),
+			#if($categoryId == 6)
+			routeId:$("#route-id").val() || 0,
+            tripInfo:getTripInfo(),
+			updatedRouteItems:getUpdatedRouteItems(),
+			deletedRouteItems:getDeletedRouteItems(),
+            #elseif($categoryId == 7)
+			tripPackageInfo:getTripPackageInfo(),
+            #end
+            priceInfo:getPriceInfo()
+        };
+		var params = {
+			json:JSON.stringify(result),
+			importantInfos:getImportantInfos(),
+			extraInfos:getExtraInfos()
+		};
+        //console.log(JSON.stringify(params));
+		//alert(JSON.stringify(params));
+		#if($categoryId == 6)
+        var url = "$!{utilWebconfig.getActionDefaultFontPath()}/B2C/comm/groupTravel/save";
+        #elseif($categoryId == 7)
+		var url = "$!{utilWebconfig.getActionDefaultFontPath()}/B2C/comm/selfServiceTravel/save";
+        #end
+        $.post(url,params,function(data){
+			if(data.status == 200) {
+				layer.alert('添加成功', {
+                    time: 0 //不自动关闭
+                    ,yes: function(index){
+                        layer.close(index);
+						// 刷新父页面
+						top.freshPrevFrame();
+						top.tabTopClose(this);
+                    }
+                });
+			} else {
+				layer.alert(data.message, {
+					icon : 2
+				});
+			}
+        },"json");
+    });
+  </script>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+        >
+	
+	<!-- 分销  -->
+	
+	<!-- 商品返佣配置 -->
+    <bean id="itemRebateServiceConsumer" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.marketing.client.service.ItemRebateService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+        <property name="check" value="${consumer.dubbo.marketing.check}"/>
+        <property name="version" value="${consumer.dubbo.marketing.version}"/>
+    </bean>
+    
+    <!-- 会员上下级关系 -->
+    <bean id="userRelationServiceConsumer" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.marketing.client.service.UserRelationService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+        <property name="check" value="${consumer.dubbo.marketing.check}"/>
+        <property name="version" value="${consumer.dubbo.marketing.version}"/>
+    </bean>
+
+
+
+</beans>

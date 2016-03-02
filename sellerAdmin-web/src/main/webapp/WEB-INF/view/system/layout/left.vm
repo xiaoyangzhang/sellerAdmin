@@ -1,0 +1,274 @@
+<!--左侧栏开始-->
+
+<div class="menu" data-toggle="menu" style="width: 200px;z-index: 100;background: #fff;">
+    <ul class="nav nav-primary">
+        #foreach($menu in $menuList)
+
+        <li #if($velocityCount == 1) class="show" #end>
+            #if($menu.haMenuDOList.size() == 0)
+                <li><a id="menu$!menuSub.id" class="menuLi" menuLinkUrl="$!{menu.url}" href="javascript:void(0);">$!menu.name</a></li>
+            #else
+                <a href="#"><i class="icon-th"></i> $!menu.name </a>
+
+                <ul class="nav" #if($velocityCount == 1) style="display: block;" #end>
+                    #foreach($!menuSub in $!menu.haMenuDOList)
+                        <li><a id="menu$!menuSub.id" class="menuLi" menuLinkUrl="$!{menuSub.url}" href="javascript:void(0);">$!menuSub.name</a></li>
+                    #end
+                </ul>
+            #end
+            </li>
+        #end
+    </ul>
+</div>
+<!--左侧栏结束-->
+<script>
+
+    /*点击取消关闭标签页*/
+    var tabTopClose = function(obj){
+        //console.log(obj);
+        top.$("#myTabContent>.tab-pane").each(function () {
+            if($(this).hasClass("active") == true){
+                if($(this).prev().length != 0){
+                    $(this).prev().addClass("in");
+                    $(this).prev().addClass("active");
+                    $(this).prev().show();
+                }
+                $(this).remove();
+            }
+        });
+        top.$("#myTabList li").each(function(){
+            if($(this).hasClass("active") == true){
+                if($(this).prev().length != 0){
+                    $(this).prev().addClass("in");
+                    $(this).prev().addClass("active");
+                    $(this).prev().show();
+                }
+                $(this).remove();
+            }
+        });
+    }
+
+
+    /*点击元素新建头部标签页,openType为当前点击元素的tab类型，tabName为当前点击元素的文本内容*/
+    var tabIdArray = new Array();
+    var isMore = false;
+	var num = 0;
+    function tabsAdd(id,url,openType,tabName){
+        var tabLi = $("#myTabList li");
+		if (openType == 2) {
+			num ++;
+        	var tabId = 'tab' + num;
+        	var tabId2 = tabId + "title";
+        	var elVal = tabName;
+            var parentTabId = $(".tab-pane.active").attr("id") || '';
+        	var tabList = '<li class="js_tabClick active" id='+tabId2+' dataId='+tabId+' title='+elVal+'><a href="#" data-toggle="tab">'+elVal+'<i class="icon icon-times tabClose"></i></a></li>';
+        	var paneTab = '<div class="tab-pane in active" id='+tabId+' parentTabId='+parentTabId+'><iframe frameborder="0" class="tabIframe"></iframe></div>';
+        
+        	tabLi.removeClass("active");
+        	$("#myTabContent>.tab-pane").removeClass("active");
+        	$("#myTabContent>.tab-pane").removeClass("in");
+			if(tabLi.length < 10){
+                $("#myTabList .dropdown").before(tabList);
+                $("#myTabContent").append(paneTab);
+            } else{
+                $("#myTabList .dropdown").show();
+                var tabMore = tabLi.slice(0,1)[0];
+                $(tabMore).attr("tabindex","-1");
+                tabMore.remove();
+                $("#myTabList .dropdown-menu").prepend(tabMore);
+                $("#myTabList .dropdown").before(tabList);
+                $("#myTabContent").append(paneTab);
+        	}
+       		iframeShow(tabId, url);
+		} else {
+            var tabId = 'tab' + id;
+            var tabId2 = tabId + "title";
+            var elVal = tabName;
+                    
+            //判断tab页是否重复         
+           	//有这个元素的情况下
+            if ($.inArray(tabId, tabIdArray) != -1) {
+            	var tabId2 = tabId + "title";
+            	$(".js_tabClick").removeClass("active");
+            	$(".tab-pane").hide();
+            	$('#'+tabId2+'').addClass("active");     	
+                $('#'+tabId+'').show();
+            } else {
+            	tabIdArray.push(tabId);
+                var parentTabId = $(".tab-pane.active").attr("id") || '';
+            	var tabList = '<li class="js_tabClick active" id='+tabId2+' dataId='+tabId+' title='+elVal+'><a href="#" data-toggle="tab">'+elVal+'<i class="icon icon-times tabClose"></i></a></li>';
+            	var paneTab = '<div class="tab-pane in active" id='+tabId+' parentTabId='+parentTabId+'><iframe frameborder="0" class="tabIframe"></iframe></div>';
+            
+            	tabLi.removeClass("active");
+            	$("#myTabContent>.tab-pane").removeClass("active");
+            	$("#myTabContent>.tab-pane").removeClass("in");
+
+                 if(tabLi.length < 10){
+                     $("#myTabList .dropdown").before(tabList);
+                     $("#myTabContent").append(paneTab);
+                } else{
+                     $("#myTabList .dropdown").show();
+                     var tabMore = tabLi.slice(0,1)[0];
+                     $(tabMore).attr("tabindex","-1");
+                     tabMore.remove();
+                     $("#myTabList .dropdown-menu").prepend(tabMore);
+                     $("#myTabList .dropdown").before(tabList);
+                     $("#myTabContent").append(paneTab);
+                    if($.inArray(tabId, tabIdArray) != -1){
+                        tabIdArray.splice($.inArray(tabId, tabIdArray), 1);
+                    }
+                }
+           		iframeShow(tabId, url);
+            }
+	    }
+    }
+    
+    function iframeShow(tabId, url) {
+        $('#'+tabId+' .tabIframe').attr('src',url);        
+        $('#'+tabId+' .tabIframe').load(function(){
+            //$(this).height($(this).contents().height());
+            var availHei = (top.window.screen.availHeight - 210);
+            var availWid = (top.window.screen.availWidth - 600);
+            $(this).attr("style","min-height:"+availHei+"px;min-width:"+availWid+"px;");
+            $(".js_tabClick.active").click();
+        });
+    }    
+
+    $(function(){
+        $('.menuLi').click(function(){
+            tabsAdd($(this).attr('id'),actionDefaultPath + $(this).attr('menuLinkUrl'),1,$(this).text());
+        });
+        $(document).delegate(".tabClose","click",function(e){
+            e.stopPropagation();
+            if($("#myTabList li").length == 10){
+                $("#myTabList>li.dropdown").hide();
+            }
+            var prevNode = $(this).parent().parent().prev();
+            var nextNode = $(this).parent().parent().next();
+            var prevId = $(prevNode).attr("dataId");
+            var nextId = $(nextNode).attr("dataId");
+            var paneId = $(this).parent().parent().attr("dataId");
+            $("#myTabContent").find("#"+paneId).remove();
+            $(this).parent().parent().remove();
+            $("#myTabList li").removeClass("active");
+            $("#myTabList li").removeClass("in");
+            if($(this).parent().parent().attr("tabindex")=="-1"){
+                $("#myTabList>li.dropdown").prev().addClass("in");
+                $("#myTabList>li.dropdown").prev().addClass("active");
+                var lastId = $("#myTabList>li.dropdown").prev().attr("dataId");
+                $('#'+lastId+'').addClass("active");
+                $('#'+lastId+'').addClass("in");
+                $('#'+lastId+'').show();
+            }else{
+                if($(".dropdown").css("display")=="block"){
+                    var firstDrop = $("#myTabList .dropdown-menu li:first");
+                    $(firstDrop).remove();
+                    $(firstDrop).removeAttr("tabindex");
+                    $("#myTabList .dropdown").before(firstDrop);
+                }
+                if($(nextNode).length == 0){
+                    $(prevNode).addClass("in");
+                    $(prevNode).addClass("active");
+                    $("#"+$(prevNode).attr("dataid")).addClass("in");
+                    $("#"+$(prevNode).attr("dataid")).addClass("active");
+                    $('#'+prevId+'').show();
+                }else{
+                    if($(nextNode).attr("class") != "dropdown"){
+                        $(nextNode).addClass("in");
+                        $(nextNode).addClass("active");
+                        $("#"+$(nextNode).attr("dataid")).addClass("in");
+                        $("#"+$(nextNode).attr("dataid")).addClass("active");
+                        $('#'+nextId+'').show();
+                    }else{
+                        $(prevNode).addClass("in");
+                        $(prevNode).addClass("active");
+                        $("#"+$(prevNode).attr("dataid")).addClass("in");
+                        $("#"+$(prevNode).attr("dataid")).addClass("active");
+                        $('#'+prevId+'').show();
+                    }
+                }
+            }
+            if($.inArray(paneId, tabIdArray) != -1){
+                tabIdArray.splice($.inArray(paneId, tabIdArray), 1);
+            }
+       });
+
+        /*标签页点击切换*/
+        $(document).delegate(".js_tabClick","click",function(){
+            if($(this).parent().attr("class") == "dropdown-menu"){
+                var th = $(this);
+                th.remove();
+                var tabMore = $("#myTabList li").slice(0,1)[0];
+                tabMore.remove();
+                $("#myTabList li.dropdown").removeClass("active");
+                $("#myTabList>li.dropdown>.dropdown-menu").prepend(tabMore);
+                $("#myTabList .dropdown").before(th);
+            }
+            var tab_id = $(this).attr("dataId");
+            $("#myTabContent .tab-pane").hide();
+            $("#myTabContent .tab-pane").removeClass("active");
+            $("#myTabContent .tab-pane").removeClass("in");
+            $('#'+tab_id).show();
+            $('#'+tab_id).addClass("in");
+            $('#'+tab_id).addClass("active");
+        });
+    })
+
+    /*
+    var num = 0;
+    function tabsAdd(id,url,openType,tabName){
+        
+        var tabLi = $("#myTabList li");
+        var activeLi = $("#myTabList>li.active");
+        var activeIframeWrap = $("#myTabContent>div.active");
+        //暂时去掉
+        //var tabId = id + num;
+        var tabId = 'tab' + num;
+        var elVal = tabName;
+        var tabList = '<li class="js_tabClick active" dataId='+tabId+' title='+elVal+'><a href="#" data-toggle="tab">'+elVal+'<i class="icon icon-times tabClose"></i></a></li>';
+        var paneTab = '<div class="tab-pane in active" id='+tabId+'><iframe frameborder="0" class="tabIframe"></iframe></div>';
+        tabLi.removeClass("active");
+        $("#myTabContent>.tab-pane").removeClass("active");
+        $("#myTabContent>.tab-pane").removeClass("in");
+        if(openType==1){
+            if(tabLi.length==1){
+                $("#myTabList").prepend(tabList);
+                $("#myTabContent").prepend(paneTab);
+            }else {
+                activeLi.before(tabList);
+                activeIframeWrap.before(paneTab);
+            }
+        }else{
+            if(tabLi.length==1){
+                $("#myTabList").prepend(tabList);
+                $("#myTabContent").prepend(paneTab);
+            }else {
+                activeLi.after(tabList);
+                activeIframeWrap.after(paneTab);
+            }
+        }
+        if(tabLi.length >= 5){
+        	
+            $("#myTabList>li.dropdown").show();
+            if(activeLi.index()>=4){
+                var tabMore = tabLi.slice(0,1)[0];
+                tabMore.remove();
+                $(tabMore).attr("tabindex","-1");
+                $("#myTabList>li.dropdown>.dropdown-menu").prepend(tabMore);
+            }else{
+                var tabMore = tabLi.slice(8,9)[0];
+                tabMore.remove();
+                $(tabMore).attr("tabindex","-1");
+                $("#myTabList>li.dropdown>.dropdown-menu").prepend(tabMore);
+            }
+        }
+        $('#'+tabId+' .tabIframe').attr('src',url);
+        $('#'+tabId+' .tabIframe').load(function(){
+            $(this).height($(this).contents().height()+200);
+            $(".js_tabClick.active").click();
+        });
+    }*/
+
+
+</script>
+ 

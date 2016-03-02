@@ -1,0 +1,46 @@
+<!--	header开始-->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">商家后台管理系统</a>
+        </div>
+        <div class="navbar-collapse collapse zui-navbar-collapse" role="navigation">
+            <ul class="nav navbar-nav navbar-right">
+
+                #*<li>
+                    <a href="#">消息<span class="label label-badge label-success">12</span></a>
+                </li>
+                <li><a href="#">提醒<span class="label label-badge label-success">12</span></a></li>*#
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+                        #*<img alt="" src="$utilWebconfig.getStaticResourcesPath()/resources/img/avatar1_small.jpg" width="20px"height="20px"/>*#
+                        <span class="user-name">$!userNickName</span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        #*<li><a href="#">个人资料</a></li>
+                        <li><a href="#">修改密码</a></li>
+                        <li role="separator" class="divider"></li>*#
+                        <li><a href="#" class="logout">退出</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</nav><!--header结束-->
+<script>
+    $(function(){
+        $('.logout').click(function(){
+            $.get(actionDefaultPath + '/logout',function(data){
+                window.location.href = actionDefaultPath + '/toLogin';
+            });
+        });
+    })
+</script>

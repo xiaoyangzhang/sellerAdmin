@@ -1,0 +1,258 @@
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}" type="text/javascript"></script>
+
+
+<div class="tab-content grogInfoWrap"  style="">
+<form id="saveScenic">
+    <div class="tab-pane active" id="grogshopInfo">
+        <div class="createHotrlTable">
+     		 <input type="hidden" name="itemDO.categoryId" value="$!category.id">
+                    <input type="hidden" name="itemDO.rootCategoryId" value="$!category.parent.id">
+                    #*商品类型，此页面全是普通商品发布 新增的时候需要，修改的时候不更新此字段*#
+                    #*<input type="hidden" name="itemType" value="#if($!itemType)$!itemType#else#end">*#
+                    <input type="hidden" name="itemDO.itemType" value="1">
+
+                    #*pay_type 暂时设置为1*#
+                    <input type="hidden" name="itemDO.payType" value="1">
+                    #*source 来源暂时都为1*#
+                    <input type="hidden" name="itemDO.source" value="1">
+
+                    #*version 新增时为1*#
+                    <input type="hidden" name="itemDO.version" value="#if($!commScenic.version)$!commScenic.version#else 1#end">
+     				 #if($!{commScenic.id})
+                          <input type="hidden" class="inpControl"  name="itemDO.id" value="$!commScenic.id">
+                     #end
+     			
+            <table class="table">
+                <tr>
+                    <td><span class="spColor">*</span>分类</td>
+                    <td>$!category.name</td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>景区</td>
+                    <td>
+                       	<input type="text" class="inpControl"  id="name" name="scenicName" value="$!scenicName">
+                       	<input type="hidden" class="inpControl" id="outId" name="itemDO.outId"  value="$!commScenic.outId">
+						<button type="button" class="btn btn-primary selectScenic">选择景区</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>主题</td>
+                    <td>
+                      #foreach($tag in $tagResult)
+                      	 <input type="checkbox" name="check" value="$!{tag.id}"
+                      	 #foreach($tagCheck in $tagResultCheck)
+	                      		 		 #if($!tagCheck.id == $!tag.id) checked #end#end
+                      	 ><span>$!{tag.name}</span>
+                    	#end
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>排序</td>
+                    <td>
+                    	<input type="text" class="inpCtlBlock" name="scenicDO.orderNum"  value="$!orderNum" placeholder="请输入数字，数字越大排序靠后">
+					</td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>时间区间</td>
+                    <td>用户可选入园时间为<input type="text" class="inpControl" name="endTime" id="" placeholder="请输入数字" value="$!commScenic.endBookTimeLimit">天内</td>
+                </tr>
+                <tr>
+                       <td><span class="spColor">*</span>宣传图(建议尺寸：750*360)</td>
+                         <td class="bigListPicTd">
+                           #*  <label>选择列表图</label>
+                            <input id="bigListPicUrl" type="file">*#
+                            <img class="bigListPicUrl uploadImgFile" src="#if($!commScenic.bigListPic)$utilWebconfig.getTfsRootPath()$!commScenic.bigListPic #end">
+                           <input class="bigListPicVal" type="hidden" name="bigListPic" value="$!commScenic.bigListPic">
+                        </td>
+                        <td class="smallListPicTd">
+                            <label>选择订单图(建议尺寸：310*310)</label>
+                            <input id="smallListPicUrl" type="file">
+                            <img class="smallListPicUrl uploadImgFile" src="#if($!commScenic.smallListPic)$utilWebconfig.getTfsRootPath()$!commScenic.smallListPic #end">
+                            <input class="smallListPicVal" type="hidden" name="smallListPic" value="$!commScenic.smallListPic">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>详情竖图</td>
+                        <td class="picUrlsTd">
+                            #*<input id="batchUploadBtn" type="file" multiple="multiple" >*#
+                            #foreach($pic in $!commScenic.picList)
+                                <img class="picUrlsUrl uploadImgFile" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic">
+                            #end
+                        </td>
+                        <input class="picUrlsVal" type="hidden" name="coverPics" value="$!commScenic.coverPics">
+                    </tr>
+            </table>
+			<table class="table">
+					<tr>
+							<td>商品名称</td>
+							<td>包含项目（100字内）</td>
+							<td>入园限制（100字内）</td>
+							<td>入园规则</td>
+							<td>单价</td>
+							<td>会员优惠额度</td>
+							<td>会员限购</td>
+					<tr>
+						<tr>
+							<td><input type="text" class="inpCtlBlock" name="itemDO.title" value="$!commScenic.title"  placeholder="请输入"></td>
+							<td>
+							<textarea name="itemDO.subTitle" id="description" rows="3" class="form-control"
+                                      placeholder="请输入500字以内">$!commScenic.subTitle</textarea>
+							</td>
+							<td><textarea name="itemDO.oneWord" id="description" rows="3" class="form-control"
+                                      placeholder="请输入500字以内">$!commScenic.oneWord</textarea></td>
+                             
+							<td>提前<input type="text" class="inpCtlBlock" name="startDayTime" value="$!commScenic.startBookTimeDays" placeholder="请输入数字">天
+								<input type="text" class="inpCtlBlock" name="startHourTime"  value="$!commScenic.startBookTimeHours" placeholder="请输入数字">点前预定
+							</td>
+							<td><input type="text" class="inpCtlBlock" name="priceF" value="$!commScenic.priceY" placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name=""  placeholder="请输入数字"></td>
+							<td><input type="text" class="inpCtlBlock" name=""  placeholder="请输入数字"></td>
+					<tr>
+			</table>
+        </div>
+    </div>
+    <button  type="submit" class="btn btn-primary">保存</button>
+	</form>
+</div>
+
+
+
+
+
+<script>
+  var bigListPicUploadCallBack = function(data){
+        if(data && data.status == 200){
+            $('.bigListPicVal').val(data.data);
+            $('.bigListPicUrl').attr('src',tfsRootPath + data.data);
+
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }
+    var smallListPicUploadCallBack = function(data){
+        if(data && data.status == 200){
+            $('.smallListPicVal').val(data.data);
+            $('.smallListPicUrl').attr('src',tfsRootPath + data.data);
+
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }
+    var batchCallBack = function(dataVal){
+        for(var key in dataVal.data){
+             $('.picUrlsTd').append('<img class="picUrlsUrl" imgUrl="' + dataVal.data[key]+'" src="' + tfsRootPath + dataVal.data[key]+'" alt="">');
+        }
+    }
+   $(function(){
+     //上传图片detailUrl
+        $(document).delegate("#bigListPicUrl",'change',function(){
+            fileUpload('#bigListPicUrl',1,bigListPicUploadCallBack);
+        })
+        //上传图片detailUrl
+        $(document).delegate("#smallListPicUrl",'change',function(){
+            fileUpload('#smallListPicUrl',1,smallListPicUploadCallBack);
+        })
+        /****************批量上传pic_urls*****************/
+        $(document).delegate("#batchUploadBtn",'change',function(){
+            fileUpload('#batchUploadBtn',2,batchCallBack);
+        })
+  
+   
+   /*弹出框**/
+        $('.selectScenic').click(function(){
+         	openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneScenic','选择景区',function() {
+				var sce = win.getItems();
+				$("#name").val(sce.name);
+				$("#outId").val(sce.id);
+			
+				return true;
+			});
+        })
+		/*提交**/
+		$("#saveScenic").validate(
+			{
+				rules:{
+					'scenicName' : {
+						required : true
+					},'check' : {
+						required : true
+					},'scenicDO.orderNum' : {
+						required : true
+					},'endTime' : {
+						required : true
+					},'itemDO.title' : {
+						required : true
+					},'itemDO.subTitle' : {
+						required : true
+					},'itemDO.oneWord' : {
+						required : true
+					},'startDayTime' : {
+						required : true
+					},'startHourTime' : {
+						required : true
+					},'priceF' : {
+						required : true
+					}
+					
+				},
+				errorPlacement : function(error, element) { // 指定错误信息位置
+
+					if (element.is(':radio') || element.is(':checkbox')
+							|| element.is(':input')) { // 如果是radio或checkbox
+						var eid = element.attr('name'); // 获取元素的name属性
+						error.appendTo(element.parent()); // 将错误信息添加当前元素的父结点后面
+					} else {
+						error.insertAfter(element);
+					}
+				},
+				submitHandler : function(form) {
+					  //图片列表
+            var picUrls = '';
+            $('.picUrlsUrl').each(function(){
+                if(picUrls){
+                    picUrls += '|' + $(this).attr('imgUrl');
+                }else{
+                    picUrls += $(this).attr('imgUrl');
+                }
+            });
+            $('.picUrlsVal').val(picUrls);
+					var options = {
+						url : actionDefaultPath + "/B2C/comm/scenicManage/save",
+						type : "post",
+						dataType : "json",
+						  success: function (data) {
+						   if (data.status == 200) {
+                             layer.msg('操作成功', {
+                            icon: 1,
+                            time: 1500
+                        });
+                        setTimeout(function () {
+                        	 $("#clubCategorySubmit").attr("disabled", false);
+                      	 location.href = actionDefaultPath + "/B2C/commodityManage/toCategory";
+                        },1500);
+                     
+                        } else {
+                          
+                            layer.alert('操作失败');
+                          
+                        }
+                    }
+					};
+					
+					$(form).ajaxSubmit(options);
+				},
+				invalidHandler : function(form, validator) { // 不通过回调
+					return false;
+				}
+			});
+		
+		
+});
+
+
+
+
+</script>

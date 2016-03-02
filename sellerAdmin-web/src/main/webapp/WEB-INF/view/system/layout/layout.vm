@@ -1,0 +1,38 @@
+<style type="text/css">
+    .menu>ul.nav{margin-top: 42px;}
+    .menu>.nav>li:first-child>a, .menu>.nav>li:first-child.nav-heading{border-radius: 0;}
+    .menu>.nav>li:last-child>a,.nav-primary>li:last-child>a{border-radius: 0;}
+    .menu{position: fixed;top: 0px; left: 0;height: 100%;overflow-y: auto;}
+    .content-page{height: 100%; margin-left: 200px;margin-top: 42px;padding: 0 15px; background: #fbfbfb;}
+</style>
+#parse("system/layout/top.vm")
+#parse("system/layout/left.vm")
+
+<div class="tabsWrap">
+    <ul id="myTabList" class="nav nav-tabs">
+    #*<li class="js_tabClick active" dataId="tab1">
+        <a href="#" data-toggle="tab">1<i class="icon icon-times tabClose"></i></a>
+    </li>
+    <li class="js_tabClick" dataId="tab2">
+        <a href="#" data-toggle="tab">2<i class="icon icon-times tabClose"></i></a>
+    </li>*#
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">更多<b class="caret"></b></a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+                <!--<li>
+                    <a href="#tab3" tabindex="-1" data-toggle="tab">3<i class="icon icon-times tabClose"></i></a>
+                </li>-->
+            </ul>
+        </li>
+    </ul>
+
+    <div id="myTabContent" class="tab-content">
+    #*<div class="tab-pane in active" id="tab1">
+            <iframe id="RightIFrame" class="tabIframe" name="RightIFrame" frameborder="0" scrolling="auto" width="100%" height="" src="$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/welcome"></iframe>
+        </div>
+        <div class="tab-pane" id="tab2">
+            <iframe src="http://localhost:8080/trade/userManage/userList" frameborder="0" class="tabIframe"></iframe>
+        </div>*#
+    </div>
+</div>
+##   #parse("system/layout/footer.vm")

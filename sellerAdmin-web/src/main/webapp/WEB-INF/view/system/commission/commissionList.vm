@@ -1,0 +1,132 @@
+  
+   <div>
+    <form class="form-signin" id="commissionListForm" name="commissionListForm" action="$!utilWebconfig.getActionDefaultFontPath()/commission/queryList" method="GET" role="form">
+        <div class="inputGroup whole">
+                <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">会员名称：</button>
+                    </span>
+                    <input type="text" class="form-control" name="payeeAccountName" value="$!commissionListQuery.payeeAccountName" />
+                </div>
+                <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">用户账号：</button>
+                    </span>
+                    <input type="text" class="form-control" name="userName" value="$!commissionListQuery.userName" />
+                </div>
+                <div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">联系电话：</button>
+                    </span>
+                    <input type="text" class="form-control" name="telNum" value="$!commissionListQuery.telNum" />
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary" id="queryBtn">查询</button>
+                </div>
+
+        </div>
+
+        <div class="tableGroup whole">
+            <table class="table table-hover">
+                <tr>
+                    <th>会员名称</th>
+                    <th>用户账号</th>
+                    <th>联系电话</th>
+                    <th>当前返佣金额</th>
+                    <th>支付宝账号</th>
+                    <th>操作</th>
+                </tr>
+                #foreach($amountTotalDTO in $pageVo.itemList)
+                <tr>
+                    <td>$!amountTotalDTO.payeeAccountName</td>
+                    <td>$!amountTotalDTO.userName</td>
+                    <td>$!amountTotalDTO.telNum</td>
+                    <td>$utilNum.moneyTransform($!amountTotalDTO.commissionAmt)</td>
+                    <td>$!amountTotalDTO.payeeAccount</td>
+                    <td>
+                    	<div id="u46" class="ax_html_button">
+        					<input id="showTranBtn" type="button" class="btn btn-primary" value="转账" 
+        						#if($!amountTotalDTO.commissionAmt < 10000 || !$amountTotalDTO.payeeAccount || '$!amountTotalDTO.payeeAccount' == '') 
+        							disabled="disabled" 
+        						#end  
+        						onclick="showTran('$!amountTotalDTO.userId','$!amountTotalDTO.userName','$!amountTotalDTO.commissionAmt','$!amountTotalDTO.payeeAccount');"/>
+      						<input id="viewRecordBtn" type="button" class="btn btn-primary" value="转账记录" onclick="viewRecord('$!{amountTotalDTO.userId}','$!{amountTotalDTO.userName}');" />
+      					</div>
+                    </td>
+                 </tr>
+                 #end
+            </table>
+        </div>
+    #*分页*#
+    #parse("/page.vm")
+    #pageStyle("commissionListForm")
+    </form>
+</div>
+<script>
+	$(function(){
+		$("#cancelBtn").click(function(){
+			//取消转账
+			layer.close(layerIndex);
+		});
+	});
+	var data = {},layerIndex,submitIndex = 0;
+	//显示转账pannel
+	function showTran(userId,userName,commissionAmt,payeeAccount){
+		layerIndex = layer.open({
+		    type: 1,
+		    title : '转账',
+		    content: $('#pannel')
+		});
+		data.userId = userId;
+		data.userName = userName;
+		data.payeeAccount = payeeAccount;
+		data.commissionAmt = commissionAmt;
+		
+		$("#payeeAccount").text(data.payeeAccount);
+		var amount = (data.commissionAmt/100).toFixed(2);
+		$("#commissionAmt").text(amount);
+		data.commissionAmt = amount;
+		
+	}
+	//查看转账记录
+	function viewRecord(userId,userName){
+		var url = '$!{utilWebconfig.getActionDefaultFontPath()}/commission/queryCommissionDetail?userId='+userId;
+		window.parent.tabsAdd("recordView", url, 2, userName+"转账记录");
+	}
+	//确认转账
+	function tranAccount(){
+		submitIndex += 1;
+		submitIndex == 1 && $.post('$!{utilWebconfig.getActionDefaultFontPath()}/commission/amountExtract',data,function(result){
+			if(result.success){
+				layer.close(layerIndex);
+				alert("转账成功");
+				$("#queryBtn").click();
+			}else{
+				alert("请求失败,失败原因：" + result.desc);
+				submitIndex = 0;
+			}
+			
+		},"json");
+	}
+</script>
+<div id="pannel" style="display:none;width:350px;height:150px;">
+    
+      <div id="u56" class="text" style="padding-left:50px;">
+        <p style="text-align:left;margin-top:30px;overflow:hidden;">
+        	<span style="width:100px;font-size:12px;display:black;float:left;text-align:right;">转账账号：</span>
+        	<span style="width:200px;font-size:12px; display:black;float:left" id="payeeAccount"></span>
+<!--         	<input type="input"  id="payeeAcount" style="width:200px;height:30px;padding-left:7px" disabled="disabled"/> -->
+			<span>
+        </p>
+        <p style="text-align:left;margin-top:10px;overflow:hidden;">
+        	<span style="width:100px;display:black;float:left;text-align:right;">金额：</span>
+        	<span style="width:200px;margin-left:0px;display:black;float:left" id="commissionAmt"></span>
+<!--         	<input type="input"  id="payeeAmount" style="width:200px;height:30px;padding-left:7px" disabled="disabled"/>元 -->
+        </p>
+      </div>
+      
+      <div id="u57" class="ax_html_button" style="text-align:center; margin-top:30px;">
+        <input id="sureBtn" type="button" value="确认转账" class="btn btn-primary" onclick="tranAccount()"/>
+        <input style="margin-left:10px;" id="cancelBtn" type="submit" value="取消转账" class="btn btn-primary"/>
+      </div>
+</div>

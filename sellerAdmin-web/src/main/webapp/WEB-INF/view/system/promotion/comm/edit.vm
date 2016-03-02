@@ -1,0 +1,340 @@
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+
+
+
+
+<div class="tab-content grogInfoWrap"  style="">
+    <div class="tab-pane active" id="grogshopInfo">
+        <div class="createActActivityTable">
+            <form name="addActActivity" id="actActivityForm" action="" method="post" actActivityId="$!actActivityEditVO.actActivityVO.id">
+                <table>
+                <tr>
+                    <td><span class="spColor">*</span>优惠名称：</td>
+                    <td><input type="text" name="actActivityVO.title" class="title" value="$!actActivityEditVO.actActivityVO.title"></td>
+                    <input type="hidden" name="actActivityVO.promotionType" class="promotionType" value="$!promotionType">
+                    <input type="hidden" name="actActivityVO.entityType" class="entityType" value="$!entityType">
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>优惠描述：</td>
+                    <td> <input type="text" name="actActivityVO.description" class="description" value="$!actActivityEditVO.actActivityVO.summary"></td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>优惠设置</td>
+                    <td>
+                    #*SUM_DISCOUNT("满折",1),
+                    SUM_REDUCE("满减",2),
+                    COUNT_DISCOUNT("满个折",3),
+                    COUNT_REDUCE("满个减",4),
+                    PER_SUM_REDUCE("每满减",5),
+                    DIRECT_REDUCE("直降",6);*#
+                        #if($promotionType == 1)
+                            满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivityEditVO.actActivityVO.requirementY}">元<input type="text" name="" class="allValueY" value="$!{actActivityEditVO.actActivityVO.valueY}">折
+                        #elseif($promotionType == 2)
+                            满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivityEditVO.actActivityVO.requirementY}">减<input type="text" name="" class="allValueY" value="$!{actActivityEditVO.actActivityVO.valueY}">元
+                        #elseif($promotionType == 3)
+                            满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivityEditVO.actActivityVO.requirementY}">个<input type="text" name="" class="allValueY" value="$!{actActivityEditVO.actActivityVO.valueY}">折
+                        #elseif($promotionType == 4)
+                            满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivityEditVO.actActivityVO.requirementY}">个减<input type="text" name="" class="allValueY" value="$!{actActivityEditVO.actActivityVO.valueY}">元
+                        #elseif($promotionType == 5)
+                            每满<input type="text" name="actActivityVO.requirement" class="requirement" value="$!{actActivityEditVO.actActivityVO.requirementY}">元减<input type="text" name="" class="allValueY" value="$!{actActivityEditVO.actActivityVO.valueY}">元
+                        #elseif($promotionType == 6)
+                            直降<input type="text" name="" class="allValueY" value="$!{actActivityEditVO.actActivityVO.valueY}" initValue="$!{actActivityEditVO.actActivityVO.valueY}">元
+                        #end
+
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="spColor">*</span>优惠时间</td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" class='form-control form-date dateInp startDate' placeholder='' readonly name="actActivityVO.startDateStr" value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")">
+                            <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
+                            <input type="text" class='form-control form-date dateInp endDate' placeholder='' readonly name="actActivityVO.endDateStr" value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")">
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+            <input type="hidden" name="promotionVOListStr" class="promotionVOListStr" value="">
+        </form>
+        <div class="tableGroup whole">
+
+            <table class="table table-hover dataTableSelected">
+                <tr>
+                    <th>商品编码</th>
+                    <th>sku编码</th>
+                    <th>商品名称</th>
+                    <th>单价</th>
+                    <th>状态</th>
+                    #*<th>总库存</th>*#
+                    #if($promotionType == 6)
+                        <th>直降金额</th>
+                        <th>优惠价</th>
+                    #end
+                    <th>操作</th>
+                </tr>
+                #foreach($promotionVO in $actActivityEditVO.promotionVOList)
+                   <tr class="dataSelectTr" promotionId="$promotionVO.id" entityId="$promotionVO.entityId" entityType="$promotionVO.entityType" priceY="$!promotionVO.priceY" isDel="$!promotionVO.isDel" isModify="$!promotionVO.isModify">
+                    <td commId="$promotionVO.itemId">$promotionVO.itemId</td>
+                    <td skuId="$promotionVO.itemSkuId">
+                        #if($promotionVO.itemSkuId != 0)
+                            $promotionVO.itemSkuId
+                        #end
+                    </td>
+                    <td>$!promotionVO.itemTitle</td>
+                    <td>$promotionVO.priceY</td>
+                    <td>#COMMODITY_STATUS($!promotionVO.itemStatus)</td>
+                       #if($promotionType == 6)
+                           <td>￥<input class="priceY" type="text" value="$promotionVO.valueY" initValue="$promotionVO.valueY"></td>
+                           #set($afterPromotionPriceY = $promotionVO.priceY - $promotionVO.valueY)
+                           <td class="afterPromotionPriceY">$afterPromotionPriceY</td>
+                       #end
+                    <td><button type="button" class="btn btn-primary delBtn">删除</button></td>
+                    </tr>
+                #end
+            </table>
+        </div>
+    </div>
+    </div>
+    #if(!$actActivityEditVO || $actActivityEditVO.actActivityVO.status == 1)
+        <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
+    #end
+</div>
+
+<div>
+    #parse("/system/promotion/commList.vm")
+    #selectItem()
+</div>
+
+
+<script>
+    var promotionType = $promotionType;
+</script>
+<script>
+    $(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                forceParse: 0,
+                showMeridian: 1,
+                format: "yyyy-mm-dd hh:ii"
+            });
+
+    //验证
+    var validate = function(){
+        if(!$('.title').val()){
+            return '请输入活动名称';
+        }
+        if($('.title').val().length > 60){
+            return '字数不能超过60';
+        }
+        if(!$('.description').val()){
+            return '请输入活动描述';
+        }
+        if($('.description').val().length > 60){
+            return '字数不能超过60';
+        }
+
+        if($('.startDate').val() && $('.endDate').val()){
+            if($('.startDate').val() > $('.endDate').val()){
+                return "结束日期必须大于开始日期!";
+            }
+        }
+
+        var url = '/GF/promotionCommManage/checkActivityName';
+        var params={};
+        params['name'] = $('.title').val();
+        params['type'] = $('.promotionType').val();
+        var r;
+        var oldTitle = '$!actActivityEditVO.actActivityVO.title';
+        if(params['name'] != oldTitle){
+            $.ajax({
+                url:actionDefaultPath + url,
+                type:"post",
+                data:params,
+                async : false,
+                success : function(data){
+                    if(data.status != 200){
+                        r = '活动名称重复';
+                    }
+                }
+            })
+        }
+        return r;
+    }
+    $(function(){
+
+        $(document).delegate(".selectSkuBtn",'click',function(){
+            var item = JSON.parse($(this).prev().attr('commodity'));
+            layer.open({
+                type: 2,
+                btn: ['确定', '取消'],
+                title: 'SKU选择',
+                fix: false,
+                shadeClose: true,
+                maxmin: true,
+                area: ['1000px', '500px'],
+                content: '$!utilWebconfig.getActionDefaultFontPath()/GF/commodityManage/skuList/' + $(this).attr('commodityId'),
+                yes: function(index){
+                    if(top.resultValue&&top.resultValue.length==0){
+                        layer.alert("请选择sku");
+                        return false;
+                    }else{
+                        console.log(top.resultValue);
+                        var resultValue = top.resultValue;
+                        var dataTableSelected = '';
+                        var allValueY = $('.allValueY').val();
+                        for(var data in resultValue){
+                            if(promotionType == 6){
+                                if(allValueY - resultValue[data]['skuPriceY'] >= 0){
+                                    allValueY = 0;
+                                }
+                            }
+
+                            dataTableSelected = dataTableSelected + '<tr class="dataSelectTr" entityId="' + resultValue[data]['skuId'] + '" entityType="1" priceY="' + resultValue[data]['skuPriceY'] + '">'
+                                    + '<td commId="' + item['id'] + '">' + item['id'] + '</td>'
+                                    + '<td skuId="' + resultValue[data]['skuId'] + '">' + resultValue[data]['skuId'] + '</td>'
+                                    + '<td>' + item['title'] + '</br>' + resultValue[data]['skuTitle'] + '</td>'
+                                    + '<td>￥' + resultValue[data]['skuPriceY'] + '</td>'
+                                    + '<td>' + (item['status'] == 2 ? '启用' : '停用') + '</td>'
+                                    //+ '<td>' + resultValue[data]['skuStockNum'] + '</td>'
+                                    + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value="' + allValueY + '" initValue="' + allValueY + '"></td>' + '<td>￥' + (resultValue[data]['skuPriceY'] - allValueY) + '</td>') : '')
+                                    + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
+                                    + '</tr>';
+
+                        }
+                        if(dataTableSelected){
+                            $('.dataTableSelected').append(dataTableSelected);
+                        }
+                        $('.dataTr').each(function(){
+                            if($(this).attr('skuId') == data.id){
+                                return false;
+                            }
+                        });
+                        layer.close(index);
+                    }
+                }
+            });
+        })
+
+        $(document).delegate(".commoditySelect",'click',function(){
+            var data = JSON.parse($(this).attr('commodity'));
+            $('.dataTr').each(function(){
+                if($(this).attr('commId') == data.id){
+                    return false;
+                }
+            });
+            var allValueY = $('.allValueY').val();
+            if(allValueY - data['price'] / 100 >= 0){
+                allValueY = 0;
+            }
+            var dataTableSelected = '<tr class="dataSelectTr" entityId="' + data['id'] + '" entityType="2" priceY="' + data['price'] + '">'
+                    + '<td commId="' + data['id'] + '">' + data['id'] + '</td>'
+                    + '<td skuId=""></td>'
+                    + '<td>' + data['title'] + '</td>'
+                    + '<td>￥' + data['price'] / 100 + '</td>'
+                    + '<td>' + (data['status'] == 2 ? '启用' : '停用') + '</td>'
+                    //+ '<td>' + data['stockNum'] + '</td>'
+                    + (promotionType == 6 ? ('<td>￥<input class="priceY" type="text" value="' + allValueY + '" initValue="' + allValueY + '"></td>' + '<td>￥' + data['price'] / 100 + '</td>') : '')
+                    + '<td><button type="button" class="btn btn-primary delBtn">删除</button></td>'
+                    + '</tr>';
+            $('.dataTableSelected').append(dataTableSelected);
+        })
+        $(document).delegate(".delBtn",'click',function(){
+            if($(this).parents('tr').attr('promotionId')){
+                $(this).parents('tr').attr('isDel',"true");
+                $(this).parents('tr').hide();
+            }else{
+                $(this).parents('tr').remove();
+            }
+        });
+        if(promotionType == 6){
+            //单个修改直降
+            $(document).delegate(".priceY",'change',function(){
+                var priceY = $(this).val();
+                if(!priceY || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test(priceY)){
+                    layer.msg('请输入正确的金额', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    $(this).val($(this).attr('initValue'))
+                    return false;
+                }
+                if(priceY - $(this).parents('tr').attr('priceY') >= 0){
+                    layer.msg('直降价格不能大于原价', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    $(this).val($(this).attr('initValue'))
+                    return false;
+                }
+                $(this).attr('initValue',priceY);
+                $(this).parents('tr').find('.afterPromotionPriceY').text('￥' + ($(this).parents('tr').attr('priceY') - priceY));
+            });
+            //批量修改直降
+            $(document).delegate(".allValueY",'change',function(){
+                var allValueY = $(this).val();
+                if(!allValueY || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test(allValueY)){
+                    layer.msg('请输入正确的金额', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    $(this).val($(this).attr('initValue'))
+                    return false;
+                }
+                $('.dataSelectTr').each(function(){
+                    if(allValueY - $(this).attr('priceY') >= 0){
+                        layer.msg('存在商品原价小于优惠金额，请重新设置', {
+                            icon: 2,
+                            time: 2000
+                        });
+                        $('.allValueY').val($(this).attr('initValue'));
+                        return false;
+                    }
+                });
+                $(this).attr('initValue',allValueY);
+                $('.dataSelectTr').each(function(){
+                    $(this).find('.priceY').val(allValueY);
+                    $(this).find('.afterPromotionPriceY').text('￥' + ($(this).attr('priceY') - allValueY));
+                });
+            });
+
+        }
+
+        //保存的
+        $('#btnSubmit').click(function(){
+            var msg = validate();
+            if(msg){
+                layer.msg(msg, {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            var promotionList = new Array();
+            $('.dataSelectTr').each(function(){
+                var promotion = {id:$(this).attr('promotionId') || 0,entityId:$(this).attr('entityId'),entityType:$(this).attr('entityType'),isDel:$(this).attr('isDel') || false,isModify:$(this).attr('isModify') || false,valueY:$(this).find('.priceY').val() | $('.allValueY').val()};
+                promotionList.push(promotion);
+            });
+            $('.promotionVOListStr').val(JSON.stringify(promotionList));
+            var data = $('.dataSelectTr').attr('class');
+            var actionUrl = "";
+            var actActivityId = $('#actActivityForm').attr('actActivityId');
+            if(actActivityId){
+                actionUrl = actionDefaultPath + '/GF/promotionCommManage/edit/'+actActivityId;
+            }else{
+                actionUrl = actionDefaultPath + '/GF/promotionCommManage/add';
+            }
+            $('#actActivityForm').attr('action',actionUrl);
+            $('#actActivityForm').submit();
+        });
+    });
+
+
+</script>
