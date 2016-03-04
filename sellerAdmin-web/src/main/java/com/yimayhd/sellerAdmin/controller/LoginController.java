@@ -1,16 +1,20 @@
 package com.yimayhd.sellerAdmin.controller;
 
 
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.membercenter.client.domain.HaMenuDO;
+import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.constant.ResponseStatus;
+import com.yimayhd.sellerAdmin.controller.loginout.vo.LoginoutVO;
+import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.LoginDTO;
+import com.yimayhd.user.client.result.login.LoginResult;
+import com.yimayhd.user.client.service.UserService;
+import com.yimayhd.user.session.manager.ImageVerifyCodeValidate;
+import com.yimayhd.user.session.manager.JsonResult;
+import com.yimayhd.user.session.manager.SessionManager;
+import net.pocrd.entity.AbstractReturnCode;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,19 +25,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yimayhd.sellerAdmin.base.BaseController;
-import com.yimayhd.sellerAdmin.base.ResponseVo;
-import com.yimayhd.sellerAdmin.controller.loginout.vo.LoginoutVO;
-import com.yimayhd.sellerAdmin.model.HaMenuDO;
-import com.yimayhd.sellerAdmin.service.HaMenuService;
-import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.result.login.LoginResult;
-import com.yimayhd.user.client.service.UserService;
-import com.yimayhd.user.session.manager.ImageVerifyCodeValidate;
-import com.yimayhd.user.session.manager.JsonResult;
-import com.yimayhd.user.session.manager.SessionManager;
-
-import net.pocrd.entity.AbstractReturnCode;
+import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/10/23.
@@ -51,7 +47,7 @@ public class LoginController extends BaseController {
     private ImageVerifyCodeValidate imageVerifyCodeValidate;
 
     @Autowired
-    private HaMenuService haMenuService;
+    private com.yimayhd.sellerAdmin.service.UserService userService;
     @Autowired
     private SessionManager sessionManager;
 
@@ -137,7 +133,7 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String toMain(Model model) throws Exception {
     	UserDO user = sessionManager.getUser();
-        List<HaMenuDO> haMenuDOList = haMenuService.getMenuListByUserId(user.getId());
+        List<HaMenuDO> haMenuDOList = userService.getMenuListByUserId(user.getId());
         model.addAttribute("menuList", haMenuDOList);
         model.addAttribute("userNickName", user.getNickname());
         return "/system/layout/layout";

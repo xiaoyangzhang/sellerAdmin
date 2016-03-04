@@ -20,4 +20,13 @@
         <property name="check" value="${consumer.dubbo.member.check}"/>
         <property name="version" value="${consumer.dubbo.member.version}"/>
     </bean>
+
+    <bean id="userPermissionServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.membercenter.client.service.UserPermissionService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+        <property name="check" value="${consumer.dubbo.member.check}"/>
+        <property name="version" value="${consumer.dubbo.member.version}"/>
+    </bean>
 </beans>

@@ -62,4 +62,6 @@
 
 	<!--GF商品-->
 	<bean class="com.yimayhd.gf.service.impl.CommodityServiceImpl"></bean>
+
+	<bean class="com.yimayhd.sellerAdmin.service.impl.UserServiceImpl"></bean>
 </beans>
