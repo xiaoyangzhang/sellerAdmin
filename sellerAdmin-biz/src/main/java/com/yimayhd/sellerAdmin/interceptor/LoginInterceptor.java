@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.yimayhd.sellerAdmin.service.HaMenuService;
 
 /**
  * Created by Administrator on 2015/10/26.
@@ -28,8 +27,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		map.put("DELETE", 4);
 	}
 	
-    @Autowired
-    private HaMenuService haMenuService;
+//    @Autowired
+//    private HaMenuService haMenuService;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     	//TODO:待功能完善后放开以下注释即可

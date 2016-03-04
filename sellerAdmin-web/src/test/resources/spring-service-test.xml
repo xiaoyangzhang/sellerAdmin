@@ -11,10 +11,7 @@
 	<bean class="com.yimayhd.sellerAdmin.service.impl.TradeServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.RefundServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.OrderServiceImpl"></bean>
-	<bean class="com.yimayhd.sellerAdmin.service.impl.HaMenuServiceImpl"></bean>
-	<bean class="com.yimayhd.sellerAdmin.service.impl.HaRoleMenuServiceImpl"></bean>
-	<bean class="com.yimayhd.sellerAdmin.service.impl.HaRoleServiceImpl"></bean>
-	<bean class="com.yimayhd.sellerAdmin.service.impl.HaUserRoleServiceImpl"></bean>
+
 	<bean class="com.yimayhd.sellerAdmin.service.impl.ClubServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.ActivityServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.PointRuleServiceImpl"></bean>
