@@ -2,8 +2,11 @@ package com.yimayhd.sellerAdmin.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.client.domain.HaMenuDO;
+import com.yimayhd.membercenter.client.dto.UserMenuOptionDTO;
+import com.yimayhd.membercenter.client.query.UserMenuQuery;
 import com.yimayhd.membercenter.client.result.MemPageResult;
 import com.yimayhd.membercenter.client.service.UserPermissionService;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.exception.NoticeException;
 import com.yimayhd.sellerAdmin.service.UserService;
 import org.slf4j.Logger;
@@ -22,7 +25,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<HaMenuDO> getMenuListByUserId(long id) throws Exception {
 
-        MemPageResult<HaMenuDO> haMenuDOMemPageResult = userPermissionServiceRef.getMenuListByUserId(id);
+        UserMenuQuery userMenuQuery = new UserMenuQuery();
+        userMenuQuery.setUserId(id);
+        userMenuQuery.setDomain(Constant.B2C_DOMAIN);
+        MemPageResult<HaMenuDO> haMenuDOMemPageResult = userPermissionServiceRef.getMenuListByUserId(userMenuQuery,new UserMenuOptionDTO());
         if(haMenuDOMemPageResult == null){
             log.error("UserServiceImpl.getMenuListByUserId.userPermissionServiceRef.getMenuListByUserId return null ,param : {}",id);
             throw new NoticeException("返回结果错误");

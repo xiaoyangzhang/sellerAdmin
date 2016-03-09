@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.yimayhd.sellerAdmin.constant.Constant;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,7 +18,6 @@ import com.yimayhd.ic.client.model.domain.CategoryValueDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.share_json.LinePropertyType;
 import com.yimayhd.ic.client.model.enums.LineOwnerType;
-import com.yimayhd.sellerAdmin.constant.B2CConstant;
 import com.yimayhd.sellerAdmin.model.travel.groupTravel.TripTraffic;
 import com.yimayhd.sellerAdmin.service.CategoryService;
 import com.yimayhd.sellerAdmin.service.RegionService;
@@ -51,7 +51,7 @@ public abstract class BaseTravelController extends BaseController {
 		put("departRegions", regionService.getRegions(RegionType.DEPART_REGION));
 		put("descRegions", regionService.getRegions(RegionType.DESC_REGION));
 		put("ways", TripTraffic.ways());
-		put("officialPublisher", userService.getUserById(B2CConstant.YIMAY_OFFICIAL_ID));
+		put("officialPublisher", userService.getUserById(Constant.YIMAY_OFFICIAL_ID));
 	}
 
 	protected void initLinePropertyTypes(long categoryId) throws Exception {

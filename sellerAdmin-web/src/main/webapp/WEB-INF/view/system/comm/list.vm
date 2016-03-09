@@ -211,7 +211,7 @@
         });
         //新建
         $('.addCommodityBtn').click(function(){
-            var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/B2C/commodityManage/toCategory';
+            var url = actionDefaultPath + '/B2C/commodityManage/toCategory';
             top.tabsAdd("addCommodityBtn",url,2,$(this).text())
         });
     });

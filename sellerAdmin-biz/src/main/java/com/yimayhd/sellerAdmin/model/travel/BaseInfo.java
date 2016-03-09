@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.yimayhd.sellerAdmin.constant.Constant;
 import org.apache.commons.lang.StringUtils;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
@@ -12,7 +13,6 @@ import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.LineOwnerType;
-import com.yimayhd.sellerAdmin.constant.B2CConstant;
 import com.yimayhd.resourcecenter.model.enums.RegionLevel;
 
 /**
@@ -286,7 +286,7 @@ public class BaseInfo {
 		line.setDescription(this.highlights);
 		line.setRecommend(this.recommond);
 		line.setNeedKnow(this.needKnow);
-		line.setPhoneNum(Arrays.asList(B2CConstant.YIMAY_CUSTOMER_SERVICE));
+		line.setPhoneNum(Arrays.asList(Constant.YIMAY_CUSTOMER_SERVICE));
 		return line;
 	}
 

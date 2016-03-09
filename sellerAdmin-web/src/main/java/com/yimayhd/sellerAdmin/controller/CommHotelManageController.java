@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.controller;
 
+import com.yimayhd.sellerAdmin.constant.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yimayhd.sellerAdmin.base.BaseController;
-import com.yimayhd.sellerAdmin.constant.B2CConstant;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 import com.yimayhd.sellerAdmin.model.ItemResultVO;
 import com.yimayhd.sellerAdmin.model.ItemVO;
@@ -78,7 +78,7 @@ public class CommHotelManageController extends BaseController {
     String edit(ItemVO itemVO,@PathVariable("id") long id) throws Exception {
         itemVO.setId(id);
         long sellerId = sessionManager.getUserId();
-        sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+        sellerId = Constant.YIMAY_OFFICIAL_ID;
         itemVO.setSellerId(sellerId);
         commodityService.modifyCommHotel(itemVO);
         return "/success";
@@ -93,7 +93,7 @@ public class CommHotelManageController extends BaseController {
     public
     String add(ItemVO itemVO) throws Exception {
         long sellerId = sessionManager.getUserId();
-        sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+        sellerId = Constant.YIMAY_OFFICIAL_ID;
         itemVO.setSellerId(sellerId);
         commodityService.addCommHotel(itemVO);
         return "/success";

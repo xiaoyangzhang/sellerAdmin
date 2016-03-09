@@ -18,7 +18,7 @@ import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.sellerAdmin.base.BaseException;
-import com.yimayhd.sellerAdmin.constant.B2CConstant;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.exception.NoticeException;
 import com.yimayhd.sellerAdmin.model.CommScenicVO;
 import com.yimayhd.sellerAdmin.service.CommScenicService;
@@ -184,7 +184,7 @@ public class CommScenicServiceImpl implements CommScenicService {
 			scenicDO.setOrderNum(commScenic.getScenicDO().getOrderNum());
 			scenicDO.setId(commScenic.getItemDO().getOutId());
 
-			itemDO.setDomain(B2CConstant.B2C_DOMAIN);
+			itemDO.setDomain(Constant.B2C_DOMAIN);
 			
 			  ICResult<ScenicDO> icResult = itemQueryServiceRef.getScenic(itemDO.getOutId());
 			   if(null == icResult){
@@ -221,7 +221,7 @@ public class CommScenicServiceImpl implements CommScenicService {
 	        //需要提前多久预订，秒startDayTime*24 * 3600 * 1000L+startHourTime* 3600 * 1000L
 	        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,(commScenic.getStartDayTime()*24+(24-commScenic.getStartHourTime())) * 3600);
 	        itemDO.setItemFeature(itemFeature);
-			itemDO.setSellerId(B2CConstant.YIMAY_OFFICIAL_ID);
+			itemDO.setSellerId(Constant.YIMAY_OFFICIAL_ID);
 			itemDO.setOutType(ResourceType.SCENIC.getType());
 			itemDO.setCredit(0);
 			itemDO.setPoint(0);

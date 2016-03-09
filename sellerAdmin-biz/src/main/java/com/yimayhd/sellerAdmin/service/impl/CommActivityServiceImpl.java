@@ -2,6 +2,7 @@ package com.yimayhd.sellerAdmin.service.impl;
 
 import java.util.List;
 
+import com.yimayhd.sellerAdmin.constant.Constant;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.base.BaseException;
-import com.yimayhd.sellerAdmin.constant.B2CConstant;
 import com.yimayhd.sellerAdmin.exception.NoticeException;
 import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.service.ActivityService;
@@ -44,8 +44,8 @@ public class CommActivityServiceImpl implements CommActivityService {
 	public ItemPubResult add(ItemVO itemVO) throws Exception {
 		 CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
 	        ItemDO itemDO = ItemVO.getItemDO(itemVO);
-			itemDO.setDomain(B2CConstant.B2C_DOMAIN);
-	        itemDO.setSellerId(B2CConstant.YIMAY_OFFICIAL_ID);
+			itemDO.setDomain(Constant.B2C_DOMAIN);
+	        itemDO.setSellerId(Constant.YIMAY_OFFICIAL_ID);
 	        itemDO.setSubTitle("");
 	        itemDO.setOneWord("");
 	    	itemDO.setCredit(0);

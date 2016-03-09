@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
 
-	<group name="jdbc">
+	<!--<group name="jdbc">
 		<property name="jdbc.driverClassName" defaultValue="com.mysql.jdbc.Driver" description="#数据库驱动" />
 		<property name="jdbc.url" defaultValue="jdbc:mysql://192.168.1.202:3306/seller_console?useUnicode=true&amp;characterEncoding=UTF-8" description="#" />
 		<property name="jdbc.user" defaultValue="root" description="#" />
 		<property name="jdbc.password" defaultValue="123456" description="#" />
-	</group>
+	</group>-->
 	<group name="log">
 		<property name="sellerAdmin.logger.dir" defaultValue="/home/admin/logs/sellerAdmin" description="日志目录"/>
 	</group>
@@ -28,10 +28,10 @@
 	</group>
 
 	<group name="default">
-		<property name="sellerAdmin.staticResourcesPath" defaultValue="http://console.test.yimayholiday.com/sellerAdmin" description="#静态文件地址" />
-		<property name="sellerAdmin.actionDefaultFontPath" defaultValue="http://console.test.yimayholiday.com/sellerAdmin" description="#请求地址默认前缀" />
-		<property name="actionUploadFilePath" defaultValue="http://console.test.yimayholiday.com/sellerAdmin/upload/file" description="#上传附件地址(单个)" />
-		<property name="actionUploadFilesPath" defaultValue="http://console.test.yimayholiday.com/sellerAdmin/upload/files" description="#上传附件地址(多个)" />
+		<property name="sellerAdmin.staticResourcesPath" defaultValue="http://seller.test.yimayholiday.com" description="#静态文件地址" />
+		<property name="sellerAdmin.actionDefaultFontPath" defaultValue="http://seller.test.yimayholiday.com" description="#请求地址默认前缀" />
+		<property name="actionUploadFilePath" defaultValue="http://seller.test.yimayholiday.com/upload/file" description="#上传附件地址(单个)" />
+		<property name="actionUploadFilesPath" defaultValue="http://seller.test.yimayholiday.com/upload/files" description="#上传附件地址(多个)" />
 	</group>
 
 	<group name="dubbo">
@@ -51,7 +51,7 @@
 		<property name="consumer.resource.dubbo.version" defaultValue="1.0.0.test" description="#" />
 
 		<property name="consumer.dubbo.member.check" defaultValue="false" description="#" />
-		<property name="consumer.dubbo.member.version" defaultValue="1.0.0.test" description="#" />
+		<property name="consumer.dubbo.member.version" defaultValue="2.0.0.test" description="#" />
 
 
 		<property name="consumer.dubbo.paycore.check" defaultValue="false" description="#" />

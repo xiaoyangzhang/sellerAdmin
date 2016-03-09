@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.yimayhd.sellerAdmin.constant.Constant;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
@@ -19,7 +20,6 @@ import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
-import com.yimayhd.sellerAdmin.constant.B2CConstant;
 
 /**
  * 基本旅行线路对象
@@ -191,7 +191,7 @@ public abstract class BaseTravel {
 		// 初始化
 		ItemDO itemDO = new ItemDO();
 		itemDO.setId(this.priceInfo.getItemId());
-		itemDO.setDomain(B2CConstant.B2C_DOMAIN);
+		itemDO.setDomain(Constant.B2C_DOMAIN);
 		itemDO.setCategoryId(this.categoryId);
 		itemDO.setOptions(this.options);
 		itemDO.setPayType(1);
@@ -235,7 +235,7 @@ public abstract class BaseTravel {
 	}
 
 	protected long getSellerId() {
-		long sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+		long sellerId = Constant.YIMAY_OFFICIAL_ID;
 		/*
 		 * if (this.baseInfo != null) { sellerId =
 		 * this.baseInfo.getPublisherId(); }

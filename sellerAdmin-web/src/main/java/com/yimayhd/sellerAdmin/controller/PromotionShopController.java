@@ -6,7 +6,7 @@ import com.yimayhd.activitycenter.query.ActPromotionPageQuery;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
-import com.yimayhd.sellerAdmin.constant.B2CConstant;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.constant.ResponseStatus;
 import com.yimayhd.sellerAdmin.model.ActActivityEditVO;
 import com.yimayhd.sellerAdmin.service.PromotionCommService;
@@ -64,7 +64,7 @@ public class PromotionShopController extends BaseController {
     public String toAdd(Model model,int promotionType) throws Exception {
         model.addAttribute("promotionType",promotionType);
         model.addAttribute("entityType",EntityType.SHOP.getType());
-        model.addAttribute("entityId", B2CConstant.GF_OFFICIAL_ID);
+        model.addAttribute("entityId", Constant.GF_OFFICIAL_ID);
         return "/system/promotion/shop/edit";
     }
 
@@ -83,7 +83,7 @@ public class PromotionShopController extends BaseController {
         model.addAttribute("actActivityEditVO",actActivityEditVO);
         model.addAttribute("promotionType",promotionType);
         model.addAttribute("entityType",EntityType.SHOP.getType());
-        model.addAttribute("entityId", B2CConstant.GF_OFFICIAL_ID);
+        model.addAttribute("entityId", Constant.GF_OFFICIAL_ID);
         return "/system/promotion/shop/edit";
     }
 
@@ -123,8 +123,8 @@ public class PromotionShopController extends BaseController {
     @ResponseBody
     public ResponseVo publish(@PathVariable("id") long id) throws Exception {
 //		long sellerId = sessionManager.getUserId();
-//		sellerId = B2CConstant.SELLERID;
-//        long sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+//		sellerId = Constant.SELLERID;
+//        long sellerId = Constant.YIMAY_OFFICIAL_ID;
         return new ResponseVo();
     }
 

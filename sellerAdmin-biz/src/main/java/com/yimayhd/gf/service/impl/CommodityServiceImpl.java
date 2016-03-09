@@ -14,7 +14,7 @@ import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
-import com.yimayhd.sellerAdmin.constant.B2CConstant;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.exception.NoticeException;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 import com.yimayhd.sellerAdmin.model.ItemResultVO;
@@ -49,7 +49,7 @@ public class CommodityServiceImpl implements CommodityService {
     public PageVO<ItemVO> getList(CommodityListQuery commodityListQuery) throws Exception {
         ItemQryDTO itemQryDTO = new ItemQryDTO();
         List<Integer> domainList = new ArrayList<Integer>();
-        domainList.add(B2CConstant.GF_DOMAIN);
+        domainList.add(Constant.GF_DOMAIN);
         itemQryDTO.setDomains(domainList);
         itemQryDTO.setPageNo(commodityListQuery.getPageNumber());
         itemQryDTO.setPageSize(commodityListQuery.getPageSize());
@@ -244,7 +244,7 @@ public class CommodityServiceImpl implements CommodityService {
         itemDO.setPicUrlsString(itemDO.getPicUrlsString());
         //减库存方式
         itemFeature.put(ItemFeatureKey.REDUCE_TYPE, itemVO.getReduceType());
-        itemDO.setDomain(B2CConstant.GF_DOMAIN);
+        itemDO.setDomain(Constant.GF_DOMAIN);
 
         commonItemPublishDTO.setItemDO(itemDO);
         commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());

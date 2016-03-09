@@ -1,7 +1,7 @@
 package com.yimayhd.sellerAdmin.convert;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.sellerAdmin.constant.B2CConstant;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ActActivityEditVO;
 import com.yimayhd.sellerAdmin.model.ActActivityVO;
 import com.yimayhd.sellerAdmin.model.PromotionVO;
@@ -54,7 +54,7 @@ public class PromotionEditDTOConverter {
                 promotionDOShop.setValue(Math.round(actActivityVO.getValueY() * 100));
                 promotionDOShop.setStartTime(actActivityVO.getStartDate());
                 promotionDOShop.setEndTime(actActivityVO.getEndDate());
-                promotionDOShop.setDomain(B2CConstant.GF_DOMAIN);
+                promotionDOShop.setDomain(Constant.GF_DOMAIN);
                 //feature
                 if(CollectionUtils.isNotEmpty(promotionVOList)){
                     List<Long> itemList = new ArrayList<Long>();
@@ -114,7 +114,7 @@ public class PromotionEditDTOConverter {
                         }
                         promotionDO.setStartTime(actActivityVO.getStartDate());
                         promotionDO.setEndTime(actActivityVO.getEndDate());
-                        promotionDO.setDomain(B2CConstant.GF_DOMAIN);
+                        promotionDO.setDomain(Constant.GF_DOMAIN);
                         //promotionVO.setStatus();
                         //promotionVO.setFeatureV();
                         //promotionVO.setUserTag();

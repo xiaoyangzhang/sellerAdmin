@@ -8,7 +8,7 @@ import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
-import com.yimayhd.sellerAdmin.constant.B2CConstant;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 import com.yimayhd.sellerAdmin.model.ItemResultVO;
 import com.yimayhd.sellerAdmin.model.ItemSkuVO;
@@ -143,7 +143,7 @@ public class GFCommodityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/common/add", method = RequestMethod.POST)
 	public String addCommon(ItemVO itemVO) throws Exception {
-		long sellerId = B2CConstant.GF_OFFICIAL_ID;
+		long sellerId = Constant.GF_OFFICIAL_ID;
 		itemVO.setSellerId(sellerId);
 		gfCommodityService.addCommonItem(itemVO);
 		return "/success";
@@ -181,7 +181,7 @@ public class GFCommodityManageController extends BaseController {
 	@RequestMapping(value = "/common/edit/{itemId}", method = RequestMethod.POST)
 	public String editCommon(ItemVO itemVO, @PathVariable(value = "itemId") long itemId) throws Exception {
 		itemVO.setId(itemId);
-		long sellerId = B2CConstant.GF_OFFICIAL_ID;
+		long sellerId = Constant.GF_OFFICIAL_ID;
 		itemVO.setSellerId(sellerId);
 		gfCommodityService.modifyCommonItem(itemVO);
 		return "/success";
@@ -196,7 +196,7 @@ public class GFCommodityManageController extends BaseController {
 	@RequestMapping(value = "/publish/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo publish(@PathVariable("id") long id) throws Exception {
-		long sellerId = B2CConstant.GF_OFFICIAL_ID;
+		long sellerId = Constant.GF_OFFICIAL_ID;
 		commodityService.publish(sellerId, id);
 		return new ResponseVo();
 	}
@@ -210,7 +210,7 @@ public class GFCommodityManageController extends BaseController {
 	@RequestMapping(value = "/close/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo close(@PathVariable("id") long id) throws Exception {
-		long sellerId = B2CConstant.GF_OFFICIAL_ID;
+		long sellerId = Constant.GF_OFFICIAL_ID;
 		commodityService.close(sellerId, id);
 		return new ResponseVo();
 	}
@@ -225,7 +225,7 @@ public class GFCommodityManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo batchPublish(@RequestParam("commIdList[]") ArrayList<Long> commIdList)
 			throws Exception {
-		long sellerId = B2CConstant.GF_OFFICIAL_ID;
+		long sellerId = Constant.GF_OFFICIAL_ID;
 		commodityService.batchPublish(sellerId, commIdList);
 		return new ResponseVo();
 	}
@@ -240,7 +240,7 @@ public class GFCommodityManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo batchClose(@RequestParam("commIdList[]") ArrayList<Long> commIdList)
 			throws Exception {
-		long sellerId = B2CConstant.GF_OFFICIAL_ID;
+		long sellerId = Constant.GF_OFFICIAL_ID;
 		commodityService.batchClose(sellerId, commIdList);
 		return new ResponseVo();
 	}

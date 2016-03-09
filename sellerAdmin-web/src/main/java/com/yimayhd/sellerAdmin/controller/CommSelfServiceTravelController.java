@@ -2,6 +2,7 @@ package com.yimayhd.sellerAdmin.controller;
 
 import javax.annotation.Resource;
 
+import com.yimayhd.sellerAdmin.constant.Constant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,6 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.sellerAdmin.base.BaseTravelController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
-import com.yimayhd.sellerAdmin.constant.B2CConstant;
 import com.yimayhd.sellerAdmin.model.travel.flightHotelTravel.FlightHotelTravel;
 import com.yimayhd.sellerAdmin.service.CommTravelService;
 import com.yimayhd.sellerAdmin.service.FlightRPCService;
@@ -133,7 +133,7 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 				String importantInfosCode = tfsService.publishHtml5(importantInfos);
 				sst.getPriceInfo().setImportantInfosCode(importantInfosCode);
 			} else {
-				sst.getPriceInfo().setImportantInfosCode(B2CConstant.DEFAULT_CONTRACT_TFS_CODE);
+				sst.getPriceInfo().setImportantInfosCode(Constant.DEFAULT_CONTRACT_TFS_CODE);
 			}
 			if (StringUtils.isNotBlank(extraInfos)) {
 				String extraInfosCode = tfsService.publishHtml5(extraInfos);

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.yimayhd.sellerAdmin.constant.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,6 @@ import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.JsonResultUtil;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
-import com.yimayhd.sellerAdmin.constant.B2CConstant;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 import com.yimayhd.sellerAdmin.model.ItemResultVO;
 import com.yimayhd.sellerAdmin.model.ItemVO;
@@ -168,7 +168,7 @@ public class CommodityManageController extends BaseController {
 	@RequestMapping(value = "/common/add", method = RequestMethod.POST)
 	public String addCommon(ItemVO itemVO) throws Exception {
 		long sellerId = sessionManager.getUserId();
-		sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+		sellerId = Constant.YIMAY_OFFICIAL_ID;
 		itemVO.setSellerId(sellerId);
 		commodityService.addCommonItem(itemVO);
 		return "/success";
@@ -208,7 +208,7 @@ public class CommodityManageController extends BaseController {
 		itemVO.setId(itemId);
 		long sellerId = sessionManager.getUserId();
 		// TODO
-		sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+		sellerId = Constant.YIMAY_OFFICIAL_ID;
 		itemVO.setSellerId(sellerId);
 		commodityService.modifyCommonItem(itemVO);
 		return "/success";
@@ -224,8 +224,8 @@ public class CommodityManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo publish(@PathVariable("id") long id) throws Exception {
 //		long sellerId = sessionManager.getUserId();
-//		sellerId = B2CConstant.SELLERID;
-		long sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+//		sellerId = Constant.SELLERID;
+		long sellerId = Constant.YIMAY_OFFICIAL_ID;
 		commodityService.publish(sellerId, id);
 		return new ResponseVo();
 	}
@@ -240,7 +240,7 @@ public class CommodityManageController extends BaseController {
 	@ResponseBody
 	public ResponseVo close(@PathVariable("id") long id) throws Exception {
 //		long sellerId = sessionManager.getUserId();
-		long sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+		long sellerId = Constant.YIMAY_OFFICIAL_ID;
 		commodityService.close(sellerId, id);
 		return new ResponseVo();
 	}
@@ -256,10 +256,10 @@ public class CommodityManageController extends BaseController {
 	public ResponseVo batchPublish(@RequestParam("commIdList[]") ArrayList<Long> commIdList)
 			throws Exception {
 //		long sellerId = sessionManager.getUserId();
-//		sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+//		sellerId = Constant.YIMAY_OFFICIAL_ID;
 
 
-		long sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+		long sellerId = Constant.YIMAY_OFFICIAL_ID;
 		commodityService.batchPublish(sellerId, commIdList);
 		return new ResponseVo();
 	}
@@ -275,7 +275,7 @@ public class CommodityManageController extends BaseController {
 	public ResponseVo batchClose(@RequestParam("commIdList[]") ArrayList<Long> commIdList)
 			throws Exception {
 //		long sellerId = sessionManager.getUserId();
-		long sellerId = B2CConstant.YIMAY_OFFICIAL_ID;
+		long sellerId = Constant.YIMAY_OFFICIAL_ID;
 		commodityService.batchClose(sellerId, commIdList);
 		return new ResponseVo();
 	}
