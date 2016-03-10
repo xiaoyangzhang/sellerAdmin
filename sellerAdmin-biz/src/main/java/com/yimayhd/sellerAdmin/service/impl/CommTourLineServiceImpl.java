@@ -62,22 +62,22 @@ public class CommTourLineServiceImpl implements CommFreeLineService {
 		LinePublishResult publishLine = null;
 		long lineId = line.getBaseInfo().getLineId();
 		if (lineId > 0) {
-			CheckResult checkForSave = LineChecker.checkForUpdate(line);
-			if (checkForSave.isSuccess()) {
+			/*CheckResult checkForSave = LineChecker.checkForUpdate(line);
+			if (checkForSave.isSuccess()) {*/
 				LineResult lineResult = lineRepo.getLineById(lineId);
 				LinePublishDTO linePublishDTOForUpdate = LineConverter.toLinePublishDTOForUpdate(line, lineResult);
 				publishLine = lineRepo.updateLine(linePublishDTOForUpdate);
-			} else {
+			/*} else {
 				throw new BaseException(checkForSave.getMsg());
-			}
+			}*/
 		} else {
-			CheckResult checkForUpdate = LineChecker.checkForSave(line);
-			if (checkForUpdate.isSuccess()) {
+			/*CheckResult checkForUpdate = LineChecker.checkForSave(line);
+			if (checkForUpdate.isSuccess()) {*/
 				LinePublishDTO linePublishDTOForSave = LineConverter.toLinePublishDTOForSave(line);
 				publishLine = lineRepo.saveLine(linePublishDTOForSave);
-			} else {
+			/*} else {
 				throw new BaseException(checkForUpdate.getMsg());
-			}
+			}*/
 		}
 		if (publishLine.getLineId() > 0) {
 			List<Long> themes = line.getBaseInfo().getThemes();
