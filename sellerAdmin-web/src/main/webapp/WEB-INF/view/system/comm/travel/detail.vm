@@ -71,10 +71,7 @@
 			categoryId:$!{categoryId},
 			options:$!{options},
             baseInfo:getBaseInfo(),
-			routeId:$("#route-id").val() || 0,
-            tripInfo:getTripInfo(),
-			updatedRouteItems:getUpdatedRouteItems(),
-			deletedRouteItems:getDeletedRouteItems(),
+            routeInfo:getRouteInfo(),
             #if($categoryId == 7)
 			tripPackageInfo:getTripPackageInfo(),
             #end

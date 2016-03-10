@@ -10,6 +10,7 @@ import com.yimayhd.sellerAdmin.model.line.BaseLineVO;
  *
  */
 public class FreeLineVO extends BaseLineVO {
+	private static final long serialVersionUID = 4414792322352254786L;
 
 	@Override
 	public int getItemType() {

@@ -10,6 +10,7 @@ import com.yimayhd.sellerAdmin.model.line.BaseLineVO;
  *
  */
 public class TourLineVO extends BaseLineVO {
+	private static final long serialVersionUID = 5839870323566486318L;
 
 	@Override
 	public int getItemType() {

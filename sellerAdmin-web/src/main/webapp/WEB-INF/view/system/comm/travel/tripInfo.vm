@@ -225,7 +225,7 @@
         </li>
     </ul>
     <div class="tab-content">
-		#foreach($tripDay in $product.tripInfo)
+		#foreach($tripDay in $product.routeInfo.routeDays)
 		#set($day = ${velocityCount})
 		<div class="tab-pane in #if(${day}==1) active #end" id="day_${velocityCount}_page">
 			<div class="panel add-traffic">
@@ -593,6 +593,15 @@
 			});
 			// alert(JSON.stringify(result));
 			return result;
+		}
+		
+		function getRouteInfo() {
+			return {
+				routeId:$("#route-id").val() || 0,
+				routeDaysgetTripInfo(),
+    			updatedRouteItems:getUpdatedRouteItems(),
+    			deletedRouteItems:getDeletedRouteItems()
+			};
 		}
     </script>
 </div>

@@ -331,7 +331,7 @@ public class LineConverter {
 		return target;
 	}
 
-	public static LinePublishDTO toLinePublishDTOForSave(BaseLineVO line) {
+	public static LinePublishDTO toLinePublishDTOForSave(TourLineVO line) {
 		LinePublishDTO dto = new LinePublishDTO();
 		LineDO lineDO = toLineDO(line.getBaseInfo());
 		dto.setLineDO(lineDO);
@@ -351,14 +351,24 @@ public class LineConverter {
 		return dto;
 	}
 
-	public static LinePublishDTO toLinePublishDTOForSave(TourLineVO line) {
-		LinePublishDTO linePublishDTOForSave = toLinePublishDTOForSave(line);
-		return linePublishDTOForSave;
-	}
-
 	public static LinePublishDTO toLinePublishDTOForSave(FreeLineVO line) {
-		LinePublishDTO linePublishDTOForSave = toLinePublishDTOForSave(line);
-		return linePublishDTOForSave;
+		LinePublishDTO dto = new LinePublishDTO();
+		LineDO lineDO = toLineDO(line.getBaseInfo());
+		dto.setLineDO(lineDO);
+		RouteInfoVO routeInfo = line.getRouteInfo();
+		RouteDO routeDO = new RouteDO();
+		RouteDO routeDTO = merge(routeInfo, routeDO);
+		dto.setRouteDO(routeDTO);
+		List<RouteDayVO> routeDays = routeInfo.getRouteDays();
+		List<RouteItemDO> routeItemDOList = toRouteItemDOs(routeDays);
+		dto.setRouteItemDOList(routeItemDOList);
+		long categoryId = line.getCategoryId();
+		long options = line.getOptions();
+		dto.setItemDO(toItemDO(categoryId, options, line));
+		PriceInfoVO priceInfo = line.getPriceInfo();
+		List<ItemSkuDO> itemSkuDOList = toItemSkuDOList(line.getCategoryId(), Constant.YIMAY_OFFICIAL_ID, priceInfo);
+		dto.setItemSkuDOList(itemSkuDOList);
+		return dto;
 	}
 
 	public static List<RouteItemDO> toRouteItemDOs(List<RouteDayVO> routeDays) {
@@ -534,7 +544,7 @@ public class LineConverter {
 		return target;
 	}
 
-	public static LinePublishDTO toLinePublishDTOForUpdate(BaseLineVO line, LineResult lineResult) {
+	public static LinePublishDTO toLinePublishDTOForUpdate(TourLineVO line, LineResult lineResult) {
 		BaseInfoVO baseInfo = line.getBaseInfo();
 		LinePublishDTO dto = new LinePublishDTO();
 		// LineDO
@@ -553,14 +563,23 @@ public class LineConverter {
 		return dto;
 	}
 
-	public static LinePublishDTO toLinePublishDTOForUpdate(TourLineVO line, LineResult lineResult) {
-		LinePublishDTO linePublishDTOForUpdate = toLinePublishDTOForUpdate(line, lineResult);
-		return linePublishDTOForUpdate;
-	}
-
 	public static LinePublishDTO toLinePublishDTOForUpdate(FreeLineVO line, LineResult lineResult) {
-		LinePublishDTO linePublishDTOForUpdate = toLinePublishDTOForUpdate(line, lineResult);
-		return linePublishDTOForUpdate;
+		BaseInfoVO baseInfo = line.getBaseInfo();
+		LinePublishDTO dto = new LinePublishDTO();
+		// LineDO
+		LineDO lineDO = lineResult.getLineDO();
+		LineDO lineDTO = LineConverter.merge(baseInfo, lineDO);
+		dto.setLineDO(lineDTO);
+		// 行程信息
+		RouteInfoVO routeInfo = line.getRouteInfo();
+		RouteDO routeDO = lineResult.getRouteDO();
+		List<RouteItemDO> routeItemDOList = lineResult.getRouteItemDOList();
+		dto = mergeRoute(routeInfo, routeDO, routeItemDOList, dto);
+		// 价格信息
+		ItemDO itemDO = lineResult.getItemDO();
+		List<ItemSkuDO> itemSkuDOs = lineResult.getItemSkuDOList();
+		dto = mergeItem(line, itemDO, itemSkuDOs, dto);
+		return dto;
 	}
 
 	public static LinePublishDTO mergeItem(BaseLineVO line, ItemDO itemDO, List<ItemSkuDO> itemSkuDOs,

@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.model.line;
 
+import java.io.Serializable;
+
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
 import com.yimayhd.sellerAdmin.model.line.detail.DetailInfoVO;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
@@ -12,8 +14,8 @@ import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
  * @author yebin
  *
  */
-public abstract class BaseLineVO {
-
+public abstract class BaseLineVO implements Serializable{
+	private static final long serialVersionUID = -3473801970066242380L;
 	protected long categoryId;
 	protected long options;
 
