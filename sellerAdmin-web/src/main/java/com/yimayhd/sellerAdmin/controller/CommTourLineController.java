@@ -80,7 +80,7 @@ public class CommTourLineController extends BaseTravelController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/save")
-	public @ResponseBody ResponseVo save(String json, String importantInfos, String extraInfos) {
+	public @ResponseBody ResponseVo save(String json) {
 		try {
 			TourLineVO gt = (TourLineVO) JSONObject.parseObject(json, TourLineVO.class);
 			long id = commTourLineService.publishLine(gt);
