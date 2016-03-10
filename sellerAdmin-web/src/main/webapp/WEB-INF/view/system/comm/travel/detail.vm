@@ -20,66 +20,44 @@
       <a href="#baseInfo" data-toggle="tab">基本信息</a>
     </li>
 	<li>
-      <a href="#extraInfos" data-toggle="tab">报名须知</a>
+      <a href="#detailInfo" data-toggle="tab">详细描述</a>
     </li>
-	#if($categoryId == 6)
-    <li>
-      <a href="#tripInfo" data-toggle="tab">行程信息</a>
-    </li>
-	#elseif($categoryId == 7)
+	#if($categoryId == 7)
 	<li>
       <a href="#tripPackageInfo" data-toggle="tab">套餐信息</a>
     </li>
 	#end
     <li>
+      <a href="#tripInfo" data-toggle="tab">行程信息</a>
+    </li>
+    <li>
       <a href="#priceInfo" data-toggle="tab">价格信息</a>
     </li>
 	<li>
-      <a href="#importantInfos" data-toggle="tab">重要事项</a>
+      <a href="#needKnow" data-toggle="tab">预定须知</a>
     </li>
   </ul>
   <div class="tab-content">
     <div class="tab-pane baseInfo in active" id="baseInfo">
         #parse("/system/comm/travel/baseInfo.vm")
     </div>
-	<div class="tab-pane bigEditor" id="extraInfos" style="width: 96%;margin: 15px auto;">
-		<script type="text/javascript">
-			var extra_infos_ue;
-            $(function() {
-                window.UEDITOR_HOME_URL = "$utilWebconfig.getStaticResourcesPath()/resources/ueditor/";
-                extra_infos_ue = UE.getEditor('extraInfos_editor');
-            });
-            function getExtraInfos() {
-            	return extra_infos_ue.getContent();
-            }
-        </script>
-        <script id="extraInfos_editor" type="text/plain" name="extraInfos" style="width: 100%; height:350px">$!{extraInfos}</script>
+	<div class="tab-pane bigEditor" id="detailInfo" style="width: 96%;margin: 15px auto;">
+		详细描述
     </div>
-	#if($categoryId == 6)
-    <div class="tab-pane tripInfo" id="tripInfo">
-		<input type="hidden" value="$!{product.routeId}" id="route-id"/>
-        #parse("/system/comm/travel/groupTravel/tripInfo.vm")
-    </div>
-	#elseif($categoryId == 7)
+	#if($categoryId == 7)
 	<div class="tab-pane tripPackageInfo" id="tripPackageInfo">
         #parse("/system/comm/travel/selfServiceTravel/tripPackageInfo.vm")
     </div>
 	#end
+    <div class="tab-pane tripInfo" id="tripInfo">
+		<input type="hidden" value="$!{product.routeInfo.routeId}" id="route-id"/>
+        #parse("/system/comm/travel/tripInfo.vm")
+    </div>
     <div class="tab-pane priceInfo" id="priceInfo">
         #parse("/system/comm/travel/priceInfo.vm")
     </div>
-	<div class="tab-pane bigEditor" id="importantInfos" style="width: 96%;margin: 15px auto;">
-		<script type="text/javascript">
-			var important_infos_ue;
-            $(function() {
-                window.UEDITOR_HOME_URL = "$utilWebconfig.getStaticResourcesPath()/resources/ueditor/";
-                important_infos_ue = UE.getEditor('importantInfos_editor');
-            });
-			function getImportantInfos() {
-        		return important_infos_ue.getContent();
-        	}
-        </script>
-        <script id="importantInfos_editor" type="text/plain" name="importantInfos" style="width: 100%; height:350px">$!{importantInfos}</script>
+	<div class="tab-pane bigEditor" id="needKnow" style="width: 96%;margin: 15px auto;">
+		
 	</div>
   </div>
   #if(!${product.isReadonly()})
@@ -93,12 +71,11 @@
 			categoryId:$!{categoryId},
 			options:$!{options},
             baseInfo:getBaseInfo(),
-			#if($categoryId == 6)
 			routeId:$("#route-id").val() || 0,
             tripInfo:getTripInfo(),
 			updatedRouteItems:getUpdatedRouteItems(),
 			deletedRouteItems:getDeletedRouteItems(),
-            #elseif($categoryId == 7)
+            #if($categoryId == 7)
 			tripPackageInfo:getTripPackageInfo(),
             #end
             priceInfo:getPriceInfo()
