@@ -88,6 +88,47 @@
 				var route_item_detail_id = content.attr("route-item-detail-id");
 				setRouteItem(route_item_id,route_item_detail_id,updatedRouteItems);
 			});
+            // 添加景区
+            $(document).delegate(".add-scenic-btn","click",function(){
+                var _currentrid = $(this).attr("display-id");
+                var content = $("#"+_currentrid);
+                var rname = $("#"+_currentrid+"_add").val();
+                if(rname) {
+                    var btn = $("<button class='btn btn-default "+_currentrid+"_item'></button>");
+                    btn.attr("rid", 0);
+                    btn.attr("rname", rname);
+                    btn.click(function() {
+                        $(this).remove();
+                    });
+                    content.append(btn.text(rname));
+                    $("#"+_currentrid+"_add").val("");
+                }
+                // update
+                var route_item_id = content.attr("route-item-id");
+                var route_item_detail_id = content.attr("route-item-detail-id");
+                setRouteItem(route_item_id,route_item_detail_id,updatedRouteItems);
+            });
+            // 添加酒店
+            $(document).delegate(".add-hotel-btn","click",function(){
+                var _currentrid = $(this).attr("display-id");
+                var content = $("#"+_currentrid);
+                var rname = $("#"+_currentrid+"_add").val();
+                if(rname) {
+                    var btn = $("<button class='btn btn-default "+_currentrid+"_item'></button>");
+                    btn.attr("rid", 0);
+                    btn.attr("rname", rname);
+                    btn.click(function() {
+                        $(this).remove();
+                    });
+                    content.append(btn.text(rname));
+                    $("#"+_currentrid+"_add").val("");
+                }
+                // update
+                var route_item_id = content.attr("route-item-id");
+                var route_item_detail_id = content.attr("route-item-detail-id");
+                setRouteItem(route_item_id,route_item_detail_id,updatedRouteItems);
+            });
+
 			// 创建一天的page
 			function createDayPage(dayId) {
 				var page = $("<div class='tab-pane' id='day_"+dayId+"_page'></div>");
@@ -152,20 +193,32 @@
                 restaurantList.append(input_panel3.append(input_group3));
 				// 景区
 				var scenic_spot = $("<div class='panel add-scenic-spot'></div>");
-				scenic_spot.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-pushpin'></i><span class='tripAddSp'>添加景区</span></div>"));
+                scenic_spot.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-pushpin'></i><span class='tripAddSp'>添加景区</span></div>"));
 				scenic_spot.append($("<div class='panel-body scenic-spot' id='day_"+dayId+"_scenic'></div>"));
-				var scenic_spot_btn = $("<div class='panel-body'><button class='btn btn-primary select-scenic' display-id='day_"+dayId+"_scenic'>选择景区</button></div>");
-				scenic_spot.append(scenic_spot_btn);
-				scenic_spot_btn.find("button").click(selectScenic);
+                var scenic_group = $("<div class='panel-body input-group'></div>");
+                var scenic_spot_text = $("<input type='text' class='form-control' placeholder='请输入景区名称' id='day_"+dayId+"_scenic_add'>");
+                var scenic_spot_btn_add = $("<button class='btn btn-default add-scenic-btn' type='button' display-id='day_"+dayId+"_scenic'>添加景区</button>");
+				var scenic_spot_btn = $("<button class='btn btn-primary select-scenic' display-id='day_"+dayId+"_scenic'>选择景区</button>");
+                scenic_group.append(scenic_spot_text);
+                scenic_group.append($("<span class='input-group-btn'></span>").append(scenic_spot_btn_add));
+                scenic_group.append($("<span class='input-group-btn'></span>").append(scenic_spot_btn));
+				scenic_spot.append(scenic_group);
+				scenic_spot_btn.click(selectScenic);
 				page.append(scenic_spot);
 				// 酒店
 				var hotel = $("<div class='panel add-hotel'></div>");
-				hotel.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-home'></i><span class='tripAddSp'>添加酒店</span></div>"));
+                hotel.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-home'></i><span class='tripAddSp'>添加酒店</span></div>"));
 				hotel.append($("<div class='panel-body hotel' id='day_"+dayId+"_hotel'></div>"));
-				var hotel_btn = $("<div class='panel-body'><button class='btn btn-primary select-hotel' display-id='day_"+dayId+"_hotel'>选择酒店</button></div>");
-				hotel.append(hotel_btn);
-				hotel_btn.find("button").click(selectHotel);
-				page.append(hotel);
+                var hotel_group = $("<div class='panel-body input-group'></div>");
+                var hotel_text = $("<input type='text' class='form-control' placeholder='请输入酒店名称' id='day_"+dayId+"_hotel_add'>");
+                var hotel_btn_add = $("<button class='btn btn-default add-hotel-btn' type='button' display-id='day_"+dayId+"_hotel'>添加酒店</button>");
+                var hotel_btn = $("<button class='btn btn-primary select-hotel' display-id='day_"+dayId+"_hotel'>选择酒店</button>");
+                hotel_group.append(hotel_text);
+                hotel_group.append($("<span class='input-group-btn'></span>").append(hotel_btn_add));
+                hotel_group.append($("<span class='input-group-btn'></span>").append(hotel_btn));
+				hotel_btn.click(selectHotel);
+                hotel.append(hotel_group);
+                page.append(hotel);
 				return page;
 			}
           </script>
@@ -251,25 +304,41 @@
 				</div>
 			</div>
 			<div class="panel add-scenic-spot">
-				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-pushpin"></i><span class="tripAddSp">添加景区</span></div>
-				<div class="panel-body scenic-spot" id="day_${velocityCount}_scenic" route-item-id="$!{tripDay.scenicsRouteItemId}" route-item-detail-id="$!{tripDay.scenicDetailRouteItemId}">
-				#foreach($scenic in ${tripDay.scenics})
-					<button class="btn btn-info day_${day}_scenic_item remove-self" rid="$!{scenic.id}" rname="$!{scenic.name}">$!{scenic.name}</button>
-				#end
-				</div>
-				<div class="panel-body">
-                    <button class="btn btn-primary select-scenic" display-id="day_${velocityCount}_scenic">选择景区</button>
+                <div class="panel">
+					<div class="panel-heading travelPanelScenic"><i class="icon icon-2x icon-pushpin"></i><span class="tripAddSp">添加景区</span></div>
+					<div class="panel-body scenic-spot" id="day_${velocityCount}_scenic" route-item-id="$!{tripDay.scenicsRouteItemId}" route-item-detail-id="$!{tripDay.scenicDetailRouteItemId}">
+					#foreach($scenic in ${tripDay.scenics})
+						<button class="btn btn-info day_${day}_scenic_item remove-self" rid="$!{scenic.id}" rname="$!{scenic.name}">$!{scenic.name}</button>
+					#end
+					</div>
+					<div class="panel-body input-group">
+                        <input type='text' class='form-control' placeholder='请输入景区名称' id='day_${velocityCount}_scenic_add'>
+                        <span class="input-group-btn">
+						<button class='btn btn-default add-scenic-btn' type='button' display-id='day_${velocityCount}_scenic'>添加景区</button>
+						</span>
+						<span class="input-group-btn">
+						<button class="btn btn-primary select-scenic" display-id="day_${velocityCount}_scenic">选择景区</button>
+						</span>
+					</div>
 				</div>
 			</div>
 			<div class="panel add-hotel">
-				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-home"></i><span class="tripAddSp">添加酒店</span></div>
-				<div class="panel-body hotel" id="day_${velocityCount}_hotel" route-item-id="$!{tripDay.hotelsRouteItemId}" route-item-detail-id="$!{tripDay.hotelDetailRouteItemId}">
-				#foreach($hotel in $tripDay.hotels)
-					<button class="btn btn-info day_${day}_hotel_item remove-self" rid="$!{hotel.id}" rname="$!{hotel.name}">$!{hotel.name}</button>
-				#end
-				</div>
-                <div class="panel-body">
-					<button class="btn btn-primary select-hotel" display-id="day_${velocityCount}_hotel">选择酒店</button>
+                <div class="panel">
+					<div class="panel-heading travelPanelHotel"><i class="icon icon-2x icon-home"></i><span class="tripAddSp">添加酒店</span></div>
+					<div class="panel-body hotel" id="day_${velocityCount}_hotel" route-item-id="$!{tripDay.hotelsRouteItemId}" route-item-detail-id="$!{tripDay.hotelDetailRouteItemId}">
+					#foreach($hotel in $tripDay.hotels)
+						<button class="btn btn-info day_${day}_hotel_item remove-self" rid="$!{hotel.id}" rname="$!{hotel.name}">$!{hotel.name}</button>
+					#end
+					</div>
+					<div class="panel-body input-group">
+						<input type='text' class='form-control' placeholder='请输入酒店名称' id='day_${velocityCount}_hotel_add'>
+							<span class="input-group-btn">
+							<button class='btn btn-default add-hotel-btn' type='button' display-id='day_${velocityCount}_hotel'>添加酒店</button>
+							</span>
+							<span class="input-group-btn">
+							<button class="btn btn-primary select-hotel" display-id="day_${velocityCount}_hotel">选择酒店</button>
+							</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -351,7 +420,7 @@
 			openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectScenic','选择景区',function() {
 				var sce = win.getItems(); 
 				var content = $("#"+currentSId);
-				content.empty();
+//				content.empty();
                 for(var i in sce) {
 					var btn = $("<button class='btn btn-info "+currentSId+"_item remove-self'></button>");
 					btn.attr("rid", sce[i].id);
@@ -374,7 +443,7 @@
 			openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectHotel','选择酒店 ',function() {
 				var hot = win.getItems(); 
 				var content = $("#"+currentHId);
-				content.empty();
+//				content.empty();
                 for(var i in hot) {
 					var btn = $("<button class='btn btn-info "+currentHId+"_item remove-self'></button>");
 					btn.attr("rid", hot[i].id);

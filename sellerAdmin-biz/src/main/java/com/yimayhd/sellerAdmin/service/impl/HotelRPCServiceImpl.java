@@ -292,7 +292,7 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 				pictureVO.setId(picturesDO.getId());
 				pictureVO.setName(picturesDO.getName());
 				pictureVO.setValue(picturesDO.getPath());
-				pictureVO.setIsTop(picturesDO.isIsTop());
+				pictureVO.setIsTop(picturesDO.isTop());
 				pictureVOList.add(pictureVO);
 
 			}

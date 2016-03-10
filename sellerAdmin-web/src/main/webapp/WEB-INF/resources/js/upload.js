@@ -1,11 +1,6 @@
 //不是插件
 var fileUpload = function(id,type,callBack){//id：上传控件筛选器（‘#id’或‘。class’），type：1单文件；2多文件，callBack：回调函数接收data
     var oFiles = document.querySelector(id).files;
-    uploadSenedFile(oFiles,type,callBack);
-}
-
-var uploadSenedFile = function(files,type,callBack){//id：上传控件筛选器（‘#id’或‘。class’），type：1单文件；2多文件，callBack：回调函数接收data
-    var oFiles = files;
     // 实例化一个表单数据对象
     var formData = new FormData();
     // 遍历文件列表，插入到表单数据中
@@ -19,12 +14,12 @@ var uploadSenedFile = function(files,type,callBack){//id：上传控件筛选器
     }
     var xhr = new XMLHttpRequest();
     xhr.onload = function(data) {
-
         var data = JSON.parse(data.target.response);
         if(data && data.status == 200){
             var errMessage = new Array();
             for(key in data.data){
-                if(!data.data[key] || data.data[key] === "null"){
+                alert(data.data[key]);
+                if(!data.data[key] || data.data[key] === "null" || data.data[key].length < 10){
                     delete data.data[key];
                     errMessage.push(key);
                 }
@@ -33,6 +28,7 @@ var uploadSenedFile = function(files,type,callBack){//id：上传控件筛选器
                 layer.msg("以下图片上传失败：" + errMessage.join(','),{icon:2});
             }
         }
+        //执行回调
         callBack(data,id);
 
     };

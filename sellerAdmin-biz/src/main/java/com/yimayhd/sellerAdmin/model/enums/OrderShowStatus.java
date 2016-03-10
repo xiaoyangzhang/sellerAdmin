@@ -5,7 +5,7 @@ public enum OrderShowStatus {
     PAID(2,"待发货/已付款"),
     SHIPPED(3,"待收货/已发货"),
     FINISH(4,"已完成"),
-    TRADE_CLOSE(5,"交易关闭"),
+    TRADE_CLOSE(5,"已取消"),
     PENDING(6,"待处理"),
     REFUNDED(7,"已退款"),
     WAITING_EVALUATION(8,"待评价");
