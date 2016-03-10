@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface UserService {
     List<HaMenuDO> getMenuListByUserId(long id) throws Exception;
+
+    List<HaMenuDO> getUrlListByUserId(long id) throws Exception;
 }

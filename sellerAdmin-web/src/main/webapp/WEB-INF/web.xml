@@ -95,10 +95,11 @@
 		<!-- 自定义servlet.xml配置文件的位置和名称，默认为WEB-INF目录下，名称为<servlet-name>+"-servlet.xml" -->
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:mvc-servlet.xml</param-value>
+			<param-value>/WEB-INF/mvc-servlet.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
 	<!--url映射 -->
 	<servlet-mapping>
 		<servlet-name>mvc-dispatcher</servlet-name>

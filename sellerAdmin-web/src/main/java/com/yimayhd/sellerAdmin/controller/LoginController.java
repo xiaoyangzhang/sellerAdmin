@@ -158,6 +158,6 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "/user/noPower", method = RequestMethod.GET)
     public String toNoPower(Model model,String urlName) throws Exception {
         model.addAttribute("message", "没有" + urlName + "权限，请联系管理员");
-        return "/system/error";
+        return "/error";
     }
 }

@@ -13,9 +13,9 @@
     <!--启用spring的注解功能-->
     <context:component-scan base-package="com.yimayhd.**.controller"/>
 
-    <mvc:interceptors>
+    <!--<mvc:interceptors>
         <bean class="com.yimayhd.sellerAdmin.interceptor.LoginInterceptor"/>
-    </mvc:interceptors>
+    </mvc:interceptors>-->
 
 
     <!--系统默认欢迎页

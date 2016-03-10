@@ -1,6 +1,7 @@
 package com.yimayhd.sellerAdmin.interceptor;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,8 +9,12 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yimayhd.membercenter.client.domain.HaMenuDO;
+import com.yimayhd.sellerAdmin.service.UserService;
+import com.yimayhd.user.session.manager.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.util.UrlPathHelper;
 
 
 /**
@@ -27,84 +32,77 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		map.put("DELETE", 4);
 	}
 	
-//    @Autowired
-//    private HaMenuService haMenuService;
+    @Autowired
+    private UserService service;
+
+	@Autowired
+	private SessionManager sessionManager;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
     	//TODO:待功能完善后放开以下注释即可
-        /*String url = request.getRequestURI();
+		String url = new UrlPathHelper().getLookupPathForRequest(request);
+        //String url = request.getRequestURI();
         int reqType= map.get(request.getMethod());
-        if(!url.equals("/user/noPower")){
-            long userId = 10;
-            List<HaMenuDO> haMenuList = haMenuService.getUrlListByUserId(userId);
+		if(Pattern.compile("^/resources/.*").matcher(url).matches()){
+			return true;
+		}
+        if(!url.equals("/user/noPower") && !url.equals("/toLogin") && !url.equals("/login") && !url.equals("/main")){
+            long userId = sessionManager.getUserId();
+            List<HaMenuDO> haMenuList = service.getUrlListByUserId(userId);
             if(null !=haMenuList && haMenuList.size()>0){
             	for (HaMenuDO haMenuDO : haMenuList) {
-            		
+
 					String dbURL =haMenuDO.getUrl();
 					int dbReqType=haMenuDO.getReqType();
-					
+
 					if(0 !=dbReqType && reqType !=dbReqType){
 						continue;
 					}
-					if(hasBrackets(dbURL)){
-						dbURL=turnBrackets(dbURL);
-					}
-					if(matchURL(url, dbURL)){
-					  System.out.println("OK");
-					  return true;
+					if(this.matchURL(url,dbURL)){
+						return true;
 					}
 				}
             }
+			response.sendRedirect("/user/noPower?urlName=" + url);
+			return false;
         }
-        return false;*/
-    	return true;
+		return true;
+
     }
-    
-    /**
-    * @Title: hasBrackets 
-    * @Description:(判断数据库中的配置url有没有包含"{") 
-    * @author create by yushengwei @ 2015年12月3日 下午7:08:36 
-    * @param @param str
-    * @param @return 
-    * @return boolean 返回类型 
-    * @throws
-     */
-	public static boolean hasBrackets(String str){
-		boolean flag=str.contains("{");
-		return flag;
+
+
+	/**
+	 * 判断两个url是否相匹配
+	 * @param url 请求url
+	 * @param dbUrl mapping url
+	 * @return 是否匹配
+	 */
+    public boolean matchURL(String url,String dbUrl){
+		String dbUrlRegex = this.createUrlRegex(dbUrl);
+		Pattern pattern = Pattern.compile(dbUrlRegex);
+		if(pattern.matcher(url).matches()){
+			return true;
+		}
+		return false;
 	}
-    
-    /**
-    * @Title: turnBrackets 
-    * @Description:(把数据库中配置的url带{的转换成通配符，匹配{}内的所有内容) 
-    * @author create by yushengwei @ 2015年12月3日 下午7:10:38 
-    * @param @param str
-    * @param @return 
-    * @return String 返回类型 
-    * @throws
-     */
-    public static String turnBrackets(String str){
-		String interval  =str.substring(str.indexOf("{"), str.indexOf("}")+1);
-		str=str.replace(interval,"[^/]+?");
-		return str;
+
+	/**
+	 * 构建url匹配正则
+	 * @param dbUrl
+	 * @return 正则
+	 */
+	private String createUrlRegex(String dbUrl){
+		String dbUrlRegex = dbUrl;
+		Pattern pattern = Pattern.compile("(\\{\\S+?\\})");
+		Matcher matcher = pattern.matcher(dbUrl);
+		while(matcher.find()){
+			System.out.println(matcher.group());
+			dbUrlRegex = dbUrlRegex.replace(matcher.group(),"[^\\s\\/]+?");
+		}
+		return dbUrlRegex;
 	}
-    
-    /**
-    * @Title: matchURL 
-    * @Description:(判断两个url是否相匹配) 
-    * @author create by yushengwei @ 2015年12月3日 下午7:11:32 
-    * @param @param str
-    * @param @param match
-    * @param @return 
-    * @return boolean 返回类型 
-    * @throws
-     */
-    public static boolean matchURL(String str,String match){
-		String regEx=match;
-		Pattern pattern = Pattern.compile(regEx);
-	    Matcher matcher = pattern.matcher(str);
-	    boolean rs = matcher.matches();
-		return rs;
-	}
-    
-    }
+
+
+
+}
