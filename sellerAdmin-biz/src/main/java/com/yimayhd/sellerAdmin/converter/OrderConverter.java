@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.convert;
+package com.yimayhd.sellerAdmin.converter;
 
 import com.yimayhd.sellerAdmin.model.enums.OrderActionStatus;
 import com.yimayhd.sellerAdmin.model.enums.OrderShowStatus;

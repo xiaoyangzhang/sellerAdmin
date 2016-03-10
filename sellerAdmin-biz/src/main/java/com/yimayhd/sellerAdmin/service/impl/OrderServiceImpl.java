@@ -1,7 +1,7 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
 import com.yimayhd.sellerAdmin.base.PageVO;
-import com.yimayhd.sellerAdmin.convert.OrderConverter;
+import com.yimayhd.sellerAdmin.converter.OrderConverter;
 import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;

@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.convert;
+package com.yimayhd.sellerAdmin.converter;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.constant.Constant;

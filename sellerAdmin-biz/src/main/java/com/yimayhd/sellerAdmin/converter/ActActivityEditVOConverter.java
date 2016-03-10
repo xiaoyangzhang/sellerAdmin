@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.convert;
+package com.yimayhd.sellerAdmin.converter;
 
 import com.yimayhd.activitycenter.domain.ActActivityDO;
 import com.yimayhd.activitycenter.dto.ActPromotionDTO;
