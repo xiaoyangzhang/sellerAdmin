@@ -36,7 +36,6 @@ import com.yimayhd.ic.client.util.PicUrlsUtil;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.line.BaseLineVO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
-import com.yimayhd.sellerAdmin.model.line.detail.DetailInfoVO;
 import com.yimayhd.sellerAdmin.model.line.free.FreeLineVO;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
 import com.yimayhd.sellerAdmin.model.line.price.PackageBlock;
@@ -44,6 +43,7 @@ import com.yimayhd.sellerAdmin.model.line.price.PackageDay;
 import com.yimayhd.sellerAdmin.model.line.price.PackageInfo;
 import com.yimayhd.sellerAdmin.model.line.price.PackageMonth;
 import com.yimayhd.sellerAdmin.model.line.price.PriceInfoVO;
+import com.yimayhd.sellerAdmin.model.line.route.FreeLineRouteVO;
 import com.yimayhd.sellerAdmin.model.line.route.RouteDayVO;
 import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
 import com.yimayhd.sellerAdmin.model.line.tour.TourLineVO;
@@ -221,7 +221,7 @@ public class LineConverter {
 		return itemSkuDOs;
 	}
 
-	public static DetailInfoVO toDetailInfoVO(LineResult lineResult) {
+	public static FreeLineRouteVO toFreeLineRouteVO(LineResult lineResult) {
 		// TODO YEBIN 待开发
 		return null;
 	}
@@ -230,14 +230,38 @@ public class LineConverter {
 		// TODO YEBIN 待开发
 		return null;
 	}
+	
+	public static FreeLineVO toFreeLineVO(LineResult lineResult, List<ComTagDO> tags) {
+		FreeLineVO result = new FreeLineVO();
+		LineDO line = lineResult.getLineDO();
+		BaseInfoVO baseInfo = toBaseInfoVO(line, tags);
+		result.setBaseInfo(baseInfo);
+		FreeLineRouteVO freeLineRoute = toFreeLineRouteVO(lineResult);
+		result.setFreeLineRoute(freeLineRoute);
+		// 线路个性化部分 start
+		RouteInfoVO routeInfo = toRouteInfoVO(lineResult);
+		result.setRouteInfo(routeInfo);
+		// 线路个性化部分 end
+		ItemDO itemDO = lineResult.getItemDO();
+		result.setCategoryId(itemDO.getCategoryId());
+		result.setOptions(itemDO.getOptions());
+		result.setReadonly(itemDO.getStatus() == ItemStatus.valid.getValue());
+		PriceInfoVO priceInfo = toPriceInfoVO(itemDO, lineResult.getItemSkuDOList());
+		result.setPriceInfo(priceInfo);
+		String picUrl = itemDO.getPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC);
+		if (StringUtils.isNotBlank(picUrl)) {
+			baseInfo.setOrderImage(picUrl);
+		}
+		NeedKnowVO needKnow = toNeedKnowVO(lineResult);
+		result.setNeedKnow(needKnow);
+		return result;
+	}
 
 	public static TourLineVO toTourLineVO(LineResult lineResult, List<ComTagDO> tags) {
 		TourLineVO result = new TourLineVO();
 		LineDO line = lineResult.getLineDO();
 		BaseInfoVO baseInfo = toBaseInfoVO(line, tags);
 		result.setBaseInfo(baseInfo);
-		DetailInfoVO detailInfo = toDetailInfoVO(lineResult);
-		result.setDetailInfo(detailInfo);
 		// 线路个性化部分 start
 		RouteInfoVO routeInfo = toRouteInfoVO(lineResult);
 		result.setRouteInfo(routeInfo);
@@ -648,31 +672,5 @@ public class LineConverter {
 		target.setUpdItemSkuList(updateSkuList);
 		target.setDelItemSkuList(deleteSkuList);
 		return target;
-	}
-
-	public static FreeLineVO toFreeLineVO(LineResult lineResult, List<ComTagDO> comTagDOs) {
-		FreeLineVO result = new FreeLineVO();
-		LineDO line = lineResult.getLineDO();
-		BaseInfoVO baseInfo = toBaseInfoVO(line, comTagDOs);
-		result.setBaseInfo(baseInfo);
-		DetailInfoVO detailInfo = toDetailInfoVO(lineResult);
-		result.setDetailInfo(detailInfo);
-		// 线路个性化部分 start
-		RouteInfoVO routeInfo = toRouteInfoVO(lineResult);
-		result.setRouteInfo(routeInfo);
-		// 线路个性化部分 end
-		ItemDO itemDO = lineResult.getItemDO();
-		result.setCategoryId(itemDO.getCategoryId());
-		result.setOptions(itemDO.getOptions());
-		result.setReadonly(itemDO.getStatus() == ItemStatus.valid.getValue());
-		PriceInfoVO priceInfo = toPriceInfoVO(itemDO, lineResult.getItemSkuDOList());
-		result.setPriceInfo(priceInfo);
-		String picUrl = itemDO.getPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC);
-		if (StringUtils.isNotBlank(picUrl)) {
-			baseInfo.setOrderImage(picUrl);
-		}
-		NeedKnowVO needKnow = toNeedKnowVO(lineResult);
-		result.setNeedKnow(needKnow);
-		return result;
 	}
 }
