@@ -29,7 +29,7 @@ import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.service.ActivityService;
-import com.yimayhd.sellerAdmin.service.CommTravelService;
+import com.yimayhd.sellerAdmin.service.CommLineService;
 import com.yimayhd.sellerAdmin.service.CommodityService;
 import com.yimayhd.sellerAdmin.service.HotelRPCService;
 import com.yimayhd.sellerAdmin.service.RestaurantService;
@@ -67,7 +67,7 @@ public class ResourceForSelectController extends BaseController {
 	@Autowired
 	private TripService tripService;
 	@Resource
-	private CommTravelService travelService;
+	private CommLineService travelService;
 	@Autowired
 	private ActivityService activityService;
 
