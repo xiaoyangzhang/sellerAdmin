@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.model.travel.groupTravel;
+package com.yimayhd.sellerAdmin.model.line.tour;
 
 import java.util.ArrayList;
 import java.util.List;

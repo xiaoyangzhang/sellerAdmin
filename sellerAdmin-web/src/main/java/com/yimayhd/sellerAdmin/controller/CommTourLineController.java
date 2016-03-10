@@ -2,9 +2,6 @@ package com.yimayhd.sellerAdmin.controller;
 
 import javax.annotation.Resource;
 
-import com.yimayhd.sellerAdmin.constant.Constant;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +12,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.sellerAdmin.base.BaseTravelController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
-import com.yimayhd.sellerAdmin.model.travel.groupTravel.GroupTravel;
-import com.yimayhd.sellerAdmin.model.travel.groupTravel.TripTraffic;
-import com.yimayhd.sellerAdmin.service.CommTravelService;
-import com.yimayhd.sellerAdmin.service.TfsService;
+import com.yimayhd.sellerAdmin.model.line.tour.TourLineVO;
+import com.yimayhd.sellerAdmin.model.line.tour.TripTraffic;
+import com.yimayhd.sellerAdmin.service.CommTourLineService;
 
 /**
  * 商品-跟团游
@@ -28,11 +24,9 @@ import com.yimayhd.sellerAdmin.service.TfsService;
  */
 @Controller
 @RequestMapping("/B2C/comm/groupTravel")
-public class CommGroupTravelController extends BaseTravelController {
+public class CommTourLineController extends BaseTravelController {
 	@Resource
-	private CommTravelService groupTravelService;
-	@Autowired
-	private TfsService tfsService;
+	private CommTourLineService commTourLineService;
 
 	/**
 	 * 详细信息页
@@ -46,12 +40,8 @@ public class CommGroupTravelController extends BaseTravelController {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
 		if (id > 0) {
-			GroupTravel gt = groupTravelService.getById(id, GroupTravel.class);
+			TourLineVO gt = commTourLineService.getById(id);
 			put("product", gt);
-			String importantInfos = tfsService.readHtml5(gt.getPriceInfo().getImportantInfosCode());
-			put("importantInfos", importantInfos);
-			String extraInfos = tfsService.readHtml5(gt.getBaseInfo().getNeedKnow().getExtraInfoUrl());
-			put("extraInfos", extraInfos);
 			put("lineType", LineType.getByType(gt.getBaseInfo().getType()));
 		}
 		return "/system/comm/travel/detail";
@@ -92,18 +82,8 @@ public class CommGroupTravelController extends BaseTravelController {
 	@RequestMapping(value = "/save")
 	public @ResponseBody ResponseVo save(String json, String importantInfos, String extraInfos) {
 		try {
-			GroupTravel gt = (GroupTravel) JSONObject.parseObject(json, GroupTravel.class);
-			if (StringUtils.isNotBlank(importantInfos)) {
-				String importantInfosCode = tfsService.publishHtml5(importantInfos);
-				gt.getPriceInfo().setImportantInfosCode(importantInfosCode);
-			} else {
-				gt.getPriceInfo().setImportantInfosCode(Constant.DEFAULT_CONTRACT_TFS_CODE);
-			}
-			if (StringUtils.isNotBlank(extraInfos)) {
-				String extraInfosCode = tfsService.publishHtml5(extraInfos);
-				gt.getBaseInfo().getNeedKnow().setExtraInfoUrl(extraInfosCode);
-			}
-			long id = groupTravelService.publishLine(gt);
+			TourLineVO gt = (TourLineVO) JSONObject.parseObject(json, TourLineVO.class);
+			long id = commTourLineService.publishLine(gt);
 			return ResponseVo.success(id);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

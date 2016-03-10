@@ -11,20 +11,18 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.domain.item.HotelShortItem;
-import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
 import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.sellerAdmin.checker.result.CheckResult;
-import com.yimayhd.sellerAdmin.model.travel.BaseInfo;
-import com.yimayhd.sellerAdmin.model.travel.BaseTravel;
-import com.yimayhd.sellerAdmin.model.travel.PackageBlock;
-import com.yimayhd.sellerAdmin.model.travel.PackageDay;
-import com.yimayhd.sellerAdmin.model.travel.PackageInfo;
-import com.yimayhd.sellerAdmin.model.travel.PackageMonth;
-import com.yimayhd.sellerAdmin.model.travel.PriceInfo;
-import com.yimayhd.sellerAdmin.model.travel.flightHotelTravel.FlightHotelTravel;
-import com.yimayhd.sellerAdmin.model.travel.flightHotelTravel.TripPackageInfo;
-import com.yimayhd.sellerAdmin.model.travel.groupTravel.GroupTravel;
-import com.yimayhd.sellerAdmin.model.travel.groupTravel.TripDay;
+import com.yimayhd.sellerAdmin.model.line.BaseLineVO;
+import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
+import com.yimayhd.sellerAdmin.model.line.free.TripPackageInfo;
+import com.yimayhd.sellerAdmin.model.line.price.PackageBlock;
+import com.yimayhd.sellerAdmin.model.line.price.PackageDay;
+import com.yimayhd.sellerAdmin.model.line.price.PackageInfo;
+import com.yimayhd.sellerAdmin.model.line.price.PackageMonth;
+import com.yimayhd.sellerAdmin.model.line.price.PriceInfoVO;
+import com.yimayhd.sellerAdmin.model.line.route.RouteDayVO;
+import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
 
 /**
  * 线路checker
@@ -35,7 +33,7 @@ import com.yimayhd.sellerAdmin.model.travel.groupTravel.TripDay;
 public class LineChecker {
 	private static final Logger log = LoggerFactory.getLogger(LineChecker.class);
 
-	public static <T extends BaseTravel> CheckResult checkForSave(T travel) {
+	public static <T extends BaseLineVO> CheckResult checkForSave(T travel) {
 		CheckResult checkBaseInfoForSave = checkBaseInfoForSave(travel.getBaseInfo());
 		if (!checkBaseInfoForSave.isSuccess()) {
 			return checkBaseInfoForSave;
@@ -44,21 +42,14 @@ public class LineChecker {
 		if (!checkPriceInfoForSave.isSuccess()) {
 			return checkPriceInfoForSave;
 		}
-		if (travel instanceof GroupTravel) {
-			CheckResult checkGroupTravelForSave = checkGroupTravelForSave((GroupTravel) travel);
-			if (!checkGroupTravelForSave.isSuccess()) {
-				return checkGroupTravelForSave;
-			}
-		} else if (travel instanceof FlightHotelTravel) {
-			CheckResult checkFlightHotelTravel = checkFlightHotelTravel((FlightHotelTravel) travel);
-			if (!checkFlightHotelTravel.isSuccess()) {
-				return checkFlightHotelTravel;
-			}
+		CheckResult checkTripInfoForSave = checkTripInfo(travel.getRouteInfo());
+		if (!checkTripInfoForSave.isSuccess()) {
+			return checkTripInfoForSave;
 		}
 		return CheckResult.success();
 	}
 
-	public static <T extends BaseTravel> CheckResult checkForUpdate(T travel) {
+	public static <T extends BaseLineVO> CheckResult checkForUpdate(T travel) {
 		CheckResult checkBaseInfoForUpdate = checkBaseInfoForUpdate(travel.getBaseInfo());
 		if (!checkBaseInfoForUpdate.isSuccess()) {
 			return checkBaseInfoForUpdate;
@@ -67,39 +58,11 @@ public class LineChecker {
 		if (!checkPriceInfoForUpdate.isSuccess()) {
 			return checkPriceInfoForUpdate;
 		}
-		if (travel instanceof GroupTravel) {
-			CheckResult checkGroupTravelForUpdate = checkGroupTravelForUpdate((GroupTravel) travel);
-			if (!checkGroupTravelForUpdate.isSuccess()) {
-				return checkGroupTravelForUpdate;
-			}
-		} else if (travel instanceof FlightHotelTravel) {
-			CheckResult checkFlightHotelTravel = checkFlightHotelTravel((FlightHotelTravel) travel);
-			if (!checkFlightHotelTravel.isSuccess()) {
-				return checkFlightHotelTravel;
-			}
-		}
-		return CheckResult.success();
-	}
-
-	public static CheckResult checkGroupTravelForSave(GroupTravel gt) {
-		CheckResult checkTripInfoForSave = checkTripInfo(gt.getTripInfo());
+		CheckResult checkTripInfoForSave = checkTripInfo(travel.getRouteInfo());
 		if (!checkTripInfoForSave.isSuccess()) {
 			return checkTripInfoForSave;
 		}
 		return CheckResult.success();
-	}
-
-	public static CheckResult checkGroupTravelForUpdate(GroupTravel gt) {
-		String temp = "行程信息验证失败: {}";
-		if (gt.getRouteId() <= 0) {
-			log.warn(temp, JSON.toJSONString(gt));
-			return CheckResult.error("无效行程ID");
-		}
-		return checkGroupTravelForSave(gt);
-	}
-
-	public static CheckResult checkFlightHotelTravel(FlightHotelTravel fht) {
-		return checkTripPackageInfo(fht.getTripPackageInfo());
 	}
 
 	public static CheckResult checkTripPackageInfo(TripPackageInfo tripPackageInfo) {
@@ -112,7 +75,7 @@ public class LineChecker {
 		return CheckResult.success();
 	}
 
-	public static CheckResult checkBaseInfoForSave(BaseInfo baseInfo) {
+	public static CheckResult checkBaseInfoForSave(BaseInfoVO baseInfo) {
 		String temp = "线路基本信息验证失败: {}";
 		int type = baseInfo.getType();
 		if (LineType.getByType(type) == null) {
@@ -130,83 +93,28 @@ public class LineChecker {
 			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("APP产品封面图不能为空");
 		}
-		if (StringUtils.isBlank(baseInfo.getProductImagePc())) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("PC产品封面图不能为空");
-		}
-		if (StringUtils.isBlank(baseInfo.getTripImage())) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("行程封面图不能为空");
-		}
+		
 		if (StringUtils.isBlank(baseInfo.getOrderImage())) {
 			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("商品订单图不能为空");
 		}
-		if (CollectionUtils.isEmpty(baseInfo.getTags())) {
+		if (CollectionUtils.isEmpty(baseInfo.getThemes())) {
 			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("产品标签不能为空");
-		}
-		if (baseInfo.getPublisherId() <= 0) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("无效发布者");
-		}
-		if (baseInfo.getToId() <= 0) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("无效目的地");
-		}
-		if (StringUtils.isBlank(baseInfo.getToName())) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("目的地名称不能为空");
-		}
-		if (baseInfo.getMemberPrice() < 0) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("无效会员价");
-		}
-		if (baseInfo.getPrice() < 0) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("无效会员价");
-		}
-		String highlights = baseInfo.getHighlights();
-		if (StringUtils.isBlank(highlights)) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("线路设计亮点不能为空");
-		} else if (highlights.length() > 500) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("线路设计亮点不能超过500个字");
-		}
-		MasterRecommend recommond = baseInfo.getRecommond();
-		if (StringUtils.isBlank(recommond.getTitle())) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("推荐理由标题不能为空");
-		}
-		if (StringUtils.isBlank(recommond.getDescription())) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("推荐理由内容不能为空");
-		} else if (recommond.getDescription().length() > 300) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("推荐理由不能超过300个字");
-		}
-		if (recommond.getUserId() <= 0) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("无效线路推荐人");
-		}
-		if (StringUtils.isBlank(recommond.getName())) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("线路推荐人名称不能为空");
+			return CheckResult.error("主题不能为空");
 		}
 		return CheckResult.success();
 	}
 
-	public static CheckResult checkBaseInfoForUpdate(BaseInfo baseInfo) {
+	public static CheckResult checkBaseInfoForUpdate(BaseInfoVO baseInfo) {
 		String temp = "线路基本信息验证失败: {}";
-		if (baseInfo.getId() <= 0) {
+		if (baseInfo.getLineId() <= 0) {
 			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("无效线路ID");
 		}
 		return checkBaseInfoForSave(baseInfo);
 	}
 
-	public static CheckResult checkPriceInfoForSave(PriceInfo priceInfo) {
+	public static CheckResult checkPriceInfoForSave(PriceInfoVO priceInfo) {
 		String temp = "线路价格信息验证失败: {}";
 		List<PackageInfo> tcs = priceInfo.getTcs();
 		if (CollectionUtils.isEmpty(tcs)) {
@@ -316,7 +224,7 @@ public class LineChecker {
 		return PropertyChecker.checkProperty(block.getPId(), block.getPType(), block.getPTxt());
 	}
 
-	public static CheckResult checkPriceInfoForUpdate(PriceInfo priceInfo) {
+	public static CheckResult checkPriceInfoForUpdate(PriceInfoVO priceInfo) {
 		String temp = "线路价格信息验证失败: {}";
 		if (priceInfo.getItemId() <= 0) {
 			log.warn(temp, JSON.toJSONString(priceInfo));
@@ -325,13 +233,14 @@ public class LineChecker {
 		return checkPriceInfoForSave(priceInfo);
 	}
 
-	public static CheckResult checkTripInfo(List<TripDay> tripInfo) {
+	public static CheckResult checkTripInfo(RouteInfoVO tripInfo) {
 		String temp = "行程信息验证失败: {}";
-		if (CollectionUtils.isEmpty(tripInfo)) {
+		List<RouteDayVO> routeDays = tripInfo.getRouteDays();
+		if (CollectionUtils.isEmpty(routeDays)) {
 			log.warn(temp, JSON.toJSONString(tripInfo));
 			return CheckResult.error("行程信息不能为空");
 		}
-		for (TripDay tripDay : tripInfo) {
+		for (RouteDayVO tripDay : routeDays) {
 			CheckResult checkTripDay = checkTripDay(tripDay);
 			if (!checkTripDay.isSuccess()) {
 				return checkTripDay;
@@ -340,7 +249,7 @@ public class LineChecker {
 		return CheckResult.success();
 	}
 
-	public static CheckResult checkTripDay(TripDay tripDay) {
+	public static CheckResult checkTripDay(RouteDayVO tripDay) {
 		// TODO YEBIN
 		return CheckResult.success();
 	}

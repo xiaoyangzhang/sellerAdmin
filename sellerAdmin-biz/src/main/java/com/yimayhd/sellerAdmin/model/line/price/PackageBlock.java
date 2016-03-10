@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.model.travel;
+package com.yimayhd.sellerAdmin.model.line.price;
 
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 

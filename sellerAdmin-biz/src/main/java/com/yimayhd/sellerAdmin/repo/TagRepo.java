@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class TagRepo {
 	private ComCenterService comCenterServiceRef;
 
 	public boolean addTagRelation(long outId, TagType tagType, List<Long> tagIdList, Date date) {
+		if (outId <= 0 || tagType == null || CollectionUtils.isEmpty(tagIdList) || date == null) {
+			return false;
+		}
 		TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
 		tagRelationInfoDTO.setTagType(tagType.getType());
 		tagRelationInfoDTO.setOutId(outId);
@@ -107,11 +111,13 @@ public class TagRepo {
 
 	/**
 	 * 根据TagType获取标签列表
-	 * @param tagType 标签类型
+	 * 
+	 * @param tagType
+	 *            标签类型
 	 * @return 标签列表
 	 */
 	public List<ComTagDO> getTagListByTagType(TagType tagType) {
-		RepoUtils.requestLog(log, "comCenterServiceRef.selectTagListByTagType",tagType.name());
+		RepoUtils.requestLog(log, "comCenterServiceRef.selectTagListByTagType", tagType.name());
 		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(tagType.name());
 		RepoUtils.resultLog(log, "comCenterServiceRef.selectTagListByTagType", tagResult);
 		return tagResult.getValue();

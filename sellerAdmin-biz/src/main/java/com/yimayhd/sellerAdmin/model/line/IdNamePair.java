@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.model.travel;
+package com.yimayhd.sellerAdmin.model.line;
 
 import com.yimayhd.ic.client.model.domain.share_json.RouteTextItem;
 

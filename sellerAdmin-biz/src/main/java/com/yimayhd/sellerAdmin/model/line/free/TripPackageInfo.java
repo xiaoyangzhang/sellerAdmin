@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.model.travel.flightHotelTravel;
+package com.yimayhd.sellerAdmin.model.line.free;
 
 import java.util.List;
 

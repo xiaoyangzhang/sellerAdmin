@@ -1,18 +1,20 @@
-package com.yimayhd.sellerAdmin.model.travel.groupTravel;
+package com.yimayhd.sellerAdmin.model.line.route;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.yimayhd.sellerAdmin.model.travel.IdNamePair;
 import com.yimayhd.ic.client.model.domain.RouteItemDO;
 import com.yimayhd.ic.client.model.domain.share_json.RouteItemDesc;
 import com.yimayhd.ic.client.model.domain.share_json.RouteItemDetail;
 import com.yimayhd.ic.client.model.domain.share_json.RouteTextItem;
 import com.yimayhd.ic.client.model.enums.RouteItemBizType;
 import com.yimayhd.ic.client.model.enums.RouteItemType;
+import com.yimayhd.sellerAdmin.model.line.IdNamePair;
+import com.yimayhd.sellerAdmin.model.line.tour.TripTraffic;
 
 /**
  * 行程-天
@@ -20,7 +22,8 @@ import com.yimayhd.ic.client.model.enums.RouteItemType;
  * @author yebin
  *
  */
-public class TripDay {
+public class RouteDayVO implements Serializable {
+	private static final long serialVersionUID = 7070001338543340926L;
 	private long trafficRouteItemId;
 	private TripTraffic traffic;// 交通方式
 	private long descriptionRouteItemId;
@@ -42,10 +45,10 @@ public class TripDay {
 	private long hotelDetailRouteItemId;
 	private RouteItemDetail hotelDetail;
 
-	public TripDay() {
+	public RouteDayVO() {
 	}
 
-	public TripDay(RouteItemDO trafficInfo, RouteItemDO description, RouteItemDO breakfast, RouteItemDO lunch,
+	public RouteDayVO(RouteItemDO trafficInfo, RouteItemDO description, RouteItemDO breakfast, RouteItemDO lunch,
 			RouteItemDO dinner, RouteItemDO scenic, RouteItemDO hotel, RouteItemDO restaurantDetail,
 			RouteItemDO scenicDetail, RouteItemDO hotelDetail) {
 		if (trafficInfo != null && trafficInfo.getRouteTrafficInfo() != null) {

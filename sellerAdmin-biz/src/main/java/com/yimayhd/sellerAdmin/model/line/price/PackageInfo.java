@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.model.travel;
+package com.yimayhd.sellerAdmin.model.line.price;
 
 import java.util.ArrayList;
 import java.util.Calendar;

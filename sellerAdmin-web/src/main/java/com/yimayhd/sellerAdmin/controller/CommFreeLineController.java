@@ -2,8 +2,6 @@ package com.yimayhd.sellerAdmin.controller;
 
 import javax.annotation.Resource;
 
-import com.yimayhd.sellerAdmin.constant.Constant;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +13,9 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.sellerAdmin.base.BaseTravelController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
-import com.yimayhd.sellerAdmin.model.travel.flightHotelTravel.FlightHotelTravel;
-import com.yimayhd.sellerAdmin.service.CommTravelService;
+import com.yimayhd.sellerAdmin.model.line.free.FreeLineVO;
+import com.yimayhd.sellerAdmin.service.CommFreeLineService;
 import com.yimayhd.sellerAdmin.service.FlightRPCService;
-import com.yimayhd.sellerAdmin.service.TfsService;
 
 /**
  * 商品-自由行
@@ -28,13 +25,11 @@ import com.yimayhd.sellerAdmin.service.TfsService;
  */
 @Controller
 @RequestMapping("/B2C/comm/selfServiceTravel")
-public class CommSelfServiceTravelController extends BaseTravelController {
+public class CommFreeLineController extends BaseTravelController {
 	@Resource
-	private CommTravelService flightHotelTravelService;
+	private CommFreeLineService freeLineService;
 	@Autowired
 	private FlightRPCService flightRPCService;
-	@Autowired
-	private TfsService tfsService;
 
 	/**
 	 * 详细信息页
@@ -48,12 +43,8 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
 		if (id > 0) {
-			FlightHotelTravel sst = flightHotelTravelService.getById(id, FlightHotelTravel.class);
+			FreeLineVO sst = freeLineService.getById(id);
 			put("product", sst);
-			String importantInfos = tfsService.readHtml5(sst.getPriceInfo().getImportantInfosCode());
-			put("importantInfos", importantInfos);
-			String extraInfos = tfsService.readHtml5(sst.getBaseInfo().getNeedKnow().getExtraInfoUrl());
-			put("extraInfos", extraInfos);
 			put("lineType", LineType.getByType(sst.getBaseInfo().getType()));
 		}
 		return "/system/comm/travel/detail";
@@ -126,20 +117,10 @@ public class CommSelfServiceTravelController extends BaseTravelController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/save")
-	public @ResponseBody ResponseVo save(String json, String importantInfos, String extraInfos) throws Exception {
+	public @ResponseBody ResponseVo save(String json) throws Exception {
 		try {
-			FlightHotelTravel sst = JSON.parseObject(json, FlightHotelTravel.class);
-			if (StringUtils.isNotBlank(importantInfos)) {
-				String importantInfosCode = tfsService.publishHtml5(importantInfos);
-				sst.getPriceInfo().setImportantInfosCode(importantInfosCode);
-			} else {
-				sst.getPriceInfo().setImportantInfosCode(Constant.DEFAULT_CONTRACT_TFS_CODE);
-			}
-			if (StringUtils.isNotBlank(extraInfos)) {
-				String extraInfosCode = tfsService.publishHtml5(extraInfos);
-				sst.getBaseInfo().getNeedKnow().setExtraInfoUrl(extraInfosCode);
-			}
-			long id = flightHotelTravelService.publishLine(sst);
+			FreeLineVO sst = JSON.parseObject(json, FreeLineVO.class);
+			long id = freeLineService.publishLine(sst);
 			return ResponseVo.success(id);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
