@@ -598,7 +598,7 @@
 		function getRouteInfo() {
 			return {
 				routeId:$("#route-id").val() || 0,
-				routeDaysgetTripInfo(),
+				routeDays:getTripInfo(),
     			updatedRouteItems:getUpdatedRouteItems(),
     			deletedRouteItems:getDeletedRouteItems()
 			};

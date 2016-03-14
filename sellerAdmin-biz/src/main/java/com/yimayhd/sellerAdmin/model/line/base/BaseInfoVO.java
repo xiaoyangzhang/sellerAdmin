@@ -15,11 +15,13 @@ public class BaseInfoVO implements Serializable {
 	private int type;// 类型
 	private String name;// 产品名称
 	private String code; // 商品代码
+	private int days;// 行程天数
+	private String highlight1;// 亮点1
+	private String highlight2;// 亮点2
+	private String highlight3;// 亮点3
+	private List<Long> themes;// 主题
 	private List<Long> departs; // 出发地
 	private List<Long> dests; // 目的地
-	private int days;// 行程天数
-	private List<String> highlights;// 亮点
-	private List<Long> themes;// 主题
 	private String productImageApp;// App产品封面图
 	private String orderImage;// 订单封面
 	private List<String> detailAppImages; // App详情轮播图
@@ -40,7 +42,7 @@ public class BaseInfoVO implements Serializable {
 	public long getLineId() {
 		return lineId;
 	}
-	
+
 	public void setLineId(long lineId) {
 		this.lineId = lineId;
 	}
@@ -109,14 +111,6 @@ public class BaseInfoVO implements Serializable {
 		this.dests = dests;
 	}
 
-	public List<String> getHighlights() {
-		return highlights;
-	}
-
-	public void setHighlights(List<String> highlights) {
-		this.highlights = highlights;
-	}
-
 	public String getCode() {
 		return code;
 	}
@@ -131,5 +125,29 @@ public class BaseInfoVO implements Serializable {
 
 	public void setDays(int days) {
 		this.days = days;
+	}
+
+	public String getHighlight1() {
+		return highlight1;
+	}
+
+	public void setHighlight1(String highlight1) {
+		this.highlight1 = highlight1;
+	}
+
+	public String getHighlight2() {
+		return highlight2;
+	}
+
+	public void setHighlight2(String highlight2) {
+		this.highlight2 = highlight2;
+	}
+
+	public String getHighlight3() {
+		return highlight3;
+	}
+
+	public void setHighlight3(String highlight3) {
+		this.highlight3 = highlight3;
 	}
 }

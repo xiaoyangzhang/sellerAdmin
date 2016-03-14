@@ -48,7 +48,7 @@ public abstract class BaseTravelController extends BaseController {
 		RepoUtils.requestLog(log, "comCenterServiceRef.selectTagListByTagType", TagType.LINETAG.name());
 		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(TagType.LINETAG.name());
 		RepoUtils.resultLog(log, "comCenterServiceRef.selectTagListByTagType", tagResult);
-		put("tags", tagResult.getValue());
+		put("themes", tagResult.getValue());
 		put("departRegions", regionService.getRegions(RegionType.DEPART_REGION));
 		put("descRegions", regionService.getRegions(RegionType.DESC_REGION));
 		put("ways", TripTraffic.ways());
