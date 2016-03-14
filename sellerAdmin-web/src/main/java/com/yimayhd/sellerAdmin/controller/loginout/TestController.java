@@ -34,10 +34,10 @@ public class TestController {
 //        HttpServletRequest httpServletRequest = SessionUtils.getRequest();
 //        if (null == httpServletRequest) {
 //            return map;
-//        }
-
-        HttpSession httpSession = sessionManager.getSession();
-        httpSession.setAttribute("user","123");
+////        }
+//
+//        HttpSession httpSession = sessionManager.getSession();
+//        httpSession.setAttribute("user","123");
 
         map.put("status", "123");
         return map;
@@ -51,13 +51,13 @@ public class TestController {
 //        if (null == httpServletRequest) {
 //            return map;
 //        }
-
-        HttpSession httpSession = sessionManager.getSession();
-        Object test = httpSession.getAttribute("user");
-        if (null == test) {
-            map.put("status", "not login");
-            return map;
-        }
+//
+//        HttpSession httpSession = sessionManager.getSession();
+//        Object test = httpSession.getAttribute("user");
+//        if (null == test) {
+//            map.put("status", "not login");
+//            return map;
+//        }
 
         map.put("status", "has logined");
         return map;

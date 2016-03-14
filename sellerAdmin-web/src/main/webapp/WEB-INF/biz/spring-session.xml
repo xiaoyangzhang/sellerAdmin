@@ -8,7 +8,7 @@
             http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd"
        >
     
-	<bean id="imageVerifyCodeValidate" class="com.yimayhd.user.session.manager.ImageVerifyCodeValidate"></bean>
+	<bean id="verifyCodeManager" class="com.yimayhd.user.session.manager.VerifyCodeManager"></bean>
 
     <bean id="sessionTempDefaultTairManager" class="com.taobao.tair.impl.DefaultTairManager" init-method="init">
 		<property name="configServerList">
@@ -22,7 +22,6 @@
 	</bean>
 	<bean id="sessionCacheManager" class="com.yimayhd.user.session.manager.cache.SessionCacheManager">
 		<property name="tairManager" ref="sessionTempDefaultTairManager"/>
-		<property name="namespace" value="${session.tair.namespace}"/>
 	</bean>
 	
 	<bean id="sessionManager" class="com.yimayhd.user.session.manager.SessionManager">

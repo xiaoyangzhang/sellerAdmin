@@ -1,6 +1,8 @@
 package com.yimayhd.sellerAdmin.util;
 
 import com.yimayhd.sellerAdmin.config.ResourceConfig;
+
+import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -30,8 +32,7 @@ public class WebConfigUtil extends WebApplicationContextUtils {
     }
 
     public static Object getConfigByKey(String key, HttpServletRequest request) {
-        WebApplicationContext webApplication = getRequiredWebApplicationContext(request
-                .getServletContext());
+    	WebApplicationContext webApplication = ContextLoader.getCurrentWebApplicationContext();
         Properties configProperties = (Properties) webApplication
                 .getBean(CONFIG_BEAN_NAME);
         if (configProperties == null) {
