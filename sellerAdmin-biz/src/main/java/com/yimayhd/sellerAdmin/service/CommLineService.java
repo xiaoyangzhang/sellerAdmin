@@ -3,6 +3,8 @@ package com.yimayhd.sellerAdmin.service;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.model.line.LineContextConfig;
+import com.yimayhd.sellerAdmin.model.line.LinePropertyConfig;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 
 /**
@@ -35,4 +37,18 @@ public interface CommLineService {
 	 * @return
 	 */
 	PageVO<LineDO> pageQueryLine(LinePageQuery query);
+
+	/**
+	 * 获取线路上下文配置
+	 * 
+	 * @return
+	 */
+	LineContextConfig getLineContextConfig();
+
+	/**
+	 * 获取线路Property配置
+	 * 
+	 * @return
+	 */
+	LinePropertyConfig getLinePropertyConfig(long categoryId);
 }

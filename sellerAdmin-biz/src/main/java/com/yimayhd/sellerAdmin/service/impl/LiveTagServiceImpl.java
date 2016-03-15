@@ -12,12 +12,12 @@ import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.checker.TagChecker;
 import com.yimayhd.sellerAdmin.checker.result.CheckResult;
 import com.yimayhd.sellerAdmin.model.LiveTagVO;
-import com.yimayhd.sellerAdmin.repo.TagRepo;
+import com.yimayhd.sellerAdmin.repo.CommentRepo;
 import com.yimayhd.sellerAdmin.service.LiveTagService;
 
 public class LiveTagServiceImpl implements LiveTagService {
 	@Autowired
-	private TagRepo tagRepo;
+	private CommentRepo tagRepo;
 
 	@Override
 	public PageVO<ComTagDO> pageQueryLiveTag(TagInfoDTO tagInfoDTO) {
@@ -32,22 +32,22 @@ public class LiveTagServiceImpl implements LiveTagService {
 
 	@Override
 	public void disableLiveTagById(long id) {
-		tagRepo.updateTagStateById(id, TagRepo.STATUS_DISABLE);
+		tagRepo.updateTagStateById(id, CommentRepo.STATUS_DISABLE);
 	}
 
 	@Override
 	public void enableLiveTagById(long id) {
-		tagRepo.updateTagStateById(id, TagRepo.STATUS_ENABLE);
+		tagRepo.updateTagStateById(id, CommentRepo.STATUS_ENABLE);
 	}
 
 	@Override
 	public void disableLiveTagByIdList(List<Long> idList) {
-		tagRepo.updateTagStateByIdList(idList, TagRepo.STATUS_DISABLE);
+		tagRepo.updateTagStateByIdList(idList, CommentRepo.STATUS_DISABLE);
 	}
 
 	@Override
 	public void enableLiveTagByIdList(List<Long> idList) {
-		tagRepo.updateTagStateByIdList(idList, TagRepo.STATUS_ENABLE);
+		tagRepo.updateTagStateByIdList(idList, CommentRepo.STATUS_ENABLE);
 	}
 
 	@Override

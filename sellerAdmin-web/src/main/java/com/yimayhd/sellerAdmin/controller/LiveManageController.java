@@ -8,7 +8,7 @@ import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.model.SnsSubjectVO;
 import com.yimayhd.sellerAdmin.model.SubjectInfoAddVO;
 import com.yimayhd.sellerAdmin.model.query.LiveListQuery;
-import com.yimayhd.sellerAdmin.repo.TagRepo;
+import com.yimayhd.sellerAdmin.repo.CommentRepo;
 import com.yimayhd.sellerAdmin.service.LiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +29,7 @@ public class LiveManageController extends BaseController {
 	private LiveService liveService;
 
     @Autowired
-    private TagRepo tagRepo;
+    private CommentRepo tagRepo;
 
     /**
      * 直播列表

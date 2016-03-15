@@ -28,7 +28,7 @@ import com.yimayhd.sellerAdmin.util.RepoUtils;
  * @author yebin
  *
  */
-public class TagRepo {
+public class CommentRepo {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	public static final int STATUS_DISABLE = 2;
 	public static final int STATUS_ENABLE = 1;
@@ -121,6 +121,15 @@ public class TagRepo {
 		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(tagType.name());
 		RepoUtils.resultLog(log, "comCenterServiceRef.selectTagListByTagType", tagResult);
 		return tagResult.getValue();
+	}
+
+	/**
+	 * 获取全部线路主题
+	 * 
+	 * @return
+	 */
+	public List<ComTagDO> getAllLineThemes() {
+		return getTagListByTagType(TagType.LINETAG);
 	}
 
 }
