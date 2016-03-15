@@ -13,8 +13,8 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.sellerAdmin.base.BaseTravelController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
-import com.yimayhd.sellerAdmin.model.line.free.FreeLineVO;
-import com.yimayhd.sellerAdmin.service.CommFreeLineService;
+import com.yimayhd.sellerAdmin.model.line.LineVO;
+import com.yimayhd.sellerAdmin.service.CommLineService;
 import com.yimayhd.sellerAdmin.service.FlightRPCService;
 
 /**
@@ -27,7 +27,7 @@ import com.yimayhd.sellerAdmin.service.FlightRPCService;
 @RequestMapping("/B2C/comm/selfServiceTravel")
 public class CommFreeLineController extends BaseTravelController {
 	@Resource
-	private CommFreeLineService freeLineService;
+	private CommLineService commLineService;
 	@Autowired
 	private FlightRPCService flightRPCService;
 
@@ -43,7 +43,7 @@ public class CommFreeLineController extends BaseTravelController {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
 		if (id > 0) {
-			FreeLineVO sst = freeLineService.getById(id);
+			LineVO sst = commLineService.getById(id);
 			put("product", sst);
 			put("lineType", LineType.getByType(sst.getBaseInfo().getType()));
 		}
@@ -119,8 +119,8 @@ public class CommFreeLineController extends BaseTravelController {
 	@RequestMapping(value = "/save")
 	public @ResponseBody ResponseVo save(String json) throws Exception {
 		try {
-			FreeLineVO sst = JSON.parseObject(json, FreeLineVO.class);
-			long id = freeLineService.publishLine(sst);
+			LineVO sst = JSON.parseObject(json, LineVO.class);
+			long id = commLineService.publishLine(sst);
 			return ResponseVo.success(id);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

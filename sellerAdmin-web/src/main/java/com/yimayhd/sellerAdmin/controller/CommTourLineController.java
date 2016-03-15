@@ -12,9 +12,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.sellerAdmin.base.BaseTravelController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
-import com.yimayhd.sellerAdmin.model.line.tour.TourLineVO;
+import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.tour.TripTraffic;
-import com.yimayhd.sellerAdmin.service.CommTourLineService;
+import com.yimayhd.sellerAdmin.service.CommLineService;
 
 /**
  * 商品-跟团游
@@ -26,7 +26,7 @@ import com.yimayhd.sellerAdmin.service.CommTourLineService;
 @RequestMapping("/B2C/comm/groupTravel")
 public class CommTourLineController extends BaseTravelController {
 	@Resource
-	private CommTourLineService commTourLineService;
+	private CommLineService commLineService;
 
 	/**
 	 * 详细信息页
@@ -40,7 +40,7 @@ public class CommTourLineController extends BaseTravelController {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
 		if (id > 0) {
-			TourLineVO gt = commTourLineService.getById(id);
+			LineVO gt = commLineService.getById(id);
 			put("product", gt);
 			put("lineType", LineType.getByType(gt.getBaseInfo().getType()));
 		}
@@ -82,8 +82,8 @@ public class CommTourLineController extends BaseTravelController {
 	@RequestMapping(value = "/save")
 	public @ResponseBody ResponseVo save(String json) {
 		try {
-			TourLineVO gt = (TourLineVO) JSONObject.parseObject(json, TourLineVO.class);
-			long id = commTourLineService.publishLine(gt);
+			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
+			long id = commLineService.publishLine(gt);
 			return ResponseVo.success(id);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
