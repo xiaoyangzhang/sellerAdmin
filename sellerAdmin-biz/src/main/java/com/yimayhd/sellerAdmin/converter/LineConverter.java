@@ -27,6 +27,7 @@ import com.yimayhd.ic.client.model.domain.share_json.RouteItemDetail;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.ic.client.model.enums.RouteItemBizType;
 import com.yimayhd.ic.client.model.enums.RouteItemType;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
@@ -34,19 +35,17 @@ import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
 import com.yimayhd.sellerAdmin.constant.Constant;
-import com.yimayhd.sellerAdmin.model.line.BaseLineVO;
+import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
-import com.yimayhd.sellerAdmin.model.line.free.FreeLineVO;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
 import com.yimayhd.sellerAdmin.model.line.price.PackageBlock;
 import com.yimayhd.sellerAdmin.model.line.price.PackageDay;
 import com.yimayhd.sellerAdmin.model.line.price.PackageInfo;
 import com.yimayhd.sellerAdmin.model.line.price.PackageMonth;
 import com.yimayhd.sellerAdmin.model.line.price.PriceInfoVO;
-import com.yimayhd.sellerAdmin.model.line.route.FreeLineRouteVO;
 import com.yimayhd.sellerAdmin.model.line.route.RouteDayVO;
 import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
-import com.yimayhd.sellerAdmin.model.line.tour.TourLineVO;
+import com.yimayhd.sellerAdmin.model.line.route.RoutePlanVO;
 
 /**
  * 线路转换器
@@ -221,7 +220,7 @@ public class LineConverter {
 		return itemSkuDOs;
 	}
 
-	public static FreeLineRouteVO toFreeLineRouteVO(LineResult lineResult) {
+	public static RoutePlanVO toRoutePlanVO(LineResult lineResult) {
 		// TODO YEBIN 待开发
 		return null;
 	}
@@ -230,38 +229,17 @@ public class LineConverter {
 		// TODO YEBIN 待开发
 		return null;
 	}
-	
-	public static FreeLineVO toFreeLineVO(LineResult lineResult, List<ComTagDO> tags) {
-		FreeLineVO result = new FreeLineVO();
-		LineDO line = lineResult.getLineDO();
-		BaseInfoVO baseInfo = toBaseInfoVO(line, tags);
-		result.setBaseInfo(baseInfo);
-		FreeLineRouteVO freeLineRoute = toFreeLineRouteVO(lineResult);
-		result.setFreeLineRoute(freeLineRoute);
-		// 线路个性化部分 start
-		RouteInfoVO routeInfo = toRouteInfoVO(lineResult);
-		result.setRouteInfo(routeInfo);
-		// 线路个性化部分 end
-		ItemDO itemDO = lineResult.getItemDO();
-		result.setCategoryId(itemDO.getCategoryId());
-		result.setOptions(itemDO.getOptions());
-		result.setReadonly(itemDO.getStatus() == ItemStatus.valid.getValue());
-		PriceInfoVO priceInfo = toPriceInfoVO(itemDO, lineResult.getItemSkuDOList());
-		result.setPriceInfo(priceInfo);
-		String picUrl = itemDO.getPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC);
-		if (StringUtils.isNotBlank(picUrl)) {
-			baseInfo.setOrderImage(picUrl);
-		}
-		NeedKnowVO needKnow = toNeedKnowVO(lineResult);
-		result.setNeedKnow(needKnow);
-		return result;
-	}
 
-	public static TourLineVO toTourLineVO(LineResult lineResult, List<ComTagDO> tags) {
-		TourLineVO result = new TourLineVO();
+	public static LineVO toLineVO(LineResult lineResult, List<ComTagDO> tags) {
+		LineVO result = new LineVO();
 		LineDO line = lineResult.getLineDO();
 		BaseInfoVO baseInfo = toBaseInfoVO(line, tags);
 		result.setBaseInfo(baseInfo);
+		// FIXME Yebin 待修复
+		if (line.getType() != LineType.REGULAR_LINE.getType()) {
+			RoutePlanVO routePlan = toRoutePlanVO(lineResult);
+			result.setRoutePlan(routePlan);
+		}
 		// 线路个性化部分 start
 		RouteInfoVO routeInfo = toRouteInfoVO(lineResult);
 		result.setRouteInfo(routeInfo);
@@ -355,46 +333,6 @@ public class LineConverter {
 		return target;
 	}
 
-	public static LinePublishDTO toLinePublishDTOForSave(TourLineVO line) {
-		LinePublishDTO dto = new LinePublishDTO();
-		LineDO lineDO = toLineDO(line.getBaseInfo());
-		dto.setLineDO(lineDO);
-		RouteInfoVO routeInfo = line.getRouteInfo();
-		RouteDO routeDO = new RouteDO();
-		RouteDO routeDTO = merge(routeInfo, routeDO);
-		dto.setRouteDO(routeDTO);
-		List<RouteDayVO> routeDays = routeInfo.getRouteDays();
-		List<RouteItemDO> routeItemDOList = toRouteItemDOs(routeDays);
-		dto.setRouteItemDOList(routeItemDOList);
-		long categoryId = line.getCategoryId();
-		long options = line.getOptions();
-		dto.setItemDO(toItemDO(categoryId, options, line));
-		PriceInfoVO priceInfo = line.getPriceInfo();
-		List<ItemSkuDO> itemSkuDOList = toItemSkuDOList(line.getCategoryId(), Constant.YIMAY_OFFICIAL_ID, priceInfo);
-		dto.setItemSkuDOList(itemSkuDOList);
-		return dto;
-	}
-
-	public static LinePublishDTO toLinePublishDTOForSave(FreeLineVO line) {
-		LinePublishDTO dto = new LinePublishDTO();
-		LineDO lineDO = toLineDO(line.getBaseInfo());
-		dto.setLineDO(lineDO);
-		RouteInfoVO routeInfo = line.getRouteInfo();
-		RouteDO routeDO = new RouteDO();
-		RouteDO routeDTO = merge(routeInfo, routeDO);
-		dto.setRouteDO(routeDTO);
-		List<RouteDayVO> routeDays = routeInfo.getRouteDays();
-		List<RouteItemDO> routeItemDOList = toRouteItemDOs(routeDays);
-		dto.setRouteItemDOList(routeItemDOList);
-		long categoryId = line.getCategoryId();
-		long options = line.getOptions();
-		dto.setItemDO(toItemDO(categoryId, options, line));
-		PriceInfoVO priceInfo = line.getPriceInfo();
-		List<ItemSkuDO> itemSkuDOList = toItemSkuDOList(line.getCategoryId(), Constant.YIMAY_OFFICIAL_ID, priceInfo);
-		dto.setItemSkuDOList(itemSkuDOList);
-		return dto;
-	}
-
 	public static List<RouteItemDO> toRouteItemDOs(List<RouteDayVO> routeDays) {
 		List<RouteItemDO> routeItemDOList = new ArrayList<RouteItemDO>();
 		for (int i = 1; i <= routeDays.size(); i++) {
@@ -453,7 +391,7 @@ public class LineConverter {
 		return routeItemDOList;
 	}
 
-	public static ItemDO toItemDO(long categoryId, long options, BaseLineVO line) {
+	public static ItemDO toItemDO(long categoryId, long options, LineVO line) {
 		PriceInfoVO priceInfo = line.getPriceInfo();
 		// 初始化
 		ItemDO itemDO = new ItemDO();
@@ -473,7 +411,7 @@ public class LineConverter {
 		return merge(line, itemDO);
 	}
 
-	public static ItemDO merge(BaseLineVO line, ItemDO target) {
+	public static ItemDO merge(LineVO line, ItemDO target) {
 		BaseInfoVO baseInfo = line.getBaseInfo();
 		PriceInfoVO priceInfo = line.getPriceInfo();
 		target.setSellerId(Constant.YIMAY_OFFICIAL_ID);
@@ -568,7 +506,7 @@ public class LineConverter {
 		return target;
 	}
 
-	public static LinePublishDTO toLinePublishDTOForUpdate(TourLineVO line, LineResult lineResult) {
+	public static LinePublishDTO toLinePublishDTOForUpdate(LineVO line, LineResult lineResult) {
 		BaseInfoVO baseInfo = line.getBaseInfo();
 		LinePublishDTO dto = new LinePublishDTO();
 		// LineDO
@@ -587,26 +525,27 @@ public class LineConverter {
 		return dto;
 	}
 
-	public static LinePublishDTO toLinePublishDTOForUpdate(FreeLineVO line, LineResult lineResult) {
-		BaseInfoVO baseInfo = line.getBaseInfo();
+	public static LinePublishDTO toLinePublishDTOForSave(LineVO line) {
 		LinePublishDTO dto = new LinePublishDTO();
-		// LineDO
-		LineDO lineDO = lineResult.getLineDO();
-		LineDO lineDTO = LineConverter.merge(baseInfo, lineDO);
-		dto.setLineDO(lineDTO);
-		// 行程信息
+		LineDO lineDO = toLineDO(line.getBaseInfo());
+		dto.setLineDO(lineDO);
 		RouteInfoVO routeInfo = line.getRouteInfo();
-		RouteDO routeDO = lineResult.getRouteDO();
-		List<RouteItemDO> routeItemDOList = lineResult.getRouteItemDOList();
-		dto = mergeRoute(routeInfo, routeDO, routeItemDOList, dto);
-		// 价格信息
-		ItemDO itemDO = lineResult.getItemDO();
-		List<ItemSkuDO> itemSkuDOs = lineResult.getItemSkuDOList();
-		dto = mergeItem(line, itemDO, itemSkuDOs, dto);
+		RouteDO routeDO = new RouteDO();
+		RouteDO routeDTO = merge(routeInfo, routeDO);
+		dto.setRouteDO(routeDTO);
+		List<RouteDayVO> routeDays = routeInfo.getRouteDays();
+		List<RouteItemDO> routeItemDOList = toRouteItemDOs(routeDays);
+		dto.setRouteItemDOList(routeItemDOList);
+		long categoryId = line.getCategoryId();
+		long options = line.getOptions();
+		dto.setItemDO(toItemDO(categoryId, options, line));
+		PriceInfoVO priceInfo = line.getPriceInfo();
+		List<ItemSkuDO> itemSkuDOList = toItemSkuDOList(line.getCategoryId(), Constant.YIMAY_OFFICIAL_ID, priceInfo);
+		dto.setItemSkuDOList(itemSkuDOList);
 		return dto;
 	}
 
-	public static LinePublishDTO mergeItem(BaseLineVO line, ItemDO itemDO, List<ItemSkuDO> itemSkuDOs,
+	public static LinePublishDTO mergeItem(LineVO line, ItemDO itemDO, List<ItemSkuDO> itemSkuDOs,
 			LinePublishDTO target) {
 		// ItemDO
 		ItemDO ItemDTO = merge(line, itemDO);

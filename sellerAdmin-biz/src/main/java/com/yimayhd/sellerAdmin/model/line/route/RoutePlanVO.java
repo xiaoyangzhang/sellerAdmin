@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author yebin
  *
  */
-public class FreeLineRouteVO implements Serializable {
+public class RoutePlanVO implements Serializable {
 	private static final long serialVersionUID = -8138360782623003632L;
 	// TODO YEBIN 待开发
 }

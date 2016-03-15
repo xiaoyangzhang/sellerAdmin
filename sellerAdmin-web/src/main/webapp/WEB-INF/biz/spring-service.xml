@@ -44,11 +44,7 @@
 	<!-- commodity -->
 	<bean class="com.yimayhd.sellerAdmin.service.impl.CommodityServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.CategoryServiceImpl"></bean>
-	<bean id="travelService" class="com.yimayhd.sellerAdmin.service.impl.CommLineServiceImpl"></bean>
-	<bean id="groupTravelService"
-		class="com.yimayhd.sellerAdmin.service.impl.CommTourLineServiceImpl"></bean>
-	<bean id="flightHotelTravelService"
-		class="com.yimayhd.sellerAdmin.service.impl.CommFreeLineServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.CommLineServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.CommScenicServiceImpl" />
 	<bean class="com.yimayhd.sellerAdmin.service.impl.CommActivityServiceImpl" />
 	<bean class="com.yimayhd.sellerAdmin.service.impl.FlightRPCServiceImpl"></bean>

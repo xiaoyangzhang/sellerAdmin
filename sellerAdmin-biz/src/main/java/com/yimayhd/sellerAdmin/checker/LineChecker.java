@@ -10,12 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.ic.client.model.domain.item.HotelShortItem;
 import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.sellerAdmin.checker.result.CheckResult;
-import com.yimayhd.sellerAdmin.model.line.BaseLineVO;
+import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
-import com.yimayhd.sellerAdmin.model.line.free.TripPackageInfo;
 import com.yimayhd.sellerAdmin.model.line.price.PackageBlock;
 import com.yimayhd.sellerAdmin.model.line.price.PackageDay;
 import com.yimayhd.sellerAdmin.model.line.price.PackageInfo;
@@ -33,7 +31,7 @@ import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
 public class LineChecker {
 	private static final Logger log = LoggerFactory.getLogger(LineChecker.class);
 
-	public static <T extends BaseLineVO> CheckResult checkForSave(T travel) {
+	public static CheckResult checkForSave(LineVO travel) {
 		CheckResult checkBaseInfoForSave = checkBaseInfoForSave(travel.getBaseInfo());
 		if (!checkBaseInfoForSave.isSuccess()) {
 			return checkBaseInfoForSave;
@@ -49,7 +47,7 @@ public class LineChecker {
 		return CheckResult.success();
 	}
 
-	public static <T extends BaseLineVO> CheckResult checkForUpdate(T travel) {
+	public static CheckResult checkForUpdate(LineVO travel) {
 		CheckResult checkBaseInfoForUpdate = checkBaseInfoForUpdate(travel.getBaseInfo());
 		if (!checkBaseInfoForUpdate.isSuccess()) {
 			return checkBaseInfoForUpdate;
@@ -61,16 +59,6 @@ public class LineChecker {
 		CheckResult checkTripInfoForSave = checkTripInfo(travel.getRouteInfo());
 		if (!checkTripInfoForSave.isSuccess()) {
 			return checkTripInfoForSave;
-		}
-		return CheckResult.success();
-	}
-
-	public static CheckResult checkTripPackageInfo(TripPackageInfo tripPackageInfo) {
-		String temp = "机酒套餐信息验证失败: {}";
-		List<HotelShortItem> hotels = tripPackageInfo.getHotels();
-		if (CollectionUtils.isEmpty(hotels)) {
-			log.warn(temp, JSON.toJSONString(tripPackageInfo));
-			return CheckResult.error("机酒套餐中酒店信息不能为空");
 		}
 		return CheckResult.success();
 	}
@@ -93,7 +81,7 @@ public class LineChecker {
 			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("APP产品封面图不能为空");
 		}
-		
+
 		if (StringUtils.isBlank(baseInfo.getOrderImage())) {
 			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("商品订单图不能为空");
@@ -250,16 +238,6 @@ public class LineChecker {
 	}
 
 	public static CheckResult checkTripDay(RouteDayVO tripDay) {
-		// TODO YEBIN
-		return CheckResult.success();
-	}
-
-	public static CheckResult checkTripPackageInfoForSave(TripPackageInfo tripPackageInfo) {
-		// TODO YEBIN
-		return CheckResult.success();
-	}
-
-	public static CheckResult checkTripPackageInfoForUpdate(TripPackageInfo tripPackageInfo) {
 		// TODO YEBIN
 		return CheckResult.success();
 	}

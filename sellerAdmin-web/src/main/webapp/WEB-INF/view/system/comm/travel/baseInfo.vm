@@ -63,6 +63,18 @@
                     <input class="productImageAppUrlVal" type="hidden" value="$!product.baseInfo.productImageApp"/>
                 </td>
             </tr>
+ 			<tr>
+                <td><span class="spColor">*</span>详情轮播图</td>
+                <td class="fileWrap detailAppImagesTd" id="detailAppImagesTd">
+                    <input id="detailAppImagesBatchUploadBtn" class="" type="file" multiple="multiple" >
+                    <h5>图片大小不超过2M，背景图尺寸为：750x360 1~5张
+                    </h5>
+    				#foreach($pic in $!product.baseInfo.detailAppImages)
+                        <img class="detailAppImages img-circle" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic"><button type="button" class="btn btn-link" onclick="delPic(this)">删除</button>
+    				#end
+                </td>
+                <input class="detailAppImagesVal" type="hidden" name="picturesStr">
+            </tr>
 			<tr>
                 <td><span class="spColor">*</span>商品订单图：</td>
                 <td class="fileWrap">
@@ -71,18 +83,6 @@
                     <img class="orderImageUrlImg img-circle" src="#if($!{product.baseInfo.orderImage})$!{utilWebconfig.getTfsRootPath()}$!{product.baseInfo.orderImage} #end"/>
                     <input class="orderImageUrlVal" type="hidden" value="$!product.baseInfo.orderImage"/>
                 </td>
-            </tr>
- 			<tr>
-            <td><span class="spColor">*</span>详情轮播图</td>
-            <td class="fileWrap detailAppImagesTd" id="detailAppImagesTd">
-                <input id="detailAppImagesBatchUploadBtn" class="" type="file" multiple="multiple" >
-                <h5>图片大小不超过2M，背景图尺寸为：750x360 1~5张
-                </h5>
-				#foreach($pic in $!product.baseInfo.detailAppImages)
-                    <img class="detailAppImages img-circle" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic"><button type="button" class="btn btn-link" onclick="delPic(this)">删除</button>
-				#end
-            </td>
-            <input class="detailAppImagesVal" type="hidden" name="picturesStr">
             </tr>
         </table>
 	</div>

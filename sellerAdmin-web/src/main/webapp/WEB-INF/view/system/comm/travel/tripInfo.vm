@@ -132,14 +132,6 @@
 			// 创建一天的page
 			function createDayPage(dayId) {
 				var page = $("<div class='tab-pane' id='day_"+dayId+"_page'></div>");
-				// 交通
-				var traffic = $("<div class='panel add-traffic'></div>");
-				traffic.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-plane'></i><span class='tripAddSp'>添加交通</span></div>"));
-				traffic.append($("<div class='panel-body traffic' id='day_"+dayId+"_traffic'></div>"));
-				var traffic_btn = $("<button class='btn btn-primary select-traffic' display-id='day_"+dayId+"_traffic'>选择交通</button>");
-				traffic_btn.click(selectTraffic);
-				traffic.append($("<div class='panel-body traffic'></div>").append(traffic_btn));
-				page.append(traffic);
 				// 行程描述
 				var desc = $("<div class='panel trip-description'></div>");
                 desc.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-exclamation-sign'></i><span class='tripAddSp'>行程描述</span></div>"));
@@ -147,78 +139,13 @@
 				desc_content.append($("<textarea class='form-control' rows='3' id='day_"+dayId+"_trip_description'></textarea>"));
                 desc.append(desc_content);	
 				page.append(desc);
-                // 用餐
-				var restaurant = $("<div class='panel add-restaurant'></div>");
-				restaurant.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-coffee'></i><span class='tripAddSp'>添加用餐</span></div>"));
-                var restaurantList = $("<div class='panel-body restaurant'></div>");
-				page.append(restaurant.append(restaurantList));
-				// 1
-				var input_panel1 = $("<div class='panel'></div>");
-				input_panel1.append($("<div class='panel-heading travelPanelDe'>早餐</div>"));
-				input_panel1.append($("<div class='panel-body' id='day_"+dayId+"_restaurant_1'></div>"));
-				var input_group1 = $("<div class='panel-body input-group'></div>");
-				var input_group1_text = $("<input type='text' class='form-control' placeholder='请输入餐厅名称' id='day_"+dayId+"_restaurant_1_add'>");
-				var input_group1_btn_add = $("<button class='btn btn-default add-restaurant-btn' type='button' display-id='day_"+dayId+"_restaurant_1'>添加餐厅</button>");
-				var input_group1_btn_select = $("<button class='btn btn-primary' type='button' display-id='day_"+dayId+"_restaurant_1'>选择餐厅</button>");
-				input_group1_btn_select.click(selectRestaurant);
-				input_group1.append(input_group1_text);
-				input_group1.append($("<span class='input-group-btn'></span>").append(input_group1_btn_add));
-				input_group1.append($("<span class='input-group-btn'></span>").append(input_group1_btn_select));
-                restaurantList.append(input_panel1.append(input_group1));
-				// 2
-				var input_panel2 = $("<div class='panel'></div>");
-				input_panel2.append($("<div class='panel-heading travelPanelDe'>午餐</div>"));
-				input_panel2.append($("<div class='panel-body' id='day_"+dayId+"_restaurant_2'></div>"));
-				var input_group2 = $("<div class='panel-body input-group'></div>");
-				var input_group2_text = $("<input type='text' class='form-control' placeholder='请输入餐厅名称' id='day_"+dayId+"_restaurant_2_add'>");
-				var input_group2_btn_add = $("<button class='btn btn-default add-restaurant-btn' type='button' display-id='day_"+dayId+"_restaurant_2'>添加餐厅</button>");
-				var input_group2_btn_select = $("<button class='btn btn-primary' type='button' display-id='day_"+dayId+"_restaurant_2'>选择餐厅</button>");
-				input_group2_btn_select.click(selectRestaurant);
-				input_group2.append(input_group2_text);
-				input_group2.append($("<span class='input-group-btn'></span>").append(input_group2_btn_add));
-				input_group2.append($("<span class='input-group-btn'></span>").append(input_group2_btn_select));
-                restaurantList.append(input_panel2.append(input_group2));
-				// 3
-				var input_panel3 = $("<div class='panel'></div>");
-				input_panel3.append($("<div class='panel-heading travelPanelDe'>晚餐</div>"));
-				input_panel3.append($("<div class='panel-body' id='day_"+dayId+"_restaurant_3'></div>"));
-				var input_group3 = $("<div class='panel-body input-group'></div>");
-				var input_group3_text = $("<input type='text' class='form-control' placeholder='请输入餐厅名称' id='day_"+dayId+"_restaurant_3_add'>");
-				var input_group3_btn_add = $("<button class='btn btn-default add-restaurant-btn' type='button' display-id='day_"+dayId+"_restaurant_3'>添加餐厅</button>");
-				var input_group3_btn_select = $("<button class='btn btn-primary' type='button' display-id='day_"+dayId+"_restaurant_3'>选择餐厅</button>");
-				input_group3_btn_select.click(selectRestaurant);
-				input_group3.append(input_group3_text);
-				input_group3.append($("<span class='input-group-btn'></span>").append(input_group3_btn_add));
-				input_group3.append($("<span class='input-group-btn'></span>").append(input_group3_btn_select));
-                restaurantList.append(input_panel3.append(input_group3));
-				// 景区
-				var scenic_spot = $("<div class='panel add-scenic-spot'></div>");
-                scenic_spot.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-pushpin'></i><span class='tripAddSp'>添加景区</span></div>"));
-				scenic_spot.append($("<div class='panel-body scenic-spot' id='day_"+dayId+"_scenic'></div>"));
-                var scenic_group = $("<div class='panel-body input-group'></div>");
-                var scenic_spot_text = $("<input type='text' class='form-control' placeholder='请输入景区名称' id='day_"+dayId+"_scenic_add'>");
-                var scenic_spot_btn_add = $("<button class='btn btn-default add-scenic-btn' type='button' display-id='day_"+dayId+"_scenic'>添加景区</button>");
-				var scenic_spot_btn = $("<button class='btn btn-primary select-scenic' display-id='day_"+dayId+"_scenic'>选择景区</button>");
-                scenic_group.append(scenic_spot_text);
-                scenic_group.append($("<span class='input-group-btn'></span>").append(scenic_spot_btn_add));
-                scenic_group.append($("<span class='input-group-btn'></span>").append(scenic_spot_btn));
-				scenic_spot.append(scenic_group);
-				scenic_spot_btn.click(selectScenic);
-				page.append(scenic_spot);
-				// 酒店
-				var hotel = $("<div class='panel add-hotel'></div>");
-                hotel.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-home'></i><span class='tripAddSp'>添加酒店</span></div>"));
-				hotel.append($("<div class='panel-body hotel' id='day_"+dayId+"_hotel'></div>"));
-                var hotel_group = $("<div class='panel-body input-group'></div>");
-                var hotel_text = $("<input type='text' class='form-control' placeholder='请输入酒店名称' id='day_"+dayId+"_hotel_add'>");
-                var hotel_btn_add = $("<button class='btn btn-default add-hotel-btn' type='button' display-id='day_"+dayId+"_hotel'>添加酒店</button>");
-                var hotel_btn = $("<button class='btn btn-primary select-hotel' display-id='day_"+dayId+"_hotel'>选择酒店</button>");
-                hotel_group.append(hotel_text);
-                hotel_group.append($("<span class='input-group-btn'></span>").append(hotel_btn_add));
-                hotel_group.append($("<span class='input-group-btn'></span>").append(hotel_btn));
-				hotel_btn.click(selectHotel);
-                hotel.append(hotel_group);
-                page.append(hotel);
+				// 行程图片
+				var images = $("<div class='panel trip-images'></div>");
+                images.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-exclamation-sign'></i><span class='tripAddSp'>行程图片</span></div>"));
+                var images_content = $("<div class='panel-body trip-images-content'></div>");
+				
+                images.append(images_content);	
+				page.append(images);
 				return page;
 			}
           </script>
@@ -228,117 +155,16 @@
 		#foreach($tripDay in $product.routeInfo.routeDays)
 		#set($day = ${velocityCount})
 		<div class="tab-pane in #if(${day}==1) active #end" id="day_${velocityCount}_page">
-			<div class="panel add-traffic">
-				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-plane"></i><span class="tripAddSp">添加交通</span></div>
-				<div class="panel-body traffic" id="day_${day}_traffic" route-item-id="$!{tripDay.trafficRouteItemId}">
-					#if($tripDay.traffic) 
-    				<span class="label label-info" id="day_${day}_traffic_from" rname="$!{tripDay.traffic.from}">$!{tripDay.traffic.from}</span>
-    				<span class="label label-info" id="day_${day}_traffic_way" rid="$!{tripDay.traffic.way}">$!{tripDay.traffic.wayName()}</span>
-    				<span class="label label-info" id="day_${day}_traffic_to" rname="$!{tripDay.traffic.to}">$!{tripDay.traffic.to}</span>
-					#end
-				</div>
-				<div class="panel-body traffic">
-					<button class="btn btn-primary select-traffic" display-id="day_${velocityCount}_traffic">选择交通</button>
-				</div>
-			</div>
 			<div class="panel trip-description">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程描述</span></div>
 				<div class="panel-body trip-description-content">
 					<textarea class="form-control trip-description-textarea" rows="3" id="day_${velocityCount}_trip_description" route-item-id="$!{tripDay.descriptionRouteItemId}">$!{tripDay.description}</textarea>
 				</div>
 			</div>
-			<div class="panel add-restaurant">
-				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-coffee"></i><span class="tripAddSp">添加用餐</span></div>
-				<div class="panel-body restaurant">
-					<div class="panel">
-						<div class="panel-heading travelPanelDe">早餐</div>
-						<div class="panel-body" id="day_${velocityCount}_restaurant_1" route-item-id="$!{tripDay.breakfastRouteItemId}" route-item-detail-id="$!{tripDay.restaurantDetailRouteItemId}">
-						#foreach($restaurant in ${tripDay.restaurant1})
-							<button class="btn #if(${restaurant.id}==0) btn-default #else btn-info #end day_${day}_restaurant_1_item remove-self" id="day_${day}_restaurant_1_item_${restaurant.id}" rid="${restaurant.id}" rname="${restaurant.name}">${restaurant.name}</button>
-						#end
-						</div>
-						<div class="panel-body input-group">
-							<input type="text" class="form-control" placeholder="请输入餐厅名称" id="day_${velocityCount}_restaurant_1_add"/>
-							<span class="input-group-btn">
-								<button class="btn btn-default add-restaurant-btn" type="button" display-id="day_${velocityCount}_restaurant_1">添加餐厅</button>
-							</span>
-							<span class="input-group-btn">
-								<button class="btn btn-primary select-restaurant" type="button" display-id="day_${velocityCount}_restaurant_1">选择餐厅</button>
-							</span>
-						</div>
-					</div>
-					<div class="panel">
-						<div class="panel-heading travelPanelDe">午餐</div>
-						<div class="panel-body" id="day_${velocityCount}_restaurant_2" route-item-id="$!{tripDay.lunchRouteItemId}" route-item-detail-id="$!{tripDay.restaurantDetailRouteItemId}">
-						#foreach($restaurant in ${tripDay.restaurant2})
-							<button class="btn #if(${restaurant.id}==0) btn-default #else btn-info #end day_${day}_restaurant_2_item remove-self" id="day_${day}_restaurant_2_item_${restaurant.id}" rid="${restaurant.id}" rname="${restaurant.name}">${restaurant.name}</button>
-						#end
-						</div>
-						<div class="panel-body input-group">
-							<input type="text" class="form-control" placeholder="请输入餐厅名称" id="day_${velocityCount}_restaurant_2_add"/>
-							<span class="input-group-btn">
-								<button class="btn btn-default add-restaurant-btn" type="button" display-id="day_${velocityCount}_restaurant_2">添加餐厅</button>
-							</span>
-							<span class="input-group-btn">
-								<button class="btn btn-primary select-restaurant" type="button" display-id="day_${velocityCount}_restaurant_2">选择餐厅</button>
-							</span>
-						</div>
-					</div>
-					<div class="panel">
-						<div class="panel-heading travelPanelDe">晚餐</div>
-						<div class="panel-body" id="day_${velocityCount}_restaurant_3" route-item-id="$!{tripDay.dinnerRouteItemId}" route-item-detail-id="$!{tripDay.restaurantDetailRouteItemId}">
-						#foreach($restaurant in ${tripDay.restaurant3})
-							<button class="btn #if(${restaurant.id}==0) btn-default #else btn-info #end day_${day}_restaurant_3_item remove-self" id="day_${day}_restaurant_3_item_${restaurant.id}" rid="${restaurant.id}" rname="${restaurant.name}">${restaurant.name}</button>
-						#end
-						</div>
-						<div class="panel-body input-group">
-							<input type="text" class="form-control" placeholder="请输入餐厅名称" id="day_${velocityCount}_restaurant_3_add"/>
-							<span class="input-group-btn">
-								<button class="btn btn-default add-restaurant-btn" type="button" display-id="day_${velocityCount}_restaurant_3">添加餐厅</button>
-							</span>
-							<span class="input-group-btn">
-								<button class="btn btn-primary select-restaurant" type="button" display-id="day_${velocityCount}_restaurant_3">选择餐厅</button>
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="panel add-scenic-spot">
-                <div class="panel">
-					<div class="panel-heading travelPanelScenic"><i class="icon icon-2x icon-pushpin"></i><span class="tripAddSp">添加景区</span></div>
-					<div class="panel-body scenic-spot" id="day_${velocityCount}_scenic" route-item-id="$!{tripDay.scenicsRouteItemId}" route-item-detail-id="$!{tripDay.scenicDetailRouteItemId}">
-					#foreach($scenic in ${tripDay.scenics})
-						<button class="btn btn-info day_${day}_scenic_item remove-self" rid="$!{scenic.id}" rname="$!{scenic.name}">$!{scenic.name}</button>
-					#end
-					</div>
-					<div class="panel-body input-group">
-                        <input type='text' class='form-control' placeholder='请输入景区名称' id='day_${velocityCount}_scenic_add'>
-                        <span class="input-group-btn">
-						<button class='btn btn-default add-scenic-btn' type='button' display-id='day_${velocityCount}_scenic'>添加景区</button>
-						</span>
-						<span class="input-group-btn">
-						<button class="btn btn-primary select-scenic" display-id="day_${velocityCount}_scenic">选择景区</button>
-						</span>
-					</div>
-				</div>
-			</div>
-			<div class="panel add-hotel">
-                <div class="panel">
-					<div class="panel-heading travelPanelHotel"><i class="icon icon-2x icon-home"></i><span class="tripAddSp">添加酒店</span></div>
-					<div class="panel-body hotel" id="day_${velocityCount}_hotel" route-item-id="$!{tripDay.hotelsRouteItemId}" route-item-detail-id="$!{tripDay.hotelDetailRouteItemId}">
-					#foreach($hotel in $tripDay.hotels)
-						<button class="btn btn-info day_${day}_hotel_item remove-self" rid="$!{hotel.id}" rname="$!{hotel.name}">$!{hotel.name}</button>
-					#end
-					</div>
-					<div class="panel-body input-group">
-						<input type='text' class='form-control' placeholder='请输入酒店名称' id='day_${velocityCount}_hotel_add'>
-							<span class="input-group-btn">
-							<button class='btn btn-default add-hotel-btn' type='button' display-id='day_${velocityCount}_hotel'>添加酒店</button>
-							</span>
-							<span class="input-group-btn">
-							<button class="btn btn-primary select-hotel" display-id="day_${velocityCount}_hotel">选择酒店</button>
-							</span>
-					</div>
+			<div class="panel trip-images">
+				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程图片</span></div>
+				<div class="panel-body trip-images-content">
+					
 				</div>
 			</div>
 		</div>

@@ -7,6 +7,7 @@ import com.yimayhd.sellerAdmin.model.line.detail.DetailInfoVO;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
 import com.yimayhd.sellerAdmin.model.line.price.PriceInfoVO;
 import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
+import com.yimayhd.sellerAdmin.model.line.route.RoutePlanVO;
 
 /**
  * 基本旅行线路对象
@@ -14,16 +15,18 @@ import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
  * @author yebin
  *
  */
-public abstract class BaseLineVO implements Serializable{
+public class LineVO implements Serializable {
 	private static final long serialVersionUID = -3473801970066242380L;
-	protected long categoryId;
-	protected long options;
+	private long categoryId;
+	private long options;
 
-	protected BaseInfoVO baseInfo;// 基础信息
-	protected DetailInfoVO detailInfo;// 图文详情
-	protected RouteInfoVO routeInfo;// 行程信息
-	protected PriceInfoVO priceInfo;// 价格信息
-	protected NeedKnowVO needKnow;// 报名须知
+	private int itemType;
+	private BaseInfoVO baseInfo;// 基础信息
+	private DetailInfoVO detailInfo;// 图文详情
+	private RoutePlanVO routePlan;// 行程计划
+	private RouteInfoVO routeInfo;// 行程信息
+	private PriceInfoVO priceInfo;// 价格信息
+	private NeedKnowVO needKnow;// 报名须知
 
 	protected boolean readonly = false;
 
@@ -59,7 +62,13 @@ public abstract class BaseLineVO implements Serializable{
 		this.options = options;
 	}
 
-	public abstract int getItemType();
+	public int getItemType() {
+		return itemType;
+	}
+
+	public void setItemType(int itemType) {
+		this.itemType = itemType;
+	}
 
 	public boolean isReadonly() {
 		return readonly;
@@ -91,5 +100,13 @@ public abstract class BaseLineVO implements Serializable{
 
 	public void setRouteInfo(RouteInfoVO routeInfo) {
 		this.routeInfo = routeInfo;
+	}
+
+	public RoutePlanVO getRoutePlan() {
+		return routePlan;
+	}
+
+	public void setRoutePlan(RoutePlanVO routePlan) {
+		this.routePlan = routePlan;
 	}
 }
