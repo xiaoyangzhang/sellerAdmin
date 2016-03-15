@@ -43,9 +43,9 @@ import com.yimayhd.sellerAdmin.model.line.price.PackageDay;
 import com.yimayhd.sellerAdmin.model.line.price.PackageInfo;
 import com.yimayhd.sellerAdmin.model.line.price.PackageMonth;
 import com.yimayhd.sellerAdmin.model.line.price.PriceInfoVO;
+import com.yimayhd.sellerAdmin.model.line.route.FreeLineRouteVO;
 import com.yimayhd.sellerAdmin.model.line.route.RouteDayVO;
 import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
-import com.yimayhd.sellerAdmin.model.line.route.RoutePlanVO;
 
 /**
  * 线路转换器
@@ -220,7 +220,7 @@ public class LineConverter {
 		return itemSkuDOs;
 	}
 
-	public static RoutePlanVO toRoutePlanVO(LineResult lineResult) {
+	public static FreeLineRouteVO toFreeLineRouteVO(LineResult lineResult) {
 		// TODO YEBIN 待开发
 		return null;
 	}
@@ -237,8 +237,8 @@ public class LineConverter {
 		result.setBaseInfo(baseInfo);
 		// FIXME Yebin 待修复
 		if (line.getType() != LineType.REGULAR_LINE.getType()) {
-			RoutePlanVO routePlan = toRoutePlanVO(lineResult);
-			result.setRoutePlan(routePlan);
+			FreeLineRouteVO freeLineRoute = toFreeLineRouteVO(lineResult);
+			result.setFreeLineRoute(freeLineRoute);
 		}
 		// 线路个性化部分 start
 		RouteInfoVO routeInfo = toRouteInfoVO(lineResult);
