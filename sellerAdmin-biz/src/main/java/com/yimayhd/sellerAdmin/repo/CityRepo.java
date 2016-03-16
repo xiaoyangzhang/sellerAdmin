@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.repo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.user.client.cache.CityDataCacheClient;
+import com.yimayhd.user.client.dto.CityDTO;
 
 /**
  * 出发地
@@ -20,7 +21,7 @@ public class CityRepo {
 	 * @param code
 	 * @return
 	 */
-	public String getNameByCode(String code) {
-		return cityDataCacheClientRef.getNameByCode(code);
+	public CityDTO getNameByCode(String code) {
+		return cityDataCacheClientRef.getCityByCode(code);
 	}
 }
