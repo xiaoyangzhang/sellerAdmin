@@ -235,8 +235,7 @@ public class LineConverter {
 		LineDO line = lineResult.getLineDO();
 		BaseInfoVO baseInfo = toBaseInfoVO(line, tags);
 		result.setBaseInfo(baseInfo);
-		// FIXME Yebin 待修复
-		if (line.getType() != LineType.REGULAR_LINE.getType()) {
+		if (line.getType() == LineType.FREE_LINE.getType()) {
 			FreeLineRouteVO freeLineRoute = toFreeLineRouteVO(lineResult);
 			result.setFreeLineRoute(freeLineRoute);
 		}
@@ -412,15 +411,9 @@ public class LineConverter {
 	}
 
 	public static ItemDO merge(LineVO line, ItemDO target) {
-		BaseInfoVO baseInfo = line.getBaseInfo();
-		PriceInfoVO priceInfo = line.getPriceInfo();
 		target.setSellerId(Constant.YIMAY_OFFICIAL_ID);
-		ItemFeature itemFeature = target.getItemFeature();
-		itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, priceInfo.getLimitBySecond());
-		itemFeature.put(ItemFeatureKey.LINE_ADULT_VID, 1);
-		itemFeature.put(ItemFeatureKey.LINE_SINGLE_ROOM_VID, 4);
-		target.setItemFeature(itemFeature);
-		target.setItemType(line.getItemType());
+		BaseInfoVO baseInfo = line.getBaseInfo();
+		target.setItemType(baseInfo.getType());
 		target.setTitle(baseInfo.getName());
 		if (StringUtils.isNotBlank(baseInfo.getProductImageApp())) {
 			target.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, baseInfo.getProductImageApp());
@@ -428,6 +421,12 @@ public class LineConverter {
 		if (StringUtils.isNotBlank(baseInfo.getOrderImage())) {
 			target.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, baseInfo.getOrderImage());
 		}
+		ItemFeature itemFeature = target.getItemFeature();
+		PriceInfoVO priceInfo = line.getPriceInfo();
+		itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, priceInfo.getLimitBySecond());
+		itemFeature.put(ItemFeatureKey.LINE_ADULT_VID, 1);
+		itemFeature.put(ItemFeatureKey.LINE_SINGLE_ROOM_VID, 4);
+		target.setItemFeature(itemFeature);
 		return target;
 	}
 

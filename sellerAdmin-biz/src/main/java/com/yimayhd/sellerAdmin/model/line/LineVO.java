@@ -20,7 +20,6 @@ public class LineVO implements Serializable {
 	private long categoryId;
 	private long options;
 
-	private int itemType;
 	private BaseInfoVO baseInfo;// 基础信息
 	private DetailInfoVO detailInfo;// 图文详情
 	private FreeLineRouteVO freeLineRoute;// 行程计划
@@ -60,14 +59,6 @@ public class LineVO implements Serializable {
 
 	public void setOptions(long options) {
 		this.options = options;
-	}
-
-	public int getItemType() {
-		return itemType;
-	}
-
-	public void setItemType(int itemType) {
-		this.itemType = itemType;
 	}
 
 	public boolean isReadonly() {

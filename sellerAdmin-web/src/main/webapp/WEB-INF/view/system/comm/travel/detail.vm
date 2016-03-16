@@ -71,6 +71,7 @@
         var result = {
 			categoryId:$!{categoryId},
 			options:$!{options},
+			
             baseInfo:getBaseInfo(),
             routeInfo:getRouteInfo(),
             #if($categoryId == 7)
