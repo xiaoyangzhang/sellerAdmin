@@ -44,6 +44,7 @@
 	<!-- commodity -->
 	<bean class="com.yimayhd.sellerAdmin.service.impl.CommodityServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.CategoryServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.DepartServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.CommLineServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.CommScenicServiceImpl" />
 	<bean class="com.yimayhd.sellerAdmin.service.impl.CommActivityServiceImpl" />

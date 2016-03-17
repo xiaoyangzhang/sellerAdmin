@@ -22,7 +22,6 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.domain.share_json.LinePropertyType;
-import com.yimayhd.ic.client.model.domain.share_json.RouteItemDesc;
 import com.yimayhd.ic.client.model.domain.share_json.RouteItemDetail;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
@@ -264,48 +263,16 @@ public class LineConverter {
 		routeInfo.setRouteId(routeDO.getId());
 		List<RouteDayVO> tripDays = new ArrayList<RouteDayVO>();
 		Set<Integer> days = new HashSet<Integer>();
-		Map<Integer, RouteItemDO> desMap = new HashMap<Integer, RouteItemDO>();
-		Map<Integer, RouteItemDO> trafficMap = new HashMap<Integer, RouteItemDO>();
-		Map<Integer, RouteItemDO> breakfastMap = new HashMap<Integer, RouteItemDO>();
-		Map<Integer, RouteItemDO> lunchMap = new HashMap<Integer, RouteItemDO>();
-		Map<Integer, RouteItemDO> dinnerMap = new HashMap<Integer, RouteItemDO>();
-		Map<Integer, RouteItemDO> scenicMap = new HashMap<Integer, RouteItemDO>();
-		Map<Integer, RouteItemDO> hotelMap = new HashMap<Integer, RouteItemDO>();
-		Map<Integer, RouteItemDO> restaurantDetailMap = new HashMap<Integer, RouteItemDO>();
-		Map<Integer, RouteItemDO> scenicDetailMap = new HashMap<Integer, RouteItemDO>();
-		Map<Integer, RouteItemDO> hotelDetailMap = new HashMap<Integer, RouteItemDO>();
+		Map<Integer, RouteItemDetail> detailMap = new HashMap<Integer, RouteItemDetail>();
 		List<RouteItemDO> routeItems = lineResult.getRouteItemDOList();
 		if (CollectionUtils.isNotEmpty(routeItems)) {
 			for (RouteItemDO routeItem : routeItems) {
 				days.add(routeItem.getDay());
-				if (routeItem.getType() == RouteItemBizType.DESCRIPTION.getType()) {
-					desMap.put(routeItem.getDay(), routeItem);
-				} else if (routeItem.getType() == RouteItemBizType.ROUTE_TRAFFIC_INFO.getType()) {
-					trafficMap.put(routeItem.getDay(), routeItem);
-				} else if (routeItem.getType() == RouteItemBizType.ROUTE_ITEM_DESC.getType()) {
-					RouteItemDesc desc = routeItem.getRouteItemDesc();
-					if (desc != null) {
-						if (RouteItemType.BREAKFAST.name().equals(desc.getType())) {
-							breakfastMap.put(routeItem.getDay(), routeItem);
-						} else if (RouteItemType.LUNCH.name().equals(desc.getType())) {
-							lunchMap.put(routeItem.getDay(), routeItem);
-						} else if (RouteItemType.DINNER.name().equals(desc.getType())) {
-							dinnerMap.put(routeItem.getDay(), routeItem);
-						} else if (RouteItemType.SCENIC.name().equals(desc.getType())) {
-							scenicMap.put(routeItem.getDay(), routeItem);
-						} else if (RouteItemType.HOTEL.name().equals(desc.getType())) {
-							hotelMap.put(routeItem.getDay(), routeItem);
-						}
-					}
-				} else if (routeItem.getType() == RouteItemBizType.ROUTE_ITEM_DETAIL.getType()) {
+				if (routeItem.getType() == RouteItemBizType.ROUTE_ITEM_DETAIL.getType()) {
 					RouteItemDetail detail = routeItem.getRouteItemDetail();
 					if (detail != null) {
-						if (RouteItemType.RESTAURANT.name().equals(detail.getType())) {
-							restaurantDetailMap.put(routeItem.getDay(), routeItem);
-						} else if (RouteItemType.SCENIC.name().equals(detail.getType())) {
-							scenicDetailMap.put(routeItem.getDay(), routeItem);
-						} else if (RouteItemType.HOTEL.name().equals(detail.getType())) {
-							hotelDetailMap.put(routeItem.getDay(), routeItem);
+						if (RouteItemType.DETAIL.name().equals(detail.getType())) {
+							detailMap.put(routeItem.getDay(), detail);
 						}
 					}
 				}
@@ -319,9 +286,7 @@ public class LineConverter {
 			}
 		});
 		for (Integer day : dayList) {
-			tripDays.add(new RouteDayVO(trafficMap.get(day), desMap.get(day), breakfastMap.get(day), lunchMap.get(day),
-					dinnerMap.get(day), scenicMap.get(day), hotelMap.get(day), restaurantDetailMap.get(day),
-					scenicDetailMap.get(day), hotelDetailMap.get(day)));
+			tripDays.add(new RouteDayVO(detailMap.get(day)));
 		}
 		routeInfo.setRouteDays(tripDays);
 		return routeInfo;
@@ -336,58 +301,26 @@ public class LineConverter {
 		List<RouteItemDO> routeItemDOList = new ArrayList<RouteItemDO>();
 		for (int i = 1; i <= routeDays.size(); i++) {
 			RouteDayVO tripDay = routeDays.get(i - 1);
-			// 交通
-			RouteItemDO routeItemTrafficInfo = tripDay.getRouteItemTrafficInfo(i);
-			if (routeItemTrafficInfo != null) {
-				routeItemDOList.add(routeItemTrafficInfo);
-			}
-			// 描述
-			RouteItemDO routeItemDescription = tripDay.getRouteItemDescription(i);
-			if (routeItemDescription != null) {
-				routeItemDOList.add(routeItemDescription);
-			}
-			// 早餐
-			RouteItemDO routeItemBreakfast = tripDay.getRouteItemBreakfast(i);
-			if (routeItemBreakfast != null) {
-				routeItemDOList.add(routeItemBreakfast);
-			}
-			// 午餐
-			RouteItemDO routeItemLunch = tripDay.getRouteItemLunch(i);
-			if (routeItemLunch != null) {
-				routeItemDOList.add(routeItemLunch);
-			}
-			// 晚餐
-			RouteItemDO routeItemDinner = tripDay.getRouteItemDinner(i);
-			if (routeItemDinner != null) {
-				routeItemDOList.add(routeItemDinner);
-			}
-			// 景区
-			RouteItemDO routeItemScenic = tripDay.getRouteItemScenic(i);
-			if (routeItemScenic != null) {
-				routeItemDOList.add(routeItemScenic);
-			}
-			// 酒店
-			RouteItemDO routeItemHotel = tripDay.getRouteItemHotel(i);
-			if (routeItemHotel != null) {
-				routeItemDOList.add(routeItemHotel);
-			}
-			// 餐厅详情
-			RouteItemDO routeItemRestaurantDetail = tripDay.getRouteItemRestaurantDetail(i);
-			if (routeItemRestaurantDetail != null) {
-				routeItemDOList.add(routeItemRestaurantDetail);
-			}
-			// 景区详情
-			RouteItemDO routeItemScenicDetail = tripDay.getRouteItemScenicDetail(i);
-			if (routeItemScenicDetail != null) {
-				routeItemDOList.add(routeItemScenicDetail);
-			}
-			// 酒店详情
-			RouteItemDO routeItemHotelDetail = tripDay.getRouteItemHotelDetail(i);
-			if (routeItemHotelDetail != null) {
-				routeItemDOList.add(routeItemHotelDetail);
-			}
+			routeItemDOList.addAll(toRouteItemDO(tripDay));
 		}
 		return routeItemDOList;
+	}
+
+	public static List<RouteItemDO> toRouteItemDO(RouteDayVO routeDay) {
+		if (routeDay == null) {
+			return new ArrayList<RouteItemDO>(0);
+		}
+		RouteItemDetail routeItemDetail = new RouteItemDetail();
+		routeItemDetail.setId(routeDay.getRouteItemId());
+		routeItemDetail.setType(RouteItemType.DETAIL.name());
+		routeItemDetail.setName(routeDay.getTitle());
+		routeItemDetail.setShortDesc(routeDay.getDescription());
+		routeItemDetail.setPics(routeDay.getPicUrls());
+		RouteItemDO routeItemDO = new RouteItemDO();
+		routeItemDO.setRouteItemDetail(routeItemDetail);
+		List<RouteItemDO> result = new ArrayList<RouteItemDO>();
+		result.add(routeItemDO);
+		return result;
 	}
 
 	public static ItemDO toItemDO(long categoryId, long options, LineVO line) {
