@@ -9,8 +9,9 @@
         <property name="interface" value="com.yimayhd.tradecenter.client.service.imall.IMallHaremService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.dubbo.trade.check}"/>
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
         <property name="version" value="${consumer.dubbo.trade.version}"/>
     </bean>
 
@@ -18,8 +19,9 @@
         <property name="interface" value="com.yimayhd.tradecenter.client.service.trade.TcQueryService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.dubbo.trade.check}"/>
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
         <property name="version" value="${consumer.dubbo.trade.version}"/>
     </bean>
 
@@ -27,8 +29,9 @@
         <property name="interface" value="com.yimayhd.tradecenter.client.service.trade.TcTradeService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.dubbo.trade.check}"/>
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
         <property name="version" value="${consumer.dubbo.trade.version}"/>
     </bean>
 </beans>

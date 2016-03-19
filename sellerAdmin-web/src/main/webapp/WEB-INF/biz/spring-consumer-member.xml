@@ -8,16 +8,18 @@
         <property name="interface" value="com.yimayhd.membercenter.client.service.MerchantService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.dubbo.member.check}"/>
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
         <property name="version" value="${consumer.dubbo.member.version}"/>
     </bean>
     <bean id="travelKaServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.membercenter.client.service.TravelKaService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.dubbo.member.check}"/>
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
         <property name="version" value="${consumer.dubbo.member.version}"/>
     </bean>
 
@@ -25,8 +27,9 @@
         <property name="interface" value="com.yimayhd.membercenter.client.service.UserPermissionService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.dubbo.member.check}"/>
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
         <property name="version" value="${consumer.dubbo.member.version}"/>
     </bean>
 </beans>

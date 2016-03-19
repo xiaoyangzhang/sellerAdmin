@@ -24,7 +24,7 @@ import com.yimayhd.user.session.manager.SessionManager;
  * @author czf
  */
 @Controller
-public class UserController extends BaseController {
+public class UserInfoController extends BaseController {
 
 	@Autowired
 	private UserRPCService userService;

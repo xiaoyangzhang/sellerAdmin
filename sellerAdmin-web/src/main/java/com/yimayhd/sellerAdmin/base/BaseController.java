@@ -8,24 +8,35 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.exception.NoticeException;
+import com.yimayhd.user.session.manager.SessionHelper;
 
 /**
- * @author wenfeng zhang
  * 
- * @update yebin 2015/11/17
+ * @author wzf
+ *
  */
 public class BaseController {
 	protected final Logger log = LoggerFactory.getLogger(getClass());
-	@Autowired
-	protected HttpServletRequest request;
+//	protected HttpServletRequest request;
+	
+	@Value("${env}")
+	private String env ;
+	
+	public boolean isTest(){
+		if( Constant.ENV_PROD.equalsIgnoreCase(env) ){
+			return false;
+		}
+		return true;
+	}
 
 	// 正式发布，异常不这样处理
 	/*
@@ -64,16 +75,26 @@ public class BaseController {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
 //		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm"), true));
 	}
+	private HttpServletRequest getRequest(){
+		return SessionHelper.getRequest() ;
+	}
 
 	/**
 	 * 等价于request.getParameter(name).
 	 */
 	protected String get(final String name) {
-		return request.getParameter(name);
+		return getRequest().getParameter(name);
+	}
+	protected String getCallbackUrl(final String name) {
+		String returnUrl = get(name) ;
+		if (StringUtils.isBlank(returnUrl)) {
+			returnUrl = "/";
+		}
+		return returnUrl ;
 	}
 
 	protected Integer getInteger(final String name) {
-		final String str = request.getParameter(name);
+		final String str = getRequest().getParameter(name);
 		if (StringUtils.isNotBlank(str)) {
 			return Integer.valueOf(str);
 		}
@@ -81,7 +102,7 @@ public class BaseController {
 	}
 
 	protected Long getLong(final String name) {
-		final String str = request.getParameter(name);
+		final String str = getRequest().getParameter(name);
 		if (StringUtils.isNotBlank(str)) {
 			return Long.valueOf(str);
 		}
@@ -92,6 +113,6 @@ public class BaseController {
 	 * 等价于request.setAttribute(key, value).
 	 */
 	protected void put(final String key, final Object value) {
-		request.setAttribute(key, value);
+		getRequest().setAttribute(key, value);
 	}
 }

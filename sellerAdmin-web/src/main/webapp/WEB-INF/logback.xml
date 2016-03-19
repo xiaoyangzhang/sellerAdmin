@@ -50,7 +50,7 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>DEBUG</level>
+            <level>INFO</level>
         </filter>
         <encoding>UTF-8</encoding>
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -73,7 +73,9 @@
     <!--<logger name="com.pajk.sims"/>-->
     <root level="TRACE">
         <appender-ref ref="STDOUT"/>
+        <!-- 
         <appender-ref ref="DEBUG"/>
+         -->
         <appender-ref ref="INFO"/>
         <appender-ref ref="ERROR"/>
     </root>

@@ -15,6 +15,7 @@ tfs.namespace=${tfs.namespace}
 
 #tfs访问地址
 sellerAdmin.tfsRootPath=${sellerAdmin.tfsRootPath}
+sellerAdmin.rootPath=${sellerAdmin.rootPath}
 
 #tair
 tair.configServer.main=${tair.configServer.main}
@@ -46,42 +47,19 @@ app.name  = ${app.name}
 dubbo.port  = ${dubbo.port}
 dubbo.registry.url  = ${dubbo.registry.url}
 consumer.dubbo.timeout       = ${consumer.dubbo.timeout}
-
-consumer.dubbo.item.check = ${consumer.dubbo.item.check}
-consumer.dubbo.item.version = ${consumer.dubbo.item.version}
-
-
-dubbo.import.user.version=${dubbo.import.user.version}
-dubbo.import.consumer.user.check=${dubbo.import.consumer.user.check}
-
-consumer.resources.dubbo.check=${consumer.resources.dubbo.check}
-consumer.resource.dubbo.version = ${consumer.resource.dubbo.version}
+consumer.dubbo.check  =  ${consumer.dubbo.check}
 dubbo.retries  = ${dubbo.retries}
 
-consumer.dubbo.member.check = ${consumer.dubbo.member.check}
+consumer.dubbo.item.version = ${consumer.dubbo.item.version}
+consumer.dubbo.user.version=${consumer.dubbo.user.version}
+consumer.resource.dubbo.version = ${consumer.resource.dubbo.version}
 consumer.dubbo.member.version = ${consumer.dubbo.member.version}
-
-consumer.dubbo.paycore.check = ${consumer.dubbo.paycore.check}
 consumer.dubbo.paycore.version = ${consumer.dubbo.paycore.version}
-
-consumer.dubbo.trade.check = ${consumer.dubbo.trade.check}
 consumer.dubbo.trade.version = ${consumer.dubbo.trade.version}
-
-consumer.dubbo.sns.check = ${consumer.dubbo.sns.check}
 consumer.dubbo.sns.version = ${consumer.dubbo.sns.version}
-
-consumer.dubbo.comment.check = ${consumer.dubbo.comment.check}
 consumer.dubbo.comment.version = ${consumer.dubbo.comment.version}
-
-consumer.dubbo.commission.check = ${consumer.dubbo.commission.check}
 consumer.dubbo.commission.version = ${consumer.dubbo.commission.version}
-
-consumer.dubbo.voucher.check = ${consumer.dubbo.voucher.check}
 consumer.dubbo.voucher.version = ${consumer.dubbo.voucher.version}
-
-consumer.dubbo.activity.check = ${consumer.dubbo.activity.check}
 consumer.dubbo.activity.version = ${consumer.dubbo.activity.version}
-
-consumer.dubbo.marketing.check = ${consumer.dubbo.marketing.check}
 consumer.dubbo.marketing.version = ${consumer.dubbo.marketing.version}
 

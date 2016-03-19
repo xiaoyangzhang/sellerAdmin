@@ -1,12 +1,14 @@
 package com.yimayhd.sellerAdmin.util;
 
 import com.yimayhd.sellerAdmin.config.ResourceConfig;
+import com.yimayhd.sellerAdmin.constant.Constant;
 
 /**
  * 暴露给view用的
  * Created by Administrator on 2015/11/3.
  */
 public class WebResourceConfigUtil {
+    private final static String ROOT_PATH_KEY = "sellerAdmin.rootPath";
     private final static String TFS_ROOT_PATH_KEY = "sellerAdmin.tfsRootPath";
     private final static String STATIC_RESOURCE_PAHT_KEY = "sellerAdmin.staticResourcesPath";
     private final static String ACTION_DEFAULT_FONT_PATH_KEY= "sellerAdmin.actionDefaultFontPath";
@@ -15,9 +17,18 @@ public class WebResourceConfigUtil {
 
     //分销
     private final static String ITEM_IMG_URI_PATH = "item.img.uri";
+    private final static String DOMAIN = "domain";
+    private final static String ENV = "env";
+    private final static String RESOURCE_PATH = "resource.path";
     
+    public static String getRootPath() {
+        return ResourceConfig.getInstance().getValueByKey(ROOT_PATH_KEY);
+    }
+    public static String getResourcePath() {
+    	return ResourceConfig.getInstance().getValueByKey(RESOURCE_PATH);
+    }
     public static String getTfsRootPath() {
-        return ResourceConfig.getInstance().getValueByKey(TFS_ROOT_PATH_KEY);
+    	return ResourceConfig.getInstance().getValueByKey(TFS_ROOT_PATH_KEY);
     }
 
     public static String getStaticResourcesPath(){
@@ -40,5 +51,15 @@ public class WebResourceConfigUtil {
     }
     public static String getItemImgUrlPath(){
     	return ResourceConfig.getInstance().getValueByKey(ITEM_IMG_URI_PATH);
+    }
+    public static String getDomain(){
+    	return ResourceConfig.getInstance().getValueByKey(DOMAIN);
+    }
+    public static boolean isTestMode(){
+    	String env = ResourceConfig.getInstance().getValueByKey(ENV);
+    	if( Constant.ENV_PROD.equalsIgnoreCase(env) ){
+    		return false;
+    	}
+    	return true;
     }
 }

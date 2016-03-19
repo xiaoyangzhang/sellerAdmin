@@ -17,4 +17,7 @@
 	<bean id="commissionRepo" class="com.yimayhd.commission.repo.CommissionRepo"/>
 	<bean id="itemRebateRepo" class="com.yimayhd.commission.repo.ItemRebateRepo"/>
 	<bean id="userRelationRepo" class="com.yimayhd.commission.repo.UserRelationRepo"/>
+	
+	
+	<bean id="userRepo" class="com.yimayhd.sellerAdmin.repo.UserRepo"/>
 </beans>

@@ -9,8 +9,9 @@
 			value="com.yimayhd.ic.client.service.item.CategoryService" />
 		<property name="application" ref="dubboApplicationConfig" />
 		<property name="registry" ref="dubboRegistryConfig" />
-		<property name="timeout" value="${consumer.dubbo.timeout}" />
-		<property name="check" value="${consumer.dubbo.item.check}" />
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
 		<property name="version" value="${consumer.dubbo.item.version}" />
 	</bean>
 	<bean id="itemQueryServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
@@ -18,8 +19,9 @@
 			value="com.yimayhd.ic.client.service.item.ItemQueryService" />
 		<property name="application" ref="dubboApplicationConfig" />
 		<property name="registry" ref="dubboRegistryConfig" />
-		<property name="timeout" value="${consumer.dubbo.timeout}" />
-		<property name="check" value="${consumer.dubbo.item.check}" />
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
 		<property name="version" value="${consumer.dubbo.item.version}" />
 	</bean>
 	<bean id="itemPublishServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
@@ -27,8 +29,9 @@
 				  value="com.yimayhd.ic.client.service.item.ItemPublishService" />
 		<property name="application" ref="dubboApplicationConfig" />
 		<property name="registry" ref="dubboRegistryConfig" />
-		<property name="timeout" value="${consumer.dubbo.timeout}" />
-		<property name="check" value="${consumer.dubbo.item.check}" />
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
 		<property name="version" value="${consumer.dubbo.item.version}" />
 	</bean>
 
@@ -37,8 +40,9 @@
 			value="com.yimayhd.ic.client.service.item.HotelService" />
 		<property name="application" ref="dubboApplicationConfig" />
 		<property name="registry" ref="dubboRegistryConfig" />
-		<property name="timeout" value="${consumer.dubbo.timeout}" />
-		<property name="check" value="${consumer.dubbo.item.check}" />
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
 		<property name="version" value="${consumer.dubbo.item.version}" />
 	</bean>
 
@@ -47,7 +51,8 @@
 		<property name="application" ref="dubboApplicationConfig"/>
 		<property name="registry" ref="dubboRegistryConfig"/>
 		<property name="timeout" value="${consumer.dubbo.timeout}"/>
-		<property name="check" value="${consumer.dubbo.item.check}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
 		<property name="version" value="${consumer.dubbo.item.version}"/>
 	</bean>
 

@@ -16,6 +16,7 @@
 		<property name="tfs.groupName" defaultValue="group_1" description="#" />
 		<property name="tfs.namespace" defaultValue="201" description="#" />
 		<property name="sellerAdmin.tfsRootPath" defaultValue="//192.168.1.209:7500/v1/tfs/" description="#tfs默认访问地址" />
+		<property name="sellerAdmin.rootPath" defaultValue="http://localhost:8080/sellerAdmin/" description="#tfs默认访问地址" />
 	</group>
 	<group name="tair">
 		<property name="tair.configServer.main" defaultValue="tair01.test.yimayholiday.net:5198" description="#tair服务器的地址" />
@@ -40,17 +41,14 @@
 		<property name="dubbo.registry.url" defaultValue="192.168.1.202:2181" description="#" />
 		<property name="dubbo.retries" defaultValue="0" description="#" />
 		<property name="consumer.dubbo.timeout" defaultValue="4000" description="#" />
+		<property name="consumer.dubbo.check" defaultValue="false" description="#" />
 
-		<property name="consumer.dubbo.item.check" defaultValue="false" description="#" />
 		<property name="consumer.dubbo.item.version" defaultValue="1.0.0.test" description="#" />
 
-		<property name="dubbo.import.user.version" defaultValue="1.0.0.test" description="#" />
-		<property name="dubbo.import.consumer.user.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.user.version" defaultValue="1.0.0.test" description="#" />
 
-		<property name="consumer.resources.dubbo.check" defaultValue="false" description="#" />
 		<property name="consumer.resource.dubbo.version" defaultValue="1.0.0.test" description="#" />
 
-		<property name="consumer.dubbo.member.check" defaultValue="false" description="#" />
 		<property name="consumer.dubbo.member.version" defaultValue="2.0.0.test" description="#" />
 
 

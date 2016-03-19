@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.constant;
 
+import com.yimayhd.user.session.manager.constant.SessionConstant;
+
 /**
  * Created by czf on 2015/12/22.
  */
@@ -11,4 +13,16 @@ public class Constant {
 
 	public static final int GF_OFFICIAL_ID = 1000;
 	public static final int GF_DOMAIN = 1100;
+	
+	public static final String TOKEN_SERVER = SessionConstant.TOKEN_SERVER;
+
+	public static final String TOKEN_CLIENT = SessionConstant.TOKEN_CLIENT;
+
+	public static final String LOGIN_URL = "/user/toLogin";
+
+	public static final int DOMAIN_B2CPC = 1000;
+	
+	public static final int DOMAIN_JIUXIU = 1200;
+	
+	public static final String ENV_PROD = "prod";
 }

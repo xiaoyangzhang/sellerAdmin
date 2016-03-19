@@ -8,9 +8,10 @@
         <property name="interface" value="com.yimayhd.voucher.client.service.VoucherClientService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
         <property name="version" value="${consumer.dubbo.voucher.version}"/>
-        <property name="check" value="${consumer.dubbo.voucher.check}"/>
     </bean>
 
 </beans>
