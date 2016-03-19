@@ -1,0 +1,11 @@
+<form action="$root_path/user/login" method="post" id="loginForm">
+	<h1 class="title">用户登录</h1>
+	<input type="text" class="textinput" name="username" id="loginname" placeholder="请输入手机号"/>
+	<input type="password" class="textinput" name="password" id="loginpwd" placeholder="请输入密码"/>
+	<p class="first clearfix">
+		<label><input type="checkbox" class="saveuser" autocomplete="off"/>记住用户名</label>
+		<a href="$root_path/user/toRetrievePassword" target="_blank">忘记密码？</a>
+	</p>
+	<input type="submit" id="loginSubmitBtn" class="winloginbtn" value="登录" autocomplete="off"/>
+	<p class="last">还没有账号 <a href="$root_path/user/toRegister">立即注册</a></p>
+</form>

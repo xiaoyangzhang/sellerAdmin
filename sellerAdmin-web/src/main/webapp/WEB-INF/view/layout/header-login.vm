@@ -1,0 +1,25 @@
+<!-- 头部开始 -->
+<div id="ym-header" class="clearfix">
+	<div class="ym-logo"><a href="$!root_path/"><img src="https://s1.yimayholiday.com/PC_B2C/img/top_logo.jpg"/></a></div>
+	<ul class="clearfix">
+		<li><a #if($header_on == 'home')class='on'#end href="$root_path/">商户</a></li>
+		<li><a #if($header_on == 'member')class='on'#end href="$root_path/member.html">微旅</a></li>
+		<li><a #if($header_on == 'app')class='on'#end href="$root_path/app.html">九休APP</a></li>
+	</ul>
+	<ul class="logininfo">
+		#if($user)
+    		<li class="username">
+    			#if($stringUtils.isNotBlank($user.avatar))
+    				<img src="$tfs/$!{user.avatar}" width="32" height="32"/>
+    			#else
+    				<img src="$rs_path/img/init-photo.jpg" width="32" height="32"/>
+    			#end
+    			<a href="$root_path/account/userInfo">$!{user.nickname}($!{user.id})</a>
+    		</li>
+    		<li class="logout"><a href="$root_path/user/logout">退出</a></li>
+		#else
+    		<li class="login"><a href="$root_path/user/toLogin">登录</a></li>
+    		<li class="register"><a href="$root_path/user/toRegister">注册</a></li>
+		#end
+	</ul>
+</div>

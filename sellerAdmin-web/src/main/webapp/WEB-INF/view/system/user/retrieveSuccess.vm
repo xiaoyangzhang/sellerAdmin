@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+	<head>
+		#parse("layout/meta.vm")
+		<title>找回密码成功-怡美假日</title>
+		#parse("layout/link.vm")
+		
+		#if($webConfig.isTestMode())
+        <link rel="stylesheet" href="http://s0.yimayholiday.com/PC_B2C/src/css/login.css">
+        #else
+        <link rel="stylesheet" href="http://s0.yimayholiday.com/PC_B2C/dist/css/login.css">
+        #end
+	</head>
+	<body>
+		<!-- 头部开始 -->
+		#parse("layout/top.vm")
+       <!-- 头部完成 -->
+       <!-- 首页的中心部分开始 -->
+		<div id="ym-login-banner">
+			<div class="login-body regsuccess">
+				<h1 class="title">密码修改成功</h1><br>
+				<a href="$root_path/" class="winloginbtn">返回首页</a>
+				<p>页面将在<em id="dtime"> 3 </em>秒后自动跳转</p>
+			</div>		
+		</div>
+       <!-- 首页的中心部分结束 -->
+		<!-- 尾部开始 -->
+       	#parse("layout/footer.vm")
+         <!-- 尾部结束 -->
+		#parse("layout/js.vm")
+		<script>
+			var i = 3;
+			var tt = window.setInterval(function(){
+				if(i==0){
+					clearInterval(tt);
+					window.location.href="$root_path/";
+				}
+				document.getElementById("dtime").innerHTML = " "+i+" ";
+				i--;
+			},1000);
+		</script>	
+	</body>
+</html>

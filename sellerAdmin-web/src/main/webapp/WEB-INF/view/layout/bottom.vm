@@ -1,0 +1,36 @@
+<!-- 首页的中心部分结束 -->
+<!-- 尾部开始 -->
+<div id="ym-footer" class="clearfix">
+ 	<div class="footer clearfix">
+ 	  <dl>
+        <dt>关于我们</dt>
+ 	  	<dd><a target="_blank" href="$!{utilWebconfig.rootPath}/about/aboutus.html" rel="nofollow">怡美假日</a></dd>
+ 	  	<dd><a target="_blank" href="$!{utilWebconfig.rootPath}/about/joinus.html" rel="nofollow">加入我们</a></dd>
+ 	  	<dd><a target="_blank" href="$!{utilWebconfig.rootPath}/about/contactus.html" rel="nofollow">联系我们</a></dd>
+ 	  	<dd><a target="_blank" href="$!{utilWebconfig.rootPath}/about/serviceterm.html" rel="nofollow">服务条款</a></dd>
+ 	  </dl>
+ 	  <dl class="lfm">
+		<dt>发现</dt>
+ 	  	<dd><a target="_blank" href="$!{utilWebconfig.rootPath}/">玩法</a></dd>
+ 	  	<dd><a target="_blank" href="$!{utilWebconfig.rootPath}/member.html">会员</a></dd>
+ 	  	<dd><a target="_blank" href="$!{utilWebconfig.rootPath}/app.html">下载app</a></dd>
+ 	  </dl>
+ 	  <dl class="lfmy">
+ 	  	<dt>客服电话</dt>
+ 	  	<dd>4000-696-888</dd>
+ 	  	<dd>9:00~22:00，周一至周日</dd>
+ 	  </dl>
+ 	  <dl class="lfml">
+ 	  	<dt><img src="https://s1.yimayholiday.com/PC_B2C/img/foot-ewm.jpg"/></dt>
+ 	  	<dd>怡美假日服务号</dd>
+ 	  </dl>
+ 	</div>
+</div>
+<div id="ym-foot">
+	<p class="foot-copyright">
+		Copyright © 2014-2016 yimayholiday.com 怡美假日 版权所有<br/><a target="_blank" href="http://www.miitbeian.gov.cn/" target="_blank" class = "jing-addressID">京ICP备15051416号-1</a>				
+	</p>
+</div>
+<!-- 尾部结束 -->
+#parse("layout/js.vm")
+<script>seajs.use("login");</script><!--应用程序模块入口JS-->
