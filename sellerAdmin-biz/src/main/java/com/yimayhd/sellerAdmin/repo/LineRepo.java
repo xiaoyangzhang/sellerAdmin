@@ -3,22 +3,25 @@ package com.yimayhd.sellerAdmin.repo;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.yimayhd.sellerAdmin.base.BaseException;
-import com.yimayhd.sellerAdmin.base.PageVO;
-import com.yimayhd.sellerAdmin.util.RepoUtils;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
+import com.yimayhd.ic.client.model.param.item.line.LinePubAddDTO;
+import com.yimayhd.ic.client.model.param.item.line.LinePubUpdateDTO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.item.LinePublishResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import com.yimayhd.ic.client.service.item.line.LinePublishService;
+import com.yimayhd.sellerAdmin.base.BaseException;
+import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.util.RepoUtils;
 
 /**
  * 线路Repo
@@ -28,10 +31,12 @@ import com.yimayhd.ic.client.service.item.ItemQueryService;
  */
 public class LineRepo {
 	private Logger log = LoggerFactory.getLogger(getClass());
-	@Resource
+	@Autowired
 	private ItemQueryService itemQueryServiceRef;
-	@Resource
+	@Autowired
 	private ItemPublishService itemPublishServiceRef;
+	@Autowired
+	private LinePublishService linePublishServiceRef;
 
 	/**
 	 * ID查询
@@ -66,6 +71,17 @@ public class LineRepo {
 		return publishLine;
 	}
 
+	public LinePublishResult updateLine(LinePubUpdateDTO linePubUpdateDTO) {
+		long lineId = linePubUpdateDTO.getLine().getId();
+		if (lineId <= 0) {
+			throw new BaseException("更新线路时线路ID不能为空");
+		}
+		RepoUtils.requestLog(log, "linePublishServiceRef.update");
+		LinePublishResult linePublishResult = linePublishServiceRef.update(Constant.DOMAIN_JIUXIU, linePubUpdateDTO);
+		RepoUtils.resultLog(log, "linePublishServiceRef.update", linePublishResult);
+		return linePublishResult;
+	}
+
 	/**
 	 * 保存
 	 * 
@@ -77,6 +93,13 @@ public class LineRepo {
 		LinePublishResult publishLine = itemPublishServiceRef.publishLine(linePublishDTO);
 		RepoUtils.resultLog(log, "itemPublishServiceRef.publishLine", publishLine);
 		return publishLine;
+	}
+
+	public LinePublishResult saveLine(LinePubAddDTO linePubAddDTO) {
+		RepoUtils.requestLog(log, "linePublishServiceRef.add");
+		LinePublishResult linePublishResult = linePublishServiceRef.add(Constant.DOMAIN_JIUXIU, linePubAddDTO);
+		RepoUtils.resultLog(log, "linePublishServiceRef.add", linePublishResult);
+		return linePublishResult;
 	}
 
 	/**

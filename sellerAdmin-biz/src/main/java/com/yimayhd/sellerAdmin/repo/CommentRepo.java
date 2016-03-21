@@ -11,15 +11,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.domain.ComTagRelationDO;
+import com.yimayhd.commentcenter.client.domain.ComentDO;
+import com.yimayhd.commentcenter.client.dto.ComentDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoAddDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoDTO;
+import com.yimayhd.commentcenter.client.dto.TagRelaByTagIdAndTypeDTO;
 import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.query.TagPageQuery;
 import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.BaseResult;
+import com.yimayhd.commentcenter.client.result.TagRelationResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
+import com.yimayhd.commentcenter.client.service.ComTagCenterService;
 import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.util.RepoUtils;
 
 /**
@@ -34,6 +41,8 @@ public class CommentRepo {
 	public static final int STATUS_ENABLE = 1;
 	@Autowired
 	private ComCenterService comCenterServiceRef;
+	@Autowired
+	private ComTagCenterService comTagCenterServiceRef;
 
 	public boolean addTagRelation(long outId, TagType tagType, List<Long> tagIdList, Date date) {
 		if (outId <= 0 || tagType == null || CollectionUtils.isEmpty(tagIdList) || date == null) {
@@ -50,11 +59,25 @@ public class CommentRepo {
 		return addTagRelationInfo.getValue();
 	}
 
-	public List<ComTagDO> findAllTag(long outId, TagType tagType) {
-		RepoUtils.requestLog(log, "comCenterServiceRef.getTagInfoByOutIdAndType", outId, tagType.name());
-		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.getTagInfoByOutIdAndType(outId, tagType.name());
-		RepoUtils.resultLog(log, "comCenterServiceRef.getTagInfoByOutIdAndType", tagResult);
-		return tagResult.getValue();
+	public List<Long> findAllTag(long outId, TagType tagType) {
+		TagRelaByTagIdAndTypeDTO tagrelabytagidandtypedto = new TagRelaByTagIdAndTypeDTO();
+		tagrelabytagidandtypedto.setOutId(outId);
+		tagrelabytagidandtypedto.setDomain(Constant.DOMAIN_JIUXIU);
+		RepoUtils.requestLog(log, "comTagCenterServiceRef.getTagRelationByOutIdAndType", tagrelabytagidandtypedto);
+		BaseResult<TagRelationResult> tagRelationByOutIdAndType = comTagCenterServiceRef
+				.getTagRelationByOutIdAndType(tagrelabytagidandtypedto);
+		RepoUtils.resultLog(log, "comTagCenterServiceRef.getTagRelationByOutIdAndType", tagRelationByOutIdAndType);
+		TagRelationResult tagRelationResult = tagRelationByOutIdAndType.getValue();
+		List<Long> result = new ArrayList<Long>();
+		List<ComTagRelationDO> expertList = tagRelationResult.getExpertList();
+		if (CollectionUtils.isNotEmpty(expertList)) {
+			for (ComTagRelationDO comTagRelationDO : expertList) {
+				if (comTagRelationDO.getOutType() == tagType.getType()) {
+					result.add(comTagRelationDO.getTagId());
+				}
+			}
+		}
+		return result;
 	}
 
 	public PageVO<ComTagDO> pageQueryTag(TagInfoDTO tagInfoDTO) {
@@ -130,6 +153,13 @@ public class CommentRepo {
 	 */
 	public List<ComTagDO> getAllLineThemes() {
 		return getTagListByTagType(TagType.LINETAG);
+	}
+
+	public ComentDO savePictureText(ComentDTO comentDTO) {
+		RepoUtils.requestLog(log, "comTagCenterServiceRef.savePictureText", comentDTO);
+		BaseResult<ComentDO> savePictureText = comTagCenterServiceRef.savePictureText(comentDTO);
+		RepoUtils.resultLog(log, "comTagCenterServiceRef.savePictureText", savePictureText);
+		return savePictureText.getValue();
 	}
 
 }

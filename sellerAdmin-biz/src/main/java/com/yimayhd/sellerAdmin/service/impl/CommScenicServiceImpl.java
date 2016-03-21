@@ -184,7 +184,7 @@ public class CommScenicServiceImpl implements CommScenicService {
 			scenicDO.setOrderNum(commScenic.getScenicDO().getOrderNum());
 			scenicDO.setId(commScenic.getItemDO().getOutId());
 
-			itemDO.setDomain(Constant.B2C_DOMAIN);
+			itemDO.setDomain(Constant.DOMAIN_JIUXIU);
 			
 			  ICResult<ScenicDO> icResult = itemQueryServiceRef.getScenic(itemDO.getOutId());
 			   if(null == icResult){

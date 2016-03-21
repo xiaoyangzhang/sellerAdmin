@@ -14,7 +14,6 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.RouteDO;
 import com.yimayhd.ic.client.model.domain.RouteItemDO;
@@ -71,7 +70,7 @@ public class LineConverter {
 		return target;
 	}
 
-	public static BaseInfoVO toBaseInfoVO(LineDO line, List<ComTagDO> tags) {
+	public static BaseInfoVO toBaseInfoVO(LineDO line, List<Long> tags) {
 		BaseInfoVO baseInfo = new BaseInfoVO();
 		baseInfo.setLineId(line.getId());
 		baseInfo.setType(line.getType());
@@ -92,8 +91,8 @@ public class LineConverter {
 		}
 		List<Long> themes = new ArrayList<Long>();
 		if (tags != null) {
-			for (ComTagDO tag : tags) {
-				themes.add(tag.getId());
+			for (Long tag : tags) {
+				themes.add(tag);
 			}
 		}
 		baseInfo.setThemes(themes);
@@ -229,7 +228,7 @@ public class LineConverter {
 		return null;
 	}
 
-	public static LineVO toLineVO(LineResult lineResult, List<ComTagDO> tags) {
+	public static LineVO toLineVO(LineResult lineResult, List<Long> tags) {
 		LineVO result = new LineVO();
 		LineDO line = lineResult.getLineDO();
 		BaseInfoVO baseInfo = toBaseInfoVO(line, tags);
@@ -328,7 +327,7 @@ public class LineConverter {
 		// 初始化
 		ItemDO itemDO = new ItemDO();
 		itemDO.setId(priceInfo.getItemId());
-		itemDO.setDomain(Constant.B2C_DOMAIN);
+		itemDO.setDomain(Constant.DOMAIN_JIUXIU);
 		itemDO.setCategoryId(categoryId);
 		itemDO.setOptions(options);
 		itemDO.setPayType(1);

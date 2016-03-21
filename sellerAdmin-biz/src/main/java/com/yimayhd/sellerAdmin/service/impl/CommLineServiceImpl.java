@@ -27,11 +27,9 @@ import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.repo.CategoryRepo;
 import com.yimayhd.sellerAdmin.repo.CommentRepo;
 import com.yimayhd.sellerAdmin.repo.LineRepo;
-import com.yimayhd.sellerAdmin.repo.PictureRepo;
 import com.yimayhd.sellerAdmin.service.CommLineService;
 
 public class CommLineServiceImpl implements CommLineService {
-	private static final int PICTURE_TOP_SIZE = 6;
 	private Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private LineRepo lineRepo;
@@ -39,8 +37,6 @@ public class CommLineServiceImpl implements CommLineService {
 	private CommentRepo commentRepo;
 	@Autowired
 	private CategoryRepo categoryRepo;
-	@Autowired
-	private PictureRepo pictureRepo;
 
 	@Override
 	public LineVO getById(long id) {
@@ -48,7 +44,7 @@ public class CommLineServiceImpl implements CommLineService {
 			return null;
 		}
 		LineResult lineResult = lineRepo.getLineById(id);
-		List<ComTagDO> tags = commentRepo.findAllTag(id, TagType.LINETAG);
+		List<Long> tags = commentRepo.findAllTag(id, TagType.LINETAG);
 		return LineConverter.toLineVO(lineResult, tags);
 	}
 
