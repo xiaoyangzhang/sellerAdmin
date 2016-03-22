@@ -120,8 +120,13 @@ public class CommFreeLineController extends BaseTravelController {
 	public @ResponseBody ResponseVo save(String json) throws Exception {
 		try {
 			LineVO sst = JSON.parseObject(json, LineVO.class);
-			long id = commLineService.publishLine(sst);
-			return ResponseVo.success(id);
+			long lineId = sst.getBaseInfo().getLineId();
+			if (lineId > 0) {
+				commLineService.update(sst);
+			} else {
+				lineId = commLineService.save(sst);
+			}
+			return ResponseVo.success(lineId);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return ResponseVo.error(e);

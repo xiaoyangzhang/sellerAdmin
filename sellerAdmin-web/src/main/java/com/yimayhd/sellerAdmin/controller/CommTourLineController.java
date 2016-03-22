@@ -83,8 +83,13 @@ public class CommTourLineController extends BaseTravelController {
 	public @ResponseBody ResponseVo save(String json) {
 		try {
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
-			long id = commLineService.publishLine(gt);
-			return ResponseVo.success(id);
+			long lineId = gt.getBaseInfo().getLineId();
+			if (lineId > 0) {
+				commLineService.update(gt);
+			} else {
+				lineId = commLineService.save(gt);
+			}
+			return ResponseVo.success(lineId);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return ResponseVo.error(e);

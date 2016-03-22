@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
@@ -19,6 +20,7 @@ import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.ic.client.model.result.item.LinePublishResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
+import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.converter.LineConverter;
 import com.yimayhd.sellerAdmin.model.line.LineContextConfig;
@@ -46,39 +48,6 @@ public class CommLineServiceImpl implements CommLineService {
 		LineResult lineResult = lineRepo.getLineById(id);
 		List<Long> tags = commentRepo.findAllTag(id, TagType.LINETAG);
 		return LineConverter.toLineVO(lineResult, tags);
-	}
-
-	@Override
-	public long publishLine(LineVO line) {
-		LinePublishResult publishLine = null;
-		long lineId = line.getBaseInfo().getLineId();
-		if (lineId > 0) {
-			/*
-			 * CheckResult checkForSave = LineChecker.checkForUpdate(line); if
-			 * (checkForSave.isSuccess()) {
-			 */
-			LineResult lineResult = lineRepo.getLineById(lineId);
-			LinePublishDTO linePublishDTOForUpdate = LineConverter.toLinePublishDTOForUpdate(line, lineResult);
-			publishLine = lineRepo.updateLine(linePublishDTOForUpdate);
-			/*
-			 * } else { throw new BaseException(checkForSave.getMsg()); }
-			 */
-		} else {
-			/*
-			 * CheckResult checkForUpdate = LineChecker.checkForSave(line); if
-			 * (checkForUpdate.isSuccess()) {
-			 */
-			LinePublishDTO linePublishDTOForSave = LineConverter.toLinePublishDTOForSave(line);
-			publishLine = lineRepo.saveLine(linePublishDTOForSave);
-			/*
-			 * } else { throw new BaseException(checkForUpdate.getMsg()); }
-			 */
-		}
-		if (publishLine.getLineId() > 0) {
-			List<Long> themes = line.getBaseInfo().getThemes();
-			commentRepo.addTagRelation(publishLine.getLineId(), TagType.LINETAG, themes, publishLine.getCreateTime());
-		}
-		return publishLine.getLineId();
 	}
 
 	@Override
@@ -125,5 +94,44 @@ public class CommLineServiceImpl implements CommLineService {
 		}
 		lineConfig.setPersionPropertyValues(persionPropertyValues);
 		return lineConfig;
+	}
+
+	@Override
+	public void update(LineVO line) {
+		try {
+			long lineId = line.getBaseInfo().getLineId();
+			if (lineId < 0) {
+				log.error("无效线路ID: " + lineId);
+				throw new BaseException("无效线路ID");
+			}
+			LineResult lineResult = lineRepo.getLineById(lineId);
+			LinePublishDTO linePublishDTOForUpdate = LineConverter.toLinePublishDTOForUpdate(line, lineResult);
+			LinePublishResult publishLine = lineRepo.updateLine(linePublishDTOForUpdate);
+			if (publishLine.getLineId() > 0) {
+				List<Long> themes = line.getBaseInfo().getThemes();
+				commentRepo.addTagRelation(publishLine.getLineId(), TagType.LINETAG, themes,
+						publishLine.getCreateTime());
+			}
+		} catch (Exception e) {
+			log.error("更新线路失败: " + JSON.toJSONString(line), e);
+			throw new BaseException("更新线路失败");
+		}
+	}
+
+	@Override
+	public long save(LineVO line) {
+		try {
+			LinePublishDTO linePublishDTOForSave = LineConverter.toLinePublishDTOForSave(line);
+			LinePublishResult publishLine = lineRepo.saveLine(linePublishDTOForSave);
+			if (publishLine.getLineId() > 0) {
+				List<Long> themes = line.getBaseInfo().getThemes();
+				commentRepo.addTagRelation(publishLine.getLineId(), TagType.LINETAG, themes,
+						publishLine.getCreateTime());
+			}
+			return publishLine.getLineId();
+		} catch (Exception e) {
+			log.error("保存线路失败: " + JSON.toJSONString(line), e);
+			throw new BaseException("更新线路失败");
+		}
 	}
 }
