@@ -119,12 +119,13 @@ public class CommFreeLineController extends BaseTravelController {
 	@RequestMapping(value = "/save")
 	public @ResponseBody ResponseVo save(String json) throws Exception {
 		try {
+			long sellerId = 1000;
 			LineVO sst = JSON.parseObject(json, LineVO.class);
 			long lineId = sst.getBaseInfo().getLineId();
 			if (lineId > 0) {
-				commLineService.update(sst);
+				commLineService.update(sellerId, sst);
 			} else {
-				lineId = commLineService.save(sst);
+				lineId = commLineService.save(sellerId, sst);
 			}
 			return ResponseVo.success(lineId);
 		} catch (Exception e) {

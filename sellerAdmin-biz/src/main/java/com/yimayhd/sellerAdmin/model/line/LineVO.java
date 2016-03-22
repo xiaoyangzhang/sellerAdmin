@@ -17,9 +17,6 @@ import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
  */
 public class LineVO implements Serializable {
 	private static final long serialVersionUID = -3473801970066242380L;
-	private long categoryId;
-	private long options;
-
 	private BaseInfoVO baseInfo;// 基础信息
 	private PictureTextVO pictureText;// 图文详情
 	private FreeLineRouteVO freeLineRoute;// 行程计划
@@ -43,22 +40,6 @@ public class LineVO implements Serializable {
 
 	public void setPriceInfo(PriceInfoVO priceInfo) {
 		this.priceInfo = priceInfo;
-	}
-
-	public long getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(long categoryId) {
-		this.categoryId = categoryId;
-	}
-
-	public long getOptions() {
-		return options;
-	}
-
-	public void setOptions(long options) {
-		this.options = options;
 	}
 
 	public boolean isReadonly() {

@@ -8,14 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.ic.client.model.domain.LineDO;
-import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
 import com.yimayhd.ic.client.model.param.item.line.LinePubAddDTO;
 import com.yimayhd.ic.client.model.param.item.line.LinePubUpdateDTO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.item.LinePublishResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
-import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.ic.client.service.item.line.LinePublishService;
 import com.yimayhd.sellerAdmin.base.BaseException;
@@ -33,8 +31,6 @@ public class LineRepo {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private ItemQueryService itemQueryServiceRef;
-	@Autowired
-	private ItemPublishService itemPublishServiceRef;
 	@Autowired
 	private LinePublishService linePublishServiceRef;
 
@@ -60,17 +56,6 @@ public class LineRepo {
 	 * @param travel
 	 * @return
 	 */
-	public LinePublishResult updateLine(LinePublishDTO linePublishDTO) {
-		long lineId = linePublishDTO.getLineDO().getId();
-		if (lineId <= 0) {
-			throw new BaseException("更新线路时线路ID不能为空");
-		}
-		RepoUtils.requestLog(log, "itemPublishServiceRef.updatePublishLine");
-		LinePublishResult publishLine = itemPublishServiceRef.updatePublishLine(linePublishDTO);
-		RepoUtils.resultLog(log, "itemPublishServiceRef.updatePublishLine", publishLine);
-		return publishLine;
-	}
-
 	public LinePublishResult updateLine(LinePubUpdateDTO linePubUpdateDTO) {
 		long lineId = linePubUpdateDTO.getLine().getId();
 		if (lineId <= 0) {
@@ -88,13 +73,6 @@ public class LineRepo {
 	 * @param travel
 	 * @return
 	 */
-	public LinePublishResult saveLine(LinePublishDTO linePublishDTO) {
-		RepoUtils.requestLog(log, "itemPublishServiceRef.publishLine");
-		LinePublishResult publishLine = itemPublishServiceRef.publishLine(linePublishDTO);
-		RepoUtils.resultLog(log, "itemPublishServiceRef.publishLine", publishLine);
-		return publishLine;
-	}
-
 	public LinePublishResult saveLine(LinePubAddDTO linePubAddDTO) {
 		RepoUtils.requestLog(log, "linePublishServiceRef.add");
 		LinePublishResult linePublishResult = linePublishServiceRef.add(Constant.DOMAIN_JIUXIU, linePubAddDTO);

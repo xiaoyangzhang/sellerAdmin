@@ -16,7 +16,8 @@ import com.yimayhd.ic.client.model.domain.CategoryValueDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.share_json.LinePropertyType;
-import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
+import com.yimayhd.ic.client.model.param.item.line.LinePubAddDTO;
+import com.yimayhd.ic.client.model.param.item.line.LinePubUpdateDTO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.ic.client.model.result.item.LinePublishResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
@@ -97,15 +98,14 @@ public class CommLineServiceImpl implements CommLineService {
 	}
 
 	@Override
-	public void update(LineVO line) {
+	public void update(long sellerId, LineVO line) {
 		try {
 			long lineId = line.getBaseInfo().getLineId();
 			if (lineId < 0) {
 				log.error("无效线路ID: " + lineId);
 				throw new BaseException("无效线路ID");
 			}
-			LineResult lineResult = lineRepo.getLineById(lineId);
-			LinePublishDTO linePublishDTOForUpdate = LineConverter.toLinePublishDTOForUpdate(line, lineResult);
+			LinePubUpdateDTO linePublishDTOForUpdate = LineConverter.toLinePublishDTOForUpdate(sellerId, line);
 			LinePublishResult publishLine = lineRepo.updateLine(linePublishDTOForUpdate);
 			if (publishLine.getLineId() > 0) {
 				List<Long> themes = line.getBaseInfo().getThemes();
@@ -119,9 +119,9 @@ public class CommLineServiceImpl implements CommLineService {
 	}
 
 	@Override
-	public long save(LineVO line) {
+	public long save(long sellerId, LineVO line) {
 		try {
-			LinePublishDTO linePublishDTOForSave = LineConverter.toLinePublishDTOForSave(line);
+			LinePubAddDTO linePublishDTOForSave = LineConverter.toLinePublishDTOForSave(sellerId, line);
 			LinePublishResult publishLine = lineRepo.saveLine(linePublishDTOForSave);
 			if (publishLine.getLineId() > 0) {
 				List<Long> themes = line.getBaseInfo().getThemes();

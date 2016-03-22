@@ -77,15 +77,6 @@ public class LineChecker {
 			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("线路名称不能超过50个字");
 		}
-		if (StringUtils.isBlank(baseInfo.getProductImageApp())) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("APP产品封面图不能为空");
-		}
-
-		if (StringUtils.isBlank(baseInfo.getOrderImage())) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("商品订单图不能为空");
-		}
 		if (CollectionUtils.isEmpty(baseInfo.getThemes())) {
 			log.warn(temp, JSON.toJSONString(baseInfo));
 			return CheckResult.error("主题不能为空");
@@ -213,11 +204,6 @@ public class LineChecker {
 	}
 
 	public static CheckResult checkPriceInfoForUpdate(PriceInfoVO priceInfo) {
-		String temp = "线路价格信息验证失败: {}";
-		if (priceInfo.getItemId() <= 0) {
-			log.warn(temp, JSON.toJSONString(priceInfo));
-			return CheckResult.error("无效商品ID");
-		}
 		return checkPriceInfoForSave(priceInfo);
 	}
 

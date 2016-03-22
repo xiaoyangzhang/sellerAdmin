@@ -82,12 +82,13 @@ public class CommTourLineController extends BaseTravelController {
 	@RequestMapping(value = "/save")
 	public @ResponseBody ResponseVo save(String json) {
 		try {
+			long sellerId = 1000;
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
 			long lineId = gt.getBaseInfo().getLineId();
 			if (lineId > 0) {
-				commLineService.update(gt);
+				commLineService.update(sellerId, gt);
 			} else {
-				lineId = commLineService.save(gt);
+				lineId = commLineService.save(sellerId, gt);
 			}
 			return ResponseVo.success(lineId);
 		} catch (Exception e) {

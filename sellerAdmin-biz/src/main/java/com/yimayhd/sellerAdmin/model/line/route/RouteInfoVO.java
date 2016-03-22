@@ -15,7 +15,6 @@ public class RouteInfoVO implements Serializable {
 
 	private long routeId;
 	private List<RouteDayVO> routeDays;
-
 	private Set<Long> updatedRouteItems;
 	private Set<Long> deletedRouteItems;
 
