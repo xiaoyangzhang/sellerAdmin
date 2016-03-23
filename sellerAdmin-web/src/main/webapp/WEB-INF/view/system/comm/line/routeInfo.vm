@@ -423,7 +423,9 @@
 		
 		function getRouteInfo() {
 			return {
-				routeId:$("#route-id").val() || 0,
+				#if($!{product.routeInfo})
+				routeId: $!{product.routeInfo.routeId},
+				#end
 				routeDays:getTripInfo(),
     			updatedRouteItems:getUpdatedRouteItems(),
     			deletedRouteItems:getDeletedRouteItems()
