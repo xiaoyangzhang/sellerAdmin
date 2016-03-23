@@ -8,13 +8,13 @@
         <table>
 			#if($product.baseInfo.id > 0)
 			<tr>
-                <td>资源编号：</td>
-                <td>$!{product.baseInfo.id}<input type="hidden" value="$!{product.baseInfo.id}" id="line-id"/></td>
+                <td>商品编号：</td>
+                <td>$!{product.baseInfo.itemId}</td>
             </tr>
 			#end
             <tr>
                 <td><span class="spColor">*</span>商品类型：</td>
-                <td>$!{lineType.desc}<input type="hidden" class="productType" value="$!{lineType.type}"/></td>
+                <td>$!{lineType.desc}</td>
             </tr>
             <tr >
                 <td><span class="spColor">*</span>商品名称：</td>
@@ -39,9 +39,7 @@
 			<tr>
                 <td><span class="spColor">*</span>线路亮点：</td>
                 <td>
-                    <div><input type="text" class="form-control highlight1" placeholder="请输入亮点描述1（必填）" value="$!product.baseInfo.highlight1"/></div>
-					<div><input type="text" class="form-control highlight2" placeholder="请输入亮点描述2（必填）" value="$!product.baseInfo.highlight2"/></div>
-					<div><input type="text" class="form-control highlight3" placeholder="请输入亮点描述3（必填）" value="$!product.baseInfo.highlight3"/></div>
+                    <div><input type="text" class="form-control description" placeholder="请输入亮点描述（必填）" value="$!product.baseInfo.description"/></div>
 				</td>
             </tr>
 			<tr>
@@ -213,40 +211,26 @@
 	});
 	// 获取行程信息
 	function getBaseInfo() {
-//		var productImageApp = $(".productImageAppUrlVal").val();
-//		var tripImage = $(".tripImageUrlVal").val();
-//		var orderImage = $(".orderImageUrlVal").val();
-//        var picUrls = '';
-//        var detailAppImages = new Array();
-//        $('.detailAppImages').each(function(){
-//            detailAppImages.push( $(this).attr('imgUrl'))
-//            if(picUrls){
-//                picUrls += '|' + $(this).attr('imgUrl');
-//            }else{
-//                picUrls += $(this).attr('imgUrl');
-//            }
-//        });
+        var picUrls = [];
+        $('.detailAppImages').each(function(){
+            picUrls.push($(this).attr('imgUrl'));
+        });
 		var themes = [];
 		$(".productTag:checked").each(function(){
 			themes.push($(this).attr("rId"));
 		});
-//		var masters = [];
-//		$(".masters").each(function(){
-//			masters.push($(this).attr("rName"));
-//		});
-		var publisher = $(".publisher");
 		var result = {
-			id:$("#line-id").val()||0,
-			type:$(".productType").val(),
+			#if($product)
+			lineId:$!{product.baseInfo.lineId},
+			itemId:$!{product.baseInfo.itemId},
+			#end
+			categoryId:$!{categoryId},
+			type:$!{lineType.type},
 			name:$(".productName").val(),
 			code:$(".productCode").val(),
-//			productImageApp:productImageApp,
-//			orderImage:orderImage,
-//          detailAppImages:detailAppImages,
-			days:$(".days").val(),
-			highlight1:$(".highlight1").val(),
-			highlight2:$(".highlight2").val(),
-			highlight3:$(".highlight3").val(),
+            picUrls:picUrls,
+			days:$(".days").val() || 0,
+			description:$(".description").val(),
 			themes:themes
 		};
 		return result;

@@ -52,8 +52,7 @@
     </div>
 	#end
     <div class="tab-pane tripInfo" id="tab4">
-		<input type="hidden" value="$!{product.routeInfo.routeId}" id="route-id"/>
-        #parse("/system/comm/line/tripInfo.vm")
+        #parse("/system/comm/line/routeInfo.vm")
     </div>
     <div class="tab-pane priceInfo" id="tab5">
         #parse("/system/comm/line/priceInfo.vm")
@@ -71,28 +70,24 @@
   <script type="text/javascript">
     $(".save").click(function(){
         var result = {
-			categoryId:$!{categoryId},
-			options:$!{options},
-			
             baseInfo:getBaseInfo(),
             routeInfo:getRouteInfo(),
             #if($categoryId == 7)
 			tripPackageInfo:getTripPackageInfo(),
             #end
-            priceInfo:getPriceInfo()
+            priceInfo:getPriceInfo(),
+			needKnow:getNeedKnow()
         };
+		console.log(JSON.stringify(result.baseInfo));
+		console.log(JSON.stringify(result.routeInfo));
+		console.log(JSON.stringify(result.priceInfo));
+		console.log(JSON.stringify(result.needKnow));
+		//alert(JSON.stringify(result));
 		var params = {
-			json:JSON.stringify(result),
-			importantInfos:getImportantInfos(),
-			extraInfos:getExtraInfos()
+			json:JSON.stringify(result)
 		};
-        //console.log(JSON.stringify(params));
-		//alert(JSON.stringify(params));
-		#if($categoryId == 6)
-        var url = "$!{utilWebconfig.getActionDefaultFontPath()}/B2C/comm/groupTravel/save";
-        #elseif($categoryId == 7)
-		var url = "$!{utilWebconfig.getActionDefaultFontPath()}/B2C/comm/selfServiceTravel/save";
-        #end
+        var url = "$!{utilWebconfig.getActionDefaultFontPath()}/line/save";
+		return;
         $.post(url,params,function(data){
 			if(data.status == 200) {
 				layer.alert('添加成功', {

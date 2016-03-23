@@ -2,6 +2,7 @@ package com.yimayhd.sellerAdmin.controller;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.yimayhd.sellerAdmin.base.BaseTravelController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.tour.TripTraffic;
+import com.yimayhd.sellerAdmin.service.CategoryService;
 import com.yimayhd.sellerAdmin.service.CommLineService;
 
 /**
@@ -23,9 +25,9 @@ import com.yimayhd.sellerAdmin.service.CommLineService;
  *
  */
 @Controller
-@RequestMapping("/B2C/comm/groupTravel")
-public class CommTourLineController extends BaseTravelController {
-	@Resource
+@RequestMapping("/line")
+public class CommLineController extends BaseTravelController {
+	@Autowired
 	private CommLineService commLineService;
 
 	/**
@@ -57,7 +59,7 @@ public class CommTourLineController extends BaseTravelController {
 	public String create(long categoryId) throws Exception {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
-		put("lineType", LineType.REGULAR_LINE);
+		put("lineType", LineType.TOUR_LINE);
 		return "/system/comm/line/detail";
 	}
 
@@ -95,17 +97,5 @@ public class CommTourLineController extends BaseTravelController {
 			log.error(e.getMessage(), e);
 			return ResponseVo.error(e);
 		}
-	}
-
-	/**
-	 * 选择交通
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/selectTraffic")
-	public String selectTraffic() throws Exception {
-		put("ways", TripTraffic.ways());
-		return "/system/comm/line/groupTravel/selectTraffic";
 	}
 }
