@@ -6,9 +6,9 @@
 		#parse("layout/link.vm")
 		
 		#if($webConfig.isTestMode())
-        <link rel="stylesheet" href="http://s0.yimayholiday.com/PC_B2C/src/css/login.css">
+        <link rel="stylesheet" href="http://s0.yimayholiday.com/PC_B2C/src/css/account.css">
         #else
-        <link rel="stylesheet" href="http://s0.yimayholiday.com/PC_B2C/dist/css/login.css">
+        <link rel="stylesheet" href="http://s0.yimayholiday.com/PC_B2C/dist/css/account.css">
         #end
 	</head>
 	<body>

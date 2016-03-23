@@ -5,7 +5,7 @@
 		<title>注册-九休卖家</title>
 		#parse("layout/link.vm")
 		
-    	<link rel="stylesheet" href="$rs_js_css_path/css/login.css">
+    	<link rel="stylesheet" href="$rs_js_css_path/css/account.css">
 	</head>
 	<body>
 		<!-- 头部开始 -->

@@ -20,7 +20,7 @@ public class Constant {
 
 	public static final String LOGIN_URL = "/user/toLogin";
 
-	public static final int DOMAIN_B2CPC = 1000;
+//	public static final int DOMAIN_B2CPC = 1000;
 	
 	public static final int DOMAIN_JIUXIU = 1200;
 	

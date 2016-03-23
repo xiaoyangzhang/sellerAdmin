@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
         UserMenuQuery userMenuQuery = new UserMenuQuery();
         userMenuQuery.setUserId(id);
-        userMenuQuery.setDomain(Constant.B2C_DOMAIN);
+        userMenuQuery.setDomain(Constant.DOMAIN_JIUXIU);
         MemPageResult<HaMenuDO> haMenuDOMemPageResult = userPermissionServiceRef.getMenuListByUserId(userMenuQuery,new UserMenuOptionDTO());
         if(haMenuDOMemPageResult == null){
             log.error("UserServiceImpl.getMenuListByUserId.userPermissionServiceRef.getMenuListByUserId return null ,param : {}",id);
