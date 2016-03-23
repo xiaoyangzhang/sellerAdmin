@@ -150,7 +150,7 @@
             </div>
         </div>
         <div class="tab-pane" id="restaurantImgs">
-			#parse("/system/layout/imgUpload.vm")
+			#parse("/layout/imgUpload.vm")
             #imgEdit("picListStr")
         </div>
     </div>

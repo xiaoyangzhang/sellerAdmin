@@ -6,6 +6,7 @@
 #set( $rs_path = $utilWebconfig.getResourcePath() )
 #set( $root_path = $utilWebconfig.getRootPath() )
 #set( $test = $utilWebconfig.isTestMode())
+#set( $rs_path = "http://s0.yimayholiday.com/PC_B2C" )
 #if( $test )
 	#set( $rs_js_css_path = $!rs_path+"/src" )
 #else

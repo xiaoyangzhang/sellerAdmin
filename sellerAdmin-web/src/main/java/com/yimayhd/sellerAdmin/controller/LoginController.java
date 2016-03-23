@@ -141,7 +141,7 @@ public class LoginController extends BaseController {
         List<HaMenuDO> haMenuDOList = userService.getMenuListByUserId(user.getId());
         model.addAttribute("menuList", haMenuDOList);
         model.addAttribute("userNickName", user.getNickname());
-        return "/system/layout/layout";
+        return "/layout/layout";
     }
 
     /**

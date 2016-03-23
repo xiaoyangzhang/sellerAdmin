@@ -203,7 +203,7 @@
             <script id="editor" type="text/plain" name="needKnowOb.extraInfoUrl" style="width: 100%; height:350px">$!{VO.needKnow.extraInfoUrl}</script>
         </div>
         <div class="tab-pane" id="scenicImgs">
-            #parse("/system/layout/imgUpload.vm")
+            #parse("/layout/imgUpload.vm")
             #imgEdit("picListStr")
         </div>
     </div>
