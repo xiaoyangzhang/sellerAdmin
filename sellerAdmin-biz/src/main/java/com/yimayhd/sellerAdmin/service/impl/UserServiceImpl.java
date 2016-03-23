@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     public List<HaMenuDO> getUrlListByUserId(long id) throws Exception {
         UserMenuQuery userMenuQuery = new UserMenuQuery();
         userMenuQuery.setUserId(id);
-        userMenuQuery.setDomain(Constant.B2C_DOMAIN);
+        userMenuQuery.setDomain(Constant.DOMAIN_JIUXIU);
         UserMenuOptionDTO userMenuOptionDTO = new UserMenuOptionDTO();
         userMenuOptionDTO.setContainUrl(true);
         MemPageResult<HaMenuDO> haMenuDOMemPageResult = userPermissionServiceRef.getMenuListByUserId(userMenuQuery,userMenuOptionDTO);

@@ -19,10 +19,14 @@ public class WebResourceConfigUtil {
     private final static String ITEM_IMG_URI_PATH = "item.img.uri";
     private final static String DOMAIN = "domain";
     private final static String ENV = "env";
+    private final static String RESOURCE_PATH_JIUXIU = "resource.path.jiuxiu";
     private final static String RESOURCE_PATH = "resource.path";
     
     public static String getRootPath() {
         return ResourceConfig.getInstance().getValueByKey(ROOT_PATH_KEY);
+    }
+    public static String getResourcePathJiuXiu() {
+    	return ResourceConfig.getInstance().getValueByKey(RESOURCE_PATH_JIUXIU);
     }
     public static String getResourcePath() {
     	return ResourceConfig.getInstance().getValueByKey(RESOURCE_PATH);

@@ -1,3 +1,3 @@
-<script src="$rs_js_css_path/js/sea.js"></script><!--seajs 必须引-->
-<script src="$rs_js_css_path/js/seajs-preload.js"></script>
-<script src="$rs_js_css_path/js/config.js"></script><!--seajs seajs配置文件 必须引-->
+<script src="$rs_js_css_path_jiuxiu/js/sea.js"></script><!--seajs 必须引-->
+<script src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script src="$rs_js_css_path_jiuxiu/js/config.js"></script><!--seajs seajs配置文件 必须引-->

@@ -13,27 +13,34 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 
-import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.fhtd.utils.PictureUtil;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.RouteDO;
 import com.yimayhd.ic.client.model.domain.RouteItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
-import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.domain.share_json.LinePropertyType;
+import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.domain.share_json.RouteItemDetail;
-import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
+import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.ic.client.model.enums.RouteItemBizType;
 import com.yimayhd.ic.client.model.enums.RouteItemType;
+import com.yimayhd.ic.client.model.param.item.ItemPubUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
-import com.yimayhd.ic.client.model.param.item.LinePublishDTO;
+import com.yimayhd.ic.client.model.param.item.ItemSkuPubUpdateDTO;
+import com.yimayhd.ic.client.model.param.item.line.LinePubAddDTO;
+import com.yimayhd.ic.client.model.param.item.line.LinePubUpdateDTO;
+import com.yimayhd.ic.client.model.param.item.line.LineUpdateDTO;
+import com.yimayhd.ic.client.model.param.item.line.RouteItemUpdateDTO;
+import com.yimayhd.ic.client.model.param.item.line.RoutePubUpdateDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
-import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.model.line.KeyValuePair;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
@@ -41,9 +48,11 @@ import com.yimayhd.sellerAdmin.model.line.price.PackageBlock;
 import com.yimayhd.sellerAdmin.model.line.price.PackageDay;
 import com.yimayhd.sellerAdmin.model.line.price.PackageInfo;
 import com.yimayhd.sellerAdmin.model.line.price.PackageMonth;
+import com.yimayhd.sellerAdmin.model.line.price.PriceInfoDTO;
 import com.yimayhd.sellerAdmin.model.line.price.PriceInfoVO;
 import com.yimayhd.sellerAdmin.model.line.route.FreeLineRouteVO;
 import com.yimayhd.sellerAdmin.model.line.route.RouteDayVO;
+import com.yimayhd.sellerAdmin.model.line.route.RouteInfoDTO;
 import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
 
 /**
@@ -53,60 +62,53 @@ import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
  *
  */
 public class LineConverter {
-	public static LineDO toLineDO(BaseInfoVO baseInfo) {
+	public static LineDO toLineDO(BaseInfoVO baseInfo, NeedKnowVO needKnow) {
+		if (baseInfo == null) {
+			return null;
+		}
 		// 初始化
 		LineDO line = new LineDO();
 		line.setId(baseInfo.getLineId());
-		return merge(baseInfo, line);
+		if (needKnow != null) {
+			line.setNeedKnow(toNeedKnow(needKnow));
+		}
+		return line;
 	}
 
-	public static LineDO merge(BaseInfoVO baseInfo, LineDO target) {
-		target.setType(baseInfo.getType());
-		target.setName(baseInfo.getName());
-		// image
-		target.setLogoUrl(baseInfo.getProductImageApp());
-		target.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, baseInfo.getProductImageApp());
-		target.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, baseInfo.getOrderImage());
-		target.addPicUrls(ItemPicUrlsKey.LINE_DETAIL_PICS, PicUrlsUtil.parsePicsString(baseInfo.getDetailAppImages()));
-		return target;
+	public static LineUpdateDTO toLineUpdateDTO(BaseInfoVO baseInfo, NeedKnowVO needKnow) {
+		if (baseInfo == null) {
+			return null;
+		}
+		LineUpdateDTO lineUpdateDTO = new LineUpdateDTO();
+		lineUpdateDTO.setId(baseInfo.getLineId());
+		if (needKnow != null) {
+			lineUpdateDTO.setNeedKnow(toNeedKnow(needKnow));
+		}
+		return lineUpdateDTO;
 	}
 
-	public static BaseInfoVO toBaseInfoVO(LineDO line, List<ComTagDO> tags) {
+	public static BaseInfoVO toBaseInfoVO(LineDO lineDO, ItemDO itemDO, List<Long> tags) {
+		if (lineDO == null || itemDO == null) {
+			return null;
+		}
 		BaseInfoVO baseInfo = new BaseInfoVO();
-		baseInfo.setLineId(line.getId());
-		baseInfo.setType(line.getType());
-		baseInfo.setName(line.getName());
-		String productImageApp = line.getPicUrls(ItemPicUrlsKey.BIG_LIST_PIC);
-		if (StringUtils.isNotBlank(productImageApp)) {
-			baseInfo.setProductImageApp(productImageApp);
-		} else {
-			baseInfo.setProductImageApp(line.getLogoUrl());
+		baseInfo.setLineId(lineDO.getId());
+		baseInfo.setItemId(itemDO.getId());
+		baseInfo.setCategoryId(itemDO.getCategoryId());
+		baseInfo.setType(itemDO.getItemType());
+		baseInfo.setName(itemDO.getTitle());
+		baseInfo.setDays(itemDO.getDays());
+		baseInfo.setDiscription(itemDO.getDescription());
+		baseInfo.setPicUrls(PicUrlsUtil.getItemMainPics(itemDO));
+		// tags
+		if (CollectionUtils.isNotEmpty(tags)) {
+			baseInfo.setThemes(tags);
 		}
-		String orderImage = line.getPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC);
-		if (StringUtils.isNotBlank(orderImage)) {
-			baseInfo.setOrderImage(orderImage);
-		}
-		String detailAppImages = line.getPicUrls(ItemPicUrlsKey.LINE_DETAIL_PICS);
-		if (StringUtils.isNotBlank(detailAppImages)) {
-			baseInfo.setDetailAppImages(PicUrlsUtil.parsePicList(detailAppImages));
-		}
-		List<Long> themes = new ArrayList<Long>();
-		if (tags != null) {
-			for (ComTagDO tag : tags) {
-				themes.add(tag.getId());
-			}
-		}
-		baseInfo.setThemes(themes);
 		return baseInfo;
 	}
 
-	public static PriceInfoVO toPriceInfoVO(ItemDO itemDO, List<ItemSkuDO> itemSkuList) {
+	public static PriceInfoVO toPriceInfoVO(List<ItemSkuDO> itemSkuList) {
 		PriceInfoVO priceInfo = new PriceInfoVO();
-		priceInfo.setItemId(itemDO.getId());
-		if (itemDO != null && StringUtils.isNotBlank(itemDO.getFeature())) {
-			ItemFeature feature = new ItemFeature(itemDO.getFeature());
-			priceInfo.setLimit(feature.getStartBookTimeLimit() / PriceInfoVO.LIMIT_UNIT);
-		}
 		List<PackageInfo> tcs = new ArrayList<PackageInfo>();
 		if (CollectionUtils.isNotEmpty(itemSkuList)) {
 			Map<String, ItemSkuPVPair> piMap = new LinkedHashMap<String, ItemSkuPVPair>();
@@ -181,34 +183,34 @@ public class LineConverter {
 		return priceInfo;
 	}
 
-	public static List<ItemSkuDO> toItemSkuDOList(long categoryId, long sellerId, PriceInfoVO priceInfo) {
+	public static List<ItemSkuDO> toItemSkuDOList(long categoryId, long sellerId, List<PackageInfo> tcs) {
+		if (CollectionUtils.isEmpty(tcs)) {
+			return new ArrayList<ItemSkuDO>(0);
+		}
 		List<ItemSkuDO> itemSkuDOs = new ArrayList<ItemSkuDO>();
-		List<PackageInfo> tcs = priceInfo.getTcs();
-		if (CollectionUtils.isNotEmpty(tcs)) {
-			for (PackageInfo packageInfo : tcs) {
-				ItemSkuPVPair itemSkuPVPair1 = packageInfo.toItemSkuPVPair();
-				if (CollectionUtils.isNotEmpty(packageInfo.getMonths())) {
-					for (PackageMonth packageMonth : packageInfo.getMonths()) {
-						if (CollectionUtils.isNotEmpty(packageMonth.getDays())) {
-							for (PackageDay packageDay : packageMonth.getDays()) {
-								ItemSkuPVPair itemSkuPVPair2 = packageDay.toItemSkuPVPair();
-								if (CollectionUtils.isNotEmpty(packageMonth.getDays())) {
-									for (PackageBlock packageBlock : packageDay.getBlocks()) {
-										ItemSkuPVPair itemSkuPVPair3 = packageBlock.toItemSkuPVPair();
-										List<ItemSkuPVPair> itemSkuPVPairs = new ArrayList<ItemSkuPVPair>();
-										itemSkuPVPairs.add(itemSkuPVPair1);
-										itemSkuPVPairs.add(itemSkuPVPair2);
-										itemSkuPVPairs.add(itemSkuPVPair3);
-										ItemSkuDO itemSkuDO = new ItemSkuDO();
-										itemSkuDO.setId(packageBlock.getSkuId());
-										itemSkuDO.setTitle(itemSkuPVPair1.getVTxt() + "," + itemSkuPVPair3.getVTxt());
-										itemSkuDO.setCategoryId(categoryId);
-										itemSkuDO.setSellerId(sellerId);
-										itemSkuDO.setItemSkuPVPairList(itemSkuPVPairs);
-										itemSkuDO.setPrice(packageBlock.getPrice());
-										itemSkuDO.setStockNum(packageBlock.getStock());
-										itemSkuDOs.add(itemSkuDO);
-									}
+		for (PackageInfo packageInfo : tcs) {
+			ItemSkuPVPair itemSkuPVPair1 = packageInfo.toItemSkuPVPair();
+			if (CollectionUtils.isNotEmpty(packageInfo.getMonths())) {
+				for (PackageMonth packageMonth : packageInfo.getMonths()) {
+					if (CollectionUtils.isNotEmpty(packageMonth.getDays())) {
+						for (PackageDay packageDay : packageMonth.getDays()) {
+							ItemSkuPVPair itemSkuPVPair2 = packageDay.toItemSkuPVPair();
+							if (CollectionUtils.isNotEmpty(packageMonth.getDays())) {
+								for (PackageBlock packageBlock : packageDay.getBlocks()) {
+									ItemSkuPVPair itemSkuPVPair3 = packageBlock.toItemSkuPVPair();
+									List<ItemSkuPVPair> itemSkuPVPairs = new ArrayList<ItemSkuPVPair>();
+									itemSkuPVPairs.add(itemSkuPVPair1);
+									itemSkuPVPairs.add(itemSkuPVPair2);
+									itemSkuPVPairs.add(itemSkuPVPair3);
+									ItemSkuDO itemSkuDO = new ItemSkuDO();
+									itemSkuDO.setId(packageBlock.getSkuId());
+									itemSkuDO.setTitle(itemSkuPVPair1.getVTxt() + "," + itemSkuPVPair3.getVTxt());
+									itemSkuDO.setCategoryId(categoryId);
+									itemSkuDO.setSellerId(sellerId);
+									itemSkuDO.setItemSkuPVPairList(itemSkuPVPairs);
+									itemSkuDO.setPrice(packageBlock.getPrice());
+									itemSkuDO.setStockNum(packageBlock.getStock());
+									itemSkuDOs.add(itemSkuDO);
 								}
 							}
 						}
@@ -224,47 +226,73 @@ public class LineConverter {
 		return null;
 	}
 
-	public static NeedKnowVO toNeedKnowVO(LineResult lineResult) {
-		// TODO YEBIN 待开发
-		return null;
+	public static NeedKnowVO toNeedKnowVO(NeedKnow needKnow) {
+		if (needKnow == null) {
+			return null;
+		}
+		NeedKnowVO needKnowVO = new NeedKnowVO();
+		List<KeyValuePair<String, String>> needKnowItems = new ArrayList<KeyValuePair<String, String>>();
+		List<TextItem> frontNeedKnows = needKnow.getFrontNeedKnow();
+		if (CollectionUtils.isNotEmpty(frontNeedKnows)) {
+			for (TextItem frontNeedKnow : frontNeedKnows) {
+				needKnowItems
+						.add(new KeyValuePair<String, String>(frontNeedKnow.getTitle(), frontNeedKnow.getContent()));
+			}
+		}
+		needKnowVO.setNeedKnowItems(needKnowItems);
+		return needKnowVO;
 	}
 
-	public static LineVO toLineVO(LineResult lineResult, List<ComTagDO> tags) {
+	public static NeedKnow toNeedKnow(NeedKnowVO needKnowVO) {
+		if (needKnowVO == null) {
+			return null;
+		}
+		NeedKnow needKnow = new NeedKnow();
+		List<TextItem> frontNeedKnows = new ArrayList<TextItem>();
+		List<KeyValuePair<String, String>> needKnowItems = needKnowVO.getNeedKnowItems();
+		if (CollectionUtils.isNotEmpty(needKnowItems)) {
+			for (KeyValuePair<String, String> keyValuePair : needKnowItems) {
+				TextItem textItem = new TextItem();
+				textItem.setTitle(keyValuePair.getKey());
+				textItem.setContent(keyValuePair.getValue());
+				frontNeedKnows.add(textItem);
+			}
+		}
+		needKnow.setFrontNeedKnow(frontNeedKnows);
+		return needKnow;
+	}
+
+	public static LineVO toLineVO(LineResult lineResult, List<Long> tags) {
 		LineVO result = new LineVO();
 		LineDO line = lineResult.getLineDO();
-		BaseInfoVO baseInfo = toBaseInfoVO(line, tags);
+		ItemDO item = lineResult.getItemDO();
+		BaseInfoVO baseInfo = toBaseInfoVO(line, item, tags);
 		result.setBaseInfo(baseInfo);
+		result.setReadonly(item.getStatus() == ItemStatus.valid.getValue());
+		// 线路个性化部分 start
 		if (line.getType() == LineType.FREE_LINE.getType()) {
 			FreeLineRouteVO freeLineRoute = toFreeLineRouteVO(lineResult);
 			result.setFreeLineRoute(freeLineRoute);
 		}
-		// 线路个性化部分 start
-		RouteInfoVO routeInfo = toRouteInfoVO(lineResult);
+		// 行程信息
+		RouteInfoVO routeInfo = toRouteInfoVO(lineResult.getRouteDO(), lineResult.getRouteItemDOList());
 		result.setRouteInfo(routeInfo);
-		// 线路个性化部分 end
-		ItemDO itemDO = lineResult.getItemDO();
-		result.setCategoryId(itemDO.getCategoryId());
-		result.setOptions(itemDO.getOptions());
-		result.setReadonly(itemDO.getStatus() == ItemStatus.valid.getValue());
-		PriceInfoVO priceInfo = toPriceInfoVO(itemDO, lineResult.getItemSkuDOList());
-		result.setPriceInfo(priceInfo);
-		String picUrl = itemDO.getPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC);
-		if (StringUtils.isNotBlank(picUrl)) {
-			baseInfo.setOrderImage(picUrl);
-		}
-		NeedKnowVO needKnow = toNeedKnowVO(lineResult);
-		result.setNeedKnow(needKnow);
+		// 价格信息
+		result.setPriceInfo(toPriceInfoVO(lineResult.getItemSkuDOList()));
+		// 购买须知
+		result.setNeedKnow(toNeedKnowVO(line.getNeedKnow()));
 		return result;
 	}
 
-	public static RouteInfoVO toRouteInfoVO(LineResult lineResult) {
+	public static RouteInfoVO toRouteInfoVO(RouteDO routeDO, List<RouteItemDO> routeItems) {
+		if (routeDO == null || CollectionUtils.isEmpty(routeItems)) {
+			return null;
+		}
 		RouteInfoVO routeInfo = new RouteInfoVO();
-		RouteDO routeDO = lineResult.getRouteDO();
 		routeInfo.setRouteId(routeDO.getId());
 		List<RouteDayVO> tripDays = new ArrayList<RouteDayVO>();
 		Set<Integer> days = new HashSet<Integer>();
 		Map<Integer, RouteItemDetail> detailMap = new HashMap<Integer, RouteItemDetail>();
-		List<RouteItemDO> routeItems = lineResult.getRouteItemDOList();
 		if (CollectionUtils.isNotEmpty(routeItems)) {
 			for (RouteItemDO routeItem : routeItems) {
 				days.add(routeItem.getDay());
@@ -292,12 +320,10 @@ public class LineConverter {
 		return routeInfo;
 	}
 
-	public static RouteDO merge(RouteInfoVO routeInfo, RouteDO target) {
-		target.setId(routeInfo.getRouteId());
-		return target;
-	}
-
 	public static List<RouteItemDO> toRouteItemDOs(List<RouteDayVO> routeDays) {
+		if (CollectionUtils.isEmpty(routeDays)) {
+			return new ArrayList<RouteItemDO>(0);
+		}
 		List<RouteItemDO> routeItemDOList = new ArrayList<RouteItemDO>();
 		for (int i = 1; i <= routeDays.size(); i++) {
 			RouteDayVO tripDay = routeDays.get(i - 1);
@@ -323,51 +349,44 @@ public class LineConverter {
 		return result;
 	}
 
-	public static ItemDO toItemDO(long categoryId, long options, LineVO line) {
-		PriceInfoVO priceInfo = line.getPriceInfo();
-		// 初始化
-		ItemDO itemDO = new ItemDO();
-		itemDO.setId(priceInfo.getItemId());
-		itemDO.setDomain(Constant.B2C_DOMAIN);
-		itemDO.setCategoryId(categoryId);
-		itemDO.setOptions(options);
-		itemDO.setPayType(1);
-		itemDO.setSource(1);
-		itemDO.setVersion(1);
-		itemDO.setStockNum(0);
-		itemDO.setSubTitle("");
-		itemDO.setOneWord("");
-		itemDO.setDescription("");
-		itemDO.setDetailUrl("");
-		itemDO.setItemFeature(new ItemFeature(null));
-		return merge(line, itemDO);
-	}
-
-	public static ItemDO merge(LineVO line, ItemDO target) {
-		target.setSellerId(Constant.YIMAY_OFFICIAL_ID);
+	public static LinePubUpdateDTO toLinePublishDTOForUpdate(long sellerId, LineVO line) {
+		if (sellerId <= 0 || line == null) {
+			return null;
+		}
+		LinePubUpdateDTO dto = new LinePubUpdateDTO();
+		// LineDO
+		LineUpdateDTO lineUpdateDTO = toLineUpdateDTO(line.getBaseInfo(), line.getNeedKnow());
+		dto.setLine(lineUpdateDTO);
+		// 行程信息
+		RouteInfoVO routeInfo = line.getRouteInfo();
+		if (routeInfo != null) {
+			RouteInfoDTO routeInfoDTO = toRouteInfoDTO(line.getRouteInfo());
+			dto.setRoute(routeInfoDTO.getRoute());
+			dto.setAddRouteItemList(routeInfoDTO.getAddRouteItemList());
+			dto.setUpdrouteItemList(routeInfoDTO.getUpdrouteItemList());
+			dto.setDelRouteItemList(routeInfoDTO.getDelRouteItemList());
+		}
+		// 价格信息
 		BaseInfoVO baseInfo = line.getBaseInfo();
-		target.setItemType(baseInfo.getType());
-		target.setTitle(baseInfo.getName());
-		if (StringUtils.isNotBlank(baseInfo.getProductImageApp())) {
-			target.addPicUrls(ItemPicUrlsKey.BIG_LIST_PIC, baseInfo.getProductImageApp());
-		}
-		if (StringUtils.isNotBlank(baseInfo.getOrderImage())) {
-			target.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, baseInfo.getOrderImage());
-		}
-		ItemFeature itemFeature = target.getItemFeature();
-		PriceInfoVO priceInfo = line.getPriceInfo();
-		itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, priceInfo.getLimitBySecond());
-		itemFeature.put(ItemFeatureKey.LINE_ADULT_VID, 1);
-		itemFeature.put(ItemFeatureKey.LINE_SINGLE_ROOM_VID, 4);
-		target.setItemFeature(itemFeature);
-		return target;
+		// ItemDO
+		ItemPubUpdateDTO itemPubUpdateDTO = toItemPubUpdateDTO(baseInfo);
+		dto.setItem(itemPubUpdateDTO);
+		PriceInfoDTO priceInfoDTO = toPriceInfoDTO(baseInfo.getCategoryId(), sellerId, line.getPriceInfo());
+		dto.setAddItemSkuList(priceInfoDTO.getAddItemSkuList());
+		dto.setUpdItemSkuList(priceInfoDTO.getUpdItemSkuList());
+		dto.setDelItemSkuList(priceInfoDTO.getDelItemSkuList());
+		return dto;
 	}
 
-	public static LinePublishDTO mergeRoute(RouteInfoVO routeInfo, RouteDO routeDO, List<RouteItemDO> routeItemDOs,
-			LinePublishDTO target) {
+	public static RouteInfoDTO toRouteInfoDTO(RouteInfoVO routeInfo) {
+		if (routeInfo == null) {
+			return null;
+		}
+		RouteInfoDTO target = new RouteInfoDTO();
 		// RouteDO
-		RouteDO routeDTO = merge(routeInfo, routeDO);
-		target.setRouteDO(routeDTO);
+		RoutePubUpdateDTO routeDTO = new RoutePubUpdateDTO();
+		routeDTO.setId(routeInfo.getRouteId());
+		target.setRoute(routeDTO);
 		// RouteItemDO List
 		// SKU分离
 		List<RouteItemDO> routeItemVOs = toRouteItemDOs(routeInfo.getRouteDays());
@@ -377,12 +396,8 @@ public class LineConverter {
 				routeItemVOMap.put(routeItemVO.getId(), routeItemVO);
 			}
 		}
-		Map<Long, RouteItemDO> routeItemDOMap = new HashMap<Long, RouteItemDO>();
-		for (RouteItemDO routeItemDO : routeItemDOs) {
-			routeItemDOMap.put(routeItemDO.getId(), routeItemDO);
-		}
 		List<RouteItemDO> addRouteItemList = new ArrayList<RouteItemDO>();
-		List<RouteItemDO> updateRouteItemList = new ArrayList<RouteItemDO>();
+		List<RouteItemUpdateDTO> updateRouteItemList = new ArrayList<RouteItemUpdateDTO>();
 		List<Long> deleteRouteItemList = new ArrayList<Long>();
 		if (CollectionUtils.isNotEmpty(routeItemVOs)) {
 			// 新增
@@ -403,31 +418,8 @@ public class LineConverter {
 			if (CollectionUtils.isNotEmpty(updatedRouteItems)) {
 				updatedRouteItems.removeAll(deletedRouteItems);
 				for (long routeItemId : updatedRouteItems) {
-					if (routeItemId > 0) {
-						RouteItemDO routeItemVO = routeItemVOMap.get(routeItemId);
-						RouteItemDO routeItemDO = routeItemDOMap.get(routeItemId);
-						if (routeItemVO == null) {
-							deleteRouteItemList.add(routeItemId);
-						} else {
-							if (routeItemDO != null) {
-								// 更新
-								routeItemDO.setDay(routeItemVO.getDay());
-								routeItemDO.setName(routeItemVO.getName());
-								routeItemDO.setOrderNum(routeItemVO.getOrderNum());
-								routeItemDO.setType(routeItemVO.getType());
-								if (routeItemVO.getType() == RouteItemBizType.DESCRIPTION.getType()) {
-									routeItemDO.setDescription(routeItemVO.getDescription());
-								} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_TRAFFIC_INFO.getType()) {
-									routeItemDO.setRouteTrafficInfo(routeItemVO.getRouteTrafficInfo());
-								} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_ITEM_DESC.getType()) {
-									routeItemDO.setRouteItemDesc(routeItemVO.getRouteItemDesc());
-								} else if (routeItemVO.getType() == RouteItemBizType.ROUTE_ITEM_DETAIL.getType()) {
-									routeItemDO.setRouteItemDetail(routeItemVO.getRouteItemDetail());
-								}
-								routeItemDO.setStatus(routeItemVO.getStatus());
-								updateRouteItemList.add(routeItemDO);
-							}
-						}
+					if (routeItemId > 0 && routeItemVOMap.containsKey(routeItemId)) {
+						updateRouteItemList.add(toRouteItemUpdateDTO(routeItemVOMap.get(routeItemId)));
 					}
 				}
 			}
@@ -438,59 +430,59 @@ public class LineConverter {
 		return target;
 	}
 
-	public static LinePublishDTO toLinePublishDTOForUpdate(LineVO line, LineResult lineResult) {
-		BaseInfoVO baseInfo = line.getBaseInfo();
-		LinePublishDTO dto = new LinePublishDTO();
-		// LineDO
-		LineDO lineDO = lineResult.getLineDO();
-		LineDO lineDTO = LineConverter.merge(baseInfo, lineDO);
-		dto.setLineDO(lineDTO);
-		// 行程信息
-		RouteInfoVO routeInfo = line.getRouteInfo();
-		RouteDO routeDO = lineResult.getRouteDO();
-		List<RouteItemDO> routeItemDOList = lineResult.getRouteItemDOList();
-		dto = mergeRoute(routeInfo, routeDO, routeItemDOList, dto);
-		// 价格信息
-		ItemDO itemDO = lineResult.getItemDO();
-		List<ItemSkuDO> itemSkuDOs = lineResult.getItemSkuDOList();
-		dto = mergeItem(line, itemDO, itemSkuDOs, dto);
-		return dto;
-	}
-
-	public static LinePublishDTO toLinePublishDTOForSave(LineVO line) {
-		LinePublishDTO dto = new LinePublishDTO();
-		LineDO lineDO = toLineDO(line.getBaseInfo());
-		dto.setLineDO(lineDO);
-		RouteInfoVO routeInfo = line.getRouteInfo();
-		RouteDO routeDO = new RouteDO();
-		RouteDO routeDTO = merge(routeInfo, routeDO);
-		dto.setRouteDO(routeDTO);
-		List<RouteDayVO> routeDays = routeInfo.getRouteDays();
-		List<RouteItemDO> routeItemDOList = toRouteItemDOs(routeDays);
-		dto.setRouteItemDOList(routeItemDOList);
-		long categoryId = line.getCategoryId();
-		long options = line.getOptions();
-		dto.setItemDO(toItemDO(categoryId, options, line));
-		PriceInfoVO priceInfo = line.getPriceInfo();
-		List<ItemSkuDO> itemSkuDOList = toItemSkuDOList(line.getCategoryId(), Constant.YIMAY_OFFICIAL_ID, priceInfo);
-		dto.setItemSkuDOList(itemSkuDOList);
-		return dto;
-	}
-
-	public static LinePublishDTO mergeItem(LineVO line, ItemDO itemDO, List<ItemSkuDO> itemSkuDOs,
-			LinePublishDTO target) {
-		// ItemDO
-		ItemDO ItemDTO = merge(line, itemDO);
-		target.setItemDO(ItemDTO);
-		// SKU List
-		Map<Long, ItemSkuDO> skuDOMap = new HashMap<Long, ItemSkuDO>();
-		for (ItemSkuDO itemSkuDO : itemSkuDOs) {
-			skuDOMap.put(itemSkuDO.getId(), itemSkuDO);
+	public static RouteItemUpdateDTO toRouteItemUpdateDTO(RouteItemDO routeItemVO) {
+		if (routeItemVO == null) {
+			return null;
 		}
+		RouteItemUpdateDTO routeItemUpdateDTO = new RouteItemUpdateDTO();
+		BeanUtils.copyProperties(routeItemVO, routeItemUpdateDTO);
+		return routeItemUpdateDTO;
+	}
+
+	public static ItemDO toItemDO(long categoryId, long sellerId, BaseInfoVO baseInfo) {
+		if (categoryId <= 0 || sellerId <= 0 || baseInfo == null) {
+			return null;
+		}
+		// 初始化
+		ItemDO itemDO = new ItemDO();
+		// 赋值
+		itemDO.setId(baseInfo.getItemId());
+		itemDO.setCategoryId(categoryId);
+		itemDO.setSellerId(sellerId);
+		itemDO.setTitle(baseInfo.getName());
+		itemDO.setItemType(baseInfo.getType());
+		itemDO.setDays(baseInfo.getDays());
+		itemDO.setDescription(baseInfo.getDiscription());
+		itemDO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS, PicUrlsUtil.parsePicsString(baseInfo.getPicUrls()));
+		itemDO.setDays(baseInfo.getDays());
+		return itemDO;
+	}
+
+	public static ItemPubUpdateDTO toItemPubUpdateDTO(BaseInfoVO baseInfo) {
+		if (baseInfo == null) {
+			return null;
+		}
+		ItemPubUpdateDTO itemUpdateDTO = new ItemPubUpdateDTO();
+		// TODO YEBIN 待开发
+		// private String code; // 商品代码
+		itemUpdateDTO.setId(baseInfo.getItemId());
+		// 赋值
+		itemUpdateDTO.setTitle(baseInfo.getName());
+		itemUpdateDTO.setDays(baseInfo.getDays());
+		itemUpdateDTO.setDescription(baseInfo.getDiscription());
+		itemUpdateDTO.setPicUrls(PictureUtil.addPicList(itemUpdateDTO.getPicUrls(),
+				ItemPicUrlsKey.ITEM_MAIN_PICS.getCode(), baseInfo.getPicUrls()));
+		itemUpdateDTO.setDays(baseInfo.getDays());
+		return itemUpdateDTO;
+	}
+
+	public static PriceInfoDTO toPriceInfoDTO(long categoryId, long sellerId, PriceInfoVO priceInfo) {
+		if (categoryId <= 0 || sellerId <= 0 || priceInfo == null) {
+			return null;
+		}
+		PriceInfoDTO target = new PriceInfoDTO();
 		// SKU分离
-		long categoryId = line.getCategoryId();
-		PriceInfoVO priceInfo = line.getPriceInfo();
-		List<ItemSkuDO> itemSkuVOs = toItemSkuDOList(categoryId, Constant.YIMAY_OFFICIAL_ID, priceInfo);
+		List<ItemSkuDO> itemSkuVOs = toItemSkuDOList(categoryId, sellerId, priceInfo.getTcs());
 		Map<Long, ItemSkuDO> skuVOMap = new HashMap<Long, ItemSkuDO>();
 		for (ItemSkuDO itemSkuDO : itemSkuVOs) {
 			if (itemSkuDO.getId() > 0) {
@@ -498,14 +490,12 @@ public class LineConverter {
 			}
 		}
 		List<ItemSkuDO> addSkuList = new ArrayList<ItemSkuDO>();
-		List<ItemSkuDO> updateSkuList = new ArrayList<ItemSkuDO>();
+		List<ItemSkuPubUpdateDTO> updateSkuList = new ArrayList<ItemSkuPubUpdateDTO>();
 		List<Long> deleteSkuList = new ArrayList<Long>();
 		if (CollectionUtils.isNotEmpty(itemSkuVOs)) {
 			// 新增
 			for (ItemSkuDO itemSkuDO : itemSkuVOs) {
 				if (itemSkuDO.getId() <= 0) {
-					// 新增的没有ItemId要补上
-					itemSkuDO.setItemId(ItemDTO.getId());
 					addSkuList.add(itemSkuDO);
 				}
 			}
@@ -514,27 +504,13 @@ public class LineConverter {
 			if (CollectionUtils.isNotEmpty(deletedSKUSet)) {
 				deleteSkuList.addAll(deletedSKUSet);
 			}
-			// 修改
+			// 更新
 			Set<Long> updatedSKUSet = priceInfo.getUpdatedSKU();
 			if (CollectionUtils.isNotEmpty(updatedSKUSet)) {
 				updatedSKUSet.removeAll(deletedSKUSet);
 				for (long skuId : updatedSKUSet) {
-					if (skuId > 0) {
-						ItemSkuDO skuVO = skuVOMap.get(skuId);
-						ItemSkuDO skuDO = skuDOMap.get(skuId);
-						if (skuVO == null) {
-							deleteSkuList.add(skuId);
-						} else {
-							if (skuDO != null) {
-								// 更新
-								skuDO.setPrice(skuVO.getPrice());
-								skuDO.setStockNum(skuVO.getStockNum());
-								skuDO.setFeature(skuVO.getFeature());
-								skuDO.setTitle(skuVO.getTitle());
-								skuDO.setProperty(skuVO.getProperty());
-								updateSkuList.add(skuDO);
-							}
-						}
+					if (skuId > 0 && skuVOMap.containsKey(skuId)) {
+						updateSkuList.add(toItemSkuPubUpdateDTO(skuVOMap.get(skuId)));
 					}
 				}
 			}
@@ -544,4 +520,38 @@ public class LineConverter {
 		target.setDelItemSkuList(deleteSkuList);
 		return target;
 	}
+
+	public static ItemSkuPubUpdateDTO toItemSkuPubUpdateDTO(ItemSkuDO itemSkuVO) {
+		if (itemSkuVO == null) {
+			return null;
+		}
+		ItemSkuPubUpdateDTO itemSkuPubUpdateDTO = new ItemSkuPubUpdateDTO();
+		BeanUtils.copyProperties(itemSkuVO, itemSkuPubUpdateDTO);
+		return itemSkuPubUpdateDTO;
+	}
+
+	public static LinePubAddDTO toLinePublishDTOForSave(long sellerId, LineVO line) {
+		if (sellerId <= 0 || line == null) {
+			return null;
+		}
+		LinePubAddDTO dto = new LinePubAddDTO();
+		LineDO lineDO = toLineDO(line.getBaseInfo(), line.getNeedKnow());
+		dto.setLine(lineDO);
+		RouteInfoVO routeInfo = line.getRouteInfo();
+		if (routeInfo != null) {
+			RouteDO routeDTO = new RouteDO();
+			routeDTO.setId(routeInfo.getRouteId());
+			dto.setRoute(routeDTO);
+			List<RouteDayVO> routeDays = routeInfo.getRouteDays();
+			List<RouteItemDO> routeItemDOList = toRouteItemDOs(routeDays);
+			dto.setRouteItemList(routeItemDOList);
+		}
+		BaseInfoVO baseInfo = line.getBaseInfo();
+		PriceInfoVO priceInfo = line.getPriceInfo();
+		long categoryId = baseInfo.getCategoryId();
+		dto.setItem(toItemDO(categoryId, sellerId, baseInfo));
+		dto.setItemSkuList(toItemSkuDOList(categoryId, sellerId, priceInfo.getTcs()));
+		return dto;
+	}
+
 }

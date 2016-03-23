@@ -11,20 +11,18 @@ import java.util.List;
  */
 public class BaseInfoVO implements Serializable {
 	private static final long serialVersionUID = 780489526645045937L;
-	private long lineId;// ID
+	private long lineId;// 线路ID
+	private long itemId;// 商品ID
+	private long categoryId;// 分类
 	private int type;// 类型
 	private String name;// 产品名称
 	private String code; // 商品代码
 	private int days;// 行程天数
-	private String highlight1;// 亮点1
-	private String highlight2;// 亮点2
-	private String highlight3;// 亮点3
+	private String discription;// 亮点
 	private List<Long> themes;// 主题
 	private List<Long> departs; // 出发地
 	private List<Long> dests; // 目的地
-	private String productImageApp;// App产品封面图
-	private String orderImage;// 订单封面
-	private List<String> detailAppImages; // App详情轮播图
+	private List<String> picUrls; // App详情轮播图
 
 	/**
 	 * 包含某个tag
@@ -71,28 +69,12 @@ public class BaseInfoVO implements Serializable {
 		this.themes = themes;
 	}
 
-	public List<String> getDetailAppImages() {
-		return detailAppImages;
+	public List<String> getPicUrls() {
+		return picUrls;
 	}
 
-	public void setDetailAppImages(List<String> detailAppImages) {
-		this.detailAppImages = detailAppImages;
-	}
-
-	public String getOrderImage() {
-		return orderImage;
-	}
-
-	public void setOrderImage(String orderImage) {
-		this.orderImage = orderImage;
-	}
-
-	public String getProductImageApp() {
-		return productImageApp;
-	}
-
-	public void setProductImageApp(String productImageApp) {
-		this.productImageApp = productImageApp;
+	public void setPicUrls(List<String> picUrls) {
+		this.picUrls = picUrls;
 	}
 
 	public List<Long> getDeparts() {
@@ -127,27 +109,28 @@ public class BaseInfoVO implements Serializable {
 		this.days = days;
 	}
 
-	public String getHighlight1() {
-		return highlight1;
+	public String getDiscription() {
+		return discription;
 	}
 
-	public void setHighlight1(String highlight1) {
-		this.highlight1 = highlight1;
+	public void setDiscription(String discription) {
+		this.discription = discription;
 	}
 
-	public String getHighlight2() {
-		return highlight2;
+	public long getItemId() {
+		return itemId;
 	}
 
-	public void setHighlight2(String highlight2) {
-		this.highlight2 = highlight2;
+	public void setItemId(long itemId) {
+		this.itemId = itemId;
 	}
 
-	public String getHighlight3() {
-		return highlight3;
+	public long getCategoryId() {
+		return categoryId;
 	}
 
-	public void setHighlight3(String highlight3) {
-		this.highlight3 = highlight3;
+	public void setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
 	}
+
 }

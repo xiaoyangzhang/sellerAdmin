@@ -3,13 +3,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+#set( $rs_path_jiuxiu = $utilWebconfig.getResourcePathJiuXiu() )
 #set( $rs_path = $utilWebconfig.getResourcePath() )
 #set( $root_path = $utilWebconfig.getRootPath() )
 #set( $test = $utilWebconfig.isTestMode())
 #if( $test )
 	#set( $rs_js_css_path = $!rs_path+"/src" )
+	#set( $rs_js_css_path_jiuxiu = $!rs_path_jiuxiu+"/src" )
 #else
 	#set( $rs_js_css_path = $!rs_path+"/dist" )
+	#set( $rs_js_css_path_jiuxiu = $!rs_path_jiuxiu+"/dist" )
 #end
 #set( $tfs = $utilWebconfig.getTfsRootPath())
 #set( $user = $rc.get("user") )

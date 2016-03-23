@@ -1,6 +1,6 @@
 <!-- 头部开始 -->
 <div id="ym-header" class="clearfix">
-	<div class="ym-logo"><a href="$!root_path/"><img src="https://s1.yimayholiday.com/PC_B2C/img/top_logo.jpg"/></a></div>
+	<div class="ym-logo"><a href="$!root_path/"><img src="$rs_path/img/top_logo.jpg"/></a></div>
 	<ul class="clearfix">
 		<li><a #if($header_on == 'home')class='on'#end href="$root_path/">商户</a></li>
 		<li><a #if($header_on == 'member')class='on'#end href="$root_path/member.html">微旅</a></li>

@@ -47,7 +47,7 @@ public class CommFreeLineController extends BaseTravelController {
 			put("product", sst);
 			put("lineType", LineType.getByType(sst.getBaseInfo().getType()));
 		}
-		return "/system/comm/travel/detail";
+		return "/system/comm/line/detail";
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class CommFreeLineController extends BaseTravelController {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
 		put("lineType", LineType.FLIGHT_HOTEL);
-		return "/system/comm/travel/detail";
+		return "/system/comm/line/detail";
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class CommFreeLineController extends BaseTravelController {
 	@RequestMapping(value = "/batchInsert")
 	public String batchInsert(long categoryId) throws Exception {
 		initLinePropertyTypes(categoryId);
-		return "/system/comm/travel/selfServiceTravel/detail";
+		return "/system/comm/line/selfServiceTravel/detail";
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class CommFreeLineController extends BaseTravelController {
 	 */
 	@RequestMapping(value = "/selectHotel")
 	public String selectHotel() throws Exception {
-		return "/system/comm/travel/selectHotel";
+		return "/system/comm/line/selectHotel";
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class CommFreeLineController extends BaseTravelController {
 	@RequestMapping(value = "/addFlightDetail")
 	public String addFlightDetail() throws Exception {
 		put("flightCompanys", flightRPCService.findAllFlightCompany());
-		return "/system/comm/travel/selfServiceTravel/addFlightDetail";
+		return "/system/comm/line/selfServiceTravel/addFlightDetail";
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class CommFreeLineController extends BaseTravelController {
 	 */
 	@RequestMapping(value = "/setFlightInfo")
 	public String setFlightInfo() throws Exception {
-		return "/system/comm/travel/selfServiceTravel/setFlightInfo";
+		return "/system/comm/line/selfServiceTravel/setFlightInfo";
 	}
 
 	/**
@@ -119,9 +119,15 @@ public class CommFreeLineController extends BaseTravelController {
 	@RequestMapping(value = "/save")
 	public @ResponseBody ResponseVo save(String json) throws Exception {
 		try {
+			long sellerId = 1000;
 			LineVO sst = JSON.parseObject(json, LineVO.class);
-			long id = commLineService.publishLine(sst);
-			return ResponseVo.success(id);
+			long lineId = sst.getBaseInfo().getLineId();
+			if (lineId > 0) {
+				commLineService.update(sellerId, sst);
+			} else {
+				lineId = commLineService.save(sellerId, sst);
+			}
+			return ResponseVo.success(lineId);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return ResponseVo.error(e);

@@ -1,0 +1,54 @@
+<!--
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/upload.js"></script>
+-->
+<table class="table tab-inputgroup" id="need-know">
+	<tbody>
+		<tr class="need-know-item">
+			<td>*费用包含：</td>
+			<td>
+				<input type="hidden" class="need-know-item-key" value="费用包含"/>
+				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="500"></textarea>
+				<span class="word-num">0/500字</span>
+			</td>
+		</tr>
+		<tr class="need-know-item">
+			<td>*费用不含：</td>
+			<td>
+				<input type="hidden" class="need-know-item-key" value="费用不含"/>
+				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="500"></textarea>
+				<span class="word-num">0/500字</span>
+			</td>
+		</tr>
+		<tr class="need-know-item">
+			<td>*预订说明：</td>
+			<td>
+				<input type="hidden" class="need-know-item-key" value="预订说明"/>
+				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="1000"></textarea>
+				<span class="word-num">0/1000字</span>
+			</td>
+		</tr>
+		<tr class="need-know-item">
+			<td>*退改规定：</td>
+			<td>
+				<input type="hidden" class="need-know-item-key" value="退改规定"/>
+				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="500"></textarea>
+				<span class="word-num">0/500字</span>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<script type="text/javascript">
+	function getNeedKnow() {
+		var result = [];
+		$(".need-know-item").each(function() {
+			var key = $(this).find(".need-know-item-key").val();
+			var value = $(this).find(".need-know-item-value").val();
+			result.push({
+				key:key,
+				value:value
+			});
+		});
+		return result;
+	}
+</script>

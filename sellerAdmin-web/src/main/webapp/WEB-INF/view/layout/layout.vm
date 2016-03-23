@@ -5,8 +5,8 @@
     .menu{position: fixed;top: 0px; left: 0;height: 100%;overflow-y: auto;}
     .content-page{height: 100%; margin-left: 200px;margin-top: 42px;padding: 0 15px; background: #fbfbfb;}
 </style>
-#parse("system/layout/top.vm")
-#parse("system/layout/left.vm")
+#parse("/layout/top.vm")
+#parse("/layout/left.vm")
 
 <div class="tabsWrap">
     <ul id="myTabList" class="nav nav-tabs">
@@ -35,4 +35,4 @@
         </div>*#
     </div>
 </div>
-##   #parse("system/layout/footer.vm")
+##   #parse("/layout/footer.vm")

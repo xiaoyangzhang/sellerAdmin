@@ -3,7 +3,7 @@ package com.yimayhd.sellerAdmin.service;
 import java.util.List;
 import java.util.Map;
 
-import com.yimayhd.sellerAdmin.model.line.IdNamePair;
+import com.yimayhd.sellerAdmin.model.line.KeyValuePair;
 
 /**
  * 出发地服务
@@ -17,5 +17,5 @@ public interface DepartService {
 	 * 
 	 * @return
 	 */
-	public Map<String, List<IdNamePair>> queryAllDepartGroupByInitial();
+	public Map<String, List<KeyValuePair<Long, String>>> queryAllDepartGroupByInitial();
 }

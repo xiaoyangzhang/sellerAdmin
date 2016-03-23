@@ -1,5 +1,5 @@
-#set($layout = "/system/layout/blank.vm")
-<link href="$utilWebconfig.getStaticResourcesPath()/resources/css/account.css" rel="stylesheet" />
+#set($layout = "/layout/blank.vm")
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/css/login.css" rel="stylesheet" />
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/supersized/supersized.css" rel="stylesheet" />
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/md5.min.js"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/common.js"></script>

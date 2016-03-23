@@ -21,7 +21,9 @@ public interface CommLineService {
 	 * @param line
 	 * @return
 	 */
-	long publishLine(LineVO line);
+	void update(long sellerId, LineVO line);
+
+	long save(long sellerId, LineVO line);
 
 	/**
 	 * 查询线路

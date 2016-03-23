@@ -12,52 +12,54 @@
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/calendar-tool.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/input.js" type="text/javascript"></script>
 <!-- 富文本编辑 -->
+<!--
 <script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.all.min.js"> </script>
 <script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/lang/zh-cn/zh-cn.js"></script>
+-->
 <ul class="nav nav-tabs">
     <li class="active">
-      <a href="#baseInfo" data-toggle="tab">基本信息</a>
+      <a href="#tab1" data-toggle="tab">基本信息</a>
     </li>
 	<li>
-      <a href="#detailInfo" data-toggle="tab">详细描述</a>
+      <a href="#tab2" data-toggle="tab">详细描述</a>
     </li>
 	#if($categoryId == 7)
 	<li>
-      <a href="#tripPackageInfo" data-toggle="tab">套餐信息</a>
+      <a href="#tab3" data-toggle="tab">套餐信息</a>
     </li>
 	#end
     <li>
-      <a href="#tripInfo" data-toggle="tab">行程信息</a>
+      <a href="#tab4" data-toggle="tab">行程信息</a>
     </li>
     <li>
-      <a href="#priceInfo" data-toggle="tab">价格信息</a>
+      <a href="#tab5" data-toggle="tab">价格信息</a>
     </li>
 	<li>
-      <a href="#needKnow" data-toggle="tab">预定须知</a>
+      <a href="#tab6" data-toggle="tab">预定须知</a>
     </li>
   </ul>
   <div class="tab-content">
-    <div class="tab-pane baseInfo in active" id="baseInfo">
-        #parse("/system/comm/travel/baseInfo.vm")
+    <div class="tab-pane baseInfo in active" id="tab1">
+        #parse("/system/comm/line/baseInfo.vm")
     </div>
-	<div class="tab-pane bigEditor" id="detailInfo" style="width: 96%;margin: 15px auto;">
+	<div class="tab-pane" id="tab2" style="width: 96%;margin: 15px auto;">
 		详细描述
     </div>
 	#if($categoryId == 7)
-	<div class="tab-pane tripPackageInfo" id="tripPackageInfo">
-        #parse("/system/comm/travel/selfServiceTravel/tripPackageInfo.vm")
+	<div class="tab-pane tripPackageInfo" id="tab3">
+        #parse("/system/comm/line/selfServiceTravel/routePlan.vm")
     </div>
 	#end
-    <div class="tab-pane tripInfo" id="tripInfo">
+    <div class="tab-pane tripInfo" id="tab4">
 		<input type="hidden" value="$!{product.routeInfo.routeId}" id="route-id"/>
-        #parse("/system/comm/travel/tripInfo.vm")
+        #parse("/system/comm/line/tripInfo.vm")
     </div>
-    <div class="tab-pane priceInfo" id="priceInfo">
-        #parse("/system/comm/travel/priceInfo.vm")
+    <div class="tab-pane priceInfo" id="tab5">
+        #parse("/system/comm/line/priceInfo.vm")
     </div>
-	<div class="tab-pane bigEditor" id="needKnow" style="width: 96%;margin: 15px auto;">
-		
+	<div class="tab-pane" id="tab6" style="width: 96%;margin: 15px auto;">
+		#parse("/system/comm/line/needKnow.vm")
 	</div>
   </div>
   #if(!${product.isReadonly()})

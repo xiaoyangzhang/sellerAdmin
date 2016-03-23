@@ -3,7 +3,7 @@ package com.yimayhd.sellerAdmin.model.line;
 import java.io.Serializable;
 
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
-import com.yimayhd.sellerAdmin.model.line.detail.DetailInfoVO;
+import com.yimayhd.sellerAdmin.model.line.detail.PictureTextVO;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
 import com.yimayhd.sellerAdmin.model.line.price.PriceInfoVO;
 import com.yimayhd.sellerAdmin.model.line.route.FreeLineRouteVO;
@@ -17,11 +17,8 @@ import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
  */
 public class LineVO implements Serializable {
 	private static final long serialVersionUID = -3473801970066242380L;
-	private long categoryId;
-	private long options;
-
 	private BaseInfoVO baseInfo;// 基础信息
-	private DetailInfoVO detailInfo;// 图文详情
+	private PictureTextVO pictureText;// 图文详情
 	private FreeLineRouteVO freeLineRoute;// 行程计划
 	private RouteInfoVO routeInfo;// 行程信息
 	private PriceInfoVO priceInfo;// 价格信息
@@ -45,22 +42,6 @@ public class LineVO implements Serializable {
 		this.priceInfo = priceInfo;
 	}
 
-	public long getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(long categoryId) {
-		this.categoryId = categoryId;
-	}
-
-	public long getOptions() {
-		return options;
-	}
-
-	public void setOptions(long options) {
-		this.options = options;
-	}
-
 	public boolean isReadonly() {
 		return readonly;
 	}
@@ -69,12 +50,12 @@ public class LineVO implements Serializable {
 		this.readonly = readonly;
 	}
 
-	public DetailInfoVO getDetailInfo() {
-		return detailInfo;
+	public PictureTextVO getPictureText() {
+		return pictureText;
 	}
 
-	public void setDetailInfo(DetailInfoVO detailInfo) {
-		this.detailInfo = detailInfo;
+	public void setPictureText(PictureTextVO pictureText) {
+		this.pictureText = pictureText;
 	}
 
 	public NeedKnowVO getNeedKnow() {

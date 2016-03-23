@@ -301,7 +301,7 @@
           <script id="editor" type="text/plain" name="needKnow.extraInfoUrl" style="width: 100%; height:350px">$!{hotel.needKnow.extraInfoUrl}</script>
     </div>	
     <div class="tab-pane" id="grogshopImgs">
-        #parse("/system/layout/imgUpload.vm")
+        #parse("/layout/imgUpload.vm")
         #imgEdit("picListStr")
     </div>
 	<button type="button" class="btn btn-info" id="btnSubmit">保存</button>

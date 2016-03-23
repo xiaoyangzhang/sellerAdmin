@@ -19,7 +19,6 @@ public class PriceInfoVO implements Serializable {
 
 	public static final int LIMIT_UNIT = 3600 * 24;
 
-	private long itemId;
 	private List<PackageInfo> tcs;// 套餐
 	private int limit;// 提前几天
 	private Set<Long> updatedSKU;
@@ -71,14 +70,6 @@ public class PriceInfoVO implements Serializable {
 			}
 		}
 		return "";
-	}
-
-	public long getItemId() {
-		return itemId;
-	}
-
-	public void setItemId(long itemId) {
-		this.itemId = itemId;
 	}
 
 	public Set<Long> getUpdatedSKU() {
