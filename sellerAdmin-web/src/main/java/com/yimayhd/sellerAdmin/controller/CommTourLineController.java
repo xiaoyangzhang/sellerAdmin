@@ -44,7 +44,7 @@ public class CommTourLineController extends BaseTravelController {
 			put("product", gt);
 			put("lineType", LineType.getByType(gt.getBaseInfo().getType()));
 		}
-		return "/system/comm/travel/detail";
+		return "/system/comm/line/detail";
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class CommTourLineController extends BaseTravelController {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
 		put("lineType", LineType.REGULAR_LINE);
-		return "/system/comm/travel/detail";
+		return "/system/comm/line/detail";
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class CommTourLineController extends BaseTravelController {
 	@RequestMapping(value = "/batchInsert")
 	public String batchInsert(long categoryId) throws Exception {
 		initLinePropertyTypes(categoryId);
-		return "/system/comm/travel/batchInsert";
+		return "/system/comm/line/batchInsert";
 	}
 
 	/**
@@ -106,6 +106,6 @@ public class CommTourLineController extends BaseTravelController {
 	@RequestMapping(value = "/selectTraffic")
 	public String selectTraffic() throws Exception {
 		put("ways", TripTraffic.ways());
-		return "/system/comm/travel/groupTravel/selectTraffic";
+		return "/system/comm/line/groupTravel/selectTraffic";
 	}
 }
