@@ -2,39 +2,20 @@ package com.yimayhd.sellerAdmin.model.line;
 
 import java.util.List;
 
-import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
 import com.yimayhd.ic.client.model.domain.CategoryValueDO;
 
 /**
- * 线路上下文配置
+ * 线路类目配置
  * 
  * @author yebin
  *
  */
-public class LineContextConfig {
-	private List<ComTagDO> themes;
-	private int options;
+public class LineCategoryConfig {
 	private CategoryPropertyDO persionProperty;
 	private CategoryPropertyDO packageProperty;
 	private CategoryPropertyDO dateProperty;
 	private List<CategoryValueDO> persionPropertyValues;
-
-	public List<ComTagDO> getThemes() {
-		return themes;
-	}
-
-	public void setThemes(List<ComTagDO> themes) {
-		this.themes = themes;
-	}
-
-	public int getOptions() {
-		return options;
-	}
-
-	public void setOptions(int options) {
-		this.options = options;
-	}
 
 	public CategoryPropertyDO getPersionProperty() {
 		return persionProperty;

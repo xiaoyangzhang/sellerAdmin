@@ -26,7 +26,7 @@ import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.converter.LineConverter;
 import com.yimayhd.sellerAdmin.converter.TagConverter;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
-import com.yimayhd.sellerAdmin.model.line.LineContextConfig;
+import com.yimayhd.sellerAdmin.model.line.LineCategoryConfig;
 import com.yimayhd.sellerAdmin.model.line.LinePropertyConfig;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.TagDTO;
@@ -77,11 +77,31 @@ public class CommLineServiceImpl implements CommLineService {
 	}
 
 	@Override
-	public LineContextConfig getLineContextConfig() {
-		LineContextConfig lineConfig = new LineContextConfig();
-		// List<ComTagDO> allLineThemes = commentRepo.getAllLineThemes();
-		// lineConfig.setThemes(allLineThemes);
+	public LineCategoryConfig getLineCategoryConfig() {
+		LineCategoryConfig lineConfig = new LineCategoryConfig();
+
 		return lineConfig;
+	}
+
+	@Override
+	public List<ComTagDO> getAllLineThemes() {
+		return commentRepo.getTagsByTagType(TagType.LINETAG);
+	}
+
+	@Override
+	public List<CityVO> getAllLineDeparts() {
+		List<ComTagDO> comTagDOs = commentRepo.getTagsByTagType(TagType.DEPARTPLACE);
+		List<CityVO> cityVOs = new ArrayList<CityVO>();
+		for (ComTagDO comTagDO : comTagDOs) {
+			CityDTO cityDTO = cityRepo.getNameByCode(comTagDO.getName());
+			cityVOs.add(new CityVO(comTagDO.getId(), cityDTO.getCode(), cityDTO.getName()));
+		}
+		return cityVOs;
+	}
+
+	@Override
+	public List<ComTagDO> getAllLineDests() {
+		return commentRepo.getTagsByTagType(TagType.DESRTPLACE);
 	}
 
 	@Override
@@ -130,11 +150,23 @@ public class CommLineServiceImpl implements CommLineService {
 			if (publishLine.getLineId() > 0) {
 				BaseInfoVO baseInfo = line.getBaseInfo();
 				List<TagDTO> themes = baseInfo.getThemes();
-				commentRepo.saveTags(itemId, TagType.LINETAG, themes);
+				List<Long> themeIds = new ArrayList<Long>();
+				for (TagDTO tagDTO : themes) {
+					themeIds.add(tagDTO.getId());
+				}
+				commentRepo.saveTagRelation(itemId, TagType.LINETAG, themeIds);
 				List<CityVO> departs = baseInfo.getDeparts();
-				commentRepo.saveTags(itemId, TagType.DEPARTPLACE, departs);
+				List<Long> departIds = new ArrayList<Long>();
+				for (TagDTO tagDTO : departs) {
+					departIds.add(tagDTO.getId());
+				}
+				commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
 				List<TagDTO> dests = baseInfo.getDests();
-				commentRepo.saveTags(itemId, TagType.DESRTPLACE, dests);
+				List<Long> destIds = new ArrayList<Long>();
+				for (TagDTO tagDTO : dests) {
+					destIds.add(tagDTO.getId());
+				}
+				commentRepo.saveTagRelation(itemId, TagType.DESRTPLACE, destIds);
 			}
 		} catch (Exception e) {
 			log.error("更新线路失败: " + JSON.toJSONString(line), e);
@@ -151,11 +183,23 @@ public class CommLineServiceImpl implements CommLineService {
 			if (itemId > 0) {
 				BaseInfoVO baseInfo = line.getBaseInfo();
 				List<TagDTO> themes = baseInfo.getThemes();
-				commentRepo.saveTags(itemId, TagType.LINETAG, themes);
+				List<Long> themeIds = new ArrayList<Long>();
+				for (TagDTO tagDTO : themes) {
+					themeIds.add(tagDTO.getId());
+				}
+				commentRepo.saveTagRelation(itemId, TagType.LINETAG, themeIds);
 				List<CityVO> departs = baseInfo.getDeparts();
-				commentRepo.saveTags(itemId, TagType.DEPARTPLACE, departs);
+				List<Long> departIds = new ArrayList<Long>();
+				for (TagDTO tagDTO : departs) {
+					departIds.add(tagDTO.getId());
+				}
+				commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
 				List<TagDTO> dests = baseInfo.getDests();
-				commentRepo.saveTags(itemId, TagType.DESRTPLACE, dests);
+				List<Long> destIds = new ArrayList<Long>();
+				for (TagDTO tagDTO : dests) {
+					destIds.add(tagDTO.getId());
+				}
+				commentRepo.saveTagRelation(itemId, TagType.DESRTPLACE, destIds);
 			}
 			return publishLine.getLineId();
 		} catch (Exception e) {

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
-import com.yimayhd.sellerAdmin.model.line.LineContextConfig;
 import com.yimayhd.sellerAdmin.model.line.LinePropertyConfig;
 import com.yimayhd.sellerAdmin.service.CategoryService;
 import com.yimayhd.sellerAdmin.service.CommLineService;
@@ -24,8 +23,7 @@ public abstract class BaseTravelController extends BaseController {
 	protected CategoryService categoryService;
 
 	protected void initBaseInfo() throws BaseException {
-		LineContextConfig lineConfig = commLineService.getLineContextConfig();
-		put("themes", lineConfig.getThemes());
+		put("themes", commLineService.getAllLineThemes());
 	}
 
 	protected void initLinePropertyTypes(long categoryId) throws Exception {

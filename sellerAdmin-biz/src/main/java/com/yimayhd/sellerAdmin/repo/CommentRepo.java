@@ -42,6 +42,7 @@ public class CommentRepo {
 	@Autowired
 	private ComTagCenterService comTagCenterServiceRef;
 
+	@Deprecated
 	public void saveTags(long outId, TagType tagType, List<? extends TagDTO> tagDTOs) {
 		if (outId <= 0 || tagType == null || CollectionUtils.isEmpty(tagDTOs)) {
 			log.warn("save tags params error");
@@ -74,7 +75,7 @@ public class CommentRepo {
 		return result.getValue();
 	}
 
-	private void saveTagRelation(long outId, TagType tagType, List<Long> tagIds) {
+	public void saveTagRelation(long outId, TagType tagType, List<Long> tagIds) {
 		if (outId <= 0 || tagType == null || CollectionUtils.isEmpty(tagIds)) {
 			log.warn("save tag relation params error");
 			throw new BaseException("参数异常");

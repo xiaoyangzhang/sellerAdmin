@@ -94,9 +94,9 @@
 			needKnow:getNeedKnow()
         };
 		console.log(JSON.stringify(result.baseInfo));
-		console.log(JSON.stringify(result.routeInfo));
-		console.log(JSON.stringify(result.priceInfo));
-		console.log(JSON.stringify(result.needKnow));
+		//console.log(JSON.stringify(result.routeInfo));
+		//console.log(JSON.stringify(result.priceInfo));
+		//console.log(JSON.stringify(result.needKnow));
 		//alert(JSON.stringify(result));
 		var params = {
 			json:JSON.stringify(result)

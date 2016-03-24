@@ -1,9 +1,13 @@
 package com.yimayhd.sellerAdmin.service;
 
+import java.util.List;
+
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
-import com.yimayhd.sellerAdmin.model.line.LineContextConfig;
+import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.LineCategoryConfig;
 import com.yimayhd.sellerAdmin.model.line.LinePropertyConfig;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 
@@ -41,11 +45,32 @@ public interface CommLineService {
 	PageVO<LineDO> pageQueryLine(LinePageQuery query);
 
 	/**
-	 * 获取线路上下文配置
+	 * 获取线路类目配置
 	 * 
 	 * @return
 	 */
-	LineContextConfig getLineContextConfig();
+	LineCategoryConfig getLineCategoryConfig();
+
+	/**
+	 * 获取全部主题
+	 * 
+	 * @return
+	 */
+	List<ComTagDO> getAllLineThemes();
+
+	/**
+	 * 获取全部出发地
+	 * 
+	 * @return
+	 */
+	List<CityVO> getAllLineDeparts();
+
+	/**
+	 * 获取全部目的地
+	 * 
+	 * @return
+	 */
+	List<ComTagDO> getAllLineDests();
 
 	/**
 	 * 获取线路Property配置
