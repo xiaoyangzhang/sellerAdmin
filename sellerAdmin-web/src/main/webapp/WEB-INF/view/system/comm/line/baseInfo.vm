@@ -33,7 +33,13 @@
 		</tr>
 		<tr>
 			<td>*线路主题：</td>
-			<td></td>
+			<td>
+				#foreach($theme in $themes)
+					<label>
+						<input type="checkbox" class="productTag" rId="${theme.id}" rName="${theme.name}" #if($product.baseInfo.containsTag($theme.id)) checked #end/>${theme.name}
+					</label>
+				#end
+			</td>
 		</tr>
 		<tr>
 			<td>*商品图：</td>
@@ -135,6 +141,9 @@
 	function getBaseInfo() {
         var picUrls = [];
 		var themes = [];
+		$(".productTag:checked").each(function(){
+			themes.push($(this).attr("rId"));
+		});
 		var departs = [];
 		var dests = [];
 		var result = {

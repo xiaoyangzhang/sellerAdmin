@@ -4,7 +4,6 @@
 
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css">
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/common.css"/>
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css"/>
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/addtravel.css"/>
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/editer.css"/>
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/upldf.css"/>
@@ -14,7 +13,6 @@
 	.int-only{ime-mode:"disabled"}
 </style>
 
-<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/zui.min.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/addtravel.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/editer.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/upldf.js"></script>

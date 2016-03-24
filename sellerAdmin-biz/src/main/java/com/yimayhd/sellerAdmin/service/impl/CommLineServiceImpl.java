@@ -149,11 +149,7 @@ public class CommLineServiceImpl implements CommLineService {
 			LinePublishResult publishLine = lineRepo.updateLine(linePublishDTOForUpdate);
 			if (publishLine.getLineId() > 0) {
 				BaseInfoVO baseInfo = line.getBaseInfo();
-				List<TagDTO> themes = baseInfo.getThemes();
-				List<Long> themeIds = new ArrayList<Long>();
-				for (TagDTO tagDTO : themes) {
-					themeIds.add(tagDTO.getId());
-				}
+				List<Long> themeIds = baseInfo.getThemes();
 				commentRepo.saveTagRelation(itemId, TagType.LINETAG, themeIds);
 				List<CityVO> departs = baseInfo.getDeparts();
 				List<Long> departIds = new ArrayList<Long>();
@@ -182,11 +178,7 @@ public class CommLineServiceImpl implements CommLineService {
 			long itemId = publishLine.getLineId();
 			if (itemId > 0) {
 				BaseInfoVO baseInfo = line.getBaseInfo();
-				List<TagDTO> themes = baseInfo.getThemes();
-				List<Long> themeIds = new ArrayList<Long>();
-				for (TagDTO tagDTO : themes) {
-					themeIds.add(tagDTO.getId());
-				}
+				List<Long> themeIds = baseInfo.getThemes();
 				commentRepo.saveTagRelation(itemId, TagType.LINETAG, themeIds);
 				List<CityVO> departs = baseInfo.getDeparts();
 				List<Long> departIds = new ArrayList<Long>();

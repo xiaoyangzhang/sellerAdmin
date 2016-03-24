@@ -42,6 +42,13 @@ public class CommentRepo {
 	@Autowired
 	private ComTagCenterService comTagCenterServiceRef;
 
+	/**
+	 * 保存标签
+	 * 
+	 * @param outId
+	 * @param tagType
+	 * @param tagDTOs
+	 */
 	@Deprecated
 	public void saveTags(long outId, TagType tagType, List<? extends TagDTO> tagDTOs) {
 		if (outId <= 0 || tagType == null || CollectionUtils.isEmpty(tagDTOs)) {
@@ -65,6 +72,12 @@ public class CommentRepo {
 		saveTagRelation(outId, tagType, tagIds);
 	}
 
+	/**
+	 * 保存标签
+	 * 
+	 * @param tagInfoAddDTO
+	 * @return
+	 */
 	public ComTagDO saveTag(TagInfoAddDTO tagInfoAddDTO) {
 		if (tagInfoAddDTO == null || tagInfoAddDTO == null) {
 			return null;
@@ -75,6 +88,13 @@ public class CommentRepo {
 		return result.getValue();
 	}
 
+	/**
+	 * 保存关联关系
+	 * 
+	 * @param outId
+	 * @param tagType
+	 * @param tagIds
+	 */
 	public void saveTagRelation(long outId, TagType tagType, List<Long> tagIds) {
 		if (outId <= 0 || tagType == null || CollectionUtils.isEmpty(tagIds)) {
 			log.warn("save tag relation params error");
@@ -90,11 +110,19 @@ public class CommentRepo {
 		RepoUtils.resultLog(log, "comCenterServiceRef.addTagRelationInfo", addTagRelationInfo);
 	}
 
-	public List<ComTagDO> getTags(long outId, TagType tagType) {
+	/**
+	 * 查询标签
+	 * 
+	 * @param outId
+	 * @param tagType
+	 * @return
+	 */
+	public List<ComTagDO> getTags(Long outId, TagType tagType) {
 		TagOutIdTypeDTO tagOutIdTypeDTO = new TagOutIdTypeDTO();
 		tagOutIdTypeDTO.setDomain(Constant.DOMAIN_JIUXIU);
-		tagOutIdTypeDTO.setOutId(outId);
-		// XXX Yebin 实现方法有待商榷
+		if (outId != null) {
+			tagOutIdTypeDTO.setOutId(outId);
+		}
 		tagOutIdTypeDTO.setOutType(tagType.name());
 		RepoUtils.requestLog(log, "comTagCenterServiceRef.getTagInfo", tagOutIdTypeDTO);
 		BaseResult<List<ComTagDO>> result = comTagCenterServiceRef.getTagInfo(tagOutIdTypeDTO);
@@ -186,6 +214,9 @@ public class CommentRepo {
 	 * @return 标签列表
 	 */
 	public List<ComTagDO> getTagsByTagType(TagType tagType) {
+		if (tagType == null) {
+			return new ArrayList<ComTagDO>(0);
+		}
 		RepoUtils.requestLog(log, "comCenterServiceRef.selectTagListByTagType", tagType.name());
 		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(tagType.name());
 		RepoUtils.resultLog(log, "comCenterServiceRef.selectTagListByTagType", tagResult);

@@ -105,7 +105,11 @@ public class LineConverter {
 		baseInfo.setPicUrls(PicUrlsUtil.getItemMainPics(itemDO));
 		// themes
 		if (CollectionUtils.isNotEmpty(themes)) {
-			baseInfo.setThemes(themes);
+			List<Long> themeIds = new ArrayList<Long>();
+			for (TagDTO tagDTO : themes) {
+				themeIds.add(tagDTO.getId());
+			}
+			baseInfo.setThemes(themeIds);
 		}
 		// departs
 		if (CollectionUtils.isNotEmpty(departs)) {
