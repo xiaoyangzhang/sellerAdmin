@@ -14,10 +14,11 @@
 	<bean class="com.yimayhd.sellerAdmin.repo.ResourceRepo"></bean>
 	<bean class="com.yimayhd.sellerAdmin.repo.ActivityRepo"></bean>
 	<bean class="com.yimayhd.sellerAdmin.repo.TravelKaRepo"></bean>
-	<bean id="commissionRepo" class="com.yimayhd.commission.repo.CommissionRepo"/>
-	<bean id="itemRebateRepo" class="com.yimayhd.commission.repo.ItemRebateRepo"/>
-	<bean id="userRelationRepo" class="com.yimayhd.commission.repo.UserRelationRepo"/>
-	
-	
-	<bean id="userRepo" class="com.yimayhd.sellerAdmin.repo.UserRepo"/>
+	<bean class="com.yimayhd.sellerAdmin.repo.CityRepo"></bean>
+	<bean id="commissionRepo" class="com.yimayhd.commission.repo.CommissionRepo" />
+	<bean id="itemRebateRepo" class="com.yimayhd.commission.repo.ItemRebateRepo" />
+	<bean id="userRelationRepo" class="com.yimayhd.commission.repo.UserRelationRepo" />
+
+
+	<bean id="userRepo" class="com.yimayhd.sellerAdmin.repo.UserRepo" />
 </beans>
