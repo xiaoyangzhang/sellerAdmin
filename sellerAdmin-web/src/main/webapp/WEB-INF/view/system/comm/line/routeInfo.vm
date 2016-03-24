@@ -68,66 +68,6 @@
 				li.append($("<a href='#day_"+dayId+"_page' data-toggle='tab' class='day_tab_a'>Day</a><i class='icon icon-trash myTrash'></i>"));
 				return li;
 			}
-			// 添加餐厅
-			$(document).delegate(".add-restaurant-btn","click",function(){
-				var _currentrid = $(this).attr("display-id");
-				var content = $("#"+_currentrid);
-				var rname = $("#"+_currentrid+"_add").val();
-				if(rname) {
-					var btn = $("<button class='btn btn-default "+_currentrid+"_item'></button>");
-					btn.attr("rid", 0);
-					btn.attr("rname", rname);
-					btn.click(function() {
-						$(this).remove();
-					});
-					content.append(btn.text(rname));
-					$("#"+_currentrid+"_add").val("");
-				}
-				// update
-				var route_item_id = content.attr("route-item-id");
-				var route_item_detail_id = content.attr("route-item-detail-id");
-				setRouteItem(route_item_id,route_item_detail_id,updatedRouteItems);
-			});
-            // 添加景区
-            $(document).delegate(".add-scenic-btn","click",function(){
-                var _currentrid = $(this).attr("display-id");
-                var content = $("#"+_currentrid);
-                var rname = $("#"+_currentrid+"_add").val();
-                if(rname) {
-                    var btn = $("<button class='btn btn-default "+_currentrid+"_item'></button>");
-                    btn.attr("rid", 0);
-                    btn.attr("rname", rname);
-                    btn.click(function() {
-                        $(this).remove();
-                    });
-                    content.append(btn.text(rname));
-                    $("#"+_currentrid+"_add").val("");
-                }
-                // update
-                var route_item_id = content.attr("route-item-id");
-                var route_item_detail_id = content.attr("route-item-detail-id");
-                setRouteItem(route_item_id,route_item_detail_id,updatedRouteItems);
-            });
-            // 添加酒店
-            $(document).delegate(".add-hotel-btn","click",function(){
-                var _currentrid = $(this).attr("display-id");
-                var content = $("#"+_currentrid);
-                var rname = $("#"+_currentrid+"_add").val();
-                if(rname) {
-                    var btn = $("<button class='btn btn-default "+_currentrid+"_item'></button>");
-                    btn.attr("rid", 0);
-                    btn.attr("rname", rname);
-                    btn.click(function() {
-                        $(this).remove();
-                    });
-                    content.append(btn.text(rname));
-                    $("#"+_currentrid+"_add").val("");
-                }
-                // update
-                var route_item_id = content.attr("route-item-id");
-                var route_item_detail_id = content.attr("route-item-detail-id");
-                setRouteItem(route_item_id,route_item_detail_id,updatedRouteItems);
-            });
 
 			// 创建一天的page
 			function createDayPage(dayId) {
@@ -164,127 +104,17 @@
 			<div class="panel trip-images">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程图片</span></div>
 				<div class="panel-body trip-images-content">
-					
 				</div>
 			</div>
 		</div>
 		#end
     </div>
 	<script type="text/javascript">
-		// 自删除按钮
-		$(document).delegate(".remove-self","click",function(){
-			// update
-			var content = $(this).parent();
-			var route_item_id = content.attr("route-item-id");
-			var route_item_detail_id = content.attr("route-item-detail-id");
-			setRouteItem(route_item_id,route_item_detail_id,updatedRouteItems);
-			$(this).remove();
-		});
-		var currentTId;
-		var currentrid;
-		var currentSId;
-		var currentHId;
-	    // 选择交通
-		$(".select-traffic").click(selectTraffic);
-		var ways = {
-			0:"未知"
-			#foreach($way in $ways)
-			,$!{way.key}:"$!{way.value}"
-			#end
-		};
-		function selectTraffic(){
-			var currentTId = $(this).attr("display-id");
-			openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/comm/groupTravel/selectTraffic','选择交通方式 ',function() {
-				var tra = win.getTraffic();
-				var content = $("#"+currentTId);
-				content.empty();
-				var from = $("<span class='label label-info' id='"+currentTId+"_from' rname='"+tra.from+"'>"+tra.from+"</span>");
-				var way = $("<span class='label label-info' id='"+currentTId+"_way' rid='"+tra.way+"'>"+ways[tra.way]+"</span>");
-				var to = $("<span class='label label-info' id='"+currentTId+"_to' rname='"+tra.to+"'>"+tra.to+"</span>");
-				content.append(from).append(way).append(to);
-				// console.log(JSON.stringify(tra));
-				// update
-				var route_item_id = content.attr("route-item-id");
-				setRouteItem(route_item_id,false,updatedRouteItems);
-				// 一般设定yes回调，必须进行手工关闭
-				return true;
-			});
-        }
 		$(".trip-description-textarea").change(function() {
 			// update
 			var route_item_id = $(this).attr("route-item-id");
 			setRouteItem(route_item_id,false,updatedRouteItems);
 		});
-		// 选择餐厅
-		$(".select-restaurant").click(selectRestaurant);
-		function selectRestaurant(){
-			currentrid = $(this).attr("display-id");
-			openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectRestaurant','选择餐厅',function() {
-				var res = win.getItems();
-				var content = $("#"+currentrid);
-                for(var i in res) {
-					if($("#"+currentrid+"_item_"+res[i].id).length > 0) continue;
-					var btn = $("<button class='btn btn-info "+currentrid+"_item remove-self' id='"+currentrid+"_item_"+res[i].id+"'></button>");
-					btn.attr("rid", res[i].id);
-					btn.attr("rname", res[i].name);
-					content.append(btn.text(res[i].name));
-				}
-				//console.log(JSON.stringify(res));
-				// update
-				var route_item_id = content.attr("route-item-id");
-				var route_item_detail_id = content.attr("route-item-detail-id");
-				setRouteItem(route_item_id,route_item_detail_id,updatedRouteItems);
-				//返回true成功关闭
-				return true;
-			});
-        }
-		
-		// 选择景区
-		$(".select-scenic").click(selectScenic);
-		function selectScenic(){
-			currentSId = $(this).attr("display-id");
-			openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectScenic','选择景区',function() {
-				var sce = win.getItems(); 
-				var content = $("#"+currentSId);
-//				content.empty();
-                for(var i in sce) {
-					var btn = $("<button class='btn btn-info "+currentSId+"_item remove-self'></button>");
-					btn.attr("rid", sce[i].id);
-					btn.attr("rname", sce[i].name);
-					content.append(btn.text(sce[i].name));
-				}
-				//console.log(JSON.stringify(tra));
-				// update
-				var route_item_id = content.attr("route-item-id");
-				var route_item_detail_id = content.attr("route-item-detail-id");
-				setRouteItem(route_item_id,route_item_detail_id,updatedRouteItems);
-				//一般设定yes回调，必须进行手工关闭
-				return true;
-			});
-        }
-		$(".select-hotel").click(selectHotel);
-		// 选择酒店
-		function selectHotel(){
-			currentHId = $(this).attr("display-id");
-			openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectHotel','选择酒店 ',function() {
-				var hot = win.getItems(); 
-				var content = $("#"+currentHId);
-//				content.empty();
-                for(var i in hot) {
-					var btn = $("<button class='btn btn-info "+currentHId+"_item remove-self'></button>");
-					btn.attr("rid", hot[i].id);
-					btn.attr("rname", hot[i].name);
-					content.append(btn.text(hot[i].name));
-				}
-				//console.log(JSON.stringify(hot));
-				// update
-				var route_item_id = content.attr("route-item-id");
-				var route_item_detail_id = content.attr("route-item-detail-id");
-				setRouteItem(route_item_id,route_item_detail_id,updatedRouteItems);
-				//一般设定yes回调，必须进行手工关闭
-				return true;
-			});
-        }
 		var updatedRouteItems=[];
 		var deletedRouteItems=[];
 		// 设置更新
@@ -300,38 +130,11 @@
 		}
 		// 设置全更新
 		function setAllRouteItem(day,arr) {
-			var traffic_content = $("#day_"+day+"_traffic");
-			var route_item_id = traffic_content.attr("route-item-id");
-			setRouteItem(route_item_id,null,arr);
 			
 			var description_content = $("#day_"+day+"_trip_description");
 			route_item_id = description_content.attr("route-item-id");
 			setRouteItem(route_item_id,null,arr);
 			
-			var restaurant_1_content = $("#day_"+day+"_restaurant_1");
-			route_item_id = restaurant_1_content.attr("route-item-id");
-			var route_item_detail_id = restaurant_1_content.attr("route-item-detail-id");
-			setRouteItem(route_item_id,route_item_detail_id,arr);
-			
-			var restaurant_2_content = $("#day_"+day+"_restaurant_2");
-			route_item_id = restaurant_2_content.attr("route-item-id");
-			route_item_detail_id = restaurant_2_content.attr("route-item-detail-id");
-			setRouteItem(route_item_id,route_item_detail_id,arr);
-			
-			var restaurant_3_content = $("#day_"+day+"_restaurant_3");
-			route_item_id = restaurant_3_content.attr("route-item-id");
-			route_item_detail_id = restaurant_3_content.attr("route-item-detail-id");
-			setRouteItem(route_item_id,route_item_detail_id,arr);
-			
-			var scenic_content = $("#day_"+day+"_scenic");
-			route_item_id = scenic_content.attr("route-item-id");
-			route_item_detail_id = scenic_content.attr("route-item-detail-id");
-			setRouteItem(route_item_id,route_item_detail_id,arr);
-			
-			var hote_content = $("#day_"+day+"_hotel");
-			route_item_id = hote_content.attr("route-item-id");
-			route_item_detail_id = hote_content.attr("route-item-detail-id");
-			setRouteItem(route_item_id,route_item_detail_id,arr);
 		}
 		function getUpdatedRouteItems() {
 			return updatedRouteItems;
@@ -340,81 +143,14 @@
 			return deletedRouteItems;
 		}
 		// 获取行程信息
-		function getTripInfo() {
+		function getRouteDays() {
 			var result = [];
 			$(".day_tab").each(function(){
 				var day_id = $(this).attr("day-id");
 				var day = {id:day_id};
-				// 交通方式
-				var tra = {};
-				var _from = $("#day_"+day_id+"_traffic_from");
-				var _to = $("#day_"+day_id+"_traffic_to");
-				var _way = $("#day_"+day_id+"_traffic_way");
-				if(_from.length > 0 || _to.length > 0 || _way.length > 0) {
-    				if(_from.length > 0) {
-    					tra["from"] = _from.attr("rname");
-    				}
-    				if(_to.length > 0) {
-    					tra["to"] = _to.attr("rname");
-    				}
-    				if(_way.length > 0) {
-    					tra["way"] = _way.attr("rid");
-					}
-					day["trafficRouteItemId"] = $("#day_"+day_id+"_traffic").attr("route-item-id");
-					day["traffic"] = tra;
-				}
 				// 描述
 				day["descriptionRouteItemId"] = $("#day_"+day_id+"_trip_description").attr("route-item-id");
 				day["description"] = $("#day_"+day_id+"_trip_description").val()||"";
-				// 餐厅
-				day["breakfastRouteItemId"] = $("#day_"+day_id+"_restaurant_1").attr("route-item-id");
-				var res_1 = [];
-				$(".day_"+day_id+"_restaurant_1_item").each(function(){
-					var rid = $(this).attr("rid");
-					var rname = $(this).attr("rname");
-					res_1.push({id:rid,name:rname});
-				});
-				day["restaurant1"] = res_1;
-				
-				day["lunchRouteItemId"] = $("#day_"+day_id+"_restaurant_2").attr("route-item-id");
-				var res_2 = [];
-				$(".day_"+day_id+"_restaurant_2_item").each(function(){
-					var rid = $(this).attr("rid");
-					var rname = $(this).attr("rname");
-					res_2.push({id:rid,name:rname});
-				});
-				day["restaurant2"] = res_2;
-				
-				day["dinnerRouteItemId"] = $("#day_"+day_id+"_restaurant_3").attr("route-item-id");
-				var res_3 = [];
-				$(".day_"+day_id+"_restaurant_3_item").each(function(){
-					var rid = $(this).attr("rid");
-					var rname = $(this).attr("rname");
-					res_3.push({id:rid,name:rname});
-				});
-				day["restaurant3"] = res_3;
-				// 景点
-				day["scenicsRouteItemId"] = $("#day_"+day_id+"_scenic").attr("route-item-id");
-				day["scenicDetailRouteItemId"] = $("#day_"+day_id+"_scenic").attr("route-item-detail-id");
-				var sce = [];
-				$(".day_"+day_id+"_scenic_item").each(function(){
-					var rid = $(this).attr("rid");
-					var rname = $(this).attr("rname");
-					sce.push({id:rid,name:rname});
-				});
-				day["scenics"] = sce;
-				
-				// 酒店
-				day["hotelsRouteItemId"] = $("#day_"+day_id+"_hotel").attr("route-item-id");
-				day["hotelDetailRouteItemId"] = $("#day_"+day_id+"_hotel").attr("route-item-detail-id");
-				var hotel = [];
-				$(".day_"+day_id+"_hotel_item").each(function(){
-					var rid = $(this).attr("rid");
-					var rname = $(this).attr("rname");
-					hotel.push({id:rid,name:rname});
-				});
-				day["hotels"] = hotel;
-				
 				result.push(day);
 			});
 			// alert(JSON.stringify(result));
@@ -426,7 +162,7 @@
 				#if($!{product.routeInfo})
 				routeId: $!{product.routeInfo.routeId},
 				#end
-				routeDays:getTripInfo(),
+				routeDays:getRouteDays(),
     			updatedRouteItems:getUpdatedRouteItems(),
     			deletedRouteItems:getDeletedRouteItems()
 			};

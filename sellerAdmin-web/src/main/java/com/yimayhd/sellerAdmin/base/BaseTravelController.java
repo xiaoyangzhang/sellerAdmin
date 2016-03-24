@@ -5,7 +5,6 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
-import com.yimayhd.ic.client.model.enums.ItemPublishType;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.sellerAdmin.model.line.LineContextConfig;
 import com.yimayhd.sellerAdmin.model.line.LinePropertyConfig;
@@ -30,11 +29,10 @@ public abstract class BaseTravelController extends BaseController {
 	}
 
 	protected void initLinePropertyTypes(long categoryId) throws Exception {
-		CategoryDO categoryDO = categoryService.getCategoryDOById(categoryId);
-		ItemPublishType publishType = ItemPublishType.get(categoryDO.getCategoryFeature().getPublishType());
-		ItemType itemType = ItemType.get(categoryDO.getCategoryFeature().getItemType());
-
 		put("categoryId", categoryId);
+		CategoryDO categoryDO = categoryService.getCategoryDOById(categoryId);
+		ItemType itemType = ItemType.get(categoryDO.getCategoryFeature().getItemType());
+		put("itemType", itemType);
 		LinePropertyConfig lineConfig = commLineService.getLinePropertyConfig(categoryId);
 		put("options", lineConfig.getOptions());
 		put("persionProperty", lineConfig.getPersionProperty());

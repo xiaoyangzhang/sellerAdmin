@@ -14,7 +14,7 @@
 			#end
             <tr>
                 <td><span class="spColor">*</span>商品类型：</td>
-                <td>$!{lineType.desc}</td>
+                <td>$!{itemType.text}</td>
             </tr>
             <tr >
                 <td><span class="spColor">*</span>商品名称：</td>
@@ -225,7 +225,7 @@
 			itemId:$!{product.baseInfo.itemId},
 			#end
 			categoryId:$!{categoryId},
-			type:$!{lineType.type},
+			type:$!{itemType.value},
 			name:$(".productName").val(),
 			code:$(".productCode").val(),
             picUrls:picUrls,

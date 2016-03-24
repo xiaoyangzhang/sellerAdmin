@@ -40,8 +40,10 @@ import com.yimayhd.ic.client.model.param.item.line.RouteItemUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.line.RoutePubUpdateDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
+import com.yimayhd.sellerAdmin.model.line.CityVO;
 import com.yimayhd.sellerAdmin.model.line.KeyValuePair;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
+import com.yimayhd.sellerAdmin.model.line.TagDTO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
 import com.yimayhd.sellerAdmin.model.line.price.PackageBlock;
@@ -87,7 +89,8 @@ public class LineConverter {
 		return lineUpdateDTO;
 	}
 
-	public static BaseInfoVO toBaseInfoVO(LineDO lineDO, ItemDO itemDO, List<Long> tags) {
+	public static BaseInfoVO toBaseInfoVO(LineDO lineDO, ItemDO itemDO, List<TagDTO> themes, List<CityVO> departs,
+			List<TagDTO> dests) {
 		if (lineDO == null || itemDO == null) {
 			return null;
 		}
@@ -100,9 +103,17 @@ public class LineConverter {
 		baseInfo.setDays(itemDO.getDays());
 		baseInfo.setDiscription(itemDO.getDescription());
 		baseInfo.setPicUrls(PicUrlsUtil.getItemMainPics(itemDO));
-		// tags
-		if (CollectionUtils.isNotEmpty(tags)) {
-			baseInfo.setThemes(tags);
+		// themes
+		if (CollectionUtils.isNotEmpty(themes)) {
+			baseInfo.setThemes(themes);
+		}
+		// departs
+		if (CollectionUtils.isNotEmpty(departs)) {
+			baseInfo.setDeparts(departs);
+		}
+		// dests
+		if (CollectionUtils.isNotEmpty(dests)) {
+			baseInfo.setDests(dests);
 		}
 		return baseInfo;
 	}
@@ -262,11 +273,15 @@ public class LineConverter {
 		return needKnow;
 	}
 
-	public static LineVO toLineVO(LineResult lineResult, List<Long> tags) {
+	public static LineVO toLineVO(LineResult lineResult, List<TagDTO> themes, List<CityVO> departs,
+			List<TagDTO> dests) {
+		if (lineResult == null) {
+			return null;
+		}
 		LineVO result = new LineVO();
 		LineDO line = lineResult.getLineDO();
 		ItemDO item = lineResult.getItemDO();
-		BaseInfoVO baseInfo = toBaseInfoVO(line, item, tags);
+		BaseInfoVO baseInfo = toBaseInfoVO(line, item, themes, departs, dests);
 		result.setBaseInfo(baseInfo);
 		result.setReadonly(item.getStatus() == ItemStatus.valid.getValue());
 		// 线路个性化部分 start

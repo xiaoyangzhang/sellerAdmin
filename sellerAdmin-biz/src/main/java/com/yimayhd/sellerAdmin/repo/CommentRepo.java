@@ -11,22 +11,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
-import com.yimayhd.commentcenter.client.domain.ComTagRelationDO;
-import com.yimayhd.commentcenter.client.domain.ComentDO;
-import com.yimayhd.commentcenter.client.dto.ComentDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoAddDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoDTO;
-import com.yimayhd.commentcenter.client.dto.TagRelaByTagIdAndTypeDTO;
+import com.yimayhd.commentcenter.client.dto.TagOutIdTypeDTO;
 import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.query.TagPageQuery;
 import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.BaseResult;
-import com.yimayhd.commentcenter.client.result.TagRelationResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.commentcenter.client.service.ComTagCenterService;
+import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.model.line.TagDTO;
 import com.yimayhd.sellerAdmin.util.RepoUtils;
 
 /**
@@ -44,40 +42,63 @@ public class CommentRepo {
 	@Autowired
 	private ComTagCenterService comTagCenterServiceRef;
 
-	public boolean addTagRelation(long outId, TagType tagType, List<Long> tagIdList, Date date) {
-		if (outId <= 0 || tagType == null || CollectionUtils.isEmpty(tagIdList) || date == null) {
-			return false;
+	public void saveTags(long outId, TagType tagType, List<? extends TagDTO> tagDTOs) {
+		if (outId <= 0 || tagType == null || CollectionUtils.isEmpty(tagDTOs)) {
+			log.warn("save tags params error");
+			throw new BaseException("参数异常");
+		}
+		List<Long> tagIds = new ArrayList<Long>();
+		for (TagDTO tagDTO : tagDTOs) {
+			if (tagDTO.getId() > 0) {
+				tagIds.add(tagDTO.getId());
+			} else {
+				TagInfoAddDTO tagInfoAddDTO = new TagInfoAddDTO();
+				tagInfoAddDTO.setDomain(Constant.DOMAIN_JIUXIU);
+				tagInfoAddDTO.setTagId(tagDTO.getId());
+				tagInfoAddDTO.setName(tagDTO.getName());
+				tagInfoAddDTO.setOutType(tagType.getType());
+				ComTagDO comTagDO = saveTag(tagInfoAddDTO);
+				tagIds.add(comTagDO.getId());
+			}
+		}
+		saveTagRelation(outId, tagType, tagIds);
+	}
+
+	public ComTagDO saveTag(TagInfoAddDTO tagInfoAddDTO) {
+		if (tagInfoAddDTO == null || tagInfoAddDTO == null) {
+			return null;
+		}
+		RepoUtils.requestLog(log, "comCenterServiceRef.saveTagInfo", tagInfoAddDTO);
+		BaseResult<ComTagDO> result = comTagCenterServiceRef.saveTagInfo(tagInfoAddDTO);
+		RepoUtils.resultLog(log, "comCenterServiceRef.saveTagInfo", result);
+		return result.getValue();
+	}
+
+	private void saveTagRelation(long outId, TagType tagType, List<Long> tagIds) {
+		if (outId <= 0 || tagType == null || CollectionUtils.isEmpty(tagIds)) {
+			log.warn("save tag relation params error");
+			throw new BaseException("参数异常");
 		}
 		TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
 		tagRelationInfoDTO.setTagType(tagType.getType());
 		tagRelationInfoDTO.setOutId(outId);
-		tagRelationInfoDTO.setOrderTime(date);
-		tagRelationInfoDTO.setList(tagIdList);
+		tagRelationInfoDTO.setOrderTime(new Date());
+		tagRelationInfoDTO.setList(tagIds);
 		RepoUtils.requestLog(log, "comCenterServiceRef.addTagRelationInfo", tagRelationInfoDTO);
 		BaseResult<Boolean> addTagRelationInfo = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
 		RepoUtils.resultLog(log, "comCenterServiceRef.addTagRelationInfo", addTagRelationInfo);
-		return addTagRelationInfo.getValue();
 	}
 
-	public List<Long> findAllTag(long outId, TagType tagType) {
-		TagRelaByTagIdAndTypeDTO tagrelabytagidandtypedto = new TagRelaByTagIdAndTypeDTO();
-		tagrelabytagidandtypedto.setOutId(outId);
-		tagrelabytagidandtypedto.setDomain(Constant.DOMAIN_JIUXIU);
-		RepoUtils.requestLog(log, "comTagCenterServiceRef.getTagRelationByOutIdAndType", tagrelabytagidandtypedto);
-		BaseResult<TagRelationResult> tagRelationByOutIdAndType = comTagCenterServiceRef
-				.getTagRelationByOutIdAndType(tagrelabytagidandtypedto);
-		RepoUtils.resultLog(log, "comTagCenterServiceRef.getTagRelationByOutIdAndType", tagRelationByOutIdAndType);
-		TagRelationResult tagRelationResult = tagRelationByOutIdAndType.getValue();
-		List<Long> result = new ArrayList<Long>();
-		List<ComTagRelationDO> expertList = tagRelationResult.getExpertList();
-		if (CollectionUtils.isNotEmpty(expertList)) {
-			for (ComTagRelationDO comTagRelationDO : expertList) {
-				if (comTagRelationDO.getOutType() == tagType.getType()) {
-					result.add(comTagRelationDO.getTagId());
-				}
-			}
-		}
-		return result;
+	public List<ComTagDO> getTags(long outId, TagType tagType) {
+		TagOutIdTypeDTO tagOutIdTypeDTO = new TagOutIdTypeDTO();
+		tagOutIdTypeDTO.setDomain(Constant.DOMAIN_JIUXIU);
+		tagOutIdTypeDTO.setOutId(outId);
+		// XXX Yebin 实现方法有待商榷
+		tagOutIdTypeDTO.setOutType(tagType.name());
+		RepoUtils.requestLog(log, "comTagCenterServiceRef.getTagInfo", tagOutIdTypeDTO);
+		BaseResult<List<ComTagDO>> result = comTagCenterServiceRef.getTagInfo(tagOutIdTypeDTO);
+		RepoUtils.resultLog(log, "comTagCenterServiceRef.getTagInfo", result);
+		return result.getValue();
 	}
 
 	public PageVO<ComTagDO> pageQueryTag(TagInfoDTO tagInfoDTO) {
@@ -92,6 +113,12 @@ public class CommentRepo {
 		return new PageVO<ComTagDO>(tagInfoDTO.getPageNo(), tagInfoDTO.getPageSize(), totalCount, itemList);
 	}
 
+	/**
+	 * 查询标签信息
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public ComTagDO getTagById(long id) {
 		RepoUtils.requestLog(log, "comCenterServiceRef.selectByPrimaryKey", id);
 		BaseResult<ComTagDO> result = comCenterServiceRef.selectByPrimaryKey(id);
@@ -99,6 +126,13 @@ public class CommentRepo {
 		return result.getValue();
 	}
 
+	/**
+	 * 更新标签
+	 * 
+	 * @param id
+	 * @param state
+	 * @return
+	 */
 	public ComTagDO updateTagStateById(long id, int state) {
 		TagPageQuery query = new TagPageQuery();
 		query.setList(Arrays.asList(id));
@@ -109,26 +143,37 @@ public class CommentRepo {
 		return result.getValue();
 	}
 
-	public void updateTagStateByIdList(List<Long> ids, int state) {
+	/**
+	 * 批量修改标签状态
+	 * 
+	 * @param ids
+	 * @param state
+	 * @return
+	 */
+	public ComTagDO batchUpdateTagsState(List<Long> ids, int state) {
 		TagPageQuery query = new TagPageQuery();
 		query.setList(ids);
 		query.setState(state);
-		RepoUtils.requestLog(log, "comCenterServiceRef.updateTagInfoStateByIdList", query);
-		BaseResult<ComTagDO> result = comCenterServiceRef.updateTagInfoStateByIdList(query);
-		RepoUtils.resultLog(log, "comCenterServiceRef.updateTagInfoStateByIdList", result);
-	}
-
-	public ComTagDO saveTag(TagInfoAddDTO tag) {
-		RepoUtils.requestLog(log, "comCenterServiceRef.addComTagInfo", tag);
-		BaseResult<ComTagDO> result = comCenterServiceRef.addComTagInfo(tag);
-		RepoUtils.resultLog(log, "comCenterServiceRef.addComTagInfo", result);
+		RepoUtils.requestLog(log, "comTagCenterServiceRef.updateTagInfoByIdList", query);
+		BaseResult<ComTagDO> result = comTagCenterServiceRef.updateTagInfoByIdList(query);
+		RepoUtils.resultLog(log, "comTagCenterServiceRef.updateTagInfoByIdList", result);
 		return result.getValue();
 	}
 
-	public ComTagDO updateTag(TagInfoAddDTO tag) {
-		RepoUtils.requestLog(log, "comCenterServiceRef.updateComTagInfo", tag);
-		BaseResult<ComTagDO> result = comCenterServiceRef.updateComTagInfo(tag);
-		RepoUtils.resultLog(log, "comCenterServiceRef.updateComTagInfo", result);
+	/**
+	 * 更新标签
+	 * 
+	 * @param tagType
+	 * @param tagDTO
+	 * @return
+	 */
+	public ComTagDO updateTag(TagInfoAddDTO tagInfoAddDTO) {
+		if (tagInfoAddDTO == null) {
+			return null;
+		}
+		RepoUtils.requestLog(log, "comTagCenterServiceRef.updateTagInfo", tagInfoAddDTO);
+		BaseResult<ComTagDO> result = comTagCenterServiceRef.updateTagInfo(tagInfoAddDTO);
+		RepoUtils.resultLog(log, "comTagCenterServiceRef.updateTagInfo", result);
 		return result.getValue();
 	}
 
@@ -139,27 +184,10 @@ public class CommentRepo {
 	 *            标签类型
 	 * @return 标签列表
 	 */
-	public List<ComTagDO> getTagListByTagType(TagType tagType) {
+	public List<ComTagDO> getTagsByTagType(TagType tagType) {
 		RepoUtils.requestLog(log, "comCenterServiceRef.selectTagListByTagType", tagType.name());
 		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(tagType.name());
 		RepoUtils.resultLog(log, "comCenterServiceRef.selectTagListByTagType", tagResult);
 		return tagResult.getValue();
 	}
-
-	/**
-	 * 获取全部线路主题
-	 * 
-	 * @return
-	 */
-	public List<ComTagDO> getAllLineThemes() {
-		return getTagListByTagType(TagType.LINETAG);
-	}
-
-	public ComentDO savePictureText(ComentDTO comentDTO) {
-		RepoUtils.requestLog(log, "comTagCenterServiceRef.savePictureText", comentDTO);
-		BaseResult<ComentDO> savePictureText = comTagCenterServiceRef.savePictureText(comentDTO);
-		RepoUtils.resultLog(log, "comTagCenterServiceRef.savePictureText", savePictureText);
-		return savePictureText.getValue();
-	}
-
 }

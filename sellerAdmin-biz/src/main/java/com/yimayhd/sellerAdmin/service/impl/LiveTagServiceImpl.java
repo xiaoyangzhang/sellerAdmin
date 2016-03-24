@@ -42,26 +42,26 @@ public class LiveTagServiceImpl implements LiveTagService {
 
 	@Override
 	public void disableLiveTagByIdList(List<Long> idList) {
-		tagRepo.updateTagStateByIdList(idList, CommentRepo.STATUS_DISABLE);
+		tagRepo.batchUpdateTagsState(idList, CommentRepo.STATUS_DISABLE);
 	}
 
 	@Override
 	public void enableLiveTagByIdList(List<Long> idList) {
-		tagRepo.updateTagStateByIdList(idList, CommentRepo.STATUS_ENABLE);
+		tagRepo.batchUpdateTagsState(idList, CommentRepo.STATUS_ENABLE);
 	}
 
 	@Override
 	public void save(LiveTagVO tag) {
 		if (tag.getId() > 0) {
 			CheckResult checkResult = TagChecker.checkLiveTagVOForUpdate(tag);
-			if(checkResult.isSuccess()) {
+			if (checkResult.isSuccess()) {
 				tagRepo.updateTag(tag.toTagInfo());
 			} else {
 				throw new BaseException(checkResult.getMsg());
 			}
 		} else {
 			CheckResult checkResult = TagChecker.checkLiveTagVOForSave(tag);
-			if(checkResult.isSuccess()) {
+			if (checkResult.isSuccess()) {
 				tagRepo.saveTag(tag.toTagInfo());
 			} else {
 				throw new BaseException(checkResult.getMsg());

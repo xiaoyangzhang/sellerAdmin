@@ -1,7 +1,5 @@
 package com.yimayhd.sellerAdmin.controller;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,8 +12,6 @@ import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.sellerAdmin.base.BaseTravelController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
-import com.yimayhd.sellerAdmin.model.line.tour.TripTraffic;
-import com.yimayhd.sellerAdmin.service.CategoryService;
 import com.yimayhd.sellerAdmin.service.CommLineService;
 
 /**

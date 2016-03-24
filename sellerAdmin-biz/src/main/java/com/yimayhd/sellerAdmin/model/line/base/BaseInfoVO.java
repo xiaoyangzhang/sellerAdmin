@@ -3,6 +3,9 @@ package com.yimayhd.sellerAdmin.model.line.base;
 import java.io.Serializable;
 import java.util.List;
 
+import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.TagDTO;
+
 /**
  * 基本信息
  * 
@@ -19,9 +22,9 @@ public class BaseInfoVO implements Serializable {
 	private String code; // 商品代码
 	private int days;// 行程天数
 	private String discription;// 亮点
-	private List<Long> themes;// 主题
-	private List<Long> departs; // 出发地
-	private List<Long> dests; // 目的地
+	private List<TagDTO> themes;// 主题
+	private List<CityVO> departs; // 出发地
+	private List<TagDTO> dests; // 目的地
 	private List<String> picUrls; // App详情轮播图
 
 	/**
@@ -61,36 +64,12 @@ public class BaseInfoVO implements Serializable {
 		this.name = name;
 	}
 
-	public List<Long> getThemes() {
-		return themes;
-	}
-
-	public void setThemes(List<Long> themes) {
-		this.themes = themes;
-	}
-
 	public List<String> getPicUrls() {
 		return picUrls;
 	}
 
 	public void setPicUrls(List<String> picUrls) {
 		this.picUrls = picUrls;
-	}
-
-	public List<Long> getDeparts() {
-		return departs;
-	}
-
-	public void setDeparts(List<Long> departs) {
-		this.departs = departs;
-	}
-
-	public List<Long> getDests() {
-		return dests;
-	}
-
-	public void setDests(List<Long> dests) {
-		this.dests = dests;
 	}
 
 	public String getCode() {
@@ -131,6 +110,30 @@ public class BaseInfoVO implements Serializable {
 
 	public void setCategoryId(long categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public List<TagDTO> getThemes() {
+		return themes;
+	}
+
+	public void setThemes(List<TagDTO> themes) {
+		this.themes = themes;
+	}
+
+	public List<CityVO> getDeparts() {
+		return departs;
+	}
+
+	public void setDeparts(List<CityVO> departs) {
+		this.departs = departs;
+	}
+
+	public List<TagDTO> getDests() {
+		return dests;
+	}
+
+	public void setDests(List<TagDTO> dests) {
+		this.dests = dests;
 	}
 
 }
