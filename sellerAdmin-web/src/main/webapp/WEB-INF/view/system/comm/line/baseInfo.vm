@@ -6,7 +6,7 @@
 		</tr>
 		<tr>
 			<td>*商品标题：</td>
-			<td><input type="text" class="form-control item-name" placeholder="用户名 38字以内" maxlength="38"></td>
+			<td><input type="text" class="form-control item-name" placeholder="用户名38字以内" maxlength="38"></td>
 		</tr>
 		<tr>
 			<td>商品代码：</td>
@@ -14,11 +14,17 @@
 		</tr>
 		<tr>
 			<td>*出发地：</td>
-			 <td><span id="departs-content"></span><button type="button" class="btn btn-success select-departs">选择出发地</button></td>
+			 <td>
+				<div><button type="button" class="btn btn-success select-departs">选择出发地</button></div>
+				<div><span id="departs-content"></span></div>
+			 </td>
 		</tr>
 		<tr>
 			<td>*目的地：</td>
-			<td><span id="dests-content"></span><button type="button" class="btn btn-success select-dests">选择目的地</button></td>
+			<td>
+				<div><button type="button" class="btn btn-success select-dests">选择目的地</button></div>
+				<div><span id="dests-content"></span></div>
+			</td>
 		</tr>
 		<tr>
 			<td>*行程天数（天）：</td>
@@ -35,7 +41,7 @@
 			<td>*线路主题：</td>
 			<td>
 				#foreach($theme in $themes)
-					<label>
+					<label class="checkbox-inline">
 						<input type="checkbox" class="productTag" rId="${theme.id}" rName="${theme.name}" #if($product.baseInfo.containsTag($theme.id)) checked #end/>${theme.name}
 					</label>
 				#end
@@ -95,7 +101,7 @@
 		$(this).remove();
     });
 	$(".select-departs").click(function() {
-		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectTravelKa','选择旅游咖 ',function() {
+		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectLineDeparts','选择出发地 ',function() {
 			var kas = win.getItems();
 			var content = $(".departs-content");
 			for(var i in kas) {

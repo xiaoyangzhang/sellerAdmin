@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.model.line;
 
+import com.yimayhd.user.client.dto.CityDTO;
+
 /**
  * 
  * 城市VO
@@ -8,22 +10,22 @@ package com.yimayhd.sellerAdmin.model.line;
  *
  */
 public class CityVO extends TagDTO {
-	private String code;
+	private CityDTO city;
 
 	public CityVO() {
 		super();
 	}
 
-	public CityVO(long id, String code, String name) {
+	public CityVO(long id, String name, CityDTO city) {
 		super(id, name);
-		this.code = code;
+		this.city = city;
 	}
 
-	public String getCode() {
-		return code;
+	public CityDTO getCity() {
+		return city;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setCity(CityDTO city) {
+		this.city = city;
 	}
 }

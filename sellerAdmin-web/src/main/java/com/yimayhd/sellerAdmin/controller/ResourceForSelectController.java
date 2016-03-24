@@ -3,12 +3,12 @@ package com.yimayhd.sellerAdmin.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
-import com.yimayhd.sellerAdmin.model.query.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,33 +16,32 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
-import com.yimayhd.ic.client.model.domain.RestaurantDO;
-import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
+import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
+import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.model.ItemVO;
+import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.query.ActivityListQuery;
+import com.yimayhd.sellerAdmin.model.query.CommodityListQuery;
+import com.yimayhd.sellerAdmin.model.query.LiveListQuery;
 import com.yimayhd.sellerAdmin.service.ActivityService;
 import com.yimayhd.sellerAdmin.service.CommLineService;
 import com.yimayhd.sellerAdmin.service.CommodityService;
-import com.yimayhd.sellerAdmin.service.HotelRPCService;
-import com.yimayhd.sellerAdmin.service.RestaurantService;
-import com.yimayhd.sellerAdmin.service.ScenicService;
 import com.yimayhd.sellerAdmin.service.TripService;
 import com.yimayhd.sellerAdmin.service.UserRPCService;
-import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
-import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.snscenter.client.enums.BaseStatus;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
+import com.yimayhd.user.client.dto.CityDTO;
 import com.yimayhd.user.client.enums.UserOptions;
 
 /**
@@ -52,14 +51,8 @@ import com.yimayhd.user.client.enums.UserOptions;
  *
  */
 @Controller
-@RequestMapping("/B2C/resourceForSelect")
+@RequestMapping("/resourceForSelect")
 public class ResourceForSelectController extends BaseController {
-	@Autowired
-	private RestaurantService restaurantService;
-	@Autowired
-	private ScenicService scenicService;
-	@Autowired
-	private HotelRPCService hotelService;
 	@Autowired
 	private UserRPCService userService;
 	@Autowired
@@ -67,84 +60,33 @@ public class ResourceForSelectController extends BaseController {
 	@Autowired
 	private TripService tripService;
 	@Resource
-	private CommLineService travelService;
+	private CommLineService commLineService;
 	@Autowired
 	private ActivityService activityService;
 
 	/**
-	 * 选择景点
+	 * 选择景区
 	 *
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/queryRestaurantForSelect")
-	public @ResponseBody ResponseVo queryRestaurantForSelect(RestaurantListQuery query) {
-		try {
-			PageVO<RestaurantDO> pageVo = restaurantService.pageQueryRestaurant(query);
-			Map<String, Object> result = new HashMap<String, Object>();
-			result.put("pageVo", pageVo);
-			result.put("query", query);
-			return new ResponseVo(result);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return ResponseVo.error(e);
+	@RequestMapping(value = "/selectLineDeparts")
+	public String selectLineDeparts() {
+		List<CityVO> allLineDeparts = commLineService.getAllLineDeparts();
+		Map<String, List<CityVO>> departMap = new LinkedHashMap<String, List<CityVO>>();
+		for (CityVO cityVO : allLineDeparts) {
+			CityDTO city = cityVO.getCity();
+			String firstLetter = city.getFirstLetter();
+			if (departMap.containsKey(firstLetter)) {
+				departMap.get(firstLetter).add(cityVO);
+			} else {
+				List<CityVO> cityVOs = new ArrayList<CityVO>();
+				cityVOs.add(cityVO);
+				departMap.put(firstLetter, cityVOs);
+			}
 		}
-	}
-
-	/**
-	 * 选择餐厅
-	 *
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/selectRestaurant")
-	public String selectRstaurant() {
-		return "/system/resource/forSelect/selectRestaurant";
-	}
-
-	/**
-	 * 选择景区
-	 *
-	 * @return
-	 *
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/queryScenicForSelect")
-	public @ResponseBody ResponseVo queryScenicForSelect(Model model, ScenicListQuery scenicPageQuery)
-			throws Exception {
-		try {
-			PageVO<ScenicDO> pageVo = scenicService.getList(scenicPageQuery);
-			Map<String, Object> result = new HashMap<String, Object>();
-			result.put("pageVo", pageVo);
-			result.put("query", scenicPageQuery);
-			return new ResponseVo(result);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return ResponseVo.error(e);
-		}
-	}
-
-	/**
-	 * 选择景区
-	 *
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/selectScenic")
-	public String selectScenic() {
-		return "/system/resource/forSelect/selectScenic";
-	}
-
-	/**
-	 * 选择景区
-	 *
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/selectOneScenic")
-	public String selectOneScenic() {
-		return "/system/resource/forSelect/selectOneScenic";
+		put("departMap", departMap);
+		return "/system/resource/forSelect/selectLineDeparts";
 	}
 
 	/**
@@ -183,37 +125,6 @@ public class ResourceForSelectController extends BaseController {
 			log.error(e.getMessage(), e);
 			return ResponseVo.error(e);
 		}
-	}
-
-	/**
-	 * 选择酒店
-	 *
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/queryHotelForSelect")
-	public @ResponseBody ResponseVo queryHotelForSelect(HotelListQuery query) {
-		try {
-			PageVO<HotelDO> pageVo = hotelService.pageQueryHotel(query);
-			Map<String, Object> result = new HashMap<String, Object>();
-			result.put("pageVo", pageVo);
-			result.put("query", query);
-			return new ResponseVo(result);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return ResponseVo.error(e);
-		}
-	}
-
-	/**
-	 * 选择酒店
-	 *
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/selectHotel")
-	public String selectHotel() {
-		return "/system/resource/forSelect/selectHotel";
 	}
 
 	/**
@@ -268,15 +179,15 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryTravelKaForSelect")
-	public @ResponseBody ResponseVo queryTravelKaForSelect(UserDOPageQuery query,Integer pageNumber) {
+	public @ResponseBody ResponseVo queryTravelKaForSelect(UserDOPageQuery query, Integer pageNumber) {
 		try {
-			if(pageNumber != null){
+			if (pageNumber != null) {
 				query.setPageNo(pageNumber);
 			}
 			List<Long> optionList = new ArrayList<Long>();
 			optionList.add(UserOptions.TRAVEL_KA.getLong());
 			query.setOptionsList(optionList);
-			PageVO<UserDO>  pageVo = userService.getTravelKaListByPage(query);
+			PageVO<UserDO> pageVo = userService.getTravelKaListByPage(query);
 			query.setOptionsList(null);
 			Map<String, Object> result = new HashMap<String, Object>();
 			result.put("pageVo", pageVo);
@@ -398,7 +309,7 @@ public class ResourceForSelectController extends BaseController {
 			// userService.getTravelKaListByPage(query);
 			query.setNeedCount(true);
 			query.setStatus(ItemStatus.valid.getValue());
-			PageVO<LineDO> pageVo = travelService.pageQueryLine(query);
+			PageVO<LineDO> pageVo = commLineService.pageQueryLine(query);
 			Map<String, Object> result = new HashMap<String, Object>();
 			result.put("pageVo", pageVo);
 			result.put("query", query);
@@ -440,7 +351,7 @@ public class ResourceForSelectController extends BaseController {
 	@RequestMapping(value = "/queryActivityForSelect")
 	public @ResponseBody ResponseVo queryActivityForSelect(ActivityListQuery query) {
 		try {
-			//只查询启用状态的数据
+			// 只查询启用状态的数据
 			query.setState(BaseStatus.AVAILABLE.getType());
 			PageVO<SnsActivityDO> pageVo = activityService.pageQueryActivities(query);
 			Map<String, Object> result = new HashMap<String, Object>();
