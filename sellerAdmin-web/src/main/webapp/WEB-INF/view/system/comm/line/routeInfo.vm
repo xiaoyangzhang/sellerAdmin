@@ -73,10 +73,17 @@
 			function createDayPage(dayId) {
 				var page = $("<div class='tab-pane' id='day_"+dayId+"_page'></div>");
 				// 行程描述
+				var title = $("<div class='panel trip-title'></div>");
+                title.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-exclamation-sign'></i><span class='tripAddSp'>行程标题</span></div>"));
+                var title_content = $("<div class='panel-body trip-title-content'></div>");
+				title_content.append($("<input type='text' class='form-control trip-title-text' id='day_"+dayId+"_trip_title'/>"));
+                title.append(title_content);	
+				page.append(title);
+				// 行程描述
 				var desc = $("<div class='panel trip-description'></div>");
                 desc.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-exclamation-sign'></i><span class='tripAddSp'>行程描述</span></div>"));
                 var desc_content = $("<div class='panel-body trip-description-content'></div>");
-				desc_content.append($("<textarea class='form-control' rows='3' id='day_"+dayId+"_trip_description'></textarea>"));
+				desc_content.append($("<textarea class='form-control trip-description-textarea' rows='3' id='day_"+dayId+"_trip_description'></textarea>"));
                 desc.append(desc_content);	
 				page.append(desc);
 				// 行程图片
@@ -95,6 +102,12 @@
 		#foreach($tripDay in $product.routeInfo.routeDays)
 		#set($day = ${velocityCount})
 		<div class="tab-pane in #if(${day}==1) active #end" id="day_${velocityCount}_page">
+			<div class="panel trip-title">
+				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程描述</span></div>
+				<div class="panel-body trip-title-content">
+					<input type="text" class="form-control trip-title-text" id="day_${velocityCount}_trip_title" route-item-id="$!{tripDay.descriptionRouteItemId}" value="$!{tripDay.title}"/>
+				</div>
+			</div>
 			<div class="panel trip-description">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程描述</span></div>
 				<div class="panel-body trip-description-content">
@@ -147,9 +160,10 @@
 			var result = [];
 			$(".day_tab").each(function(){
 				var day_id = $(this).attr("day-id");
-				var day = {id:day_id};
+				var day = {};
 				// 描述
-				day["descriptionRouteItemId"] = $("#day_"+day_id+"_trip_description").attr("route-item-id");
+				day["routeItemId"] = $("#day_"+day_id+"_trip_description").attr("route-item-id");
+				day["title"] = $("#day_"+day_id+"_trip_title").val()||"";
 				day["description"] = $("#day_"+day_id+"_trip_description").val()||"";
 				result.push(day);
 			});
