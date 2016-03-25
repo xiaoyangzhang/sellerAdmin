@@ -89,7 +89,7 @@ public class LineConverter {
 	}
 
 	public static BaseInfoVO toBaseInfoVO(LineDO lineDO, ItemDO itemDO, List<TagDTO> themes, List<CityVO> departs,
-			List<TagDTO> dests) {
+			List<CityVO> dests) {
 		if (lineDO == null || itemDO == null) {
 			return null;
 		}
@@ -277,7 +277,7 @@ public class LineConverter {
 	}
 
 	public static LineVO toLineVO(LineResult lineResult, List<TagDTO> themes, List<CityVO> departs,
-			List<TagDTO> dests) {
+			List<CityVO> dests) {
 		if (lineResult == null) {
 			return null;
 		}
