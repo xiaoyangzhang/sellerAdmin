@@ -20,20 +20,18 @@ import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.biz.UserBiz;
 import com.yimayhd.sellerAdmin.checker.UserChecker;
-import com.yimayhd.sellerAdmin.checker.result.CheckResult;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.UserConverter;
 import com.yimayhd.sellerAdmin.model.vo.user.LoginVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RetrievePasswordVo;
 import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
+import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.LoginDTO;
 import com.yimayhd.user.client.dto.RevivePasswordDTO;
 import com.yimayhd.user.client.result.login.LoginResult;
-import com.yimayhd.user.session.manager.SessionHelper;
 import com.yimayhd.user.session.manager.SessionManager;
 import com.yimayhd.user.session.manager.VerifyCodeManager;
-import com.yimayhd.user.session.manager.constant.SessionConstant;
 
 /**
  * 
@@ -104,32 +102,29 @@ public class UserController extends BaseController {
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public WebResult<String> register(RegisterVo registerVo, HttpServletResponse response) {
-		WebResult<String> registerResult = new WebResult<String>();
-//		try {
-//
-//			Boolean result = userBiz.register(registerVo);
-//			if (result) {
-//				registerResult.initSuccess("注册成功");
-//				// 登录成功后跳转
-//				registerResult.setValue("/user/toRegisterSuccess");
-//				// 触发自动登录
-//				LoginVo loginVo = new LoginVo();
-//				loginVo.setUsername(registerVo.getUsername());
-//				loginVo.setPassword(registerVo.getPassword());
-//				String token = userService.login(loginVo);
-//				// token放到cookie中
-//				setCookies(response, token);
-//			}
-//		} catch (WebException e) {
-//			log.error(e.getMessage(), e);
-//			registerResult.initFailure(e);
-//		} catch (Exception e) {
-//			log.error("注册失败");
-//			log.error(e.getMessage(), e);
-//			registerResult.initFailure(WebErrorCode.Error, e.getMessage());
-//		}
+		WebResult<String> rs = new WebResult<String>();
 
-		return registerResult;
+			WebResult<UserDO> registeResult = userBiz.register(registerVo);
+			if( registeResult == null || !registeResult.isSuccess() ){
+				rs.setWebReturnCode(registeResult.getWebReturnCode());
+				return rs ;
+			}
+			LoginDTO loginDTO = new LoginDTO() ;
+			loginDTO.setMobile(registerVo.getUsername());
+			loginDTO.setPassword(registerVo.getPassword());
+			loginDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+			WebResult<LoginResult> loginResult = userBiz.login(loginDTO);
+			if( loginResult == null || !loginResult.isSuccess() || loginResult.getValue() == null || StringUtils.isBlank(loginResult.getValue().getToken()) ){
+				rs.setWebReturnCode(loginResult.getWebReturnCode());
+				return rs ;
+			}
+			String token = loginResult.getValue().getToken() ; 
+			// 登录成功后跳转
+			rs.setValue("/user/toRegisterSuccess");
+			// token放到cookie中
+			setCookies(response, token);
+
+		return rs;
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)

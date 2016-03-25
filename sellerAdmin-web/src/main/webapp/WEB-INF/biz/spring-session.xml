@@ -22,6 +22,7 @@
 	</bean>
 	<bean id="sessionCacheManager" class="com.yimayhd.user.session.manager.cache.SessionCacheManager">
 		<property name="tairManager" ref="sessionTempDefaultTairManager"/>
+		<property name="env" value="${env}"></property>
 	</bean>
 	
 	<bean id="sessionManager" class="com.yimayhd.user.session.manager.SessionManager">
