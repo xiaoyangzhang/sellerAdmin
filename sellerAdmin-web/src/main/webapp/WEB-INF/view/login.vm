@@ -1,3 +1,8 @@
+<script>
+    var actionDefaultPath = '$!{utilWebconfig.getActionDefaultFontPath()}';
+    var tfsRootPath = '$!{utilWebconfig.getTfsRootPath()}';
+    var staticResourcesPath='$!{utilWebconfig.getStaticResourcesPath()}';
+</script>
 #set($layout = "/layout/blank.vm")
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/css/login.css" rel="stylesheet" />
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/supersized/supersized.css" rel="stylesheet" />

@@ -70,8 +70,8 @@ public class ResourceForSelectController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/selectLineDeparts")
-	public String selectLineDeparts() {
+	@RequestMapping(value = "/selectDeparts")
+	public String selectDeparts() {
 		List<CityVO> allLineDeparts = commLineService.getAllLineDeparts();
 		Map<String, List<CityVO>> departMap = new LinkedHashMap<String, List<CityVO>>();
 		for (CityVO cityVO : allLineDeparts) {
@@ -86,7 +86,8 @@ public class ResourceForSelectController extends BaseController {
 			}
 		}
 		put("departMap", departMap);
-		return "/system/resource/forSelect/selectLineDeparts";
+		put("citys", allLineDeparts);
+		return "/system/resource/forSelect/selectDeparts";
 	}
 
 	/**
