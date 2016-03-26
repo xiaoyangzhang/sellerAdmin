@@ -57,6 +57,10 @@ public class UserBiz {
 		registerDTO.setStep(RegisterStep.VERIFY_CODE);
 
 		result = userRepo.register(registerDTO);
+		
+		
+		
+		
 		return result ;
 
 	}
