@@ -101,7 +101,7 @@
 		$(this).remove();
     });
 	$(".select-departs").click(function() {
-		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectLineDeparts','选择出发地 ',function() {
+		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDeparts','选择出发地 ',function() {
 			var kas = win.getItems();
 			var content = $(".departs-content");
 			for(var i in kas) {

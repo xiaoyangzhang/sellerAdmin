@@ -1,0 +1,42 @@
+#set($layout="layout/blank.vm")
+<html>
+    <head>
+        #parse("layout/meta.vm")
+		<title>选择出发地</title>  
+        <meta name="keywords" content=""></meta>
+        <meta name="description" content=""></meta>
+		#parse("layout/base-link.vm")
+        <style>
+            .choosecity{padding-top:20px;}
+            .choosecity label,.choosecity input,.choosecity span{vertical-align:middle;margin:0;padding:0;outline:none;}
+            .choosecity label{font-size:14px;line-height:14px;color:#666;display:inline-block;margin-right:10px;cursor:pointer;}
+            .choosecity input.ck{height:14px;margin-bottom:2px;margin-right:5px;cursor:pointer;}
+        </style>
+    </head>
+    <body>
+        #foreach($key in $departMap.keySet())  
+        <div id="B" class="choosecity">
+        	<label>$!{key}:</label>
+        	#foreach($depart in $paramValues.get($key))  
+        	<label><input type="checkbox" class="city ck" depart-id="$!{depart.id}" depart-code="$!{depart.city.code}" depart-name="$!{depart.city.name}">$!{depart.city.name}</label>
+        	#end
+        </div>
+        #end
+        <br><br><br>
+		#parse("layout/base-js.vm")
+        <script>
+            function getSelected() {
+                var result = [];
+            	$("input:checkbox:checked")
+            	$(".ck:checked").each(function(){
+            		result.push({
+            			id:$(this).attr("depart-id"),
+            			name:$(this).attr("depart-name"),
+            			code:$(this).attr("depart-code")
+            		});
+            	});
+            	return result;
+            }
+        </script>
+    </body>
+</html>

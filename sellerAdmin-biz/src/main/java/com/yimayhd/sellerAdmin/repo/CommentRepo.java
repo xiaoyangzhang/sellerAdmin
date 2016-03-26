@@ -14,6 +14,7 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagInfoAddDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoDTO;
 import com.yimayhd.commentcenter.client.dto.TagOutIdTypeDTO;
+import com.yimayhd.commentcenter.client.dto.TagRelationDomainDTO;
 import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.query.TagPageQuery;
@@ -217,9 +218,12 @@ public class CommentRepo {
 		if (tagType == null) {
 			return new ArrayList<ComTagDO>(0);
 		}
-		RepoUtils.requestLog(log, "comCenterServiceRef.selectTagListByTagType", tagType.name());
-		BaseResult<List<ComTagDO>> tagResult = comCenterServiceRef.selectTagListByTagType(tagType.name());
-		RepoUtils.resultLog(log, "comCenterServiceRef.selectTagListByTagType", tagResult);
-		return tagResult.getValue();
+		TagRelationDomainDTO tagRelationDomainDTO = new TagRelationDomainDTO();
+		tagRelationDomainDTO.setDomain(Constant.DOMAIN_JIUXIU);
+		tagRelationDomainDTO.setOutType(tagType.name());
+		RepoUtils.requestLog(log, "comTagCenterServiceRef.selectTagListByTagType", tagRelationDomainDTO);
+		BaseResult<List<ComTagDO>> baseResult = comTagCenterServiceRef.selectTagListByTagType(tagRelationDomainDTO);
+		RepoUtils.resultLog(log, "comTagCenterServiceRef.selectTagListByTagType", baseResult);
+		return baseResult.getValue();
 	}
 }

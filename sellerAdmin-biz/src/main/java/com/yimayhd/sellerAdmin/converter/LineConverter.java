@@ -37,7 +37,6 @@ import com.yimayhd.ic.client.model.param.item.line.LinePubAddDTO;
 import com.yimayhd.ic.client.model.param.item.line.LinePubUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.line.LineUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.line.RouteItemUpdateDTO;
-import com.yimayhd.ic.client.model.param.item.line.RoutePubUpdateDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
@@ -90,7 +89,7 @@ public class LineConverter {
 	}
 
 	public static BaseInfoVO toBaseInfoVO(LineDO lineDO, ItemDO itemDO, List<TagDTO> themes, List<CityVO> departs,
-			List<TagDTO> dests) {
+			List<CityVO> dests) {
 		if (lineDO == null || itemDO == null) {
 			return null;
 		}
@@ -278,7 +277,7 @@ public class LineConverter {
 	}
 
 	public static LineVO toLineVO(LineResult lineResult, List<TagDTO> themes, List<CityVO> departs,
-			List<TagDTO> dests) {
+			List<CityVO> dests) {
 		if (lineResult == null) {
 			return null;
 		}
@@ -378,9 +377,8 @@ public class LineConverter {
 		dto.setLine(lineUpdateDTO);
 		// 行程信息
 		RouteInfoVO routeInfo = line.getRouteInfo();
+		RouteInfoDTO routeInfoDTO = toRouteInfoDTO(line.getRouteInfo());
 		if (routeInfo != null) {
-			RouteInfoDTO routeInfoDTO = toRouteInfoDTO(line.getRouteInfo());
-			dto.setRoute(routeInfoDTO.getRoute());
 			dto.setAddRouteItemList(routeInfoDTO.getAddRouteItemList());
 			dto.setUpdrouteItemList(routeInfoDTO.getUpdrouteItemList());
 			dto.setDelRouteItemList(routeInfoDTO.getDelRouteItemList());
@@ -402,10 +400,6 @@ public class LineConverter {
 			return null;
 		}
 		RouteInfoDTO target = new RouteInfoDTO();
-		// RouteDO
-		RoutePubUpdateDTO routeDTO = new RoutePubUpdateDTO();
-		routeDTO.setId(routeInfo.getRouteId());
-		target.setRoute(routeDTO);
 		// RouteItemDO List
 		// SKU分离
 		List<RouteItemDO> routeItemVOs = toRouteItemDOs(routeInfo.getRouteDays());
@@ -423,7 +417,6 @@ public class LineConverter {
 			for (RouteItemDO routeItemDO : routeItemVOs) {
 				if (routeItemDO.getId() <= 0) {
 					// 新增的没有RouteId要补上
-					routeItemDO.setRouteId(routeDTO.getId());
 					addRouteItemList.add(routeItemDO);
 				}
 			}

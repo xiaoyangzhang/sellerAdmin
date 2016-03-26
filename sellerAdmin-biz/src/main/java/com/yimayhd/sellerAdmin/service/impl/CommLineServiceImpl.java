@@ -67,7 +67,11 @@ public class CommLineServiceImpl implements CommLineService {
 		}
 		// 目的地
 		List<ComTagDO> destTags = commentRepo.getTags(id, TagType.DESRTPLACE);
-		List<TagDTO> dests = TagConverter.toTagDTO(destTags);
+		List<CityVO> dests = new ArrayList<CityVO>();
+		for (ComTagDO comTagDO : destTags) {
+			CityDTO cityDTO = cityRepo.getNameByCode(comTagDO.getName());
+			dests.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
+		}
 		return LineConverter.toLineVO(lineResult, themes, departs, dests);
 	}
 
@@ -157,7 +161,7 @@ public class CommLineServiceImpl implements CommLineService {
 					departIds.add(tagDTO.getId());
 				}
 				commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
-				List<TagDTO> dests = baseInfo.getDests();
+				List<CityVO> dests = baseInfo.getDests();
 				List<Long> destIds = new ArrayList<Long>();
 				for (TagDTO tagDTO : dests) {
 					destIds.add(tagDTO.getId());
@@ -186,7 +190,7 @@ public class CommLineServiceImpl implements CommLineService {
 					departIds.add(tagDTO.getId());
 				}
 				commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
-				List<TagDTO> dests = baseInfo.getDests();
+				List<CityVO> dests = baseInfo.getDests();
 				List<Long> destIds = new ArrayList<Long>();
 				for (TagDTO tagDTO : dests) {
 					destIds.add(tagDTO.getId());
