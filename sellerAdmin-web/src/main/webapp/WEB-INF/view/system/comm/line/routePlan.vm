@@ -1,3 +1,77 @@
-<div class="routePlan">
-	
+<div class="panel mt15">
+	<div class="panel-heading">
+		交通信息
+	</div>
+	<table class="table tab-inputgroup">
+		<tr>
+			<td>去程交通方式：</td>
+			<td>
+				<select class="form-control">
+					<option value="">请选择交通方式</option>
+					#foreach($way in $ways)
+        			<option value="${way.key}">${way.value}</option>
+        			#end
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>详细描述：</td>
+			<td>
+				<textarea class="form-control textarea-count" rows="3" placeholder="" maxlength="200"></textarea>
+				<span class="word-num">0/200字</span>
+			</td>
+		</tr>
+		<tr>
+			<td>回程交通方式：</td>
+			<td>
+				<select class="form-control">
+					<option value="">请选择交通方式</option>
+					#foreach($way in $ways)
+        			<option value="${way.key}">${way.value}</option>
+        			#end
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>详细描述：</td>
+			<td>
+				<textarea class="form-control textarea-count" rows="3" placeholder="" maxlength="200"></textarea>										
+				<span class="word-num">0/200字</span>
+			</td>
+		</tr>
+	</table>
 </div>
+<div class="panel">
+	<div class="panel-heading">
+		酒店信息
+	</div>
+	<table class="table tab-inputgroup">
+		<tr>
+			<td>酒店信息：</td>
+			<td>
+				<textarea class="form-control textarea-count" rows="3" placeholder="" maxlength="1000"></textarea>
+				<span class="word-num">0/1000字</span>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="panel mt15">
+	<div class="panel-heading">
+		景点信息
+	</div>
+	<table class="table tab-inputgroup">
+		<tr>
+			<td>酒店信息：</td>
+			<td>
+				<textarea class="form-control textarea-count" rows="3" placeholder="" maxlength="1000"></textarea>
+				<span class="word-num">0/1000字</span>
+			</td>
+		</tr>
+	</table>
+</div>
+<script type="text/javascript">
+	// 获取行程信息
+	function getRoutePlan() {
+        
+	}
+</script>

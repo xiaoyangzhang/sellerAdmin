@@ -6,7 +6,7 @@ import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
 import com.yimayhd.sellerAdmin.model.line.detail.PictureTextVO;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
 import com.yimayhd.sellerAdmin.model.line.price.PriceInfoVO;
-import com.yimayhd.sellerAdmin.model.line.route.FreeLineRouteVO;
+import com.yimayhd.sellerAdmin.model.line.route.RoutePlan;
 import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
 
 /**
@@ -19,7 +19,7 @@ public class LineVO implements Serializable {
 	private static final long serialVersionUID = -3473801970066242380L;
 	private BaseInfoVO baseInfo;// 基础信息
 	private PictureTextVO pictureText;// 图文详情
-	private FreeLineRouteVO freeLineRoute;// 行程计划
+	private RoutePlan freeLineRoute;// 行程计划
 	private RouteInfoVO routeInfo;// 行程信息
 	private PriceInfoVO priceInfo;// 价格信息
 	private NeedKnowVO needKnow;// 报名须知
@@ -74,11 +74,11 @@ public class LineVO implements Serializable {
 		this.routeInfo = routeInfo;
 	}
 
-	public FreeLineRouteVO getFreeLineRoute() {
+	public RoutePlan getFreeLineRoute() {
 		return freeLineRoute;
 	}
 
-	public void setFreeLineRoute(FreeLineRouteVO freeLineRoute) {
+	public void setFreeLineRoute(RoutePlan freeLineRoute) {
 		this.freeLineRoute = freeLineRoute;
 	}
 }

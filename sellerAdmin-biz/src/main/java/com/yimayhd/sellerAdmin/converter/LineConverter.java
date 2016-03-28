@@ -51,7 +51,7 @@ import com.yimayhd.sellerAdmin.model.line.price.PackageInfo;
 import com.yimayhd.sellerAdmin.model.line.price.PackageMonth;
 import com.yimayhd.sellerAdmin.model.line.price.PriceInfoDTO;
 import com.yimayhd.sellerAdmin.model.line.price.PriceInfoVO;
-import com.yimayhd.sellerAdmin.model.line.route.FreeLineRouteVO;
+import com.yimayhd.sellerAdmin.model.line.route.RoutePlan;
 import com.yimayhd.sellerAdmin.model.line.route.RouteDayVO;
 import com.yimayhd.sellerAdmin.model.line.route.RouteInfoDTO;
 import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
@@ -235,7 +235,7 @@ public class LineConverter {
 		return itemSkuDOs;
 	}
 
-	public static FreeLineRouteVO toFreeLineRouteVO(LineResult lineResult) {
+	public static RoutePlan toFreeLineRouteVO(LineResult lineResult) {
 		// TODO YEBIN 待开发
 		return null;
 	}
@@ -289,7 +289,7 @@ public class LineConverter {
 		result.setReadonly(item.getStatus() == ItemStatus.valid.getValue());
 		// 线路个性化部分 start
 		if (line.getType() == LineType.FREE_LINE.getType()) {
-			FreeLineRouteVO freeLineRoute = toFreeLineRouteVO(lineResult);
+			RoutePlan freeLineRoute = toFreeLineRouteVO(lineResult);
 			result.setFreeLineRoute(freeLineRoute);
 		}
 		// 行程信息

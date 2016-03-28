@@ -13,17 +13,17 @@
 	.int-only{ime-mode:"disabled"}
 </style>
 
+#parse("layout/base-js.vm")
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/jquery.form.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/addtravel.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/editer.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/upldf.js"></script>
 
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}" type="text/javascript"></script>
-<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}" type="text/javascript"></script>
+<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/moment.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/calendar-tool.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/input.js" type="text/javascript"></script>
-
 <!-- 富文本编辑 -->
 <!--
 <script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.config.js"></script>
@@ -37,11 +37,9 @@
 	<li>
       <a href="#tab2" data-toggle="tab">详细描述</a>
     </li>
-	#if($categoryId == 7)
 	<li>
-      <a href="#tab3" data-toggle="tab">套餐信息</a>
+      <a href="#tab3" data-toggle="tab">机酒景信息</a>
     </li>
-	#end
     <li>
       <a href="#tab4" data-toggle="tab">行程信息</a>
     </li>
@@ -59,11 +57,9 @@
 	<div class="tab-pane" id="tab2" style="width: 96%;margin: 15px auto;">
 		详细描述
     </div>
-	#if($categoryId == 7)
 	<div class="tab-pane tripPackageInfo" id="tab3">
-        #parse("/system/comm/line/selfServiceTravel/routePlan.vm")
+        #parse("/system/comm/line/routePlan.vm")
     </div>
-	#end
     <div class="tab-pane tripInfo" id="tab4">
         #parse("/system/comm/line/routeInfo.vm")
     </div>
@@ -80,43 +76,43 @@
 	<button class="btn btn-primary reload" onclick="location.reload();">重  载</button>
   </div>
   #end
-  <script type="text/javascript">
-    $(".save").click(function(){
-        var result = {
-            baseInfo:getBaseInfo(),
-            routeInfo:getRouteInfo(),
-            #if($categoryId == 7)
-			tripPackageInfo:getTripPackageInfo(),
-            #end
-            priceInfo:getPriceInfo(),
-			needKnow:getNeedKnow()
-        };
-		console.log(JSON.stringify(result.baseInfo));
-		console.log(JSON.stringify(result.routeInfo));
-		console.log(JSON.stringify(result.priceInfo));
-		console.log(JSON.stringify(result.needKnow));
-		//alert(JSON.stringify(result));
-		var params = {
-			json:JSON.stringify(result)
-		};
-        var url = "$!{utilWebconfig.getActionDefaultFontPath()}/line/save";
-		return;
-        $.post(url,params,function(data){
-			if(data.status == 200) {
-				layer.alert('添加成功', {
-                    time: 0 //不自动关闭
-                    ,yes: function(index){
-                        layer.close(index);
-						// 刷新父页面
-						top.freshPrevFrame();
-						top.tabTopClose(this);
-                    }
-                });
-			} else {
-				layer.alert(data.message, {
-					icon : 2
-				});
-			}
-        },"json");
-    });
-  </script>
+<script type="text/javascript">
+$(".save").click(function(){
+    var result = {
+        baseInfo:getBaseInfo(),
+        routeInfo:getRouteInfo(),
+        #if($categoryId == 7)
+		tripPackageInfo:getTripPackageInfo(),
+        #end
+        priceInfo:getPriceInfo(),
+		needKnow:getNeedKnow()
+    };
+	console.log(JSON.stringify(result.baseInfo));
+	console.log(JSON.stringify(result.routeInfo));
+	console.log(JSON.stringify(result.priceInfo));
+	console.log(JSON.stringify(result.needKnow));
+	//alert(JSON.stringify(result));
+	var params = {
+		json:JSON.stringify(result)
+	};
+    var url = "$!{utilWebconfig.getActionDefaultFontPath()}/line/save";
+	return;
+    $.post(url,params,function(data){
+		if(data.status == 200) {
+			layer.alert('添加成功', {
+                time: 0 //不自动关闭
+                ,yes: function(index){
+                    layer.close(index);
+					// 刷新父页面
+					top.freshPrevFrame();
+					top.tabTopClose(this);
+                }
+            });
+		} else {
+			layer.alert(data.message, {
+				icon : 2
+			});
+		}
+    },"json");
+});
+</script>
