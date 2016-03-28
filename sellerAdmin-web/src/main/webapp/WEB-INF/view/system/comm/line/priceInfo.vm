@@ -382,7 +382,6 @@
 			deletedSKU:deletedSKU,
 			limit:$(".day-limit").val() || 0
 		};
-		result["itemId"] = $("#item_id").val() || 0;
 		// alert(JSON.stringify(result));
 		return result;
 	}

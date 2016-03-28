@@ -80,14 +80,13 @@
 $(".save").click(function(){
     var result = {
         baseInfo:getBaseInfo(),
+		routePlan:getRoutePlan(),
         routeInfo:getRouteInfo(),
-        #if($categoryId == 7)
-		tripPackageInfo:getTripPackageInfo(),
-        #end
         priceInfo:getPriceInfo(),
 		needKnow:getNeedKnow()
     };
 	console.log(JSON.stringify(result.baseInfo));
+	console.log(JSON.stringify(result.routePlan));
 	console.log(JSON.stringify(result.routeInfo));
 	console.log(JSON.stringify(result.priceInfo));
 	console.log(JSON.stringify(result.needKnow));

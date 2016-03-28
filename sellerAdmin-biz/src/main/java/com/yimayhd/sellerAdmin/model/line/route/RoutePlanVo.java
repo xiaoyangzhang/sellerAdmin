@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author yebin
  *
  */
-public class RoutePlan implements Serializable {
+public class RoutePlanVo implements Serializable {
 	private static final long serialVersionUID = -8507331081900225417L;
 	private RouteTrafficVO go; // 去程
 	private RouteTrafficVO back;// 返程
