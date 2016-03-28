@@ -172,7 +172,7 @@
 	// 获取行程信息
 	function getBaseInfo() {
         var picUrls = [];
-		$(".picCode").each(function(){
+		$(".base-info").find(".picCode").each(function(){
 			var picCode = $(this).val();
 			if(picCode) { 
 				picUrls.push(picCode);
