@@ -10,16 +10,8 @@ import java.io.Serializable;
  */
 public class RouteTrafficVO implements Serializable {
 	private static final long serialVersionUID = -492091641597506573L;
-	private Integer type;
+	private String type;
 	private String description;
-
-	public Integer getType() {
-		return type;
-	}
-
-	public void setType(Integer type) {
-		this.type = type;
-	}
 
 	public String getDescription() {
 		return description;
@@ -27,6 +19,14 @@ public class RouteTrafficVO implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }
