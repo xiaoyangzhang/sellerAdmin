@@ -152,7 +152,6 @@
 				content.append("  ").append(btn);
 			}
 			return true;
-			return true;
 		});
 	});
 	// 获取行程信息
