@@ -30,8 +30,10 @@ import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.LoginDTO;
 import com.yimayhd.user.client.dto.RevivePasswordDTO;
 import com.yimayhd.user.client.result.login.LoginResult;
+import com.yimayhd.user.session.manager.SessionHelper;
 import com.yimayhd.user.session.manager.SessionManager;
 import com.yimayhd.user.session.manager.VerifyCodeManager;
+import com.yimayhd.user.session.manager.annot.SessionChecker;
 
 /**
  * 
@@ -104,25 +106,25 @@ public class UserController extends BaseController {
 	public WebResult<String> register(RegisterVo registerVo, HttpServletResponse response) {
 		WebResult<String> rs = new WebResult<String>();
 
-			WebResult<UserDO> registeResult = userBiz.register(registerVo);
-			if( registeResult == null || !registeResult.isSuccess() ){
-				rs.setWebReturnCode(registeResult.getWebReturnCode());
-				return rs ;
-			}
-			LoginDTO loginDTO = new LoginDTO() ;
-			loginDTO.setMobile(registerVo.getUsername());
-			loginDTO.setPassword(registerVo.getPassword());
-			loginDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-			WebResult<LoginResult> loginResult = userBiz.login(loginDTO);
-			if( loginResult == null || !loginResult.isSuccess() || loginResult.getValue() == null || StringUtils.isBlank(loginResult.getValue().getToken()) ){
-				rs.setWebReturnCode(loginResult.getWebReturnCode());
-				return rs ;
-			}
-			String token = loginResult.getValue().getToken() ; 
-			// 登录成功后跳转
-			rs.setValue("/user/toRegisterSuccess");
-			// token放到cookie中
-			setCookies(response, token);
+		WebResult<UserDO> registeResult = userBiz.register(registerVo);
+		if( registeResult == null || !registeResult.isSuccess() ){
+			rs.setWebReturnCode(registeResult.getWebReturnCode());
+			return rs ;
+		}
+		LoginDTO loginDTO = new LoginDTO() ;
+		loginDTO.setMobile(registerVo.getUsername());
+		loginDTO.setPassword(registerVo.getPassword());
+		loginDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+		WebResult<LoginResult> loginResult = userBiz.login(loginDTO);
+		if( loginResult == null || !loginResult.isSuccess() || loginResult.getValue() == null || StringUtils.isBlank(loginResult.getValue().getToken()) ){
+			rs.setWebReturnCode(loginResult.getWebReturnCode());
+			return rs ;
+		}
+		String token = loginResult.getValue().getToken() ; 
+		// 登录成功后跳转
+		rs.setValue("/user/toRegisterSuccess");
+		// token放到cookie中
+		SessionHelper.setCookies(response, token);
 
 		return rs;
 	}
@@ -147,7 +149,7 @@ public class UserController extends BaseController {
 			return result ;
 		}
 		String token = loginResult.getValue().getToken();
-		setCookies(response, token);
+		SessionHelper.setCookies(response, token);
 		
 		String targetUrl = null ;
 		String returnUrl = get("callback");
@@ -164,7 +166,7 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
 		sessionManager.removeToken(request);
-		cleanCookies(response);
+		SessionHelper.cleanCookies(response);
 		return new ModelAndView("redirect:" + Constant.LOGIN_URL);
 	}
 
@@ -187,12 +189,28 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public WebResultSupport sendRetrievePasswordVerifyCode(String username, String imageCode) {
 		WebResultSupport result = new WebResultSupport();
-//		if (!isTest()) { // 压力测试不校验
+		if (!isTest()) { // 压力测试不校验
 			if (StringUtils.isBlank(imageCode) || !verifyCodeManager.checkVerifyCode(imageCode)) {
 				result.setWebReturnCode(WebReturnCode.IMAGE_VERIFY_CODE_ERROR);
 				return result;
 			}
-//		}
+		}
+		result = userBiz.sendRetrievePasswordVerifyCode(username);
+		return result;
+	}
+	
+	@RequestMapping(value = "/modifyPassword", method = RequestMethod.GET) 
+	@SessionChecker
+	public ModelAndView modifyPassword(HttpServletRequest request, HttpServletResponse response) {
+		UserDO user = sessionManager.getUser(request);
+		request.setAttribute("user", user);
+		return new ModelAndView("/system/user/modifyPassword");
+	}
+	
+	@RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
+	@ResponseBody
+	public WebResultSupport modifyPassword(String username, String imageCode) {
+		WebResultSupport result = new WebResultSupport();
 		result = userBiz.sendRetrievePasswordVerifyCode(username);
 		return result;
 	}
@@ -276,43 +294,43 @@ public class UserController extends BaseController {
 //	 * 
 //	 * return verifyResult; }
 //	 */
-	private void setCookies(HttpServletResponse response, String token) {
-		if (StringUtils.isBlank(token)) {
-			return;
-		}
-		Cookie cookie = new Cookie(Constant.TOKEN_SERVER, token);
+//	private void setCookies(HttpServletResponse response, String token) {
+//		if (StringUtils.isBlank(token)) {
+//			return;
+//		}
+//		Cookie cookie = new Cookie(Constant.TOKEN_SERVER, token);
+////		cookie.setDomain(WebResourceConfigUtil.getDomain());
+//		cookie.setHttpOnly(true);
+//		cookie.setPath("/");
+//
+//		String token2 = UUID.randomUUID().toString();
+//		Cookie cookie2 = new Cookie(Constant.TOKEN_CLIENT, token2);
+////		cookie2.setDomain(WebResourceConfigUtil.getDomain());
+//		cookie2.setPath("/");
+//
+//		response.addCookie(cookie);
+//		response.addCookie(cookie2);
+//	}
+//
+//	private void cleanCookies(HttpServletResponse response) {
+//		Cookie cookie = new Cookie(Constant.TOKEN_SERVER, null);
 //		cookie.setDomain(WebResourceConfigUtil.getDomain());
-		cookie.setHttpOnly(true);
-		cookie.setPath("/");
-
-		String token2 = UUID.randomUUID().toString();
-		Cookie cookie2 = new Cookie(Constant.TOKEN_CLIENT, token2);
+//		cookie.setMaxAge(0);
+//		cookie.setPath("/");
+//
+//		Cookie cookie2 = new Cookie(Constant.TOKEN_CLIENT, null);
 //		cookie2.setDomain(WebResourceConfigUtil.getDomain());
-		cookie2.setPath("/");
-
-		response.addCookie(cookie);
-		response.addCookie(cookie2);
-	}
-
-	private void cleanCookies(HttpServletResponse response) {
-		Cookie cookie = new Cookie(Constant.TOKEN_SERVER, null);
-		cookie.setDomain(WebResourceConfigUtil.getDomain());
-		cookie.setMaxAge(0);
-		cookie.setPath("/");
-
-		Cookie cookie2 = new Cookie(Constant.TOKEN_CLIENT, null);
-		cookie2.setDomain(WebResourceConfigUtil.getDomain());
-		cookie2.setMaxAge(0);
-		cookie2.setPath("/");
-
-		// Cookie usernameCookie = new Cookie(COOKIE_USER_NAME, null);
-		// cookie2.setMaxAge(0);
-		// cookie2.setPath("/");
-
-		response.addCookie(cookie);
-		response.addCookie(cookie2);
-		// response.addCookie(usernameCookie);
-
-	}
+//		cookie2.setMaxAge(0);
+//		cookie2.setPath("/");
+//
+//		// Cookie usernameCookie = new Cookie(COOKIE_USER_NAME, null);
+//		// cookie2.setMaxAge(0);
+//		// cookie2.setPath("/");
+//
+//		response.addCookie(cookie);
+//		response.addCookie(cookie2);
+//		// response.addCookie(usernameCookie);
+//
+//	}
 
 }

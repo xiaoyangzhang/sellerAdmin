@@ -16,6 +16,7 @@ import com.yimayhd.sellerAdmin.converter.UserConverter;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.repo.UserRepo;
 import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.dto.ChangePasswordDTO;
 import com.yimayhd.user.client.dto.LoginDTO;
 import com.yimayhd.user.client.dto.RegisterDTO;
 import com.yimayhd.user.client.dto.RevivePasswordDTO;
@@ -95,6 +96,14 @@ public class UserBiz {
 		verifyCodeDTO.setMobile(mobile);
 		verifyCodeDTO.setSmsType(SmsType.RETRIVE_PASSWORD);
 		WebResultSupport result= userRepo.sendRegisterVerifyCode(verifyCodeDTO);
+		return result;
+	}
+	public WebResultSupport modifyPassword(long userId, String password, String oldPassword) {
+		ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO() ;
+		changePasswordDTO.setUserId(userId);
+		changePasswordDTO.setNewPassword(password);
+		changePasswordDTO.setOldPassword(oldPassword);
+		WebResultSupport result= userRepo.changePassword(changePasswordDTO);
 		return result;
 	}
 

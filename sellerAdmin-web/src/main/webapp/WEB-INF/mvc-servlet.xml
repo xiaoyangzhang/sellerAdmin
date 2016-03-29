@@ -60,7 +60,7 @@
         </property>
     </bean>
 
-	<!-- <mvc:annotation-driven></mvc:annotation-driven>
+	<mvc:annotation-driven></mvc:annotation-driven>
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
@@ -76,7 +76,7 @@
 				<property name="redirectLoginUrl" value="${login.url}"></property>
 			</bean>
 		</mvc:interceptor>
-	</mvc:interceptors> -->
+	</mvc:interceptors>
 
 
 </beans>

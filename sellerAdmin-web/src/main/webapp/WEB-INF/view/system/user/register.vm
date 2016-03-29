@@ -12,42 +12,6 @@
 		#parse("layout/header-login.vm")
 		<!-- 头部完成 -->
        <!-- 首页的中心部分开始 -->
-       <!-- 
-		<div id="ym-login-banner">
-			
-			<div class="login-body register">
-				<h1 class="title">用户注册</h1>
-				<h3>欢迎来到怡美假日，我们将用心去换您一路上的故事和风景！</h3>
-				<form action="$root_path/user/register" method="post" id="registerForm">					
-					<p class="btngroup clearfix">
-						<input type="text" class="textinput" name="nickname" id="loginname" placeholder="您的昵称" datatype="*" nullmsg="请输入您的昵称" autocomplete="off"/>
-						<span class="Validform_checktip"></span>
-					</p>
-					<p class="btngroup clearfix">
-						<input type="text" class="textinput" name="username" id="regmobile" placeholder="您的手机号" datatype="m" nullmsg="请输入您的手机号" errormsg="请您输入正确的手机号" autocomplete="off"/>
-						<span class="Validform_checktip"></span>
-					</p>
-					<p class="btngroup clearfix">
-						<input type="text" class="textinput sortinput" name="imgcode" id="imgcode" value="" placeholder="请输入图片验证码" datatype="/[0-9A-Za-z]{4,4}/" nullmsg="请输入验证码" errormsg="请输入4位验证码" autocomplete="off"/>
-						<img src="../../img/yanzheng.png" class="imgcode" width="152" height="48"/>
-						<span class="Validform_checktip"></span>
-					</p>
-					<p class="btngroup clearfix">
-						<input type="text" class="textinput sortinput" name="verifyCode" id="mobilecode" value="" placeholder="请输入验证码" datatype="/^\d{6,6}$/" nullmsg="请输入短信验证码" errormsg="请输入6位数字验证码" autocomplete="off"/>
-						<button class="getcodebtn" name="getcodebtn" id="getcodebtn" sendurl="$root_path/user/sendRegisterVerifyCode">获取验证码</button>
-						<span class="Validform_checktip"></span>
-					</p>
-					<p class="btngroup clearfix">
-						<input type="password" class="textinput" name="password" id="userpwd" placeholder="请输入6-16位字母、数字密码" datatype="/[0-9A-Za-z]{6,16}/" nullmsg="请输入您的密码" errormsg="请输入6-16位字母、数字密码" autocomplete="off"/>
-						<span class="Validform_checktip"></span>
-					</p>
-					<p class="last">注册表示您已经同意<a href="$root_path/user/toServiceterm">《服务条款》</a></p>
-					<input type="submit" id="regSubmitBtn" class="winloginbtn" value="注册"/>
-					<p class="last">已有账号 <a href="$root_path/user/toLogin">立即登录</a></p>
-				</form>			
-			</div>
-		</div>
-		 -->
 		 
 		 <div id="ym-login-banner">
 			<div class="login-body register">

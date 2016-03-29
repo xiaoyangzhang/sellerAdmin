@@ -14,6 +14,7 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.dto.ChangePasswordDTO;
 import com.yimayhd.user.client.dto.LoginDTO;
 import com.yimayhd.user.client.dto.RegisterDTO;
 import com.yimayhd.user.client.dto.RevivePasswordDTO;
@@ -41,8 +42,6 @@ public class UserRepo {
 	@Resource
 	private UserSecurityService userSecurityServiceRef;
 	
-	
-
 
 	/**
 	 * 通过ID查询用户信息
@@ -231,10 +230,6 @@ public class UserRepo {
 	@MethodLogger
 	public WebResultSupport sendRegisterVerifyCode(VerifyCodeDTO verifyCodeDTO){
 		WebResultSupport result = new WebResultSupport() ;
-//		VerifyCodeDTO verifyCodeDTO = new VerifyCodeDTO() ;
-//		verifyCodeDTO.setDomainId(registerDTO.getDomainId());
-//		verifyCodeDTO.setMobile(registerDTO.getMobile());
-//		verifyCodeDTO.setSmsType(SmsType.REGISTER);
 		ResultSupport rs = userSecurityServiceRef.sendSmsVerfiyCode(verifyCodeDTO);
 		if(rs == null || !rs.isSuccess() ){
 			log.error("sendSmsVerfiyCode  failed!  verifyCodeDTO={}, Result={}", JSON.toJSONString(verifyCodeDTO), JSON.toJSONString(rs) );
@@ -261,45 +256,38 @@ public class UserRepo {
 		}
 		return result;
 	}
+	@MethodLogger
+	public WebResultSupport changePassword(ChangePasswordDTO changePasswordDTO){
+		WebResultSupport result = new WebResultSupport() ;
+		if (changePasswordDTO == null || changePasswordDTO.getUserId() <= 0
+				|| StringUtils.isBlank(changePasswordDTO.getNewPassword())
+				|| StringUtils.isBlank(changePasswordDTO.getOldPassword()) ) {
+			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+			return result ;
+		}
+		ResultSupport rs = userSecurityServiceRef.changePassword(changePasswordDTO);
+		if(rs == null || !rs.isSuccess() ){
+			log.error("changePassword  failed!  changePasswordDTO={}, Result={}", JSON.toJSONString(changePasswordDTO), JSON.toJSONString(rs) );
+			if( rs == null ){
+				result.setWebReturnCode(WebReturnCode.REMOTE_CALL_FAILED);
+				return result ;
+			}else{
+				int code = rs.getErrorCode();
+				if( UserServiceHttpCode.PARAMETER_ERROR.getCode() == code ){
+					result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+				}else if( UserServiceHttpCode.USER_NOT_FOUND.getCode() == code ){
+					result.setWebReturnCode(WebReturnCode.USER_NOT_FOUND);
+				}else if( UserServiceHttpCode.PASSWORD_ERROR.getCode() == code ){
+					result.setWebReturnCode(WebReturnCode.PASSWORD_ERROR);
+				}else{
+					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+				}
+			}
+			return result ;
+		}
+		return result;
+	}
 
-//	/**
-//	 * 
-//	 * sendRetrievePasswordVerifyCode:(找回密码发送短信验证码). <br/>
-//	 * 
-//	 * @author zhangjian
-//	 * @param revivePasswordDTO
-//	 * @return
-//	 * @throws BizException
-//	 */
-//	@MethodLogger
-//	public WebResultSupport sendRetrievePasswordVerifyCode(RevivePasswordDTO revivePasswordDTO) {
-//		WebResultSupport result = new WebResultSupport();
-//		// 首先校验短信验证码是否正确
-//		revivePasswordDTO.setStep(RevivePasswordStep.SEND_VERIFY_CODE);
-//		ResultSupport verifyResult = userSecurityServiceRef.retrievePassword(revivePasswordDTO);
-//		if(verifyResult == null || !verifyResult.isSuccess() ){
-//			log.error("retrievePassword  send password failed!  RevivePasswordDTO={}, Result={}", JSON.toJSONString(revivePasswordDTO), JSON.toJSONString(verifyResult) );
-//			if( verifyResult == null ){
-//				result.setWebReturnCode(WebReturnCode.REMOTE_CALL_FAILED);
-//				return result ;
-//			}else{
-//				int code = verifyResult.getErrorCode();
-//				if( UserServiceHttpCode.PARAMETER_ERROR.getCode() == code ){
-//					result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
-//				}else if( UserServiceHttpCode.UNSUPPORTED_PHONE_NUM.getCode() == code ){
-//					result.setWebReturnCode(WebReturnCode.MOBILE_NUM_ERROR);
-//				}else if( UserServiceHttpCode.MOBILE_NOT_REGIST.getCode() == code ){
-//					result.setWebReturnCode(WebReturnCode.MOBILE_NOT_REGIST);
-//				}else if( UserServiceHttpCode.SMS_SEND_ING.getCode() == code ){
-//					result.setWebReturnCode(WebReturnCode.SMS_SEND_ING);
-//				}else{
-//					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
-//				}
-//			}
-//			return result ;
-//		}
-//		return result;
-//	}
 
 	/**
 	 * 

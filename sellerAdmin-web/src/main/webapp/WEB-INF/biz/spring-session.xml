@@ -3,10 +3,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
-            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd"
-       >
+            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+           	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd" >
     
 	
 
@@ -32,5 +34,15 @@
 	<bean id="verifyCodeManager" class="com.yimayhd.user.session.manager.VerifyCodeManager">
 		<property name="sessionCacheManager" ref="sessionCacheManager"></property>
 	</bean>
+	
+	
+    <bean id="sessionCheckerInterceptor" class="com.yimayhd.user.session.manager.annot.SessionCheckerInterceptor" >
+    	<property name="redirectLoginUrl" value="${login.url}"></property>
+    </bean>
+	<aop:config>
+		<aop:pointcut id="sessionChecker" expression="@annotation(com.yimayhd.user.session.manager.annot.SessionChecker)" />
+		<aop:advisor advice-ref="sessionCheckerInterceptor" pointcut-ref="sessionChecker" />
+	</aop:config>
+	
     
 </beans>
