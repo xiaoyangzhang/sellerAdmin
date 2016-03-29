@@ -2,7 +2,7 @@
 <html>
     <head>
         #parse("layout/meta.vm")
-		<title>选择出发地</title>  
+		<title>选择目的地</title>  
         <meta name="keywords" content=""></meta>
         <meta name="description" content=""></meta>
 		#parse("layout/base-link.vm")
@@ -14,11 +14,11 @@
         </style>
     </head>
     <body>
-        #foreach($key in $destMap.keySet())  
-        <div id="$!{key}" class="choosecity">
-        	<label>$!{key}:</label>
-        	#foreach($dest in $paramValues.get($key))  
-        	<label><input type="checkbox" class="city ck" depart-id="$!{dest.id}" depart-code="$!{dest.city.code}" depart-name="$!{dest.city.name}">$!{dest.city.name}</label>
+        #foreach($entry in $destMap.entrySet())  
+        <div id="$!{entry.key}" class="choosecity">
+        	<label>$!{entry.key}:</label>
+        	#foreach($dest in $entry.value)  
+        	<label><input type="checkbox" class="city ck" dest-id="$!{dest.id}" dest-code="$!{dest.city.code}" dest-name="$!{dest.city.name}">$!{dest.city.name}</label>
         	#end
         </div>
         #end
@@ -30,9 +30,9 @@
             	$("input:checkbox:checked")
             	$(".ck:checked").each(function(){
             		result.push({
-            			id:$(this).attr("depart-id"),
-            			name:$(this).attr("depart-name"),
-            			code:$(this).attr("depart-code")
+            			id:$(this).attr("dest-id"),
+            			name:$(this).attr("dest-name"),
+            			code:$(this).attr("dest-code")
             		});
             	});
             	return result;

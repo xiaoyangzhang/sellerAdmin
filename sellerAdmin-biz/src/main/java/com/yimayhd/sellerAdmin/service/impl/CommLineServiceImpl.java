@@ -104,8 +104,14 @@ public class CommLineServiceImpl implements CommLineService {
 	}
 
 	@Override
-	public List<ComTagDO> getAllLineDests() {
-		return commentRepo.getTagsByTagType(TagType.DESRTPLACE);
+	public List<CityVO> getAllLineDests() {
+		List<ComTagDO> comTagDOs = commentRepo.getTagsByTagType(TagType.DESRTPLACE);
+		List<CityVO> cityVOs = new ArrayList<CityVO>();
+		for (ComTagDO comTagDO : comTagDOs) {
+			CityDTO cityDTO = cityRepo.getNameByCode(comTagDO.getName());
+			cityVOs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
+		}
+		return cityVOs;
 	}
 
 	@Override

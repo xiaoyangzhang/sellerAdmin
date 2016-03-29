@@ -150,7 +150,7 @@
 		$(this).remove();
     });
 	$(".select-dests").click(function() {
-		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectTravelKa','选择旅游咖 ',function() {
+		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDests','选择旅游咖 ',function() {
 			var kas = win.getItems();
 			var content = $(".dests-content");
 			for(var i in kas) {
