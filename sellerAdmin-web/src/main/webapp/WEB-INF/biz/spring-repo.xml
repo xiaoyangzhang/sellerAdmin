@@ -21,4 +21,5 @@
 
 
 	<bean id="userRepo" class="com.yimayhd.sellerAdmin.repo.UserRepo" />
+	<bean id="businessShopRepo" class="com.yimayhd.sellerAdmin.repo.BusinessShopRepo" />
 </beans>

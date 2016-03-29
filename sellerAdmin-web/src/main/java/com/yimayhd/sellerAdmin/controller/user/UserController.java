@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.controller.user;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
@@ -22,14 +25,18 @@ import com.yimayhd.sellerAdmin.biz.UserBiz;
 import com.yimayhd.sellerAdmin.checker.UserChecker;
 import com.yimayhd.sellerAdmin.checker.result.CheckResult;
 import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.constant.ResponseStatus;
 import com.yimayhd.sellerAdmin.converter.UserConverter;
 import com.yimayhd.sellerAdmin.model.vo.user.LoginVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RetrievePasswordVo;
 import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
+import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.LoginDTO;
 import com.yimayhd.user.client.dto.RevivePasswordDTO;
+import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.result.login.LoginResult;
+import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionHelper;
 import com.yimayhd.user.session.manager.SessionManager;
 import com.yimayhd.user.session.manager.VerifyCodeManager;
@@ -55,6 +62,8 @@ public class UserController extends BaseController {
 	private SessionManager sessionManager;
 	@Autowired
 	private VerifyCodeManager verifyCodeManager;
+	@Autowired
+	private UserService userService;
 	
 
 	@RequestMapping(value = "/toLogin")
@@ -318,6 +327,28 @@ public class UserController extends BaseController {
 		response.addCookie(cookie2);
 		// response.addCookie(usernameCookie);
 
+	}
+	
+	/**
+	 * 判断用户昵称是否存在
+	 * @return
+	 */
+	@RequestMapping(value= "/chargeUserNickName")
+	public WebResultSupport chargeUserNickName(String nickName){
+		WebResultSupport webResult = new WebResultSupport();
+			
+	    BaseResult<List<UserDO>> result = userService.getUserByNickname(nickName.trim());
+	   
+	    if(result.isSuccess()){
+	    	if(result.getValue().size()<1){
+	    		webResult.isSuccess();
+	    	}else{
+	    		webResult.setWebReturnCode(WebReturnCode.USER_NICKNAME_EXIT);
+	    	}
+		}else{
+			webResult.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+		}
+		return webResult;
 	}
 
 }
