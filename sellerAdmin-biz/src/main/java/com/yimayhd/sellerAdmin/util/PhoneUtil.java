@@ -1,9 +1,23 @@
 package com.yimayhd.sellerAdmin.util;
 
+import com.yimayhd.sellerAdmin.constant.Constant;
+
 /**
  * Created by Administrator on 2015/12/9.
  */
 public class PhoneUtil {
+	
+	public static String getMobile(String mobile){
+		if( mobile == null ){
+			return null;
+		}
+		int index = mobile.indexOf(Constant.MOBILE_PRE);
+		if( index > 0 ){
+			mobile = mobile.substring(index);
+		}
+		return mobile ;
+	}
+	
     /**
      * 电话去掉+86
      * @param phone
