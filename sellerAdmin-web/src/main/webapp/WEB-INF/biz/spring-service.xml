@@ -23,8 +23,6 @@
 	<bean class="com.yimayhd.sellerAdmin.service.impl.HotelRPCServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.FacilityIconServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.ScenicServiceImpl"></bean>
-	<!-- <bean id="config" class="com.yimayhd.palacee.config.ResourceConfig" init-method="init">
-		</bean> -->
 
 	<!-- resources -->
 	<bean class="com.yimayhd.sellerAdmin.service.impl.RcBoothServiceImpl"></bean>
@@ -35,8 +33,6 @@
 	<bean class="com.yimayhd.sellerAdmin.service.impl.HomeCfgServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.PeripheryCfgServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.DiscoveryCfgServiceImpl"></bean>
-	<!-- <bean id="config" class="com.yimayhd.palacee.config.ResourceConfig" init-method="init">
-		</bean> -->
 	<!-- system -->
 	<!--<bean class="com.yimayhd.sellerAdmin.service.impl.SystemManageServiceImpl" />-->
 	<bean class="com.yimayhd.sellerAdmin.service.impl.TfsServiceImpl" />

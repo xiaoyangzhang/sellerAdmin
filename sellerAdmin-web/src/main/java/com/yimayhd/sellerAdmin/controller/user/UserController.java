@@ -1,8 +1,5 @@
 package com.yimayhd.sellerAdmin.controller.user;
 
-import java.util.UUID;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,6 +15,7 @@ import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.biz.MenuBiz;
 import com.yimayhd.sellerAdmin.biz.UserBiz;
 import com.yimayhd.sellerAdmin.checker.UserChecker;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -25,7 +23,6 @@ import com.yimayhd.sellerAdmin.converter.UserConverter;
 import com.yimayhd.sellerAdmin.model.vo.user.LoginVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RetrievePasswordVo;
-import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.LoginDTO;
 import com.yimayhd.user.client.dto.RevivePasswordDTO;
@@ -55,6 +52,7 @@ public class UserController extends BaseController {
 	private SessionManager sessionManager;
 	@Autowired
 	private VerifyCodeManager verifyCodeManager;
+	
 	
 
 	@RequestMapping(value = "/toLogin")

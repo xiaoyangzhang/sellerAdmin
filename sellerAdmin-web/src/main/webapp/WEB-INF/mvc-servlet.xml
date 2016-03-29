@@ -67,6 +67,14 @@
 			<bean class="com.yimayhd.user.session.manager.interceptor.UserInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.yimayhd.sellerAdmin.interceptor.UserContextInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
