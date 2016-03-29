@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Arrays;
 import java.util.List;
-
+ 
 /**
  * 店铺优惠管理
  * @author czf

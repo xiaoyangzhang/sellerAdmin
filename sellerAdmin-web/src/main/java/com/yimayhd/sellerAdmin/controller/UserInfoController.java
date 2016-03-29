@@ -31,7 +31,7 @@ public class UserInfoController extends BaseController {
 
 	@Autowired
 	private SessionManager sessionManager;
-	/**
+	/** 
 	 * 用户列表
 	 * 
 	 * @param model

@@ -30,7 +30,7 @@ public class TravelOfficialManageController extends BaseController {
 	@Autowired
 	private TravelOfficialService travelOfficialService;
 
-	/**
+	/** 
 	 * 官方游记列表
 	 * 
 	 * @return 官方游记列表

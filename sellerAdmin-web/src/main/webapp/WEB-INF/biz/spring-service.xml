@@ -58,4 +58,6 @@
 	<bean class="com.yimayhd.gf.service.impl.CommodityServiceImpl"></bean>
 
 	<bean class="com.yimayhd.sellerAdmin.service.impl.UserServiceImpl"></bean>
-</beans>
+	<!-- 达人信息 -->
+ 	<!-- <bean class="com.yimayhd.sellerAdmin.service.impl.TalentInfoDealServiceImpl"></bean> -->
+ </beans>

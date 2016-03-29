@@ -31,7 +31,7 @@ import com.yimayhd.sellerAdmin.constant.ResponseStatus;
  * @Description: GF商品标签管理
  */
 @Controller
-@RequestMapping("/GF/TagManager")
+@RequestMapping("/GF/TagManager") 
 public class GFTagManagerController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(GFTagManagerController.class);

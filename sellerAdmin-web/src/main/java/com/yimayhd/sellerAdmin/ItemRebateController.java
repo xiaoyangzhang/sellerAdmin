@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Time: 10:32
  * To change this template use File | Settings | File Templates.
  */
-@Controller
+@Controller 
 @RequestMapping(value = "/itemRebate")
 public class ItemRebateController extends BaseController {
 	

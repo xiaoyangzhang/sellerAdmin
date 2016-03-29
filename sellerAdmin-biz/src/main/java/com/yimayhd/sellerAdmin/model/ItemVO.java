@@ -69,7 +69,7 @@ public class ItemVO extends ItemDO {
             itemDO.setItemSkuDOList(itemSkuDOList);
         }
 
-        ItemFeature itemFeature = itemDO.getItemFeature();;
+        ItemFeature itemFeature = itemDO.getItemFeature();
         if (itemDO.getItemFeature() == null) {
             itemFeature = new ItemFeature(null);
             itemDO.setItemFeature(itemFeature);
