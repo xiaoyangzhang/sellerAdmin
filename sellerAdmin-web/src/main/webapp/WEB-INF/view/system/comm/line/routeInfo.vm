@@ -90,8 +90,21 @@
 				var images = $("<div class='panel trip-images'></div>");
                 images.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-exclamation-sign'></i><span class='tripAddSp'>行程图片</span></div>"));
                 var images_content = $("<div class='panel-body trip-images-content'></div>");
-				
-                images.append(images_content);	
+				var image_size = 5;
+				while(image_size > 0) {
+    				var image = $("<div class='imgbox'/>");
+    				var image_form = $("<form action='$!{utilWebconfig.getActionDefaultFontPath()}/upload/file' method='post' class='imgform' enctype='multipart/form-data'/>");
+    				var dimg = $("<div class='dimg'/>")
+    					.append("<img src='data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==' img-root='$!utilWebconfig.getTfsRootPath()'/>")
+						.append("<input type='hidden' class='picCode day_"+dayId+"_trip_image'/>");
+    				var upimgbtn = $("<div class='upimgbtn'/>")
+    					.append("<input type='file' name='picfile' class='picfile'>")
+    					.append("<button class='upl'>上传图片</button>")
+    					.append("<button class='del'>删除图片</button>");
+    				images_content.append(image.append(image_form.append(dimg).append(upimgbtn)));
+                	image_size--;
+				}
+				images.append(images_content);	
 				page.append(images);
 				return page;
 			}
@@ -165,6 +178,13 @@
 				day["routeItemId"] = $("#day_"+day_id+"_trip_description").attr("route-item-id");
 				day["title"] = $("#day_"+day_id+"_trip_title").val()||"";
 				day["description"] = $("#day_"+day_id+"_trip_description").val()||"";
+				var picUrls = [];
+				$(".day_"+day_id+"_trip_image").each(function() {
+					if($(this).val()) {
+						picUrls.push($(this).val());
+					}
+				});
+				day["picUrls"]=picUrls;
 				result.push(day);
 			});
 			// alert(JSON.stringify(result));

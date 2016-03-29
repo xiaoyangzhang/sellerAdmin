@@ -18,7 +18,6 @@ var fileUpload = function(id,type,callBack){//id：上传控件筛选器（‘#i
         if(data && data.status == 200){
             var errMessage = new Array();
             for(key in data.data){
-                alert(data.data[key]);
                 if(!data.data[key] || data.data[key] === "null" || data.data[key].length < 10){
                     delete data.data[key];
                     errMessage.push(key);
@@ -30,7 +29,6 @@ var fileUpload = function(id,type,callBack){//id：上传控件筛选器（‘#i
         }
         //执行回调
         callBack(data,id);
-
     };
     //xhr.addEventListener("load", uploadComplete, false);
     xhr.addEventListener("error", function(a,b,data){

@@ -15,7 +15,7 @@
     </head>
     <body>
         #foreach($key in $destMap.keySet())  
-        <div id="B" class="choosecity">
+        <div id="$!{key}" class="choosecity">
         	<label>$!{key}:</label>
         	#foreach($dest in $paramValues.get($key))  
         	<label><input type="checkbox" class="city ck" depart-id="$!{dest.id}" depart-code="$!{dest.city.code}" depart-name="$!{dest.city.name}">$!{dest.city.name}</label>

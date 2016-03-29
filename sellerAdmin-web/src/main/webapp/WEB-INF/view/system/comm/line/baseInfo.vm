@@ -1,3 +1,4 @@
+
 <table border="0" class="table tab-inputgroup base-info">
 	<tbody>
 		<tr>
@@ -52,44 +53,69 @@
 			<td>
 				<div class="uploadbox clearfix">
 					<div class="imgbox">
-						<div class="dimg">
-							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-						</div>
-						<div class="upimgbtn">
-							<input type="file" name="picfile" class="picfile">
-							<button class="upl">上传图片</button>
-							<button class="del">删除图片</button>
-						</div>
+						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
+							<div class="dimg">
+								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode">
+							</div>
+							<div class="upimgbtn">
+								<input type="file" name="picfile" class="picfile">
+								<button class="upl">上传图片</button>
+								<button class="del">删除图片</button>
+							</div>													
+						</form>
 					</div>
 					<div class="imgbox">
-						<div class="dimg">
-							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-						</div>
-						<div class="upimgbtn">
-							<input type="file" name="picfile" class="picfile">
-							<button class="upl">上传图片</button>
-							<button class="del">删除图片</button>
-						</div>
+						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
+							<div class="dimg">
+								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode">
+							</div>
+							<div class="upimgbtn">
+								<input type="file" name="picfile" class="picfile">
+								<button class="upl">上传图片</button>
+								<button class="del">删除图片</button>
+							</div>													
+						</form>
 					</div>
 					<div class="imgbox">
-						<div class="dimg">
-							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-						</div>
-						<div class="upimgbtn">
-							<input type="file" name="picfile" class="picfile">
-							<button class="upl">上传图片</button>
-							<button class="del">删除图片</button>
-						</div>
+						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
+							<div class="dimg">
+								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode">
+							</div>
+							<div class="upimgbtn">
+								<input type="file" name="picfile" class="picfile">
+								<button class="upl">上传图片</button>
+								<button class="del">删除图片</button>
+							</div>													
+						</form>
 					</div>
 					<div class="imgbox">
-						<div class="dimg">
-							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-						</div>
-						<div class="upimgbtn">
-							<input type="file" name="picfile" class="picfile">
-							<button class="upl">上传图片</button>
-							<button class="del">删除图片</button>
-						</div>
+						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
+							<div class="dimg">
+								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode">
+							</div>
+							<div class="upimgbtn">
+								<input type="file" name="picfile" class="picfile">
+								<button class="upl">上传图片</button>
+								<button class="del">删除图片</button>
+							</div>													
+						</form>
+					</div>
+					<div class="imgbox">
+						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
+							<div class="dimg">
+								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode">
+							</div>
+							<div class="upimgbtn">
+								<input type="file" name="picfile" class="picfile">
+								<button class="upl">上传图片</button>
+								<button class="del">删除图片</button>
+							</div>													
+						</form>
 					</div>
 				</div>
 			</td>
@@ -146,6 +172,12 @@
 	// 获取行程信息
 	function getBaseInfo() {
         var picUrls = [];
+		$(".base-info").find(".picCode").each(function(){
+			var picCode = $(this).val();
+			if(picCode) { 
+				picUrls.push(picCode);
+			}
+		});
 		var themes = [];
 		$(".productTag:checked").each(function(){
 			themes.push($(this).attr("rId"));
