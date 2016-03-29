@@ -16,15 +16,13 @@
 		<tr>
 			<td>*出发地：</td>
 			 <td>
-				<div><button type="button" class="btn btn-success select-departs">选择出发地</button></div>
-				<div><span id="departs-content"></span></div>
+				<div><button type="button" class="btn btn-success select-departs">选择出发地</button><span id="departs-content"></span></div>
 			 </td>
 		</tr>
 		<tr>
 			<td>*目的地：</td>
 			<td>
-				<div><button type="button" class="btn btn-success select-dests">选择目的地</button></div>
-				<div><span id="dests-content"></span></div>
+				<div><button type="button" class="btn btn-success select-dests">选择目的地</button> <span id="dests-content"></span></div>
 			</td>
 		</tr>
 		<tr>
@@ -123,49 +121,37 @@
 	</tbody>
 </table>
 <script type="text/javascript">
-	$(document).delegate(".departs",'click',function() { 
+	$(document).delegate(".remove-self",'click',function() { 
 		$(this).remove();
     });
 	$(".select-departs").click(function() {
 		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDeparts','选择出发地 ',function() {
-			var kas = win.getItems();
-			var content = $(".departs-content");
-			for(var i in kas) {
-				var ka = kas[i];
-				var name = ka.nickName || ka.name;
-				if($(".masters[rName='"+ka.name+"']").length > 0) continue;
-				var btn = $("<button class='btn btn-info masters'>"+name+"</button>");
-				btn.click(function(){
-					$(this).remove();
-				});
-				btn.attr("rName",ka.name);
+			var departs = win.getSelected();
+			console.log(JSON.stringify(departs));
+			var content = $("#departs-content");
+			for(i in departs) {
+				var depart = departs[i];
+				if($(".departs[rId='"+depart.id+"']").length > 0) continue;
+				var btn = $("<button class='btn btn-info departs remove-self'>"+depart.name+"</button>");
+				btn.attr("rId", depart.id);
 				content.append("  ").append(btn);
 			}
-			//console.log(JSON.stringify(kas));
-			//一般设定yes回调，必须进行手工关闭
 			return true;
 		});
 	});
-	$(document).delegate(".dests",'click',function() { 
-		$(this).remove();
-    });
 	$(".select-dests").click(function() {
-		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/B2C/resourceForSelect/selectTravelKa','选择旅游咖 ',function() {
-			var kas = win.getItems();
-			var content = $(".dests-content");
-			for(var i in kas) {
-				var ka = kas[i];
-				var name = ka.nickName || ka.name;
-				if($(".masters[rName='"+ka.name+"']").length > 0) continue;
-				var btn = $("<button class='btn btn-info masters'>"+name+"</button>");
-				btn.click(function(){
-					$(this).remove();
-				});
-				btn.attr("rName",ka.name);
+		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDests','选择旅游咖 ',function() {
+			var dests = win.getSelected();
+			console.log(JSON.stringify(dests));
+			var content = $("#dests-content");
+			for(i in dests) {
+				var dest = dests[i];
+				if($(".dests[rId='"+dest.id+"']").length > 0) continue;
+				var btn = $("<button class='btn btn-info dests remove-self'>"+dest.name+"</button>");
+				btn.attr("rId", dest.id);
 				content.append("  ").append(btn);
 			}
-			//console.log(JSON.stringify(kas));
-			//一般设定yes回调，必须进行手工关闭
+			return true;
 			return true;
 		});
 	});
@@ -183,7 +169,13 @@
 			themes.push($(this).attr("rId"));
 		});
 		var departs = [];
+		$(".departs").each(function(){
+			departs.push({id:$(this).attr("rId")});
+		});
 		var dests = [];
+		$(".dests").each(function(){
+			dests.push({id:$(this).attr("rId")});
+		});
 		var result = {
 			#if($product)
 			lineId:$!{product.baseInfo.lineId},
