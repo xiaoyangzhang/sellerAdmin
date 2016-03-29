@@ -70,7 +70,7 @@ public interface CommLineService {
 	 * 
 	 * @return
 	 */
-	List<ComTagDO> getAllLineDests();
+	List<CityVO> getAllLineDests();
 
 	/**
 	 * 获取线路Property配置

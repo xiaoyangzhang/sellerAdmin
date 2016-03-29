@@ -60,8 +60,8 @@
         </property>
     </bean>
 
-	<!-- <mvc:annotation-driven></mvc:annotation-driven>
-	<mvc:interceptors>
+	<mvc:annotation-driven></mvc:annotation-driven>
+	<!-- <mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
 			<bean class="com.yimayhd.user.session.manager.interceptor.UserInterceptor"></bean>

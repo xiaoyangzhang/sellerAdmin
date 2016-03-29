@@ -1,6 +1,1 @@
-<script>
-    var actionDefaultPath = '$!{utilWebconfig.getActionDefaultFontPath()}';
-    var tfsRootPath = '$!{utilWebconfig.getTfsRootPath()}';
-    var staticResourcesPath='$!{utilWebconfig.getStaticResourcesPath()}';
-</script>
 $screen_content

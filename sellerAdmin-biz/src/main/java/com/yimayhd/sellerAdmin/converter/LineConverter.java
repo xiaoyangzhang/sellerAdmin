@@ -24,6 +24,8 @@ import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.domain.share_json.LinePropertyType;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.domain.share_json.RouteItemDetail;
+import com.yimayhd.ic.client.model.domain.share_json.RoutePlan;
+import com.yimayhd.ic.client.model.domain.share_json.RouteTrafficInfo;
 import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
@@ -37,7 +39,6 @@ import com.yimayhd.ic.client.model.param.item.line.LinePubAddDTO;
 import com.yimayhd.ic.client.model.param.item.line.LinePubUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.line.LineUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.line.RouteItemUpdateDTO;
-import com.yimayhd.ic.client.model.param.item.line.RoutePubUpdateDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
@@ -52,10 +53,11 @@ import com.yimayhd.sellerAdmin.model.line.price.PackageInfo;
 import com.yimayhd.sellerAdmin.model.line.price.PackageMonth;
 import com.yimayhd.sellerAdmin.model.line.price.PriceInfoDTO;
 import com.yimayhd.sellerAdmin.model.line.price.PriceInfoVO;
-import com.yimayhd.sellerAdmin.model.line.route.FreeLineRouteVO;
 import com.yimayhd.sellerAdmin.model.line.route.RouteDayVO;
 import com.yimayhd.sellerAdmin.model.line.route.RouteInfoDTO;
 import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
+import com.yimayhd.sellerAdmin.model.line.route.RoutePlanVo;
+import com.yimayhd.sellerAdmin.model.line.route.RouteTrafficVO;
 
 /**
  * 线路转换器
@@ -90,7 +92,7 @@ public class LineConverter {
 	}
 
 	public static BaseInfoVO toBaseInfoVO(LineDO lineDO, ItemDO itemDO, List<TagDTO> themes, List<CityVO> departs,
-			List<TagDTO> dests) {
+			List<CityVO> dests) {
 		if (lineDO == null || itemDO == null) {
 			return null;
 		}
@@ -236,7 +238,7 @@ public class LineConverter {
 		return itemSkuDOs;
 	}
 
-	public static FreeLineRouteVO toFreeLineRouteVO(LineResult lineResult) {
+	public static RoutePlanVo toRoutePlanVo(LineResult lineResult) {
 		// TODO YEBIN 待开发
 		return null;
 	}
@@ -278,7 +280,7 @@ public class LineConverter {
 	}
 
 	public static LineVO toLineVO(LineResult lineResult, List<TagDTO> themes, List<CityVO> departs,
-			List<TagDTO> dests) {
+			List<CityVO> dests) {
 		if (lineResult == null) {
 			return null;
 		}
@@ -290,8 +292,8 @@ public class LineConverter {
 		result.setReadonly(item.getStatus() == ItemStatus.valid.getValue());
 		// 线路个性化部分 start
 		if (line.getType() == LineType.FREE_LINE.getType()) {
-			FreeLineRouteVO freeLineRoute = toFreeLineRouteVO(lineResult);
-			result.setFreeLineRoute(freeLineRoute);
+			RoutePlanVo routePlan = toRoutePlanVo(lineResult);
+			result.setRoutePlan(routePlan);
 		}
 		// 行程信息
 		RouteInfoVO routeInfo = toRouteInfoVO(lineResult.getRouteDO(), lineResult.getRouteItemDOList());
@@ -378,9 +380,8 @@ public class LineConverter {
 		dto.setLine(lineUpdateDTO);
 		// 行程信息
 		RouteInfoVO routeInfo = line.getRouteInfo();
+		RouteInfoDTO routeInfoDTO = toRouteInfoDTO(line.getRouteInfo());
 		if (routeInfo != null) {
-			RouteInfoDTO routeInfoDTO = toRouteInfoDTO(line.getRouteInfo());
-			dto.setRoute(routeInfoDTO.getRoute());
 			dto.setAddRouteItemList(routeInfoDTO.getAddRouteItemList());
 			dto.setUpdrouteItemList(routeInfoDTO.getUpdrouteItemList());
 			dto.setDelRouteItemList(routeInfoDTO.getDelRouteItemList());
@@ -402,10 +403,6 @@ public class LineConverter {
 			return null;
 		}
 		RouteInfoDTO target = new RouteInfoDTO();
-		// RouteDO
-		RoutePubUpdateDTO routeDTO = new RoutePubUpdateDTO();
-		routeDTO.setId(routeInfo.getRouteId());
-		target.setRoute(routeDTO);
 		// RouteItemDO List
 		// SKU分离
 		List<RouteItemDO> routeItemVOs = toRouteItemDOs(routeInfo.getRouteDays());
@@ -423,7 +420,6 @@ public class LineConverter {
 			for (RouteItemDO routeItemDO : routeItemVOs) {
 				if (routeItemDO.getId() <= 0) {
 					// 新增的没有RouteId要补上
-					routeItemDO.setRouteId(routeDTO.getId());
 					addRouteItemList.add(routeItemDO);
 				}
 			}
@@ -549,6 +545,28 @@ public class LineConverter {
 		return itemSkuPubUpdateDTO;
 	}
 
+	public static RoutePlan toRoutePlan(RoutePlanVo routePlanVo) {
+		if (routePlanVo == null) {
+			return null;
+		}
+		RoutePlan routePlan = new RoutePlan();
+		routePlan.setGo(toRouteTrafficInfo(routePlanVo.getGo()));
+		routePlan.setBack(toRouteTrafficInfo(routePlanVo.getBack()));
+		routePlan.setHotelInfo(routePlanVo.getHotelInfo());
+		routePlan.setScenicInfo(routePlanVo.getScenicInfo());
+		return routePlan;
+	}
+
+	public static RouteTrafficInfo toRouteTrafficInfo(RouteTrafficVO routeTrafficVO) {
+		if (routeTrafficVO == null) {
+			return null;
+		}
+		RouteTrafficInfo routeTrafficInfo = new RouteTrafficInfo();
+		routeTrafficInfo.setType(routeTrafficVO.getType());
+		routeTrafficInfo.setDescription(routeTrafficVO.getDescription());
+		return routeTrafficInfo;
+	}
+
 	public static LinePubAddDTO toLinePublishDTOForSave(long sellerId, LineVO line) {
 		if (sellerId <= 0 || line == null) {
 			return null;
@@ -556,11 +574,14 @@ public class LineConverter {
 		LinePubAddDTO dto = new LinePubAddDTO();
 		LineDO lineDO = toLineDO(line.getBaseInfo(), line.getNeedKnow());
 		dto.setLine(lineDO);
+		RoutePlanVo routePlan = line.getRoutePlan();
+		if (routePlan != null) {
+			RouteDO routeDTO = new RouteDO();
+			routeDTO.setRoutePlan(toRoutePlan(routePlan));
+			dto.setRoute(routeDTO);
+		}
 		RouteInfoVO routeInfo = line.getRouteInfo();
 		if (routeInfo != null) {
-			RouteDO routeDTO = new RouteDO();
-			routeDTO.setId(routeInfo.getRouteId());
-			dto.setRoute(routeDTO);
 			List<RouteDayVO> routeDays = routeInfo.getRouteDays();
 			List<RouteItemDO> routeItemDOList = toRouteItemDOs(routeDays);
 			dto.setRouteItemList(routeItemDOList);

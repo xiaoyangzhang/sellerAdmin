@@ -51,4 +51,5 @@ public class WebReturnCode implements Serializable {
     public final static WebReturnCode PASSWORD_EMPTY = new WebReturnCode(24001012, "密码不能为空"); 
     public final static WebReturnCode IMAGE_VERIFY_CODE_ERROR = new WebReturnCode(24001013, "图片验证码错误"); 
     public final static WebReturnCode MOBILE_FORMAT_ERROR = new WebReturnCode(24001014, "手机号码格式错误"); 
+    public final static WebReturnCode PASSWORD_ERROR = new WebReturnCode(24001015, "手机号码错误"); 
 }

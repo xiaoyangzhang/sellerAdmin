@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.yimayhd.ic.client.model.domain.RouteItemDO;
 import com.yimayhd.ic.client.model.param.item.line.RouteItemUpdateDTO;
-import com.yimayhd.ic.client.model.param.item.line.RoutePubUpdateDTO;
 
 /**
  * 行程信息
@@ -13,18 +12,9 @@ import com.yimayhd.ic.client.model.param.item.line.RoutePubUpdateDTO;
  *
  */
 public class RouteInfoDTO {
-	private RoutePubUpdateDTO route;
 	private List<RouteItemDO> addRouteItemList;
 	private List<Long> delRouteItemList;
 	private List<RouteItemUpdateDTO> updrouteItemList;
-
-	public RoutePubUpdateDTO getRoute() {
-		return route;
-	}
-
-	public void setRoute(RoutePubUpdateDTO route) {
-		this.route = route;
-	}
 
 	public List<RouteItemDO> getAddRouteItemList() {
 		return addRouteItemList;

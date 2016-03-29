@@ -80,9 +80,6 @@
 													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item double-only tc-${tcId}-item tc-${tcId}-item-$!{block.id}-1" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_1" placeholder="请输入成人价" value="$price">
 													<span class="input-group-addon">库存</span>
 													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item int-only tc-${tcId}-item tc-${tcId}-item-$!{block.id}-2" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_2" placeholder="请输入库存" value="$!{block.stock}">
-													<span class="input-group-addon">会员优惠</span>
-													#set($discount = $block.discount / 100.0)  
-													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item double-only tc-${tcId}-item tc-${tcId}-item-$!{block.id}-3" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_3" placeholder="请输入会员优惠" value="$discount">
 												</div>
 											#end
 											</td>
@@ -285,8 +282,6 @@
 				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item double-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-1' id='"+day_id+"_$!{persionPropertyValue.id}_1' placeholder='请输入成人价' value='0.0'>"); 
 				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon'>库存</span>");
 				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item int-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-2' id='"+day_id+"_$!{persionPropertyValue.id}_2' placeholder='请输入库存' value='0'>"); 
-				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon'>会员优惠</span>");
-				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item double-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-3' id='"+day_id+"_$!{persionPropertyValue.id}_3' placeholder='请输入会员优惠' value='0.0'>"); 
 				td.append(group_$!{persionPropertyValue.id});
 				#end
 				tr.append(td);
@@ -300,7 +295,7 @@
     // 批量插入
 	$(document).delegate(".batch-insert","click",function() {
 		var currentTcId = $(this).attr("tc-id");
-		openModalForForm(actionDefaultPath + '/B2C/comm/groupTravel/batchInsert?categoryId=${categoryId}','批量录入 ',function() {
+		openModalForForm(actionDefaultPath + '/line/batchInsert?categoryId=${categoryId}','批量录入 ',function() {
 			var data = win.getData();
 			for(var i in data) {
 				var block = data[i];
@@ -312,14 +307,8 @@
 				if(block.stock != "") {
     				stock.val(block.stock);
 				}
-				var discount = $(".tc-"+currentTcId+"-item-"+block.id+"-3");
-				if(block.discount != "") {
-    				discount.val(block.discount);
-				}
 				// 设置更新
-				if(block.price != ""||
-				block.stock != ""||
-				block.discount != "") {
+				if(block.price != "" || block.stock != "") {
     				price.each(function() {
     					setUpdatedSKU($(this).attr("sku-id"));
     				}); 
@@ -356,8 +345,7 @@
                     	PType: $!{persionProperty.type},
                     	PTxt: "$!{persionProperty.text}",
                     	price: Math.round(($("#"+key_$!{persionPropertyValue.id}+"_1").val()||0)*100), 
-                    	stock: $("#"+key_$!{persionPropertyValue.id}+"_2").val(),
-                    	discount: Math.round(($("#"+key_$!{persionPropertyValue.id}+"_3").val()||0)*100)
+                    	stock: $("#"+key_$!{persionPropertyValue.id}+"_2").val()
 					});
 					#end
 					var day = {
@@ -394,7 +382,6 @@
 			deletedSKU:deletedSKU,
 			limit:$(".day-limit").val() || 0
 		};
-		result["itemId"] = $("#item_id").val() || 0;
 		// alert(JSON.stringify(result));
 		return result;
 	}

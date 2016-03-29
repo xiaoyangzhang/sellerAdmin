@@ -16,13 +16,13 @@ import com.yimayhd.ic.client.model.enums.RouteItemType;
  *
  */
 public class TripTraffic {
-	private static final Map<Integer, String> WAYS = new TreeMap<Integer, String>();
+	private static final Map<String, String> WAYS = new TreeMap<String, String>();
 
 	static {
-		WAYS.put(RouteItemType.PLANE.getType(), RouteItemType.PLANE.getDesc());
-		WAYS.put(RouteItemType.TRAIN.getType(), RouteItemType.TRAIN.getDesc());
-		WAYS.put(RouteItemType.BUS.getType(), RouteItemType.BUS.getDesc());
-		WAYS.put(RouteItemType.BOAT.getType(), RouteItemType.BOAT.getDesc());
+		WAYS.put(RouteItemType.PLANE.name(), RouteItemType.PLANE.getDesc());
+		WAYS.put(RouteItemType.TRAIN.name(), RouteItemType.TRAIN.getDesc());
+		WAYS.put(RouteItemType.BUS.name(), RouteItemType.BUS.getDesc());
+		WAYS.put(RouteItemType.BOAT.name(), RouteItemType.BOAT.getDesc());
 	}
 
 	private String from;
@@ -76,8 +76,8 @@ public class TripTraffic {
 	 * 
 	 * @return
 	 */
-	public static List<Entry<Integer, String>> ways() {
-		return new ArrayList<Entry<Integer, String>>(WAYS.entrySet());
+	public static List<Entry<String, String>> ways() {
+		return new ArrayList<Entry<String, String>>(WAYS.entrySet());
 	}
 
 	/**

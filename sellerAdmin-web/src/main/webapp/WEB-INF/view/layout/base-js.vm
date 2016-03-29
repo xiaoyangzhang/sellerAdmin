@@ -1,0 +1,7 @@
+#set( $resourcesPath = $!utilWebconfig.getStaticResourcesPath() )
+#set( $resourceVersion = $!utilWebconfig.getResourceVersion() )
+<script src="$!{resourcesPath}/resources/js/jquery.js?version=$!{resourceVersion}"></script>
+<script src="$!{resourcesPath}/resources/zui/js/zui.min.js?version=$!{resourceVersion}"></script>
+<script src="$!{resourcesPath}/resources/js/common.js?version=$!{resourceVersion}"></script>
+<script src="$!{resourcesPath}/resources/layer-v2.1/layer.js?version=$!{resourceVersion}"></script>
+<script src="$!{resourcesPath}/resources/js/layerModal.js?version=$!{resourceVersion}"></script>

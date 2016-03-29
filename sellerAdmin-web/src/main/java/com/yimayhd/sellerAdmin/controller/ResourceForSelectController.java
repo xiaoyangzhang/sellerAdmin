@@ -70,8 +70,8 @@ public class ResourceForSelectController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/selectLineDeparts")
-	public String selectLineDeparts() {
+	@RequestMapping(value = "/selectDeparts")
+	public String selectDeparts() {
 		List<CityVO> allLineDeparts = commLineService.getAllLineDeparts();
 		Map<String, List<CityVO>> departMap = new LinkedHashMap<String, List<CityVO>>();
 		for (CityVO cityVO : allLineDeparts) {
@@ -86,7 +86,32 @@ public class ResourceForSelectController extends BaseController {
 			}
 		}
 		put("departMap", departMap);
-		return "/system/resource/forSelect/selectLineDeparts";
+		return "/system/resource/forSelect/selectDeparts";
+	}
+
+	/**
+	 * 选择景区
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectDests")
+	public String selectDests() {
+		List<CityVO> allLineDests = commLineService.getAllLineDests();
+		Map<String, List<CityVO>> destMap = new LinkedHashMap<String, List<CityVO>>();
+		for (CityVO cityVO : allLineDests) {
+			CityDTO city = cityVO.getCity();
+			String firstLetter = city.getFirstLetter();
+			if (destMap.containsKey(firstLetter)) {
+				destMap.get(firstLetter).add(cityVO);
+			} else {
+				List<CityVO> cityVOs = new ArrayList<CityVO>();
+				cityVOs.add(cityVO);
+				destMap.put(firstLetter, cityVOs);
+			}
+		}
+		put("destMap", destMap);
+		return "/system/resource/forSelect/selectDests";
 	}
 
 	/**

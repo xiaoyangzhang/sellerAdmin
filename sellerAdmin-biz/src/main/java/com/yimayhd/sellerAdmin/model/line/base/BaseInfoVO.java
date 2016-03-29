@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.yimayhd.sellerAdmin.model.line.CityVO;
-import com.yimayhd.sellerAdmin.model.line.TagDTO;
 
 /**
  * 基本信息
@@ -24,7 +23,7 @@ public class BaseInfoVO implements Serializable {
 	private String discription;// 亮点
 	private List<Long> themes;// 主题
 	private List<CityVO> departs; // 出发地
-	private List<TagDTO> dests; // 目的地
+	private List<CityVO> dests; // 目的地
 	private List<String> picUrls; // App详情轮播图
 
 	/**
@@ -128,12 +127,12 @@ public class BaseInfoVO implements Serializable {
 		this.departs = departs;
 	}
 
-	public List<TagDTO> getDests() {
-		return dests;
+	public void setDests(List<CityVO> dests) {
+		this.dests = dests;
 	}
 
-	public void setDests(List<TagDTO> dests) {
-		this.dests = dests;
+	public List<CityVO> getDests() {
+		return dests;
 	}
 
 }

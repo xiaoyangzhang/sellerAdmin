@@ -73,18 +73,38 @@
 			function createDayPage(dayId) {
 				var page = $("<div class='tab-pane' id='day_"+dayId+"_page'></div>");
 				// 行程描述
+				var title = $("<div class='panel trip-title'></div>");
+                title.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-exclamation-sign'></i><span class='tripAddSp'>行程标题</span></div>"));
+                var title_content = $("<div class='panel-body trip-title-content'></div>");
+				title_content.append($("<input type='text' class='form-control trip-title-text' id='day_"+dayId+"_trip_title'/>"));
+                title.append(title_content);	
+				page.append(title);
+				// 行程描述
 				var desc = $("<div class='panel trip-description'></div>");
                 desc.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-exclamation-sign'></i><span class='tripAddSp'>行程描述</span></div>"));
                 var desc_content = $("<div class='panel-body trip-description-content'></div>");
-				desc_content.append($("<textarea class='form-control' rows='3' id='day_"+dayId+"_trip_description'></textarea>"));
+				desc_content.append($("<textarea class='form-control trip-description-textarea' rows='3' id='day_"+dayId+"_trip_description'></textarea>"));
                 desc.append(desc_content);	
 				page.append(desc);
 				// 行程图片
 				var images = $("<div class='panel trip-images'></div>");
                 images.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-exclamation-sign'></i><span class='tripAddSp'>行程图片</span></div>"));
                 var images_content = $("<div class='panel-body trip-images-content'></div>");
-				
-                images.append(images_content);	
+				var image_size = 5;
+				while(image_size > 0) {
+    				var image = $("<div class='imgbox'/>");
+    				var image_form = $("<form action='$!{utilWebconfig.getActionDefaultFontPath()}/upload/file' method='post' class='imgform' enctype='multipart/form-data'/>");
+    				var dimg = $("<div class='dimg'/>")
+    					.append("<img src='data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==' img-root='$!utilWebconfig.getTfsRootPath()'/>")
+						.append("<input type='hidden' class='picCode day_"+dayId+"_trip_image'/>");
+    				var upimgbtn = $("<div class='upimgbtn'/>")
+    					.append("<input type='file' name='picfile' class='picfile'>")
+    					.append("<button class='upl'>上传图片</button>")
+    					.append("<button class='del'>删除图片</button>");
+    				images_content.append(image.append(image_form.append(dimg).append(upimgbtn)));
+                	image_size--;
+				}
+				images.append(images_content);	
 				page.append(images);
 				return page;
 			}
@@ -95,6 +115,12 @@
 		#foreach($tripDay in $product.routeInfo.routeDays)
 		#set($day = ${velocityCount})
 		<div class="tab-pane in #if(${day}==1) active #end" id="day_${velocityCount}_page">
+			<div class="panel trip-title">
+				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程描述</span></div>
+				<div class="panel-body trip-title-content">
+					<input type="text" class="form-control trip-title-text" id="day_${velocityCount}_trip_title" route-item-id="$!{tripDay.descriptionRouteItemId}" value="$!{tripDay.title}"/>
+				</div>
+			</div>
 			<div class="panel trip-description">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程描述</span></div>
 				<div class="panel-body trip-description-content">
@@ -147,10 +173,18 @@
 			var result = [];
 			$(".day_tab").each(function(){
 				var day_id = $(this).attr("day-id");
-				var day = {id:day_id};
+				var day = {};
 				// 描述
-				day["descriptionRouteItemId"] = $("#day_"+day_id+"_trip_description").attr("route-item-id");
+				day["routeItemId"] = $("#day_"+day_id+"_trip_description").attr("route-item-id");
+				day["title"] = $("#day_"+day_id+"_trip_title").val()||"";
 				day["description"] = $("#day_"+day_id+"_trip_description").val()||"";
+				var picUrls = [];
+				$(".day_"+day_id+"_trip_image").each(function() {
+					if($(this).val()) {
+						picUrls.push($(this).val());
+					}
+				});
+				day["picUrls"]=picUrls;
 				result.push(day);
 			});
 			// alert(JSON.stringify(result));
