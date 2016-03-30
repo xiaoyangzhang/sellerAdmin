@@ -14,7 +14,6 @@
 	<modules>
 		<module>sellerAdmin-web</module>
 		<module>sellerAdmin-biz</module>
-		<module>sellerAdmin-client</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -76,12 +75,6 @@
 				<artifactId>sellerAdmin-biz</artifactId>
 				<version>${sellerAdmin.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>com.yimayhd</groupId>
-				<artifactId>sellerAdmin-client</artifactId>
-				<version>${sellerAdmin.version}</version>
-			</dependency>
-
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-webmvc</artifactId>

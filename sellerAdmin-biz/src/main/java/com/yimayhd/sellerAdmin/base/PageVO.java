@@ -174,10 +174,10 @@ public class PageVO<T> implements Serializable {
 		return result;
 	}
 
-	public void setResultList(List<T> resultList) {
-		if (resultList == null)
-			throw new IllegalArgumentException("'resultList' must be not null");
-		this.result = resultList;
+	public void setResultList(List<T> itemList) {
+		if (itemList == null)
+			throw new IllegalArgumentException("'itemList' must be not null");
+		this.result = itemList;
 	}
 
 	public Paginator getPaginator() {
