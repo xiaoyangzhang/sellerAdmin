@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/common.css"/>
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/addtravel.css"/>
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/editer.css"/>
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/upldf.css"/>
 <style type="text/css">
 	//禁用输入法
 	.double-only{ime-mode:"disabled"}
@@ -14,10 +13,6 @@
 </style>
 
 #parse("layout/base-js.vm")
-<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/jquery.form.js"></script>
-<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/addtravel.js"></script>
-<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/editer.js"></script>
-<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/upldf.js"></script>
 
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
@@ -34,10 +29,10 @@
     <li class="active">
       <a href="#tab1" data-toggle="tab">基本信息</a>
     </li>
-	<li>
+    <li>
       <a href="#tab2" data-toggle="tab">详细描述</a>
     </li>
-	<li>
+    <li>
       <a href="#tab3" data-toggle="tab">机酒景信息</a>
     </li>
     <li>
@@ -46,16 +41,16 @@
     <li>
       <a href="#tab5" data-toggle="tab">价格信息</a>
     </li>
-	<li>
+    <li>
       <a href="#tab6" data-toggle="tab">预定须知</a>
     </li>
-  </ul>
-  <div class="tab-content">
+</ul>
+<div class="tab-content">
     <div class="tab-pane baseInfo in active" id="tab1">
         #parse("/system/comm/line/baseInfo.vm")
     </div>
 	<div class="tab-pane" id="tab2" style="width: 96%;margin: 15px auto;">
-		详细描述
+		#parse("/system/comm/line/pictureText.vm")
     </div>
 	<div class="tab-pane tripPackageInfo" id="tab3">
         #parse("/system/comm/line/routePlan.vm")
@@ -69,13 +64,16 @@
 	<div class="tab-pane" id="tab6" style="width: 96%;margin: 15px auto;">
 		#parse("/system/comm/line/needKnow.vm")
 	</div>
-  </div>
-  #if(!${product.isReadonly()})
-  <div class="groupTravelBot">
+</div>
+#if(!${product.isReadonly()})
+<div class="groupTravelBot">
     <button class="btn btn-primary save">保  存</button>
 	<button class="btn btn-primary reload" onclick="location.reload();">重  载</button>
-  </div>
-  #end
+</div>
+#end
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/addtravel.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/editer.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/upldf.js"></script>
 <script type="text/javascript">
 $(".save").click(function(){
     var result = {

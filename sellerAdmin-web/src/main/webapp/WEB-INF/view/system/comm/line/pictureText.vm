@@ -1,0 +1,19 @@
+<div id="editer">
+	<div class="hd clearfix">
+		<ul class="clearfix">
+			<li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
+			<li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
+			<li><a href="javascript:void(0)" class="submitbtn">+提交数据</a></li>
+		</ul>
+	</div>
+	<div class="bd">
+		<!--<p class="text">
+			<font>文本内容</font>
+		</p>								
+		<p class="pic">
+			<img src="/img/mypic.jpg">
+		</p>	-->
+	</div>
+	<textarea name="content" id="contentText" style="display:none;"></textarea>
+	<input type="hidden" id="uploadAction" value="http://192.168.0.139:8080/file/upload"/>
+</div>

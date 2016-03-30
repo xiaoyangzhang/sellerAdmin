@@ -63,10 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public CategoryDO getCategoryDOById(long id)throws Exception{
-		RepoUtils.requestLog(log, "categoryServiceRef.getCategory", id);
-		CategoryResult categoryResult = categoryServiceRef.getCategory(id);
-		RepoUtils.resultLog(log, "categoryServiceRef.getCategory", categoryResult);
-		return categoryResult.getCategroyDO();
+		return categoryRepo.getCategoryById(id);
 	}
 
 	@Override
