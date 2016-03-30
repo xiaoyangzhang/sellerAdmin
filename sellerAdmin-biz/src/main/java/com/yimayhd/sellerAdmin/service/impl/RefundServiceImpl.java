@@ -45,14 +45,14 @@ public class RefundServiceImpl implements RefundService {
         if(!StringUtils.isEmpty(refundListQuery.getEndDate())) {
             tcRefundRecordQuery.setGmtCreatedEnd(DateUtil.formatMaxTimeForDate(refundListQuery.getEndDate()));
         }
-        tcRefundRecordQuery.setCurrentPage(refundListQuery.getPageNumber());
+        tcRefundRecordQuery.setCurrentPage(refundListQuery.getPageNo());
         tcRefundRecordQuery.setPageSize(refundListQuery.getPageSize());
 
         TCPageResult<IMallRefundRecordDO> tcPageResult = iMallHaremServiceRef.queryRefundRecords(tcRefundRecordQuery);
         //返回结果
-        PageVO<IMallRefundRecordDO> pageVO = new PageVO<IMallRefundRecordDO>(refundListQuery.getPageNumber(), refundListQuery.getPageSize(),0);;
+        PageVO<IMallRefundRecordDO> pageVO = new PageVO<IMallRefundRecordDO>(refundListQuery.getPageNo(), refundListQuery.getPageSize(),0);;
         if(null != tcPageResult && tcPageResult.isSuccess()) {
-            pageVO = new PageVO<IMallRefundRecordDO>(refundListQuery.getPageNumber(), refundListQuery.getPageSize(), (int) tcPageResult.getTotalCount(), tcPageResult.getList());
+            pageVO = new PageVO<IMallRefundRecordDO>(refundListQuery.getPageNo(), refundListQuery.getPageSize(), (int) tcPageResult.getTotalCount(), tcPageResult.getList());
         }
         return pageVO;
     }

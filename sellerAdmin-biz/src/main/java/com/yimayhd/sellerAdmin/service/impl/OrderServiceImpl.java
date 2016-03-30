@@ -72,7 +72,7 @@ public class OrderServiceImpl implements OrderService {
 					UserDO userDO = basePageResult.getList().get(0);
 					userId = userDO.getId();
 				}else{
-					PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(), 0,mainOrderList);
+					PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNo(),orderListQuery.getPageSize(), 0,mainOrderList);
 					return orderPageVO;
 				}
 			}
@@ -130,11 +130,11 @@ public class OrderServiceImpl implements OrderService {
 					mainOrderList.add(mo);
 				}
 			}
-			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(),
+			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNo(),orderListQuery.getPageSize(),
 					(int)batchQueryResult.getTotalCount(),mainOrderList);
 			return orderPageVO;
 		}else{
-			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(),
+			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNo(),orderListQuery.getPageSize(),
 					0,mainOrderList);
 			return orderPageVO;
 		}

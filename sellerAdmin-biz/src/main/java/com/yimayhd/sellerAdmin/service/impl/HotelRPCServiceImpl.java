@@ -58,8 +58,8 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		HotelPageQuery hotelPageQuery = new HotelPageQuery();
     	hotelPageQuery.setNeedCount(true);
 		
-		if (hotelListQuery.getPageNumber() != null) {
-			int pageNumber = hotelListQuery.getPageNumber();
+		if (hotelListQuery.getPageNo() != null) {
+			int pageNumber = hotelListQuery.getPageNo();
 			int pageSize = hotelListQuery.getPageSize();
 			hotelPageQuery.setPageNo(pageNumber);
 			hotelPageQuery.setPageSize(pageSize);

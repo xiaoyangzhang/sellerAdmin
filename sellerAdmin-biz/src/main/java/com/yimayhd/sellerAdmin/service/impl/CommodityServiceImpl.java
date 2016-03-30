@@ -56,7 +56,7 @@ public class CommodityServiceImpl implements CommodityService {
         List<Integer> domainList = new ArrayList<Integer>();
         domainList.add(Constant.DOMAIN_JIUXIU);
         itemQryDTO.setDomains(domainList);
-        itemQryDTO.setPageNo(commodityListQuery.getPageNumber());
+        itemQryDTO.setPageNo(commodityListQuery.getPageNo());
         itemQryDTO.setPageSize(commodityListQuery.getPageSize());
 
         if(!StringUtils.isBlank(commodityListQuery.getCommName())) {
@@ -106,7 +106,7 @@ public class CommodityServiceImpl implements CommodityService {
             itemVOList.add(ItemVO.getItemVO(itemDO,new CategoryVO()));
         }
 
-        PageVO<ItemVO> pageVO = new PageVO<ItemVO>(commodityListQuery.getPageNumber(),commodityListQuery.getPageSize(),itemPageResult.getRecordCount(),itemVOList);
+        PageVO<ItemVO> pageVO = new PageVO<ItemVO>(commodityListQuery.getPageNo(),commodityListQuery.getPageSize(),itemPageResult.getRecordCount(),itemVOList);
         return pageVO;
     }
 

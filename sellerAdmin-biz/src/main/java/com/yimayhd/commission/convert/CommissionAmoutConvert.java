@@ -24,7 +24,7 @@ public class CommissionAmoutConvert {
 			return ;
 		}
 		repoDTO.setDomainId((int)query.getDomainId());
-		repoDTO.setPageNo(query.getPageNumber());
+		repoDTO.setPageNo(query.getPageNo());
 		repoDTO.setPageSize(query.getPageSize());
 		repoDTO.setTelNum(query.getTelNum());
 		repoDTO.setUserName(query.getUserName());

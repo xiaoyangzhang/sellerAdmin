@@ -39,8 +39,8 @@ public class ItemRebateController extends BaseController {
     		if(itemRebateQuery == null){
     			itemRebateQuery = new ItemRebateQuery();
     		}
-    		if(itemRebateQuery.getPageNumber() != null && itemRebateQuery.getPageNumber() <= 0){
-    			itemRebateQuery.setPageNumber(1);
+    		if(itemRebateQuery.getPageNo() != null && itemRebateQuery.getPageNo() <= 0){
+    			itemRebateQuery.setPageNo(1);
     		}
     		if(itemRebateQuery.getPageSize() != null && itemRebateQuery.getPageSize() <= 0){
     			itemRebateQuery.setPageSize(BaseQuery.DEFAULT_SIZE);

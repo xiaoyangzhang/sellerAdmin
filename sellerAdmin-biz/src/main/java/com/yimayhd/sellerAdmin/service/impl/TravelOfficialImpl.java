@@ -63,12 +63,12 @@ public class TravelOfficialImpl implements TravelOfficialService{
         }
 
         travelSpecialDTO.setPageSize(travelOfficialListQuery.getPageSize());
-        travelSpecialDTO.setPageNo(travelOfficialListQuery.getPageNumber());
+        travelSpecialDTO.setPageNo(travelOfficialListQuery.getPageNo());
         BasePageResult<SnsTravelSpecialtyDO> result = snsCenterService.getTravelSpecialPage(travelSpecialDTO);
 
-        PageVO<SnsTravelSpecialtyDO> pageVO = new PageVO<SnsTravelSpecialtyDO>(travelOfficialListQuery.getPageNumber(), travelOfficialListQuery.getPageSize(),0);;
+        PageVO<SnsTravelSpecialtyDO> pageVO = new PageVO<SnsTravelSpecialtyDO>(travelOfficialListQuery.getPageNo(), travelOfficialListQuery.getPageSize(),0);;
         if(result != null && result.isSuccess()){
-            pageVO = new PageVO<SnsTravelSpecialtyDO>(travelOfficialListQuery.getPageNumber(), travelOfficialListQuery.getPageSize(),result.getTotalCount(),result.getList());
+            pageVO = new PageVO<SnsTravelSpecialtyDO>(travelOfficialListQuery.getPageNo(), travelOfficialListQuery.getPageSize(),result.getTotalCount(),result.getList());
         }else{
             log.error("snsCenterService.getTravelSpecialPage is null,result="+JSON.toJSONString(result)+"|parameter="+JSON.toJSONString(travelSpecialDTO));
         }

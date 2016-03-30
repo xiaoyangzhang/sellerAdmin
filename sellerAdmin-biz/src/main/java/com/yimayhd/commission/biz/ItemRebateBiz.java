@@ -43,13 +43,13 @@ public class ItemRebateBiz {
 
         try{
             int totalCount = 0;
-            int pageNum = itemRebateQuery.getPageNumber();
+            int pageNum = itemRebateQuery.getPageNo();
             int size = itemRebateQuery.getPageSize();
             List<ItemRebateDO> list = new ArrayList<ItemRebateDO>();
 
             com.yimayhd.marketing.client.model.query.ItemRebateQuery query = new com.yimayhd.marketing.client.model.query.ItemRebateQuery();
             query.setDomainId(DomainType.DOMAIN_MYTHIC_FLOW.getDomainId());
-            query.setPageNo(itemRebateQuery.getPageNumber());
+            query.setPageNo(itemRebateQuery.getPageNo());
             query.setPageSize(itemRebateQuery.getPageSize());
             query.setItemTitle(itemRebateQuery.getItemTitle());
             

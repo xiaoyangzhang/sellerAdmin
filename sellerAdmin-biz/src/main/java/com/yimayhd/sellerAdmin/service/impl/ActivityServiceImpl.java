@@ -53,8 +53,8 @@ public class ActivityServiceImpl implements ActivityService {
 	@Override
 	public PageVO<SnsActivityDO> pageQueryActivities(ActivityListQuery query) {
 		ActivityQueryDTO activityQueryDTO = new ActivityQueryDTO();
-		if(query.getPageNumber()!=null){
-			int pageNumber =query.getPageNumber();
+		if(query.getPageNo()!=null){
+			int pageNumber =query.getPageNo();
 			int pageSize = query.getPageSize();
 			activityQueryDTO.setPageNo(pageNumber);
 			activityQueryDTO.setPageSize(pageSize);

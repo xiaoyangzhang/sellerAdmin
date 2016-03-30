@@ -57,7 +57,7 @@ public class CommissionController  extends BaseController{
         try{
 
             long userId = commissionDetailQuery.getUserId();
-            int pageNo = commissionDetailQuery.getPageNumber();
+            int pageNo = commissionDetailQuery.getPageNo();
             int pageSize = commissionDetailQuery.getPageSize();
 
             PageVO<AmountDetailDTO> pageVO =  commissionBiz.queryExtractDetailByUserId(userId, pageNo, pageSize);

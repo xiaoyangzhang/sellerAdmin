@@ -37,7 +37,7 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
         voucherTemplateQuery.setTitle(voucherListQuery.getTitle());
         voucherTemplateQuery.setStatus(voucherListQuery.getStatus());
         voucherTemplateQuery.setPageSize(voucherListQuery.getPageSize());
-        voucherTemplateQuery.setPageNo(voucherListQuery.getPageNumber());
+        voucherTemplateQuery.setPageNo(voucherListQuery.getPageNo());
         voucherTemplateQuery.setNeedCount(true);
 
         BasePageResult<VoucherTemplateDO> result = voucherClientServiceRef.queryVoucherTemplates(voucherTemplateQuery);
@@ -49,10 +49,10 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
                 BeanUtils.copyProperties(voucherTemplateDO, voucherVO);
                 voucherTemplateVOs.add(voucherVO);
             }
-            pageVO = new PageVO<VoucherTemplateVO>(voucherListQuery.getPageNumber(), voucherListQuery.getPageSize(),
+            pageVO = new PageVO<VoucherTemplateVO>(voucherListQuery.getPageNo(), voucherListQuery.getPageSize(),
                                                    result.getTotalCount(), voucherTemplateVOs);
         }else{
-            pageVO = new PageVO<VoucherTemplateVO>(voucherListQuery.getPageNumber(), voucherListQuery.getPageSize(),
+            pageVO = new PageVO<VoucherTemplateVO>(voucherListQuery.getPageNo(), voucherListQuery.getPageSize(),
                                                    0, voucherTemplateVOs);
         }
 

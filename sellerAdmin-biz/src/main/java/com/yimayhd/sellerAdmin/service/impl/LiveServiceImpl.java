@@ -52,10 +52,10 @@ public class LiveServiceImpl implements LiveService {
 	@Override
 	public PageVO<SnsSubjectVO> getList(LiveListQuery liveListQuery) throws Exception {
 		//返回结果
-		PageVO<SnsSubjectVO> snsSubjectVOPageVO = new PageVO<SnsSubjectVO>(liveListQuery.getPageNumber(),liveListQuery.getPageSize(),0);
+		PageVO<SnsSubjectVO> snsSubjectVOPageVO = new PageVO<SnsSubjectVO>(liveListQuery.getPageNo(),liveListQuery.getPageSize(),0);
 		//查询条件对接
 		SubjectInfoDTO subjectInfoDTO = new SubjectInfoDTO();
-		subjectInfoDTO.setPageNo(liveListQuery.getPageNumber());
+		subjectInfoDTO.setPageNo(liveListQuery.getPageNo());
 		subjectInfoDTO.setPageSize(liveListQuery.getPageSize());
 		//状态
 		subjectInfoDTO.setStatus(liveListQuery.getLiveStatus());
@@ -205,7 +205,7 @@ public class LiveServiceImpl implements LiveService {
 				snsSubjectVO.setSupportNum(supportNumMap.get(snsSubjectVO.getId()));
 				snsSubjectVOList.add(snsSubjectVO);
 			}
-			snsSubjectVOPageVO = new PageVO<SnsSubjectVO>(liveListQuery.getPageNumber(),liveListQuery.getPageSize(),basePageResult.getTotalCount(),snsSubjectVOList);
+			snsSubjectVOPageVO = new PageVO<SnsSubjectVO>(liveListQuery.getPageNo(),liveListQuery.getPageSize(),basePageResult.getTotalCount(),snsSubjectVOList);
 		}
 		return snsSubjectVOPageVO;
 	}

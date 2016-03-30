@@ -37,7 +37,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 		RestaurantPageQuery restaurantPageQuery = new RestaurantPageQuery();
 		restaurantPageQuery.setNeedCount(true);
-		restaurantPageQuery.setPageNo(restaurantListQuery.getPageNumber());
+		restaurantPageQuery.setPageNo(restaurantListQuery.getPageNo());
 		restaurantPageQuery.setPageSize(restaurantListQuery.getPageSize());
 		// 酒店名称
 		restaurantPageQuery.setName(restaurantListQuery.getName());

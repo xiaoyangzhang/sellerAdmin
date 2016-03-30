@@ -774,7 +774,7 @@ public class TripServiceImpl implements TripService {
 	public PageVO<SnsSubjectDO> getPageSnsSubjectDO(LiveListQuery liveListQuery) {
 		SubjectInfoDTO subjectInfoDTO = new SubjectInfoDTO();
 		subjectInfoDTO.setPageSize(liveListQuery.getPageSize());
-		subjectInfoDTO.setPageNo(liveListQuery.getPageNumber());
+		subjectInfoDTO.setPageNo(liveListQuery.getPageNo());
 		subjectInfoDTO.setNeedCount(true);
 		subjectInfoDTO.setTextContent(liveListQuery.getContent());
 		int totalCount = 0;
@@ -784,7 +784,7 @@ public class TripServiceImpl implements TripService {
 			list = res.getList();
 			totalCount=res.getTotalCount();
 		}
-		return new PageVO<SnsSubjectDO>(liveListQuery.getPageNumber(), liveListQuery.getPageSize(), totalCount, list);
+		return new PageVO<SnsSubjectDO>(liveListQuery.getPageNo(), liveListQuery.getPageSize(), totalCount, list);
 	}
 
 }

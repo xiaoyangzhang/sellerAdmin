@@ -36,7 +36,7 @@ public class OrderConverter {
         }else{
             orderQueryDTO.setDomain(orderListQuery.getDomain());
         }
-        orderQueryDTO.setPageNo(orderListQuery.getPageNumber());
+        orderQueryDTO.setPageNo(orderListQuery.getPageNo());
         orderQueryDTO.setPageSize(orderListQuery.getPageSize());
         //订单类型
         orderQueryDTO.setOrderBizTypes(orderListQuery.getOrderTypes());

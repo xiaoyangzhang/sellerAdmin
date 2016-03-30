@@ -54,8 +54,8 @@ public class ScenicServiceImpl implements ScenicService {
 		int totalCount = 0;
 		ScenicPageQuery pageQuery = new ScenicPageQuery();
 		pageQuery.setNeedCount(true);
-		if(scenicListQuery.getPageNumber()!=null){
-			int pageNumber =scenicListQuery.getPageNumber();
+		if(scenicListQuery.getPageNo()!=null){
+			int pageNumber =scenicListQuery.getPageNo();
 			int pageSize = scenicListQuery.getPageSize();
 			pageQuery.setPageNo(pageNumber);
 			pageQuery.setPageSize(pageSize);

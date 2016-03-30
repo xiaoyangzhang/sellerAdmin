@@ -48,23 +48,6 @@ public class CommodityManageController extends BaseController {
 	private SessionManager sessionManager;
 
 	/**
-	 * 商品列表
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model, CommodityListQuery commodityListQuery) throws Exception {
-		PageVO<ItemVO> pageVO = commodityService.getList(commodityListQuery);
-		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
-		model.addAttribute("pageVo", pageVO);
-		model.addAttribute("itemTypeList", itemTypeList);
-		model.addAttribute("commodityList", pageVO.getItemList());
-		model.addAttribute("commodityListQuery", commodityListQuery);
-		return "/system/comm/list";
-	}
-
-	/**
 	 * 新增商品
 	 * 
 	 * @return 新增商品页
@@ -93,7 +76,7 @@ public class CommodityManageController extends BaseController {
 			redirectUrl = "/GF/commodityManage/toAdd?categoryId=" + categoryId;
 		} else {
 			// 普通商品，伴手礼应该也走普通商品
-			//库存选项
+			// 库存选项
 			List<ReduceType> reduceTypeList = Arrays.asList(ReduceType.values());
 			model.addAttribute("reduceTypeList", reduceTypeList);
 			model.addAttribute("category", categoryVO);
@@ -134,13 +117,13 @@ public class CommodityManageController extends BaseController {
 			// 普通商品，伴手礼应该也走普通商品
 			ItemResultVO itemResultVO = commodityService.getCommodityById(itemId);
 			ItemType.NORMAL.getValue();
-			//库存选项
-			List<ReduceType> reduceTypeList= Arrays.asList(ReduceType.values());
+			// 库存选项
+			List<ReduceType> reduceTypeList = Arrays.asList(ReduceType.values());
 			model.addAttribute("reduceTypeList", reduceTypeList);
 			model.addAttribute("itemResult", itemResultVO);
 			model.addAttribute("commodity", itemResultVO.getItemVO());
 			model.addAttribute("category", itemResultVO.getCategoryVO());
-			model.addAttribute("itemType",ItemType.NORMAL.getValue());
+			model.addAttribute("itemType", ItemType.NORMAL.getValue());
 			return "/system/comm/common/edit";
 		}
 		return "redirect:" + redirectUrl;
@@ -223,8 +206,8 @@ public class CommodityManageController extends BaseController {
 	@RequestMapping(value = "/publish/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo publish(@PathVariable("id") long id) throws Exception {
-//		long sellerId = sessionManager.getUserId();
-//		sellerId = Constant.SELLERID;
+		// long sellerId = sessionManager.getUserId();
+		// sellerId = Constant.SELLERID;
 		long sellerId = Constant.YIMAY_OFFICIAL_ID;
 		commodityService.publish(sellerId, id);
 		return new ResponseVo();
@@ -239,7 +222,7 @@ public class CommodityManageController extends BaseController {
 	@RequestMapping(value = "/close/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo close(@PathVariable("id") long id) throws Exception {
-//		long sellerId = sessionManager.getUserId();
+		// long sellerId = sessionManager.getUserId();
 		long sellerId = Constant.YIMAY_OFFICIAL_ID;
 		commodityService.close(sellerId, id);
 		return new ResponseVo();
@@ -253,11 +236,9 @@ public class CommodityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/batchPublish", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo batchPublish(@RequestParam("commIdList[]") ArrayList<Long> commIdList)
-			throws Exception {
-//		long sellerId = sessionManager.getUserId();
-//		sellerId = Constant.YIMAY_OFFICIAL_ID;
-
+	public ResponseVo batchPublish(@RequestParam("commIdList[]") ArrayList<Long> commIdList) throws Exception {
+		// long sellerId = sessionManager.getUserId();
+		// sellerId = Constant.YIMAY_OFFICIAL_ID;
 
 		long sellerId = Constant.YIMAY_OFFICIAL_ID;
 		commodityService.batchPublish(sellerId, commIdList);
@@ -272,9 +253,8 @@ public class CommodityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/batchClose", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo batchClose(@RequestParam("commIdList[]") ArrayList<Long> commIdList)
-			throws Exception {
-//		long sellerId = sessionManager.getUserId();
+	public ResponseVo batchClose(@RequestParam("commIdList[]") ArrayList<Long> commIdList) throws Exception {
+		// long sellerId = sessionManager.getUserId();
 		long sellerId = Constant.YIMAY_OFFICIAL_ID;
 		commodityService.batchClose(sellerId, commIdList);
 		return new ResponseVo();

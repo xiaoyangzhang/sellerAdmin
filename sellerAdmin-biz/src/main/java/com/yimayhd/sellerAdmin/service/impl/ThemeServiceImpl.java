@@ -33,7 +33,7 @@ public class ThemeServiceImpl implements ThemeService {
 		List<ComTagDO> list = new ArrayList<ComTagDO>();
 		if(null != themeVoQuery ){
 			TagInfoDTO tagInfoDTO = new TagInfoDTO();
-			tagInfoDTO.setPageNo(themeVoQuery.getPageNumber());
+			tagInfoDTO.setPageNo(themeVoQuery.getPageNo());
 			tagInfoDTO.setPageSize(themeVoQuery.getPageSize());
 			if(0 != themeVoQuery.getType() ){
 				TagType tt = TagType.getByType(themeVoQuery.getType());
@@ -50,7 +50,7 @@ public class ThemeServiceImpl implements ThemeService {
 		}else{
 			log.error("Request {} error: query={}", "comCenterService.selectTagListByTagType",JSON.toJSONString(themeVoQuery));
 		}
-		return  new PageVO<ComTagDO>(themeVoQuery.getPageNumber(), themeVoQuery.getPageSize(), totalCount, list);
+		return  new PageVO<ComTagDO>(themeVoQuery.getPageNo(), themeVoQuery.getPageSize(), totalCount, list);
 	}
 
 	@Override

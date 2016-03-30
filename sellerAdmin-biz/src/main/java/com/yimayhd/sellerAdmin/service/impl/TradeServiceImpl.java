@@ -53,7 +53,7 @@ public class TradeServiceImpl implements TradeService {
     @Override
     public PageVO<BizOrderVO> getOrderList(long sellerId,TradeListQuery tradeListQuery) throws Exception{
         //返回结果
-        PageVO<BizOrderVO> pageVO = new PageVO<BizOrderVO>(tradeListQuery.getPageNumber(),tradeListQuery.getPageSize(),0);
+        PageVO<BizOrderVO> pageVO = new PageVO<BizOrderVO>(tradeListQuery.getPageNo(),tradeListQuery.getPageSize(),0);
         List<BizOrderVO> bizOrderVOList = new ArrayList<BizOrderVO>();
 
 
@@ -76,7 +76,7 @@ public class TradeServiceImpl implements TradeService {
                 BizOrderVO bizOrderVO = BizOrderVO.getBizOrderVO(bizOrderDO);
                 //给order加上买家信息对象
                 bizOrderVOList.add(bizOrderVO);
-                pageVO = new PageVO<BizOrderVO>(tradeListQuery.getPageNumber(),tradeListQuery.getPageSize(),1,bizOrderVOList);
+                pageVO = new PageVO<BizOrderVO>(tradeListQuery.getPageNo(),tradeListQuery.getPageSize(),1,bizOrderVOList);
                 return pageVO;
             }
 
@@ -117,7 +117,7 @@ public class TradeServiceImpl implements TradeService {
             }
             orderQueryDTO.setNeedExtFeature(true);
             orderQueryDTO.setIsMain(ORDER_IS_MAIN);
-            orderQueryDTO.setPageNo(tradeListQuery.getPageNumber());
+            orderQueryDTO.setPageNo(tradeListQuery.getPageNo());
             orderQueryDTO.setPageSize(tradeListQuery.getPageSize());
 
 
@@ -158,7 +158,7 @@ public class TradeServiceImpl implements TradeService {
                     //bizOrderVO.setBuyer(userMap.get(bizOrderDO.getBuyerId()));
                     bizOrderVOList.add(bizOrderVO);
                 }
-                pageVO = new PageVO<BizOrderVO>(tradeListQuery.getPageNumber(), tradeListQuery.getPageSize(), (int) batchQueryResult.getTotalCount(), bizOrderVOList);
+                pageVO = new PageVO<BizOrderVO>(tradeListQuery.getPageNo(), tradeListQuery.getPageSize(), (int) batchQueryResult.getTotalCount(), bizOrderVOList);
                 return pageVO;
             }
         }
@@ -254,7 +254,7 @@ public class TradeServiceImpl implements TradeService {
 
     @Override
     public PageVO<PayOrderDO> getPayOrderList(long sellerId,PayListQuery payListQuery)throws Exception{
-        PageVO<PayOrderDO> pageVO = new PageVO<PayOrderDO>(payListQuery.getPageNumber(),payListQuery.getPageSize(),0);
+        PageVO<PayOrderDO> pageVO = new PageVO<PayOrderDO>(payListQuery.getPageNo(),payListQuery.getPageSize(),0);
         PayOrderQuery payOrderQuery = new PayOrderQuery();
         payOrderQuery.setSellerId(sellerId);
         if(null != payListQuery.getBizOrderId()) {
@@ -262,7 +262,7 @@ public class TradeServiceImpl implements TradeService {
         }
 
         payOrderQuery.setPageSize(payListQuery.getPageSize());
-        payOrderQuery.setPageNo(payListQuery.getPageNumber());
+        payOrderQuery.setPageNo(payListQuery.getPageNo());
         if(!StringUtils.isBlank(payListQuery.getBeginDate())) {
             payOrderQuery.setStartDate(DateUtil.formatMinTimeForDate(payListQuery.getBeginDate()));
         }
@@ -278,7 +278,7 @@ public class TradeServiceImpl implements TradeService {
             throw new BaseException(payPageResultDTO.getResultMsg());
         }
         if(CollectionUtils.isNotEmpty(payPageResultDTO.getList())) {
-            pageVO = new PageVO<PayOrderDO>(payListQuery.getPageNumber(),payListQuery.getPageSize(),payPageResultDTO.getTotalCount(), payPageResultDTO.getList());
+            pageVO = new PageVO<PayOrderDO>(payListQuery.getPageNo(),payListQuery.getPageSize(),payPageResultDTO.getTotalCount(), payPageResultDTO.getList());
         }
 
         return pageVO;

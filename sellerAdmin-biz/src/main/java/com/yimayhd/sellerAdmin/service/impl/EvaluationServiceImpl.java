@@ -43,11 +43,11 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public PageVO<ComCommentVO> getList(EvaluationListQuery evaluationListQuery) throws Exception {
         //返回结果
-        PageVO<ComCommentVO> comCommentVOPageVO = new PageVO<ComCommentVO>(evaluationListQuery.getPageNumber(),evaluationListQuery.getPageSize(),0);
+        PageVO<ComCommentVO> comCommentVOPageVO = new PageVO<ComCommentVO>(evaluationListQuery.getPageNo(),evaluationListQuery.getPageSize(),0);
         //查询条件对接
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setPageSize(evaluationListQuery.getPageSize());
-        commentDTO.setPageNo(evaluationListQuery.getPageNumber());
+        commentDTO.setPageNo(evaluationListQuery.getPageNo());
         //开始结束时间
         if(StringUtils.isNotBlank(evaluationListQuery.getBeginDate())){
             commentDTO.setStartDate(DateUtil.formatMinTimeForDate(evaluationListQuery.getBeginDate()));
@@ -149,7 +149,7 @@ public class EvaluationServiceImpl implements EvaluationService {
                 comCommentVO.setUserDO(userDOMap.get(comCommentDO.getUserId()));
                 comCommentVOList.add(comCommentVO);
             }
-            comCommentVOPageVO = new PageVO<ComCommentVO>(evaluationListQuery.getPageNumber(),evaluationListQuery.getPageSize(),commentDOBasePageResult.getTotalCount(),comCommentVOList);
+            comCommentVOPageVO = new PageVO<ComCommentVO>(evaluationListQuery.getPageNo(),evaluationListQuery.getPageSize(),commentDOBasePageResult.getTotalCount(),comCommentVOList);
         }
         return comCommentVOPageVO;
     }
