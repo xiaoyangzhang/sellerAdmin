@@ -1,9 +1,9 @@
-package com.yimayhd.sellerAdmin.controller.business.vo;
+package com.yimayhd.sellerAdmin.controller.merchant.vo;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class BusinessBasicInfoVo implements Serializable{
+public class MerchantInfoVo implements Serializable{
 
 	/**
 	 * 
@@ -12,6 +12,8 @@ public class BusinessBasicInfoVo implements Serializable{
 	
 		//昵称
 		private String nickName;
+		
+		private long id ;
 		// 店铺名称
 		private String name;
 		// 商户负责人电话
@@ -66,6 +68,12 @@ public class BusinessBasicInfoVo implements Serializable{
 		}
 		public void setTxImage(String txImage) {
 			this.txImage = txImage;
+		}
+		public long getId() {
+			return id;
+		}
+		public void setId(long id) {
+			this.id = id;
 		}
 
 		

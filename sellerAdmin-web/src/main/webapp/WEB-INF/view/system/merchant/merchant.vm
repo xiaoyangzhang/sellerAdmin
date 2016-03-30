@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="zh-cmn-Hans">
-<head>
-<link rel="shortcut icon" href="http://s0.test.jiuxiulvxing.com/busines/img/jiuxiu_favicon.ico" mce_href="http://s0.test.jiuxiulvxing.com/busines/img/jiuxiu_favicon.ico" type="image/x-icon" />
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>商户店铺</title>
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/base.css">
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/common.css">
+#set ($layout="/layout/layout2.vm")
+
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/jquery-ui-1.10.4.custom.css">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/merchant.css">
-</head>
-<body>
+
 	<div class="header">
 		<div class="comwidth content clearfix">
 			<a class="fl block"><img src="http://s0.test.jiuxiulvxing.com/busines/img/logo.jpg" >
@@ -54,36 +45,37 @@
 					<li>账户信息</li>
 				</ul>
 			</div>
-			<form class="registerform" method="post" action="saveBusinessBasic">
+			<form class="registerform" method="post" action="">
+				<input type="hidden" name="id" #if("$!id" == "") value="0" #else value="$!id" #end/>
 			   <div class = "eredar-list eredar-list1 merchant-list1">
 				    <p>	
 						<em><font>*</font>昵称  :</em>
 						<span>
-							<input type="text" value="" name="nickName" class="inputxt" datatype="s6-18" errormsg="昵称至少6个字符,最多18个字符！" />
+							<input type="text" value="$!nickName" name="nickName" class="inputxt" datatype="s6-18" errormsg="昵称至少6个字符,最多18个字符！" />
 						</span>
 					</p>
 					<p>
 						<em><font>*</font>店铺名称  :</em>
 						<span>
-							<input type="text" value="" name="name" class="inputxt" datatype="s6-18" errormsg="昵称至少6个字符,最多18个字符！" />
+							<input type="text" value="$!name" name="name" class="inputxt" datatype="s6-18" errormsg="昵称至少6个字符,最多18个字符！" />
 						</span>
 					</p>
 					<p>
 						<em>店铺负责人电话  :</em>
 						<span>
-							<input type="text" value="" name="merchantPrincipalTel" class="inputxt" datatype="m" errormsg="请输入店铺负责人手机号码！"  />
+							<input type="text" value="$!merchantPrincipalTel" name="merchantPrincipalTel" class="inputxt" datatype="m" errormsg="请输入店铺负责人手机号码！"  />
 						</span>
 					</p>
 					<p>
 						<em>客服电话  :</em>
 						<span>
-							<input type="text" value="" name="serviceTel" class="inputxt" datatype="m" errormsg="请输入客服电话号码！"  />
+							<input type="text" value="$!serviceTel" name="serviceTel" class="inputxt" datatype="m" errormsg="请输入客服电话号码！"  />
 						</span>
 					</p>
 					<p>
 						<em class="mt">店铺地址  :</em>
 						<span>
-							<textarea tip="请在这里输入您的店铺地址。" altercss="gray" class="gray" name="address" value="" datatype="*" errormsg="请在这里输入您的店铺地址！"></textarea><label class = "lab">0/100</label>
+							<textarea tip="请在这里输入您的店铺地址。" value="" altercss="gray" class="gray" name="address"  datatype="*" errormsg="请在这里输入您的店铺地址！">$!address</textarea><label class = "lab">0/100</label>
 						</span>
 					</p>
 					<div class="merchant-shop">
@@ -91,10 +83,14 @@
 						<div class="bigbox">
 							<span class="imgbox">
 								<div class="canclick canclickL">
+									#if("$!djImage" == "")
 									<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+									#else
+									<img src="$!imgSrc$!djImage">
+									#end
 								</div><div class="plhd"></div><div class="del">删除图片</div>
 								<input type="file" name="adpicfile" class="adpicfile single">
-								<input type="hidden" name="djImage">
+								<input type="hidden" name="djImage" value="$!djImage">
 							</span>
 						<label class="lab">图片大小不超过500K,建议图片尺寸为：800*300,仅限于JPG,BMP,PNG格式</label>
 			           </div>
@@ -104,24 +100,27 @@
 						<div class="bigbox">
 							<span class="imgbox">
 								<div class="canclick canclickL">
+									#if("$!txImage" == "")
 									<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+									#else
+									<img src="$!imgSrc$!txImage">
+									#end
 								</div><div class="plhd"></div><div class="del">删除图片</div>
 								<input type="file" name="adpicfile" class="adpicfile single">
-								<input type="hidden" name="txImage">
+								<input type="hidden" name="txImage" value="$!txImage">
 							</span>
 						<label class="lab">图片大小不超过500K,建议图片尺寸为：200*200,仅限于JPG,BMP,PNG格式</label>
 			           </div>
 					</div>
 				</div>
-				<div class = "eredar-list merchant-list2">
-					<button>保存</button>
-				</div>
 			</form>
+			<div class = "eredar-list merchant-list2">
+				<button id="save">保存</button>
+			</div>
 		</div>
 	</div>
+	
 	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/sea.js"></script>
 	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/seajs-preload.js"></script>
-	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/config.js"></script>		
+	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/config.js"></script>	
 	<script>seajs.use("merchant");</script>	
-</body>
-</html>
