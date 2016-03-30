@@ -51,7 +51,7 @@ public class UserBiz {
 				&& result.getValue() != null
 				&& result.getValue().getValue() != null) {
 			long userId = result.getValue().getValue().getId();
-			menuBiz.cacheMenus2Tair(userId);
+			menuBiz.cacheUserMenus2Tair(userId);
 		}
 		return result;
 	}

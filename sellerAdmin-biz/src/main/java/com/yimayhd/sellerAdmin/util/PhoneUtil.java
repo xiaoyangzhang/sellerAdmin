@@ -11,9 +11,9 @@ public class PhoneUtil {
 		if( mobile == null ){
 			return null;
 		}
-		int index = mobile.indexOf(Constant.MOBILE_PRE);
-		if( index > 0 ){
-			mobile = mobile.substring(index);
+		boolean contain = mobile.contains(Constant.MOBILE_PRE);
+		if( contain ){
+			mobile = mobile.substring(Constant.MOBILE_PRE.length());
 		}
 		return mobile ;
 	}

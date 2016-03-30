@@ -26,7 +26,7 @@ public class MenuVO implements Serializable, Comparable<MenuVO> {
 	 */
 	private long parentId; 
 	
-	private boolean selected ;
+	private String parentName ;
 	/**
 	 * 子菜单
 	 */
@@ -86,6 +86,16 @@ public class MenuVO implements Serializable, Comparable<MenuVO> {
 	}
 
 
+	public String getParentName() {
+		return parentName;
+	}
+
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
+
+
 	public List<MenuVO> getChildren() {
 		return children;
 	}
@@ -93,16 +103,6 @@ public class MenuVO implements Serializable, Comparable<MenuVO> {
 
 	public void setChildren(List<MenuVO> children) {
 		this.children = children;
-	}
-
-
-	public boolean isSelected() {
-		return selected;
-	}
-
-
-	public void setSelected(boolean selected) {
-		this.selected = selected;
 	}
 
 }

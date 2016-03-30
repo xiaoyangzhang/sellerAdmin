@@ -19,7 +19,7 @@ public class LocationVO implements Serializable {
 	/**
 	 * 下一级路径
 	 */
-	private LocationVO next;
+	private LocationVO parent;
 
 	public long getId() {
 		return id;
@@ -45,13 +45,12 @@ public class LocationVO implements Serializable {
 		this.url = url;
 	}
 
-	public LocationVO getNext() {
-		return next;
+	public LocationVO getParent() {
+		return parent;
 	}
 
-	public void setNext(LocationVO next) {
-		this.next = next;
+	public void setParent(LocationVO parent) {
+		this.parent = parent;
 	}
-
 
 }
