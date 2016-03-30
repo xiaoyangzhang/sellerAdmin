@@ -31,7 +31,7 @@ public class EvaluationController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model,EvaluationListQuery evaluationListQuery)  throws Exception {
         PageVO<ComCommentVO> pageVO = evaluationService.getList(evaluationListQuery);
-    	model.addAttribute("evaluationList", pageVO.getItemList());
+    	model.addAttribute("evaluationList", pageVO.getResultList());
     	model.addAttribute("pageVo", pageVO);
     	 model.addAttribute("evaluationListQuery", evaluationListQuery);
     	return "/system/evaluate/list";

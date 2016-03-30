@@ -45,7 +45,7 @@ public class HotelManageController extends BaseController {
 	public String list(Model model, HotelListQuery hotelListQuery) throws Exception {
 
 		PageVO<HotelDO> pageVo = hotelRPCService.pageQueryHotel(hotelListQuery);
-		List<HotelDO> hotelDOList = pageVo.getItemList();
+		List<HotelDO> hotelDOList = pageVo.getResultList();
 
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("hotelListQuery", hotelListQuery);
@@ -226,7 +226,7 @@ public class HotelManageController extends BaseController {
 		PageVO<HotelDO> pageVo = hotelRPCService.pageQueryHotel(hotelListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("hotelListQuery", hotelListQuery);
-		model.addAttribute("hotelDOList", pageVo.getItemList());
+		model.addAttribute("hotelDOList", pageVo.getResultList());
 		model.addAttribute("multiSelect", multiSelect);
 		return "/system/hotel/selectList";
 	}

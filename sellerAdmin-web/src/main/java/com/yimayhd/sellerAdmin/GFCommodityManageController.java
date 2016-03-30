@@ -52,7 +52,7 @@ public class GFCommodityManageController extends BaseController {
 		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
 		model.addAttribute("pageVo", pageVO);
 		model.addAttribute("itemTypeList", itemTypeList);
-		model.addAttribute("commodityList", pageVO.getItemList());
+		model.addAttribute("commodityList", pageVO.getResultList());
 		model.addAttribute("commodityListQuery", commodityListQuery);
 		return "/system/comm/gf/list";
 	}

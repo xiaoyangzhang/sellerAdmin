@@ -42,7 +42,7 @@ public class VoucherController extends BaseController {
     public String list(Model model, VoucherListQuery voucherListQuery) throws Exception {
         PageVO<VoucherTemplateVO> pageVO = voucherTemplateService.getList(voucherListQuery);
         model.addAttribute("voucherListQuery",voucherListQuery);
-        model.addAttribute("voucherTemplateList",pageVO.getItemList());
+        model.addAttribute("voucherTemplateList",pageVO.getResultList());
         model.addAttribute("pageVo",pageVO);
         return "/system/voucherTemplate/list";
     }

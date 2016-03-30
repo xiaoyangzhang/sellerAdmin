@@ -1,7 +1,7 @@
 package com.yimayhd.sellerAdmin.service;
 
-import com.yimayhd.resourcecenter.entity.item.ItemVO;
 import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.model.query.ItemListQuery;
 
 /**

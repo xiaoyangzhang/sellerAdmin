@@ -60,7 +60,7 @@ public class ClubManageController extends BaseController {
 		}
 		PageVO<ClubDO> pageVo = clubService.pageQueryClub(query);
 		model.addAttribute("clubListQuery", query);
-		model.addAttribute("clubList", pageVo.getItemList());
+		model.addAttribute("clubList", pageVo.getResultList());
 		model.addAttribute("pageVo", pageVo);
 		return "/system/club/list";
 	}

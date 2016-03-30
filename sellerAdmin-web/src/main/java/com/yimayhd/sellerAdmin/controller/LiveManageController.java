@@ -43,7 +43,7 @@ public class LiveManageController extends BaseController {
 		PageVO<SnsSubjectVO> pageVO = liveService.getList(liveListQuery);
 		model.addAttribute("pageVo", pageVO);
 		model.addAttribute("liveListQuery", liveListQuery);
-		model.addAttribute("liveList", pageVO.getItemList());
+		model.addAttribute("liveList", pageVO.getResultList());
 		return "/system/live/list";
 	}
 

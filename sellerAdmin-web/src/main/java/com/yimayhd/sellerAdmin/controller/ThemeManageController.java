@@ -51,7 +51,7 @@ public class ThemeManageController extends BaseController {
 	public String list(Model model, ThemeVoQuery query){
 		try {
 			PageVO<ComTagDO> pageVo = themeService.getPageTheme(query);
-			model.addAttribute("themeList", pageVo.getItemList());
+			model.addAttribute("themeList", pageVo.getResultList());
 			model.addAttribute("pageVo", pageVo);
 			return "/system/theme/list";
 		} catch (Exception e) {

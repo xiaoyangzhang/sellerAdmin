@@ -43,7 +43,7 @@ public class TravelOfficialManageController extends BaseController {
 		PageVO<SnsTravelSpecialtyDO> pageVo = travelOfficialService.getList(travelOfficialListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("travelOfficialListQuery", travelOfficialListQuery);
-		model.addAttribute("travelOfficialList", pageVo.getItemList());
+		model.addAttribute("travelOfficialList", pageVo.getResultList());
 		return "/system/travelOfficial/list";
 	}
 

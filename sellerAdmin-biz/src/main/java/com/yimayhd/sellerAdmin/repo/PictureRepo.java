@@ -42,7 +42,7 @@ public class PictureRepo {
 		ppq.setPageNo(1);
 		ppq.setPageSize(limit);
 		ppq.setStatus(BaseStatus.AVAILABLE.getType());
-		return pageQueryPictures(ppq).getItemList();
+		return pageQueryPictures(ppq).getResultList();
 	}
 
 	public List<PicturesDO> queryAllPictures(PictureOutType outType, long outId) {
@@ -52,6 +52,6 @@ public class PictureRepo {
 		ppq.setPageNo(1);
 		ppq.setPageSize(PICTURE_MAX_SIZE);
 		ppq.setStatus(BaseStatus.AVAILABLE.getType());
-		return pageQueryPictures(ppq).getItemList();
+		return pageQueryPictures(ppq).getResultList();
 	}
 }

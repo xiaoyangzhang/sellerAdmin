@@ -67,7 +67,7 @@ public class RecommendedManageController extends BaseController {
 			}
 			PageVO<RegionIntroduceDO> pageVo = recommendedService.pageVORegionIntroduceDO(query);
 			model.addAttribute("query", query);
-			model.addAttribute("list", pageVo.getItemList());
+			model.addAttribute("list", pageVo.getResultList());
 			model.addAttribute("pageVo", pageVo);
 			return "/system/recommended/list";
 		} catch (Exception e) {

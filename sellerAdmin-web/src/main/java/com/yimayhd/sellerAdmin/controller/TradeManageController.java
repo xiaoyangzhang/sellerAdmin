@@ -66,7 +66,7 @@ public class TradeManageController extends BaseController {
 		}
 
 		PageVO<BizOrderVO> pageVo = tradeService.getOrderList(sellerId,tradeListQuery);
-		List<BizOrderVO> bizOrderVOList = pageVo.getItemList();
+		List<BizOrderVO> bizOrderVOList = pageVo.getResultList();
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("tradeListQuery", tradeListQuery);
 		model.addAttribute("orderList", bizOrderVOList);
@@ -144,7 +144,7 @@ public class TradeManageController extends BaseController {
 		PageVO<PayOrderDO> pageVo  = tradeService.getPayOrderList(sellerId,payListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("payListQuery", payListQuery);
-		model.addAttribute("payList", pageVo.getItemList());
+		model.addAttribute("payList", pageVo.getResultList());
 		return "/system/trade/pay/list";
 	}
 	/**

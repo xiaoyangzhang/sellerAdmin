@@ -39,7 +39,7 @@ public class PageVO<T> implements Serializable {
 		if (pageSize <= 0)
 			throw new IllegalArgumentException("[pageSize] must great than zero");
 		this.paginator = new Paginator(pageNumber, pageSize, totalCount);
-		setItemList(result);
+		setResultList(result);
 	}
 
 	/**
@@ -170,14 +170,14 @@ public class PageVO<T> implements Serializable {
 		return Paginator.generateLinkPageNumbers(getThisPageNumber(), getLastPageNumber(), count);
 	}
 
-	public List<T> getItemList() {
+	public List<T> getResultList() {
 		return result;
 	}
 
-	public void setItemList(List<T> itemList) {
-		if (itemList == null)
-			throw new IllegalArgumentException("'itemList' must be not null");
-		this.result = itemList;
+	public void setResultList(List<T> resultList) {
+		if (resultList == null)
+			throw new IllegalArgumentException("'resultList' must be not null");
+		this.result = resultList;
 	}
 
 	public Paginator getPaginator() {

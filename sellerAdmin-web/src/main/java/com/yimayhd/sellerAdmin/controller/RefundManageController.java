@@ -65,7 +65,7 @@ public class RefundManageController extends BaseController {
 		PageVO<IMallRefundRecordDO> pageVO = refundService.getList(sellerId,refundListQuery);
 		model.addAttribute("pageVo", pageVO);
 		model.addAttribute("refundListQuery", refundListQuery);
-		model.addAttribute("refundList", null == pageVO ? null : pageVO.getItemList());
+		model.addAttribute("refundList", null == pageVO ? null : pageVO.getResultList());
 		return "/system/refund/list";
 	}
 

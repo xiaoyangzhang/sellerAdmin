@@ -90,7 +90,7 @@ public class UserInfoController extends BaseController {
 		long sellerId = sessionManager.getUserId();
 		PageVO<UserDO> pageVO = userService.getMemberByUserId(sellerId, tradeMemberQuery);
 		model.addAttribute("tradeMemberQuery", tradeMemberQuery);
-		model.addAttribute("userList", pageVO.getItemList());
+		model.addAttribute("userList", pageVO.getResultList());
 		model.addAttribute("pageVo", pageVO);
 		return "/system/tradeUser/list";
 	}

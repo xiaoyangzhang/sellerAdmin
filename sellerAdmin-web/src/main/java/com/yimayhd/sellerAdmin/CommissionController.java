@@ -65,7 +65,7 @@ public class CommissionController  extends BaseController{
 
 			if (pageVO != null) {
 
-				List<AmountDetailDTO> commissionList =  pageVO.getItemList();
+				List<AmountDetailDTO> commissionList =  pageVO.getResultList();
 				model.addAttribute("commissionDetailQuery", commissionDetailQuery);
 				model.addAttribute("pageVo",pageVO);
 				model.addAttribute("commissionList",commissionList);

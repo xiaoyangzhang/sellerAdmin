@@ -4,14 +4,16 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.model.query.CommodityListQuery;
+import com.yimayhd.sellerAdmin.model.query.ItemListQuery;
+import com.yimayhd.sellerAdmin.service.ItemService;
 
 /**
  * 商品管理
@@ -20,8 +22,9 @@ import com.yimayhd.sellerAdmin.model.query.CommodityListQuery;
  *
  */
 @Controller
-@RequestMapping("/B2C/commodityManage")
-public class ItemManageController {
+@RequestMapping("/item")
+public class ItemController extends BaseController {
+	private ItemService itemService;
 
 	/**
 	 * 商品列表
@@ -30,13 +33,13 @@ public class ItemManageController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model, CommodityListQuery commodityListQuery) throws Exception {
-		PageVO<ItemVO> pageVO = null;// commodityService.getList(commodityListQuery);
+	public String list(ItemListQuery query) throws Exception {
+		PageVO<ItemVO> pageVO = itemService.getItemList(query);
 		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
-		model.addAttribute("pageVo", pageVO);
-		model.addAttribute("itemTypeList", itemTypeList);
-		model.addAttribute("commodityList", pageVO.getItemList());
-		model.addAttribute("commodityListQuery", commodityListQuery);
+		put("pageVo", pageVO);
+		put("itemTypeList", itemTypeList);
+		put("commodityList", pageVO.getResultList());
+		put("query", query);
 		return "/system/comm/list";
 	}
 }
