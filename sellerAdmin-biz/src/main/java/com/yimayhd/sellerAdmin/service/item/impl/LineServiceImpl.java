@@ -15,7 +15,7 @@ import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.CategoryValueDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
-import com.yimayhd.ic.client.model.domain.share_json.LinePropertyType;
+import com.yimayhd.ic.client.model.enums.PropertyType;
 import com.yimayhd.ic.client.model.param.item.line.LinePubAddDTO;
 import com.yimayhd.ic.client.model.param.item.line.LinePubUpdateDTO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
@@ -122,9 +122,8 @@ public class LineServiceImpl implements LineService {
 		if (category != null) {
 			List<CategoryPropertyValueDO> propertyDOs = category.getSellCategoryPropertyDOs();
 			if (CollectionUtils.isNotEmpty(propertyDOs)) {
-				lineConfig.setOptions(1);
 				for (CategoryPropertyValueDO propertyDO : propertyDOs) {
-					if (propertyDO.getCategoryPropertyDO().getId() == LinePropertyType.PERSON.getType()) {
+					if (propertyDO.getCategoryPropertyDO().getType() == PropertyType.PERSON_TYPE.getType()) {
 						lineConfig.setPersionProperty(propertyDO.getCategoryPropertyDO());
 						List<CategoryValueDO> categoryValueDOs = propertyDO.getCategoryValueDOs();
 						if (CollectionUtils.isNotEmpty(categoryValueDOs)) {
@@ -132,15 +131,12 @@ public class LineServiceImpl implements LineService {
 								persionPropertyValues.add(categoryValueDO);
 							}
 						}
-					} else if (propertyDO.getCategoryPropertyDO().getId() == LinePropertyType.TRAVEL_PACKAGE
-							.getType()) {
+					} else if (propertyDO.getCategoryPropertyDO().getType() == PropertyType.LINE_PACKAGE.getType()) {
 						lineConfig.setPackageProperty(propertyDO.getCategoryPropertyDO());
-					} else if (propertyDO.getCategoryPropertyDO().getId() == LinePropertyType.DEPART_DATE.getType()) {
+					} else if (propertyDO.getCategoryPropertyDO().getType() == PropertyType.START_DATE.getType()) {
 						lineConfig.setDateProperty(propertyDO.getCategoryPropertyDO());
 					}
 				}
-			} else {
-				lineConfig.setOptions(0);
 			}
 		}
 		lineConfig.setPersionPropertyValues(persionPropertyValues);
