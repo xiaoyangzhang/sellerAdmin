@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.service;
+package com.yimayhd.sellerAdmin.service.item;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import com.yimayhd.sellerAdmin.model.line.LineVO;
  * @author yebin
  *
  */
-public interface CommLineService {
+public interface LineService {
 
 	/**
 	 * 发布线路

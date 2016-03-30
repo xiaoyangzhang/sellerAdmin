@@ -9,7 +9,7 @@ import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.sellerAdmin.model.line.LinePropertyConfig;
 import com.yimayhd.sellerAdmin.model.line.tour.TripTraffic;
 import com.yimayhd.sellerAdmin.service.CategoryService;
-import com.yimayhd.sellerAdmin.service.CommLineService;
+import com.yimayhd.sellerAdmin.service.item.LineService;
 
 /**
  * 线路基本Controller
@@ -19,7 +19,7 @@ import com.yimayhd.sellerAdmin.service.CommLineService;
  */
 public abstract class BaseTravelController extends BaseController {
 	@Resource
-	protected CommLineService commLineService;
+	protected LineService commLineService;
 	@Autowired
 	protected CategoryService categoryService;
 

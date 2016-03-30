@@ -1,5 +1,6 @@
-package com.yimayhd.sellerAdmin.controller.comm;
+package com.yimayhd.sellerAdmin.controller.item;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,7 +10,7 @@ import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.item.ItemListItemVO;
 import com.yimayhd.sellerAdmin.model.query.ItemListQuery;
-import com.yimayhd.sellerAdmin.service.comm.ItemService;
+import com.yimayhd.sellerAdmin.service.item.ItemService;
 
 /**
  * 商品管理
@@ -20,6 +21,7 @@ import com.yimayhd.sellerAdmin.service.comm.ItemService;
 @Controller
 @RequestMapping("/item")
 public class ItemController extends BaseController {
+	@Autowired
 	private ItemService itemService;
 
 	/**

@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.model.item;
 import java.util.Date;
 import java.util.List;
 
+import com.yimayhd.sellerAdmin.model.enums.ItemOperate;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
 
 /**
@@ -21,7 +22,7 @@ public class ItemListItemVO {
 	private long price;
 	private long status;
 	private Date publishDate;
-	private List<String> operates;
+	private List<ItemOperate> operates;
 
 	public long getId() {
 		return id;
@@ -95,11 +96,11 @@ public class ItemListItemVO {
 		this.publishDate = publishDate;
 	}
 
-	public List<String> getOperates() {
+	public List<ItemOperate> getOperates() {
 		return operates;
 	}
 
-	public void setOperates(List<String> operates) {
+	public void setOperates(List<ItemOperate> operates) {
 		this.operates = operates;
 	}
 }

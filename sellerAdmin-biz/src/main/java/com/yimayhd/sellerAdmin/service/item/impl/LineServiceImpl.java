@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.service.impl;
+package com.yimayhd.sellerAdmin.service.item.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +35,10 @@ import com.yimayhd.sellerAdmin.repo.CategoryRepo;
 import com.yimayhd.sellerAdmin.repo.CityRepo;
 import com.yimayhd.sellerAdmin.repo.CommentRepo;
 import com.yimayhd.sellerAdmin.repo.LineRepo;
-import com.yimayhd.sellerAdmin.service.CommLineService;
+import com.yimayhd.sellerAdmin.service.item.LineService;
 import com.yimayhd.user.client.dto.CityDTO;
 
-public class CommLineServiceImpl implements CommLineService {
+public class LineServiceImpl implements LineService {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private LineRepo lineRepo;

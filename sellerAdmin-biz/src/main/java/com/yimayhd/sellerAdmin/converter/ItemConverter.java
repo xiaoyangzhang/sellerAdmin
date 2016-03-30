@@ -6,6 +6,7 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.sellerAdmin.model.item.ItemListItemVO;
 import com.yimayhd.sellerAdmin.model.query.ItemListQuery;
+import com.yimayhd.sellerAdmin.util.ItemUtils;
 
 /**
  * 商品转换器
@@ -34,6 +35,7 @@ public class ItemConverter {
 			return null;
 		}
 		ItemListItemVO itemListItemVO = new ItemListItemVO();
+		itemListItemVO.setOperates(ItemUtils.getItemOperates(itemDO.getItemType(), itemDO.getStatus()));
 		return itemListItemVO;
 	}
 

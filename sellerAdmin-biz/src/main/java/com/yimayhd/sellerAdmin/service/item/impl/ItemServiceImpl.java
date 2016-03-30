@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.service.comm.impl;
+package com.yimayhd.sellerAdmin.service.item.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import com.yimayhd.sellerAdmin.model.query.ItemListQuery;
 import com.yimayhd.sellerAdmin.repo.CityRepo;
 import com.yimayhd.sellerAdmin.repo.CommentRepo;
 import com.yimayhd.sellerAdmin.repo.ItemRepo;
-import com.yimayhd.sellerAdmin.service.comm.ItemService;
+import com.yimayhd.sellerAdmin.service.item.ItemService;
 import com.yimayhd.user.client.dto.CityDTO;
 
 /**
