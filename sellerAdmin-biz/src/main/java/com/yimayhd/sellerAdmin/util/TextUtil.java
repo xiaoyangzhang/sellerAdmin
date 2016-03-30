@@ -1,7 +1,8 @@
 package com.yimayhd.sellerAdmin.util;
 
-import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang.StringUtils;
+
+import com.alibaba.fastjson.JSON;
 
 public class TextUtil {
 	/**

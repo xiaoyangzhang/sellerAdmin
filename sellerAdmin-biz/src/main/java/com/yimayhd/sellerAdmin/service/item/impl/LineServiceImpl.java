@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.service.impl;
+package com.yimayhd.sellerAdmin.service.item.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +35,10 @@ import com.yimayhd.sellerAdmin.repo.CategoryRepo;
 import com.yimayhd.sellerAdmin.repo.CityRepo;
 import com.yimayhd.sellerAdmin.repo.CommentRepo;
 import com.yimayhd.sellerAdmin.repo.LineRepo;
-import com.yimayhd.sellerAdmin.service.CommLineService;
+import com.yimayhd.sellerAdmin.service.item.LineService;
 import com.yimayhd.user.client.dto.CityDTO;
 
-public class CommLineServiceImpl implements CommLineService {
+public class LineServiceImpl implements LineService {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private LineRepo lineRepo;
@@ -56,17 +56,17 @@ public class CommLineServiceImpl implements CommLineService {
 		}
 		LineResult lineResult = lineRepo.getLineById(id);
 		// 主题
-		List<ComTagDO> themeTags = commentRepo.getTags(id, TagType.LINETAG);
+		List<ComTagDO> themeTags = commentRepo.getTagsByOutId(id, TagType.LINETAG);
 		List<TagDTO> themes = TagConverter.toTagDTO(themeTags);
 		// 出发地
-		List<ComTagDO> departTags = commentRepo.getTags(id, TagType.DEPARTPLACE);
+		List<ComTagDO> departTags = commentRepo.getTagsByOutId(id, TagType.DEPARTPLACE);
 		List<CityVO> departs = new ArrayList<CityVO>();
 		for (ComTagDO comTagDO : departTags) {
 			CityDTO cityDTO = cityRepo.getNameByCode(comTagDO.getName());
 			departs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
 		}
 		// 目的地
-		List<ComTagDO> destTags = commentRepo.getTags(id, TagType.DESRTPLACE);
+		List<ComTagDO> destTags = commentRepo.getTagsByOutId(id, TagType.DESRTPLACE);
 		List<CityVO> dests = new ArrayList<CityVO>();
 		for (ComTagDO comTagDO : destTags) {
 			CityDTO cityDTO = cityRepo.getNameByCode(comTagDO.getName());
@@ -104,8 +104,14 @@ public class CommLineServiceImpl implements CommLineService {
 	}
 
 	@Override
-	public List<ComTagDO> getAllLineDests() {
-		return commentRepo.getTagsByTagType(TagType.DESRTPLACE);
+	public List<CityVO> getAllLineDests() {
+		List<ComTagDO> comTagDOs = commentRepo.getTagsByTagType(TagType.DESRTPLACE);
+		List<CityVO> cityVOs = new ArrayList<CityVO>();
+		for (ComTagDO comTagDO : comTagDOs) {
+			CityDTO cityDTO = cityRepo.getNameByCode(comTagDO.getName());
+			cityVOs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
+		}
+		return cityVOs;
 	}
 
 	@Override

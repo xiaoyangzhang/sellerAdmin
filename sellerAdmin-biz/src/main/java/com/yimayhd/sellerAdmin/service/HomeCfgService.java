@@ -2,12 +2,12 @@ package com.yimayhd.sellerAdmin.service;
 
 import java.util.List;
 
-import com.yimayhd.sellerAdmin.model.vo.CfgBaseVO;
-import com.yimayhd.sellerAdmin.model.vo.CfgResultVO;
-import com.yimayhd.sellerAdmin.model.vo.ShowCaseVO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.model.result.RcResult;
+import com.yimayhd.sellerAdmin.model.vo.CfgBaseVO;
+import com.yimayhd.sellerAdmin.model.vo.CfgResultVO;
+import com.yimayhd.sellerAdmin.model.vo.ShowCaseVO;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.user.client.domain.UserDO;
 

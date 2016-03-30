@@ -2,12 +2,12 @@ package com.yimayhd.sellerAdmin.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.yimayhd.sellerAdmin.service.RcOperationService;
 import com.yimayhd.resourcecenter.domain.OperationDO;
 import com.yimayhd.resourcecenter.model.query.OperationQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.resourcecenter.service.OperationClientServer;
+import com.yimayhd.sellerAdmin.service.RcOperationService;
 
 public class RcOperationServiceImpl implements RcOperationService {
 

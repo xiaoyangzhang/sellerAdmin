@@ -1,15 +1,15 @@
 package com.yimayhd.sellerAdmin.model;
 
-import com.yimayhd.snscenter.client.enums.ActivityPicUrlsKey;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.sellerAdmin.util.NumUtil;
 import com.yimayhd.snscenter.client.dto.ActivityInfoDTO;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.yimayhd.snscenter.client.enums.ActivityPicUrlsKey;
 
 
 public class ActivityVO extends ActivityInfoDTO {

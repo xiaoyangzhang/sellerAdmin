@@ -2,12 +2,12 @@ package com.yimayhd.sellerAdmin.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.yimayhd.sellerAdmin.service.RcBoothService;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.model.query.BoothQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.resourcecenter.service.BoothClientServer;
+import com.yimayhd.sellerAdmin.service.RcBoothService;
 
 public class RcBoothServiceImpl implements RcBoothService {
 	

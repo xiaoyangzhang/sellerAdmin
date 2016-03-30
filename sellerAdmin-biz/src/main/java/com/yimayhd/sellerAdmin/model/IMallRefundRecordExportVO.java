@@ -1,11 +1,12 @@
 package com.yimayhd.sellerAdmin.model;
 
-import com.yimayhd.sellerAdmin.util.NumUtil;
-import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundRecordDO;
-import org.springframework.beans.BeanUtils;
-
 import java.io.Serializable;
 import java.util.Date;
+
+import org.springframework.beans.BeanUtils;
+
+import com.yimayhd.sellerAdmin.util.NumUtil;
+import com.yimayhd.tradecenter.client.model.domain.imall.IMallRefundRecordDO;
 
 /**
  * Created by Administrator on 2015/12/8.

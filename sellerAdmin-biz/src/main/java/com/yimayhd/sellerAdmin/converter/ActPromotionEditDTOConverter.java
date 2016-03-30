@@ -1,11 +1,12 @@
 package com.yimayhd.sellerAdmin.converter;
 
+import org.springframework.beans.BeanUtils;
+
 import com.yimayhd.activitycenter.domain.ActActivityDO;
 import com.yimayhd.activitycenter.dto.ActPromotionEditDTO;
-import com.yimayhd.sellerAdmin.model.ActActivityEditVO;
 import com.yimayhd.promotion.client.dto.PromotionEditDTO;
 import com.yimayhd.promotion.client.enums.EntityType;
-import org.springframework.beans.BeanUtils;
+import com.yimayhd.sellerAdmin.model.ActActivityEditVO;
 
 /**
  * Created by czf on 2016/2/18.

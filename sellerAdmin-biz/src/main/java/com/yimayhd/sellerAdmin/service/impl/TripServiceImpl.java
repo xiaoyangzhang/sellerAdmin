@@ -1,14 +1,11 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import com.yimayhd.ic.client.model.domain.LineDO;
-import com.yimayhd.ic.client.model.enums.LineType;
-import com.yimayhd.ic.client.model.result.ICResult;
-import com.yimayhd.sellerAdmin.model.query.LiveListQuery;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -17,19 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.enums.BaseStatus;
-import com.yimayhd.sellerAdmin.base.PageVO;
-import com.yimayhd.sellerAdmin.model.RelevanceRecommended;
-import com.yimayhd.sellerAdmin.model.TripBo;
-import com.yimayhd.sellerAdmin.model.TripBoQuery;
-import com.yimayhd.sellerAdmin.model.query.ScenicListQuery;
-import com.yimayhd.sellerAdmin.service.ScenicService;
-import com.yimayhd.sellerAdmin.service.TripService;
 import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.domain.share_json.TextItem;
+import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
+import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.RegionDO;
@@ -42,21 +35,27 @@ import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 import com.yimayhd.resourcecenter.model.query.RegionQuery;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.result.DestinationResult;
+import com.yimayhd.resourcecenter.model.result.DestinationResult.BoothShowResult;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
-import com.yimayhd.resourcecenter.model.result.DestinationResult.BoothShowResult;
 import com.yimayhd.resourcecenter.service.BoothClientServer;
 import com.yimayhd.resourcecenter.service.RegionClientService;
 import com.yimayhd.resourcecenter.service.RegionIntroduceClientService;
 import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
+import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.model.RelevanceRecommended;
+import com.yimayhd.sellerAdmin.model.TripBo;
+import com.yimayhd.sellerAdmin.model.TripBoQuery;
+import com.yimayhd.sellerAdmin.model.query.LiveListQuery;
+import com.yimayhd.sellerAdmin.model.query.ScenicListQuery;
+import com.yimayhd.sellerAdmin.service.ScenicService;
+import com.yimayhd.sellerAdmin.service.TripService;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
 import com.yimayhd.snscenter.client.result.BasePageResult;
 import com.yimayhd.snscenter.client.result.BaseResult;
 import com.yimayhd.snscenter.client.service.SnsCenterService;
-
-import java.lang.reflect.Field;
 
 public class TripServiceImpl implements TripService {
 	private static final Logger log = LoggerFactory.getLogger(TripServiceImpl.class);
@@ -774,7 +773,7 @@ public class TripServiceImpl implements TripService {
 	public PageVO<SnsSubjectDO> getPageSnsSubjectDO(LiveListQuery liveListQuery) {
 		SubjectInfoDTO subjectInfoDTO = new SubjectInfoDTO();
 		subjectInfoDTO.setPageSize(liveListQuery.getPageSize());
-		subjectInfoDTO.setPageNo(liveListQuery.getPageNumber());
+		subjectInfoDTO.setPageNo(liveListQuery.getPageNo());
 		subjectInfoDTO.setNeedCount(true);
 		subjectInfoDTO.setTextContent(liveListQuery.getContent());
 		int totalCount = 0;
@@ -784,7 +783,7 @@ public class TripServiceImpl implements TripService {
 			list = res.getList();
 			totalCount=res.getTotalCount();
 		}
-		return new PageVO<SnsSubjectDO>(liveListQuery.getPageNumber(), liveListQuery.getPageSize(), totalCount, list);
+		return new PageVO<SnsSubjectDO>(liveListQuery.getPageNo(), liveListQuery.getPageSize(), totalCount, list);
 	}
 
 }

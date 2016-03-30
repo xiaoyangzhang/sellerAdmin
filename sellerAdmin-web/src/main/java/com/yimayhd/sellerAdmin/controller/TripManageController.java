@@ -5,25 +5,30 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.yimayhd.sellerAdmin.base.BaseQuery;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.resourcecenter.domain.RegionDO;
+import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.base.BaseQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.constant.ResponseStatus;
 import com.yimayhd.sellerAdmin.model.TripBo;
 import com.yimayhd.sellerAdmin.model.TripBoQuery;
 import com.yimayhd.sellerAdmin.service.TripService;
-import com.yimayhd.resourcecenter.domain.RegionDO;
-import com.yimayhd.resourcecenter.model.enums.RegionType;
 /** 
 * @ClassName: DepartureManageController 
 * @Description: (出发地、目的地管理，目的地关联相应的 推荐信息，如 必买 必去 酒店 直播) 

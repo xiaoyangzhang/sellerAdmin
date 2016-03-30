@@ -14,10 +14,10 @@
         </style>
     </head>
     <body>
-        #foreach($key in $departMap.keySet())  
-        <div id="$!{key}" class="choosecity">
-        	<label>$!{key}:</label>
-        	#foreach($depart in $paramValues.get($key))  
+        #foreach($entry in $departMap.entrySet())  
+        <div id="$!{entry.key}" class="choosecity">
+        	<label>$!{entry.key}:</label>
+        	#foreach($depart in $entry.value)  
         	<label><input type="checkbox" class="city ck" depart-id="$!{depart.id}" depart-code="$!{depart.city.code}" depart-name="$!{depart.city.name}">$!{depart.city.name}</label>
         	#end
         </div>

@@ -1,0 +1,18 @@
+	#set( $currentMenuId = $!currentMenu.id )
+	
+	<div class = "comwidth clearfix" id = "eredar">
+		<div class = "eredar-left">
+			#foreach($menu in $!menus)
+				<dl #if($!{velocityCount} ==1) class = "first" #end>
+					<dd>$!menu.name</dd>
+						#if( $menu.children )
+							#foreach($child in $!$menu.children)
+								<dt #if($!{velocityCount} ==1) class ="one #if( $currentMenuId == $child.id) on #end" #end>
+									<a href="$!{child.url}" >$!child.name</a>
+								</dt>
+							#end
+						#end 
+				</dl>
+		    #end
+		</div>
+	</div>

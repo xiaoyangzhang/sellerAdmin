@@ -1,5 +1,9 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.BaseQuery;
@@ -12,9 +16,6 @@ import com.yimayhd.tradecenter.client.model.result.TCPageResult;
 import com.yimayhd.tradecenter.client.model.result.TCResultDTO;
 import com.yimayhd.tradecenter.client.model.result.imall.pointrule.IMallPointRuleResult;
 import com.yimayhd.tradecenter.client.service.imall.IMallHaremService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by Administrator on 2015/11/9.
@@ -47,9 +48,9 @@ public class PointRuleServiceImpl implements PointRuleService {
         IMallPointRuleQuery iMallPointRuleQuery = new IMallPointRuleQuery();
         iMallPointRuleQuery.setVendorId(sellerId);
         iMallPointRuleQuery.setPageSize(baseQuery.getPageSize());
-        iMallPointRuleQuery.setCurrentPage(baseQuery.getPageNumber());
+        iMallPointRuleQuery.setCurrentPage(baseQuery.getPageNo());
         TCPageResult<IMallPointRuleResult> tcPageResult =  iMallHaremServiceRef.queryRuleRecords(iMallPointRuleQuery);
-        PageVO<IMallPointRuleResult> pageVO = new PageVO<IMallPointRuleResult>(baseQuery.getPageNumber(),baseQuery.getPageSize(),0);
+        PageVO<IMallPointRuleResult> pageVO = new PageVO<IMallPointRuleResult>(baseQuery.getPageNo(),baseQuery.getPageSize(),0);
         if(null == tcPageResult){
             log.error("IMallHaremService.queryRuleRecords result is null and parame: " + JSON.toJSONString(iMallPointRuleQuery) + "and baseQuery:" + JSON.toJSONString(baseQuery) + "and sellerId: " + sellerId);
             throw new BaseException("返回结果错误");
@@ -57,7 +58,7 @@ public class PointRuleServiceImpl implements PointRuleService {
             log.error("IMallHaremService.queryRuleRecords error:" + JSON.toJSONString(tcPageResult) + "and parame: " + JSON.toJSONString(iMallPointRuleQuery) + "and baseQuery:" + JSON.toJSONString(baseQuery) + "and sellerId: " + sellerId);
             throw new BaseException(tcPageResult.getResultMsg());
         }
-        pageVO = new PageVO<IMallPointRuleResult>(baseQuery.getPageNumber(),baseQuery.getPageSize(),tcPageResult.getTotalCount(),tcPageResult.getList());
+        pageVO = new PageVO<IMallPointRuleResult>(baseQuery.getPageNo(),baseQuery.getPageSize(),tcPageResult.getTotalCount(),tcPageResult.getList());
         return pageVO;
     }
 

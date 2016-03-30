@@ -6,12 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.yimayhd.sellerAdmin.model.CategoryVO;
-import com.yimayhd.sellerAdmin.service.CategoryService;
-import com.yimayhd.sellerAdmin.util.RepoUtils;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.result.item.CategoryQryResult;
 import com.yimayhd.ic.client.model.result.item.CategoryResult;
+import com.yimayhd.sellerAdmin.model.CategoryVO;
+import com.yimayhd.sellerAdmin.repo.CategoryRepo;
+import com.yimayhd.sellerAdmin.service.CategoryService;
+import com.yimayhd.sellerAdmin.util.RepoUtils;
 
 /**
  * Created by Administrator on 2015/11/25.
@@ -20,6 +21,8 @@ public class CategoryServiceImpl implements CategoryService {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private com.yimayhd.ic.client.service.item.CategoryService categoryServiceRef;
+	@Autowired
+	private CategoryRepo categoryRepo;
 
 	@Override
 	public List<CategoryDO> getCategoryDOList() {

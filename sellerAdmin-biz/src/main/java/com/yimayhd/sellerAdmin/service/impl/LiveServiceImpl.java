@@ -1,5 +1,16 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
@@ -7,6 +18,7 @@ import com.yimayhd.commentcenter.client.enums.CommentType;
 import com.yimayhd.commentcenter.client.enums.SupportType;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
+import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.SnsSubjectVO;
@@ -15,7 +27,6 @@ import com.yimayhd.sellerAdmin.model.query.LiveListQuery;
 import com.yimayhd.sellerAdmin.service.LiveService;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.sellerAdmin.util.PhoneUtil;
-import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.snscenter.client.dto.SubjectInfoAddDTO;
 import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
@@ -25,16 +36,6 @@ import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOQuery;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2015/11/2.
@@ -52,10 +53,10 @@ public class LiveServiceImpl implements LiveService {
 	@Override
 	public PageVO<SnsSubjectVO> getList(LiveListQuery liveListQuery) throws Exception {
 		//返回结果
-		PageVO<SnsSubjectVO> snsSubjectVOPageVO = new PageVO<SnsSubjectVO>(liveListQuery.getPageNumber(),liveListQuery.getPageSize(),0);
+		PageVO<SnsSubjectVO> snsSubjectVOPageVO = new PageVO<SnsSubjectVO>(liveListQuery.getPageNo(),liveListQuery.getPageSize(),0);
 		//查询条件对接
 		SubjectInfoDTO subjectInfoDTO = new SubjectInfoDTO();
-		subjectInfoDTO.setPageNo(liveListQuery.getPageNumber());
+		subjectInfoDTO.setPageNo(liveListQuery.getPageNo());
 		subjectInfoDTO.setPageSize(liveListQuery.getPageSize());
 		//状态
 		subjectInfoDTO.setStatus(liveListQuery.getLiveStatus());
@@ -205,7 +206,7 @@ public class LiveServiceImpl implements LiveService {
 				snsSubjectVO.setSupportNum(supportNumMap.get(snsSubjectVO.getId()));
 				snsSubjectVOList.add(snsSubjectVO);
 			}
-			snsSubjectVOPageVO = new PageVO<SnsSubjectVO>(liveListQuery.getPageNumber(),liveListQuery.getPageSize(),basePageResult.getTotalCount(),snsSubjectVOList);
+			snsSubjectVOPageVO = new PageVO<SnsSubjectVO>(liveListQuery.getPageNo(),liveListQuery.getPageSize(),basePageResult.getTotalCount(),snsSubjectVOList);
 		}
 		return snsSubjectVOPageVO;
 	}

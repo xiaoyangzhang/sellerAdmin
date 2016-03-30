@@ -23,8 +23,6 @@
 	<bean class="com.yimayhd.sellerAdmin.service.impl.HotelRPCServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.FacilityIconServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.ScenicServiceImpl"></bean>
-	<!-- <bean id="config" class="com.yimayhd.palacee.config.ResourceConfig" init-method="init">
-		</bean> -->
 
 	<!-- resources -->
 	<bean class="com.yimayhd.sellerAdmin.service.impl.RcBoothServiceImpl"></bean>
@@ -35,8 +33,6 @@
 	<bean class="com.yimayhd.sellerAdmin.service.impl.HomeCfgServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.PeripheryCfgServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.DiscoveryCfgServiceImpl"></bean>
-	<!-- <bean id="config" class="com.yimayhd.palacee.config.ResourceConfig" init-method="init">
-		</bean> -->
 	<!-- system -->
 	<!--<bean class="com.yimayhd.sellerAdmin.service.impl.SystemManageServiceImpl" />-->
 	<bean class="com.yimayhd.sellerAdmin.service.impl.TfsServiceImpl" />
@@ -45,7 +41,6 @@
 	<bean class="com.yimayhd.sellerAdmin.service.impl.CommodityServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.CategoryServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.DepartServiceImpl"></bean>
-	<bean class="com.yimayhd.sellerAdmin.service.impl.CommLineServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.CommScenicServiceImpl" />
 	<bean class="com.yimayhd.sellerAdmin.service.impl.CommActivityServiceImpl" />
 	<bean class="com.yimayhd.sellerAdmin.service.impl.FlightRPCServiceImpl"></bean>
@@ -54,6 +49,8 @@
 	<bean class="com.yimayhd.sellerAdmin.service.impl.PromotionShopServiceImpl"></bean>
 
 
+	<bean class="com.yimayhd.sellerAdmin.service.item.impl.LineServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.item.impl.ItemServiceImpl"></bean>
 	<!--GF商品-->
 	<bean class="com.yimayhd.gf.service.impl.CommodityServiceImpl"></bean>
 

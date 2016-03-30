@@ -1,9 +1,9 @@
 package com.yimayhd.sellerAdmin.service;
 
-import com.yimayhd.sellerAdmin.base.PageVO;
-import com.yimayhd.sellerAdmin.model.query.PromotionListQuery;
-import com.yimayhd.sellerAdmin.model.PromotionVO;
 import com.yimayhd.promotion.client.domain.PromotionDO;
+import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.model.PromotionVO;
+import com.yimayhd.sellerAdmin.model.query.PromotionListQuery;
 
 /**
  * Created by czf on 2016/1/19.

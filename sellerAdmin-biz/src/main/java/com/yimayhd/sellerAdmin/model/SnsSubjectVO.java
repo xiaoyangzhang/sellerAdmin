@@ -1,15 +1,16 @@
 package com.yimayhd.sellerAdmin.model;
 
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
+
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.snscenter.client.util.ListUtil;
 import com.yimayhd.user.client.domain.UserDO;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.BeanUtils;
-
-import java.util.List;
 
 /**
  * Created by czf on 2015/12/31.

@@ -2,10 +2,10 @@ package com.yimayhd.sellerAdmin.service;
 
 import java.util.List;
 
-import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.ic.client.model.domain.PicturesDO;
 import com.yimayhd.ic.client.model.enums.PictureOutType;
 import com.yimayhd.ic.client.model.query.PicturesPageQuery;
+import com.yimayhd.sellerAdmin.base.PageVO;
 
 /**
  * 图片服务

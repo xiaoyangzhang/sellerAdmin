@@ -1,5 +1,15 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
+
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.converter.OrderConverter;
 import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
@@ -12,7 +22,11 @@ import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
 import com.yimayhd.tradecenter.client.model.enums.CloseOrderReason;
 import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
-import com.yimayhd.tradecenter.client.model.param.order.*;
+import com.yimayhd.tradecenter.client.model.param.order.BuyerConfirmGoodsDTO;
+import com.yimayhd.tradecenter.client.model.param.order.CloseOrderDTO;
+import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
+import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
+import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
 import com.yimayhd.tradecenter.client.model.param.refund.RefundTradeDTO;
 import com.yimayhd.tradecenter.client.model.result.ResultSupport;
 import com.yimayhd.tradecenter.client.model.result.order.BatchQueryResult;
@@ -26,15 +40,6 @@ import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
 import com.yimayhd.user.client.result.BasePageResult;
 import com.yimayhd.user.client.service.UserService;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 订单管理实现
@@ -72,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
 					UserDO userDO = basePageResult.getList().get(0);
 					userId = userDO.getId();
 				}else{
-					PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(), 0,mainOrderList);
+					PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNo(),orderListQuery.getPageSize(), 0,mainOrderList);
 					return orderPageVO;
 				}
 			}
@@ -130,11 +135,11 @@ public class OrderServiceImpl implements OrderService {
 					mainOrderList.add(mo);
 				}
 			}
-			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(),
+			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNo(),orderListQuery.getPageSize(),
 					(int)batchQueryResult.getTotalCount(),mainOrderList);
 			return orderPageVO;
 		}else{
-			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNumber(),orderListQuery.getPageSize(),
+			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNo(),orderListQuery.getPageSize(),
 					0,mainOrderList);
 			return orderPageVO;
 		}

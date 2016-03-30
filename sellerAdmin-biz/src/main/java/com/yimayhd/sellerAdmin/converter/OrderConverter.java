@@ -1,5 +1,15 @@
 package com.yimayhd.sellerAdmin.converter;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
+
 import com.yimayhd.sellerAdmin.model.enums.OrderActionStatus;
 import com.yimayhd.sellerAdmin.model.enums.OrderShowStatus;
 import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
@@ -9,18 +19,13 @@ import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.SkuInfo;
 import com.yimayhd.tradecenter.client.model.domain.order.SkuPropertyInfo;
-import com.yimayhd.tradecenter.client.model.enums.*;
+import com.yimayhd.tradecenter.client.model.enums.LogisticsStatus;
+import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
+import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
+import com.yimayhd.tradecenter.client.model.enums.PayStatus;
+import com.yimayhd.tradecenter.client.model.enums.RefundStatus;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
-
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by zhaozhaonan on 2015/12/18.
@@ -36,7 +41,7 @@ public class OrderConverter {
         }else{
             orderQueryDTO.setDomain(orderListQuery.getDomain());
         }
-        orderQueryDTO.setPageNo(orderListQuery.getPageNumber());
+        orderQueryDTO.setPageNo(orderListQuery.getPageNo());
         orderQueryDTO.setPageSize(orderListQuery.getPageSize());
         //订单类型
         orderQueryDTO.setOrderBizTypes(orderListQuery.getOrderTypes());

@@ -9,14 +9,14 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.yimayhd.sellerAdmin.base.BaseException;
-import com.yimayhd.sellerAdmin.model.Region;
-import com.yimayhd.sellerAdmin.service.RegionService;
-import com.yimayhd.sellerAdmin.util.RepoUtils;
 import com.yimayhd.resourcecenter.domain.RegionDO;
 import com.yimayhd.resourcecenter.model.enums.RegionType;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.service.RegionClientService;
+import com.yimayhd.sellerAdmin.base.BaseException;
+import com.yimayhd.sellerAdmin.model.Region;
+import com.yimayhd.sellerAdmin.service.RegionService;
+import com.yimayhd.sellerAdmin.util.RepoUtils;
 
 /**
  * Created by Administrator on 2015/11/13.

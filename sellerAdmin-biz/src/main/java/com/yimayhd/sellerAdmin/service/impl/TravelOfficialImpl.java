@@ -1,5 +1,15 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.enums.BaseStatus;
 import com.yimayhd.sellerAdmin.base.PageVO;
@@ -15,14 +25,6 @@ import com.yimayhd.snscenter.client.result.BasePageResult;
 import com.yimayhd.snscenter.client.result.BaseResult;
 import com.yimayhd.snscenter.client.service.SnsCenterService;
 import com.yimayhd.user.client.domain.UserDO;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Administrator on 2015/11/10.
@@ -63,12 +65,12 @@ public class TravelOfficialImpl implements TravelOfficialService{
         }
 
         travelSpecialDTO.setPageSize(travelOfficialListQuery.getPageSize());
-        travelSpecialDTO.setPageNo(travelOfficialListQuery.getPageNumber());
+        travelSpecialDTO.setPageNo(travelOfficialListQuery.getPageNo());
         BasePageResult<SnsTravelSpecialtyDO> result = snsCenterService.getTravelSpecialPage(travelSpecialDTO);
 
-        PageVO<SnsTravelSpecialtyDO> pageVO = new PageVO<SnsTravelSpecialtyDO>(travelOfficialListQuery.getPageNumber(), travelOfficialListQuery.getPageSize(),0);;
+        PageVO<SnsTravelSpecialtyDO> pageVO = new PageVO<SnsTravelSpecialtyDO>(travelOfficialListQuery.getPageNo(), travelOfficialListQuery.getPageSize(),0);;
         if(result != null && result.isSuccess()){
-            pageVO = new PageVO<SnsTravelSpecialtyDO>(travelOfficialListQuery.getPageNumber(), travelOfficialListQuery.getPageSize(),result.getTotalCount(),result.getList());
+            pageVO = new PageVO<SnsTravelSpecialtyDO>(travelOfficialListQuery.getPageNo(), travelOfficialListQuery.getPageSize(),result.getTotalCount(),result.getList());
         }else{
             log.error("snsCenterService.getTravelSpecialPage is null,result="+JSON.toJSONString(result)+"|parameter="+JSON.toJSONString(travelSpecialDTO));
         }

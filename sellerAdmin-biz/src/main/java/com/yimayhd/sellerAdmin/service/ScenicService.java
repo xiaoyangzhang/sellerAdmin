@@ -1,12 +1,12 @@
 package com.yimayhd.sellerAdmin.service;
 
+import java.util.ArrayList;
+
+import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.ScenicVO;
 import com.yimayhd.sellerAdmin.model.query.ScenicListQuery;
-import com.yimayhd.ic.client.model.domain.ScenicDO;
-import com.yimayhd.ic.client.model.result.ICResult;
-
-import java.util.ArrayList;
 public interface ScenicService {
 	/**
 	 * 获取景区资源列表(可带查询条件)

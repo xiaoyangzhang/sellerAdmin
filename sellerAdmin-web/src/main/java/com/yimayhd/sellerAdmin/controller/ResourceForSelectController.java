@@ -32,10 +32,10 @@ import com.yimayhd.sellerAdmin.model.query.ActivityListQuery;
 import com.yimayhd.sellerAdmin.model.query.CommodityListQuery;
 import com.yimayhd.sellerAdmin.model.query.LiveListQuery;
 import com.yimayhd.sellerAdmin.service.ActivityService;
-import com.yimayhd.sellerAdmin.service.CommLineService;
 import com.yimayhd.sellerAdmin.service.CommodityService;
 import com.yimayhd.sellerAdmin.service.TripService;
 import com.yimayhd.sellerAdmin.service.UserRPCService;
+import com.yimayhd.sellerAdmin.service.item.LineService;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.snscenter.client.enums.BaseStatus;
@@ -60,7 +60,7 @@ public class ResourceForSelectController extends BaseController {
 	@Autowired
 	private TripService tripService;
 	@Resource
-	private CommLineService commLineService;
+	private LineService commLineService;
 	@Autowired
 	private ActivityService activityService;
 
@@ -86,8 +86,32 @@ public class ResourceForSelectController extends BaseController {
 			}
 		}
 		put("departMap", departMap);
-		put("citys", allLineDeparts);
 		return "/system/resource/forSelect/selectDeparts";
+	}
+
+	/**
+	 * 选择景区
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectDests")
+	public String selectDests() {
+		List<CityVO> allLineDests = commLineService.getAllLineDests();
+		Map<String, List<CityVO>> destMap = new LinkedHashMap<String, List<CityVO>>();
+		for (CityVO cityVO : allLineDests) {
+			CityDTO city = cityVO.getCity();
+			String firstLetter = city.getFirstLetter();
+			if (destMap.containsKey(firstLetter)) {
+				destMap.get(firstLetter).add(cityVO);
+			} else {
+				List<CityVO> cityVOs = new ArrayList<CityVO>();
+				cityVOs.add(cityVO);
+				destMap.put(firstLetter, cityVOs);
+			}
+		}
+		put("destMap", destMap);
+		return "/system/resource/forSelect/selectDests";
 	}
 
 	/**

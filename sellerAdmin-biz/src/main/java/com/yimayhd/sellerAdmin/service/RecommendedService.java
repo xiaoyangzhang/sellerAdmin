@@ -2,9 +2,9 @@ package com.yimayhd.sellerAdmin.service;
 
 import java.util.List;
 
-import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
+import com.yimayhd.sellerAdmin.base.PageVO;
 
 /**
 * @ClassName: RecommendedService 

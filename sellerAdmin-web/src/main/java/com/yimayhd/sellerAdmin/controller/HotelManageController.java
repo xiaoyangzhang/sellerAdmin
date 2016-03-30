@@ -1,5 +1,22 @@
 package com.yimayhd.sellerAdmin.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
+import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.sellerAdmin.base.AreaService;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
@@ -10,18 +27,6 @@ import com.yimayhd.sellerAdmin.model.HotelFacilityVO;
 import com.yimayhd.sellerAdmin.model.HotelVO;
 import com.yimayhd.sellerAdmin.model.query.HotelListQuery;
 import com.yimayhd.sellerAdmin.service.HotelRPCService;
-import com.yimayhd.ic.client.model.domain.HotelDO;
-import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
-import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
-import com.yimayhd.ic.client.model.result.ICResult;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * 酒店管理（资源）
@@ -45,7 +50,7 @@ public class HotelManageController extends BaseController {
 	public String list(Model model, HotelListQuery hotelListQuery) throws Exception {
 
 		PageVO<HotelDO> pageVo = hotelRPCService.pageQueryHotel(hotelListQuery);
-		List<HotelDO> hotelDOList = pageVo.getItemList();
+		List<HotelDO> hotelDOList = pageVo.getResultList();
 
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("hotelListQuery", hotelListQuery);
@@ -226,7 +231,7 @@ public class HotelManageController extends BaseController {
 		PageVO<HotelDO> pageVo = hotelRPCService.pageQueryHotel(hotelListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("hotelListQuery", hotelListQuery);
-		model.addAttribute("hotelDOList", pageVo.getItemList());
+		model.addAttribute("hotelDOList", pageVo.getResultList());
 		model.addAttribute("multiSelect", multiSelect);
 		return "/system/hotel/selectList";
 	}

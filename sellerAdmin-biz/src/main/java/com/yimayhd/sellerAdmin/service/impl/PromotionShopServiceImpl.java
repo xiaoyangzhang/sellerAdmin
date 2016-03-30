@@ -1,12 +1,13 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.yimayhd.promotion.client.domain.PromotionDO;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.PromotionVO;
 import com.yimayhd.sellerAdmin.model.query.PromotionListQuery;
 import com.yimayhd.sellerAdmin.service.PromotionShopService;
-import com.yimayhd.promotion.client.domain.PromotionDO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Created by czf on 2016/1/19.

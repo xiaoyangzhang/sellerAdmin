@@ -62,4 +62,6 @@ public class WebReturnCode implements Serializable {
     
     
     
+
+    public final static WebReturnCode PASSWORD_ERROR = new WebReturnCode(24001015, "手机号码错误");
 }

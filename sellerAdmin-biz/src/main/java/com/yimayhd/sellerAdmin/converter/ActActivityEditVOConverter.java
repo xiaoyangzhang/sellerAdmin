@@ -1,21 +1,22 @@
 package com.yimayhd.sellerAdmin.converter;
 
-import com.yimayhd.activitycenter.domain.ActActivityDO;
-import com.yimayhd.activitycenter.dto.ActPromotionDTO;
-import com.yimayhd.sellerAdmin.model.ActActivityEditVO;
-import com.yimayhd.sellerAdmin.model.ActActivityVO;
-import com.yimayhd.sellerAdmin.model.PromotionVO;
-import com.yimayhd.sellerAdmin.util.NumUtil;
-import com.yimayhd.promotion.client.domain.PromotionDO;
-import com.yimayhd.promotion.client.domain.PromotionFeature;
-import com.yimayhd.promotion.client.enums.EntityType;
-import com.yimayhd.promotion.client.enums.PromotionType;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.yimayhd.activitycenter.domain.ActActivityDO;
+import com.yimayhd.activitycenter.dto.ActPromotionDTO;
+import com.yimayhd.promotion.client.domain.PromotionDO;
+import com.yimayhd.promotion.client.domain.PromotionFeature;
+import com.yimayhd.promotion.client.enums.EntityType;
+import com.yimayhd.promotion.client.enums.PromotionType;
+import com.yimayhd.sellerAdmin.model.ActActivityEditVO;
+import com.yimayhd.sellerAdmin.model.ActActivityVO;
+import com.yimayhd.sellerAdmin.model.PromotionVO;
+import com.yimayhd.sellerAdmin.util.NumUtil;
 
 /**
  * Created by czf on 2016/2/18.

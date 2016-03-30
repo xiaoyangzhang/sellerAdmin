@@ -1,9 +1,9 @@
 package com.yimayhd.sellerAdmin.service;
 
+import com.yimayhd.ic.client.model.domain.RestaurantDO;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.RestaurantVO;
 import com.yimayhd.sellerAdmin.model.query.RestaurantListQuery;
-import com.yimayhd.ic.client.model.domain.RestaurantDO;
 
 public interface RestaurantService {
 	/**

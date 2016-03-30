@@ -1,17 +1,22 @@
 package com.yimayhd.sellerAdmin.controller;
 
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.model.ComCommentVO;
 import com.yimayhd.sellerAdmin.model.query.EvaluationListQuery;
 import com.yimayhd.sellerAdmin.service.EvaluationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 
 /**
  *评价管理
@@ -31,7 +36,7 @@ public class EvaluationController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model,EvaluationListQuery evaluationListQuery)  throws Exception {
         PageVO<ComCommentVO> pageVO = evaluationService.getList(evaluationListQuery);
-    	model.addAttribute("evaluationList", pageVO.getItemList());
+    	model.addAttribute("evaluationList", pageVO.getResultList());
     	model.addAttribute("pageVo", pageVO);
     	 model.addAttribute("evaluationListQuery", evaluationListQuery);
     	return "/system/evaluate/list";

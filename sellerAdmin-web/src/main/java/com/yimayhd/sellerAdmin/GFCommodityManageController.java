@@ -1,5 +1,20 @@
 package com.yimayhd.sellerAdmin;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.yimayhd.gf.service.CommodityService;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
@@ -16,12 +31,6 @@ import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.model.query.CommodityListQuery;
 import com.yimayhd.sellerAdmin.service.CategoryService;
 import com.yimayhd.user.session.manager.SessionManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.*;
 
 /**
  * Created by czf on 2015/11/24.
@@ -52,7 +61,7 @@ public class GFCommodityManageController extends BaseController {
 		List<ItemType> itemTypeList = Arrays.asList(ItemType.values());
 		model.addAttribute("pageVo", pageVO);
 		model.addAttribute("itemTypeList", itemTypeList);
-		model.addAttribute("commodityList", pageVO.getItemList());
+		model.addAttribute("commodityList", pageVO.getResultList());
 		model.addAttribute("commodityListQuery", commodityListQuery);
 		return "/system/comm/gf/list";
 	}

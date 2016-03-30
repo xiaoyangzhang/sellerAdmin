@@ -1,5 +1,20 @@
 package com.yimayhd.sellerAdmin;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commission.biz.CommissionBiz;
@@ -13,21 +28,6 @@ import com.yimayhd.commission.model.query.CommissionDetailQuery;
 import com.yimayhd.commission.model.query.CommissionListQuery;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -57,7 +57,7 @@ public class CommissionController  extends BaseController{
         try{
 
             long userId = commissionDetailQuery.getUserId();
-            int pageNo = commissionDetailQuery.getPageNumber();
+            int pageNo = commissionDetailQuery.getPageNo();
             int pageSize = commissionDetailQuery.getPageSize();
 
             PageVO<AmountDetailDTO> pageVO =  commissionBiz.queryExtractDetailByUserId(userId, pageNo, pageSize);
@@ -65,7 +65,7 @@ public class CommissionController  extends BaseController{
 
 			if (pageVO != null) {
 
-				List<AmountDetailDTO> commissionList =  pageVO.getItemList();
+				List<AmountDetailDTO> commissionList =  pageVO.getResultList();
 				model.addAttribute("commissionDetailQuery", commissionDetailQuery);
 				model.addAttribute("pageVo",pageVO);
 				model.addAttribute("commissionList",commissionList);

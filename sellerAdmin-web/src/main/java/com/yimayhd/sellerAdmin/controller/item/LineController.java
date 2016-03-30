@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.controller;
+package com.yimayhd.sellerAdmin.controller.item;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,19 +12,19 @@ import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.sellerAdmin.base.BaseTravelController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
-import com.yimayhd.sellerAdmin.service.CommLineService;
+import com.yimayhd.sellerAdmin.service.item.LineService;
 
 /**
- * 商品-跟团游
+ * 线路商品
  * 
  * @author yebin 2015年11月23日
  *
  */
 @Controller
 @RequestMapping("/line")
-public class CommLineController extends BaseTravelController {
+public class LineController extends BaseTravelController {
 	@Autowired
-	private CommLineService commLineService;
+	private LineService commLineService;
 
 	/**
 	 * 详细信息页

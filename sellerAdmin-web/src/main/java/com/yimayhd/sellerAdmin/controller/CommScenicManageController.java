@@ -18,6 +18,8 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
+import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
@@ -28,8 +30,6 @@ import com.yimayhd.sellerAdmin.service.CategoryService;
 import com.yimayhd.sellerAdmin.service.CommScenicService;
 import com.yimayhd.sellerAdmin.service.CommodityService;
 import com.yimayhd.sellerAdmin.service.ScenicService;
-import com.yimayhd.ic.client.model.enums.ItemType;
-import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 
 /**
  * 发布景区（商品）

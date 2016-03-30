@@ -1,10 +1,10 @@
 package com.yimayhd.sellerAdmin.service;
 
+import java.util.List;
+
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.ComCommentVO;
 import com.yimayhd.sellerAdmin.model.query.EvaluationListQuery;
-
-import java.util.List;
 
 /**
  * Created by czf on 2015/12/31.

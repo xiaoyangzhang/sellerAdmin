@@ -1,9 +1,9 @@
 package com.yimayhd.sellerAdmin.model;
 
-import com.yimayhd.sellerAdmin.base.BaseModel;
-
 import java.util.Date;
 import java.util.List;
+
+import com.yimayhd.sellerAdmin.base.BaseModel;
 
 /**
  * Created by Administrator on 2015/11/10.

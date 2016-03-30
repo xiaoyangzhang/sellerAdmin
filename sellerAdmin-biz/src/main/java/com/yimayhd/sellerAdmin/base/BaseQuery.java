@@ -1,8 +1,8 @@
 package com.yimayhd.sellerAdmin.base;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * @author czf
@@ -16,15 +16,15 @@ public class BaseQuery implements Serializable {
 	public static final int PAGING_YES = 1;
 	public static final int PAGING_NO = 0;
 
-	public Integer pageNumber = DEFAULT_PAGE;
+	public Integer pageNo = DEFAULT_PAGE;
 	protected Integer pageSize = DEFAULT_SIZE;
 
-	public Integer getPageNumber() {
-		return pageNumber;
+	public Integer getPageNo() {
+		return pageNo;
 	}
 
-	public void setPageNumber(Integer pageNumber) {
-		this.pageNumber = pageNumber;
+	public void setPageNo(Integer pageNo) {
+		this.pageNo = pageNo;
 	}
 
 	public Integer getPageSize() {

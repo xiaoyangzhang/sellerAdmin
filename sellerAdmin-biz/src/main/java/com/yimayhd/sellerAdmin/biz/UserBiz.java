@@ -4,16 +4,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
+import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.checker.UserChecker;
+import com.yimayhd.sellerAdmin.checker.result.CheckResult;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.UserConverter;
+import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.repo.UserRepo;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.dto.ChangePasswordDTO;
 import com.yimayhd.user.client.dto.LoginDTO;
+import com.yimayhd.user.client.dto.RegisterDTO;
 import com.yimayhd.user.client.dto.RevivePasswordDTO;
 import com.yimayhd.user.client.dto.VerifyCodeDTO;
 import com.yimayhd.user.client.enums.SmsType;
+import com.yimayhd.user.client.enums.security.RegisterStep;
 import com.yimayhd.user.client.result.login.LoginResult;
 import com.yimayhd.user.session.manager.SessionManager;
 
@@ -28,51 +37,45 @@ public class UserBiz {
 	private UserRepo userRepo;
 	@Autowired
 	private SessionManager sessionManager;
+	
+	@Autowired
+	private MenuBiz menuBiz ;
 
 	public WebResult<LoginResult> login(LoginDTO loginDTO) {
 //		CheckResult checkFeedBack = UserChecker.checkLoginVo(loginVo);
 //		LoginDTO loginDTO = UserConverter.toLoginDTO(loginVo);
 		WebResult<LoginResult> result = userRepo.login(loginDTO);
+		
+		//加载菜单信息，并缓存
+		if (result != null && result.isSuccess() 
+				&& result.getValue() != null
+				&& result.getValue().getValue() != null) {
+			long userId = result.getValue().getValue().getId();
+			menuBiz.cacheMenus2Tair(userId);
+		}
 		return result;
 	}
 
-//	@Override
-//	public boolean register(RegisterVo registerVo) throws WebException {
-//		LOGGER.debug("registerVo={}", JSONObject.toJSONString(registerVo));
-//		CheckResult checkFeedBack = UserChecker.checkRegisterVo(registerVo);
-//		if (!checkFeedBack.isSuccess()) {
-//			LOGGER.warn(checkFeedBack.getResultMsg());
-//			throw new WebException(checkFeedBack);
-//		}
-//
-//		RegisterDTO registerDTO = UserConverter.toRegisterDTO(registerVo);
-//		registerDTO.setStep(RegisterStep.VERIFY_CODE);
-//
-//		BaseResult<UserDO> registerResult = userRepo.register(registerDTO);
-//		if (registerResult.isSuccess() == false) {
-//			LOGGER.error("registerResult={}", registerResult);
-//
-//			int errorCode = registerResult.getErrorCode();
-//			switch (errorCode) {
-//			case UserServiceHttpCode.C_MOBILE_REGISTED:
-//				throw new WebException(WebErrorCode.UserExisted);
-//			case UserServiceHttpCode.C_SMS_VERIFY_CODE_ERROR:
-//				// 验证码错误
-//				throw new WebException(WebErrorCode.InvalidVerifyCode);
-//			case UserServiceHttpCode.C_PARAMETER_ERROR:
-//				// 参数错误
-//				throw new WebException(WebErrorCode.ParametersValidateError);
-//			case UserServiceHttpCode.C_UNSUPPORTED_PHONE_NUM:
-//				throw new WebException(WebErrorCode.NotSupportedMobile);
-//			default:
-//				throw new WebException(WebErrorCode.Error);
-//
-//			}
-//		}
-//
-//		return true;
-//
-//	}
+	public WebResult<UserDO> register(RegisterVo registerVo) {
+		WebResult<UserDO> result = new WebResult<UserDO>() ;
+		LOGGER.debug("registerVo={}", JSONObject.toJSONString(registerVo));
+		CheckResult checkFeedBack = UserChecker.checkRegisterVo(registerVo);
+		if (!checkFeedBack.isSuccess()) {
+			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+			return result ;
+		}
+
+		RegisterDTO registerDTO = UserConverter.toRegisterDTO(registerVo);
+		registerDTO.setStep(RegisterStep.VERIFY_CODE);
+
+		result = userRepo.register(registerDTO);
+		
+		
+		
+		
+		return result ;
+
+	}
 //
 	@MethodLogger
 	public WebResultSupport retrievePassword(RevivePasswordDTO revivePasswordDTO) {
@@ -104,6 +107,14 @@ public class UserBiz {
 		verifyCodeDTO.setMobile(mobile);
 		verifyCodeDTO.setSmsType(SmsType.RETRIVE_PASSWORD);
 		WebResultSupport result= userRepo.sendRegisterVerifyCode(verifyCodeDTO);
+		return result;
+	}
+	public WebResultSupport modifyPassword(long userId, String password, String oldPassword) {
+		ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO() ;
+		changePasswordDTO.setUserId(userId);
+		changePasswordDTO.setNewPassword(password);
+		changePasswordDTO.setOldPassword(oldPassword);
+		WebResultSupport result= userRepo.changePassword(changePasswordDTO);
 		return result;
 	}
 

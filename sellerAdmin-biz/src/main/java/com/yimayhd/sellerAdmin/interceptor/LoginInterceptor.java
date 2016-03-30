@@ -9,12 +9,13 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.yimayhd.membercenter.client.domain.HaMenuDO;
-import com.yimayhd.sellerAdmin.service.UserService;
-import com.yimayhd.user.session.manager.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.util.UrlPathHelper;
+
+import com.yimayhd.membercenter.client.domain.HaMenuDO;
+import com.yimayhd.sellerAdmin.service.UserService;
+import com.yimayhd.user.session.manager.SessionManager;
 
 
 /**

@@ -1,10 +1,10 @@
 package com.yimayhd.sellerAdmin.model.trade;
 
+import java.util.List;
+
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
 import com.yimayhd.user.client.domain.UserDO;
-
-import java.util.List;
 
 /**
  * Created by zhaozhaonan on 2015/12/22.

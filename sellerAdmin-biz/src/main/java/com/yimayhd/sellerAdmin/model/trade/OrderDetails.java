@@ -1,9 +1,9 @@
 package com.yimayhd.sellerAdmin.model.trade;
 
-import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
-
 import java.util.Date;
 import java.util.List;
+
+import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 
 /**
  * Created by zhaozhaonan on 2015/12/22.

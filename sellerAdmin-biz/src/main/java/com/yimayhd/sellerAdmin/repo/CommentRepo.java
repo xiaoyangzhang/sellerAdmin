@@ -3,7 +3,9 @@ package com.yimayhd.sellerAdmin.repo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -118,7 +120,7 @@ public class CommentRepo {
 	 * @param tagType
 	 * @return
 	 */
-	public List<ComTagDO> getTags(Long outId, TagType tagType) {
+	public List<ComTagDO> getTagsByOutId(Long outId, TagType tagType) {
 		TagOutIdTypeDTO tagOutIdTypeDTO = new TagOutIdTypeDTO();
 		tagOutIdTypeDTO.setDomain(Constant.DOMAIN_JIUXIU);
 		if (outId != null) {
@@ -129,6 +131,14 @@ public class CommentRepo {
 		BaseResult<List<ComTagDO>> result = comTagCenterServiceRef.getTagInfo(tagOutIdTypeDTO);
 		RepoUtils.resultLog(log, "comTagCenterServiceRef.getTagInfo", result);
 		return result.getValue();
+	}
+
+	public Map<Long, List<ComTagDO>> getTagsByOutIds(List<Long> outIds, TagType tagType) {
+		Map<Long, List<ComTagDO>> result = new HashMap<Long, List<ComTagDO>>();
+		for (Long outId : outIds) {
+			result.put(outId, getTagsByOutId(outId, tagType));
+		}
+		return result;
 	}
 
 	public PageVO<ComTagDO> pageQueryTag(TagInfoDTO tagInfoDTO) {
