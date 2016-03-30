@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.yimayhd.sellerAdmin.base.menu.MenuVO;
+import com.yimayhd.sellerAdmin.biz.MenuBiz;
 import com.yimayhd.sellerAdmin.biz.helper.MenuHelper;
 import com.yimayhd.sellerAdmin.cache.MenuCacheMananger;
 import com.yimayhd.user.client.domain.UserDO;
@@ -26,6 +27,8 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 	private SessionManager sessionManager;
 	@Autowired
 	private MenuCacheMananger menuCacheMananger ;
+	@Autowired
+	private MenuBiz menuBiz;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -38,10 +41,14 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 			
 			long userId = userDO.getId() ;
 			String pathInfo = request.getPathInfo() ; 
-			String path = request.getServletPath() ; 
+//			menuBiz.cacheMenus2Tair(userId);
+			
 			List<MenuVO> menus = menuCacheMananger.getMenus(userId);
-			MenuHelper.selectMenu(menus, path);
+			MenuHelper.selectMenu(menus, pathInfo);
+			MenuVO menu = MenuHelper.getSelectMenu(menus, pathInfo);
+			
 			request.setAttribute("menus", menus);
+			request.setAttribute("currentMenu", menu);
 		} else {
 			// 非登陆状态的时候，清空token
 			SessionHelper.cleanCookies(response);

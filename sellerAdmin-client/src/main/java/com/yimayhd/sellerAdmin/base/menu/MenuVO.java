@@ -31,7 +31,7 @@ public class MenuVO implements Serializable, Comparable<MenuVO> {
 	/**
 	 * 子菜单
 	 */
-	private List<MenuVO> childrens;
+	private List<MenuVO> children;
 	
 	public boolean hasParent(){
 		if( parentId > 0 ){
@@ -85,11 +85,15 @@ public class MenuVO implements Serializable, Comparable<MenuVO> {
 	public void setParentId(long parentId) {
 		this.parentId = parentId;
 	}
-	public List<MenuVO> getChildrens() {
-		return childrens;
+
+
+	public List<MenuVO> getChildren() {
+		return children;
 	}
-	public void setChildrens(List<MenuVO> childrens) {
-		this.childrens = childrens;
+
+
+	public void setChildren(List<MenuVO> children) {
+		this.children = children;
 	}
 
 

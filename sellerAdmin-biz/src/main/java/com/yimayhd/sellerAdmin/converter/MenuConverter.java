@@ -16,9 +16,14 @@ public class MenuConverter {
 			return null;
 		}
 		MenuVO menu = new MenuVO() ;
+		menu.setId(haMenuDO.getId());
 		menu.setName(haMenuDO.getName());
 		menu.setLeaf(haMenuDO.getLeaf() == 0);
 		menu.setParentId(haMenuDO.getParentId());
+		menu.setUrl(haMenuDO.getUrl());
+		List<HaMenuDO> childrenDOs = haMenuDO.getHaMenuDOList() ;
+		List<MenuVO> children = getMenus(childrenDOs);
+		menu.setChildren(children);
 		return menu ;
 	}
 	public static List<MenuVO> getMenus(List<HaMenuDO> menuDOs){

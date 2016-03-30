@@ -1,25 +1,18 @@
-	<!-- 面包屑 -->
-	<div class = "comwidth crumbs f12">您所在的位置：店铺管理><a class = "f12 gray6">基本信息</a></div>
+	#set( $currentMenuId = $!currentMenu.id )
 	
 	<div class = "comwidth clearfix" id = "eredar">
 		<div class = "eredar-left">
-			<dl class = "first">
-				<dd>商品管理</dd>
-				<dt class = "one">添加商品</dt>
-				<dt>商品列表</dt>
-			</dl>
-			<dl>
-				<dd>订单管理</dd>
-				<dt class = "one">订单列表</dt>
-			</dl>
-			<dl>
-				<dd>店铺管理</dd>
-				<dt class = "one on">基本信息</dt>
-				<dt>账户信息</dt>
-			</dl>
-			<dl>
-				<dd>对账管理</dd>
-				<dt class = "one">月结账单</dt>
-			</dl>
+			#foreach($menu in $!menus)
+				<dl #if($!{velocityCount} ==1) class = "first" #end>
+					<dd>$!menu.name</dd>
+						#if( $menu.children )
+							#foreach($child in $!$menu.children)
+								<dt #if($!{velocityCount} ==1) class ="one #if( $currentMenuId == $child.id) on #end" #end>
+									<a href="$!{child.url}" >$!child.name</a>
+								</dt>
+							#end
+						#end 
+				</dl>
+		    #end
 		</div>
 	</div>

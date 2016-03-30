@@ -1,0 +1,14 @@
+#set($layout = "/layout/layout-jiuxiu.vm")
+
+<head>
+	<title>商户后台主页</title>
+		
+    <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/account.css">
+</head>
+<body>
+	
+		商户后台主页
+
+	
+</body>
+</html>

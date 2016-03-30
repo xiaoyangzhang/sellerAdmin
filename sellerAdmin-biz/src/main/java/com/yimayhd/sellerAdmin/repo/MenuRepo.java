@@ -26,8 +26,9 @@ public class MenuRepo {
 		UserMenuQuery userMenuQuery = new UserMenuQuery();
 		userMenuQuery.setUserId(userId);
 		userMenuQuery.setDomain(Constant.DOMAIN_JIUXIU);
-		MemPageResult<HaMenuDO> queryResult = userPermissionService.getMenuListByUserId(userMenuQuery,
-				new UserMenuOptionDTO());
+		UserMenuOptionDTO dto = new UserMenuOptionDTO();
+		dto.setContainUrl(true);
+		MemPageResult<HaMenuDO> queryResult = userPermissionService.getMenuListByUserId(userMenuQuery,dto);
 		if (queryResult == null || !queryResult.isSuccess() ) {
 			logger.error("getMenuListByUserId failed  userId={}",userId);
 			result.setWebReturnCode(WebReturnCode.REMOTE_CALL_FAILED);

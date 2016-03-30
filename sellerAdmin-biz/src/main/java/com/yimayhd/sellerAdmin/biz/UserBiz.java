@@ -47,7 +47,7 @@ public class UserBiz {
 		WebResult<LoginResult> result = userRepo.login(loginDTO);
 		
 		//加载菜单信息，并缓存
-		if (result != null && !result.isSuccess() 
+		if (result != null && result.isSuccess() 
 				&& result.getValue() != null
 				&& result.getValue().getValue() != null) {
 			long userId = result.getValue().getValue().getId();

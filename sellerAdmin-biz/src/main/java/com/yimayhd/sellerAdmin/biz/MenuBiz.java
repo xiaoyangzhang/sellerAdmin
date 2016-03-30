@@ -21,8 +21,7 @@ public class MenuBiz {
 	private MenuCacheMananger menuCacheMananger; 
 	
 	public List<MenuVO> getMenusByUserId(long userId){
-		List<MenuVO> menus = new ArrayList<MenuVO>() ;
-		
+		List<MenuVO> menus = menuCacheMananger.getMenus(userId);
 		return menus ;
 	}
 	
@@ -35,8 +34,11 @@ public class MenuBiz {
 		if( CollectionUtils.isEmpty(menuDOs) ){
 			return true;
 		}
-		
+//		System.err.println();
+//		System.err.println(JSON.toJSON(menuDOs));
 		List<MenuVO> menus = MenuConverter.getMenus(menuDOs);
+//		System.err.println("\n\n");
+//		System.err.println(JSON.toJSON(menus));
 		//分组
 		ArrayList<MenuVO> ms = MenuHelper.mergeMenus(menus);
 		return menuCacheMananger.cacheMenus(userId, ms);

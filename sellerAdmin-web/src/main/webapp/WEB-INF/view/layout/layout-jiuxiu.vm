@@ -47,7 +47,16 @@
 		</div>
 	</div>
 
-    $screen_content
+	<div class = "comwidth crumbs f12">您所在的位置：店铺管理><a class = "f12 gray6">基本信息</a></div>
+		<div class = "comwidth clearfix" id = "eredar">
+			<div class = "eredar-left">
+				#parse("layout/menu.vm")
+			</div>
+			<div class = "eredar-right">
+		    	$screen_content
+			</div>
+		</div>
+	</div>
     
     <script type="text/javascript" src="$!rs_path_jiuxiu/src/js/sea.js"></script>
 	<script type="text/javascript" src="$!rs_path_jiuxiu/src/js/seajs-preload.js"></script>

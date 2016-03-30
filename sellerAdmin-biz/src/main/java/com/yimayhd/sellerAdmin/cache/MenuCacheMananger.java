@@ -26,5 +26,4 @@ public class MenuCacheMananger {
 		return cacheManager.addToTair(key, menus);
 	}
 	
-//	publi
 }

@@ -12,5 +12,8 @@
 	
 	
 	
-	<bean id ="UserBiz" class="com.yimayhd.sellerAdmin.biz.UserBiz"/>
+	<bean id ="userBiz" class="com.yimayhd.sellerAdmin.biz.UserBiz"/>
+	<bean id ="MenuBiz" class="com.yimayhd.sellerAdmin.biz.MenuBiz"/>
+	
+	
 </beans>

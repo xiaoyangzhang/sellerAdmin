@@ -23,7 +23,7 @@
 		<property name="tair.configServer.slave" defaultValue="tair01.test.yimayholiday.net:5198" description="#tair服务器的地址" />
 		<property name="tair.groupName.per" defaultValue="group_1" description="#持久化tair的namespace" />
 		<property name="tair.groupName.temp" defaultValue="group_1" description="#持久化tair的namespace" />
-		<property name="tair.sellerAdmin.namespace" defaultValue="299" description="#tair命名空间" />
+		<property name="tair.namespace" defaultValue="299" description="#tair命名空间" />
 		<property name="tair.timeout" defaultValue="5000" description="#tair超时" />
 		<property name="session.tair.namespace" defaultValue="40" description="#session.tair" />
 	</group>
