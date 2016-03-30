@@ -12,8 +12,11 @@
 	
 	
 	
+
+	<bean id ="UserBiz" class="com.yimayhd.sellerAdmin.biz.UserBiz"/>
+	<bean id ="merchantBiz" class="com.yimayhd.sellerAdmin.biz.MerchantBiz"/>
+
 	<bean id ="userBiz" class="com.yimayhd.sellerAdmin.biz.UserBiz"/>
 	<bean id ="MenuBiz" class="com.yimayhd.sellerAdmin.biz.MenuBiz"/>
-	
-	
+
 </beans>

@@ -1,0 +1,53 @@
+package com.yimayhd.sellerAdmin.repo;
+
+import javax.annotation.Resource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.yimayhd.user.client.domain.MerchantDO;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.dto.MerchantDTO;
+import com.yimayhd.user.client.dto.UserDTO;
+import com.yimayhd.user.client.result.BaseResult;
+import com.yimayhd.user.client.service.MerchantService;
+import com.yimayhd.user.client.service.UserService;
+
+public class MerchantRepo {
+	private static Logger LOGGER = LoggerFactory.getLogger(MerchantRepo.class);
+	
+	@Resource
+	private MerchantService merchantService;
+	
+	@Autowired
+	private UserService userService;
+	
+	/**
+	 * 更新用户信息
+	 * @param userDTO
+	 * @return
+	 */
+	public BaseResult<UserDO> updateUser (UserDTO userDTO){
+		return userService.updateUser(userDTO);
+	}
+	
+	/**
+	 * 保存商户基本信息
+	 * @param merchantDO
+	 * @return
+	 */
+	public BaseResult<MerchantDO> saveMerchant(MerchantDO merchantDO) {
+		return merchantService.saveMerchant(merchantDO);
+	}
+	
+	/**
+	 * 更新商户基本信息
+	 * @param merchantDO
+	 * @return
+	 */
+	public BaseResult<Boolean> updateMerchantInfo(MerchantDTO merchantDTO) {
+		return merchantService.updateMerchantInfo(merchantDTO);
+	}
+
+}
