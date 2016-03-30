@@ -1,12 +1,14 @@
 package com.yimayhd.sellerAdmin;
 
-import com.yimayhd.sellerAdmin.config.ResourceConfig;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+import java.util.Properties;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import java.util.Properties;
+
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.yimayhd.sellerAdmin.config.ResourceConfig;
 
 /**
  * Created by czf on 2015/11/2.

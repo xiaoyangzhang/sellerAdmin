@@ -15,7 +15,6 @@ import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
-import com.yimayhd.sellerAdmin.biz.MenuBiz;
 import com.yimayhd.sellerAdmin.biz.UserBiz;
 import com.yimayhd.sellerAdmin.checker.UserChecker;
 import com.yimayhd.sellerAdmin.constant.Constant;

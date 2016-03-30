@@ -1,8 +1,12 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import com.yimayhd.snscenter.client.enums.ActivityPicUrlsKey;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +18,9 @@ import com.yimayhd.commentcenter.client.domain.ComTagRelationDO;
 import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
+import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
+import com.yimayhd.ic.client.model.result.item.ItemResult;
+import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.exception.NoticeException;
@@ -23,13 +30,11 @@ import com.yimayhd.sellerAdmin.repo.ActivityRepo;
 import com.yimayhd.sellerAdmin.service.ActivityService;
 import com.yimayhd.sellerAdmin.service.TfsService;
 import com.yimayhd.sellerAdmin.util.DateUtil;
-import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
-import com.yimayhd.ic.client.model.result.item.ItemResult;
-import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.snscenter.client.domain.ActivityJsonDO;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.dto.ActivityInfoDTO;
 import com.yimayhd.snscenter.client.dto.ActivityQueryDTO;
+import com.yimayhd.snscenter.client.enums.ActivityPicUrlsKey;
 import com.yimayhd.snscenter.client.result.BaseResult;
 import com.yimayhd.snscenter.client.service.SnsCenterService;
 
@@ -53,8 +58,8 @@ public class ActivityServiceImpl implements ActivityService {
 	@Override
 	public PageVO<SnsActivityDO> pageQueryActivities(ActivityListQuery query) {
 		ActivityQueryDTO activityQueryDTO = new ActivityQueryDTO();
-		if(query.getPageNumber()!=null){
-			int pageNumber =query.getPageNumber();
+		if(query.getPageNo()!=null){
+			int pageNumber =query.getPageNo();
 			int pageSize = query.getPageSize();
 			activityQueryDTO.setPageNo(pageNumber);
 			activityQueryDTO.setPageSize(pageSize);

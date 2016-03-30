@@ -1,13 +1,5 @@
 package com.yimayhd.sellerAdmin.util.excel;
 
-import jxl.Workbook;
-import jxl.format.Colour;
-import jxl.write.Label;
-import jxl.write.WritableCellFormat;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import org.apache.http.message.BasicNameValuePair;
-
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -16,6 +8,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.http.message.BasicNameValuePair;
+
+import jxl.Workbook;
+import jxl.format.Colour;
+import jxl.write.Label;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
 
 public class JxlFor2003 extends ExcelFactory {
 

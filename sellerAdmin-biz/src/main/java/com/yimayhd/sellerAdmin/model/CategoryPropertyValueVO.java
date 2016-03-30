@@ -1,7 +1,8 @@
 package com.yimayhd.sellerAdmin.model;
 
-import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import org.springframework.beans.BeanUtils;
+
+import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 
 /**
  * Created by czf on 2015/12/19.

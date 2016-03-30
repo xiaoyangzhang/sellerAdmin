@@ -2,10 +2,10 @@ package com.yimayhd.sellerAdmin.service;
 
 import java.util.List;
 
+import com.yimayhd.membercenter.client.domain.TravelKaVO;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.User;
 import com.yimayhd.sellerAdmin.model.query.TradeMemberQuery;
-import com.yimayhd.membercenter.client.domain.TravelKaVO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
 

@@ -1,8 +1,8 @@
 package com.yimayhd.sellerAdmin.model;
 
-import com.yimayhd.ic.client.model.result.item.ItemResult;
-
 import java.util.List;
+
+import com.yimayhd.ic.client.model.result.item.ItemResult;
 
 /**
  * Created by Administrator on 2015/12/19.

@@ -8,12 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.yimayhd.sellerAdmin.base.PageVO;
-import com.yimayhd.sellerAdmin.util.RepoUtils;
 import com.yimayhd.ic.client.model.domain.FlightCompanyDO;
 import com.yimayhd.ic.client.model.query.FlightCompanyPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.util.RepoUtils;
 
 public class FlightRPCServiceImpl implements com.yimayhd.sellerAdmin.service.FlightRPCService {
 	private Logger log = LoggerFactory.getLogger(getClass());
@@ -40,7 +40,7 @@ public class FlightRPCServiceImpl implements com.yimayhd.sellerAdmin.service.Fli
 		FlightCompanyPageQuery query = new FlightCompanyPageQuery();
 		query.setPageNo(1);
 		query.setPageSize(TOTAL_SIZE);
-		return pageQueryFlightCompany(query).getItemList();
+		return pageQueryFlightCompany(query).getResultList();
 	}
 
 }

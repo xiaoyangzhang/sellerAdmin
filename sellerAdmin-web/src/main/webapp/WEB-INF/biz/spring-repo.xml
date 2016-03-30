@@ -22,4 +22,5 @@
 
 	<bean id="userRepo" class="com.yimayhd.sellerAdmin.repo.UserRepo" />
 	<bean id="menuRepo" class="com.yimayhd.sellerAdmin.repo.MenuRepo" />
+	<bean id="itemRepo" class="com.yimayhd.sellerAdmin.repo.ItemRepo" />
 </beans>

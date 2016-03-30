@@ -1,12 +1,12 @@
 package com.yimayhd.sellerAdmin.service;
 
+import java.util.List;
+
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.ClubAdd;
 import com.yimayhd.sellerAdmin.model.query.ClubInfo;
 import com.yimayhd.snscenter.client.domain.result.ClubDO;
 import com.yimayhd.snscenter.client.dto.ClubDOInfoDTO;
-
-import java.util.List;
 
 /**
  * Created by Administrator on 2015/11/2.

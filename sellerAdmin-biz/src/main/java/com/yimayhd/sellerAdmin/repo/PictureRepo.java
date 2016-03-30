@@ -7,14 +7,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.yimayhd.sellerAdmin.base.PageVO;
-import com.yimayhd.sellerAdmin.util.RepoUtils;
 import com.yimayhd.ic.client.model.domain.PicturesDO;
 import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.ic.client.model.enums.PictureOutType;
 import com.yimayhd.ic.client.model.query.PicturesPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.util.RepoUtils;
 
 public class PictureRepo {
 	private static final int PICTURE_MAX_SIZE = 500;
@@ -42,7 +42,7 @@ public class PictureRepo {
 		ppq.setPageNo(1);
 		ppq.setPageSize(limit);
 		ppq.setStatus(BaseStatus.AVAILABLE.getType());
-		return pageQueryPictures(ppq).getItemList();
+		return pageQueryPictures(ppq).getResultList();
 	}
 
 	public List<PicturesDO> queryAllPictures(PictureOutType outType, long outId) {
@@ -52,6 +52,6 @@ public class PictureRepo {
 		ppq.setPageNo(1);
 		ppq.setPageSize(PICTURE_MAX_SIZE);
 		ppq.setStatus(BaseStatus.AVAILABLE.getType());
-		return pageQueryPictures(ppq).getItemList();
+		return pageQueryPictures(ppq).getResultList();
 	}
 }

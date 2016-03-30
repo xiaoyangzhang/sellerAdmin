@@ -1,12 +1,13 @@
 package com.yimayhd.sellerAdmin.model;
 
-import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
-import com.yimayhd.ic.client.model.domain.CategoryValueDO;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
+import com.yimayhd.ic.client.model.domain.CategoryValueDO;
 
 /**
  * Created by czf on 2015/12/21.

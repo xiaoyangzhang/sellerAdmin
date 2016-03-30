@@ -1,5 +1,17 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.activitycenter.domain.ActActivityDO;
 import com.yimayhd.activitycenter.dto.ActPromotionDTO;
@@ -17,6 +29,8 @@ import com.yimayhd.ic.client.model.query.BatchRichSkuQuery;
 import com.yimayhd.ic.client.model.query.Pair;
 import com.yimayhd.ic.client.model.result.item.ItemSkuMixResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import com.yimayhd.promotion.client.dto.PromotionEditDTO;
+import com.yimayhd.promotion.client.enums.EntityType;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.converter.ActActivityEditVOConverter;
@@ -27,15 +41,6 @@ import com.yimayhd.sellerAdmin.model.PromotionVO;
 import com.yimayhd.sellerAdmin.service.PromotionCommService;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.sellerAdmin.util.NumUtil;
-import com.yimayhd.promotion.client.dto.PromotionEditDTO;
-import com.yimayhd.promotion.client.enums.EntityType;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.*;
 
 /**
  * Created by czf on 2016/1/19.

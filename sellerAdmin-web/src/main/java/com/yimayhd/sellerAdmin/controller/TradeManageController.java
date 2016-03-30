@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.exception.NoticeException;
@@ -28,7 +29,6 @@ import com.yimayhd.sellerAdmin.model.query.TradeListQuery;
 import com.yimayhd.sellerAdmin.service.TradeService;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.sellerAdmin.util.excel.JxlFor2003;
-import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.user.session.manager.SessionManager;
 
@@ -66,7 +66,7 @@ public class TradeManageController extends BaseController {
 		}
 
 		PageVO<BizOrderVO> pageVo = tradeService.getOrderList(sellerId,tradeListQuery);
-		List<BizOrderVO> bizOrderVOList = pageVo.getItemList();
+		List<BizOrderVO> bizOrderVOList = pageVo.getResultList();
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("tradeListQuery", tradeListQuery);
 		model.addAttribute("orderList", bizOrderVOList);
@@ -144,7 +144,7 @@ public class TradeManageController extends BaseController {
 		PageVO<PayOrderDO> pageVo  = tradeService.getPayOrderList(sellerId,payListQuery);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("payListQuery", payListQuery);
-		model.addAttribute("payList", pageVo.getItemList());
+		model.addAttribute("payList", pageVo.getResultList());
 		return "/system/trade/pay/list";
 	}
 	/**

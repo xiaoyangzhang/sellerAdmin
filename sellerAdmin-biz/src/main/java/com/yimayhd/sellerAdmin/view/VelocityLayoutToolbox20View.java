@@ -1,14 +1,15 @@
 package com.yimayhd.sellerAdmin.view;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.Scope;
 import org.apache.velocity.tools.ToolManager;
 import org.apache.velocity.tools.view.ViewToolContext;
 import org.springframework.web.servlet.view.velocity.VelocityLayoutView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 public class VelocityLayoutToolbox20View extends VelocityLayoutView {
 

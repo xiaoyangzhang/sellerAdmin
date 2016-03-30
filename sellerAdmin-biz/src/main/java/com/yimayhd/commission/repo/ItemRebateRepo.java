@@ -1,5 +1,9 @@
 package com.yimayhd.commission.repo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.marketing.client.model.domain.ItemRebateDO;
 import com.yimayhd.marketing.client.model.enums.DomainType;
@@ -8,10 +12,6 @@ import com.yimayhd.marketing.client.model.query.ItemRebateQuery;
 import com.yimayhd.marketing.client.model.result.SpmPageResult;
 import com.yimayhd.marketing.client.model.result.SpmResult;
 import com.yimayhd.marketing.client.service.ItemRebateService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
 
 
 /**

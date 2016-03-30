@@ -1,15 +1,16 @@
 package com.yimayhd.sellerAdmin.model;
 
-import com.yimayhd.ic.client.model.domain.item.ItemSkuFeature;
-import com.yimayhd.ic.client.model.enums.ItemSkuFeatureKey;
-import com.yimayhd.sellerAdmin.model.enums.ItemSkuStatus;
-import com.yimayhd.sellerAdmin.util.NumUtil;
-import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
-import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
+import java.util.Comparator;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
-import java.util.Comparator;
+import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
+import com.yimayhd.ic.client.model.domain.item.ItemSkuFeature;
+import com.yimayhd.ic.client.model.enums.ItemSkuFeatureKey;
+import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
+import com.yimayhd.sellerAdmin.model.enums.ItemSkuStatus;
+import com.yimayhd.sellerAdmin.util.NumUtil;
 
 /**
  * Created by czf on 2015/12/17.

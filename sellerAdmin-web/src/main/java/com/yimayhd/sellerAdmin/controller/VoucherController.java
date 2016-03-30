@@ -1,5 +1,16 @@
 package com.yimayhd.sellerAdmin.controller;
 
+import java.text.ParseException;
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
@@ -11,13 +22,6 @@ import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.session.manager.SessionManager;
 import com.yimayhd.voucher.client.enums.EntityType;
 import com.yimayhd.voucher.client.enums.VoucherTemplateStatus;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
-import java.util.Date;
 
 /**
  * 优惠券管理
@@ -42,7 +46,7 @@ public class VoucherController extends BaseController {
     public String list(Model model, VoucherListQuery voucherListQuery) throws Exception {
         PageVO<VoucherTemplateVO> pageVO = voucherTemplateService.getList(voucherListQuery);
         model.addAttribute("voucherListQuery",voucherListQuery);
-        model.addAttribute("voucherTemplateList",pageVO.getItemList());
+        model.addAttribute("voucherTemplateList",pageVO.getResultList());
         model.addAttribute("pageVo",pageVO);
         return "/system/voucherTemplate/list";
     }

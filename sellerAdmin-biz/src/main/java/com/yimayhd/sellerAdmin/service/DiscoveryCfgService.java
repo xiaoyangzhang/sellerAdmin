@@ -1,8 +1,8 @@
 package com.yimayhd.sellerAdmin.service;
 
+import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.sellerAdmin.model.vo.CfgBaseVO;
 import com.yimayhd.sellerAdmin.model.vo.CfgResultVO;
-import com.yimayhd.resourcecenter.model.result.RcResult;
 
 /**
   * @autuor : xusq

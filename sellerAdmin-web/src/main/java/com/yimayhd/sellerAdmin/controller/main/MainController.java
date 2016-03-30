@@ -20,15 +20,14 @@ public class MainController {
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView home(HttpServletRequest request, Model model){
-//		long userId sessionManager.getUserId(request);
-		UserDO user = sessionManager.getUser(request);
-		long option = user.getOptions() ;
-		boolean isTalent = UserOptions.USER_TALENT.has(option) ;
-		boolean isMerchant = UserOptions.COMMERCIAL_TENANT.has(option) ;
-		if( !isTalent && !isMerchant ){
-			//不是达人、也不是商户
-			return new ModelAndView("redirect:/business/toChoosePage");
-		}
+//		UserDO user = sessionManager.getUser(request);
+//		long option = user.getOptions() ;
+//		boolean isTalent = UserOptions.USER_TALENT.has(option) ;
+//		boolean isMerchant = UserOptions.COMMERCIAL_TENANT.has(option) ;
+//		if( !isTalent && !isMerchant ){
+//			//不是达人、也不是商户
+//			return new ModelAndView("redirect:/business/toChoosePage");
+//		}
 		
 		return new ModelAndView("/system/home/home");
 	}

@@ -56,17 +56,17 @@ public class CommLineServiceImpl implements CommLineService {
 		}
 		LineResult lineResult = lineRepo.getLineById(id);
 		// 主题
-		List<ComTagDO> themeTags = commentRepo.getTags(id, TagType.LINETAG);
+		List<ComTagDO> themeTags = commentRepo.getTagsByOutId(id, TagType.LINETAG);
 		List<TagDTO> themes = TagConverter.toTagDTO(themeTags);
 		// 出发地
-		List<ComTagDO> departTags = commentRepo.getTags(id, TagType.DEPARTPLACE);
+		List<ComTagDO> departTags = commentRepo.getTagsByOutId(id, TagType.DEPARTPLACE);
 		List<CityVO> departs = new ArrayList<CityVO>();
 		for (ComTagDO comTagDO : departTags) {
 			CityDTO cityDTO = cityRepo.getNameByCode(comTagDO.getName());
 			departs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
 		}
 		// 目的地
-		List<ComTagDO> destTags = commentRepo.getTags(id, TagType.DESRTPLACE);
+		List<ComTagDO> destTags = commentRepo.getTagsByOutId(id, TagType.DESRTPLACE);
 		List<CityVO> dests = new ArrayList<CityVO>();
 		for (ComTagDO comTagDO : destTags) {
 			CityDTO cityDTO = cityRepo.getNameByCode(comTagDO.getName());

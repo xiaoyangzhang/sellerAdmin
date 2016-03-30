@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.yimayhd.sellerAdmin.base.menu.MenuVO;
 import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.vo.menu.MenuVO;
 
 public class MenuCacheMananger {
 	@Autowired

@@ -1,8 +1,9 @@
 package com.yimayhd.sellerAdmin.model;
 
 
-import com.yimayhd.promotion.client.domain.PromotionDO;
 import org.springframework.beans.BeanUtils;
+
+import com.yimayhd.promotion.client.domain.PromotionDO;
 
 /**
  * Created by czf on 2016/1/11.

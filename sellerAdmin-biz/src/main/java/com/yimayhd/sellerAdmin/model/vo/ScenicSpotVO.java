@@ -1,7 +1,7 @@
 package com.yimayhd.sellerAdmin.model.vo;
 
-import com.yimayhd.sellerAdmin.model.query.ScenicSpotListQuery;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.sellerAdmin.model.query.ScenicSpotListQuery;
 
 /**
  * Created by Administrator on 2015/11/18.

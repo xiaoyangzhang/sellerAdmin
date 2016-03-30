@@ -1,13 +1,14 @@
 package com.yimayhd.sellerAdmin.model;
 
+import org.springframework.beans.BeanUtils;
+//import org.apache.commons.beanutils.BeanUtils;
+
 import com.yimayhd.sellerAdmin.util.PhoneUtil;
 import com.yimayhd.tradecenter.client.model.domain.imall.IMallInfo;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.UserDO;
-import org.springframework.beans.BeanUtils;
-//import org.apache.commons.beanutils.BeanUtils;
 
 
 public class BizOrderVO extends BizOrderDO {

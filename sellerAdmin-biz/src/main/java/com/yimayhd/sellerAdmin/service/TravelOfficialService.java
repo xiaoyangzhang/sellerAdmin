@@ -1,11 +1,11 @@
 package com.yimayhd.sellerAdmin.service;
 
+import java.util.List;
+
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.TravelOfficial;
 import com.yimayhd.sellerAdmin.model.query.TravelOfficialListQuery;
 import com.yimayhd.snscenter.client.domain.SnsTravelSpecialtyDO;
-
-import java.util.List;
 
 /**
  * Created by Administrator on 2015/11/10.

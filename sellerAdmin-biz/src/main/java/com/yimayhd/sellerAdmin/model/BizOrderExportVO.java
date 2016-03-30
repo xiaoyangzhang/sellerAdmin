@@ -1,5 +1,12 @@
 package com.yimayhd.sellerAdmin.model;
 
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.BeanUtils;
+
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.sellerAdmin.model.enums.PayStatus;
 import com.yimayhd.sellerAdmin.util.NumUtil;
@@ -10,12 +17,6 @@ import com.yimayhd.tradecenter.client.model.domain.order.SkuInfo;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
 import com.yimayhd.tradecenter.client.model.enums.TcPayChannel;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
-import org.springframework.beans.BeanUtils;
-
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by czf on 2015/12/8.

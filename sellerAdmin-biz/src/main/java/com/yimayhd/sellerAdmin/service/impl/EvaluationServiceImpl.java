@@ -1,10 +1,22 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComCommentDO;
 import com.yimayhd.commentcenter.client.dto.CommentDTO;
 import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
+import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.ComCommentVO;
@@ -12,21 +24,10 @@ import com.yimayhd.sellerAdmin.model.query.EvaluationListQuery;
 import com.yimayhd.sellerAdmin.service.EvaluationService;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.sellerAdmin.util.PhoneUtil;
-import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOQuery;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by czf on 2015/12/31.
@@ -43,11 +44,11 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public PageVO<ComCommentVO> getList(EvaluationListQuery evaluationListQuery) throws Exception {
         //返回结果
-        PageVO<ComCommentVO> comCommentVOPageVO = new PageVO<ComCommentVO>(evaluationListQuery.getPageNumber(),evaluationListQuery.getPageSize(),0);
+        PageVO<ComCommentVO> comCommentVOPageVO = new PageVO<ComCommentVO>(evaluationListQuery.getPageNo(),evaluationListQuery.getPageSize(),0);
         //查询条件对接
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setPageSize(evaluationListQuery.getPageSize());
-        commentDTO.setPageNo(evaluationListQuery.getPageNumber());
+        commentDTO.setPageNo(evaluationListQuery.getPageNo());
         //开始结束时间
         if(StringUtils.isNotBlank(evaluationListQuery.getBeginDate())){
             commentDTO.setStartDate(DateUtil.formatMinTimeForDate(evaluationListQuery.getBeginDate()));
@@ -149,7 +150,7 @@ public class EvaluationServiceImpl implements EvaluationService {
                 comCommentVO.setUserDO(userDOMap.get(comCommentDO.getUserId()));
                 comCommentVOList.add(comCommentVO);
             }
-            comCommentVOPageVO = new PageVO<ComCommentVO>(evaluationListQuery.getPageNumber(),evaluationListQuery.getPageSize(),commentDOBasePageResult.getTotalCount(),comCommentVOList);
+            comCommentVOPageVO = new PageVO<ComCommentVO>(evaluationListQuery.getPageNo(),evaluationListQuery.getPageSize(),commentDOBasePageResult.getTotalCount(),comCommentVOList);
         }
         return comCommentVOPageVO;
     }

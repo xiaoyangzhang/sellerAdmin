@@ -1,14 +1,15 @@
 package com.yimayhd.sellerAdmin.util;
 
-import com.yimayhd.sellerAdmin.config.ResourceConfig;
+import java.util.Properties;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Properties;
+import com.yimayhd.sellerAdmin.config.ResourceConfig;
 
 /**
  * 由WebResourceConfig工具类代替,弃用

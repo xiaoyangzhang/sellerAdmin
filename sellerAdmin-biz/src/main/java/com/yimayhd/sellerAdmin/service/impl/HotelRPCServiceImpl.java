@@ -1,15 +1,17 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.sellerAdmin.base.BaseException;
-import com.yimayhd.sellerAdmin.base.PageVO;
-import com.yimayhd.sellerAdmin.model.HotelFacilityVO;
-import com.yimayhd.sellerAdmin.model.HotelVO;
-import com.yimayhd.sellerAdmin.model.PictureVO;
-import com.yimayhd.sellerAdmin.model.query.HotelListQuery;
-import com.yimayhd.sellerAdmin.service.HotelRPCService;
-import com.yimayhd.sellerAdmin.service.TfsService;
-import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.ic.client.model.domain.FacilityIconDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.PicturesDO;
@@ -23,16 +25,15 @@ import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.item.HotelService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.ic.client.service.item.ResourcePublishService;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import com.yimayhd.sellerAdmin.base.BaseException;
+import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.model.HotelFacilityVO;
+import com.yimayhd.sellerAdmin.model.HotelVO;
+import com.yimayhd.sellerAdmin.model.PictureVO;
+import com.yimayhd.sellerAdmin.model.query.HotelListQuery;
+import com.yimayhd.sellerAdmin.service.HotelRPCService;
+import com.yimayhd.sellerAdmin.service.TfsService;
+import com.yimayhd.sellerAdmin.util.DateUtil;
 
 public class HotelRPCServiceImpl implements HotelRPCService {
 
@@ -58,8 +59,8 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 		HotelPageQuery hotelPageQuery = new HotelPageQuery();
     	hotelPageQuery.setNeedCount(true);
 		
-		if (hotelListQuery.getPageNumber() != null) {
-			int pageNumber = hotelListQuery.getPageNumber();
+		if (hotelListQuery.getPageNo() != null) {
+			int pageNumber = hotelListQuery.getPageNo();
 			int pageSize = hotelListQuery.getPageSize();
 			hotelPageQuery.setPageNo(pageNumber);
 			hotelPageQuery.setPageSize(pageSize);

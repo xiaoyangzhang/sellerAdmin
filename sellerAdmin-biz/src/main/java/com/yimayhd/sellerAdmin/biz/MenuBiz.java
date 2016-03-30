@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.yimayhd.membercenter.client.domain.HaMenuDO;
-import com.yimayhd.sellerAdmin.base.menu.MenuVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.biz.helper.MenuHelper;
 import com.yimayhd.sellerAdmin.cache.MenuCacheMananger;
 import com.yimayhd.sellerAdmin.converter.MenuConverter;
 import com.yimayhd.sellerAdmin.repo.MenuRepo;
+import com.yimayhd.sellerAdmin.vo.menu.MenuVO;
 
 public class MenuBiz {
 	@Autowired

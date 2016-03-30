@@ -1,9 +1,10 @@
 package com.yimayhd.sellerAdmin.model;
 
+import org.apache.commons.beanutils.BeanUtils;
+
 import com.yimayhd.sellerAdmin.util.NumUtil;
 import com.yimayhd.tradecenter.client.model.param.imall.pointrule.IMallPointRuleDTO;
 import com.yimayhd.tradecenter.client.model.result.imall.pointrule.IMallPointRuleResult;
-import org.apache.commons.beanutils.BeanUtils;
 
 /**
  * Created by Administrator on 2015/12/3.

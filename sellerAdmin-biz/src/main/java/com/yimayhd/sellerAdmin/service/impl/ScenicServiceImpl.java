@@ -4,13 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.yimayhd.sellerAdmin.base.BaseException;
-import com.yimayhd.sellerAdmin.model.ScenicVO;
-import com.yimayhd.sellerAdmin.model.query.ScenicListQuery;
-import com.yimayhd.sellerAdmin.model.PictureVO;
-import com.yimayhd.ic.client.model.domain.PicturesDO;
-import com.yimayhd.ic.client.model.enums.BaseStatus;
-import com.yimayhd.ic.client.model.enums.PictureOutType;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -18,13 +11,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.sellerAdmin.base.PageVO;
-import com.yimayhd.sellerAdmin.service.ScenicService;
-import com.yimayhd.sellerAdmin.service.TfsService;
-import com.yimayhd.sellerAdmin.util.DateUtil;
+import com.yimayhd.ic.client.model.domain.PicturesDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.domain.share_json.TextItem;
+import com.yimayhd.ic.client.model.enums.BaseStatus;
+import com.yimayhd.ic.client.model.enums.PictureOutType;
 import com.yimayhd.ic.client.model.param.item.PictureUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.query.PicturesPageQuery;
@@ -34,6 +26,14 @@ import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.ic.client.service.item.ResourcePublishService;
+import com.yimayhd.sellerAdmin.base.BaseException;
+import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.model.PictureVO;
+import com.yimayhd.sellerAdmin.model.ScenicVO;
+import com.yimayhd.sellerAdmin.model.query.ScenicListQuery;
+import com.yimayhd.sellerAdmin.service.ScenicService;
+import com.yimayhd.sellerAdmin.service.TfsService;
+import com.yimayhd.sellerAdmin.util.DateUtil;
 
 /**
  * Created by Administrator on 2015/11/18.
@@ -54,8 +54,8 @@ public class ScenicServiceImpl implements ScenicService {
 		int totalCount = 0;
 		ScenicPageQuery pageQuery = new ScenicPageQuery();
 		pageQuery.setNeedCount(true);
-		if(scenicListQuery.getPageNumber()!=null){
-			int pageNumber =scenicListQuery.getPageNumber();
+		if(scenicListQuery.getPageNo()!=null){
+			int pageNumber =scenicListQuery.getPageNo();
 			int pageSize = scenicListQuery.getPageSize();
 			pageQuery.setPageNo(pageNumber);
 			pageQuery.setPageSize(pageSize);

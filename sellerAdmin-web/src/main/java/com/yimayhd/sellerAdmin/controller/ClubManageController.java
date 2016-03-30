@@ -1,5 +1,18 @@
 package com.yimayhd.sellerAdmin.controller;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
@@ -14,14 +27,6 @@ import com.yimayhd.sellerAdmin.service.UserRPCService;
 import com.yimayhd.snscenter.client.domain.ClubInfoDO;
 import com.yimayhd.snscenter.client.domain.result.ClubDO;
 import com.yimayhd.snscenter.client.dto.ClubDOInfoDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 俱乐部管理
@@ -60,7 +65,7 @@ public class ClubManageController extends BaseController {
 		}
 		PageVO<ClubDO> pageVo = clubService.pageQueryClub(query);
 		model.addAttribute("clubListQuery", query);
-		model.addAttribute("clubList", pageVo.getItemList());
+		model.addAttribute("clubList", pageVo.getResultList());
 		model.addAttribute("pageVo", pageVo);
 		return "/system/club/list";
 	}

@@ -2,17 +2,17 @@ package com.yimayhd.sellerAdmin.service;
 
 import java.util.List;
 
+import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.resourcecenter.domain.RegionDO;
+import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
+import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.RelevanceRecommended;
 import com.yimayhd.sellerAdmin.model.TripBo;
 import com.yimayhd.sellerAdmin.model.TripBoQuery;
 import com.yimayhd.sellerAdmin.model.query.LiveListQuery;
 import com.yimayhd.sellerAdmin.model.query.ScenicListQuery;
-import com.yimayhd.ic.client.model.domain.HotelDO;
-import com.yimayhd.ic.client.model.domain.ScenicDO;
-import com.yimayhd.resourcecenter.domain.RegionDO;
-import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
-import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 
 /** 

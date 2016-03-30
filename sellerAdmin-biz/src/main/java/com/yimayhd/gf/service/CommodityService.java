@@ -1,12 +1,12 @@
 package com.yimayhd.gf.service;
 
+import java.util.List;
+
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.ItemResultVO;
 import com.yimayhd.sellerAdmin.model.ItemSkuVO;
 import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.model.query.CommodityListQuery;
-
-import java.util.List;
 
 /**
  * Created by czf on 2015/11/24.

@@ -8,8 +8,8 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
-import com.yimayhd.sellerAdmin.base.menu.LocationVO;
-import com.yimayhd.sellerAdmin.base.menu.MenuVO;
+import com.yimayhd.sellerAdmin.vo.menu.LocationVO;
+import com.yimayhd.sellerAdmin.vo.menu.MenuVO;
 
 public class MenuHelper {
 	

@@ -4,10 +4,10 @@ import org.slf4j.Logger;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.result.ResultSupport;
-import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.ic.client.model.result.ICErrorCode;
 import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.membercenter.client.result.MemResultSupport;
+import com.yimayhd.sellerAdmin.base.BaseException;
 
 /**
  * Repo工具

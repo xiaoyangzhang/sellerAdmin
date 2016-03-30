@@ -1,5 +1,13 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
+
 import com.google.common.collect.Lists;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.query.VoucherListQuery;
@@ -10,13 +18,6 @@ import com.yimayhd.voucher.client.domain.VoucherTemplateDO;
 import com.yimayhd.voucher.client.query.VoucherTemplateQuery;
 import com.yimayhd.voucher.client.result.BasePageResult;
 import com.yimayhd.voucher.client.service.VoucherClientService;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by czf on 2016/1/11.
@@ -37,7 +38,7 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
         voucherTemplateQuery.setTitle(voucherListQuery.getTitle());
         voucherTemplateQuery.setStatus(voucherListQuery.getStatus());
         voucherTemplateQuery.setPageSize(voucherListQuery.getPageSize());
-        voucherTemplateQuery.setPageNo(voucherListQuery.getPageNumber());
+        voucherTemplateQuery.setPageNo(voucherListQuery.getPageNo());
         voucherTemplateQuery.setNeedCount(true);
 
         BasePageResult<VoucherTemplateDO> result = voucherClientServiceRef.queryVoucherTemplates(voucherTemplateQuery);
@@ -49,10 +50,10 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
                 BeanUtils.copyProperties(voucherTemplateDO, voucherVO);
                 voucherTemplateVOs.add(voucherVO);
             }
-            pageVO = new PageVO<VoucherTemplateVO>(voucherListQuery.getPageNumber(), voucherListQuery.getPageSize(),
+            pageVO = new PageVO<VoucherTemplateVO>(voucherListQuery.getPageNo(), voucherListQuery.getPageSize(),
                                                    result.getTotalCount(), voucherTemplateVOs);
         }else{
-            pageVO = new PageVO<VoucherTemplateVO>(voucherListQuery.getPageNumber(), voucherListQuery.getPageSize(),
+            pageVO = new PageVO<VoucherTemplateVO>(voucherListQuery.getPageNo(), voucherListQuery.getPageSize(),
                                                    0, voucherTemplateVOs);
         }
 

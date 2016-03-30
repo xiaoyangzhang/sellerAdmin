@@ -1,23 +1,24 @@
 package com.yimayhd.sellerAdmin.converter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
+
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.sellerAdmin.constant.Constant;
-import com.yimayhd.sellerAdmin.model.ActActivityEditVO;
-import com.yimayhd.sellerAdmin.model.ActActivityVO;
-import com.yimayhd.sellerAdmin.model.PromotionVO;
-import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.promotion.client.domain.PromotionDO;
 import com.yimayhd.promotion.client.domain.PromotionFeature;
 import com.yimayhd.promotion.client.dto.PromotionEditDTO;
 import com.yimayhd.promotion.client.enums.EntityType;
 import com.yimayhd.promotion.client.enums.PromotionFeatureKey;
 import com.yimayhd.promotion.client.enums.PromotionType;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.BeanUtils;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.model.ActActivityEditVO;
+import com.yimayhd.sellerAdmin.model.ActActivityVO;
+import com.yimayhd.sellerAdmin.model.PromotionVO;
+import com.yimayhd.sellerAdmin.util.DateUtil;
 
 /**
  * Created by czf on 2016/2/18.

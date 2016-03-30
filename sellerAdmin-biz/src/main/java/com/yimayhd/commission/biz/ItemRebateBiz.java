@@ -1,5 +1,13 @@
 package com.yimayhd.commission.biz;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commission.model.query.ItemRebateQuery;
 import com.yimayhd.commission.repo.ItemRebateRepo;
@@ -9,14 +17,6 @@ import com.yimayhd.marketing.client.model.param.ItemRebateRateUpdateDTO;
 import com.yimayhd.marketing.client.model.result.SpmPageResult;
 import com.yimayhd.marketing.client.model.result.SpmResult;
 import com.yimayhd.sellerAdmin.base.PageVO;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -43,13 +43,13 @@ public class ItemRebateBiz {
 
         try{
             int totalCount = 0;
-            int pageNum = itemRebateQuery.getPageNumber();
+            int pageNum = itemRebateQuery.getPageNo();
             int size = itemRebateQuery.getPageSize();
             List<ItemRebateDO> list = new ArrayList<ItemRebateDO>();
 
             com.yimayhd.marketing.client.model.query.ItemRebateQuery query = new com.yimayhd.marketing.client.model.query.ItemRebateQuery();
             query.setDomainId(DomainType.DOMAIN_MYTHIC_FLOW.getDomainId());
-            query.setPageNo(itemRebateQuery.getPageNumber());
+            query.setPageNo(itemRebateQuery.getPageNo());
             query.setPageSize(itemRebateQuery.getPageSize());
             query.setItemTitle(itemRebateQuery.getItemTitle());
             

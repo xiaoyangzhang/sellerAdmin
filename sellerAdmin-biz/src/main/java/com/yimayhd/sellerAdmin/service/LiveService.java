@@ -1,11 +1,11 @@
 package com.yimayhd.sellerAdmin.service;
 
+import java.util.List;
+
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.SnsSubjectVO;
 import com.yimayhd.sellerAdmin.model.SubjectInfoAddVO;
 import com.yimayhd.sellerAdmin.model.query.LiveListQuery;
-
-import java.util.List;
 
 /**
  * Created by Administrator on 2015/11/16.

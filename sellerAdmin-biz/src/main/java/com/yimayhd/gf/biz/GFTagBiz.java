@@ -34,7 +34,7 @@ public class GFTagBiz {
 			TagInfoDTO tagInfoDTO = new TagInfoDTO();
 			tagInfoDTO.setName(gfTagVoQuery.getName());
 			tagInfoDTO.setState(gfTagVoQuery.getStatus());
-			tagInfoDTO.setPageNo(gfTagVoQuery.getPageNumber());
+			tagInfoDTO.setPageNo(gfTagVoQuery.getPageNo());
 			tagInfoDTO.setPageSize(gfTagVoQuery.getPageSize());
 			tagInfoDTO.setOutType(gfTagVoQuery.getType());
 			BasePageResult<ComTagDO> basePageResult = gfTagRepo.getPageTag(tagInfoDTO);
@@ -45,7 +45,7 @@ public class GFTagBiz {
 		}else{
 			LOGGER.error("Request {} error: query={}", "comCenterService.selectTagListByTagType",JSON.toJSONString(gfTagVoQuery));
 		}
-		return  new PageVO<ComTagDO>(gfTagVoQuery.getPageNumber(), gfTagVoQuery.getPageSize(), totalCount, list);
+		return  new PageVO<ComTagDO>(gfTagVoQuery.getPageNo(), gfTagVoQuery.getPageSize(), totalCount, list);
 	}
 
 

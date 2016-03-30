@@ -2,8 +2,8 @@ package com.yimayhd.sellerAdmin.service;
 
 import java.util.List;
 
-import com.yimayhd.sellerAdmin.model.CategoryVO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
+import com.yimayhd.sellerAdmin.model.CategoryVO;
 
 /**
  * Created by Administrator on 2015/11/25.

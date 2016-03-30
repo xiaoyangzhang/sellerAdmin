@@ -1,9 +1,9 @@
 package com.yimayhd.sellerAdmin.base;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.io.Serializable;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * @author czf

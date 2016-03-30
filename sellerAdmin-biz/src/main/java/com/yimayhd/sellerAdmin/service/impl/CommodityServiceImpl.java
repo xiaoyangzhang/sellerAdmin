@@ -1,6 +1,35 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.domain.item.ItemFeature;
+import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
+import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
+import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
+import com.yimayhd.ic.client.model.param.item.HotelPublishDTO;
+import com.yimayhd.ic.client.model.param.item.ItemBatchPublishDTO;
+import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
+import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
+import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
+import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
+import com.yimayhd.ic.client.model.result.item.ItemPageResult;
+import com.yimayhd.ic.client.model.result.item.ItemPubResult;
+import com.yimayhd.ic.client.model.result.item.ItemResult;
+import com.yimayhd.ic.client.service.item.HotelService;
+import com.yimayhd.ic.client.service.item.ItemPublishService;
+import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -12,30 +41,7 @@ import com.yimayhd.sellerAdmin.model.query.CommodityListQuery;
 import com.yimayhd.sellerAdmin.service.CommodityService;
 import com.yimayhd.sellerAdmin.service.TfsService;
 import com.yimayhd.sellerAdmin.util.DateUtil;
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
-import com.yimayhd.ic.client.model.domain.item.ItemFeature;
-import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
-import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
-import com.yimayhd.ic.client.model.enums.ItemStatus;
-import com.yimayhd.ic.client.model.param.item.*;
-import com.yimayhd.ic.client.model.result.ICResult;
-import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
-import com.yimayhd.ic.client.model.result.item.ItemPageResult;
-import com.yimayhd.ic.client.model.result.item.ItemPubResult;
-import com.yimayhd.ic.client.model.result.item.ItemResult;
-import com.yimayhd.ic.client.service.item.HotelService;
-import com.yimayhd.ic.client.service.item.ItemPublishService;
-import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.util.NumUtil;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by czf on 2015/11/24.
@@ -56,7 +62,7 @@ public class CommodityServiceImpl implements CommodityService {
         List<Integer> domainList = new ArrayList<Integer>();
         domainList.add(Constant.DOMAIN_JIUXIU);
         itemQryDTO.setDomains(domainList);
-        itemQryDTO.setPageNo(commodityListQuery.getPageNumber());
+        itemQryDTO.setPageNo(commodityListQuery.getPageNo());
         itemQryDTO.setPageSize(commodityListQuery.getPageSize());
 
         if(!StringUtils.isBlank(commodityListQuery.getCommName())) {
@@ -106,7 +112,7 @@ public class CommodityServiceImpl implements CommodityService {
             itemVOList.add(ItemVO.getItemVO(itemDO,new CategoryVO()));
         }
 
-        PageVO<ItemVO> pageVO = new PageVO<ItemVO>(commodityListQuery.getPageNumber(),commodityListQuery.getPageSize(),itemPageResult.getRecordCount(),itemVOList);
+        PageVO<ItemVO> pageVO = new PageVO<ItemVO>(commodityListQuery.getPageNo(),commodityListQuery.getPageSize(),itemPageResult.getRecordCount(),itemVOList);
         return pageVO;
     }
 

@@ -1,15 +1,16 @@
 package com.yimayhd.sellerAdmin.model;
 
-import com.yimayhd.sellerAdmin.util.NumUtil;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
+
 import com.yimayhd.pay.client.model.domain.order.PayOperationDO;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDetailDO;
 import com.yimayhd.pay.client.model.enums.PayStatus;
-import org.springframework.beans.BeanUtils;
-
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import com.yimayhd.sellerAdmin.util.NumUtil;
 
 /**
  * Created by Administrator on 2015/12/8.
