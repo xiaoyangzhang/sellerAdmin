@@ -6,6 +6,8 @@
         <tool key="utilText" class="com.yimayhd.sellerAdmin.util.TextUtil"></tool>
         <tool key="utilWebconfig" class="com.yimayhd.sellerAdmin.util.WebResourceConfigUtil"></tool>
         <tool key="utilPhone" class="com.yimayhd.sellerAdmin.util.PhoneUtil"></tool>
+        <tool key="utilItem" class="com.yimayhd.sellerAdmin.util.ItemUtil"></tool>
+        <tool key="utilMoney" class="com.yimayhd.sellerAdmin.util.MoneyUtil"></tool>
     </toolbox>
 
 </tools>

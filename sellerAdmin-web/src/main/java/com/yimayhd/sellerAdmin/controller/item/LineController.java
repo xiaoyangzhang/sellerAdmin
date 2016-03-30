@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.ic.client.model.enums.LineType;
+import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.BaseTravelController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
+import com.yimayhd.sellerAdmin.constant.ResponseStatus;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.service.item.LineService;
 
@@ -80,7 +82,11 @@ public class LineController extends BaseTravelController {
 	@RequestMapping(value = "/save")
 	public @ResponseBody ResponseVo save(String json) {
 		try {
-			long sellerId = 1000;
+			long sellerId = getCurrentUserId();
+			if (sellerId <= 0) {
+				log.warn("未登录");
+				return new ResponseVo(ResponseStatus.ERROR);
+			}
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
 			long lineId = gt.getBaseInfo().getLineId();
 			if (lineId > 0) {

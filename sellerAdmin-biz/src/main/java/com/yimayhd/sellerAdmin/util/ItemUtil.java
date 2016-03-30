@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.sellerAdmin.model.enums.ItemOperate;
 
 /**
@@ -12,7 +13,7 @@ import com.yimayhd.sellerAdmin.model.enums.ItemOperate;
  * @author yebinL
  *
  */
-public class ItemUtils {
+public class ItemUtil {
 	public static List<ItemOperate> getItemOperates(int ItemType, int status) {
 		List<ItemOperate> operates = new ArrayList<ItemOperate>();
 		if (ItemStatus.create.getValue() == status) {
@@ -28,5 +29,27 @@ public class ItemUtils {
 			operates.add(ItemOperate.UNSHELVE);
 		}
 		return operates;
+	}
+
+	public static String getItemTypeName(int itemType) {
+		if (itemType <= 0) {
+			return null;
+		}
+		ItemType it = ItemType.get(itemType);
+		if (it != null) {
+			return it.getText();
+		}
+		return null;
+	}
+
+	public static String getItemStatusName(int status) {
+		if (status <= 0) {
+			return null;
+		}
+		ItemStatus is = ItemStatus.get(status);
+		if (is != null) {
+			return is.getText();
+		}
+		return null;
 	}
 }

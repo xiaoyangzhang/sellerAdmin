@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.item.ItemListItemVO;
 import com.yimayhd.sellerAdmin.model.query.ItemListQuery;
@@ -32,11 +33,15 @@ public class ItemController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(ItemListQuery query) throws Exception {
-		long sellerId = 100;
+		long sellerId = getCurrentUserId();
+		if (sellerId <= 0) {
+			log.warn("未登录");
+			throw new BaseException("请登陆后重试");
+		}
 		PageVO<ItemListItemVO> pageVO = itemService.getItemList(sellerId, query);
 		put("pageVo", pageVO);
 		put("itemTypes", ItemType.values());
 		put("query", query);
-		return "/system/comm/list";
+		return "/system/item/itemList";
 	}
 }

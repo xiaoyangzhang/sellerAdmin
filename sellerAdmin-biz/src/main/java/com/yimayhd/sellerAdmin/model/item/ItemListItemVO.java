@@ -1,7 +1,10 @@
 package com.yimayhd.sellerAdmin.model.item;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 
 import com.yimayhd.sellerAdmin.model.enums.ItemOperate;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
@@ -18,7 +21,7 @@ public class ItemListItemVO {
 	private String name;
 	private String code;
 	private List<CityVO> dests;
-	private int itemType;
+	private int type;
 	private long price;
 	private long status;
 	private Date publishDate;
@@ -60,16 +63,16 @@ public class ItemListItemVO {
 		return dests;
 	}
 
+	public String getDestString() {
+		List<String> names = new ArrayList<String>();
+		for (CityVO cityVO : dests) {
+			names.add(cityVO.getName());
+		}
+		return StringUtils.join(names, "，");
+	}
+
 	public void setDests(List<CityVO> dests) {
 		this.dests = dests;
-	}
-
-	public int getItemType() {
-		return itemType;
-	}
-
-	public void setItemType(int itemType) {
-		this.itemType = itemType;
 	}
 
 	public long getPrice() {
@@ -102,5 +105,13 @@ public class ItemListItemVO {
 
 	public void setOperates(List<ItemOperate> operates) {
 		this.operates = operates;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 }
