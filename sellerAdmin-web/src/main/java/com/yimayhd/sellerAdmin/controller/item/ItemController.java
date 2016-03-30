@@ -42,6 +42,6 @@ public class ItemController extends BaseController {
 		put("pageVo", pageVO);
 		put("itemTypes", ItemType.values());
 		put("query", query);
-		return "/system/item/itemList";
+		return "/system/comm/itemList";
 	}
 }
