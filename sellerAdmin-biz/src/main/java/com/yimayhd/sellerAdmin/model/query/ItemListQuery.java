@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.model.query;
 
+import java.util.Date;
+
 import com.yimayhd.sellerAdmin.base.BaseQuery;
 
 /**
@@ -10,61 +12,12 @@ import com.yimayhd.sellerAdmin.base.BaseQuery;
  */
 public class ItemListQuery extends BaseQuery {
 	private static final long serialVersionUID = -4699187319874706808L;
-	private long category_id;// 商品分类
 	private int itemType;// 商品类型
-	private String commName;// 商品名称
-	private Long id;// 商品编码
-	private int commStatus;// 状态
-	private String BeginDate;// 发布开始时间
-	private String endDate;// 发布结束时间
-
-	public long getCategory_id() {
-		return category_id;
-	}
-
-	public void setCategory_id(long category_id) {
-		this.category_id = category_id;
-	}
-
-	public String getCommName() {
-		return commName;
-	}
-
-	public void setCommName(String commName) {
-		this.commName = commName;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public int getCommStatus() {
-		return commStatus;
-	}
-
-	public void setCommStatus(int commStatus) {
-		this.commStatus = commStatus;
-	}
-
-	public String getBeginDate() {
-		return BeginDate;
-	}
-
-	public void setBeginDate(String beginDate) {
-		BeginDate = beginDate;
-	}
-
-	public String getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
-	}
+	private String name;// 商品名称
+	private long id;// 商品编码
+	private int status;// 状态
+	private Date BeginDate;// 发布开始时间
+	private Date endDate;// 发布结束时间
 
 	public int getItemType() {
 		return itemType;
@@ -73,4 +26,45 @@ public class ItemListQuery extends BaseQuery {
 	public void setItemType(int itemType) {
 		this.itemType = itemType;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public Date getBeginDate() {
+		return BeginDate;
+	}
+
+	public void setBeginDate(Date beginDate) {
+		BeginDate = beginDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
 }
