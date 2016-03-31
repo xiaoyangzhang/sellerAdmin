@@ -1,11 +1,15 @@
 package com.yimayhd.sellerAdmin.util;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.yimayhd.sellerAdmin.constant.Constant;
 
 /**
  * Created by Administrator on 2015/12/9.
  */
 public class PhoneUtil {
+	private static Pattern pattern= Pattern.compile("^(\\+86)?1\\d{10}$");
 	
 	public static String getMobile(String mobile){
 		if( mobile == null ){
@@ -40,5 +44,14 @@ public class PhoneUtil {
         String prefix=mobile.substring(0,3);
         String suffix =mobile.substring(mobile.length()-4,mobile.length());
         return prefix+"****"+ suffix;
+    }
+    
+    public static boolean isMobileNumber(String mobile){
+        if(mobile == null) {
+            return false;
+        }
+
+        Matcher m = pattern.matcher(mobile);
+        return m.matches();
     }
 }

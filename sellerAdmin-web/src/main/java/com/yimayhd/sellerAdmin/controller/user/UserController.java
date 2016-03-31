@@ -207,45 +207,16 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/modifyPassword", method = RequestMethod.GET) 
 	@SessionChecker
 	public ModelAndView modifyPassword(HttpServletRequest request, HttpServletResponse response) {
-		UserDO user = sessionManager.getUser(request);
-		request.setAttribute("user", user);
 		return new ModelAndView("/system/user/modifyPassword");
 	}
 	
 	@RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
 	@ResponseBody
-	public WebResultSupport modifyPassword(String username, String imageCode) {
-		WebResultSupport result = new WebResultSupport();
-		result = userBiz.sendRetrievePasswordVerifyCode(username);
+	public WebResultSupport modifyPassword(HttpServletRequest request, String newPassword, String oldPassword) {
+		long userId = sessionManager.getUserId(request);
+		WebResultSupport result = userBiz.modifyPassword(userId, newPassword, oldPassword);
 		return result;
 	}
-//
-//
-//	@RequestMapping(value = "/sendRetrievePasswordVerifyCode", method = RequestMethod.POST)
-//	public WebResult<String> sendRetrievePasswordVerifyCode(RetrievePasswordVo retrievePasswordVo, String imageCode) {
-//		WebResult<String> result = new WebResult<String>();
-//		try {
-//			if (!(AppMode.STEST.equals(webConfig.getMode()))) {
-//				if (StringUtils.isBlank(imageCode) || verifyCodeManager.checkVerifyCode(imageCode) == false) {
-//					result.initFailure(WebErrorCode.InvalidImageCode);
-//					return result;
-//				}
-//			}
-//
-//			userService.sendRetrievePasswordVerifyCode(retrievePasswordVo);
-//			result.initSuccess();
-//		} catch (WebException e) {
-//			log.error(e.getMessage(), e);
-//			result.initFailure(e);
-//		} catch (Exception e) {
-//			log.error("发送短信验证码失败");
-//			log.error(e.getMessage(), e);
-//			result.initFailure(WebErrorCode.Error, e.getMessage());
-//		}
-//
-//		return result;
-//	}
-//
 	@RequestMapping(value = "/retrievePassword", method = RequestMethod.POST)
 	@ResponseBody
 	public WebResultSupport retrievePassword(RetrievePasswordVo retrievePasswordVo) {
@@ -258,100 +229,11 @@ public class UserController extends BaseController {
 		WebResultSupport result = userBiz.retrievePassword(revivePasswordDTO);
 		return result;
 	}
-//
-//	@RequestMapping(value = "/isExistedMobile/{mobile}", method = RequestMethod.POST)
-//	public WebResultSupport isExistedMobile(String mobile) {
-//		try {
-//			UserVo userVo = userService.getUserByMobile(mobile);
-//			if (userVo != null) {
-//				return success("用户已经存在");
-//			}
-//		} catch (WebException e) {
-//			log.error(e.getMessage(), e);
-//			return error(e, e.getMessage());
-//		} catch (Exception e) {
-//			log.error("查询用户失败");
-//			log.error(e.getMessage(), e);
-//			return error("查询用户失败");
-//		}
-//
-//		return error("用户不存在");
-//	}
-//
+
 	@RequestMapping(value = "/getImgCode")
 	public void validateCode(HttpServletRequest request, HttpServletResponse response) {
 		verifyCodeManager.writeVerifyCode(request, response);
 	}
-//
-//	/**
-//	 * @RequestMapping("/validateImgCode") public WebResult
-//	 * <String> validateImgCode(HttpServletRequest request) {
-//	 * 
-//	 * String vericode = request.getParameter("param"); log.info(
-//	 * "get the imgcode input :" + vericode);
-//	 * 
-//	 * WebResult<String> verifyResult = new WebResult<String>(); if
-//	 * (!StringUtils.isBlank(vericode) &&
-//	 * verifyCodeManager.checkVerifyCode(vericode)) {
-//	 * verifyResult.initSuccess();
-//	 * 
-//	 * } else { verifyResult.initFailure(WebErrorCode.InvalidImageCode); }
-//	 * 
-//	 * return verifyResult; }
-//	 */
-//	private void setCookies(HttpServletResponse response, String token) {
-//		if (StringUtils.isBlank(token)) {
-//			return;
-//		}
-//		Cookie cookie = new Cookie(Constant.TOKEN_SERVER, token);
-////		cookie.setDomain(WebResourceConfigUtil.getDomain());
-//		cookie.setHttpOnly(true);
-//		cookie.setPath("/");
-//
-//		String token2 = UUID.randomUUID().toString();
-//		Cookie cookie2 = new Cookie(Constant.TOKEN_CLIENT, token2);
-////		cookie2.setDomain(WebResourceConfigUtil.getDomain());
-//		cookie2.setPath("/");
-//
-//		response.addCookie(cookie);
-//		response.addCookie(cookie2);
-//	}
-//
-//	private void cleanCookies(HttpServletResponse response) {
-//		Cookie cookie = new Cookie(Constant.TOKEN_SERVER, null);
-//		cookie.setDomain(WebResourceConfigUtil.getDomain());
-//		cookie.setMaxAge(0);
-//		cookie.setPath("/");
-//
-//		Cookie cookie2 = new Cookie(Constant.TOKEN_CLIENT, null);
-//		cookie2.setDomain(WebResourceConfigUtil.getDomain());
-//<<<<<<< HEAD
-//		cookie2.setPath("/");
-//
-//		response.addCookie(cookie);
-//		response.addCookie(cookie2);
-//	}
-//
-//	private void cleanCookies(HttpServletResponse response) {
-//		Cookie cookie = new Cookie(Constant.TOKEN_SERVER, null);
-//		cookie.setDomain(WebResourceConfigUtil.getDomain());
-//		cookie.setMaxAge(0);
-//		cookie.setPath("/");
-//
-//		Cookie cookie2 = new Cookie(Constant.TOKEN_CLIENT, null);
-//		cookie2.setDomain(WebResourceConfigUtil.getDomain());
-//		cookie2.setMaxAge(0);
-//		cookie2.setPath("/");
-//
-//		// Cookie usernameCookie = new Cookie(COOKIE_USER_NAME, null);
-//		// cookie2.setMaxAge(0);
-//		// cookie2.setPath("/");
-//
-//		response.addCookie(cookie);
-//		response.addCookie(cookie2);
-//		// response.addCookie(usernameCookie);
-//
-//	}
 	
 	/**
 	 * 判断用户昵称是否存在

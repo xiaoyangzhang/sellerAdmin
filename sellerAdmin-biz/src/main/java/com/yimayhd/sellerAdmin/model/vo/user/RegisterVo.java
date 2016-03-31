@@ -22,7 +22,7 @@ public class RegisterVo implements Serializable {
 	private String username;
 	// 密码
 	private String password;
-
+	
 	private String verifyCode;
 
 	public String getNickname() {
@@ -56,6 +56,5 @@ public class RegisterVo implements Serializable {
 	public void setVerifyCode(String verifyCode) {
 		this.verifyCode = verifyCode;
 	}
-
 
 }

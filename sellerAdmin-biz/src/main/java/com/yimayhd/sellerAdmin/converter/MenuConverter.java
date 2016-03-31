@@ -3,11 +3,8 @@ package com.yimayhd.sellerAdmin.converter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.tools.JavaFileManager.Location;
-
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.yimayhd.membercenter.client.domain.HaMenuDO;
-import com.yimayhd.sellerAdmin.vo.menu.LocationVO;
 import com.yimayhd.sellerAdmin.vo.menu.MenuVO;
 
 public class MenuConverter {
@@ -23,20 +20,24 @@ public class MenuConverter {
 		menu.setParentId(haMenuDO.getParentId());
 		menu.setParentName(parentName);
 		menu.setUrl(haMenuDO.getUrl());
+		menu.setType(haMenuDO.getType());
+		menu.setRequestType(haMenuDO.getReqType());
 		List<HaMenuDO> childrenDOs = haMenuDO.getHaMenuDOList() ;
-		List<MenuVO> children = do2MenuVOs(haMenuDO.getName(), childrenDOs);
+		List<MenuVO> children = do2MenuVOs(childrenDOs);
 		menu.setChildren(children);
 		return menu ;
 	}
 	public static List<MenuVO> do2MenuVOs(List<HaMenuDO> menuDOs){
-		return do2MenuVOs(null, menuDOs) ;
-	}
-	public static List<MenuVO> do2MenuVOs(String parentName, List<HaMenuDO> menuDOs){
 		if( CollectionUtils.isEmpty(menuDOs) ){
 			return null ;
 		}
 		List<MenuVO> menus = new ArrayList<MenuVO>();
 		for( HaMenuDO menuDO : menuDOs ){
+			String parentName = null;
+			HaMenuDO parent = getMenuDOById(menuDOs, menuDO.getParentId());
+			if( parent != null ){
+				parentName = parent.getName() ;
+			}
 			MenuVO menu = do2MenuVO(parentName, menuDO);
 			if( menu != null ){
 				menus.add(menu);
@@ -45,21 +46,17 @@ public class MenuConverter {
 		return menus ;
 	}
 	
+	public static HaMenuDO getMenuDOById(List<HaMenuDO> menuDOs, long id){
+		if( CollectionUtils.isEmpty(menuDOs) || id <=0 ){
+			return null ;
+		}
+		for( HaMenuDO menuDO : menuDOs ){
+			if( menuDO.getId() == id ){
+				return menuDO ;
+			}
+		}
+		return null ;
+	}
 	
-//	public static LocationVO menu2Location(MenuVO menu){
-//		return menu2Location(menu, null) ;
-//	}
-//	
-//	public static LocationVO menu2Location(MenuVO menu, LocationVO next){
-//		if( menu == null ){
-//			return null;
-//		}
-//		LocationVO location = new LocationVO() ;
-//		location.setId(menu.getId());
-//		location.setName(menu.getName());
-//		location.setUrl(menu.getUrl());
-//		location.setNext(next);
-//		return location ;
-//	}
 	
 }

@@ -9,6 +9,7 @@ import com.yimayhd.sellerAdmin.model.vo.user.LoginVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RetrievePasswordVo;
 import com.yimayhd.sellerAdmin.util.CheckUtils;
+import com.yimayhd.sellerAdmin.util.PhoneUtil;
 
 /**  
  * 
@@ -37,19 +38,25 @@ public class UserChecker {
 //	} 
 	
 	public static CheckResult checkRegisterVo(RegisterVo registerVo){
-		if(registerVo.getUsername() == null || StringUtils.isBlank(registerVo.getUsername())){
+		if(registerVo == null){
+			return CheckResult.error("参数不正确");
+		}
+		
+		String mobile = registerVo.getUsername() ;
+		if(StringUtils.isBlank( mobile )){
 			return CheckResult.error("手机号码不能为空");
 		}
-		
-		if(registerVo.getPassword() == null || StringUtils.isBlank(registerVo.getPassword())){
-			return CheckResult.error("密码不能为空");
-		}
-		
-		if(!CheckUtils.isMobileNO(registerVo.getUsername())){
+		if( !PhoneUtil.isMobileNumber(mobile) ){
 			return CheckResult.error("手机号码格式不正确");
 		}
 		
-		
+		String password = registerVo.getPassword() ;
+		if( StringUtils.isBlank(password)){
+			return CheckResult.error("密码不能为空");
+		}
+//		if(!CheckUtils.isMobileNO(registerVo.getUsername())){
+//			return CheckResult.error("手机号码格式不正确");
+//		}
 		return CheckResult.success();
 	}
 

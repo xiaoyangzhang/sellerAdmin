@@ -15,3 +15,18 @@
 #end
 #set( $tfs = $utilWebconfig.getTfsRootPath())
 #set( $user = $rc.get("user") )
+
+
+
+
+#if( $user.nickname )
+	#set( $username= $user.nickname )
+#else
+	#set( $username= $utilPhone.getMobile( $user.mobile) )
+#end
+
+#if( $user.avatar  )
+	#set( $avatar= $!tfs + $user.avatar)
+#else
+	#set( $avatar= "$!rs_path_jiuxiu/img/default_1.png" )
+#end
