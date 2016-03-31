@@ -8,25 +8,12 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
-import com.yimayhd.sellerAdmin.vo.menu.LocationVO;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.vo.menu.MenuVO;
 
 public class MenuHelper {
 	
-	public static void selectMenu(List<MenuVO> menus, String menuUrl){
-		if( CollectionUtils.isEmpty(menus) || StringUtils.isBlank(menuUrl) ){
-			return ;
-		}
-		String url = menuUrl.trim() ;
-		for( MenuVO menu : menus ){
-			String ml = menu.getUrl() ;
-			if( ml != null && url.equalsIgnoreCase(ml.trim()) ){
-				menu.setSelected(true);
-				break;
-			}
-		}
-	}
-	public static MenuVO getSelectMenu(List<MenuVO> menus, String menuUrl){
+	public static MenuVO getSelectedMenu(List<MenuVO> menus, String menuUrl){
 		if( CollectionUtils.isEmpty(menus) || StringUtils.isBlank(menuUrl) ){
 			return null;
 		}
@@ -40,28 +27,40 @@ public class MenuHelper {
 		return null;
 	}
 	
-	public static LocationVO getCurrentLocation(List<MenuVO> menus, String currentUrl){
-		if( CollectionUtils.isEmpty(menus) || StringUtils.isBlank(currentUrl) ){
+	public static HashMap<String, MenuVO> mapMenus(List<MenuVO> menus){
+		if( CollectionUtils.isEmpty(menus) ){
 			return null;
 		}
-		MenuVO currentMenu = null;
-		String url = currentUrl.trim() ;
+		HashMap<String, MenuVO> map = new HashMap<String, MenuVO>() ;
 		for( MenuVO menu : menus ){
-			List<MenuVO> children = menu.getChildren();
-			if( CollectionUtils.isNotEmpty(children) ){
-				getCurrentLocation(children, currentUrl);
-			}else{
-				String ml = menu.getUrl() ;
-				if( ml != null && url.equalsIgnoreCase(ml.trim()) ){
-					currentMenu =  menu ;
-					break ;
-				}
+			String url = menu.getUrl() ;
+			if( Constant.MENU_PARENT_FLAG.equals(url) ){
+				continue ;
 			}
-			
+			map.put(url, menu);
 		}
-		return null;
-		
+		return map;
 	}
+	
+//	public static MenuTreeVO getMenuTree(List<MenuVO> menus, String currentUrl){
+//		
+//		if( CollectionUtils.isEmpty(menus) || StringUtils.isBlank(currentUrl) ){
+//			return null;
+//		}
+//		for( MenuVO menu : menus ){
+//			List<MenuVO> children = menu.getChildren() ;
+//			for( MenuVO child : children ){
+//				//叶子节点
+//				String mUrl = child.getUrl() ;
+//				if( mUrl != null && currentUrl.equalsIgnoreCase(mUrl.trim()) ){
+//					MenuTreeVO currentTree = new MenuTreeVO(child, menu) ;
+//					return currentTree;
+//				}
+//			}
+//		}
+//		return null;
+//		
+//	}
 	
 	
 	/**

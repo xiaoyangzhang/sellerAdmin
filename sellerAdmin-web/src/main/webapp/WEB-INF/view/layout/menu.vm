@@ -8,7 +8,7 @@
 						#if( $menu.children )
 							#foreach($child in $!$menu.children)
 								<dt #if($!{velocityCount} ==1) class ="one #if( $currentMenuId == $child.id) on #end" #end>
-									<a href="$!{child.url}" >$!child.name</a>
+									<a href="$!root_path$!{child.url}" >$!child.name</a>
 								</dt>
 							#end
 						#end 

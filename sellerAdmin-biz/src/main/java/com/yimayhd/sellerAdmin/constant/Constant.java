@@ -31,5 +31,7 @@ public class Constant {
 	public static final String MOBILE_PRE = "+86";
 	
 	public static final String APP = "selleradmin";
+	
+	public static final String MENU_PARENT_FLAG = "#";
 
 }

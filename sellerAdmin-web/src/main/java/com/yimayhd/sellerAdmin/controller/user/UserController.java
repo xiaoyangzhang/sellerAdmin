@@ -1,11 +1,7 @@
 package com.yimayhd.sellerAdmin.controller.user;
 
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
-import javax.servlet.http.Cookie;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,21 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yimayhd.sellerAdmin.base.BaseController;
-import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.biz.UserBiz;
 import com.yimayhd.sellerAdmin.checker.UserChecker;
 import com.yimayhd.sellerAdmin.constant.Constant;
-import com.yimayhd.sellerAdmin.constant.ResponseStatus;
 import com.yimayhd.sellerAdmin.converter.UserConverter;
 import com.yimayhd.sellerAdmin.model.vo.user.LoginVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RetrievePasswordVo;
-
-import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
-
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.LoginDTO;
 import com.yimayhd.user.client.dto.RevivePasswordDTO;
@@ -170,7 +161,8 @@ public class UserController extends BaseController {
 			targetUrl = returnUrl ;
 		}else{
 			//判断用户身份，进入申请认证页面
-			targetUrl = "http://localhost:8080/sellerAdmin/main";
+			targetUrl = "/sellerAdmin/home";
+//			targetUrl = "http://localhost:8080/sellerAdmin/home";
 		}
 		result.setValue(targetUrl);
 		return result;

@@ -34,7 +34,6 @@ public abstract class BaseTravelController extends BaseController {
 		ItemType itemType = ItemType.get(categoryDO.getCategoryFeature().getItemType());
 		put("itemType", itemType);
 		LinePropertyConfig lineConfig = commLineService.getLinePropertyConfig(categoryId);
-		put("options", lineConfig.getOptions());
 		put("persionProperty", lineConfig.getPersionProperty());
 		put("packageProperty", lineConfig.getPackageProperty());
 		put("dateProperty", lineConfig.getDateProperty());

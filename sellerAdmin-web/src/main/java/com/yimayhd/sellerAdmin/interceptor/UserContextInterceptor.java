@@ -41,11 +41,9 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 			
 			long userId = userDO.getId() ;
 			String pathInfo = request.getPathInfo() ; 
-//			menuBiz.cacheMenus2Tair(userId);
 			
-			List<MenuVO> menus = menuCacheMananger.getMenus(userId);
-			MenuHelper.selectMenu(menus, pathInfo);
-			MenuVO menu = MenuHelper.getSelectMenu(menus, pathInfo);
+			List<MenuVO> menus = menuCacheMananger.getUserMenus(userId);
+			MenuVO menu = MenuHelper.getSelectedMenu(menus, pathInfo);
 			
 			request.setAttribute("menus", menus);
 			request.setAttribute("currentMenu", menu);
