@@ -2,6 +2,7 @@ package com.yimayhd.sellerAdmin.service.item.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -68,19 +69,9 @@ public class LineServiceImpl implements LineService {
 			List<TagDTO> themes = TagConverter.toTagDTO(themeTags);
 			// 出发地
 			List<ComTagDO> departTags = commentRepo.getTagsByOutId(id, TagType.DEPARTPLACE);
-			List<CityVO> departs = new ArrayList<CityVO>();
-			for (ComTagDO comTagDO : departTags) {
-				CityDTO cityDTO = cityRepo.getNameByCode(comTagDO.getName());
-				departs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
-			}
 			// 目的地
 			List<ComTagDO> destTags = commentRepo.getTagsByOutId(id, TagType.DESTPLACE);
-			List<CityVO> dests = new ArrayList<CityVO>();
-			for (ComTagDO comTagDO : destTags) {
-				CityDTO cityDTO = cityRepo.getNameByCode(comTagDO.getName());
-				dests.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
-			}
-			LineVO lineVO = LineConverter.toLineVO(lineResult, themes, departs, dests);
+			LineVO lineVO = LineConverter.toLineVO(lineResult, themes, toCityVO(departTags), toCityVO(destTags));
 			return WebResult.success(lineVO);
 		} catch (Exception e) {
 			log.error("Params: id=" + id);
@@ -132,32 +123,37 @@ public class LineServiceImpl implements LineService {
 	public WebResult<List<CityVO>> getAllLineDeparts() {
 		try {
 			List<ComTagDO> comTagDOs = commentRepo.getTagsByTagType(TagType.DEPARTPLACE);
-			List<CityVO> cityVOs = new ArrayList<CityVO>();
-			if (CollectionUtils.isNotEmpty(comTagDOs)) {
-				for (ComTagDO comTagDO : comTagDOs) {
-					CityDTO cityDTO = cityRepo.getNameByCode(comTagDO.getName());
-					cityVOs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
-				}
-			}
-			return WebResult.success(cityVOs);
+			return WebResult.success(toCityVO(comTagDOs));
 		} catch (Exception e) {
 			log.error("LineService.getAllLineDeparts error", e);
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "系统错误 ");
 		}
 	}
 
+	private List<CityVO> toCityVO(List<ComTagDO> tags) {
+		if (CollectionUtils.isEmpty(tags)) {
+			return new ArrayList<CityVO>(0);
+		}
+		List<String> codes = new ArrayList<String>();
+		for (ComTagDO comTagDO : tags) {
+			codes.add(comTagDO.getName());
+		}
+		Map<String, CityDTO> citiesByCodes = cityRepo.getCitiesByCodes(codes);
+		List<CityVO> departs = new ArrayList<CityVO>();
+		for (ComTagDO comTagDO : tags) {
+			if (citiesByCodes.containsKey(comTagDO.getName())) {
+				CityDTO cityDTO = citiesByCodes.get(comTagDO.getName());
+				departs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
+			}
+		}
+		return departs;
+	}
+
 	@Override
 	public WebResult<List<CityVO>> getAllLineDests() {
 		try {
 			List<ComTagDO> comTagDOs = commentRepo.getTagsByTagType(TagType.DESTPLACE);
-			List<CityVO> cityVOs = new ArrayList<CityVO>();
-			if (CollectionUtils.isNotEmpty(comTagDOs)) {
-				for (ComTagDO comTagDO : comTagDOs) {
-					CityDTO cityDTO = cityRepo.getNameByCode(comTagDO.getName());
-					cityVOs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
-				}
-			}
-			return WebResult.success(cityVOs);
+			return WebResult.success(toCityVO(comTagDOs));
 		} catch (Exception e) {
 			log.error("LineService.getAllLineDeparts error", e);
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR);
@@ -272,7 +268,7 @@ public class LineServiceImpl implements LineService {
 					destIds.add(tagDTO.getId());
 				}
 				commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
-			}else {
+			} else {
 				return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "保存线路失败 ");
 			}
 			return WebResult.success(itemId);

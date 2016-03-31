@@ -71,13 +71,7 @@ public class ItemServiceImpl implements ItemService {
 				long itemId = itemListItemVO.getId();
 				if (tagMap.containsKey(itemId)) {
 					List<ComTagDO> comTagDOs = tagMap.get(itemId);
-					List<CityVO> dests = new ArrayList<CityVO>();
-					if (CollectionUtils.isNotEmpty(comTagDOs)) {
-						for (ComTagDO comTagDO : comTagDOs) {
-							CityDTO cityDTO = cityRepo.getNameByCode(comTagDO.getName());
-							dests.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
-						}
-					}
+					List<CityVO> dests = toCityVO(comTagDOs);
 					itemListItemVO.setDests(dests);
 				}
 			}
@@ -92,4 +86,22 @@ public class ItemServiceImpl implements ItemService {
 		}
 	}
 
+	private List<CityVO> toCityVO(List<ComTagDO> tags) {
+		if (CollectionUtils.isEmpty(tags)) {
+			return new ArrayList<CityVO>(0);
+		}
+		List<String> codes = new ArrayList<String>();
+		for (ComTagDO comTagDO : tags) {
+			codes.add(comTagDO.getName());
+		}
+		Map<String, CityDTO> citiesByCodes = cityRepo.getCitiesByCodes(codes);
+		List<CityVO> departs = new ArrayList<CityVO>();
+		for (ComTagDO comTagDO : tags) {
+			if (citiesByCodes.containsKey(comTagDO.getName())) {
+				CityDTO cityDTO = citiesByCodes.get(comTagDO.getName());
+				departs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
+			}
+		}
+		return departs;
+	}
 }

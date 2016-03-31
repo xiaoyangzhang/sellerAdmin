@@ -1,5 +1,8 @@
 package com.yimayhd.sellerAdmin.repo;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.user.client.cache.CityDataCacheClient;
@@ -21,7 +24,11 @@ public class CityRepo {
 	 * @param code
 	 * @return
 	 */
-	public CityDTO getNameByCode(String code) {
+	public CityDTO getCityByCode(String code) {
 		return cityDataCacheClientRef.getCityByCode(code);
+	}
+
+	public Map<String, CityDTO> getCitiesByCodes(List<String> codes) {
+		return cityDataCacheClientRef.getCities(codes);
 	}
 }
