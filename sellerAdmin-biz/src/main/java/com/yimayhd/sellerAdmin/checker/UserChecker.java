@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
-import com.yimayhd.sellerAdmin.checker.result.CheckResult;
+import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.model.vo.user.LoginVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RetrievePasswordVo;
@@ -29,35 +29,30 @@ public class UserChecker {
 		}
 		return result;
 	} 
-//	public static CheckResult checkLoginVo(LoginVo loginVo){
-//		
-//		if(loginVo.getUsername() == null || StringUtils.isBlank(loginVo.getUsername())){
-//			return CheckResult.error("手机号码不能为空");
-//		}
-//		return CheckResult.success();
-//	} 
 	
-	public static CheckResult checkRegisterVo(RegisterVo registerVo){
+	public static WebResultSupport checkRegisterVo(RegisterVo registerVo){
+		WebResultSupport result = new WebResultSupport() ;
 		if(registerVo == null){
-			return CheckResult.error("参数不正确");
+			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+			return result ;
 		}
 		
 		String mobile = registerVo.getUsername() ;
 		if(StringUtils.isBlank( mobile )){
-			return CheckResult.error("手机号码不能为空");
+			result.setWebReturnCode(WebReturnCode.USERNAME_EMPTY);
+			return result ;
 		}
 		if( !PhoneUtil.isMobileNumber(mobile) ){
-			return CheckResult.error("手机号码格式不正确");
+			result.setWebReturnCode(WebReturnCode.MOBILE_FORMAT_ERROR);
+			return result ;
 		}
 		
 		String password = registerVo.getPassword() ;
 		if( StringUtils.isBlank(password)){
-			return CheckResult.error("密码不能为空");
+			result.setWebReturnCode(WebReturnCode.PASSWORD_EMPTY);
+			return result ;
 		}
-//		if(!CheckUtils.isMobileNO(registerVo.getUsername())){
-//			return CheckResult.error("手机号码格式不正确");
-//		}
-		return CheckResult.success();
+		return result;
 	}
 
 	public static WebResultSupport checkRetrievePassword(RetrievePasswordVo retrievePasswordVo){
@@ -74,16 +69,16 @@ public class UserChecker {
 		}
 		return result;
 	}
-	public static CheckResult checkRetrievePasswordVo(RetrievePasswordVo retrievePasswordVo){
+	public static WebCheckResult checkRetrievePasswordVo(RetrievePasswordVo retrievePasswordVo){
 		if(retrievePasswordVo.getUsername() == null || StringUtils.isBlank(retrievePasswordVo.getUsername())){
-			return CheckResult.error("手机号码不能为空");
+			return WebCheckResult.error("手机号码不能为空");
 		}
 		
 		if(!CheckUtils.isMobileNO(retrievePasswordVo.getUsername())){
-			return CheckResult.error("手机号码格式不正确");
+			return WebCheckResult.error("手机号码格式不正确");
 		}
 		
-		return CheckResult.success();
+		return WebCheckResult.success();
 	}
 }
   

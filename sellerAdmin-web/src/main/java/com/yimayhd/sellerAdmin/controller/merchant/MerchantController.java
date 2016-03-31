@@ -12,7 +12,7 @@ import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.biz.MerchantBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
-import com.yimayhd.sellerAdmin.controller.merchant.vo.MerchantInfoVo;
+import com.yimayhd.sellerAdmin.vo.merchant.MerchantInfoVo;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.MerchantDTO;
@@ -133,6 +133,29 @@ public class MerchantController extends BaseController{
 	@RequestMapping(value = "/saveBusinessBasic" )
 	@ResponseBody
 	public WebResultSupport saveBusinessBasic(MerchantInfoVo basicInfo){
+		UserDTO userDTO =new UserDTO();
+		MerchantDO merchantDO = new MerchantDO();
+		MerchantDTO merchantDTO = new MerchantDTO();
+		
+		setMerchant(userDTO, merchantDO,merchantDTO, basicInfo);
+		
+		WebResultSupport result = merchantBiz.updateUser(userDTO);
+		if(result.isSuccess()){
+			if(basicInfo.getId() == 0){//新增
+				WebResultSupport merChantResult = merchantBiz.saveMerchant(merchantDO);
+				return merChantResult;
+			}else{//修改
+				WebResultSupport updateResult = merchantBiz.updateMerchantInfo(merchantDTO);
+				return updateResult;
+			}
+		}else{
+			return result;
+		}
+	}
+	
+	@RequestMapping(value = "/saveUserDataFillA" )
+	@ResponseBody
+	public WebResultSupport saveUserDataFillA(MerchantInfoVo basicInfo){
 		UserDTO userDTO =new UserDTO();
 		MerchantDO merchantDO = new MerchantDO();
 		MerchantDTO merchantDTO = new MerchantDTO();

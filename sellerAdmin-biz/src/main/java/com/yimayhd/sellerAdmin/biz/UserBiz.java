@@ -10,7 +10,7 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.UserChecker;
-import com.yimayhd.sellerAdmin.checker.result.CheckResult;
+import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.UserConverter;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
@@ -41,11 +41,9 @@ public class UserBiz {
 	@Autowired
 	private MenuBiz menuBiz ;
 
+	@MethodLogger
 	public WebResult<LoginResult> login(LoginDTO loginDTO) {
-//		CheckResult checkFeedBack = UserChecker.checkLoginVo(loginVo);
-//		LoginDTO loginDTO = UserConverter.toLoginDTO(loginVo);
 		WebResult<LoginResult> result = userRepo.login(loginDTO);
-		
 		//加载菜单信息，并缓存
 		if (result != null && result.isSuccess() 
 				&& result.getValue() != null
@@ -56,27 +54,14 @@ public class UserBiz {
 		return result;
 	}
 
-	public WebResult<UserDO> register(RegisterVo registerVo) {
-		WebResult<UserDO> result = new WebResult<UserDO>() ;
-		LOGGER.debug("registerVo={}", JSONObject.toJSONString(registerVo));
-		CheckResult checkFeedBack = UserChecker.checkRegisterVo(registerVo);
-		if (!checkFeedBack.isSuccess()) {
-			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
-			return result ;
-		}
-
-		RegisterDTO registerDTO = UserConverter.toRegisterDTO(registerVo);
+	@MethodLogger
+	public WebResult<UserDO> register(RegisterDTO registerDTO) {
 		registerDTO.setStep(RegisterStep.VERIFY_CODE);
-
-		result = userRepo.register(registerDTO);
-		
-		
-		
-		
+		WebResult<UserDO> result = userRepo.register(registerDTO);
 		return result ;
 
 	}
-//
+	
 	@MethodLogger
 	public WebResultSupport retrievePassword(RevivePasswordDTO revivePasswordDTO) {
 		WebResultSupport vefifyResult =  userRepo.retrievePasswordVerify(revivePasswordDTO);
@@ -117,40 +102,5 @@ public class UserBiz {
 		WebResultSupport result= userRepo.changePassword(changePasswordDTO);
 		return result;
 	}
-
-//	@Override
-//	public Long getSessionUserId() {
-//
-//		long userId = sessionManager.getUserId();
-//		LOGGER.debug("userId={}", userId);
-//
-//		if (userId > 0) {
-//			return userId;
-//		}
-//
-//		return null;
-//	}
-//
-//	@Override
-//	public UserVo getSessionUser() {
-//
-//		UserDO userDO = sessionManager.getUser();
-//
-//		LOGGER.debug("userDO={}", JSONObject.toJSONString(userDO));
-//		return UserConverter.toUserVo(userDO);
-//	}
-//
-//	@Override
-//	public UserVo getUserByMobile(String mobile) throws WebException {
-//		LOGGER.debug("mobile={}", mobile);
-//
-//		try {
-//			UserDO userDO = userRepo.getUserByMobile(mobile);
-//			return UserConverter.toUserVo(userDO);
-//		} catch (Exception e) {
-//			LOGGER.error("mobile={}", JSONObject.toJSON(mobile), e);
-//			throw new WebException(WebErrorCode.Error, e.getMessage());
-//		}
-//	}
 
 }

@@ -17,7 +17,7 @@ import com.yimayhd.ic.client.model.query.RestaurantPageQuery;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.checker.RestaurantChecker;
-import com.yimayhd.sellerAdmin.checker.result.CheckResult;
+import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.model.PictureVO;
 import com.yimayhd.sellerAdmin.model.RestaurantVO;
 import com.yimayhd.sellerAdmin.model.query.RestaurantListQuery;
@@ -66,9 +66,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 	public void publish(RestaurantVO restaurantVO) {
 		long id = restaurantVO.getId();
 		if (id > 0) {
-			CheckResult checkResult = RestaurantChecker.checkRestaurantVOForUpdate(restaurantVO);
+			WebCheckResult checkResult = RestaurantChecker.checkRestaurantVOForUpdate(restaurantVO);
 			if(!checkResult.isSuccess()) {
-				throw new BaseException(checkResult.getMsg());
+				throw new BaseException(checkResult.getResultMsg());
 			}
 			RestaurantDO restaurantDO = getRestaurantById(id);
 			RestaurantDO restaurantDTO = restaurantVO.toRestaurantDO(restaurantDO);
@@ -91,9 +91,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 				}
 			}
 		} else {
-			CheckResult checkResult = RestaurantChecker.checkRestaurantVOForSave(restaurantVO);
+			WebCheckResult checkResult = RestaurantChecker.checkRestaurantVOForSave(restaurantVO);
 			if(!checkResult.isSuccess()) {
-				throw new BaseException(checkResult.getMsg());
+				throw new BaseException(checkResult.getResultMsg());
 			}
 			RestaurantDO restaurantDO = restaurantVO.toRestaurantDO();
 			RestaurantDO addedRestaurant = restaurantRepo.addRestaurant(restaurantDO);

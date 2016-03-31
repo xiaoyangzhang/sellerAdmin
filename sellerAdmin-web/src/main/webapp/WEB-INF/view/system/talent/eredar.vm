@@ -1,0 +1,165 @@
+#set ($layout="/layout/layout2.vm")
+<title>达人店铺</title>
+
+<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/jquery-ui-1.10.4.custom.css">
+<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/eredar.css">
+</head>
+<body>
+	<div class="header">
+		<div class="comwidth content clearfix">
+			<a class="fl block"><img src="http://s0.test.jiuxiulvxing.com/busines/img/logo.jpg"></a>
+			<div class="fr user-block">
+				<a class="user-block-link mr15 not-a">
+					<span class="circle mr10"><img src="http://s0.test.jiuxiulvxing.com/busines/img/default_1.png"><i></i></span>
+					<span>Hi：</span><span>13655545879</span>
+				</a>
+				<a class="ext">退出</a>
+			</div>
+		</div>
+	</div>
+	<!-- 面包屑 -->
+	<div class = "comwidth crumbs f12">您所在的位置：店铺管理><a class = "f12 gray6">基本信息</a></div>
+	<div class = "comwidth clearfix" id = "eredar">
+		<div class = "eredar-left">
+			<dl class = "first">
+				<dd>商品管理</dd>
+				<dt class = "one">添加商品</dt>
+				<dt>商品列表</dt>
+			</dl>
+			<dl>
+				<dd>订单管理</dd>
+				<dt class = "one">订单列表</dt>
+			</dl>
+			<dl>
+				<dd>店铺管理</dd>
+				<dt class = "one on">基本信息</dt>
+				<dt>账户信息</dt>
+			</dl>
+			<dl>
+				<dd>对账管理</dd>
+				<dt class = "one">月结账单</dt>
+			</dl>
+		</div>
+		<div class = "eredar-right">
+			<div class = "eredar-info clearfix">
+				<ul>
+					<li class = " first on">基本信息</li>
+					<li>账户信息</li>
+				</ul>
+			</div>
+			<div class = "eredar-list eredar-list1">
+				 <form class="registerform" method="post" action="saveTalentInfo.do">
+					<table width='100%'>
+						<tr>
+							<td class="tbtxt w280"><label class="bred">*</label><span>头像：</span></td>
+							<td>
+								<label class="inblock">
+								<span class="imgbox mr5 cnat">
+									<div class="canclick">
+										<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+									</div><div class="plhd"></div><div class="del">删除图片</div>
+									<input type="file" name="adpicfile" class="adpicfile mult">
+									<input type="hidden" name="filepath">
+								</span>
+								</label>
+								<label class = "lab">图片大小不超过500K，建议图片尺寸为：200*200</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="tbtxt w280"><label class="bred">*</label><span>昵称：</span></td>
+							<td><input id = "nickName" class="field inputxt" type = "text" name="nickName" datatype="s6-18" errormsg="昵称至少6个字符,最多18个字符！"></td>
+						</tr>
+						<tr>
+							<td class="tbtxt w280"><label class="bred">*</label><span>真实姓名：</span></td>
+							<td><input class="field inputxt" type = "text" name="peopleName" datatype="s6-18" errormsg="昵称至少6个字符,最多18个字符！"><span></span></td>
+						</tr>
+						<tr>
+							<td class="tbtxt w280"><label class="bred">*</label><span>性别：</span></td>
+							<td>
+								<label><input type = "radio" name = "gender" value="1" id="male" class="pr1"> ：男</label>
+								<label><input type = "radio" name = "gender" value="2" id="female" class="pr1" datatype="*" errormsg="请选择性别！"> ：女</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="tbtxt w280"><span>出生日期：</span></td>
+							<td><input class="field" id="tm" placeholder="开始时间" name="birthday" title="开始时间" datatype="*" errormsg="亲选择时间呀" readonly="readonly"><span></span></td>
+						</tr>
+						<tr>
+							<td class="tbtxt w280"><label class="bred">*</label><span>所在城市：</span></td>
+							<td>
+								<select id="province"><option value="">--请选择--</option></select>
+								<select id="city" class="ml10"><option value="">--请选择--</option></select>
+							</td>
+						</tr>
+						<tr>
+							<td class="tbtxt w280"><span>店铺负责人电话：</span></td>
+							<td><input type ="text" class="field inputxt" value="" name="tel" datatype="m" errormsg="请输入您的手机号码！"><span></span></td>
+						</tr>
+						<tr>
+							<td class="tbtxt w280"><span>服务类型：</span></td>
+							<td class = "spe">
+								#set ($size=$serviceTypes.value.size)
+							#foreach ($serviceType in $serviceTypes.value)
+							#if (!$velocityCount == $size)
+								<input type = "checkbox" name = "certificates" id="shoppingsite2${velocityCount}"value="$!{serviceType.id}" ><label style="margin-left:5px;margin-right:20px;">$!{serviceType.name}</label>
+							#else
+								<input type = "checkbox" name = "certificates" id="shoppingsite2${velocityCount}"value="$!{serviceType.id}" datatype="*" errormsg="请选择您常去的购物网站！" ><label style="margin-left:5px;margin-right:20px;">$!{serviceType.name}</label>
+							#end
+							#end
+							</td>
+						</tr>
+						<tr>
+							<td class="tbtxt w280"><span>服务描述：</span></td>
+							<td><input type ="text" class="field inputxt" value="" name="describe" datatype="s1-30" errormsg="请输入30以内的描述"><span></span><label class = "lab">0/30</label></td>
+						</tr>
+						<tr>
+							<td class="tbtxt w280 abuteMe"><span>关于我：</span></td>
+							<td width='500px'>
+								<div id="editer">
+									<div class="hd clearfix">
+										<ul class="clearfix">
+											<li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
+											<li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
+											<li><a href="javascript:void(0)" class="submitbtn">+提交数据</a></li>
+										</ul>
+									</div>
+									<div class="bd">
+										<!-- <p class="text"><font>[data],fnString,FunctionV1.4.3
+
+										data:mouseleave([Data], fn) 可传入data供函数fn处理。
+
+										fn:在每一个匹配元素的mouseleave事件中绑定的处理函数。</font></p>
+										
+										<p class="pic">
+											<img src="http://s0.test.jiuxiulvxing.com/busines/img/mypic.jpg">
+										</p> -->	
+									</div>
+									<textarea id="contentText" style="display:none;"></textarea>
+									<input type="hidden" id="uploadAction" value="http://192.168.0.139:8080/file/upload"/>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</form>
+				<button class = "saveBtn" id = "saveBtnEredar">保存</button>
+			</div>
+			<div class = "eredar-list eredar-list2">
+			</div>
+		</div>
+	</div>
+	<script  type='text/temple' id='province-tpl'>
+	    <option value="">--请选择--</option>
+	    <# for(var j=0; j<province.length; j++) { #>
+	            <option value="<#= province[j].id#>"><#= province[j].name#></option>
+	    <# } #>
+	</script>
+	<script  type='text/temple' id='city-tpl'>
+	    <option value="">--请选择--</option>
+	    <# for(var j=0; j<city.length; j++) { #>
+	            <option value="<#= city[j].id#>"><#= city[j].name#></option>
+	    <# } #>
+	</script>
+	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/sea.js"></script>
+	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/seajs-preload.js"></script>
+	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/config.js"></script>		
+	<script>seajs.use("eredar");</script>	

@@ -22,14 +22,14 @@ import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
-import com.yimayhd.sellerAdmin.constant.ResponseStatus;
+import com.yimayhd.sellerAdmin.constant.ResponseStatus;  
 import com.yimayhd.sellerAdmin.model.ActivityVO;
 import com.yimayhd.sellerAdmin.model.ItemResultVO;
 import com.yimayhd.sellerAdmin.model.query.ActivityListQuery;
 import com.yimayhd.sellerAdmin.service.ActivityService;
 import com.yimayhd.sellerAdmin.service.CommodityService;
 import com.yimayhd.snscenter.client.domain.ActivityJsonDO;
-import com.yimayhd.snscenter.client.domain.ClubInfoDO;
+import com.yimayhd.snscenter.client.domain.ClubInfoDO; 
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.service.SnsCenterService;
 

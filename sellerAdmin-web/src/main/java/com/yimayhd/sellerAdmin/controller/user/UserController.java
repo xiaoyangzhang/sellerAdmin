@@ -27,6 +27,7 @@ import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RetrievePasswordVo;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.LoginDTO;
+import com.yimayhd.user.client.dto.RegisterDTO;
 import com.yimayhd.user.client.dto.RevivePasswordDTO;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.result.login.LoginResult;
@@ -109,8 +110,14 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public WebResult<String> register(RegisterVo registerVo, HttpServletResponse response) {
 		WebResult<String> rs = new WebResult<String>();
+		WebResultSupport checkResult = UserChecker.checkRegisterVo(registerVo);
+		if ( !checkResult.isSuccess() ) {
+			rs.setWebReturnCode(checkResult.getWebReturnCode());
+			return rs ;
+		}
 
-		WebResult<UserDO> registeResult = userBiz.register(registerVo);
+		RegisterDTO registerDTO = UserConverter.toRegisterDTO(registerVo);
+		WebResult<UserDO> registeResult = userBiz.register(registerDTO);
 		if( registeResult == null || !registeResult.isSuccess() ){
 			rs.setWebReturnCode(registeResult.getWebReturnCode());
 			return rs ;

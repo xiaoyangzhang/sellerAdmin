@@ -1,7 +1,7 @@
 package com.yimayhd.sellerAdmin.service.item;
 
 import com.yimayhd.sellerAdmin.base.PageVO;
-import com.yimayhd.sellerAdmin.model.ItemVO;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.item.ItemListItemVO;
 import com.yimayhd.sellerAdmin.model.query.ItemListQuery;
 
@@ -19,5 +19,5 @@ public interface ItemService {
 	 * @param query
 	 * @return
 	 */
-	PageVO<ItemListItemVO> getItemList(long sellerId, ItemListQuery query);
+	WebResult<PageVO<ItemListItemVO>> getItemList(long sellerId, ItemListQuery query);
 }

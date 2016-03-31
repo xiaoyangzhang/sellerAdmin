@@ -1,5 +1,7 @@
 #set ($layout="/layout/layout2.vm")
 
+<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/filldata.css">
+
 
 <title>用户协议</title>
 

@@ -1,5 +1,8 @@
 package com.yimayhd.sellerAdmin.controller;
 
+
+import com.yimayhd.sellerAdmin.base.BaseController; 
+
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.sellerAdmin.base.BaseController;
+
 import com.yimayhd.sellerAdmin.base.BaseQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;

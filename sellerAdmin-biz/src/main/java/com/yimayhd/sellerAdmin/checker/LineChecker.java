@@ -1,19 +1,22 @@
 package com.yimayhd.sellerAdmin.checker;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.alibaba.fastjson.JSON;
-import com.yimayhd.ic.client.model.enums.LineType;
-import com.yimayhd.sellerAdmin.checker.result.CheckResult;
+import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.ic.client.model.enums.RouteItemType;
+import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
+import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowItemVo;
+import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
+import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextItemVo;
+import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextVO;
 import com.yimayhd.sellerAdmin.model.line.price.PackageBlock;
 import com.yimayhd.sellerAdmin.model.line.price.PackageDay;
 import com.yimayhd.sellerAdmin.model.line.price.PackageInfo;
@@ -21,6 +24,8 @@ import com.yimayhd.sellerAdmin.model.line.price.PackageMonth;
 import com.yimayhd.sellerAdmin.model.line.price.PriceInfoVO;
 import com.yimayhd.sellerAdmin.model.line.route.RouteDayVO;
 import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
+import com.yimayhd.sellerAdmin.model.line.route.RoutePlanVo;
+import com.yimayhd.sellerAdmin.model.line.route.RouteTrafficVO;
 
 /**
  * 线路checker
@@ -29,79 +34,152 @@ import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
  *
  */
 public class LineChecker {
-	private static final Logger log = LoggerFactory.getLogger(LineChecker.class);
+	private static final List<Integer> supportItemTypes = new ArrayList<Integer>();
+	private static final List<String> supportTrafficTypes = new ArrayList<String>();
 
-	public static CheckResult checkForSave(LineVO travel) {
-		CheckResult checkBaseInfoForSave = checkBaseInfoForSave(travel.getBaseInfo());
-		if (!checkBaseInfoForSave.isSuccess()) {
-			return checkBaseInfoForSave;
+	static {
+		supportItemTypes.add(ItemType.FREE_LINE.getValue());
+		supportItemTypes.add(ItemType.TOUR_LINE.getValue());
+
+		supportTrafficTypes.add(RouteItemType.PLANE.name());
+		supportTrafficTypes.add(RouteItemType.TRAIN.name());
+		supportTrafficTypes.add(RouteItemType.BUS.name());
+		supportTrafficTypes.add(RouteItemType.BOAT.name());
+	}
+
+	public static WebCheckResult checkLine(LineVO line) {
+		WebCheckResult checkBaseInfo = checkBaseInfo(line.getBaseInfo());
+		if (!checkBaseInfo.isSuccess()) {
+			return checkBaseInfo;
 		}
-		CheckResult checkPriceInfoForSave = checkPriceInfoForSave(travel.getPriceInfo());
-		if (!checkPriceInfoForSave.isSuccess()) {
-			return checkPriceInfoForSave;
+		int itemType = line.getBaseInfo().getType();
+		if (itemType == ItemType.FREE_LINE.getValue()) {
+			WebCheckResult checkRoutePlan = checkRoutePlan(line.getRoutePlan());
+			if (!checkRoutePlan.isSuccess()) {
+				return checkRoutePlan;
+			}
 		}
-		CheckResult checkTripInfoForSave = checkTripInfo(travel.getRouteInfo());
+		WebCheckResult checkTripInfoForSave = checkRouteInfo(itemType, line.getRouteInfo());
 		if (!checkTripInfoForSave.isSuccess()) {
 			return checkTripInfoForSave;
 		}
-		return CheckResult.success();
+		WebCheckResult checkPictureText = checkPictureText(line.getPictureText());
+		if (!checkPictureText.isSuccess()) {
+			return checkPictureText;
+		}
+		WebCheckResult checkNeedKnow = checkNeedKnow(line.getNeedKnow());
+		if (!checkNeedKnow.isSuccess()) {
+			return checkNeedKnow;
+		}
+		return WebCheckResult.success();
 	}
 
-	public static CheckResult checkForUpdate(LineVO travel) {
-		CheckResult checkBaseInfoForUpdate = checkBaseInfoForUpdate(travel.getBaseInfo());
-		if (!checkBaseInfoForUpdate.isSuccess()) {
-			return checkBaseInfoForUpdate;
+	public static WebCheckResult checkNeedKnow(NeedKnowVO needKnow) {
+		List<NeedKnowItemVo> needKnowItems = needKnow.getNeedKnowItems();
+		if (CollectionUtils.isNotEmpty(needKnowItems)) {
+			for (NeedKnowItemVo needKnowItem : needKnowItems) {
+				if (StringUtils.isBlank(needKnowItem.getTitle())) {
+					return WebCheckResult.error("预定须知标题为空");
+				}
+				if (StringUtils.isBlank(needKnowItem.getContent())) {
+					return WebCheckResult.error(needKnowItem.getTitle() + "内容不能为空");
+				}
+			}
+		} else {
+			return WebCheckResult.error("预定须知不能为空");
 		}
-		CheckResult checkPriceInfoForUpdate = checkPriceInfoForUpdate(travel.getPriceInfo());
-		if (!checkPriceInfoForUpdate.isSuccess()) {
-			return checkPriceInfoForUpdate;
-		}
-		CheckResult checkTripInfoForSave = checkTripInfo(travel.getRouteInfo());
-		if (!checkTripInfoForSave.isSuccess()) {
-			return checkTripInfoForSave;
-		}
-		return CheckResult.success();
+		return WebCheckResult.success();
 	}
 
-	public static CheckResult checkBaseInfoForSave(BaseInfoVO baseInfo) {
-		String temp = "线路基本信息验证失败: {}";
+	public static WebCheckResult checkRoutePlan(RoutePlanVo routePlan) {
+		RouteTrafficVO go = routePlan.getGo();
+		RouteTrafficVO back = routePlan.getBack();
+		if (go == null && back == null && StringUtils.isBlank(routePlan.getScenicInfo())
+				&& StringUtils.isBlank(routePlan.getHotelInfo())) {
+			return WebCheckResult.error("机酒景信息不能为空");
+		} else {
+			if (go != null) {
+				if (StringUtils.isBlank(go.getType())) {
+					return WebCheckResult.error("去程交通方式不能为空");
+				} else if (!supportTrafficTypes.contains(go.getType().toUpperCase())) {
+					return WebCheckResult.error("未知去程交通方式");
+				}
+				if (StringUtils.isBlank(go.getDescription())) {
+					return WebCheckResult.error("去程详细描述不能为空");
+				} else if (go.getDescription().length() > 200) {
+					return WebCheckResult.error("去程详细描述不超过200字");
+				}
+			}
+			if (back != null) {
+				if (StringUtils.isBlank(back.getType())) {
+					return WebCheckResult.error("回程交通方式不能为空");
+				} else if (!supportTrafficTypes.contains(back.getType().toUpperCase())) {
+					return WebCheckResult.error("未知回程交通方式");
+				}
+				if (StringUtils.isBlank(back.getDescription())) {
+					return WebCheckResult.error("回程详细描述不能为空");
+				} else if (back.getDescription().length() > 200) {
+					return WebCheckResult.error("回程详细描述不超过200字");
+				}
+			}
+			if (StringUtils.isNotBlank(routePlan.getHotelInfo()) && routePlan.getHotelInfo().length() > 1000) {
+				return WebCheckResult.error("酒店信息不超过1000字");
+			}
+			if (StringUtils.isNotBlank(routePlan.getScenicInfo()) && routePlan.getScenicInfo().length() > 1000) {
+				return WebCheckResult.error("景点信息不超过1000字");
+			}
+		}
+		return WebCheckResult.success();
+	}
+
+	public static WebCheckResult checkBaseInfo(BaseInfoVO baseInfo) {
 		int type = baseInfo.getType();
-		if (LineType.getByType(type) == null) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("未知线路类型");
+		if (!supportItemTypes.contains(type)) {
+			return WebCheckResult.error("未知商品类型");
 		}
 		if (StringUtils.isBlank(baseInfo.getName())) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("线路名称不能为空");
-		} else if (baseInfo.getName().length() > 50) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("线路名称不能超过50个字");
+			return WebCheckResult.error("商品标题不能为空");
+		} else if (baseInfo.getName().length() > 38) {
+			return WebCheckResult.error("商品标题不能超过38个字");
+		}
+		if (CollectionUtils.isEmpty(baseInfo.getDeparts())) {
+			return WebCheckResult.error("出发地不能为空");
+		}
+		if (CollectionUtils.isEmpty(baseInfo.getDests())) {
+			return WebCheckResult.error("目的地不能为空");
+		}
+		if (baseInfo.getDays() <= 0) {
+			return WebCheckResult.error("行程天数不能小于0");
+		} else if (baseInfo.getDays() > 10000) {
+			return WebCheckResult.error("行程天数不能大于10000");
+		}
+		if (StringUtils.isBlank(baseInfo.getDescription())) {
+			return WebCheckResult.error("线路亮点不能为空");
 		}
 		if (CollectionUtils.isEmpty(baseInfo.getThemes())) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("主题不能为空");
+			return WebCheckResult.error("主题不能为空");
 		}
-		return CheckResult.success();
+		if (CollectionUtils.isEmpty(baseInfo.getPicUrls())) {
+			return WebCheckResult.error("商品图不能为空");
+		}
+		return WebCheckResult.success();
 	}
 
-	public static CheckResult checkBaseInfoForUpdate(BaseInfoVO baseInfo) {
-		String temp = "线路基本信息验证失败: {}";
-		if (baseInfo.getLineId() <= 0) {
-			log.warn(temp, JSON.toJSONString(baseInfo));
-			return CheckResult.error("无效线路ID");
-		}
-		return checkBaseInfoForSave(baseInfo);
+	public static WebCheckResult checkPictureText(PictureTextVO pictureText) {
+		// TODO YEBIN 待开发
+		return WebCheckResult.success();
 	}
 
-	public static CheckResult checkPriceInfoForSave(PriceInfoVO priceInfo) {
-		String temp = "线路价格信息验证失败: {}";
+	public static WebCheckResult checkPictureTextItem(PictureTextItemVo pictureTextItem) {
+		return WebCheckResult.success();
+	}
+
+	public static WebCheckResult checkPriceInfo(PriceInfoVO priceInfo) {
 		List<PackageInfo> tcs = priceInfo.getTcs();
 		if (CollectionUtils.isEmpty(tcs)) {
-			log.warn(temp, JSON.toJSONString(priceInfo));
-			return CheckResult.error("线路套餐不能为空");
+			return WebCheckResult.error("线路套餐不能为空");
 		} else if (tcs.size() > 10) {
-			log.warn(temp, JSON.toJSONString(priceInfo));
-			return CheckResult.error("线路套餐不能超过10个");
+			return WebCheckResult.error("线路套餐不能超过10个");
 		} else {
 			Set<String> tcSet = new HashSet<String>();
 			for (PackageInfo tc : tcs) {
@@ -109,40 +187,36 @@ public class LineChecker {
 				if (!tcSet.contains(name)) {
 					tcSet.add(name);
 				} else {
-					log.warn(temp, JSON.toJSONString(priceInfo));
-					return CheckResult.error("线路套餐名称不能重复");
+					return WebCheckResult.error("线路套餐名称不能重复");
 				}
 			}
 		}
 		for (PackageInfo tc : tcs) {
-			CheckResult packageCheckResult = checkPackageInfoForSave(tc);
+			WebCheckResult packageCheckResult = checkPackageInfo(tc);
 			if (!packageCheckResult.isSuccess()) {
 				return packageCheckResult;
 			}
 		}
 		if (priceInfo.getLimit() <= 0) {
-			log.warn(temp, JSON.toJSONString(priceInfo));
-			return CheckResult.error("无效提前报名天数");
+			return WebCheckResult.error("提前报名天数不能小于0");
+		} else if (priceInfo.getLimit() > 10000) {
+			return WebCheckResult.error("提前报名天数不能大于10000");
 		}
-		return CheckResult.success();
+		return WebCheckResult.success();
 	}
 
-	public static CheckResult checkPackageInfoForSave(PackageInfo tc) {
-		String temp = "线路套餐验证失败: {}";
+	public static WebCheckResult checkPackageInfo(PackageInfo tc) {
 		List<PackageMonth> months = tc.getMonths();
 		if (StringUtils.isBlank(tc.getName())) {
-			log.warn(temp, JSON.toJSONString(tc));
-			return CheckResult.error("线路套餐名称不能为空");
+			return WebCheckResult.error("线路套餐名称不能为空");
 		} else if (tc.getName().length() > 15) {
-			log.warn(temp, JSON.toJSONString(tc));
-			return CheckResult.error("线路套餐名称不能超过15个字");
+			return WebCheckResult.error("线路套餐名称不能超过15个字");
 		}
 		if (CollectionUtils.isEmpty(months)) {
-			log.warn(temp, JSON.toJSONString(tc));
-			return CheckResult.error("套餐月份不能为空");
+			return WebCheckResult.error("套餐月份不能为空");
 		}
 		for (PackageMonth packageMonth : months) {
-			CheckResult checkPackageMonth = checkPackageMonth(packageMonth);
+			WebCheckResult checkPackageMonth = checkPackageMonth(packageMonth);
 			if (!checkPackageMonth.isSuccess()) {
 				return checkPackageMonth;
 			}
@@ -150,31 +224,27 @@ public class LineChecker {
 		return PropertyChecker.checkProperty(tc.getPId(), tc.getPType(), tc.getPTxt());
 	}
 
-	public static CheckResult checkPackageMonth(PackageMonth month) {
-		String temp = "套餐月份验证失败: {}";
+	public static WebCheckResult checkPackageMonth(PackageMonth month) {
 		List<PackageDay> days = month.getDays();
 		if (CollectionUtils.isEmpty(days)) {
-			log.warn(temp, JSON.toJSONString(month));
-			return CheckResult.error("套餐日期项不能为空");
+			return WebCheckResult.error("套餐日期项不能为空");
 		}
 		for (PackageDay packageDay : days) {
-			CheckResult checkPackageDay = checkPackageDay(packageDay);
+			WebCheckResult checkPackageDay = checkPackageDay(packageDay);
 			if (!checkPackageDay.isSuccess()) {
 				return checkPackageDay;
 			}
 		}
-		return CheckResult.success();
+		return WebCheckResult.success();
 	}
 
-	public static CheckResult checkPackageDay(PackageDay day) {
-		String temp = "套餐日期项验证失败: {}";
+	public static WebCheckResult checkPackageDay(PackageDay day) {
 		List<PackageBlock> blocks = day.getBlocks();
 		if (CollectionUtils.isEmpty(blocks)) {
-			log.warn(temp, JSON.toJSONString(day));
-			return CheckResult.error("套餐sku不能为空");
+			return WebCheckResult.error("套餐sku不能为空");
 		}
 		for (PackageBlock packageBlock : blocks) {
-			CheckResult checkPackageBlock = checkPackageBlock(packageBlock);
+			WebCheckResult checkPackageBlock = checkPackageBlock(packageBlock);
 			if (!checkPackageBlock.isSuccess()) {
 				return checkPackageBlock;
 			}
@@ -182,49 +252,46 @@ public class LineChecker {
 		return PropertyChecker.checkProperty(day.getPId(), day.getPType(), day.getPTxt());
 	}
 
-	public static CheckResult checkPackageBlock(PackageBlock block) {
-		String temp = "套餐sku验证失败: {}";
+	public static WebCheckResult checkPackageBlock(PackageBlock block) {
 		if (block.getPrice() < 0) {
-			log.warn(temp, JSON.toJSONString(block));
-			return CheckResult.error("无效套餐sku价格");
+			return WebCheckResult.error("无效套餐sku价格");
 		}
 		if (block.getStock() < 0) {
-			log.warn(temp, JSON.toJSONString(block));
-			return CheckResult.error("无效套餐sku库存");
+			return WebCheckResult.error("无效套餐sku库存");
 		}
 		if (block.getDiscount() < 0) {
-			log.warn(temp, JSON.toJSONString(block));
-			return CheckResult.error("无效套餐sku会员优惠");
+			return WebCheckResult.error("无效套餐sku会员优惠");
 		}
 		if (StringUtils.isBlank(block.getName())) {
-			log.warn(temp, JSON.toJSONString(block));
-			return CheckResult.error("套餐sku名称不能为空");
+			return WebCheckResult.error("套餐sku名称不能为空");
 		}
 		return PropertyChecker.checkProperty(block.getPId(), block.getPType(), block.getPTxt());
 	}
 
-	public static CheckResult checkPriceInfoForUpdate(PriceInfoVO priceInfo) {
-		return checkPriceInfoForSave(priceInfo);
-	}
-
-	public static CheckResult checkTripInfo(RouteInfoVO tripInfo) {
-		String temp = "行程信息验证失败: {}";
+	public static WebCheckResult checkRouteInfo(int itemType, RouteInfoVO tripInfo) {
 		List<RouteDayVO> routeDays = tripInfo.getRouteDays();
-		if (CollectionUtils.isEmpty(routeDays)) {
-			log.warn(temp, JSON.toJSONString(tripInfo));
-			return CheckResult.error("行程信息不能为空");
-		}
-		for (RouteDayVO tripDay : routeDays) {
-			CheckResult checkTripDay = checkTripDay(tripDay);
-			if (!checkTripDay.isSuccess()) {
-				return checkTripDay;
+		if (CollectionUtils.isNotEmpty(routeDays)) {
+			for (RouteDayVO tripDay : routeDays) {
+				WebCheckResult checkTripDay = checkRouteDay(tripDay);
+				if (!checkTripDay.isSuccess()) {
+					return checkTripDay;
+				}
+			}
+		} else {
+			if (itemType == ItemType.TOUR_LINE.getValue()) {
+				return WebCheckResult.error("行程信息不能为空");
 			}
 		}
-		return CheckResult.success();
+		return WebCheckResult.success();
 	}
 
-	public static CheckResult checkTripDay(RouteDayVO tripDay) {
-		// TODO YEBIN
-		return CheckResult.success();
+	public static WebCheckResult checkRouteDay(RouteDayVO tripDay) {
+		if (StringUtils.isBlank(tripDay.getTitle())) {
+			return WebCheckResult.error("行程标题不能为空");
+		}
+		if (StringUtils.isBlank(tripDay.getDescription())) {
+			return WebCheckResult.error("行程描述不能为空");
+		}
+		return WebCheckResult.success();
 	}
 }
