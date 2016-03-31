@@ -39,6 +39,7 @@ import com.yimayhd.ic.client.model.param.item.line.LinePubAddDTO;
 import com.yimayhd.ic.client.model.param.item.line.LinePubUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.line.LineUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.line.RouteItemUpdateDTO;
+import com.yimayhd.ic.client.model.param.item.line.RouteUpdateDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
@@ -384,6 +385,18 @@ public class LineConverter {
 		return result;
 	}
 
+	public static RouteUpdateDTO toRouteUpdateDTO(LineVO line) {
+		RouteInfoVO routeInfo = line.getRouteInfo();
+		BaseInfoVO baseInfo = line.getBaseInfo();
+		if (routeInfo == null || baseInfo == null) {
+			return null;
+		}
+		RouteUpdateDTO routeUpdateDTO = new RouteUpdateDTO();
+		routeUpdateDTO.setId(routeInfo.getRouteId());
+		routeUpdateDTO.setName(baseInfo.getName());
+		return routeUpdateDTO;
+	}
+
 	public static LinePubUpdateDTO toLinePublishDTOForUpdate(long sellerId, LineVO line) {
 		if (sellerId <= 0 || line == null) {
 			return null;
@@ -394,8 +407,10 @@ public class LineConverter {
 		dto.setLine(lineUpdateDTO);
 		// 行程信息
 		RouteInfoVO routeInfo = line.getRouteInfo();
-		RouteInfoDTO routeInfoDTO = toRouteInfoDTO(line.getRouteInfo());
 		if (routeInfo != null) {
+			RouteUpdateDTO routeUpdateDTO = toRouteUpdateDTO(line);
+			dto.setRoute(routeUpdateDTO);
+			RouteInfoDTO routeInfoDTO = toRouteInfoDTO(line.getRouteInfo());
 			dto.setAddRouteItemList(routeInfoDTO.getAddRouteItemList());
 			dto.setUpdrouteItemList(routeInfoDTO.getUpdrouteItemList());
 			dto.setDelRouteItemList(routeInfoDTO.getDelRouteItemList());
