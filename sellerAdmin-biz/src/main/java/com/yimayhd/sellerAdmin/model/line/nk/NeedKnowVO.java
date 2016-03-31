@@ -3,8 +3,6 @@ package com.yimayhd.sellerAdmin.model.line.nk;
 import java.io.Serializable;
 import java.util.List;
 
-import com.yimayhd.sellerAdmin.model.line.KeyValuePair;
-
 /**
  * 预定须知
  * 
@@ -14,14 +12,13 @@ import com.yimayhd.sellerAdmin.model.line.KeyValuePair;
 public class NeedKnowVO implements Serializable {
 	private static final long serialVersionUID = -5148937080557537706L;
 
-	private List<KeyValuePair<String, String>> needKnowItems;
+	private List<NeedKnowItemVo> needKnowItems;
 
-	public List<KeyValuePair<String, String>> getNeedKnowItems() {
+	public List<NeedKnowItemVo> getNeedKnowItems() {
 		return needKnowItems;
 	}
 
-	public void setNeedKnowItems(List<KeyValuePair<String, String>> needKnowItems) {
+	public void setNeedKnowItems(List<NeedKnowItemVo> needKnowItems) {
 		this.needKnowItems = needKnowItems;
 	}
-
 }

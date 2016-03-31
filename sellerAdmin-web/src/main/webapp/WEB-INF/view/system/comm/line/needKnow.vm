@@ -42,13 +42,15 @@
 	function getNeedKnow() {
 		var result = [];
 		$(".need-know-item").each(function() {
-			var key = $(this).find(".need-know-item-key").val();
-			var value = $(this).find(".need-know-item-value").val();
+			var title = $(this).find(".need-know-item-key").val();
+			var content = $(this).find(".need-know-item-value").val();
 			result.push({
-				key:key,
-				value:value
+				title:title,
+				content:content
 			});
 		});
-		return result;
+		return {
+			needKnowItems:result
+		};
 	}
 </script>

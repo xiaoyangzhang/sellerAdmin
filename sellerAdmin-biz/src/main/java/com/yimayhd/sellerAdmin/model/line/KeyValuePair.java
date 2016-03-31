@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.model.line;
 
+import java.io.Serializable;
+
 /**
  * 键值对
  * 
@@ -8,7 +10,8 @@ package com.yimayhd.sellerAdmin.model.line;
  * @param <K>
  * @param <V>
  */
-public class KeyValuePair<K, V> {
+public class KeyValuePair<K, V> implements Serializable{
+	private static final long serialVersionUID = -3565146914247069065L;
 	private K key;
 	private V value;
 

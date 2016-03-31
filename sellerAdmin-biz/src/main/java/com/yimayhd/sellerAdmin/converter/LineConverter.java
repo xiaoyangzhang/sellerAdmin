@@ -42,10 +42,10 @@ import com.yimayhd.ic.client.model.param.item.line.RouteItemUpdateDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
-import com.yimayhd.sellerAdmin.model.line.KeyValuePair;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.TagDTO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
+import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowItemVo;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
 import com.yimayhd.sellerAdmin.model.line.price.PackageBlock;
 import com.yimayhd.sellerAdmin.model.line.price.PackageDay;
@@ -248,16 +248,28 @@ public class LineConverter {
 			return null;
 		}
 		NeedKnowVO needKnowVO = new NeedKnowVO();
-		List<KeyValuePair<String, String>> needKnowItems = new ArrayList<KeyValuePair<String, String>>();
+		List<NeedKnowItemVo> needKnowItems = new ArrayList<NeedKnowItemVo>();
 		List<TextItem> frontNeedKnows = needKnow.getFrontNeedKnow();
 		if (CollectionUtils.isNotEmpty(frontNeedKnows)) {
 			for (TextItem frontNeedKnow : frontNeedKnows) {
-				needKnowItems
-						.add(new KeyValuePair<String, String>(frontNeedKnow.getTitle(), frontNeedKnow.getContent()));
+				NeedKnowItemVo needKnowItemVo = toNeedKnowItemVo(frontNeedKnow);
+				if (needKnowItemVo != null) {
+					needKnowItems.add(needKnowItemVo);
+				}
 			}
 		}
 		needKnowVO.setNeedKnowItems(needKnowItems);
 		return needKnowVO;
+	}
+
+	public static NeedKnowItemVo toNeedKnowItemVo(TextItem frontNeedKnow) {
+		if (frontNeedKnow == null) {
+			return null;
+		}
+		NeedKnowItemVo needKnowItemVo = new NeedKnowItemVo();
+		needKnowItemVo.setTitle(frontNeedKnow.getTitle());
+		needKnowItemVo.setContent(frontNeedKnow.getContent());
+		return needKnowItemVo;
 	}
 
 	public static NeedKnow toNeedKnow(NeedKnowVO needKnowVO) {
@@ -266,12 +278,12 @@ public class LineConverter {
 		}
 		NeedKnow needKnow = new NeedKnow();
 		List<TextItem> frontNeedKnows = new ArrayList<TextItem>();
-		List<KeyValuePair<String, String>> needKnowItems = needKnowVO.getNeedKnowItems();
+		List<NeedKnowItemVo> needKnowItems = needKnowVO.getNeedKnowItems();
 		if (CollectionUtils.isNotEmpty(needKnowItems)) {
-			for (KeyValuePair<String, String> keyValuePair : needKnowItems) {
+			for (NeedKnowItemVo needKnowItem : needKnowItems) {
 				TextItem textItem = new TextItem();
-				textItem.setTitle(keyValuePair.getKey());
-				textItem.setContent(keyValuePair.getValue());
+				textItem.setTitle(needKnowItem.getTitle());
+				textItem.setContent(needKnowItem.getContent());
 				frontNeedKnows.add(textItem);
 			}
 		}

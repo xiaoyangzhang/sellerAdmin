@@ -90,12 +90,10 @@ $(".save").click(function(){
 	console.log(JSON.stringify(result.routeInfo));
 	console.log(JSON.stringify(result.priceInfo));
 	console.log(JSON.stringify(result.needKnow));
-	//alert(JSON.stringify(result));
 	var params = {
 		json:JSON.stringify(result)
 	};
     var url = "$!{utilWebconfig.getActionDefaultFontPath()}/line/save";
-	return;
     $.post(url,params,function(data){
 		if(data.status == 200) {
 			layer.alert('添加成功', {

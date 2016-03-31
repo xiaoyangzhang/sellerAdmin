@@ -19,6 +19,8 @@
 <script type="text/javascript">
 	function getPictureText() {
 		var content = $("#contentText").val();
-		return JSON.parse(content);
+		return {
+			pictureTextItems:JSON.parse(content || "[]")
+		};
 	}
 </script>
