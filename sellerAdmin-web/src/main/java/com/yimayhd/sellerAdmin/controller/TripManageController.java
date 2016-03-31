@@ -35,7 +35,7 @@ import com.yimayhd.sellerAdmin.service.TripService;
 * @author create by yushengwei @ 2015年12月4日 上午11:03:29 
 */
 
-@Controller
+@Controller 
 @RequestMapping("/B2C/trip")
 public class TripManageController extends BaseController {
 	
