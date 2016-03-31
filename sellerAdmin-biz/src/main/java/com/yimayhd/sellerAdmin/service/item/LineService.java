@@ -6,6 +6,8 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
 import com.yimayhd.sellerAdmin.model.line.LineCategoryConfig;
 import com.yimayhd.sellerAdmin.model.line.LinePropertyConfig;
@@ -25,9 +27,9 @@ public interface LineService {
 	 * @param line
 	 * @return
 	 */
-	void update(long sellerId, LineVO line);
+	WebOperateResult update(long sellerId, LineVO line);
 
-	long save(long sellerId, LineVO line);
+	WebResult<Long> save(long sellerId, LineVO line);
 
 	/**
 	 * 查询线路
@@ -35,47 +37,47 @@ public interface LineService {
 	 * @param id
 	 * @return
 	 */
-	LineVO getById(long id);
+	WebResult<LineVO> getById(long id);
 
 	/**
 	 * 查询线路
 	 * 
 	 * @return
 	 */
-	PageVO<LineDO> pageQueryLine(LinePageQuery query);
+	WebResult<PageVO<LineDO>> pageQueryLine(LinePageQuery query);
 
 	/**
 	 * 获取线路类目配置
 	 * 
 	 * @return
 	 */
-	LineCategoryConfig getLineCategoryConfig();
+	WebResult<LineCategoryConfig> getLineCategoryConfig();
 
 	/**
 	 * 获取全部主题
 	 * 
 	 * @return
 	 */
-	List<ComTagDO> getAllLineThemes();
+	WebResult<List<ComTagDO>> getAllLineThemes();
 
 	/**
 	 * 获取全部出发地
 	 * 
 	 * @return
 	 */
-	List<CityVO> getAllLineDeparts();
+	WebResult<List<CityVO>> getAllLineDeparts();
 
 	/**
 	 * 获取全部目的地
 	 * 
 	 * @return
 	 */
-	List<CityVO> getAllLineDests();
+	WebResult<List<CityVO>> getAllLineDests();
 
 	/**
 	 * 获取线路Property配置
 	 * 
 	 * @return
 	 */
-	LinePropertyConfig getLinePropertyConfig(long categoryId);
+	WebResult<LinePropertyConfig> getLinePropertyConfig(long categoryId);
 }

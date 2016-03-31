@@ -36,9 +36,14 @@ public class WebResult<T> extends WebResultSupport {
 	 *            错误信息
 	 * @return
 	 */
-	public static <T> WebResult<T> failure(WebReturnCode returnCode, String msg) {
+	public static <T> WebResult<T> failure(WebReturnCode webReturnCode, String msg) {
 		WebResult<T> result = new WebResult<T>();
-		result.initFailure(returnCode, msg);
+		result.initFailure(webReturnCode, msg);
+		return result;
+	}
+	public static <T> WebResult<T> failure(WebReturnCode webReturnCode) {
+		WebResult<T> result = new WebResult<T>();
+		result.initFailure(webReturnCode);
 		return result;
 	}
 

@@ -12,6 +12,8 @@ import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.BaseTravelController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
+import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.constant.ResponseStatus;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.service.item.LineService;
@@ -40,11 +42,18 @@ public class LineController extends BaseTravelController {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
 		if (id > 0) {
-			LineVO gt = commLineService.getById(id);
-			put("product", gt);
-			put("lineType", LineType.getByType(gt.getBaseInfo().getType()));
+			WebResult<LineVO> result = commLineService.getById(id);
+			if(!result.isSuccess()) {
+				LineVO gt = result.getValue();
+				put("product", gt);
+				put("lineType", LineType.getByType(gt.getBaseInfo().getType()));
+				return "/system/comm/line/detail";
+			} else {
+				throw new BaseException(result.getResultMsg());
+			}
+		} else {
+			throw new BaseException("参数错误");
 		}
-		return "/system/comm/line/detail";
 	}
 
 	/**
@@ -88,13 +97,22 @@ public class LineController extends BaseTravelController {
 				return new ResponseVo(ResponseStatus.ERROR);
 			}
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
-			long lineId = gt.getBaseInfo().getLineId();
-			if (lineId > 0) {
-				commLineService.update(sellerId, gt);
+			long itemId = gt.getBaseInfo().getItemId();
+			if (itemId > 0) {
+				WebOperateResult result = commLineService.update(sellerId, gt);
+				if(!result.isSuccess()) {
+					return ResponseVo.success(itemId);
+				} else {
+					throw new BaseException(result.getResultMsg());
+				}
 			} else {
-				lineId = commLineService.save(sellerId, gt);
+				WebResult<Long> result = commLineService.save(sellerId, gt);
+				if(!result.isSuccess()) {
+					return ResponseVo.success(result.getValue());
+				} else {
+					throw new BaseException(result.getResultMsg());
+				}
 			}
-			return ResponseVo.success(lineId);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return ResponseVo.error(e);
