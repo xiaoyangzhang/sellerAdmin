@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.sellerAdmin.base.BaseException;
-import com.yimayhd.sellerAdmin.base.BaseTravelController;
-import com.yimayhd.sellerAdmin.base.ResponseVo;
+import com.yimayhd.sellerAdmin.base.BaseLineController;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
-import com.yimayhd.sellerAdmin.constant.ResponseStatus;
+import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
+import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.checker.LineChecker;
+import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.service.item.LineService;
 
@@ -26,7 +28,7 @@ import com.yimayhd.sellerAdmin.service.item.LineService;
  */
 @Controller
 @RequestMapping("/line")
-public class LineController extends BaseTravelController {
+public class LineController extends BaseLineController {
 	@Autowired
 	private LineService commLineService;
 
@@ -43,7 +45,7 @@ public class LineController extends BaseTravelController {
 		initLinePropertyTypes(categoryId);
 		if (id > 0) {
 			WebResult<LineVO> result = commLineService.getById(id);
-			if(!result.isSuccess()) {
+			if (!result.isSuccess()) {
 				LineVO gt = result.getValue();
 				put("product", gt);
 				put("lineType", LineType.getByType(gt.getBaseInfo().getType()));
@@ -89,33 +91,29 @@ public class LineController extends BaseTravelController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/save")
-	public @ResponseBody ResponseVo save(String json) {
+	public @ResponseBody WebResultSupport save(String json) {
 		try {
-			long sellerId = getCurrentUserId();
-			if (sellerId <= 0) {
-				log.warn("未登录");
-				return new ResponseVo(ResponseStatus.ERROR);
-			}
+			/*
+			 * long sellerId = getCurrentUserId(); if (sellerId <= 0) {
+			 * log.warn("未登录"); return
+			 * WebOperateResult.failure(WebReturnCode.USER_NOT_FOUND); }
+			 */
+			long sellerId = 12800;
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
+			WebCheckResult checkLine = LineChecker.checkLine(gt);
+			if (!checkLine.isSuccess()) {
+				log.warn(checkLine.getResultMsg());
+				return checkLine;
+			}
 			long itemId = gt.getBaseInfo().getItemId();
 			if (itemId > 0) {
-				WebOperateResult result = commLineService.update(sellerId, gt);
-				if(!result.isSuccess()) {
-					return ResponseVo.success(itemId);
-				} else {
-					throw new BaseException(result.getResultMsg());
-				}
+				return commLineService.update(sellerId, gt);
 			} else {
-				WebResult<Long> result = commLineService.save(sellerId, gt);
-				if(!result.isSuccess()) {
-					return ResponseVo.success(result.getValue());
-				} else {
-					throw new BaseException(result.getResultMsg());
-				}
+				return commLineService.save(sellerId, gt);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			return ResponseVo.error(e);
+			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, e.getMessage());
 		}
 	}
 }

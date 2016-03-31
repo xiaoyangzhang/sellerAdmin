@@ -66,7 +66,7 @@ public class ItemServiceImpl implements ItemService {
 				resultList.add(ItemConverter.toItemListItemVO(itemDO));
 				itemIds.add(itemDO.getId());
 			}
-			Map<Long, List<ComTagDO>> tagMap = commentRepo.getTagsByOutIds(itemIds, TagType.DESRTPLACE);
+			Map<Long, List<ComTagDO>> tagMap = commentRepo.getTagsByOutIds(itemIds, TagType.DESTPLACE);
 			for (ItemListItemVO itemListItemVO : resultList) {
 				long itemId = itemListItemVO.getId();
 				if (tagMap.containsKey(itemId)) {

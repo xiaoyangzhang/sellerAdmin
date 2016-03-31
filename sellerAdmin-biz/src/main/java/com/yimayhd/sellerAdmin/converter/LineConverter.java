@@ -103,7 +103,7 @@ public class LineConverter {
 		baseInfo.setType(itemDO.getItemType());
 		baseInfo.setName(itemDO.getTitle());
 		baseInfo.setDays(itemDO.getDays());
-		baseInfo.setDiscription(itemDO.getDescription());
+		baseInfo.setDescription(itemDO.getDescription());
 		baseInfo.setPicUrls(PicUrlsUtil.getItemMainPics(itemDO));
 		// themes
 		if (CollectionUtils.isNotEmpty(themes)) {
@@ -376,6 +376,7 @@ public class LineConverter {
 		routeItemDetail.setShortDesc(routeDay.getDescription());
 		routeItemDetail.setPics(routeDay.getPicUrls());
 		RouteItemDO routeItemDO = new RouteItemDO();
+		routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DETAIL.getType());
 		routeItemDO.setRouteItemDetail(routeItemDetail);
 		List<RouteItemDO> result = new ArrayList<RouteItemDO>();
 		result.add(routeItemDO);
@@ -479,7 +480,7 @@ public class LineConverter {
 		itemDO.setTitle(baseInfo.getName());
 		itemDO.setItemType(baseInfo.getType());
 		itemDO.setDays(baseInfo.getDays());
-		itemDO.setDescription(baseInfo.getDiscription());
+		itemDO.setDescription(baseInfo.getDescription());
 		itemDO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS, PicUrlsUtil.parsePicsString(baseInfo.getPicUrls()));
 		itemDO.setDays(baseInfo.getDays());
 		return itemDO;
@@ -496,7 +497,7 @@ public class LineConverter {
 		// 赋值
 		itemUpdateDTO.setTitle(baseInfo.getName());
 		itemUpdateDTO.setDays(baseInfo.getDays());
-		itemUpdateDTO.setDescription(baseInfo.getDiscription());
+		itemUpdateDTO.setDescription(baseInfo.getDescription());
 		itemUpdateDTO.setPicUrls(PictureUtil.addPicList(itemUpdateDTO.getPicUrls(),
 				ItemPicUrlsKey.ITEM_MAIN_PICS.getCode(), baseInfo.getPicUrls()));
 		itemUpdateDTO.setDays(baseInfo.getDays());

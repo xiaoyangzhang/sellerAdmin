@@ -18,7 +18,7 @@ import com.yimayhd.sellerAdmin.service.item.LineService;
  * @author yebin 2015年11月23日
  *
  */
-public abstract class BaseTravelController extends BaseController {
+public abstract class BaseLineController extends BaseController {
 	@Resource
 	protected LineService commLineService;
 	@Autowired

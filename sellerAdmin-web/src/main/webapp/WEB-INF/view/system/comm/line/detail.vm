@@ -95,7 +95,7 @@ $(".save").click(function(){
 	};
     var url = "$!{utilWebconfig.getActionDefaultFontPath()}/line/save";
     $.post(url,params,function(data){
-		if(data.status == 200) {
+		if(data.success) {
 			layer.alert('添加成功', {
                 time: 0 //不自动关闭
                 ,yes: function(index){
@@ -106,7 +106,7 @@ $(".save").click(function(){
                 }
             });
 		} else {
-			layer.alert(data.message, {
+			layer.alert(data.resultMsg, {
 				icon : 2
 			});
 		}

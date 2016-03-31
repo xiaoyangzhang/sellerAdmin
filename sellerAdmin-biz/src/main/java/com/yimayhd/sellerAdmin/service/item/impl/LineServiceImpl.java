@@ -74,7 +74,7 @@ public class LineServiceImpl implements LineService {
 				departs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
 			}
 			// 目的地
-			List<ComTagDO> destTags = commentRepo.getTagsByOutId(id, TagType.DESRTPLACE);
+			List<ComTagDO> destTags = commentRepo.getTagsByOutId(id, TagType.DESTPLACE);
 			List<CityVO> dests = new ArrayList<CityVO>();
 			for (ComTagDO comTagDO : destTags) {
 				CityDTO cityDTO = cityRepo.getNameByCode(comTagDO.getName());
@@ -149,7 +149,7 @@ public class LineServiceImpl implements LineService {
 	@Override
 	public WebResult<List<CityVO>> getAllLineDests() {
 		try {
-			List<ComTagDO> comTagDOs = commentRepo.getTagsByTagType(TagType.DESRTPLACE);
+			List<ComTagDO> comTagDOs = commentRepo.getTagsByTagType(TagType.DESTPLACE);
 			List<CityVO> cityVOs = new ArrayList<CityVO>();
 			if (CollectionUtils.isNotEmpty(comTagDOs)) {
 				for (ComTagDO comTagDO : comTagDOs) {
@@ -231,7 +231,7 @@ public class LineServiceImpl implements LineService {
 				for (TagDTO tagDTO : dests) {
 					destIds.add(tagDTO.getId());
 				}
-				commentRepo.saveTagRelation(itemId, TagType.DESRTPLACE, destIds);
+				commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
 			} else {
 				return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, "更新线路失败 ");
 			}
@@ -271,7 +271,7 @@ public class LineServiceImpl implements LineService {
 				for (TagDTO tagDTO : dests) {
 					destIds.add(tagDTO.getId());
 				}
-				commentRepo.saveTagRelation(itemId, TagType.DESRTPLACE, destIds);
+				commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
 			}else {
 				return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "保存线路失败 ");
 			}
