@@ -11,9 +11,6 @@
 </head>
 <body>
 $screen_content
-<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/sea.js"></script>
-	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/seajs-preload.js"></script>
-	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/config.js"></script>		
-	<script>seajs.use("userdatafill");</script>	
+
 </body>
 </html>
