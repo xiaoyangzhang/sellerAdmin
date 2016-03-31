@@ -73,6 +73,7 @@ public class LineConverter {
 		// 初始化
 		LineDO line = new LineDO();
 		line.setId(baseInfo.getLineId());
+		line.setName(baseInfo.getName());
 		if (needKnow != null) {
 			line.setNeedKnow(toNeedKnow(needKnow));
 		}
