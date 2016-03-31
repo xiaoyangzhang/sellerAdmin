@@ -18,5 +18,28 @@ public class WebResult<T> extends WebResultSupport {
 		this.value = value;
 	}
 
-	
+	public static <T> WebResult<T> success(T value) {
+		return success(value, "操作成功");
+	}
+
+	public static <T> WebResult<T> success(T value, String msg) {
+		WebResult<T> result = new WebResult<T>();
+		result.initSuccess(msg);
+		result.setValue(value);
+		return result;
+	}
+
+	/**
+	 * 操作失败
+	 * 
+	 * @param msg
+	 *            错误信息
+	 * @return
+	 */
+	public static <T> WebResult<T> failure(WebReturnCode returnCode, String msg) {
+		WebResult<T> result = new WebResult<T>();
+		result.initFailure(returnCode, msg);
+		return result;
+	}
+
 }
