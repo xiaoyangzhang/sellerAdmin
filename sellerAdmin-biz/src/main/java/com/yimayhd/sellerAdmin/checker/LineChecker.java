@@ -106,7 +106,7 @@ public class LineChecker {
 				}
 				if (StringUtils.isBlank(go.getDescription())) {
 					return WebCheckResult.error("去程详细描述不能为空");
-				} else if (go.getDescription().length() > 0) {
+				} else if (go.getDescription().length() > 200) {
 					return WebCheckResult.error("去程详细描述不超过200字");
 				}
 			}
@@ -118,7 +118,7 @@ public class LineChecker {
 				}
 				if (StringUtils.isBlank(back.getDescription())) {
 					return WebCheckResult.error("回程详细描述不能为空");
-				} else if (back.getDescription().length() > 0) {
+				} else if (back.getDescription().length() > 200) {
 					return WebCheckResult.error("回程详细描述不超过200字");
 				}
 			}

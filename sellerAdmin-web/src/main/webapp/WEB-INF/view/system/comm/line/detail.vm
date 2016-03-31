@@ -27,7 +27,6 @@
 		<script type="text/javascript" src="$rs_js_css_path_admin/js/zui.min.js"></script>
 		<script type="text/javascript" src="$rs_js_css_path_admin/layer/layer.js"></script>
 		<script type="text/javascript" src="$rs_js_css_path_admin/js/addtravel.js"></script>
-		<script type="text/javascript" src="$rs_js_css_path_admin/js/editer.js"></script>
 		<script type="text/javascript" src="$rs_js_css_path_admin/js/upldf.js"></script>
 		
 		
@@ -94,6 +93,7 @@
         </div>
 	</body>
 </html>
+<script type="text/javascript" src="$rs_js_css_path_admin/js/editer.js"></script>
 <script type="text/javascript">
 $(".save").click(function(){
     var result = {
