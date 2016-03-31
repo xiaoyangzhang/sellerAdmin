@@ -12,8 +12,8 @@ import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
  * 
  *
  */
-public class ExamineInfoVO  {
-
+public class ExamineInfoVO extends ExamineInfoDTO  {
+	
 	private static final long serialVersionUID = 8113499074191458166L;
 	private String a="aaa";
 	private String b="bbb";
@@ -34,7 +34,7 @@ public class ExamineInfoVO  {
 		this.b = b;
 	}
 
-	public static ExamineInfoDTO getExamineInfoDTO(ExamineInfoVO vo) throws Exception {
+	public  ExamineInfoDTO getExamineInfoDTO(ExamineInfoVO vo) throws Exception {
 		ExamineInfoDTO dto=new ExamineInfoDTO();
 		BeanUtils.copyProperties(dto, vo);
 		
