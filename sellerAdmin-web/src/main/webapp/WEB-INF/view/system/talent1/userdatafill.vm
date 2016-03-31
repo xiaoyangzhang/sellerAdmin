@@ -350,4 +350,8 @@
 	            <option value="<#= city[j].id#>"><#= city[j].name#></option>
 	    <# } #>
 	</script>
+	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/sea.js"></script>
+	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/seajs-preload.js"></script>
+	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/config.js"></script>		
 	
+	<script>seajs.use("userdatafill");</script>	

@@ -1,13 +1,12 @@
 #set ($layout="/layout/layout2.vm")
 
-<title>等待审核</title>
+<title>审核不通过</title>
 
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/filldata.css">
-</head>
-<body>
+
 	<div class="header">
 		<div class="comwidth content clearfix">
-			<a class="fl block"><img src="http://s0.test.jiuxiulvxing.com/busines/img/logo.jpg"></a>
+			<a class="fl block"><img src="../../img/logo.jpg"></a>
 			<div class="fr user-block">
 				<a class="user-block-link mr15 not-a">
 					<span class="circle mr10"><img src="http://s0.test.jiuxiulvxing.com/busines/img/default_1.png"><i></i></span>
@@ -35,12 +34,16 @@
 				</div>
 			</div>
 		</div>
-		<div class="waiting tc m60">
-			<i class="mb5"></i><br><label class="f16 gray6">您的达人资料我们已经收到</label>
+		<div class="waiting nothrough tc m60">
+			<i class="mb5"></i><br><label class="f16 gray6">很遗憾，您的申请审核不通过，请填充后再次提交！</label>
 			<div class="message">
-				<span class="f14 gray6">请等待审核结果，审核通过后即可使用！</span><br>
-				<span class="f14 gray6">如果有任何疑问，请联系我们：400-0910-700</span>
+				<span class="f14 gray6">如果有任何疑问，请联系我们：400-0910-700</span><br>
+				<span class="f14 gray6">失败原因：</span><span class="bcs">1.用户证件照片不清。</span><span class="bcs">2.认证信息有误。</span>
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/sea.js"></script>
+	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/seajs-preload.js"></script>
+	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/config.js"></script>		
 	
+	<script>seajs.use("test");</script>	
