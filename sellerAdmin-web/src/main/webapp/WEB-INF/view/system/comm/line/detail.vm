@@ -78,12 +78,14 @@
 $(".save").click(function(){
     var result = {
         baseInfo:getBaseInfo(),
+		pictureText:getPictureText(),
 		routePlan:getRoutePlan(),
         routeInfo:getRouteInfo(),
         priceInfo:getPriceInfo(),
 		needKnow:getNeedKnow()
     };
 	console.log(JSON.stringify(result.baseInfo));
+	console.log(JSON.stringify(result.pictureText));
 	console.log(JSON.stringify(result.routePlan));
 	console.log(JSON.stringify(result.routeInfo));
 	console.log(JSON.stringify(result.priceInfo));
