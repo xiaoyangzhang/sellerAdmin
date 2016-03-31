@@ -1,9 +1,12 @@
 package com.yimayhd.sellerAdmin.base;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -25,7 +28,10 @@ public abstract class BaseLineController extends BaseController {
 	protected CategoryService categoryService;
 
 	protected void initBaseInfo() throws BaseException {
-		put("themes", commLineService.getAllLineThemes());
+		WebResult<List<ComTagDO>> allLineThemes = commLineService.getAllLineThemes();
+		if (allLineThemes.isSuccess()) {
+			put("themes", allLineThemes.getValue());
+		}
 		put("ways", TripTraffic.ways());
 	}
 
