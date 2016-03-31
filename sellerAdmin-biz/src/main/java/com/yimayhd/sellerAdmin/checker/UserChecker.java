@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
-import com.yimayhd.sellerAdmin.checker.result.CheckResult;
+import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.model.vo.user.LoginVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RetrievePasswordVo;
@@ -36,21 +36,21 @@ public class UserChecker {
 //		return CheckResult.success();
 //	} 
 	
-	public static CheckResult checkRegisterVo(RegisterVo registerVo){
+	public static WebCheckResult checkRegisterVo(RegisterVo registerVo){
 		if(registerVo.getUsername() == null || StringUtils.isBlank(registerVo.getUsername())){
-			return CheckResult.error("手机号码不能为空");
+			return WebCheckResult.error("手机号码不能为空");
 		}
 		
 		if(registerVo.getPassword() == null || StringUtils.isBlank(registerVo.getPassword())){
-			return CheckResult.error("密码不能为空");
+			return WebCheckResult.error("密码不能为空");
 		}
 		
 		if(!CheckUtils.isMobileNO(registerVo.getUsername())){
-			return CheckResult.error("手机号码格式不正确");
+			return WebCheckResult.error("手机号码格式不正确");
 		}
 		
 		
-		return CheckResult.success();
+		return WebCheckResult.success();
 	}
 
 	public static WebResultSupport checkRetrievePassword(RetrievePasswordVo retrievePasswordVo){
@@ -67,16 +67,16 @@ public class UserChecker {
 		}
 		return result;
 	}
-	public static CheckResult checkRetrievePasswordVo(RetrievePasswordVo retrievePasswordVo){
+	public static WebCheckResult checkRetrievePasswordVo(RetrievePasswordVo retrievePasswordVo){
 		if(retrievePasswordVo.getUsername() == null || StringUtils.isBlank(retrievePasswordVo.getUsername())){
-			return CheckResult.error("手机号码不能为空");
+			return WebCheckResult.error("手机号码不能为空");
 		}
 		
 		if(!CheckUtils.isMobileNO(retrievePasswordVo.getUsername())){
-			return CheckResult.error("手机号码格式不正确");
+			return WebCheckResult.error("手机号码格式不正确");
 		}
 		
-		return CheckResult.success();
+		return WebCheckResult.success();
 	}
 }
   

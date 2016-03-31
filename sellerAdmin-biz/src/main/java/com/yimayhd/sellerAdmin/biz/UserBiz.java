@@ -10,7 +10,7 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.UserChecker;
-import com.yimayhd.sellerAdmin.checker.result.CheckResult;
+import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.UserConverter;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
@@ -59,7 +59,7 @@ public class UserBiz {
 	public WebResult<UserDO> register(RegisterVo registerVo) {
 		WebResult<UserDO> result = new WebResult<UserDO>() ;
 		LOGGER.debug("registerVo={}", JSONObject.toJSONString(registerVo));
-		CheckResult checkFeedBack = UserChecker.checkRegisterVo(registerVo);
+		WebCheckResult checkFeedBack = UserChecker.checkRegisterVo(registerVo);
 		if (!checkFeedBack.isSuccess()) {
 			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
 			return result ;
