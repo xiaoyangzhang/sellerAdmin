@@ -12,7 +12,7 @@ public class WebResultSupport implements Serializable {
 	private static final long serialVersionUID = -2235152751651905167L;
 	private boolean success = true;
 	private int errorCode;
-	private String errorMsg;
+	private String resultMsg;
 	private WebReturnCode webReturnCode;
 
 	public boolean isSuccess() {
@@ -23,9 +23,8 @@ public class WebResultSupport implements Serializable {
 		return errorCode;
 	}
 
-
-	public String getErrorMsg() {
-		return errorMsg;
+	public String getResultMsg() {
+		return resultMsg;
 	}
 
 	public WebReturnCode getWebReturnCode() {
@@ -37,8 +36,26 @@ public class WebResultSupport implements Serializable {
 		if (webReturnCode != null) {
 			success = false;
 			errorCode = webReturnCode.getErrorCode();
-			errorMsg = webReturnCode.getErrorMsg();
+			resultMsg = webReturnCode.getErrorMsg();
 		}
+	}
+
+	public void initFailure(WebReturnCode webReturnCode, String message) {
+		this.success = false;
+		this.errorCode = webReturnCode.getErrorCode();
+		this.resultMsg = webReturnCode.getErrorMsg() + ":" + message;
+	}
+
+	public void initFailure(WebReturnCode webReturnCode) {
+		this.success = false;
+		this.errorCode = webReturnCode.getErrorCode();
+		this.resultMsg = webReturnCode.getErrorMsg();
+	}
+
+	public void initSuccess(String message) {
+		this.success = true;
+		this.errorCode = 0;
+		this.resultMsg = message;
 	}
 
 }

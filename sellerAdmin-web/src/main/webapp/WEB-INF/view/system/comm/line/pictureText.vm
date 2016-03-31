@@ -3,7 +3,6 @@
 		<ul class="clearfix">
 			<li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
 			<li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
-			<li><a href="javascript:void(0)" class="submitbtn">+提交数据</a></li>
 		</ul>
 	</div>
 	<div class="bd">
@@ -15,5 +14,11 @@
 		</p>	-->
 	</div>
 	<textarea name="content" id="contentText" style="display:none;"></textarea>
-	<input type="hidden" id="uploadAction" value="http://192.168.0.139:8080/file/upload"/>
+	<input type="hidden" id="uploadAction" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file"/>
 </div>
+<script type="text/javascript">
+	function getPictureText() {
+		var content = $("#contentText").val();
+		return JSON.parse(content);
+	}
+</script>
