@@ -1,11 +1,11 @@
 package com.yimayhd.gf.model;
 
+import java.util.List;
+
 import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 import com.yimayhd.sellerAdmin.model.ItemSkuVO;
 import com.yimayhd.sellerAdmin.model.ItemVO;
-
-import java.util.List;
 
 /**
  * Created by czf on 2016/01/29.

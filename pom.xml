@@ -14,11 +14,9 @@
 	<modules>
 		<module>sellerAdmin-web</module>
 		<module>sellerAdmin-biz</module>
-		<module>sellerAdmin-client</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<sellerAdmin.version>1.0.0-SNAPSHOT</sellerAdmin.version>
 		<itemcenter.client.version>1.0.7-SNAPSHOT</itemcenter.client.version>
 		<jackson.version>2.6.3</jackson.version>
 		<session.manager.version>1.7.0-SNAPSHOT</session.manager.version>
@@ -74,12 +72,7 @@
 			<dependency>
 				<groupId>com.yimayhd</groupId>
 				<artifactId>sellerAdmin-biz</artifactId>
-				<version>${sellerAdmin.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.yimayhd</groupId>
-				<artifactId>sellerAdmin-client</artifactId>
-				<version>${sellerAdmin.version}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
@@ -681,6 +674,4 @@
 
 
 	</dependencyManagement>
-
-
 </project>

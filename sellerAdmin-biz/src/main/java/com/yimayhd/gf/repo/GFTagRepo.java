@@ -18,7 +18,6 @@ import com.yimayhd.commentcenter.client.query.TagPageQuery;
 import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
-import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 
 public class GFTagRepo {
 	

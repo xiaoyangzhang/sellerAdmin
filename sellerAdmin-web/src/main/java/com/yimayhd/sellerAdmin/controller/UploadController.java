@@ -10,7 +10,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.yimayhd.sellerAdmin.constant.ResponseStatus;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
+import com.yimayhd.sellerAdmin.constant.ResponseStatus;
 import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 import com.yimayhd.sellerAdmin.util.excel.JxlFor2003;
 import com.yimayhd.sellerAdmin.util.excel.TestPerson;

@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.yimayhd.sellerAdmin.base.PageVO;
-import com.yimayhd.sellerAdmin.util.RepoUtils;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.item.HotelService;
+import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.util.RepoUtils;
 
 /**
  */

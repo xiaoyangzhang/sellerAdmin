@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.exception.NoticeException;
 import com.yimayhd.user.session.manager.SessionHelper;
+import com.yimayhd.user.session.manager.SessionManager;
 
 /**
  * 
@@ -26,13 +28,20 @@ import com.yimayhd.user.session.manager.SessionHelper;
  */
 public class BaseController {
 	protected final Logger log = LoggerFactory.getLogger(getClass());
-//	protected HttpServletRequest request;
-	
+	// protected HttpServletRequest request;
+
+	@Autowired
+	protected SessionManager sessionManager;
+
+	protected long getCurrentUserId() {
+		return sessionManager.getUserId();
+	}
+
 	@Value("${env}")
-	private String env ;
-	
-	public boolean isTest(){
-		if( Constant.ENV_PROD.equalsIgnoreCase(env) ){
+	private String env;
+
+	public boolean isTest() {
+		if (Constant.ENV_PROD.equalsIgnoreCase(env)) {
 			return false;
 		}
 		return true;
@@ -71,12 +80,15 @@ public class BaseController {
 
 	@InitBinder
 	public void initBinder(ServletRequestDataBinder binder) {
-		binder.registerCustomEditor(Date.class,new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"), true));
+		binder.registerCustomEditor(Date.class,
+				new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"), true));
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
-//		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm"), true));
+		// binder.registerCustomEditor(Date.class, new CustomDateEditor(new
+		// SimpleDateFormat("yyyy-MM-dd HH:mm"), true));
 	}
-	private HttpServletRequest getRequest(){
-		return SessionHelper.getRequest() ;
+
+	private HttpServletRequest getRequest() {
+		return SessionHelper.getRequest();
 	}
 
 	/**
@@ -85,12 +97,13 @@ public class BaseController {
 	protected String get(final String name) {
 		return getRequest().getParameter(name);
 	}
+
 	protected String getCallbackUrl(final String name) {
-		String returnUrl = get(name) ;
+		String returnUrl = get(name);
 		if (StringUtils.isBlank(returnUrl)) {
 			returnUrl = "/";
 		}
-		return returnUrl ;
+		return returnUrl;
 	}
 
 	protected Integer getInteger(final String name) {

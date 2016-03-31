@@ -11,6 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.membercenter.client.domain.TravelKaVO;
+import com.yimayhd.membercenter.client.result.MemPageResult;
+import com.yimayhd.membercenter.client.service.MerchantService;
+import com.yimayhd.membercenter.client.vo.MerchantPageQueryVO;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.User;
@@ -18,10 +22,6 @@ import com.yimayhd.sellerAdmin.model.query.TradeMemberQuery;
 import com.yimayhd.sellerAdmin.repo.TravelKaRepo;
 import com.yimayhd.sellerAdmin.service.UserRPCService;
 import com.yimayhd.sellerAdmin.util.PhoneUtil;
-import com.yimayhd.membercenter.client.domain.TravelKaVO;
-import com.yimayhd.membercenter.client.result.MemPageResult;
-import com.yimayhd.membercenter.client.service.MerchantService;
-import com.yimayhd.membercenter.client.vo.MerchantPageQueryVO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserDOPageQuery;
 import com.yimayhd.user.client.result.BasePageResult;
@@ -57,10 +57,10 @@ public class UserRPCServiceImpl implements UserRPCService {
 	@Override
 	public PageVO<UserDO> getMemberByUserId(long sellerId, TradeMemberQuery tradeMemberQuery) throws Exception {
 		// 查询条件转换
-		PageVO<UserDO> pageVO = new PageVO<UserDO>(tradeMemberQuery.getPageNumber(), tradeMemberQuery.getPageSize(), 0);
+		PageVO<UserDO> pageVO = new PageVO<UserDO>(tradeMemberQuery.getPageNo(), tradeMemberQuery.getPageSize(), 0);
 		MerchantPageQueryVO merchantPageQueryVO = new MerchantPageQueryVO();
 		merchantPageQueryVO.setMerchantUserId(sellerId);
-		merchantPageQueryVO.setPageNo(tradeMemberQuery.getPageNumber());
+		merchantPageQueryVO.setPageNo(tradeMemberQuery.getPageNo());
 		merchantPageQueryVO.setPageSize(tradeMemberQuery.getPageSize());
 		if (!StringUtils.isBlank(tradeMemberQuery.getNickName())) {
 			merchantPageQueryVO.setNickName(tradeMemberQuery.getNickName());
@@ -81,7 +81,7 @@ public class UserRPCServiceImpl implements UserRPCService {
 					userDO.setMobileNo(PhoneUtil.phoneFormat(userDO.getMobileNo()));
 				}
 				// TODO 总条数
-				pageVO = new PageVO<UserDO>(tradeMemberQuery.getPageNumber(), tradeMemberQuery.getPageSize(),
+				pageVO = new PageVO<UserDO>(tradeMemberQuery.getPageNo(), tradeMemberQuery.getPageSize(),
 						memResult.getTotalCount(), userDOList);
 			}
 		} else {

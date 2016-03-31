@@ -66,7 +66,7 @@ public class ActivityManageController extends BaseController {
 		model.addAttribute("clubList", clubList.getValue());
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("activityListQuery", query);
-		model.addAttribute("activityList", pageVo.getItemList());
+		model.addAttribute("activityList", pageVo.getResultList());
 		return "/system/activity/list";
 	}
 

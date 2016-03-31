@@ -1,14 +1,15 @@
 package com.yimayhd.sellerAdmin.model;
 
-import com.yimayhd.sellerAdmin.util.NumUtil;
-import com.yimayhd.ic.client.model.domain.ScenicDO;
-import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
-import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
-import java.util.Arrays;
-import java.util.List;
+import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
+import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.sellerAdmin.util.NumUtil;
 
 /**
  * Created by czf on 2015/12/25.

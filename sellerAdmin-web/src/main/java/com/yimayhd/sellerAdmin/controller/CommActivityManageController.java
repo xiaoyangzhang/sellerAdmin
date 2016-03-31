@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.ic.client.model.enums.ReduceType;
+import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 import com.yimayhd.sellerAdmin.model.ItemResultVO;
@@ -18,9 +21,6 @@ import com.yimayhd.sellerAdmin.service.ActivityService;
 import com.yimayhd.sellerAdmin.service.CategoryService;
 import com.yimayhd.sellerAdmin.service.CommActivityService;
 import com.yimayhd.sellerAdmin.service.CommodityService;
-import com.yimayhd.ic.client.model.enums.ItemType;
-import com.yimayhd.ic.client.model.enums.ReduceType;
-import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 
 /**
  * 活动商品

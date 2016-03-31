@@ -1,9 +1,3 @@
-###数据库连接配置
-##jdbc.driverClassName=${jdbc.driverClassName}
-##jdbc.url=${jdbc.url}
-##jdbc.user=${jdbc.user}
-##jdbc.password=${jdbc.password}
-
 #日志输出文件路径
 sellerAdmin.logger.dir  = ${sellerAdmin.logger.dir}
 
@@ -22,7 +16,7 @@ tair.configServer.main=${tair.configServer.main}
 tair.configServer.slave=${tair.configServer.slave}
 tair.groupName.per=${tair.groupName.per}
 tair.groupName.temp=${tair.groupName.temp}
-tair.sellerAdmin.namespace  = ${tair.sellerAdmin.namespace}
+tair.namespace  = ${tair.namespace}
 tair.timeout    = ${tair.timeout}
 
 session.tair.namespace=${session.tair.namespace}
@@ -62,4 +56,9 @@ consumer.dubbo.commission.version = ${consumer.dubbo.commission.version}
 consumer.dubbo.voucher.version = ${consumer.dubbo.voucher.version}
 consumer.dubbo.activity.version = ${consumer.dubbo.activity.version}
 consumer.dubbo.marketing.version = ${consumer.dubbo.marketing.version}
+
+#scheduler
+schedule.menu.update = ${schedule.menu.update}
+
+env = ${env}
 

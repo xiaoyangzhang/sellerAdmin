@@ -1,9 +1,10 @@
 package com.yimayhd.sellerAdmin.model;
 
+import org.springframework.beans.BeanUtils;
+
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.snscenter.client.dto.SubjectInfoAddDTO;
-import org.springframework.beans.BeanUtils;
 
 /**
  * Created by czf on 2016/1/5.

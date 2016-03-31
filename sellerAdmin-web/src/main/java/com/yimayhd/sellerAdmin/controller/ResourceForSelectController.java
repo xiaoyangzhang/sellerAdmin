@@ -32,10 +32,10 @@ import com.yimayhd.sellerAdmin.model.query.ActivityListQuery;
 import com.yimayhd.sellerAdmin.model.query.CommodityListQuery;
 import com.yimayhd.sellerAdmin.model.query.LiveListQuery;
 import com.yimayhd.sellerAdmin.service.ActivityService;
-import com.yimayhd.sellerAdmin.service.CommLineService;
 import com.yimayhd.sellerAdmin.service.CommodityService;
 import com.yimayhd.sellerAdmin.service.TripService;
 import com.yimayhd.sellerAdmin.service.UserRPCService;
+import com.yimayhd.sellerAdmin.service.item.LineService;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.snscenter.client.enums.BaseStatus;
@@ -60,7 +60,7 @@ public class ResourceForSelectController extends BaseController {
 	@Autowired
 	private TripService tripService;
 	@Resource
-	private CommLineService commLineService;
+	private LineService commLineService;
 	@Autowired
 	private ActivityService activityService;
 

@@ -2,12 +2,12 @@ package com.yimayhd.sellerAdmin.service;
 
 import java.util.List;
 
+import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.HotelFacilityVO;
 import com.yimayhd.sellerAdmin.model.HotelVO;
 import com.yimayhd.sellerAdmin.model.query.HotelListQuery;
-import com.yimayhd.ic.client.model.domain.HotelDO;
-import com.yimayhd.ic.client.model.result.ICResult;
 
 public interface HotelRPCService {
 

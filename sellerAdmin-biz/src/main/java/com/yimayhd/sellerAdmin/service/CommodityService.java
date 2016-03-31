@@ -2,11 +2,11 @@ package com.yimayhd.sellerAdmin.service;
 
 import java.util.List;
 
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.ItemResultVO;
 import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.model.query.CommodityListQuery;
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
 
 /**
  * Created by Administrator on 2015/11/24.

@@ -9,6 +9,8 @@ import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
 import com.yimayhd.sellerAdmin.service.OrderService;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
+import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.base.ResponseVo;
+import com.yimayhd.sellerAdmin.constant.ResponseStatus;
+import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
+import com.yimayhd.sellerAdmin.model.trade.MainOrder;
+import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
+import com.yimayhd.sellerAdmin.service.OrderService;
+import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 
 /**
  * 订单管理
@@ -119,7 +129,7 @@ public class OrderManageController extends BaseController {
 		orderListQuery.setOrderTypes(orderBizTypes);
 		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
-		model.addAttribute("orderList", pageVo.getItemList());
+		model.addAttribute("orderList", pageVo.getResultList());
 		model.addAttribute("orderListQuery", orderListQuery);
 		return "/system/order/routeOrderList";
 	}
@@ -151,7 +161,7 @@ public class OrderManageController extends BaseController {
 		orderListQuery.setOrderTypes(orderBizTypes);
 		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
-		model.addAttribute("orderList", pageVo.getItemList());
+		model.addAttribute("orderList", pageVo.getResultList());
 		model.addAttribute("orderListQuery", orderListQuery);
 		return "/system/order/scenicSpotOrderList";
 	}
@@ -183,7 +193,7 @@ public class OrderManageController extends BaseController {
 		orderListQuery.setOrderTypes(orderBizTypes);
 		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
-		model.addAttribute("orderList", pageVo.getItemList());
+		model.addAttribute("orderList", pageVo.getResultList());
 		model.addAttribute("orderListQuery", orderListQuery);
 		return "/system/order/goodsOrderList";
 	}
@@ -215,7 +225,7 @@ public class OrderManageController extends BaseController {
 		orderListQuery.setOrderTypes(orderBizTypes);
 		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
-		model.addAttribute("orderList", pageVo.getItemList());
+		model.addAttribute("orderList", pageVo.getResultList());
 		model.addAttribute("orderListQuery", orderListQuery);
 		return "/system/order/activityOrderList";
 	}
@@ -247,7 +257,7 @@ public class OrderManageController extends BaseController {
 		orderListQuery.setOrderTypes(orderBizTypes);
 		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
-		model.addAttribute("orderList", pageVo.getItemList());
+		model.addAttribute("orderList", pageVo.getResultList());
 		model.addAttribute("orderListQuery", orderListQuery);
 		return "/system/order/membershipCardOrderList";
 	}
@@ -279,7 +289,7 @@ public class OrderManageController extends BaseController {
 		orderListQuery.setOrderTypes(orderBizTypes);
 		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
-		model.addAttribute("orderList", pageVo.getItemList());
+		model.addAttribute("orderList", pageVo.getResultList());
 		model.addAttribute("orderListQuery", orderListQuery);
 		return "/system/order/hotelOrderList";
 	}
@@ -297,7 +307,7 @@ public class OrderManageController extends BaseController {
 		//orderListQuery.setOrderTypes(orderBizTypes);
 		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 		model.addAttribute("pageVo", pageVo);
-		model.addAttribute("orderList", pageVo.getItemList());
+		model.addAttribute("orderList", pageVo.getResultList());
 		model.addAttribute("orderListQuery", orderListQuery);
 		return "/system/order/gfOrderList";
 	}

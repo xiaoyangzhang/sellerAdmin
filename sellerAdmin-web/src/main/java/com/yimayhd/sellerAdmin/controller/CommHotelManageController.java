@@ -1,6 +1,5 @@
 package com.yimayhd.sellerAdmin.controller;
 
-import com.yimayhd.sellerAdmin.constant.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,15 +7,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
+import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.ic.client.model.enums.ResourceType;
 import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 import com.yimayhd.sellerAdmin.model.ItemResultVO;
 import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.service.CategoryService;
 import com.yimayhd.sellerAdmin.service.CommodityService;
-import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
-import com.yimayhd.ic.client.model.enums.ItemType;
-import com.yimayhd.ic.client.model.enums.ResourceType;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /**

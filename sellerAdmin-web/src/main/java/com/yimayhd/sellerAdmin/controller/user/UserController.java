@@ -1,8 +1,8 @@
 package com.yimayhd.sellerAdmin.controller.user;
 
-import java.util.UUID;
 
-import javax.servlet.http.Cookie;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,11 +25,12 @@ import com.yimayhd.sellerAdmin.converter.UserConverter;
 import com.yimayhd.sellerAdmin.model.vo.user.LoginVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RetrievePasswordVo;
-import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.LoginDTO;
 import com.yimayhd.user.client.dto.RevivePasswordDTO;
+import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.result.login.LoginResult;
+import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionHelper;
 import com.yimayhd.user.session.manager.SessionManager;
 import com.yimayhd.user.session.manager.VerifyCodeManager;
@@ -55,6 +56,9 @@ public class UserController extends BaseController {
 	private SessionManager sessionManager;
 	@Autowired
 	private VerifyCodeManager verifyCodeManager;
+	@Autowired
+	private UserService userService;
+	
 	
 
 	@RequestMapping(value = "/toLogin")
@@ -157,7 +161,8 @@ public class UserController extends BaseController {
 			targetUrl = returnUrl ;
 		}else{
 			//判断用户身份，进入申请认证页面
-			targetUrl = "http://localhost:8080/sellerAdmin/main";
+			targetUrl = "/sellerAdmin/home";
+//			targetUrl = "http://localhost:8080/sellerAdmin/home";
 		}
 		result.setValue(targetUrl);
 		return result;
@@ -320,6 +325,21 @@ public class UserController extends BaseController {
 //
 //		Cookie cookie2 = new Cookie(Constant.TOKEN_CLIENT, null);
 //		cookie2.setDomain(WebResourceConfigUtil.getDomain());
+//<<<<<<< HEAD
+//		cookie2.setPath("/");
+//
+//		response.addCookie(cookie);
+//		response.addCookie(cookie2);
+//	}
+//
+//	private void cleanCookies(HttpServletResponse response) {
+//		Cookie cookie = new Cookie(Constant.TOKEN_SERVER, null);
+//		cookie.setDomain(WebResourceConfigUtil.getDomain());
+//		cookie.setMaxAge(0);
+//		cookie.setPath("/");
+//
+//		Cookie cookie2 = new Cookie(Constant.TOKEN_CLIENT, null);
+//		cookie2.setDomain(WebResourceConfigUtil.getDomain());
 //		cookie2.setMaxAge(0);
 //		cookie2.setPath("/");
 //
@@ -332,5 +352,41 @@ public class UserController extends BaseController {
 //		// response.addCookie(usernameCookie);
 //
 //	}
+	
+	/**
+	 * 判断用户昵称是否存在
+	 * @return
+	 */
+	@RequestMapping(value= "/chargeUserNickName")
+	public WebResultSupport chargeUserNickName(String nickName){
+		WebResultSupport webResult = new WebResultSupport();
+			
+	    BaseResult<List<UserDO>> result = userService.getUserByNickname(nickName.trim());
+	   
+	    if(result.isSuccess()){
+	    	if(result.getValue().size()<1){
+	    		webResult.isSuccess();
+	    	}else{
+	    		webResult.setWebReturnCode(WebReturnCode.USER_NICKNAME_EXIT);
+	    	}
+		}else{
+			webResult.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+		}
+		return webResult;
+	}
+//=======
+//		cookie2.setMaxAge(0);
+//		cookie2.setPath("/");
+//
+//		// Cookie usernameCookie = new Cookie(COOKIE_USER_NAME, null);
+//		// cookie2.setMaxAge(0);
+//		// cookie2.setPath("/");
+//
+//		response.addCookie(cookie);
+//		response.addCookie(cookie2);
+//		// response.addCookie(usernameCookie);
+//
+//	}
+//>>>>>>> 8564a582abb0c4b4d0087e8b3179c6c20b755105
 
 }

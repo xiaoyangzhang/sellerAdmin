@@ -2,7 +2,6 @@ package com.yimayhd.sellerAdmin.controller;
 
 import java.util.List;
 
-import com.yimayhd.sellerAdmin.base.ResponseVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.sellerAdmin.base.AreaService;
 import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.model.AreaVO;
 
 @Controller

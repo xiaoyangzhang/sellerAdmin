@@ -37,11 +37,22 @@ public class UserBiz {
 	private UserRepo userRepo;
 	@Autowired
 	private SessionManager sessionManager;
+	
+	@Autowired
+	private MenuBiz menuBiz ;
 
 	public WebResult<LoginResult> login(LoginDTO loginDTO) {
 //		CheckResult checkFeedBack = UserChecker.checkLoginVo(loginVo);
 //		LoginDTO loginDTO = UserConverter.toLoginDTO(loginVo);
 		WebResult<LoginResult> result = userRepo.login(loginDTO);
+		
+		//加载菜单信息，并缓存
+		if (result != null && result.isSuccess() 
+				&& result.getValue() != null
+				&& result.getValue().getValue() != null) {
+			long userId = result.getValue().getValue().getId();
+			menuBiz.cacheUserMenus2Tair(userId);
+		}
 		return result;
 	}
 

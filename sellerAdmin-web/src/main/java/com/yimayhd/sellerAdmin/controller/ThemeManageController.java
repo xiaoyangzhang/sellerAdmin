@@ -2,7 +2,6 @@ package com.yimayhd.sellerAdmin.controller;
 
 import java.util.List;
 
-import com.yimayhd.sellerAdmin.base.BaseController;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.constant.ResponseStatus;
@@ -51,7 +51,7 @@ public class ThemeManageController extends BaseController {
 	public String list(Model model, ThemeVoQuery query){
 		try {
 			PageVO<ComTagDO> pageVo = themeService.getPageTheme(query);
-			model.addAttribute("themeList", pageVo.getItemList());
+			model.addAttribute("themeList", pageVo.getResultList());
 			model.addAttribute("pageVo", pageVo);
 			return "/system/theme/list";
 		} catch (Exception e) {

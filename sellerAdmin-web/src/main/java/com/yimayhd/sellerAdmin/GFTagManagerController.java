@@ -50,7 +50,7 @@ public class GFTagManagerController {
 		try {
 			gfTagVoQuery.setType(TagType.GFPRODUCTTAG.getType());
 			PageVO<ComTagDO> pageVo = gfTagBiz.getPageTag(gfTagVoQuery);
-			model.addAttribute("themeList", pageVo.getItemList());
+			model.addAttribute("themeList", pageVo.getResultList());
 			model.addAttribute("pageVo", pageVo);
 			return "/system/gfTag/list";
 		} catch (Exception e) {
@@ -71,7 +71,7 @@ public class GFTagManagerController {
 			PageVO<ComTagDO> pageVo = gfTagBiz.getPageTag(gfTagVoQuery);
 			model.addAttribute("gfTagVoQuery", gfTagVoQuery);
 			model.addAttribute("pageVo", pageVo);
-			model.addAttribute("themeList", pageVo.getItemList());
+			model.addAttribute("themeList", pageVo.getResultList());
 			return "/system/gfTag/list";
 		} catch (Exception e) {
 			LOGGER.error("gfTagList:gfTagVoQuery={}",JSON.toJSONString(gfTagVoQuery), e);

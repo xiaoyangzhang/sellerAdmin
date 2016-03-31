@@ -1,5 +1,16 @@
 package com.yimayhd.commission.biz;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commission.client.base.BaseResult;
 import com.yimayhd.commission.client.base.PageResult;
@@ -20,17 +31,6 @@ import com.yimayhd.marketing.client.model.result.SpmResult;
 import com.yimayhd.marketing.client.model.result.userrelation.UserInfoResult;
 import com.yimayhd.sellerAdmin.base.BaseQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -83,13 +83,13 @@ public class CommissionBiz {
 				logger.error("CommissionBiz.getCommissionList param null");
 				query = new CommissionListQuery();
 			}
-			Integer pageNumber = query.getPageNumber();
+			Integer pageNumber = query.getPageNo();
 			Integer pageSize = query.getPageSize();
 			long domainId = query.getDomainId();
 			
 			if(pageNumber == null || pageNumber.intValue() == 0){
 				logger.error("CommissionBiz.getCommissionList [pageNumber] param error,param:" + JSON.toJSONString(query));
-				query.setPageNumber(BaseQuery.DEFAULT_PAGE);
+				query.setPageNo(BaseQuery.DEFAULT_PAGE);
 			}
 			if(pageSize == null || pageSize.intValue() == 0){
 				logger.error("CommissionBiz.getCommissionList [pageSize] param error,param:" + JSON.toJSONString(query));
@@ -142,10 +142,10 @@ public class CommissionBiz {
 					
 				}
 				
-				pageVO = new PageVO<AmountTotalDTO>(query.getPageNumber(), query.getPageSize(), 
+				pageVO = new PageVO<AmountTotalDTO>(query.getPageNo(), query.getPageSize(), 
 						remotePageResult.getTotalCount(), list);
 			}else{
-				pageVO = new PageVO<AmountTotalDTO>(query.getPageNumber(), query.getPageSize(), 
+				pageVO = new PageVO<AmountTotalDTO>(query.getPageNo(), query.getPageSize(), 
 						0);
 			}		
 			

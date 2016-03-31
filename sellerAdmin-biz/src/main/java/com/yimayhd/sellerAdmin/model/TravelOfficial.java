@@ -1,10 +1,10 @@
 package com.yimayhd.sellerAdmin.model;
 
-import com.yimayhd.sellerAdmin.base.BaseModel;
-import com.yimayhd.snscenter.client.domain.TravelJsonDO;
-
 import java.util.Date;
 import java.util.List;
+
+import com.yimayhd.sellerAdmin.base.BaseModel;
+import com.yimayhd.snscenter.client.domain.TravelJsonDO;
 
 /**
  * Created by Administrator on 2015/11/10.

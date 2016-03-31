@@ -1,7 +1,7 @@
 package com.yimayhd.sellerAdmin.service;
 
-import com.yimayhd.sellerAdmin.model.CommScenicVO;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
+import com.yimayhd.sellerAdmin.model.CommScenicVO;
 public interface CommScenicService {
 
 	/**

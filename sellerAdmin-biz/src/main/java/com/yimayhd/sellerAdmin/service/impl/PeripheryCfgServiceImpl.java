@@ -8,10 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.sellerAdmin.model.vo.CfgBaseVO;
-import com.yimayhd.sellerAdmin.model.vo.CfgResultInfo;
-import com.yimayhd.sellerAdmin.model.vo.CfgResultVO;
-import com.yimayhd.sellerAdmin.service.PeripheryCfgService;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.entity.CityInfo;
@@ -22,6 +18,10 @@ import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
 import com.yimayhd.resourcecenter.service.BoothClientServer;
 import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
+import com.yimayhd.sellerAdmin.model.vo.CfgBaseVO;
+import com.yimayhd.sellerAdmin.model.vo.CfgResultInfo;
+import com.yimayhd.sellerAdmin.model.vo.CfgResultVO;
+import com.yimayhd.sellerAdmin.service.PeripheryCfgService;
 
 public class PeripheryCfgServiceImpl implements PeripheryCfgService{
 	

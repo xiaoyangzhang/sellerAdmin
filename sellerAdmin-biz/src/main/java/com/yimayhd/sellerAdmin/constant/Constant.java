@@ -24,5 +24,14 @@ public class Constant {
 	public static final int DOMAIN_JIUXIU = 1200;
 
 	public static final String ENV_PROD = "prod";
+
+	
+	public static final String TFS_URL = "http://img.test.yimayholiday.com/v1/tfs/";
+
 	public static final String MOBILE_PRE = "+86";
+	
+	public static final String APP = "selleradmin";
+	
+	public static final String MENU_PARENT_FLAG = "#";
+
 }

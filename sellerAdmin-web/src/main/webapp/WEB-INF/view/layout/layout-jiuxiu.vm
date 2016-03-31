@@ -12,13 +12,15 @@
 #if( $user.nickname )
 	#set( $username= $user.nickname )
 #else
-	#set( $username= $utilWebconfig.getMobile( $user.mobile) )
+	#set( $username= $utilPhone.getMobile( $user.mobile) )
 #end
+
 #if( $user.avatar  )
 	#set( $avatar= $!tfs + $user.avatar)
 #else
 	#set( $avatar= "$!rs_path_jiuxiu/img/default_1.png" )
 #end
+
 
 
 	<link rel="shortcut icon" href="$!rs_path_jiuxiu/img/jiuxiu_favicon.ico" mce_href="$!rs_path_jiuxiu/img/jiuxiu_favicon.ico" type="image/x-icon" />
@@ -40,14 +42,29 @@
 					<span class="circle mr10">
 						<img src="$avatar">
 					<i></i></span>
-					<span>Hi：</span> <span>$!username</span>
+					<span>Hi：</span><span>$username</span> <span>(  ${user.id}  )</span>
 				</a>
-				<a class="ext" href="/user/logout">退出</a>
+				<a class="ext" href="$!root_path/user/logout">退出</a>
 			</div>
 		</div>
 	</div>
 
-    $screen_content
+	<div class = "comwidth crumbs f12">
+		您所在的位置：
+		#if( $currentMenu )
+			$!currentMenu.parentName > <a class = "f12 gray6">$!currentMenu.name</a></div>
+		#else
+			<a class = "f12 gray6">首页</a></div>
+		#end
+		<div class = "comwidth clearfix" id = "eredar">
+			<div class = "eredar-left">
+				#parse("layout/menu.vm")
+			</div>
+			<div class = "eredar-right">
+		    	$screen_content
+			</div>
+		</div>
+	</div>
     
     <script type="text/javascript" src="$!rs_path_jiuxiu/src/js/sea.js"></script>
 	<script type="text/javascript" src="$!rs_path_jiuxiu/src/js/seajs-preload.js"></script>

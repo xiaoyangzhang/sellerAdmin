@@ -23,7 +23,7 @@
 		<property name="tair.configServer.slave" defaultValue="tair01.test.yimayholiday.net:5198" description="#tair服务器的地址" />
 		<property name="tair.groupName.per" defaultValue="group_1" description="#持久化tair的namespace" />
 		<property name="tair.groupName.temp" defaultValue="group_1" description="#持久化tair的namespace" />
-		<property name="tair.sellerAdmin.namespace" defaultValue="299" description="#tair命名空间" />
+		<property name="tair.namespace" defaultValue="299" description="#tair命名空间" />
 		<property name="tair.timeout" defaultValue="5000" description="#tair超时" />
 		<property name="session.tair.namespace" defaultValue="40" description="#session.tair" />
 	</group>
@@ -33,6 +33,8 @@
 		<property name="sellerAdmin.actionDefaultFontPath" defaultValue="http://seller.test.yimayholiday.com" description="#请求地址默认前缀" />
 		<property name="actionUploadFilePath" defaultValue="http://seller.test.yimayholiday.com/upload/file" description="#上传附件地址(单个)" />
 		<property name="actionUploadFilesPath" defaultValue="http://seller.test.yimayholiday.com/upload/files" description="#上传附件地址(多个)" />
+		<property name="env" defaultValue="test" description="当前环境" />
+		<property name="schedule.menu.update" defaultValue="0 0/5 * * * ?" description="每5分钟更新一次缓存中的menu" />
 	</group>
 
 	<group name="dubbo">

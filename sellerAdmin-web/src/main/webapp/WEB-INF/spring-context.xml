@@ -33,11 +33,6 @@
     
     <import resource="biz/spring-session.xml"/>
 
-
-<!--     <import resource="classpath:application-session.xml"></import>
-     -->
-    <!--<import resource="application-import.xml"></import>-->
-
     <import resource="biz/spring-manager.xml"/>
     <import resource="biz/spring-repo.xml"/>
 
@@ -45,4 +40,7 @@
     <!--<task:annotation-driven/>-->
     <!---->
     <aop:aspectj-autoproxy expose-proxy="true"/>
+    
+    <bean id="contextStartUpLinstener" class="com.yimayhd.sellerAdmin.listener.ContextStartUpLinstener"></bean>
+    
 </beans>

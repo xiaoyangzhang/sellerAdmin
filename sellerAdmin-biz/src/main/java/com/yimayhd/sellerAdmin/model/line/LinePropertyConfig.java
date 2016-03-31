@@ -12,19 +12,10 @@ import com.yimayhd.ic.client.model.domain.CategoryValueDO;
  *
  */
 public class LinePropertyConfig {
-	private int options;
 	private CategoryPropertyDO persionProperty;
 	private CategoryPropertyDO packageProperty;
 	private CategoryPropertyDO dateProperty;
 	private List<CategoryValueDO> persionPropertyValues;
-
-	public int getOptions() {
-		return options;
-	}
-
-	public void setOptions(int options) {
-		this.options = options;
-	}
 
 	public CategoryPropertyDO getPersionProperty() {
 		return persionProperty;

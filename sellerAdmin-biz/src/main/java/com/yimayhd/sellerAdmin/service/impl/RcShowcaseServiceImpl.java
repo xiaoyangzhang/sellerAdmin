@@ -2,7 +2,6 @@ package com.yimayhd.sellerAdmin.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.yimayhd.sellerAdmin.service.RcShowcaseService;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.model.param.ShowCaseDTO;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
@@ -10,6 +9,7 @@ import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.resourcecenter.model.result.ShowCaseResult;
 import com.yimayhd.resourcecenter.service.ShowcaseClientServer;
+import com.yimayhd.sellerAdmin.service.RcShowcaseService;
 
 public class RcShowcaseServiceImpl implements RcShowcaseService{
 

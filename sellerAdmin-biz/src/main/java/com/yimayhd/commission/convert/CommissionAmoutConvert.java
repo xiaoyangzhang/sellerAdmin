@@ -7,8 +7,6 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
-import net.pocrd.util.StringUtil;
-
 import com.yimayhd.commission.client.enums.Domain;
 import com.yimayhd.commission.client.param.AmountObtainDTO;
 import com.yimayhd.commission.client.param.AmountTotalDetailDTO;
@@ -24,7 +22,7 @@ public class CommissionAmoutConvert {
 			return ;
 		}
 		repoDTO.setDomainId((int)query.getDomainId());
-		repoDTO.setPageNo(query.getPageNumber());
+		repoDTO.setPageNo(query.getPageNo());
 		repoDTO.setPageSize(query.getPageSize());
 		repoDTO.setTelNum(query.getTelNum());
 		repoDTO.setUserName(query.getUserName());

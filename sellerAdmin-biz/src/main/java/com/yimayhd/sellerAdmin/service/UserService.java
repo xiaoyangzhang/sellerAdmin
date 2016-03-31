@@ -1,9 +1,9 @@
 package com.yimayhd.sellerAdmin.service;
 
 
-import com.yimayhd.membercenter.client.domain.HaMenuDO;
-
 import java.util.List;
+
+import com.yimayhd.membercenter.client.domain.HaMenuDO;
 
 /**
  * Created by czf on 2016/3/3.

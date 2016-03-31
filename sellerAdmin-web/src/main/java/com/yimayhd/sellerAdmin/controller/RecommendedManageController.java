@@ -1,7 +1,6 @@
 package com.yimayhd.sellerAdmin.controller;
 
 
-import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
+import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.service.RecommendedService;
-import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
-import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 
 /**
 * @ClassName: RecommendedManageController 
@@ -67,7 +67,7 @@ public class RecommendedManageController extends BaseController {
 			}
 			PageVO<RegionIntroduceDO> pageVo = recommendedService.pageVORegionIntroduceDO(query);
 			model.addAttribute("query", query);
-			model.addAttribute("list", pageVo.getItemList());
+			model.addAttribute("list", pageVo.getResultList());
 			model.addAttribute("pageVo", pageVo);
 			return "/system/recommended/list";
 		} catch (Exception e) {

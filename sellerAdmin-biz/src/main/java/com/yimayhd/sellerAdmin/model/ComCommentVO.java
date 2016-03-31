@@ -1,8 +1,9 @@
 package com.yimayhd.sellerAdmin.model;
 
+import org.springframework.beans.BeanUtils;
+
 import com.yimayhd.commentcenter.client.domain.ComCommentDO;
 import com.yimayhd.user.client.domain.UserDO;
-import org.springframework.beans.BeanUtils;
 
 /**
  * Created by czf on 2015/12/31.

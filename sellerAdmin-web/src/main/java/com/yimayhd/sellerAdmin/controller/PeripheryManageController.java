@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.constant.ResponseStatus;
@@ -20,6 +21,7 @@ import com.yimayhd.sellerAdmin.model.vo.CfgResultVO;
 import com.yimayhd.sellerAdmin.service.PeripheryCfgService;
 import com.yimayhd.resourcecenter.model.result.RcResult;
  
+
 /**
   * @autuor : xusq
   * @date : 2015年12月2日

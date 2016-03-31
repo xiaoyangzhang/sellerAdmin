@@ -1,15 +1,17 @@
 package com.yimayhd.sellerAdmin;
 
-import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.joran.JoranConfigurator;
-import ch.qos.logback.core.joran.spi.JoranException;
+import java.io.FileNotFoundException;
+
+import javax.servlet.ServletContext;
+
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.util.ServletContextPropertyUtils;
 import org.springframework.web.util.WebUtils;
 
-import javax.servlet.ServletContext;
-import java.io.FileNotFoundException;
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.joran.JoranConfigurator;
+import ch.qos.logback.core.joran.spi.JoranException;
 
 public abstract class LogbackWebConfigurer {
     /**

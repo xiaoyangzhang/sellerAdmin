@@ -2,6 +2,7 @@ package com.yimayhd.sellerAdmin.controller;
 
 import java.util.Arrays;
 import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yimayhd.ic.client.model.domain.LineDO;
+import com.yimayhd.resourcecenter.domain.ShowcaseDO;
+import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.constant.ResponseStatus; 
@@ -21,9 +25,6 @@ import com.yimayhd.sellerAdmin.model.vo.CfgBaseVO;
 import com.yimayhd.sellerAdmin.model.vo.ShowCaseVO;
 import com.yimayhd.sellerAdmin.service.HomeCfgService;
 import com.yimayhd.sellerAdmin.service.ServiceResult;
-import com.yimayhd.ic.client.model.domain.LineDO;
-import com.yimayhd.resourcecenter.domain.ShowcaseDO;
-import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.user.client.domain.UserDO;
 

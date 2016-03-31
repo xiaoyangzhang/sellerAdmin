@@ -1,5 +1,17 @@
 package com.yimayhd.sellerAdmin.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.sellerAdmin.base.BaseController;
@@ -10,13 +22,6 @@ import com.yimayhd.sellerAdmin.model.SubjectInfoAddVO;
 import com.yimayhd.sellerAdmin.model.query.LiveListQuery;
 import com.yimayhd.sellerAdmin.repo.CommentRepo;
 import com.yimayhd.sellerAdmin.service.LiveService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 直播管理
@@ -43,7 +48,7 @@ public class LiveManageController extends BaseController {
 		PageVO<SnsSubjectVO> pageVO = liveService.getList(liveListQuery);
 		model.addAttribute("pageVo", pageVO);
 		model.addAttribute("liveListQuery", liveListQuery);
-		model.addAttribute("liveList", pageVO.getItemList());
+		model.addAttribute("liveList", pageVO.getResultList());
 		return "/system/live/list";
 	}
 

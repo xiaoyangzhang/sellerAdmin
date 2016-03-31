@@ -1,9 +1,9 @@
 package com.yimayhd.sellerAdmin.model;
 
-import com.yimayhd.sellerAdmin.base.BaseModel;
-
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.yimayhd.sellerAdmin.base.BaseModel;
 
 /**
  * Created by Administrator on 2015/10/27.

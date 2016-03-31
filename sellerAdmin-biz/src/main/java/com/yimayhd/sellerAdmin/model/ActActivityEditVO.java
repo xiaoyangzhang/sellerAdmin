@@ -1,9 +1,9 @@
 package com.yimayhd.sellerAdmin.model;
 
+import java.util.List;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-
-import java.util.List;
 
 /**
  * Created by czf on 2016/2/6.
