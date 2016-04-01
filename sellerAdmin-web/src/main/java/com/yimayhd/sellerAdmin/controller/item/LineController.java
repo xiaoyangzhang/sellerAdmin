@@ -45,7 +45,7 @@ public class LineController extends BaseLineController {
 		initBaseInfo();
 		if (id > 0) {
 			WebResult<LineVO> result = commLineService.getByItemId(id);
-			if (!result.isSuccess()) {
+			if (result.isSuccess()) {
 				LineVO gt = result.getValue();
 				BaseInfoVO baseInfo = gt.getBaseInfo();
 				if (baseInfo != null) {
