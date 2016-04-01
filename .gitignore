@@ -2,6 +2,8 @@
 .idea
 target
 .settings/
+.classpath
+.project
 /run/
 /build.bat
 id_rsa
