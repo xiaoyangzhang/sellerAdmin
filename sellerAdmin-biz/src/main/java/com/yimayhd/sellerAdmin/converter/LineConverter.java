@@ -20,6 +20,7 @@ import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.RouteDO;
 import com.yimayhd.ic.client.model.domain.RouteItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.domain.share_json.LinePropertyType;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
@@ -27,6 +28,7 @@ import com.yimayhd.ic.client.model.domain.share_json.RouteItemDetail;
 import com.yimayhd.ic.client.model.domain.share_json.RoutePlan;
 import com.yimayhd.ic.client.model.domain.share_json.RouteTrafficInfo;
 import com.yimayhd.ic.client.model.domain.share_json.TextItem;
+import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.LineType;
@@ -126,9 +128,15 @@ public class LineConverter {
 		return baseInfo;
 	}
 
-	public static PriceInfoVO toPriceInfoVO(List<ItemSkuDO> itemSkuList) {
+	public static PriceInfoVO toPriceInfoVO(List<ItemSkuDO> itemSkuList, ItemDO itemDO) {
 		PriceInfoVO priceInfo = new PriceInfoVO();
 		List<PackageInfo> tcs = new ArrayList<PackageInfo>();
+		if (itemDO != null) {
+			ItemFeature itemFeature = itemDO.getItemFeature();
+			if (itemFeature != null) {
+				priceInfo.setLimitBySecond(itemFeature.getStartBookTimeLimit());
+			}
+		}
 		if (CollectionUtils.isNotEmpty(itemSkuList)) {
 			Map<String, ItemSkuPVPair> piMap = new LinkedHashMap<String, ItemSkuPVPair>();
 			Map<Long, ItemSkuPVPair> pdMap = new LinkedHashMap<Long, ItemSkuPVPair>();
@@ -313,7 +321,7 @@ public class LineConverter {
 		RouteInfoVO routeInfo = toRouteInfoVO(lineResult.getRouteDO(), lineResult.getRouteItemDOList());
 		result.setRouteInfo(routeInfo);
 		// 价格信息
-		result.setPriceInfo(toPriceInfoVO(lineResult.getItemSkuDOList()));
+		result.setPriceInfo(toPriceInfoVO(lineResult.getItemSkuDOList(), item));
 		// 购买须知
 		result.setNeedKnow(toNeedKnowVO(line.getNeedKnow()));
 		return result;
@@ -483,7 +491,7 @@ public class LineConverter {
 		return routeItemUpdateDTO;
 	}
 
-	public static ItemDO toItemDO(long categoryId, long sellerId, BaseInfoVO baseInfo) {
+	public static ItemDO toItemDO(long categoryId, long sellerId, BaseInfoVO baseInfo, PriceInfoVO priceInfo) {
 		if (categoryId <= 0 || sellerId <= 0 || baseInfo == null) {
 			return null;
 		}
@@ -499,6 +507,9 @@ public class LineConverter {
 		itemDO.setDescription(baseInfo.getDescription());
 		itemDO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS, PicUrlsUtil.parsePicsString(baseInfo.getPicUrls()));
 		itemDO.setDays(baseInfo.getDays());
+		ItemFeature itemFeature = itemDO.getItemFeature();
+		itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, priceInfo.getLimitBySecond());
+		itemDO.setItemFeature(itemFeature);
 		return itemDO;
 	}
 
@@ -507,7 +518,6 @@ public class LineConverter {
 			return null;
 		}
 		ItemPubUpdateDTO itemUpdateDTO = new ItemPubUpdateDTO();
-		// TODO YEBIN 待开发
 		// private String code; // 商品代码
 		itemUpdateDTO.setId(baseInfo.getItemId());
 		// 赋值
@@ -517,6 +527,7 @@ public class LineConverter {
 		itemUpdateDTO.setPicUrls(PictureUtil.addPicList(itemUpdateDTO.getPicUrls(),
 				ItemPicUrlsKey.ITEM_MAIN_PICS.getCode(), baseInfo.getPicUrls()));
 		itemUpdateDTO.setDays(baseInfo.getDays());
+		// TODO YEBIN 待开发 features相关字段
 		return itemUpdateDTO;
 	}
 
@@ -618,7 +629,7 @@ public class LineConverter {
 		BaseInfoVO baseInfo = line.getBaseInfo();
 		PriceInfoVO priceInfo = line.getPriceInfo();
 		long categoryId = baseInfo.getCategoryId();
-		dto.setItem(toItemDO(categoryId, sellerId, baseInfo));
+		dto.setItem(toItemDO(categoryId, sellerId, baseInfo, priceInfo));
 		dto.setItemSkuList(toItemSkuDOList(categoryId, sellerId, priceInfo.getTcs()));
 		return dto;
 	}
