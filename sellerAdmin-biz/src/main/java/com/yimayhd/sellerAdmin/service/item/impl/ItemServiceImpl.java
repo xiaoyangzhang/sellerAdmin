@@ -47,11 +47,13 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public WebResult<PageVO<ItemListItemVO>> getItemList(long sellerId, ItemListQuery query) {
 		try {
-			if (sellerId <= 0 || query == null) {
+			if (sellerId <= 0) {
 				log.warn("Params: sellerId=" + sellerId);
-				log.warn("Params: query=" + JSON.toJSONString(query));
 				log.warn("ItemService.getItemList param error");
 				return WebResult.failure(WebReturnCode.PARAM_ERROR, "参数错误");
+			}
+			if (query == null) {
+				query = new ItemListQuery();
 			}
 			ItemQryDTO itemQryDTO = ItemConverter.toItemQryDTO(sellerId, query);
 			ItemPageResult itemPageResult = itemRepo.getItemList(itemQryDTO);

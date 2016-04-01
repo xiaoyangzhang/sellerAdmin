@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.yimayhd.sellerAdmin.model.enums.ItemOperate;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
 
 /**
@@ -23,9 +23,9 @@ public class ItemListItemVO {
 	private List<CityVO> dests;
 	private int type;
 	private long price;
-	private long status;
+	private int status;
 	private Date publishDate;
-	private List<ItemOperate> operates;
+	private List<String> operates;
 
 	public long getId() {
 		return id;
@@ -83,11 +83,11 @@ public class ItemListItemVO {
 		this.price = price;
 	}
 
-	public long getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(long status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
@@ -99,11 +99,11 @@ public class ItemListItemVO {
 		this.publishDate = publishDate;
 	}
 
-	public List<ItemOperate> getOperates() {
+	public List<String> getOperates() {
 		return operates;
 	}
 
-	public void setOperates(List<ItemOperate> operates) {
+	public void setOperates(List<String> operates) {
 		this.operates = operates;
 	}
 
@@ -113,5 +113,12 @@ public class ItemListItemVO {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	public boolean containsOperate(String code) {
+		if (CollectionUtils.isEmpty(getOperates())) {
+			return false;
+		}
+		return getOperates().contains(code.toUpperCase());
 	}
 }

@@ -14,19 +14,19 @@ import com.yimayhd.sellerAdmin.model.enums.ItemOperate;
  *
  */
 public class ItemUtil {
-	public static List<ItemOperate> getItemOperates(int ItemType, int status) {
-		List<ItemOperate> operates = new ArrayList<ItemOperate>();
+	public static List<String> getItemOperates(int ItemType, int status) {
+		List<String> operates = new ArrayList<String>();
 		if (ItemStatus.create.getValue() == status) {
-			operates.add(ItemOperate.EDIT);
-			operates.add(ItemOperate.SHELVE);
-			operates.add(ItemOperate.DELETE);
+			operates.add(ItemOperate.EDIT.name());
+			operates.add(ItemOperate.SHELVE.name());
+			// operates.add(ItemOperate.DELETE.name());
 		} else if (ItemStatus.invalid.getValue() == status) {
-			operates.add(ItemOperate.EDIT);
-			operates.add(ItemOperate.SHELVE);
-			operates.add(ItemOperate.DELETE);
+			operates.add(ItemOperate.EDIT.name());
+			operates.add(ItemOperate.SHELVE.name());
+			// operates.add(ItemOperate.DELETE.name());
 		} else if (ItemStatus.valid.getValue() == status) {
-			operates.add(ItemOperate.VIEW);
-			operates.add(ItemOperate.UNSHELVE);
+			operates.add(ItemOperate.VIEW.name());
+			operates.add(ItemOperate.UNSHELVE.name());
 		}
 		return operates;
 	}
