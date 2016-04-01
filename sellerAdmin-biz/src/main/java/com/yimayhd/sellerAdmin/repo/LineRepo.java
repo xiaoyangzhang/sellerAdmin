@@ -40,12 +40,12 @@ public class LineRepo {
 	 * @param id
 	 * @return
 	 */
-	public LineResult getLineById(long id) {
-		if (id <= 0) {
+	public LineResult getLineByItemId(long itemId) {
+		if (itemId <= 0) {
 			return null;
 		}
-		RepoUtils.requestLog(log, "itemQueryServiceRef.getLineResult", id);
-		LineResult lineResult = itemQueryServiceRef.getLineResult(id);
+		RepoUtils.requestLog(log, "itemQueryServiceRef.getLineResult", itemId);
+		LineResult lineResult = itemQueryServiceRef.getLineResultByItemId(itemId);
 		RepoUtils.resultLog(log, "itemQueryServiceRef.getLineResult", lineResult);
 		return lineResult;
 	}

@@ -61,10 +61,10 @@
 						<td>$!{utilDate.date2String($item.publishDate)}</td>
                         <td>
 							#if($item.containsOperate('VIEW'))
-							<button type="button" class="btn btn-primary item-view" item-id="$!item.id">查看</button>
+							<a class="btn btn-primary" href="$!utilWebconfig.getActionDefaultFontPath()/line/detail/$!item.id/" target="_blank">查看</a>
 							#end
 							#if($item.containsOperate('EDIT'))
-							<button type="button" class="btn btn-primary item-edit" item-id="$!item.id">编辑</button>
+							<a class="btn btn-primary" href="$!utilWebconfig.getActionDefaultFontPath()/line/detail/$!item.id/" target="_blank">编辑</a>
 							#end
 							#if($item.containsOperate('SHELVE'))
 							<button type="button" class="btn btn-primary item-shelve" item-id="$!item.id">上架</button>
@@ -135,14 +135,6 @@
 				time : 1000
 			});
 		}
-    });
-	// 查看
-	$('.item-view').click(function(){
-		var id = $(this).attr("item-id");
-    });
-	// 编辑
-	$('.item-edit').click(function(){
-		var id = $(this).attr("item-id");
     });
 	// 启用
 	$('.item-shelve').click(function(){

@@ -53,28 +53,28 @@ public class LineServiceImpl implements LineService {
 	private CityRepo cityRepo;
 
 	@Override
-	public WebResult<LineVO> getById(long id) {
+	public WebResult<LineVO> getByItemId(long itemId) {
 		try {
-			if (id <= 0) {
-				log.warn("无效 ID:" + id);
+			if (itemId <= 0) {
+				log.warn("无效 ID:" + itemId);
 				return WebResult.failure(WebReturnCode.PARAM_ERROR);
 			}
-			LineResult lineResult = lineRepo.getLineById(id);
+			LineResult lineResult = lineRepo.getLineByItemId(itemId);
 			if (lineResult == null) {
-				log.warn("数据未找到 ID:" + id);
+				log.warn("数据未找到 ID:" + itemId);
 				return WebResult.failure(WebReturnCode.DATA_NOT_FOUND);
 			}
 			// 主题
-			List<ComTagDO> themeTags = commentRepo.getTagsByOutId(id, TagType.LINETAG);
+			List<ComTagDO> themeTags = commentRepo.getTagsByOutId(itemId, TagType.LINETAG);
 			List<TagDTO> themes = TagConverter.toTagDTO(themeTags);
 			// 出发地
-			List<ComTagDO> departTags = commentRepo.getTagsByOutId(id, TagType.DEPARTPLACE);
+			List<ComTagDO> departTags = commentRepo.getTagsByOutId(itemId, TagType.DEPARTPLACE);
 			// 目的地
-			List<ComTagDO> destTags = commentRepo.getTagsByOutId(id, TagType.DESTPLACE);
+			List<ComTagDO> destTags = commentRepo.getTagsByOutId(itemId, TagType.DESTPLACE);
 			LineVO lineVO = LineConverter.toLineVO(lineResult, themes, toCityVO(departTags), toCityVO(destTags));
 			return WebResult.success(lineVO);
 		} catch (Exception e) {
-			log.error("Params: id=" + id);
+			log.error("Params: id=" + itemId);
 			log.error("LineService.getById error", e);
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR);
 		}
