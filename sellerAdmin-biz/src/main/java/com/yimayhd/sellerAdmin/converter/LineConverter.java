@@ -32,6 +32,7 @@ import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.LineType;
+import com.yimayhd.ic.client.model.enums.PropertyType;
 import com.yimayhd.ic.client.model.enums.RouteItemBizType;
 import com.yimayhd.ic.client.model.enums.RouteItemType;
 import com.yimayhd.ic.client.model.param.item.ItemPubUpdateDTO;
@@ -149,20 +150,20 @@ public class LineConverter {
 				if (StringUtils.isNotBlank(sku.getProperty())) {
 					List<ItemSkuPVPair> pairs = sku.getItemSkuPVPairList();
 					for (ItemSkuPVPair itemSkuPVPair : pairs) {
-						if (itemSkuPVPair.getPId() == LinePropertyType.TRAVEL_PACKAGE.getType()) {
+						if (itemSkuPVPair.getPType() == PropertyType.LINE_PACKAGE.getType()) {
 							tcPair = itemSkuPVPair;
 							if (!piMap.containsKey(tcPair.getVTxt())) {
 								piMap.put(tcPair.getVTxt(), tcPair);
 							}
 						}
-						if (itemSkuPVPair.getPId() == LinePropertyType.DEPART_DATE.getType()) {
+						if (itemSkuPVPair.getPType() == PropertyType.START_DATE.getType()) {
 							dayPair = itemSkuPVPair;
 							if (!pdMap.containsKey(dayPair.getVTxt())) {
 								long time = Long.parseLong(dayPair.getVTxt());
 								pdMap.put(time, dayPair);
 							}
 						}
-						if (itemSkuPVPair.getPId() == LinePropertyType.PERSON.getType()) {
+						if (itemSkuPVPair.getPType() == PropertyType.PERSON_TYPE.getType()) {
 							personPair = itemSkuPVPair;
 							if (!pbMap.containsKey(personPair.getVId())) {
 								pbMap.put(personPair.getVId(), personPair);

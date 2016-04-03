@@ -34,11 +34,12 @@ public class ItemController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(ItemListQuery query) throws Exception {
-		long sellerId = getCurrentUserId();
+		/*long sellerId = getCurrentUserId();
 		if (sellerId <= 0) {
 			log.warn("未登录");
 			throw new BaseException("请登陆后重试");
-		}
+		}*/
+		long sellerId = 12800;
 		WebResult<PageVO<ItemListItemVO>> result = itemService.getItemList(sellerId, query);
 		if (!result.isSuccess()) {
 			throw new BaseException(result.getResultMsg());
