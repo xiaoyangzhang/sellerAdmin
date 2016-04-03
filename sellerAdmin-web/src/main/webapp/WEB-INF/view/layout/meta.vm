@@ -17,7 +17,6 @@
 	#set( $rs_js_css_path_jiuxiu = $!rs_path_jiuxiu+"/dist" )
 #end
 #set( $tfs = $utilWebconfig.getTfsRootPath())
-#set( $user = $rc.get("user") )
 
 
 

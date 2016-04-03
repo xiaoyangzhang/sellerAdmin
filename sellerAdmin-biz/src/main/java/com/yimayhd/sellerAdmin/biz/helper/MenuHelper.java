@@ -8,11 +8,10 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
-import com.alibaba.dubbo.container.page.Menu;
 import com.yimayhd.membercenter.client.enums.HaMenuRequestType;
 import com.yimayhd.membercenter.client.enums.HaMenuType;
 import com.yimayhd.sellerAdmin.constant.Constant;
-import com.yimayhd.sellerAdmin.vo.menu.MenuVO;
+import com.yimayhd.sellerAdmin.model.vo.menu.MenuVO;
 
 public class MenuHelper {
 	

@@ -9,7 +9,7 @@
 		<div class="login-body">
 			
 			<h1 class="title">用户登录</h1>
-			<form action="$!{utilWebconfig.rootPath}/user/login" method="post" id="loginForm">					
+			<form action="$root_path/user/login" method="post" id="loginForm">					
 				<p class="btngroup">
 					<input type="text" class="textinput" name="username" id="loginname" placeholder="请输入手机号" datatype="m" nullmsg="请输入手机号"  errormsg="请您输入正确的手机号" autocomplete="off"/>
 					<span class="Validform_checktip"></span>
@@ -20,10 +20,10 @@
 				</p>
 				<p class="first clearfix">
 					<label><input type="checkbox" class="saveuser"/>记住用户名</label>
-					<a href="$utilWebconfig.rootPath/user/toRetrievePassword" target="_blank">忘记密码？</a>
+					<a href="$root_path/user/retrievePassword" target="_blank">忘记密码？</a>
 				</p>
 				<input type="submit" id="loginSubmitBtn" class="winloginbtn" value="登录"/>
-				<p class="last">还没有账号 <a href="$utilWebconfig.rootPath/user/toRegister">立即注册</a></p>
+				<p class="last">还没有账号 <a href="$root_path/user/register">立即注册</a></p>
 			</form>			
 		</div>
 	</div>

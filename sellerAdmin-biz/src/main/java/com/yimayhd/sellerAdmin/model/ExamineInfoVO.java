@@ -1,7 +1,5 @@
 package com.yimayhd.sellerAdmin.model;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.apache.commons.beanutils.BeanUtils;
 
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;

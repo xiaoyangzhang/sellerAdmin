@@ -12,8 +12,8 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.biz.helper.MenuHelper;
 import com.yimayhd.sellerAdmin.cache.MenuCacheMananger;
 import com.yimayhd.sellerAdmin.converter.MenuConverter;
+import com.yimayhd.sellerAdmin.model.vo.menu.MenuVO;
 import com.yimayhd.sellerAdmin.repo.MenuRepo;
-import com.yimayhd.sellerAdmin.vo.menu.MenuVO;
 
 public class MenuBiz {
 	@Autowired

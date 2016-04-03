@@ -2,8 +2,6 @@ package com.yimayhd.sellerAdmin.model.line;
 
 import com.yimayhd.user.client.dto.CityDTO;
 
-import net.pocrd.annotation.Description;
-
 /**
  * 
  * 城市VO

@@ -19,7 +19,6 @@ import com.yimayhd.sellerAdmin.constant.ResponseStatus;
 import com.yimayhd.sellerAdmin.model.vo.CfgBaseVO;
 import com.yimayhd.sellerAdmin.model.vo.CfgResultVO;
 import com.yimayhd.sellerAdmin.service.PeripheryCfgService;
-import com.yimayhd.resourcecenter.model.result.RcResult;
  
 
 /**

@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.vo.menu;
+package com.yimayhd.sellerAdmin.model.vo.menu;
 
 import java.io.Serializable;
 import java.util.List;

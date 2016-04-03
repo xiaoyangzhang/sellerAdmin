@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.enums.UserOptions;
 import com.yimayhd.user.session.manager.SessionManager;
 
 @RestController

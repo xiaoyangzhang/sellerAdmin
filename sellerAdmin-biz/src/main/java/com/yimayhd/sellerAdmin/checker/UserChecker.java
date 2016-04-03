@@ -6,6 +6,7 @@ import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.model.vo.user.LoginVo;
+import com.yimayhd.sellerAdmin.model.vo.user.ModifyPasswordVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RetrievePasswordVo;
 import com.yimayhd.sellerAdmin.util.CheckUtils;
@@ -69,16 +70,19 @@ public class UserChecker {
 		}
 		return result;
 	}
-	public static WebCheckResult checkRetrievePasswordVo(RetrievePasswordVo retrievePasswordVo){
-		if(retrievePasswordVo.getUsername() == null || StringUtils.isBlank(retrievePasswordVo.getUsername())){
-			return WebCheckResult.error("手机号码不能为空");
+	public static WebResultSupport checkModifyPasswordPassword(ModifyPasswordVo modifyPasswordVo){
+		WebResultSupport result = new WebResultSupport() ;
+		if( modifyPasswordVo == null || StringUtils.isBlank(modifyPasswordVo.getOldPassword()) ){
+			result.setWebReturnCode(WebReturnCode.OLD_PASSWORD_EMPTY);
+			return result;
+		}else if( !StringUtils.isBlank(modifyPasswordVo.getNewPassword() ) ){
+			result.setWebReturnCode(WebReturnCode.NEW_PASSWORD_EMPTY);
+			return result;
+		}else if( modifyPasswordVo.getNewPassword().equals(modifyPasswordVo.getOldPassword()) ){
+			result.setWebReturnCode(WebReturnCode.NEW_OLD_PASSWORD_EQUAL);
+			return result;
 		}
-		
-		if(!CheckUtils.isMobileNO(retrievePasswordVo.getUsername())){
-			return WebCheckResult.error("手机号码格式不正确");
-		}
-		
-		return WebCheckResult.success();
+		return result;
 	}
 }
   
