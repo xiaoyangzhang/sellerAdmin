@@ -24,6 +24,7 @@ import com.yimayhd.sellerAdmin.biz.UserBiz;
 import com.yimayhd.sellerAdmin.checker.UserChecker;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.UserConverter;
+import com.yimayhd.sellerAdmin.model.User;
 import com.yimayhd.sellerAdmin.model.vo.user.LoginVo;
 import com.yimayhd.sellerAdmin.model.vo.user.ModifyPasswordVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
@@ -296,6 +297,15 @@ public class UserController extends BaseController {
 			webResult.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
 		}
 		return webResult;
+	}
+	
+	@RequestMapping(value = "/getUserByMobile", method = RequestMethod.GET)
+	@ResponseBody
+	public WebResult<UserDO> getUserByMobile(String mobile) {
+		UserDO userDO = userBiz.getUserByMobile(mobile);
+		WebResult<UserDO> result = new WebResult<UserDO>() ;
+		result.setValue(userDO);
+		return result;
 	}
 
 }

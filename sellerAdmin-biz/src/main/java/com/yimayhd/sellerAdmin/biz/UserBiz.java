@@ -92,5 +92,9 @@ public class UserBiz {
 		WebResultSupport result= userRepo.changePassword(changePasswordDTO);
 		return result;
 	}
+	
+	public UserDO getUserByMobile(String mobile){
+		return userRepo.getUserByMobile(mobile);
+	}
 
 }
