@@ -15,7 +15,7 @@
 		</div>
 	</div>
 	<div class="comwidth agreement-box mt30">
-		<div class="tit gray6 f16">商家开通申请</div>
+		<div class="tit gray6 f16">$!type开通申请</div>
 		<div class="titbox">
 			<div class="progress clearfix">
 				<div class="step start step-on step-fl">
@@ -33,9 +33,10 @@
 			</div>
 		</div>
 		<div class="waiting nothrough tc m60">
-			<i></i><label class="f18 ml5 gray6">很遗憾，您的申请审核不通过，请填充后再次提交！</label><br>
-			<span class="f16 gray6">失败原因：</span><span class="bcs">1.用户证件照片不清。</span><span class="bcs">2.认证信息有误。</span>
+			<i></i><label class="f18 ml5 gray6">很遗憾，您的申请审核不通过，请修改后再次提交！</label><br>
+			<span class="f16 gray6">失败原因：</span><span class="bcs">$!reason</span>
 		</div>
+		<div><a class="agreebtn" href="$!url">重新申请</a></div>
 	</div>
 	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/sea.js"></script>
 	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/seajs-preload.js"></script>

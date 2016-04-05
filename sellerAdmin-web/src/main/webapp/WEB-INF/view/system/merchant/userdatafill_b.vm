@@ -122,9 +122,9 @@
 								<td>
 									<input type="hidden" id="bank_" value="$!examineInfo.financeOpenBankId" />
 									<select id="bank" class="selectlist" >
-									  <option value="0">中国建设银行</option>
-									  <option value="1">中国农业银行</option>
-									  <option value="2">中国工商银行</option>
+										#foreach( $info in $bankList)  
+											<option value="$info.bankId">$info.bankName</option>
+									　　　 #end
 									</select>
 								</td>
 							</tr>

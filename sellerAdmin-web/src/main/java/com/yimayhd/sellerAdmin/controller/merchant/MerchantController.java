@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.controller.merchant;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yimayhd.membercenter.MemberReturnCode;
+import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseController;
@@ -54,6 +59,9 @@ public class MerchantController extends BaseController{
 	@Resource
 	private ExamineDealService examineDealService;
 	
+	@Resource
+	private TalentInfoDealService talentInfoDealService;
+	
 	/**
 	 * 跳转到选择页面
 	 * @param model
@@ -61,7 +69,48 @@ public class MerchantController extends BaseController{
 	 */
 	@RequestMapping(value = "toChoosePage")
 	public String toChoosePage(Model model){
-		return "/system/merchant/chosetype";
+		InfoQueryDTO info = new InfoQueryDTO();
+		
+		info.setDomainId(Constant.DOMAIN_JIUXIU);
+		info.setSellerId(sessionManager.getUserId());
+		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoById(info);
+		if(result.isSuccess()){
+			if(null != result.getValue()){
+				if(result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_WAIT ){//等待审核状态
+					if(null!=result.getValue().getFinanceOpenBankId()){//信息填写完整
+						return "/system/merchant/verification";
+					}else{//信息填写不完整，跳转到选择页面
+						return "/system/merchant/chosetype";
+					}
+				}else if(result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_ACCESS){//审核通过
+					return "";
+				}else{//审核不通过
+					
+					info.setType(result.getValue().getType());
+					MemResult<String> rest = examineDealService.queryExamineDealResult(info);
+					if(rest.isSuccess()){
+						model.addAttribute("reason", rest.getValue());
+					}
+					
+					if(ExamineType.MERCHANT.getId()==result.getValue().getType()){
+						model.addAttribute("type", "商家");
+						model.addAttribute("url", "/sellerAdmin/merchant/toDetailPage");
+					}else if(ExamineType.TALENT.getId()==result.getValue().getType()){
+						model.addAttribute("type", "达人");
+						model.addAttribute("url", "");
+					}
+					return "/system/merchant/nothrough";
+				}
+			}else{//第一次进入
+				return "/system/merchant/chosetype";
+			}
+		}else{
+			if(MemberReturnCode.MERCHANT_NOT_FOUND_ERROR.getCode() == result.getErrorCode()){//第一次进入(返回的错误信息为商家不存在)
+				return "/system/merchant/chosetype";
+			}else{
+				return "/error";
+			}
+		}
 	}
 	
 	/**
@@ -69,7 +118,7 @@ public class MerchantController extends BaseController{
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "toAddBusinessPage")
+	@RequestMapping(value = "toAddBasicPage")
 	public String toBusinessPage(Model model){
 		UserDO user = sessionManager.getUser();
 		model.addAttribute("nickName", user.getNickname());
@@ -98,7 +147,7 @@ public class MerchantController extends BaseController{
 	 * @param merchantDO
 	 * @return
 	 */
-	@RequestMapping(value = "/saveBusinessBasic" )
+	@RequestMapping(value = "/saveBasic" )
 	@ResponseBody
 	public WebResultSupport saveBusinessBasic(MerchantInfoVo basicInfo){
 		UserDTO userDTO = new UserDTO();
@@ -161,11 +210,18 @@ public class MerchantController extends BaseController{
 		info.setType(ExamineType.MERCHANT.getId());
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
+		
 		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoById(info);
 		if(result.isSuccess()){
 			model.addAttribute("imgSrc",Constant.TFS_URL);
 			model.addAttribute("examineInfo", result.getValue());
 		}
+		
+		MemResult<List<BankInfoDTO>> bankResult = talentInfoDealService.queryBankList();
+		if(bankResult.isSuccess()){
+			model.addAttribute("bankList", bankResult.getValue());
+		}
+		
 		return "/system/merchant/userdatafill_b";
 	}
 	/**
