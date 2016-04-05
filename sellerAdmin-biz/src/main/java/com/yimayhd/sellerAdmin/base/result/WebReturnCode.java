@@ -13,7 +13,7 @@ public class WebReturnCode implements Serializable {
 	private int errorCode;
 	private String errorMsg;
 
-	public WebReturnCode(int errorCode, String errorMsg) {
+	private WebReturnCode(int errorCode, String errorMsg) {
 		super();
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
@@ -47,9 +47,14 @@ public class WebReturnCode implements Serializable {
 	public final static WebReturnCode MOBILE_FORMAT_ERROR = new WebReturnCode(24001014, "手机号码格式错误");
 	public final static WebReturnCode USER_NICKNAME_EXIT = new WebReturnCode(24001015, "此昵称已存在");
 	public final static WebReturnCode UPDATE_USER_ERROR = new WebReturnCode(24001016, "修改用户信息失败");
+	public final static WebReturnCode OLD_PASSWORD_EMPTY = new WebReturnCode(24001017, "旧密码为空");
+	public final static WebReturnCode NEW_PASSWORD_EMPTY = new WebReturnCode(24001018, "新密码为空");
+	public final static WebReturnCode NEW_OLD_PASSWORD_EQUAL = new WebReturnCode(24001019, "新旧密码相同");
 
 	/***************************************** 商户相关 ********************************************************/
-	public static final WebReturnCode BUSINESS_BASIC_SAVE_FAILURE = new WebReturnCode(24002001, "商户基本信息保存失败");
+	public static final WebReturnCode MERCHANT_BASIC_SAVE_FAILURE = new WebReturnCode(24002001, "商户基本信息保存失败");
+	public static final WebReturnCode MERCHANT_BASIC_EDIT_FAILURE = new WebReturnCode(24002002, "商户基本信息修改失败");
+	public static final WebReturnCode MERCHANT_INFO_EDIT_FAILURE = new WebReturnCode(24002003, "商户入驻填写信息修改失败");
 	public final static WebReturnCode PASSWORD_ERROR = new WebReturnCode(24001015, "手机号码错误");
 	/***************************************** 商品相关 ********************************************************/
 }

@@ -1,6 +1,10 @@
 #set ($layout="/layout/layout2.vm")
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/filldata.css">
+
 <title>填写资料</title>
+
+<input type="hidden" class="subpath" value="/sellerAdmin/merchant/saveUserdataB">
+
 	<div class="header">
 		<div class="comwidth content clearfix">
 			<a class="fl block"><img src="http://s0.test.jiuxiulvxing.com/busines/img/logo.jpg"></a>
@@ -17,13 +21,14 @@
 <input type="file" name="adpicfile">
 <input type="submit" value="提交">
 </form>
-<form id='uploadform' action='/handle.php' method='post' enctype='multipart/form-data'><input type="file" name="adpicfile" class="adpicfile single">3333</form>
+<form id='uploadform' action='' method='post' enctype='multipart/form-data'><input type="file" name="adpicfile" class="adpicfile single">3333</form>
+	<input type="hidden" name="id" #if("$!examineInfo.id" == "") value="0" #else value="$!examineInfo.id" #end/>
 	<div class="uploadPicture">  
        <img id="imgHead" src="" width="106" height="122" alt="头像">   
        <input type="file" id="basicInfoHead" name="basicInfoHead" /> 
       </div>  -->
 	<div class="comwidth agreement-box mt30">
-		<div class="tit gray6 f16">达人开通申请</div>
+		<div class="tit gray6 f16">商户入驻申请</div>
 		<div class="titbox wdfill">
 			<div class="progress clearfix">
 				<div class="step start step-on step-fl">
@@ -48,52 +53,62 @@
 						<table>
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>商户负责人姓名：</span></td>
-								<td colspan="3"><input class="inptxt" datatype="s" maxlength="10" placeholder="合同签约人的姓名"></td>
+								<td colspan="3"><input class="inptxt" datatype="s" name="principleName" value="$!examineInfo.principleName" maxlength="10" placeholder="合同签约人的姓名"></td>
 							</tr>
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>负责人证件类型：</span></td>
-								<td colspan="3"><select id="card" class="selectlist">
-							  <option value="0">身份证</option>
-							  <option value="1">驾驶证</option>
-							  <option value="2">护照</option>
-							  <option value="3">导游证</option>
-							</select></td>
+								<td colspan="3">
+									<input type="hidden" id="card_" value="$!examineInfo.principleCard" />
+									<select id="card" class="selectlist" >
+									  <option value="">--请选择--</option>
+									  <option value="0">身份证</option>
+									  <option value="1">驾驶证</option>
+									  <option value="2">护照</option>
+									  <option value="3">导游证</option>
+									</select>
+								</td>
 							</tr>
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>负责人证件号：</span></td>
-								<td colspan="3"><input class="inptxt" datatype="s6-18" maxlength="18" placeholder="证件号码"></td>
+								<td colspan="3"><input class="inptxt" datatype="s6-18" name="principleCardId" value="$!examineInfo.principleCardId" maxlength="18" placeholder="证件号码"></td>
 							</tr>
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>负责人手机号：</span></td>
-								<td colspan="3"><input class="inptxt" datatype="m" maxlength="11" placeholder="手机号码"></td>
-							</tr>
-							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>请获取验证码：</span></td>
-								<td colspan="3"><input class="inptxt w250" datatype="n" maxlength="6" placeholder="请获取验证码"><label class="getcode ml15">获取验证码</label></td>
+								<td colspan="3"><input class="inptxt" datatype="m" name="principleTel"   #if("$!examineInfo.principleTel" == "0") value="" #else value="$!examineInfo.principleTel" #end  maxlength="11" placeholder="手机号码"></td>
 							</tr>
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>负责人邮箱：</span></td>
-								<td colspan="3"><input class="inptxt" datatype="e" maxlength="80" placeholder="请输入商户负责人邮箱"></td>
+								<td colspan="3"><input class="inptxt" datatype="e" name="principleMail" value="$!examineInfo.principleMail" maxlength="80" placeholder="请输入商户负责人邮箱"></td>
 							</tr>
 							<tr>
 								<td class="tbvt w280"><label class="bred">*</label><label>法人身份证正面：</label></td>
 								<td class="w380">
 									<span class="imgbox mr5">
 										<div class="canclick card_a">
+											#if("$!examineInfo.principleCardUp" == "")
+											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+											#else
+											<img src="$!imgSrc$!examineInfo.principleCardUp">
+											#end
 											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 										</div><div class="plhd"></div><div class="del">删除图片</div>
 										<input type="file" name="adpicfile" class="adpicfile single">
-										<input type="hidden">
+										<input type="hidden" name="principleCardUp" value="$!examineInfo.principleCardUp">
 									</span>
 								</td>
 								<td class="tbvt w150"><label class="bred">*</label><label>法人身份证背面：</label></td>
 								<td>
 									<span class="imgbox mr5">
 										<div class="canclick card_b">
+											#if("$!examineInfo.principleCardDown" == "")
+											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+											#else
+											<img src="$!imgSrc$!examineInfo.principleCardDown">
+											#end
 											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 										</div><div class="plhd"></div><div class="del">删除图片</div>
 										<input type="file" name="adpicfile" class="adpicfile single">
-										<input type="hidden">
+										<input type="hidden" name="principleCardDown" value="$!examineInfo.principleCardDown">
 									</span>
 								</td>
 							</tr>
@@ -104,77 +119,111 @@
 						<table>
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>财务开户银行：</span></td>
-								<td><input class="inptxt" datatype="*" maxlength="20" placeholder="请输入对公结算账号开户行名称"></td>
+								<td>
+									<input type="hidden" id="bank_" value="$!examineInfo.financeOpenBankId" />
+									<select id="bank" class="selectlist" >
+										#foreach( $info in $bankList)  
+											<option value="$info.bankId">$info.bankName</option>
+									　　　 #end
+									</select>
+								</td>
 							</tr>
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>财务开户名称：</span></td>
-								<td><input class="inptxt" datatype="*" maxlength="60" placeholder="请输入对公结算账号账户名"></td>
+								<td><input class="inptxt" datatype="*" name="financeOpenName" value="$!examineInfo.financeOpenName" maxlength="60" placeholder="请输入对公结算账号账户名"></td>
 							</tr>
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>财务结算账号：</span></td>
-								<td><input class="inptxt" datatype="*" maxlength="25" placeholder="请输入对公结算账号开户行名称"></td>
+								<td><input class="inptxt" datatype="*" name="accountNum" value="$!examineInfo.accountNum" maxlength="25" placeholder="请输入对公结算账号开户行名称"></td>
 							</tr>
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>财务结算开户行：</span></td>
 								<td>
+									<input type="hidden" id="province_" value="$!examineInfo.accountBankProvinceCode" />
+									<input type="hidden" id="city_" value="$!examineInfo.accountBankCityCode" />
 									<select id="province"><option value="">--请选择--</option></select>
-									<select id="city" class="ml10"><option value="">--请选择--</option></select>
-									<span class="inblock"><input class="inptxt ml10 w280" datatype="*" maxlength="60" placeholder="请填写详细的开户行名称"></span>
+									<select id="city"  class="ml10"><option value="">--请选择--</option></select>
+									<span class="inblock"><input class="inptxt ml10 w280" name="accountBankName" value="$!examineInfo.accountBankName" datatype="*" maxlength="60" placeholder="请填写详细的开户行名称"></span>
 								</td>
 							</tr>
 						</table>
 					</div>
-					<div class="tit gray6 f16">合作合同</div>
+					<div class="column groupimg"><label class="bred">*</label><label>合作合同：</label>
 					<div class="fm_md_five fm_md">
 						<div class="column"><label class="bred">*</label><label>合作合同：</label>
 							<label class="inblock">
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
-										<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-									</div><div class="plhd"></div><div class="del">删除图片</div>
-									<input type="file" name="adpicfile" class="adpicfile mult">
-									<input type="hidden">
+										#if("$!examineInfo.cooperation1" == "")
+											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+											#else
+											<img src="$!imgSrc$!examineInfo.cooperation1">
+											#end
+											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+										</div><div class="plhd"></div><div class="del">删除图片</div>
+										<input type="file" name="adpicfile" class="adpicfile single">
+										<input type="hidden" name="cooperation1" value="$!examineInfo.cooperation1">
 								</span>
 							</label>
 							<label class="inblock">
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
-										<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-									</div><div class="plhd"></div><div class="del">删除图片</div>
-									<input type="file" name="adpicfile" class="adpicfile mult">
-									<input type="hidden">
+										#if("$!examineInfo.cooperation2" == "")
+											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+											#else
+											<img src="$!imgSrc$!examineInfo.cooperation2">
+											#end
+											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+										</div><div class="plhd"></div><div class="del">删除图片</div>
+										<input type="file" name="adpicfile" class="adpicfile single">
+										<input type="hidden" name="cooperation2" value="$!examineInfo.cooperation2">
 								</span>
 							</label>
 							<label class="inblock">
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
-										<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-									</div><div class="plhd"></div><div class="del">删除图片</div>
-									<input type="file" name="adpicfile" class="adpicfile mult">
-									<input type="hidden">
+										#if("$!examineInfo.cooperation3" == "")
+											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+											#else
+											<img src="$!imgSrc$!examineInfo.cooperation3">
+											#end
+											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+										</div><div class="plhd"></div><div class="del">删除图片</div>
+										<input type="file" name="adpicfile" class="adpicfile single">
+										<input type="hidden" name="cooperation3" value="$!examineInfo.cooperation3">
 								</span>
 							</label>
 							<label class="inblock">
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
-										<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-									</div><div class="plhd"></div><div class="del">删除图片</div>
-									<input type="file" name="adpicfile" class="adpicfile mult">
-									<input type="hidden">
+										#if("$!examineInfo.cooperation4" == "")
+											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+											#else
+											<img src="$!imgSrc$!examineInfo.cooperation4">
+											#end
+											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+										</div><div class="plhd"></div><div class="del">删除图片</div>
+										<input type="file" name="adpicfile" class="adpicfile single">
+										<input type="hidden" name="cooperation4" value="$!examineInfo.cooperation4">
 								</span>
 							</label>
 							<label class="inblock">
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
-										<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-									</div><div class="plhd"></div><div class="del">删除图片</div>
-									<input type="file" name="adpicfile" class="adpicfile mult">
-									<input type="hidden">
+										#if("$!examineInfo.cooperation5" == "")
+											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+											#else
+											<img src="$!imgSrc$!examineInfo.cooperation5">
+											#end
+											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+										</div><div class="plhd"></div><div class="del">删除图片</div>
+										<input type="file" name="adpicfile" class="adpicfile single">
+										<input type="hidden" name="cooperation5" value="$!examineInfo.cooperation5">
 								</span>
 							</label>
 						</div>
 					</div>
-					<div class="nextpage"><a href="http://s0.test.jiuxiulvxing.com/busines/view/mandandatafill/userdatafill_a.html " class="prev mr30">上一页</a><a class="allsub ml30">提交审核</a></div>
+					<div class="nextpage"><a href="/toDetailPage" class="prev mr30">上一页</a><a class="allsub ml30">提交审核</a></div>
 				</div>
 			</form>
 		</div>
@@ -191,7 +240,7 @@
 	            <option value="<#= city[j].id#>"><#= city[j].name#></option>
 	    <# } #>
 	</script>
-	<script type="text/javascript" src="../../src/js/sea.js"></script>
-	<script type="text/javascript" src="../../src/js/seajs-preload.js"></script>
-	<script type="text/javascript" src="../../src/js/config.js"></script>		
+	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/sea.js"></script>
+	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/seajs-preload.js"></script>
+	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/config.js"></script>		
 	<script>seajs.use("userdatafill");</script>	

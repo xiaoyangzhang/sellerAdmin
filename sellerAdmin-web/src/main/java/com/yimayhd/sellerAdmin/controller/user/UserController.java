@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,10 +24,14 @@ import com.yimayhd.sellerAdmin.biz.UserBiz;
 import com.yimayhd.sellerAdmin.checker.UserChecker;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.UserConverter;
+import com.yimayhd.sellerAdmin.model.User;
 import com.yimayhd.sellerAdmin.model.vo.user.LoginVo;
+import com.yimayhd.sellerAdmin.model.vo.user.ModifyPasswordVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RetrievePasswordVo;
+import com.yimayhd.sellerAdmin.url.UrlHelper;
 import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.dto.ChangePasswordDTO;
 import com.yimayhd.user.client.dto.LoginDTO;
 import com.yimayhd.user.client.dto.RegisterDTO;
 import com.yimayhd.user.client.dto.RevivePasswordDTO;
@@ -60,22 +66,12 @@ public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
 	
+	@Value("${sellerAdmin.rootPath}")
+	private String rootPath;
+	
 	
 
-	@RequestMapping(value = "/toLogin")
-//	@RequestMapping(value = "/toLogin", headers = "Request-Channel=https")
-	public ModelAndView toLogin() {
-		ModelAndView modelAndView = new ModelAndView("/system/user/login");
-		return modelAndView;
-	}
-
-	@RequestMapping("/toRegister")
-	public ModelAndView toRegister() {
-		ModelAndView modelAndView = new ModelAndView("/system/user/register");
-
-		return modelAndView;
-
-	}
+	
 
 	@RequestMapping("/toWinLogin")
 	public ModelAndView toWinLogin() {
@@ -85,25 +81,19 @@ public class UserController extends BaseController {
 
 	}
 
-	@RequestMapping("/toRetrievePassword")
-	public ModelAndView toLostPassword() {
-		ModelAndView modelAndView = new ModelAndView("/system/user/retrievePassword");
+	
+//
+//	@RequestMapping("/toRetrieveSuccess")
+//	public ModelAndView toRetrieveSuccess() {
+//		ModelAndView modelAndView = new ModelAndView("/system/user/retrieveSuccess");
+//
+//		return modelAndView;
+//	}
+	
 
-		return modelAndView;
-
-	}
-
-	@RequestMapping("/toRegisterSuccess")
-	public ModelAndView toRegisterSuccess() {
-		ModelAndView modelAndView = new ModelAndView("/system/user/regsuccess");
-
-		return modelAndView;
-	}
-
-	@RequestMapping("/toRetrieveSuccess")
-	public ModelAndView toRetrieveSuccess() {
-		ModelAndView modelAndView = new ModelAndView("/system/user/retrieveSuccess");
-
+	@RequestMapping(value = "/register", method =RequestMethod.GET)
+	public ModelAndView toRegister() {
+		ModelAndView modelAndView = new ModelAndView("/system/user/register");
 		return modelAndView;
 	}
 
@@ -132,13 +122,31 @@ public class UserController extends BaseController {
 			return rs ;
 		}
 		String token = loginResult.getValue().getToken() ; 
+		String url = UrlHelper.getUrl(rootPath, "/user/registerSuccess") ;
 		// 登录成功后跳转
-		rs.setValue("/user/toRegisterSuccess");
+		rs.setValue(url);
 		// token放到cookie中
 		SessionHelper.setCookies(response, token);
 
 		return rs;
 	}
+	
+	@RequestMapping(value="/registerSuccess", method = RequestMethod.GET)
+	public ModelAndView toRegisterSuccess(Model model) {
+		String loginUrl = UrlHelper.getUrl(rootPath, "/home");
+		model.addAttribute("loginUrl", loginUrl);
+		ModelAndView modelAndView = new ModelAndView("/system/user/regsuccess");
+		return modelAndView;
+	}
+	
+	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+//	@RequestMapping(value = "/login", headers = "Request-Channel=https")
+	public ModelAndView toLogin() {
+		ModelAndView modelAndView = new ModelAndView("/system/user/login");
+		return modelAndView;
+	}
+
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
@@ -168,8 +176,7 @@ public class UserController extends BaseController {
 			targetUrl = returnUrl ;
 		}else{
 			//判断用户身份，进入申请认证页面
-			targetUrl = "/sellerAdmin/home";
-//			targetUrl = "http://localhost:8080/sellerAdmin/home";
+			targetUrl = UrlHelper.getUrl(rootPath, "/home");
 		}
 		result.setValue(targetUrl);
 		return result;
@@ -179,7 +186,8 @@ public class UserController extends BaseController {
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
 		sessionManager.removeToken(request);
 		SessionHelper.cleanCookies(response);
-		return new ModelAndView("redirect:" + Constant.LOGIN_URL);
+		String url = UrlHelper.getUrl(true, rootPath, "/user/login") ;
+		return new ModelAndView(url);
 	}
 
 	@RequestMapping(value = "/sendRegisterVerifyCode", method = RequestMethod.POST)
@@ -187,12 +195,10 @@ public class UserController extends BaseController {
 	public WebResultSupport sendRegisterVerifyCode(String username, String imageCode) {
 		WebResultSupport result = new WebResultSupport();
 
-//		if ( !isTest() ) { // 压力测试不校验
-			if (StringUtils.isBlank(imageCode) || !verifyCodeManager.checkVerifyCode(imageCode)) {
-				result.setWebReturnCode(WebReturnCode.IMAGE_VERIFY_CODE_ERROR);
-				return result;
-			}
-//		}
+		if (StringUtils.isBlank(imageCode) || !verifyCodeManager.checkVerifyCode(imageCode)) {
+			result.setWebReturnCode(WebReturnCode.IMAGE_VERIFY_CODE_ERROR);
+			return result;
+		}
 		result = userBiz.sendRegisterVerifyCode(username);
 		return result;
 	}
@@ -219,21 +225,50 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
 	@ResponseBody
-	public WebResultSupport modifyPassword(HttpServletRequest request, String newPassword, String oldPassword) {
+	public WebResultSupport modifyPassword(HttpServletRequest request, ModifyPasswordVo modifyPasswordVo) {
+		WebResult<String> rs = new WebResult<String>();
+		WebResultSupport checkResult = UserChecker.checkModifyPasswordPassword(modifyPasswordVo);
+		if ( !checkResult.isSuccess() ) {
+			rs.setWebReturnCode(checkResult.getWebReturnCode());
+			return rs ;
+		}
 		long userId = sessionManager.getUserId(request);
-		WebResultSupport result = userBiz.modifyPassword(userId, newPassword, oldPassword);
+		ChangePasswordDTO changePasswordDTO = UserConverter.toModifyPasswordDTO(modifyPasswordVo, userId);
+		
+		WebResultSupport result = userBiz.modifyPassword(changePasswordDTO);
 		return result;
 	}
+	
+	
+
+	@RequestMapping(value="/retrievePassword", method = RequestMethod.GET)
+	public ModelAndView toLostPassword() {
+		ModelAndView modelAndView = new ModelAndView("/system/user/retrievePassword");
+
+		return modelAndView;
+
+	}
+	
 	@RequestMapping(value = "/retrievePassword", method = RequestMethod.POST)
 	@ResponseBody
-	public WebResultSupport retrievePassword(RetrievePasswordVo retrievePasswordVo) {
+	public WebResult<String> retrievePassword(RetrievePasswordVo retrievePasswordVo) {
+		WebResult<String> result = new WebResult<String>();
 		WebResultSupport checkFeedBack = UserChecker.checkRetrievePassword(retrievePasswordVo);
 		if (checkFeedBack == null || !checkFeedBack.isSuccess()) {
-			return checkFeedBack;
+			result.setWebReturnCode(checkFeedBack.getWebReturnCode());
+			return result;
 		}
 		
 		RevivePasswordDTO revivePasswordDTO = UserConverter.toRevivePasswordDTO(retrievePasswordVo);
-		WebResultSupport result = userBiz.retrievePassword(revivePasswordDTO);
+		WebResultSupport retrieveResult = userBiz.retrievePassword(revivePasswordDTO);
+		if( retrieveResult == null ){
+			result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+		}else if( !retrieveResult.isSuccess() ){
+			result.setWebReturnCode(retrieveResult.getWebReturnCode());
+		}else{
+			String url =  UrlHelper.getUrl(rootPath, "/user/login") ;
+			result.setValue(url);
+		}
 		return result;
 	}
 
@@ -263,19 +298,14 @@ public class UserController extends BaseController {
 		}
 		return webResult;
 	}
-//=======
-//		cookie2.setMaxAge(0);
-//		cookie2.setPath("/");
-//
-//		// Cookie usernameCookie = new Cookie(COOKIE_USER_NAME, null);
-//		// cookie2.setMaxAge(0);
-//		// cookie2.setPath("/");
-//
-//		response.addCookie(cookie);
-//		response.addCookie(cookie2);
-//		// response.addCookie(usernameCookie);
-//
-//	}
-//>>>>>>> 8564a582abb0c4b4d0087e8b3179c6c20b755105
+	
+	@RequestMapping(value = "/getUserByMobile", method = RequestMethod.GET)
+	@ResponseBody
+	public WebResult<UserDO> getUserByMobile(String mobile) {
+		UserDO userDO = userBiz.getUserByMobile(mobile);
+		WebResult<UserDO> result = new WebResult<UserDO>() ;
+		result.setValue(userDO);
+		return result;
+	}
 
 }

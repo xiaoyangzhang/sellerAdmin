@@ -3,6 +3,8 @@ package com.yimayhd.sellerAdmin.converter;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
@@ -24,10 +26,19 @@ public class ItemConverter {
 			return null;
 		}
 		ItemQryDTO itemQryDTO = new ItemQryDTO();
-		itemQryDTO.setName(query.getName());
-		itemQryDTO.setId(query.getId());
-		itemQryDTO.setStatus(Arrays.asList(query.getStatus()));
-		itemQryDTO.setItemType(query.getItemType());
+		if (StringUtils.isNotBlank(query.getName())) {
+			itemQryDTO.setName(query.getName());
+		}
+		if (query.getId() > 0) {
+			itemQryDTO.setId(query.getId());
+		}
+		itemQryDTO.setSellerId(sellerId);
+		if (query.getStatus() > 0) {
+			itemQryDTO.setStatus(Arrays.asList(query.getStatus()));
+		}
+		if (query.getItemType() > 0) {
+			itemQryDTO.setItemType(query.getItemType());
+		}
 		itemQryDTO.setBeginDate(query.getBeginDate());
 		itemQryDTO.setEndDate(query.getEndDate());
 		return itemQryDTO;
@@ -49,6 +60,7 @@ public class ItemConverter {
 		itemListItemVO.setType(itemDO.getItemType());
 		itemListItemVO.setStatus(itemDO.getStatus());
 		itemListItemVO.setOperates(ItemUtil.getItemOperates(itemDO.getItemType(), itemDO.getStatus()));
+		itemListItemVO.setPublishDate(itemDO.getGmtModified());
 		return itemListItemVO;
 	}
 

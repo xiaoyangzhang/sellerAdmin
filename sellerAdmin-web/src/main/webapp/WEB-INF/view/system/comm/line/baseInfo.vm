@@ -1,4 +1,4 @@
-
+#set($baseInfo = $product.baseInfo)
 <table border="0" class="table tab-inputgroup base-info">
 	<tbody>
 		<tr>
@@ -7,11 +7,11 @@
 		</tr>
 		<tr>
 			<td>*商品标题：</td>
-			<td><input type="text" class="form-control item-name" placeholder="用户名38字以内" maxlength="38"></td>
+			<td><input type="text" value="$!baseInfo.name" class="form-control item-name" placeholder="用户名38字以内" maxlength="38"></td>
 		</tr>
 		<tr>
 			<td>商品代码：</td>
-			<td><input type="text" class="form-control item-code" placeholder="请输入商品编号"/></td>
+			<td><input type="text" value="$!{baseInfo.code}" class="form-control item-code" placeholder="请输入商品编号"/></td>
 		</tr>
 		<tr>
 			<td>*出发地：</td>
@@ -27,12 +27,12 @@
 		</tr>
 		<tr>
 			<td>*行程天数（天）：</td>
-			<td><input type="text" class="form-control days" placeholder="请填写整数"/></td>
+			<td><input type="text" value="$!{baseInfo.days}" class="form-control days" placeholder="请填写整数"/></td>
 		</tr>
 		<tr>
 			<td>*线路亮点：</td>
 			<td>
-				<textarea class="form-control textarea-count description" rows="3" placeholder="请输入亮点描述" maxlength="200"></textarea>
+				<textarea class="form-control textarea-count description" rows="3" placeholder="请输入亮点描述" maxlength="200">$!{baseInfo.description}</textarea>
 				<span class="word-num">0/200字</span>
 			</td>
 		</tr>
@@ -53,7 +53,11 @@
 					<div class="imgbox">
 						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
 							<div class="dimg">
+								#if($baseInfo.picUrls && $baseInfo.picUrls.size() > 0)
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(0)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								#end
 								<input type="hidden" class="picCode">
 							</div>
 							<div class="upimgbtn">
@@ -66,7 +70,11 @@
 					<div class="imgbox">
 						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
 							<div class="dimg">
+								#if($baseInfo.picUrls && $baseInfo.picUrls.size() > 1)
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(1)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								#end
 								<input type="hidden" class="picCode">
 							</div>
 							<div class="upimgbtn">
@@ -79,7 +87,11 @@
 					<div class="imgbox">
 						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
 							<div class="dimg">
+								#if($baseInfo.picUrls && $baseInfo.picUrls.size() > 2)
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(2)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								#end
 								<input type="hidden" class="picCode">
 							</div>
 							<div class="upimgbtn">
@@ -92,7 +104,11 @@
 					<div class="imgbox">
 						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
 							<div class="dimg">
+								#if($baseInfo.picUrls && $baseInfo.picUrls.size() > 3)
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(3)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								#end
 								<input type="hidden" class="picCode">
 							</div>
 							<div class="upimgbtn">
@@ -105,7 +121,11 @@
 					<div class="imgbox">
 						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
 							<div class="dimg">
+								#if($baseInfo.picUrls && $baseInfo.picUrls.size() > 4)
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(4)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								#end
 								<input type="hidden" class="picCode">
 							</div>
 							<div class="upimgbtn">

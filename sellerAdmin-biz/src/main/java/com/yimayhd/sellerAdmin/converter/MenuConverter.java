@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.yimayhd.membercenter.client.domain.HaMenuDO;
-import com.yimayhd.sellerAdmin.vo.menu.MenuVO;
+import com.yimayhd.sellerAdmin.model.vo.menu.MenuVO;
 
 public class MenuConverter {
 	

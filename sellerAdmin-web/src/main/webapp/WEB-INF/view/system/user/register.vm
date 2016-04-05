@@ -34,9 +34,9 @@
 					<button class="getcodebtn" name="getcodebtn" id="getcodebtn" sendurl="$root_path/user/sendRegisterVerifyCode">获取短信验证码</button>
 					<span class="Validform_checktip"></span>
 				</p>					
-				<p class="last">注册表示您已经同意<a href="$!{webConfig.rootPath}/about/serviceterm.html" target="_blank">《服务条款》</a></p>
+				<p class="last">注册表示您已经同意<a href="$root_path/about/serviceterm.html" target="_blank">《服务条款》</a></p>
 				<input type="submit" id="regSubmitBtn" class="winloginbtn" value="注册"/>
-				<p class="last">已有账号 <a href="$root_path/user/toLogin">立即登录</a></p>
+				<p class="last">已有账号 <a href="$root_path/user/login">立即登录</a></p>
 			</form>			
 		</div>
 	</div>

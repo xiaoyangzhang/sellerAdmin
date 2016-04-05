@@ -44,6 +44,7 @@
 						<th>目的地</th>
                         <th>类型</th>
                         <th>单价</th>
+						<th>状态</th>
 						<th>发布时间</th>
 						<th>操作</th>
                     </tr>
@@ -55,15 +56,21 @@
                         <td>$!item.name</td>
 						<td>$!item.destString</td>
 						<td>$!{utilItem.getItemTypeName($item.type)}</td>
-                        <td>$!{utilItem.getItemStatusName($item.status)}</td>
 						<td>￥$!{utilMoney.centToYuanMoneyFormat($item.price)}</td>
+                        <td>$!{utilItem.getItemStatusName($item.status)}</td>
 						<td>$!{utilDate.date2String($item.publishDate)}</td>
                         <td>
-                            <button type="button" class="btn btn-primary item-edit" item-id="$!item.id">编辑</button>
-							#if($!{item.status} != 1)
-							<button type="button" class="btn btn-primary item-enable" item-id="$!item.id">启用</button>
-							#else
-							<button type="button" class="btn btn-primary item-disable" item-id="$!item.id">停用</button>
+							#if($item.containsOperate('VIEW'))
+							<a class="btn btn-primary" href="$!utilWebconfig.getActionDefaultFontPath()/line/detail/$!item.id/" target="_blank">查看</a>
+							#end
+							#if($item.containsOperate('EDIT'))
+							<a class="btn btn-primary" href="$!utilWebconfig.getActionDefaultFontPath()/line/detail/$!item.id/" target="_blank">编辑</a>
+							#end
+							#if($item.containsOperate('SHELVE'))
+							<button type="button" class="btn btn-primary item-shelve" item-id="$!item.id">上架</button>
+							#end
+							#if($item.containsOperate('UNSHELVE'))
+							<button type="button" class="btn btn-primary item-unshelve" item-id="$!item.id">下架</button>
 							#end
 						</td>
                     </tr>
@@ -130,7 +137,7 @@
 		}
     });
 	// 启用
-	$('.item-enable').click(function(){
+	$('.item-shelve').click(function(){
 		var id = $(this).attr("item-id");
 		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/B2C/liveTagManage/toEnable/"+id,{},function(result) {
 			if(result.status == 200) {
@@ -144,7 +151,7 @@
 		},"json");
     });
 	// 停用
-	$('.item-disable').click(function(){
+	$('.item-unshelve').click(function(){
 		var id = $(this).attr("item-id");
 		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/B2C/liveTagManage/toDisable/"+id,{},function(result) {
 			if(result.status == 200) {

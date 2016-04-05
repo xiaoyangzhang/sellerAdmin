@@ -18,6 +18,7 @@ import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.LineChecker;
 import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
+import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
 import com.yimayhd.sellerAdmin.service.item.LineService;
 
 /**
@@ -40,15 +41,17 @@ public class LineController extends BaseLineController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-	public String detail(long categoryId, @PathVariable(value = "id") long id) throws Exception {
+	public String detail(@PathVariable(value = "id") long id) throws Exception {
 		initBaseInfo();
-		initLinePropertyTypes(categoryId);
 		if (id > 0) {
-			WebResult<LineVO> result = commLineService.getById(id);
-			if (!result.isSuccess()) {
+			WebResult<LineVO> result = commLineService.getByItemId(id);
+			if (result.isSuccess()) {
 				LineVO gt = result.getValue();
+				BaseInfoVO baseInfo = gt.getBaseInfo();
+				if (baseInfo != null) {
+					initLinePropertyTypes(baseInfo.getCategoryId());
+				}
 				put("product", gt);
-				put("lineType", LineType.getByType(gt.getBaseInfo().getType()));
 				return "/system/comm/line/detail";
 			} else {
 				throw new BaseException(result.getResultMsg());

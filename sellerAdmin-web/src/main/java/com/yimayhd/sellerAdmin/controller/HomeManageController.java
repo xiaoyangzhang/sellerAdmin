@@ -20,7 +20,7 @@ import com.yimayhd.resourcecenter.domain.ShowcaseDO;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
-import com.yimayhd.sellerAdmin.constant.ResponseStatus; 
+import com.yimayhd.sellerAdmin.constant.ResponseStatus;
 import com.yimayhd.sellerAdmin.model.vo.CfgBaseVO;
 import com.yimayhd.sellerAdmin.model.vo.ShowCaseVO;
 import com.yimayhd.sellerAdmin.service.HomeCfgService;

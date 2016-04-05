@@ -4,16 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
-import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
-import com.yimayhd.sellerAdmin.checker.UserChecker;
-import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.constant.Constant;
-import com.yimayhd.sellerAdmin.converter.UserConverter;
-import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.repo.UserRepo;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.ChangePasswordDTO;
@@ -94,13 +88,13 @@ public class UserBiz {
 		WebResultSupport result= userRepo.sendRegisterVerifyCode(verifyCodeDTO);
 		return result;
 	}
-	public WebResultSupport modifyPassword(long userId, String password, String oldPassword) {
-		ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO() ;
-		changePasswordDTO.setUserId(userId);
-		changePasswordDTO.setNewPassword(password);
-		changePasswordDTO.setOldPassword(oldPassword);
+	public WebResultSupport modifyPassword(ChangePasswordDTO changePasswordDTO) {
 		WebResultSupport result= userRepo.changePassword(changePasswordDTO);
 		return result;
+	}
+	
+	public UserDO getUserByMobile(String mobile){
+		return userRepo.getUserByMobile(mobile);
 	}
 
 }
