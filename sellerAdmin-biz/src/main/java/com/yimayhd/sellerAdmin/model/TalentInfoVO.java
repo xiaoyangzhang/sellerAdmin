@@ -1,6 +1,8 @@
 package com.yimayhd.sellerAdmin.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -9,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.PicTextDO;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
-
 import com.yimayhd.membercenter.client.domain.PictureTextDO;
 import com.yimayhd.membercenter.client.domain.talent.TalentInfoDO;
 import com.yimayhd.membercenter.client.dto.PictureTextDTO;
@@ -104,14 +105,17 @@ public class TalentInfoVO extends TalentInfoDO {
 		List<PictureTextDO> picTextDOs=new ArrayList<PictureTextDO>();
 		
 		List<PictureTextDO> pictureTextDOs = JSON.parseArray(vo.getPictureTextDOs(), PictureTextDO.class);
-		for (PictureTextDO pictureTextDO : pictureTextDOs) {
-			if (StringUtils.isNotBlank(pictureTextDO.getValue())) {
-				picTextDOs.add(pictureTextDO);
+		if (pictureTextDOs != null && pictureTextDOs.size()>0) {
+			
+			for (PictureTextDO pictureTextDO : pictureTextDOs) {
+				if (StringUtils.isNotBlank(pictureTextDO.getValue())) {
+					picTextDOs.add(pictureTextDO);
+				}
 			}
+			
+			pictureTextDTO.setPicTexts(picTextDOs);
+			dto.setPictureTextDTO(pictureTextDTO);
 		}
-		
-		pictureTextDTO.setPicTexts(picTextDOs);
-		dto.setPictureTextDTO(pictureTextDTO);
 		//vo.getPicTextDOs();
 		return dto;
 		
@@ -126,14 +130,20 @@ public class TalentInfoVO extends TalentInfoDO {
 		talentInfoDO.setServeDesc(vo.getDescribe());
 		talentInfoDO.setTelNum(vo.getTel());
 		talentInfoDO.setCertificates(JSON.parseArray(vo.getCertificatess(), CertificatesDO.class));
-		talentInfoDO.setPictures(JSON.parseArray(vo.getImgpath(), String.class));
+		List<String> picList=new ArrayList<>();
+		for (String str : JSON.parseArray(vo.getImgpath(), String.class)) {
+			if (str.length()>0) {
+				picList.add(str);
+			}
+		}
+		talentInfoDO.setPictures(picList);
 		//talentInfoDO.setId(new SessionManager().getUserId());
-		//talentInfoDO.setPictu
+		talentInfoDO.setProvinceCode(Integer.parseInt(vo.getProvince()));
 		talentInfoDO.setId(19000);
 		return talentInfoDO;
 		
 	}
-
+	
 
 	
 	

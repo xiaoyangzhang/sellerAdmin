@@ -67,6 +67,7 @@ public class TalentController extends BaseController {
 	@RequestMapping("toEditUserdatafill_pageOne")
 	public String toEditUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model) {
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
+		//model.addAttribute("talentBiz", talentBiz);
 		return "system/talent/userdatafill_a";
 		
 	}
@@ -84,6 +85,8 @@ public class TalentController extends BaseController {
 	@RequestMapping(value="toEditUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toEditUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
+		model.addAttribute("bankList", talentBiz.getBankList());
+		//model.addAttribute("talentBiz", talentBiz);
 		return "system/talent/userdatafill_b";
 		
 	}
@@ -156,7 +159,7 @@ public class TalentController extends BaseController {
 	@RequestMapping(value="toAddTalentInfo",method=RequestMethod.GET)
 	public String addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model){
 		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
-		
+		//model.addAttribute("talentBiz", talentBiz);
 		return "system/talent/eredar";
 		
 	}
@@ -169,6 +172,7 @@ public class TalentController extends BaseController {
 	 */
 	@RequestMapping(value="toEditTalentInfo",method=RequestMethod.GET)
 	public String editTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model) {
+		model.addAttribute("talentBiz", talentBiz);
 		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
 		model.addAttribute("talentInfo", talentBiz.getTalentInfo());
 		return "system/talent/eredar";

@@ -1,6 +1,8 @@
 package com.yimayhd.sellerAdmin.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 
 
@@ -45,5 +47,5 @@ public class ExamineInfoVO extends ExamineInfoDTO  {
 		return dto;
 		
 	}
-
+	
 }

@@ -57,10 +57,10 @@
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>负责人证件类型：</span></td>
 								<td colspan="3"><select id="card" class="selectlist" name="principleCard">
-							  <option value="0">身份证</option>
-							  <option value="1">驾驶证</option>
-							  <option value="2">护照</option>
-							  <option value="3">导游证</option>
+							  <option #if ($examineInfo.principleCard == 0) selected="selected" #end value="0">身份证</option>
+							  <option #if ($examineInfo.principleCard == 1) selected="selected" #end value="1">驾驶证</option>
+							  <option #if ($examineInfo.principleCard == 2) selected="selected" #end value="2">护照</option>
+							  <option #if ($examineInfo.principleCard == 3) selected="selected" #end value="3">导游证</option>
 							</select></td>
 							</tr>
 							<tr>
@@ -116,9 +116,11 @@
 								<td class="tbtxt w280"><label class="bred">*</label><span>财务开户银行：</span></td>
 								<td><select id="bank" class="selectlist" name="financeOpenBankId">
 									  <option #if (!$examineInfo.financeOpenBankId) selected="selected" #end value="">--请选择--</option>
-									  <option #if ($examineInfo.financeOpenBankId == 0) selected="selected" #end value="0">中国建设银行</option>
-									  <option #if ($examineInfo.financeOpenBankId == 1) selected="selected" #end value="1">中国农业银行</option>
-									  <option #if ($examineInfo.financeOpenBankId == 2) selected="selected" #end value="2">中国工商银行</option>
+									#foreach ($bank in $bankList)
+										
+									  <option  #if ($examineInfo.financeOpenBankId == $bank.bankId) selected="selected" #end value="$!bank.bankId">$!bank.bankName</option>
+									#end
+									  
 									</select>
 								</td>
 							</tr>

@@ -85,12 +85,12 @@
 						</tr>
 						<tr>
 							<td class="tbtxt w280"><span>出生日期：</span></td>
-							<td><input class="field" id="tm" placeholder="开始时间" name="birthday" value="$!talentInfo.talentInfoDO.birthday" title="开始时间" datatype="*" errormsg="亲选择时间呀" readonly="readonly"><span></span></td>
+							<td><input class="field" id="tm" placeholder="开始时间" name="birthday" value="$!talentBiz.formatDate($!talentInfo.talentInfoDO.birthday)" title="开始时间" datatype="*" errormsg="亲选择时间呀" readonly="readonly"><span></span></td>
 						</tr>
 						<tr>
 							<td class="tbtxt w280"><label class="bred">*</label><span>所在城市：</span></td>
 							<td>
-								<input type="hidden" id="province_" value="$!talentInfo.talentInfoDO.city">
+								<input type="hidden" id="province_" value="$!talentInfo.talentInfoDO.provinceCode">
 								<input type="hidden" id="city_" value="$!talentInfo.talentInfoDO.cityCode">
 								<select id="province"><option value="">--请选择--</option></select>
 								<select id="city" class="ml10"><option value="">--请选择--</option></select>
@@ -103,26 +103,23 @@
 								<span class="imgbox mr5 cnat">
 								#set ($picSize=$!talentInfo.talentInfoDO.pictures.size)
 									<div class="canclick">
-									#if ($picSize == 1)
-									#if ($!talentInfo.talentInfoDO.pictures[0])
+									
+									#if ($!talentInfo.talentInfoDO.pictures[0].length()>0)
 									<img src="http://img.test.yimayholiday.com/v1/tfs/$!{talentInfo.talentInfoDO.pictures[0]}">
 									#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 									#end
 									</div><div class="plhd"></div><div class="del">删除图片</div>
 									<input type="file" name="adpicfile" class="adpicfile mult">
 									<input type="hidden" name="imgpath" value="$!talentInfo.talentInfoDO.pictures[0]">
-									#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-									</div><div class="plhd"></div><div class="del">删除图片</div>
-									<input type="file" name="adpicfile" class="adpicfile mult">
-									<input type="hidden" name="imgpath" value="">
-									#end
+									
+									
 								</span>
 								</label>
 								<label class="inblock">
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
-									#if ($picSize == 2)
-									#if ($!talentInfo.talentInfoDO.pictures[1])
+									
+									#if ($!talentInfo.talentInfoDO.pictures[1].length()>0)
 									<img src="http://img.test.yimayholiday.com/v1/tfs/$!{talentInfo.talentInfoDO.pictures[1]}">
 									#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 									#end
@@ -130,67 +127,49 @@
 									<input type="file" name="adpicfile" class="adpicfile mult">
 									<input type="hidden" name="imgpath" value="$!talentInfo.talentInfoDO.pictures[1]">
 									
-									#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-										
-									</div><div class="plhd"></div><div class="del">删除图片</div>
-									<input type="file" name="adpicfile" class="adpicfile mult">
-									<input type="hidden" name="imgpath" value="">
-									#end
+									
 								</span>
 								</label>
 								<label class="inblock">
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
-										#if ($picSize == 3)
-									#if ($!talentInfo.talentInfoDO.pictures[2])
-									<img src="http://img.test.yimayholiday.com/v1/tfs/img/$!{talentInfo.talentInfoDO.pictures[2]}">
+										
+									#if ($!talentInfo.talentInfoDO.pictures[2].length()>0)
+									<img src="http://img.test.yimayholiday.com/v1/tfs/$!{talentInfo.talentInfoDO.pictures[2]}">
 									#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 									#end
 									</div><div class="plhd"></div><div class="del">删除图片</div>
 									<input type="file" name="adpicfile" class="adpicfile mult">
 									<input type="hidden" name="imgpath" value="$!talentInfo.talentInfoDO.pictures[2]">
-									#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-										
-									</div><div class="plhd"></div><div class="del">删除图片</div>
-									<input type="file" name="adpicfile" class="adpicfile mult">
-									<input type="hidden" name="imgpath" value="">
-									#end
+									
 								</span>
 								</label>
 								<label class="inblock">
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
-									#if ($picSize == 4)
-										#if ($!talentInfo.talentInfoDO.pictures[3])
+									
+										#if ($!talentInfo.talentInfoDO.pictures[3].length()>0)
 									<img src="http://img.test.yimayholiday.com/v1/tfs/$!{talentInfo.talentInfoDO.pictures[3]}">
 									#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 									#end
 									</div><div class="plhd"></div><div class="del">删除图片</div>
 									<input type="file" name="adpicfile" class="adpicfile mult">
 									<input type="hidden" name="imgpath" value="$!talentInfo.talentInfoDO.pictures[3]">
-									#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-									</div><div class="plhd"></div><div class="del">删除图片</div>
-									<input type="file" name="adpicfile" class="adpicfile mult">
-									<input type="hidden" name="imgpath" value="">
-									#end
+									
 								</span>
 								</label>
 								<label class="inblock">
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
-									#if ($picSize == 5)
-										#if ($!talentInfo.talentInfoDO.pictures[4])
+									
+										#if ($!talentInfo.talentInfoDO.pictures[4].length()>0)
 									<img src="http://img.test.yimayholiday.com/v1/tfs/$!{talentInfo.talentInfoDO.pictures[4]}">
 									#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 									#end
 									</div><div class="plhd"></div><div class="del">删除图片</div>
 									<input type="file" name="adpicfile" class="adpicfile mult">
 									<input type="hidden" name="imgpath" value="$!talentInfo.talentInfoDO.pictures[4]">
-									#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-									</div><div class="plhd"></div><div class="del">删除图片</div>
-									<input type="file" name="adpicfile" class="adpicfile mult">
-									<input type="hidden" name="imgpath" value="">
-									#end
+									
 								</span>
 								</label></div>
 								<p class = "lab spelab">图片大小不超过500K，建议图片尺寸为：800*450，至少上传1张图片</p>
