@@ -33,5 +33,10 @@ public class Constant {
 	public static final String APP = "selleradmin";
 	
 	public static final String MENU_PARENT_FLAG = "#";
+	
+	public static final int MERCHANT_TYPE_ACCESS = 2;
+	
+	public static final int MERCHANT_TYPE_WAIT = 2;
+	
 
 }

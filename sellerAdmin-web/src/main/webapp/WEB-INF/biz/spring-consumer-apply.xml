@@ -22,4 +22,14 @@
         <property name="retries" value="${dubbo.retries}"/>
 		<property name="version" value="${consumer.dubbo.user.version}" />
 	</bean>
+	
+	<bean id="talentInfoDealService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+		<property name="interface" value="com.yimayhd.membercenter.client.service.back.TalentInfoDealService" />
+		<property name="application" ref="dubboApplicationConfig" />
+		<property name="registry" ref="dubboRegistryConfig" />
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
+		<property name="version" value="${consumer.dubbo.member.version}" />
+	</bean>
 </beans>
