@@ -183,6 +183,11 @@
 			<groupId>com.taobao.common.tfs</groupId>
 			<artifactId>common-tfs</artifactId>
 		</dependency>
+		<!-- stone -->
+		<dependency>
+			<groupId>com.yimayhd.stone</groupId>
+			<artifactId>stone</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>

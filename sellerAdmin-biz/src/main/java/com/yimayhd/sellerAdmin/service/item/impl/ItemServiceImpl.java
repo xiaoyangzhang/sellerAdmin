@@ -22,6 +22,7 @@ import com.yimayhd.sellerAdmin.converter.ItemConverter;
 import com.yimayhd.sellerAdmin.model.item.ItemListItemVO;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
 import com.yimayhd.sellerAdmin.model.query.ItemListQuery;
+import com.yimayhd.sellerAdmin.repo.CategoryRepo;
 import com.yimayhd.sellerAdmin.repo.CityRepo;
 import com.yimayhd.sellerAdmin.repo.CommentRepo;
 import com.yimayhd.sellerAdmin.repo.ItemRepo;
@@ -43,7 +44,9 @@ public class ItemServiceImpl implements ItemService {
 	private CommentRepo commentRepo;
 	@Autowired
 	private CityRepo cityRepo;
-
+	@Autowired
+	private CategoryRepo categoryRepo;
+	
 	@Override
 	public WebResult<PageVO<ItemListItemVO>> getItemList(long sellerId, ItemListQuery query) {
 		try {
@@ -103,5 +106,10 @@ public class ItemServiceImpl implements ItemService {
 			}
 		}
 		return departs;
+	}
+
+	@Override
+	public WebResult<PageVO<ItemListItemVO>> getCateList() {
+		return null;
 	}
 }
