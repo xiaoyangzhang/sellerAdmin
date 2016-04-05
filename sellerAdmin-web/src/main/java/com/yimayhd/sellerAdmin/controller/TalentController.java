@@ -42,23 +42,24 @@ public class TalentController extends BaseController {
 	
 	@Autowired
 	private TalentBiz talentBiz;
-	
+	/**
+	 * 跳转到达人审核协议
+	 * @return
+	 */
 	@RequestMapping(value="agreement",method=RequestMethod.GET)
-	public String toAgreementPage(HttpServletRequest request,HttpServletResponse response,Model model){
+	public String toAgreementPage() {
 		return "system/talent/agreement";
 		
 	}
 	/**
 	 * 跳转到填写达人申请资料页面1
-	 * 
-	 * @param request
-	 * @param response
-	 * @param model
+	  
+	
 	 * @return
 	 */
 	
 	@RequestMapping(value="toAddUserdatafill_pageOne",method=RequestMethod.GET)
-	public String toAddUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model){
+	public String toAddUserdatafill_a(){
 		
 		return "system/talent/userdatafill_a";
 		
@@ -71,13 +72,11 @@ public class TalentController extends BaseController {
 	}
 	/**
 	 * 跳转到达人申请入驻资料页面2
-	 * @param request
-	 * @param response
-	 * @param model
+	
 	 * @return
 	 */
 	@RequestMapping(value="toAddUserdatafill_pageTwo",method=RequestMethod.GET)
-	public String toAddUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
+	public String toAddUserdatafill_b() {
 
 		return "system/talent/userdatafill_b";
 		
@@ -91,13 +90,11 @@ public class TalentController extends BaseController {
 	
 	/**
 	 * 跳转到达人入驻待审核页面
-	 * @param request
-	 * @param response
-	 * @param model
+	 
 	 * @return
 	 */
 	@RequestMapping(value="verification",method=RequestMethod.GET)
-	public String verificationPage(HttpServletRequest request,HttpServletResponse response,Model model){
+	public String verificationPage() {
 		return "system/talent/verification";
 		
 	}
@@ -108,7 +105,7 @@ public class TalentController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param model
-	 * @param dto
+	 * @param vo 封装的达人审核资料对象
 	 * @return
 	 */
 	@RequestMapping(value="saveExamineInfo_pageOne",method=RequestMethod.POST)
@@ -119,12 +116,8 @@ public class TalentController extends BaseController {
 			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo);
 			if (resultSupport.isSuccess()) {
 				result.setValue("toAddUserdatafill_pageTwo");
-				//resultSupport.setUrl("toAddUserdatafill_b.htm");
 			}
-			if (resultSupport.isSuccess()) {
-				result.setValue("verification");
-				//resultSupport.setUrl("verification.htm");
-			}
+			
 			else {
 				result.setWebReturnCode(resultSupport.getWebReturnCode());
 			}
@@ -136,7 +129,7 @@ public class TalentController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param model
-	 * @param vo
+	 * @param vo 封装的达人审核资料对象
 	 * @return
 	 */
 	@RequestMapping(value="saveExamineInfo_pageTwo",method=RequestMethod.POST)
@@ -146,7 +139,6 @@ public class TalentController extends BaseController {
 			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo);
 			if (resultSupport.isSuccess()) {
 				result.setValue("verification");
-				//resultSupport.setUrl("verification.htm");
 			}
 			else {
 				result.setWebReturnCode(resultSupport.getWebReturnCode());
@@ -187,7 +179,7 @@ public class TalentController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param model
-	 * @param vo
+	 * @param vo 封装的达人基本信息对象
 	 * @return
 	 */
 	@RequestMapping(value="saveTalentInfo",method=RequestMethod.POST)
@@ -199,5 +191,30 @@ public class TalentController extends BaseController {
 			return resultSupport;
 		
 		
+	}
+	/**
+	 * 根据审核结果跳转到不同页面
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="checkResult",method=RequestMethod.GET)
+	public WebResult<String> getCheckResult(HttpServletRequest request,HttpServletResponse response,Model model) {
+		WebResult<String> result = new WebResult<>();
+		WebResultSupport checkResult = talentBiz.getCheckResult();
+		if (checkResult.isSuccess()) {
+			result.setValue("/user/login");
+		}
+		else {
+			result.setValue("nothrough");
+			
+		}
+		return result;
+		
+	}
+	@RequestMapping(value="nothrough",method=RequestMethod.GET)
+	public String nothrough() {
+		return "system/talent/nothrough";
 	}
 }

@@ -121,6 +121,21 @@ public class TalentBiz {
 			return webResultSupport;
 		}
 	}
-	
+	public WebResultSupport getCheckResult() {
+		WebResultSupport  webResultSupport = new WebResultSupport();
+		InfoQueryDTO examineQueryDTO = new InfoQueryDTO();
+		examineQueryDTO.setDomainId(1200);
+		examineQueryDTO.setType(1);
+		examineQueryDTO.setSellerId(25);
+		MemResult<String> examineDealResult = examineDealService.queryExamineDealResult(examineQueryDTO);
+		if (examineDealResult.isSuccess()) {
+			
+		}
+		else {
+			webResultSupport.setWebReturnCode(WebReturnCode.TALENT_CHECKRESULT_FAILURE);
+		}
+		return webResultSupport;
+		
+	}
 	
 }

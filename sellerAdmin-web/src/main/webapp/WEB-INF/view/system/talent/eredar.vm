@@ -235,11 +235,11 @@
 									</div>
 									<div class="bd">
 										#foreach ($info in $talentInfo.pictureTextDTO.picTexts)
-											#if ($info.type == 2)
+											#if ($info.type == 1)
 												<p class="text"><font>$!info.value</font></p>
-											#elseif ($info.type == 1)
+											#elseif ($info.type == 2)
 												<p class="pic">
-												<img src="$!info.value">
+												<img src="http://img.test.yimayholiday.com/v1/tfs/$!info.value">
 										</p>
 											#end
 										#end
@@ -254,7 +254,7 @@
 										</p> -->	
 									</div>
 									<textarea id="contentText" style="display:none;"></textarea>
-									<input type="hidden" id="uploadAction" value="http://192.168.0.139:8080/file/upload"/>
+									<input type="hidden" id="uploadAction" value="http://192.168.0.139:80/file/upload"/>
 								</div>
 							</td>
 						</tr>
