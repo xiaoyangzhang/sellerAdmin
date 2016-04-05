@@ -393,12 +393,12 @@ public class LineConverter {
 		List<RouteItemDO> routeItemDOList = new ArrayList<RouteItemDO>();
 		for (int i = 1; i <= routeDays.size(); i++) {
 			RouteDayVO tripDay = routeDays.get(i - 1);
-			routeItemDOList.addAll(toRouteItemDO(tripDay));
+			routeItemDOList.addAll(toRouteItemDO(i, tripDay));
 		}
 		return routeItemDOList;
 	}
 
-	public static List<RouteItemDO> toRouteItemDO(RouteDayVO routeDay) {
+	public static List<RouteItemDO> toRouteItemDO(int day, RouteDayVO routeDay) {
 		if (routeDay == null) {
 			return new ArrayList<RouteItemDO>(0);
 		}
@@ -411,6 +411,7 @@ public class LineConverter {
 		RouteItemDO routeItemDO = new RouteItemDO();
 		routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DETAIL.getType());
 		routeItemDO.setRouteItemDetail(routeItemDetail);
+		routeItemDO.setDay(day);
 		List<RouteItemDO> result = new ArrayList<RouteItemDO>();
 		result.add(routeItemDO);
 		return result;

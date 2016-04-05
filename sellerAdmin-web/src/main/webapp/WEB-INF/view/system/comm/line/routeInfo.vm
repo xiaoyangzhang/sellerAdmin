@@ -116,7 +116,7 @@
 		#set($day = ${velocityCount})
 		<div class="tab-pane in #if(${day}==1) active #end" id="day_${velocityCount}_page">
 			<div class="panel trip-title">
-				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程描述</span></div>
+				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程标题</span></div>
 				<div class="panel-body trip-title-content">
 					<input type="text" class="form-control trip-title-text" id="day_${velocityCount}_trip_title" route-item-id="$!{tripDay.descriptionRouteItemId}" value="$!{tripDay.title}"/>
 				</div>
