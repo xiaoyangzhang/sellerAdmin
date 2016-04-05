@@ -8,16 +8,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.query.InfoQueryDTO;
+import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
+import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.biz.MerchantBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.vo.merchant.MerchantInfoVo;
+import com.yimayhd.sellerAdmin.vo.merchant.UserDetailInfo;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.dto.MerchantDTO;
 import com.yimayhd.user.client.dto.UserDTO;
-import com.yimayhd.user.client.enums.MerchantOption;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.client.service.UserService;
@@ -45,6 +50,9 @@ public class MerchantController extends BaseController{
 	
 	@Resource
 	private MerchantService merchantService;
+	
+	@Resource
+	private ExamineDealService examineDealService;
 	
 	/**
 	 * 跳转到选择页面
@@ -86,6 +94,34 @@ public class MerchantController extends BaseController{
 	}
 	
 	/**
+	 * 保存商户基本信息
+	 * @param merchantDO
+	 * @return
+	 */
+	@RequestMapping(value = "/saveBusinessBasic" )
+	@ResponseBody
+	public WebResultSupport saveBusinessBasic(MerchantInfoVo basicInfo){
+		UserDTO userDTO = new UserDTO();
+		userDTO.setId(sessionManager.getUserId());
+		userDTO.setNickname(basicInfo.getNickName());
+
+		WebResultSupport result = merchantBiz.updateUser(userDTO);
+		if (result.isSuccess()) {
+			if (basicInfo.getId() == 0) {// 新增
+				WebResultSupport merChantResult = merchantBiz
+						.saveMerchant(basicInfo);
+				return merChantResult;
+			} else {// 修改
+				WebResultSupport updateResult = merchantBiz
+						.updateMerchantInfo(basicInfo);
+				return updateResult;
+			}
+		} else {
+			return result;
+		}
+	}
+	
+	/**
 	 * 跳转到商户入驻用户协议页面
 	 * @param model
 	 * @return
@@ -96,13 +132,79 @@ public class MerchantController extends BaseController{
 	}
 	
 	/**
-	 * 跳转到商户入驻填写页面
+	 * 跳转到商户入驻填写页面A
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value = "toDetailPage")
 	public String toBusinessDetailPage(Model model){
+		InfoQueryDTO info = new InfoQueryDTO();
+		info.setType(ExamineType.MERCHANT.getId());
+		info.setDomainId(Constant.DOMAIN_JIUXIU);
+		info.setSellerId(sessionManager.getUserId());
+		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoById(info);
+		if(result.isSuccess()){
+			model.addAttribute("imgSrc",Constant.TFS_URL);
+			model.addAttribute("examineInfo", result.getValue());
+		}
 		return "/system/merchant/userdatafill_a";
+	}
+	
+	/**
+	 * 跳转到商户入驻填写页面B
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "toDetailPageB")
+	public String toDetailPageB(Model model){
+		InfoQueryDTO info = new InfoQueryDTO();
+		info.setType(ExamineType.MERCHANT.getId());
+		info.setDomainId(Constant.DOMAIN_JIUXIU);
+		info.setSellerId(sessionManager.getUserId());
+		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoById(info);
+		if(result.isSuccess()){
+			model.addAttribute("imgSrc",Constant.TFS_URL);
+			model.addAttribute("examineInfo", result.getValue());
+		}
+		return "/system/merchant/userdatafill_b";
+	}
+	/**
+	 * 新增或修改商户入驻填写信息PAGE-1
+	 * @param userDetailInfo
+	 * @return
+	 */
+	@RequestMapping(value="saveUserdata")
+	@ResponseBody
+	public WebResult<String> saveUserdata(UserDetailInfo userDetailInfo){
+		WebResult<String> rest = new WebResult<String>();
+		
+		WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
+		if(result.isSuccess()){
+			rest.setValue("/sellerAdmin/merchant/toDetailPageB");
+		}else{
+			rest.setWebReturnCode(result.getWebReturnCode());
+		}
+		return rest;
+		
+	}
+	
+	/**
+	 * 新增或修改商户入驻填写信息PAGE-2
+	 * @param userDetailInfo
+	 * @return
+	 */
+	@RequestMapping(value="saveUserdataB")
+	@ResponseBody
+	public WebResultSupport saveUserdataB(UserDetailInfo userDetailInfo){
+		WebResult<String> rest = new WebResult<String>();
+		
+		WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
+		if(result.isSuccess()){
+			rest.setValue("/sellerAdmin/merchant/toVerifyPage");
+		}else{
+			rest.setWebReturnCode(result.getWebReturnCode());
+		}
+		return rest;
 	}
 	
 	/**
@@ -122,89 +224,25 @@ public class MerchantController extends BaseController{
 	 */
 	@RequestMapping(value = "toNotThrowPage")
 	public String toBusinessNotThrowPage(Model model){
-		return "/system/merchant/nothrough";
-	}
-	
-	/**
-	 * 保存商户基本信息
-	 * @param merchantDO
-	 * @return
-	 */
-	@RequestMapping(value = "/saveBusinessBasic" )
-	@ResponseBody
-	public WebResultSupport saveBusinessBasic(MerchantInfoVo basicInfo){
-		UserDTO userDTO =new UserDTO();
-		MerchantDO merchantDO = new MerchantDO();
-		MerchantDTO merchantDTO = new MerchantDTO();
-		
-		setMerchant(userDTO, merchantDO,merchantDTO, basicInfo);
-		
-		WebResultSupport result = merchantBiz.updateUser(userDTO);
-		if(result.isSuccess()){
-			if(basicInfo.getId() == 0){//新增
-				WebResultSupport merChantResult = merchantBiz.saveMerchant(merchantDO);
-				return merChantResult;
-			}else{//修改
-				WebResultSupport updateResult = merchantBiz.updateMerchantInfo(merchantDTO);
-				return updateResult;
+		try {
+			InfoQueryDTO info = new InfoQueryDTO();
+			info.setType(ExamineType.MERCHANT.getId());
+			info.setDomainId(Constant.DOMAIN_JIUXIU);
+			info.setSellerId(sessionManager.getUserId());
+			MemResult<String> result = examineDealService.queryExamineDealResult(info);
+			if(result.isSuccess()){
+				model.addAttribute("reason", result.getValue());
 			}
-		}else{
-			return result;
+			return "/system/merchant/nothrough";
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return "/error";
 		}
-	}
-	
-	@RequestMapping(value = "/saveUserDataFillA" )
-	@ResponseBody
-	public WebResultSupport saveUserDataFillA(MerchantInfoVo basicInfo){
-		UserDTO userDTO =new UserDTO();
-		MerchantDO merchantDO = new MerchantDO();
-		MerchantDTO merchantDTO = new MerchantDTO();
 		
-		setMerchant(userDTO, merchantDO,merchantDTO, basicInfo);
-		
-		WebResultSupport result = merchantBiz.updateUser(userDTO);
-		if(result.isSuccess()){
-			if(basicInfo.getId() == 0){//新增
-				WebResultSupport merChantResult = merchantBiz.saveMerchant(merchantDO);
-				return merChantResult;
-			}else{//修改
-				WebResultSupport updateResult = merchantBiz.updateMerchantInfo(merchantDTO);
-				return updateResult;
-			}
-		}else{
-			return result;
-		}
 	}
 	
 	
 	
-	private void setMerchant(UserDTO userDTO,MerchantDO merchantDO,MerchantDTO merchantDTO,MerchantInfoVo basicInfo){
-		userDTO.setId(sessionManager.getUserId());
-		userDTO.setNickname(basicInfo.getNickName());
-		
-		merchantDO.setSellerId(sessionManager.getUserId());
-		
-		merchantDO.setOption(MerchantOption.MERCHANT.getOption());
-		merchantDO.setDomainId(Constant.DOMAIN_JIUXIU);
-		merchantDO.setName(basicInfo.getName());
-		merchantDO.setMerchantPrincipalTel(basicInfo.getMerchantPrincipalTel());
-		merchantDO.setServiceTel(basicInfo.getServiceTel());
-		merchantDO.setAddress(basicInfo.getAddress());
-		//店铺店招
-		merchantDO.setLoopImages(basicInfo.getDjImage());
-		//商户头像
-		merchantDO.setLogo(basicInfo.getTxImage());
-		
-		merchantDTO.setId(basicInfo.getId());
-		merchantDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-		merchantDTO.setName(basicInfo.getName());
-		merchantDTO.setMerchantPrincipalTel(basicInfo.getMerchantPrincipalTel());
-		merchantDTO.setServiceTel(basicInfo.getServiceTel());
-		merchantDTO.setAddress(basicInfo.getAddress());
-		//店铺店招
-		merchantDTO.setLoopImages(basicInfo.getDjImage());
-		//商户头像
-		merchantDTO.setLogoImage(basicInfo.getTxImage());
-	}
+	
 	
 }

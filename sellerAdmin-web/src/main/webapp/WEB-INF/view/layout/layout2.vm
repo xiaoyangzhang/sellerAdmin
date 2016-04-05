@@ -9,6 +9,14 @@
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/base.css">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/common.css">
 
+<script>
+    var actionDefaultPath = '$!{utilWebconfig.getActionDefaultFontPath()}';
+    var tfsRootPath = '$!{utilWebconfig.getTfsRootPath()}';
+    var staticResourcesPath='$!{utilWebconfig.getStaticResourcesPath()}';
+    var uploadFile='$!{utilWebconfig.getActionUploadFilePath()}';
+    var uploadFiles='$!{utilWebconfig.getActionUploadFilesPath()}';
+</script>
+
 </head>
 <body>
 $screen_content

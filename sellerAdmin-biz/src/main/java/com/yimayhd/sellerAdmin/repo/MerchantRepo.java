@@ -6,6 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.MerchantDTO;
@@ -22,6 +25,9 @@ public class MerchantRepo {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Resource
+	private ExamineDealService examineDealService;
 	
 	/**
 	 * 更新用户信息
@@ -49,5 +55,14 @@ public class MerchantRepo {
 	public BaseResult<Boolean> updateMerchantInfo(MerchantDTO merchantDTO) {
 		return merchantService.updateMerchantInfo(merchantDTO);
 	}
-
+	
+	/**
+	 * 新增或修改商户入驻资料
+	 * @param examineInfoDTO
+	 * @return
+	 */
+	public MemResult<Boolean> saveUserdata(ExamineInfoDTO examineInfoDTO){
+		return examineDealService.submitMerchantExamineInfo(examineInfoDTO);
+	}
+	
 }
