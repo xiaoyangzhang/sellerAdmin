@@ -128,7 +128,7 @@ public class TalentInfoVO extends TalentInfoDO {
 		talentInfoDO.setCertificates(JSON.parseArray(vo.getCertificatess(), CertificatesDO.class));
 		talentInfoDO.setPictures(JSON.parseArray(vo.getImgpath(), String.class));
 		//talentInfoDO.setId(new SessionManager().getUserId());
-		talentInfoDO.setCity(vo.getProvince());
+		//talentInfoDO.setPictu
 		talentInfoDO.setId(19000);
 		return talentInfoDO;
 		
