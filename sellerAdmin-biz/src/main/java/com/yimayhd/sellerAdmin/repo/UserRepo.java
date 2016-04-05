@@ -300,6 +300,9 @@ public class UserRepo {
 	 */
 	public UserDO getUserByMobile(String mobile) {
 		BaseResult<UserDO> userDOResult = userServiceRef.getUserByMobile(mobile);
+		if( userDOResult == null || !userDOResult.isSuccess() ){
+			return null;
+		}
 		return userDOResult.getValue();
 	}
 

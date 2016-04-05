@@ -31,9 +31,15 @@ public class WebOperateResult extends WebResultSupport {
 	 *            错误信息
 	 * @return
 	 */
-	public static WebOperateResult failure(WebReturnCode returnCode, String msg) {
+	public static WebOperateResult failure(WebReturnCode webReturnCode, String msg) {
 		WebOperateResult operateResult = new WebOperateResult();
-		operateResult.initFailure(returnCode, msg);
+		operateResult.initFailure(webReturnCode, msg);
+		return operateResult;
+	}
+	
+	public static WebOperateResult failure(WebReturnCode webReturnCode) {
+		WebOperateResult operateResult = new WebOperateResult();
+		operateResult.initFailure(webReturnCode);
 		return operateResult;
 	}
 

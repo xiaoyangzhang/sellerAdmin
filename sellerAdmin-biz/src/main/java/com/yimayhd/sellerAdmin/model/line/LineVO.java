@@ -3,8 +3,8 @@ package com.yimayhd.sellerAdmin.model.line;
 import java.io.Serializable;
 
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
-import com.yimayhd.sellerAdmin.model.line.detail.PictureTextVO;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
+import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextVO;
 import com.yimayhd.sellerAdmin.model.line.price.PriceInfoVO;
 import com.yimayhd.sellerAdmin.model.line.route.RouteInfoVO;
 import com.yimayhd.sellerAdmin.model.line.route.RoutePlanVo;

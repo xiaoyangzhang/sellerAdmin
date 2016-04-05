@@ -8,20 +8,36 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
+import com.yimayhd.membercenter.client.enums.HaMenuRequestType;
+import com.yimayhd.membercenter.client.enums.HaMenuType;
 import com.yimayhd.sellerAdmin.constant.Constant;
-import com.yimayhd.sellerAdmin.vo.menu.MenuVO;
+import com.yimayhd.sellerAdmin.model.vo.menu.MenuVO;
 
 public class MenuHelper {
 	
-	public static MenuVO getSelectedMenu(List<MenuVO> menus, String menuUrl){
+	public static MenuVO getSelectedMenu(List<MenuVO> menus, String menuUrl, String method){
 		if( CollectionUtils.isEmpty(menus) || StringUtils.isBlank(menuUrl) ){
 			return null;
 		}
 		String url = menuUrl.trim() ;
+		
 		for( MenuVO menu : menus ){
-			String ml = menu.getUrl() ;
-			if( ml != null && url.equalsIgnoreCase(ml.trim()) ){
-				return menu ;
+			List<MenuVO> children = menu.getChildren() ;
+			if( CollectionUtils.isEmpty(children) ){
+				continue ;
+			}
+			for( MenuVO child : children ){
+				String ml = child.getUrl() ;
+				if( ml != null && url.equalsIgnoreCase(ml.trim()) ){
+					HaMenuRequestType type = HaMenuRequestType.getRequestType(menu.getRequestType());
+					if( type == null ){
+						continue;
+					}else if( HaMenuRequestType.ALL == type ){
+						return child ;
+					}else if( type.name().equalsIgnoreCase(method) ){
+						return child ;
+					}
+				}
 			}
 		}
 		return null;
@@ -59,7 +75,6 @@ public class MenuHelper {
 //			}
 //		}
 //		return null;
-//		
 //	}
 	
 	
@@ -98,7 +113,7 @@ public class MenuHelper {
 		Map<Long, List<MenuVO>> map = new HashMap<Long, List<MenuVO>>() ;
 		for( MenuVO menu: menus ){
 			long parentId = menu.getParentId() ;
-			if( menu.hasParent() ){
+			if( HaMenuType.MENU.getType() == menu.getType() && menu.hasParent() ){
 				List<MenuVO> list = map.get(parentId);
 				if( list == null ){
 					list = new ArrayList<MenuVO>() ;

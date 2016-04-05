@@ -17,7 +17,7 @@ public class Constant {
 
 	public static final String TOKEN_CLIENT = SessionConstant.TOKEN_CLIENT;
 
-	public static final String LOGIN_URL = "/user/toLogin";
+//	public static final String LOGIN_URL = "/user/login";
 
 	public static final int DOMAIN_B2CPC = 1000;
 

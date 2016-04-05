@@ -18,8 +18,8 @@
     		</li>
     		<li class="logout"><a href="$root_path/user/logout">退出</a></li>
 		#else
-    		<li class="login"><a href="$root_path/user/toLogin">登录</a></li>
-    		<li class="register"><a href="$root_path/user/toRegister">注册</a></li>
+    		<li class="login"><a href="$root_path/user/login">登录</a></li>
+    		<li class="register"><a href="$root_path/user/register">注册</a></li>
 		#end
 	</ul>
 </div>

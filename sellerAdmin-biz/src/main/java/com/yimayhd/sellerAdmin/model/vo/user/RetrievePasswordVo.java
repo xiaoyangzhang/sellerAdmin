@@ -18,7 +18,7 @@ import java.io.Serializable;
  * @version
  * @see
  */
-public class RetrievePasswordVo implements Serializable{
+public class RetrievePasswordVo implements Serializable {
 
 	private static final long serialVersionUID = 3865192747999056809L;
 

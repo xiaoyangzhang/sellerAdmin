@@ -295,7 +295,7 @@
     // 批量插入
 	$(document).delegate(".batch-insert","click",function() {
 		var currentTcId = $(this).attr("tc-id");
-		openModalForForm(actionDefaultPath + '/line/batchInsert?categoryId=${categoryId}','批量录入 ',function() {
+		openModalForForm('$!{utilWebconfig.getStaticResourcesPath()}/line/batchInsert?categoryId=${categoryId}','批量录入 ',function() {
 			var data = win.getData();
 			for(var i in data) {
 				var block = data[i];

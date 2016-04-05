@@ -1,13 +1,11 @@
 package com.yimayhd.sellerAdmin.model;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.yimayhd.commentcenter.client.domain.PicTextDO;
 import com.yimayhd.membercenter.client.domain.PictureTextDO;
 import com.yimayhd.membercenter.client.domain.talent.TalentInfoDO;
 import com.yimayhd.membercenter.client.dto.PictureTextDTO;

@@ -1,7 +1,7 @@
 package com.yimayhd.sellerAdmin.controller;
 
 
-import java.util.List; 
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;

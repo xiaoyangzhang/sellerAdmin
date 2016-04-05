@@ -10,7 +10,7 @@ import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.checker.TagChecker;
-import com.yimayhd.sellerAdmin.checker.result.CheckResult;
+import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.model.LiveTagVO;
 import com.yimayhd.sellerAdmin.repo.CommentRepo;
 import com.yimayhd.sellerAdmin.service.LiveTagService;
@@ -53,18 +53,18 @@ public class LiveTagServiceImpl implements LiveTagService {
 	@Override
 	public void save(LiveTagVO tag) {
 		if (tag.getId() > 0) {
-			CheckResult checkResult = TagChecker.checkLiveTagVOForUpdate(tag);
+			WebCheckResult checkResult = TagChecker.checkLiveTagVOForUpdate(tag);
 			if (checkResult.isSuccess()) {
 				tagRepo.updateTag(tag.toTagInfo());
 			} else {
-				throw new BaseException(checkResult.getMsg());
+				throw new BaseException(checkResult.getResultMsg());
 			}
 		} else {
-			CheckResult checkResult = TagChecker.checkLiveTagVOForSave(tag);
+			WebCheckResult checkResult = TagChecker.checkLiveTagVOForSave(tag);
 			if (checkResult.isSuccess()) {
 				tagRepo.saveTag(tag.toTagInfo());
 			} else {
-				throw new BaseException(checkResult.getMsg());
+				throw new BaseException(checkResult.getResultMsg());
 			}
 		}
 	}

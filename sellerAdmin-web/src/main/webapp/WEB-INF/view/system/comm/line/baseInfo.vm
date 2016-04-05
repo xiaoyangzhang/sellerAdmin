@@ -3,7 +3,7 @@
 	<tbody>
 		<tr>
 			<td>商品类型：</td>
-			<td>$!{itemType.text}</td>
+			<td>$!{utilItem.getItemTypeName($product.baseInfo.type)}</td>
 		</tr>
 		<tr>
 			<td>*商品标题：</td>

@@ -47,11 +47,13 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public WebResult<PageVO<ItemListItemVO>> getItemList(long sellerId, ItemListQuery query) {
 		try {
-			if (sellerId <= 0 || query == null) {
+			if (sellerId <= 0) {
 				log.warn("Params: sellerId=" + sellerId);
-				log.warn("Params: query=" + JSON.toJSONString(query));
 				log.warn("ItemService.getItemList param error");
 				return WebResult.failure(WebReturnCode.PARAM_ERROR, "参数错误");
+			}
+			if (query == null) {
+				query = new ItemListQuery();
 			}
 			ItemQryDTO itemQryDTO = ItemConverter.toItemQryDTO(sellerId, query);
 			ItemPageResult itemPageResult = itemRepo.getItemList(itemQryDTO);
@@ -66,18 +68,12 @@ public class ItemServiceImpl implements ItemService {
 				resultList.add(ItemConverter.toItemListItemVO(itemDO));
 				itemIds.add(itemDO.getId());
 			}
-			Map<Long, List<ComTagDO>> tagMap = commentRepo.getTagsByOutIds(itemIds, TagType.DESRTPLACE);
+			Map<Long, List<ComTagDO>> tagMap = commentRepo.getTagsByOutIds(itemIds, TagType.DESTPLACE);
 			for (ItemListItemVO itemListItemVO : resultList) {
 				long itemId = itemListItemVO.getId();
 				if (tagMap.containsKey(itemId)) {
 					List<ComTagDO> comTagDOs = tagMap.get(itemId);
-					List<CityVO> dests = new ArrayList<CityVO>();
-					if (CollectionUtils.isNotEmpty(comTagDOs)) {
-						for (ComTagDO comTagDO : comTagDOs) {
-							CityDTO cityDTO = cityRepo.getNameByCode(comTagDO.getName());
-							dests.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
-						}
-					}
+					List<CityVO> dests = toCityVO(comTagDOs);
 					itemListItemVO.setDests(dests);
 				}
 			}
@@ -92,4 +88,22 @@ public class ItemServiceImpl implements ItemService {
 		}
 	}
 
+	private List<CityVO> toCityVO(List<ComTagDO> tags) {
+		if (CollectionUtils.isEmpty(tags)) {
+			return new ArrayList<CityVO>(0);
+		}
+		List<String> codes = new ArrayList<String>();
+		for (ComTagDO comTagDO : tags) {
+			codes.add(comTagDO.getName());
+		}
+		Map<String, CityDTO> citiesByCodes = cityRepo.getCitiesByCodes(codes);
+		List<CityVO> departs = new ArrayList<CityVO>();
+		for (ComTagDO comTagDO : tags) {
+			if (citiesByCodes.containsKey(comTagDO.getName())) {
+				CityDTO cityDTO = citiesByCodes.get(comTagDO.getName());
+				departs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
+			}
+		}
+		return departs;
+	}
 }

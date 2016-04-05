@@ -840,7 +840,7 @@ public class HomeCfgServiceImpl implements HomeCfgService {
 	public ServiceResult<LineDO> getLineDetail(Long id) {
 		ServiceResult<LineDO> result = new ServiceResult<LineDO>(false);
 
-		LineResult lineResult = lineRepo.getLineById(id);
+		LineResult lineResult = lineRepo.getLineByItemId(id);
 		if (lineResult.isSuccess()) {
 			result.setResult(true);
 			result.setValue(lineResult.getLineDO());

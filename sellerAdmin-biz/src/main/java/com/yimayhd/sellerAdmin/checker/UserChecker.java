@@ -4,11 +4,13 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
-import com.yimayhd.sellerAdmin.checker.result.CheckResult;
+import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.model.vo.user.LoginVo;
+import com.yimayhd.sellerAdmin.model.vo.user.ModifyPasswordVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RetrievePasswordVo;
 import com.yimayhd.sellerAdmin.util.CheckUtils;
+import com.yimayhd.sellerAdmin.util.PhoneUtil;
 
 /**  
  * 
@@ -28,29 +30,30 @@ public class UserChecker {
 		}
 		return result;
 	} 
-//	public static CheckResult checkLoginVo(LoginVo loginVo){
-//		
-//		if(loginVo.getUsername() == null || StringUtils.isBlank(loginVo.getUsername())){
-//			return CheckResult.error("手机号码不能为空");
-//		}
-//		return CheckResult.success();
-//	} 
 	
-	public static CheckResult checkRegisterVo(RegisterVo registerVo){
-		if(registerVo.getUsername() == null || StringUtils.isBlank(registerVo.getUsername())){
-			return CheckResult.error("手机号码不能为空");
+	public static WebResultSupport checkRegisterVo(RegisterVo registerVo){
+		WebResultSupport result = new WebResultSupport() ;
+		if(registerVo == null){
+			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+			return result ;
 		}
 		
-		if(registerVo.getPassword() == null || StringUtils.isBlank(registerVo.getPassword())){
-			return CheckResult.error("密码不能为空");
+		String mobile = registerVo.getUsername() ;
+		if(StringUtils.isBlank( mobile )){
+			result.setWebReturnCode(WebReturnCode.USERNAME_EMPTY);
+			return result ;
+		}
+		if( !PhoneUtil.isMobileNumber(mobile) ){
+			result.setWebReturnCode(WebReturnCode.MOBILE_FORMAT_ERROR);
+			return result ;
 		}
 		
-		if(!CheckUtils.isMobileNO(registerVo.getUsername())){
-			return CheckResult.error("手机号码格式不正确");
+		String password = registerVo.getPassword() ;
+		if( StringUtils.isBlank(password)){
+			result.setWebReturnCode(WebReturnCode.PASSWORD_EMPTY);
+			return result ;
 		}
-		
-		
-		return CheckResult.success();
+		return result;
 	}
 
 	public static WebResultSupport checkRetrievePassword(RetrievePasswordVo retrievePasswordVo){
@@ -67,16 +70,19 @@ public class UserChecker {
 		}
 		return result;
 	}
-	public static CheckResult checkRetrievePasswordVo(RetrievePasswordVo retrievePasswordVo){
-		if(retrievePasswordVo.getUsername() == null || StringUtils.isBlank(retrievePasswordVo.getUsername())){
-			return CheckResult.error("手机号码不能为空");
+	public static WebResultSupport checkModifyPasswordPassword(ModifyPasswordVo modifyPasswordVo){
+		WebResultSupport result = new WebResultSupport() ;
+		if( modifyPasswordVo == null || StringUtils.isBlank(modifyPasswordVo.getOldPassword()) ){
+			result.setWebReturnCode(WebReturnCode.OLD_PASSWORD_EMPTY);
+			return result;
+		}else if( !StringUtils.isBlank(modifyPasswordVo.getNewPassword() ) ){
+			result.setWebReturnCode(WebReturnCode.NEW_PASSWORD_EMPTY);
+			return result;
+		}else if( modifyPasswordVo.getNewPassword().equals(modifyPasswordVo.getOldPassword()) ){
+			result.setWebReturnCode(WebReturnCode.NEW_OLD_PASSWORD_EQUAL);
+			return result;
 		}
-		
-		if(!CheckUtils.isMobileNO(retrievePasswordVo.getUsername())){
-			return CheckResult.error("手机号码格式不正确");
-		}
-		
-		return CheckResult.success();
+		return result;
 	}
 }
   
