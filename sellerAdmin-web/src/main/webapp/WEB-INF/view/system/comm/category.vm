@@ -1,60 +1,72 @@
+#set($layout="layout/blank.vm")
+<!DOCTYPE html>
+<html>
+    <head>
+		#parse("layout/meta.vm")
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <meta property="wb:webmaster" content="3aababe5ed22e23c" />     
+        <title>类目</title>
+        <style>
+			select{width:200px;height:500px;margin:20px;}
+			.a_link{display:inline-block;background:#1E90FF;cursor:pointer;width:100px;heigth:24px;line-height:24px;text-align:center;color:#fff;font-size:14px;text-decoration:none;}
+		</style>
+        <link href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/css/groupTravel.css?version=$!{utilWebconfig.getResourceVersion()}"/>
+        
+        <link rel="stylesheet" href="$rs_js_css_path_admin/css/base.css">
+		<link rel="stylesheet" href="$rs_js_css_path_admin/css/common.css"/>
+		<link rel="stylesheet" href="$rs_js_css_path_admin/css/zui.min.css"/>
+		<link rel="stylesheet" href="$rs_js_css_path_admin/css/addtravel.css"/>
+		<link rel="stylesheet" href="$rs_js_css_path_admin/css/editer.css"/>
+		
 
-<div class="categoryWrap">
-    <div class="selectCategoryList">
-        <p>请选择分类：</p>
-        <select class="form-control selectCategory" name="">
-            <option value="" >请选择</option>
-            #foreach($category in $!categoryList)
-                <option value="$!category.id" leaf="$!category.leaf">$!category.name</option>
-            #end
-        </select>
-    </div>
-    <div class="btn-group selectBtn">
-        <form name="commodityForm" id="commodityForm" action="" method="get">
-            <input type="hidden" class="selectCategoryId" name="categoryId" value="">
-            <button type="button" class="btn btn-primary submitBtn">选择</button>
-        </form>
-    </div>
-</div>
-
+		<script type="text/javascript" src="$rs_js_css_path_admin/js/jquery.js"></script>
+		<script type="text/javascript" src="$rs_js_css_path_admin/js/jquery.form.js"></script>
+		<script type="text/javascript" src="$rs_js_css_path_admin/js/zui.min.js"></script>
+		<script type="text/javascript" src="$rs_js_css_path_admin/layer/layer.js"></script>
+		<script type="text/javascript" src="$rs_js_css_path_admin/js/addtravel.js"></script>
+		<script type="text/javascript" src="$rs_js_css_path_admin/js/upldf.js"></script>
+		</head>
+	<body>
+		<div>
+		<select class="chse" multiple="true"></select>
+		</div>
+		<a id="a_link" class="a_link">确定</a>
+	</body>
+</html>
 <script>
-    $(function(){
-        $(document).delegate('.selectCategory','change',function(){
-            //清除掉之后的选项
-            $(this).nextAll().remove();
-            //清除掉已选择的叶子节点id
-            $('.selectCategoryId').val('');
-            var id = $(this).val();
-            var leaf = $(this).find(':selected').attr('leaf');
-            //非叶子节点,加载子节点
-            if(id && '0' != id && 'true' != leaf){
-                $.get(actionDefaultPath + '/B2C/commodityManage/subCategory/' + id,function(data){
-                    if(data && data.status == 200){
-                        var selectCategoryStart = '<select class="form-control selectCategory" name="commStatus"><option value="0" >请选择</option>';
-                        var selectCategoryEnd= '</select>';
-                        for(var key in data.data){
-                            selectCategoryStart += '<option value="' + data.data[key].id + '" leaf="' + data.data[key].leaf + '" >' + data.data[key].name + '</option>'
-                        }
-                        $('.selectCategoryList').append(selectCategoryStart + selectCategoryEnd);
-
-                    }else{
-                        layer.alert('请求出错，请重试',{icon:2});
-                    }
-                });
-            }else{
-                //叶子节点处理
-                $('.selectCategoryId').val(id);
-            }
-        });
-
-        $('.submitBtn').click(function(){
-            if(!$('.selectCategoryId').val()){
-                layer.alert('请选择分类',{icon:2});
-            }else{
-                $('#commodityForm').attr('action', actionDefaultPath + '/B2C/commodityManage/toAdd');
-                $('#commodityForm').submit();
-            }
-        });
-
-    });
+    function getdata(level,id,n){
+	n=n?n:0;
+	$.ajax({
+		url : "$!utilWebconfig.getActionDefaultFontPath()/item/getcate.json",
+		data:{categoryId:id},
+		success : function(data){
+			var selobj=$('.chse:eq('+n+')').empty(),obja=$('.a_link');
+			for(var i=0;i<data.length;i++){
+					if(data[i].isLeaf){
+						selobj.append('<option value='+data[i].categoryId+'>'+data[i].categoryName+'</option>')
+						.find('option:eq('+i+')').on('click',function(ev){
+							obja.attr({'href':'/?id='+$(this).val(),'style':'background:#1E90FF'});
+						});
+					}else{
+						if(level>(n+1)){
+							selobj.append('<option style="background:#98CC65;cursor:pointer;" value='+data[i].categoryId+'>'+data[i].categoryName+'</option>')
+							.find('option:eq('+i+')').on('click',function(ev){
+								var pr=$(this).closest('select');
+								obja.attr({'href':'javascript:void(0)','style':'background:#bbb'});
+								pr.nextAll('select').remove();
+								if(pr.next('select').length==0) pr.after($('<select>',{class:'chse',multiple:true}));
+								getdata(level,$(this).val(),n+1);
+							});
+						}
+					}
+			}
+		}             
+	});
+}
+$(function(){
+	getdata(3);
+});
 </script>
