@@ -106,7 +106,11 @@
 		<span class="input-group-btn">
 			<button class="btn btn-default" type="button">提前报名天数</button>
 		</span>
+		#if($product)
         <input type="text" class="form-control day-limit int-only" value="$!{product.priceInfo.limit}">
+		#else
+		<input type="text" class="form-control day-limit int-only" value="0">
+		#end
     </div>
     #*<div class="input-group inpSingle">
 		<span>提前报名天数：</span>
