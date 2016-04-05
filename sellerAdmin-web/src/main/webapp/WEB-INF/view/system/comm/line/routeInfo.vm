@@ -3,7 +3,7 @@
 -->
 <div class="tripInfo">
 	<ul id="day_tab" class="nav nav-tabs tripInfoNav">
-		#foreach($tripDay in $product.tripInfo)
+		#foreach($tripDay in $product.routeInfo.routeDays)
 		<li class='day_${velocityCount}_tab day_tab #if(${velocityCount}==1) active #end' day-id='${velocityCount}'>
 			<a href='#day_${velocityCount}_page' data-toggle='tab' class='day_tab_a'>Day</a><i class='icon icon-trash myTrash'></i>
 		</li>
@@ -130,6 +130,91 @@
 			<div class="panel trip-images">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程图片</span></div>
 				<div class="panel-body trip-images-content">
+					<div class="imgbox">
+						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
+							<div class="dimg">
+								#if($tripDay.picUrls && $tripDay.picUrls.size() > 0)
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(0)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								#else
+								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								#end
+								<input type="hidden" class="picCode">
+							</div>
+							<div class="upimgbtn">
+								<input type="file" name="picfile" class="picfile">
+								<button class="upl">上传图片</button>
+								<button class="del">删除图片</button>
+							</div>													
+						</form>
+					</div>
+					<div class="imgbox">
+						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
+							<div class="dimg">
+								#if($tripDay.picUrls && $tripDay.picUrls.size() > 1)
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(1)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								#else
+								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								#end
+								<input type="hidden" class="picCode">
+							</div>
+							<div class="upimgbtn">
+								<input type="file" name="picfile" class="picfile">
+								<button class="upl">上传图片</button>
+								<button class="del">删除图片</button>
+							</div>													
+						</form>
+					</div>
+					<div class="imgbox">
+						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
+							<div class="dimg">
+								#if($tripDay.picUrls && $tripDay.picUrls.size() > 2)
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(2)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								#else
+								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								#end
+								<input type="hidden" class="picCode">
+							</div>
+							<div class="upimgbtn">
+								<input type="file" name="picfile" class="picfile">
+								<button class="upl">上传图片</button>
+								<button class="del">删除图片</button>
+							</div>													
+						</form>
+					</div>
+					<div class="imgbox">
+						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
+							<div class="dimg">
+								#if($tripDay.picUrls && $tripDay.picUrls.size() > 3)
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(3)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								#else
+								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								#end
+								<input type="hidden" class="picCode">
+							</div>
+							<div class="upimgbtn">
+								<input type="file" name="picfile" class="picfile">
+								<button class="upl">上传图片</button>
+								<button class="del">删除图片</button>
+							</div>													
+						</form>
+					</div>
+					<div class="imgbox">
+						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
+							<div class="dimg">
+								#if($tripDay.picUrls && $tripDay.picUrls.size() > 4)
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(4)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								#else
+								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								#end
+								<input type="hidden" class="picCode">
+							</div>
+							<div class="upimgbtn">
+								<input type="file" name="picfile" class="picfile">
+								<button class="upl">上传图片</button>
+								<button class="del">删除图片</button>
+							</div>													
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>

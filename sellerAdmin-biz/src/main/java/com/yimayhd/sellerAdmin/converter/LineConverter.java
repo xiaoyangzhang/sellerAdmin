@@ -22,7 +22,6 @@ import com.yimayhd.ic.client.model.domain.RouteItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
-import com.yimayhd.ic.client.model.domain.share_json.LinePropertyType;
 import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
 import com.yimayhd.ic.client.model.domain.share_json.RouteItemDetail;
 import com.yimayhd.ic.client.model.domain.share_json.RoutePlan;
@@ -31,7 +30,7 @@ import com.yimayhd.ic.client.model.domain.share_json.TextItem;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
-import com.yimayhd.ic.client.model.enums.LineType;
+import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.enums.PropertyType;
 import com.yimayhd.ic.client.model.enums.RouteItemBizType;
 import com.yimayhd.ic.client.model.enums.RouteItemType;
@@ -107,6 +106,7 @@ public class LineConverter {
 		baseInfo.setCategoryId(itemDO.getCategoryId());
 		baseInfo.setType(itemDO.getItemType());
 		baseInfo.setName(itemDO.getTitle());
+		baseInfo.setCode(itemDO.getCode());
 		baseInfo.setDays(itemDO.getDays());
 		baseInfo.setDescription(itemDO.getDescription());
 		baseInfo.setPicUrls(PicUrlsUtil.getItemMainPics(itemDO));
@@ -249,9 +249,28 @@ public class LineConverter {
 		return itemSkuDOs;
 	}
 
-	public static RoutePlanVo toRoutePlanVo(LineResult lineResult) {
-		// TODO YEBIN 待开发
-		return null;
+	public static RoutePlanVo toRoutePlanVo(RoutePlan routePlan) {
+		if (routePlan == null) {
+			return null;
+		}
+		RoutePlanVo routePlanVo = new RoutePlanVo();
+		routePlanVo.setGo(toRouteTrafficVO(routePlan.getGo()));
+		routePlanVo.setBack(toRouteTrafficVO(routePlan.getBack()));
+		routePlanVo.setHotelInfo(routePlan.getHotelInfo());
+		routePlanVo.setScenicInfo(routePlan.getScenicInfo());
+		return routePlanVo;
+	}
+
+	public static RoutePlan toRoutePlan(RoutePlanVo routePlanVo) {
+		if (routePlanVo == null) {
+			return null;
+		}
+		RoutePlan routePlan = new RoutePlan();
+		routePlan.setGo(toRouteTrafficInfo(routePlanVo.getGo()));
+		routePlan.setBack(toRouteTrafficInfo(routePlanVo.getBack()));
+		routePlan.setHotelInfo(routePlanVo.getHotelInfo());
+		routePlan.setScenicInfo(routePlanVo.getScenicInfo());
+		return routePlan;
 	}
 
 	public static NeedKnowVO toNeedKnowVO(NeedKnow needKnow) {
@@ -314,9 +333,12 @@ public class LineConverter {
 		result.setBaseInfo(baseInfo);
 		result.setReadonly(item.getStatus() == ItemStatus.valid.getValue());
 		// 线路个性化部分 start
-		if (line.getType() == LineType.FREE_LINE.getType()) {
-			RoutePlanVo routePlan = toRoutePlanVo(lineResult);
-			result.setRoutePlan(routePlan);
+		if (item.getItemType() == ItemType.FREE_LINE.getValue()) {
+			RouteDO routeDO = lineResult.getRouteDO();
+			if (routeDO != null) {
+				RoutePlanVo routePlan = toRoutePlanVo(routeDO.getRoutePlan());
+				result.setRoutePlan(routePlan);
+			}
 		}
 		// 行程信息
 		RouteInfoVO routeInfo = toRouteInfoVO(lineResult.getRouteDO(), lineResult.getRouteItemDOList());
@@ -504,11 +526,12 @@ public class LineConverter {
 		itemDO.setSellerId(sellerId);
 		itemDO.setTitle(baseInfo.getName());
 		itemDO.setItemType(baseInfo.getType());
+		itemDO.setCode(baseInfo.getCode());
 		itemDO.setDays(baseInfo.getDays());
 		itemDO.setDescription(baseInfo.getDescription());
 		itemDO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS, PicUrlsUtil.parsePicsString(baseInfo.getPicUrls()));
 		itemDO.setDays(baseInfo.getDays());
-		ItemFeature itemFeature = itemDO.getItemFeature();
+		ItemFeature itemFeature = new ItemFeature(null);
 		itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, priceInfo.getLimitBySecond());
 		itemDO.setItemFeature(itemFeature);
 		return itemDO;
@@ -586,18 +609,6 @@ public class LineConverter {
 		return itemSkuPubUpdateDTO;
 	}
 
-	public static RoutePlan toRoutePlan(RoutePlanVo routePlanVo) {
-		if (routePlanVo == null) {
-			return null;
-		}
-		RoutePlan routePlan = new RoutePlan();
-		routePlan.setGo(toRouteTrafficInfo(routePlanVo.getGo()));
-		routePlan.setBack(toRouteTrafficInfo(routePlanVo.getBack()));
-		routePlan.setHotelInfo(routePlanVo.getHotelInfo());
-		routePlan.setScenicInfo(routePlanVo.getScenicInfo());
-		return routePlan;
-	}
-
 	public static RouteTrafficInfo toRouteTrafficInfo(RouteTrafficVO routeTrafficVO) {
 		if (routeTrafficVO == null) {
 			return null;
@@ -606,6 +617,16 @@ public class LineConverter {
 		routeTrafficInfo.setType(routeTrafficVO.getType());
 		routeTrafficInfo.setDescription(routeTrafficVO.getDescription());
 		return routeTrafficInfo;
+	}
+
+	public static RouteTrafficVO toRouteTrafficVO(RouteTrafficInfo routeTrafficInfo) {
+		if (routeTrafficInfo == null) {
+			return null;
+		}
+		RouteTrafficVO routeTrafficVO = new RouteTrafficVO();
+		routeTrafficVO.setType(routeTrafficInfo.getType());
+		routeTrafficVO.setDescription(routeTrafficInfo.getDescription());
+		return routeTrafficVO;
 	}
 
 	public static LinePubAddDTO toLinePublishDTOForSave(long sellerId, LineVO line) {
