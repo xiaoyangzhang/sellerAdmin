@@ -10,10 +10,12 @@ package com.yimayhd.sellerAdmin.converter;
 
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.vo.user.LoginVo;
+import com.yimayhd.sellerAdmin.model.vo.user.ModifyPasswordVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RetrievePasswordVo;
 import com.yimayhd.sellerAdmin.model.vo.user.UserVo;
 import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.dto.ChangePasswordDTO;
 import com.yimayhd.user.client.dto.LoginDTO;
 import com.yimayhd.user.client.dto.RegisterDTO;
 import com.yimayhd.user.client.dto.RevivePasswordDTO;
@@ -60,6 +62,19 @@ public class UserConverter {
 		return registerDTO;
 
 	}
+	public static ChangePasswordDTO toModifyPasswordDTO(ModifyPasswordVo modifyPasswordVo, long userId) {
+		if (modifyPasswordVo == null) {
+			return null;
+		}
+		
+		ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO() ;
+		changePasswordDTO.setUserId(userId);
+		changePasswordDTO.setNewPassword(modifyPasswordVo.getNewPassword());
+		changePasswordDTO.setOldPassword(modifyPasswordVo.getOldPassword());
+		
+		return changePasswordDTO;
+		
+	}
 
 	public static RevivePasswordDTO toRevivePasswordDTO(RetrievePasswordVo revivePasswordVo) {
 		if (revivePasswordVo == null) {
@@ -71,7 +86,6 @@ public class UserConverter {
 		revivePasswordDTO.setPassword(revivePasswordVo.getPassword());
 		revivePasswordDTO.setVerifyCode(revivePasswordVo.getVerifyCode());
 		revivePasswordDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-		// revivePasswordDTO.setStep(RevivePasswordStep.VERIFY_CODE);
 
 		return revivePasswordDTO;
 	}

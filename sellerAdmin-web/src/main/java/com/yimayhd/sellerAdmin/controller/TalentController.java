@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
-import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.result.MemResultSupport;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.biz.TalentBiz;
@@ -43,7 +43,7 @@ public class TalentController extends BaseController {
 	@Autowired
 	private TalentBiz talentBiz;
 	
-	@RequestMapping(value="agreement.htm",method=RequestMethod.GET)
+	@RequestMapping(value="agreement",method=RequestMethod.GET)
 	public String toAgreementPage(HttpServletRequest request,HttpServletResponse response,Model model){
 		return "system/talent/agreement";
 		
@@ -57,13 +57,13 @@ public class TalentController extends BaseController {
 	 * @return
 	 */
 	
-	@RequestMapping(value="toAddUserdatafill_a.htm",method=RequestMethod.GET)
+	@RequestMapping(value="toAddUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toAddUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model){
 		
 		return "system/talent/userdatafill_a";
 		
 	}
-	@RequestMapping("toEditUserdatafill_a.htm")
+	@RequestMapping("toEditUserdatafill_pageOne")
 	public String toEditUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model) {
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
 		return "system/talent/userdatafill_a";
@@ -76,13 +76,13 @@ public class TalentController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="toAddUserdatafill_b.htm",method=RequestMethod.GET)
+	@RequestMapping(value="toAddUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toAddUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
 
 		return "system/talent/userdatafill_b";
 		
 	}
-	@RequestMapping(value="toEditUserdatafill_b.htm",method=RequestMethod.GET)
+	@RequestMapping(value="toEditUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toEditUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
 		return "system/talent/userdatafill_b";
@@ -96,7 +96,7 @@ public class TalentController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="verification.htm",method=RequestMethod.GET)
+	@RequestMapping(value="verification",method=RequestMethod.GET)
 	public String verificationPage(HttpServletRequest request,HttpServletResponse response,Model model){
 		return "system/talent/verification";
 		
@@ -111,17 +111,24 @@ public class TalentController extends BaseController {
 	 * @param dto
 	 * @return
 	 */
-	@RequestMapping("saveExamineInfo_a.do")
+	@RequestMapping(value="saveExamineInfo_pageOne",method=RequestMethod.POST)
 	@ResponseBody
-	public WebResultSupport saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
+	public WebResult<String> saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
 		
+			WebResult<String> result=new WebResult<String>();
 			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo);
 			if (resultSupport.isSuccess()) {
-				
-				resultSupport.setUrl("toAddUserdatafill_b.htm");
+				result.setValue("toAddUserdatafill_pageTwo");
+				//resultSupport.setUrl("toAddUserdatafill_b.htm");
 			}
-
-			return resultSupport;
+			if (resultSupport.isSuccess()) {
+				result.setValue("verification");
+				//resultSupport.setUrl("verification.htm");
+			}
+			else {
+				result.setWebReturnCode(resultSupport.getWebReturnCode());
+			}
+			return result;
 		
 	}
 	/**
@@ -132,15 +139,19 @@ public class TalentController extends BaseController {
 	 * @param vo
 	 * @return
 	 */
-	@RequestMapping("saveExamineInfo_b.do")
+	@RequestMapping(value="saveExamineInfo_pageTwo",method=RequestMethod.POST)
 	@ResponseBody
-	public WebResultSupport saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
-		
+	public WebResult<String> saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
+			WebResult<String> result=new WebResult<String>();
 			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo);
 			if (resultSupport.isSuccess()) {
-				resultSupport.setUrl("verification.htm");
+				result.setValue("verification");
+				//resultSupport.setUrl("verification.htm");
 			}
-			return resultSupport;
+			else {
+				result.setWebReturnCode(resultSupport.getWebReturnCode());
+			}
+			return result;
 		
 	}
 	/**
@@ -150,7 +161,7 @@ public class TalentController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("toAddTalentInfo.htm")
+	@RequestMapping(value="toAddTalentInfo",method=RequestMethod.GET)
 	public String addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model){
 		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
 		
@@ -164,7 +175,7 @@ public class TalentController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("toEditTalentInfo.htm")
+	@RequestMapping(value="toEditTalentInfo",method=RequestMethod.GET)
 	public String editTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model) {
 		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
 		model.addAttribute("talentInfo", talentBiz.getTalentInfo());
@@ -179,7 +190,7 @@ public class TalentController extends BaseController {
 	 * @param vo
 	 * @return
 	 */
-	@RequestMapping("saveTalentInfo.do")
+	@RequestMapping(value="saveTalentInfo",method=RequestMethod.POST)
 	@ResponseBody
 	public WebResultSupport addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
 		

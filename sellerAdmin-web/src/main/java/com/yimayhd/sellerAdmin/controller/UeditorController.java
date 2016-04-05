@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.baidu.ueditor.ActionEnter;
 import com.taobao.common.tfs.TfsManager;
-import com.yimayhd.sellerAdmin.base.BaseTravelController;
+import com.yimayhd.sellerAdmin.base.BaseLineController;
 
 /**
  * 百度编辑器-配置
@@ -21,7 +21,7 @@ import com.yimayhd.sellerAdmin.base.BaseTravelController;
  */
 @Controller
 @RequestMapping("/ueditor")
-public class UeditorController extends BaseTravelController {
+public class UeditorController extends BaseLineController {
 	@Autowired
 	private TfsManager tfsManager;
 

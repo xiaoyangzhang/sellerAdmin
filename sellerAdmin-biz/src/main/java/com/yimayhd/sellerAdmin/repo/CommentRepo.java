@@ -232,7 +232,7 @@ public class CommentRepo {
 		tagRelationDomainDTO.setDomain(Constant.DOMAIN_JIUXIU);
 		tagRelationDomainDTO.setOutType(tagType.name());
 		RepoUtils.requestLog(log, "comTagCenterServiceRef.selectTagListByTagType", tagRelationDomainDTO);
-		BaseResult<List<ComTagDO>> baseResult = comTagCenterServiceRef.selectTagListByTagType(tagRelationDomainDTO);
+		BaseResult<List<ComTagDO>> baseResult = comTagCenterServiceRef.getTagListByTagType(tagRelationDomainDTO);
 		RepoUtils.resultLog(log, "comTagCenterServiceRef.selectTagListByTagType", baseResult);
 		return baseResult.getValue();
 	}

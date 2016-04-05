@@ -24,7 +24,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
-import com.yimayhd.sellerAdmin.constant.ResponseStatus;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 import com.yimayhd.sellerAdmin.util.excel.JxlFor2003;
 import com.yimayhd.sellerAdmin.util.excel.TestPerson;
@@ -38,7 +39,7 @@ public class UploadController extends BaseController {
 
 	@Autowired
 	private TfsManager tfsManager;
- 
+
 	/**
 	 * 上传页面
 	 * 
@@ -71,23 +72,27 @@ public class UploadController extends BaseController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/file", method = RequestMethod.POST)
-	public ResponseVo uploadFile(HttpServletRequest request) throws Exception {
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		Iterator<String> iterator = multipartRequest.getFileNames();
-		MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
-		String fileName = multipartFile.getOriginalFilename();
-		String suffix = "";
-		if (fileName.lastIndexOf(".") != -1) {
-			suffix = fileName.substring(fileName.lastIndexOf("."));
+	public WebResult<String> uploadFile(HttpServletRequest request) throws Exception {
+		try {
+			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+			Iterator<String> iterator = multipartRequest.getFileNames();
+			MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
+			String fileName = multipartFile.getOriginalFilename();
+			String suffix = "";
+			if (fileName.lastIndexOf(".") != -1) {
+				suffix = fileName.substring(fileName.lastIndexOf("."));
+			}
+			String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix);
+			if (StringUtils.isNotBlank(tfsName) && !"null".equals(tfsName)) {
+				tfsName += suffix;
+			} else {
+				return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "上传失败");
+			}
+			return WebResult.success(tfsName);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "上传失败");
 		}
-		String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix);
-		if(StringUtils.isNotBlank(tfsName) && !"null".equals(tfsName)){
-			tfsName += suffix;
-		}else{
-			return new ResponseVo(ResponseStatus.ERROR.VALUE,"图片上传失败");
-		}
-
-		return new ResponseVo(tfsName);
 	}
 
 	/**
@@ -99,29 +104,33 @@ public class UploadController extends BaseController {
 	 */
 	@RequestMapping("/files")
 	@ResponseBody
-	public ResponseVo uploadFiles(HttpServletRequest request) throws Exception {
-		Map<String, String> map = new HashMap<String, String>();
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		Iterator<String> iterator = multipartRequest.getFileNames();
-		while (iterator.hasNext()) {
-			MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
-			String fileName = multipartFile.getOriginalFilename();
-			String suffix = "";
-			if (fileName.lastIndexOf(".") != -1) {
-				suffix = fileName.substring(fileName.lastIndexOf("."));
-			}
-			String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix) + suffix;
-			if(StringUtils.isNotBlank(tfsName) && !"null".equals(tfsName)) {
-				// 除去后缀截取十五个字符
-				if (fileName.split("\\.")[0].length() > 15) {
-					fileName = fileName.split("\\.")[0].substring(0, 15)
-							+ (fileName.split("\\.").length > 1 ? "." + fileName.split("\\.")[1] : "");
+	public WebResult<Map<String, String>> uploadFiles(HttpServletRequest request) throws Exception {
+		try {
+			Map<String, String> map = new HashMap<String, String>();
+			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+			Iterator<String> iterator = multipartRequest.getFileNames();
+			while (iterator.hasNext()) {
+				MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
+				String fileName = multipartFile.getOriginalFilename();
+				String suffix = "";
+				if (fileName.lastIndexOf(".") != -1) {
+					suffix = fileName.substring(fileName.lastIndexOf("."));
 				}
+				String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix) + suffix;
+				if (StringUtils.isNotBlank(tfsName) && !"null".equals(tfsName)) {
+					// 除去后缀截取十五个字符
+					if (fileName.split("\\.")[0].length() > 15) {
+						fileName = fileName.split("\\.")[0].substring(0, 15)
+								+ (fileName.split("\\.").length > 1 ? "." + fileName.split("\\.")[1] : "");
+					}
+				}
+				map.put(fileName, tfsName);
 			}
-			map.put(fileName, tfsName);
+			return WebResult.success(map);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "上传失败");
 		}
-		return new ResponseVo(map);
-
 	}
 
 	/**

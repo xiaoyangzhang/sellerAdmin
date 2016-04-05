@@ -3,15 +3,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 #set( $rs_path_jiuxiu = $utilWebconfig.getResourcePathJiuXiu() )
+#set( $rs_path_admin = $utilWebconfig.getResourcePathAdmin() )
 #set( $rs_path = $utilWebconfig.getResourcePath() )
 #set( $root_path = $utilWebconfig.getRootPath() )
 #set( $test = $utilWebconfig.isTestMode())
 #if( $test )
 	#set( $rs_js_css_path = $!rs_path+"/src" )
+	#set( $rs_js_css_path_admin = $!rs_path_admin+"/src" )
 	#set( $rs_js_css_path_jiuxiu = $!rs_path_jiuxiu+"/src" )
 #else
 	#set( $rs_js_css_path = $!rs_path+"/dist" )
+	#set( $rs_js_css_path_admin = $!rs_path_admin+"/dest" )
 	#set( $rs_js_css_path_jiuxiu = $!rs_path_jiuxiu+"/dist" )
 #end
 #set( $tfs = $utilWebconfig.getTfsRootPath())
-#set( $user = $rc.get("user") )
+
+
+
+
+#if( $user.nickname )
+	#set( $username= $user.nickname )
+#else
+	#set( $username= $utilPhone.getMobile( $user.mobile) )
+#end
+
+#if( $user.avatar  )
+	#set( $avatar= $!tfs + $user.avatar)
+#else
+	#set( $avatar= "$!rs_path_jiuxiu/img/default_1.png" )
+#end

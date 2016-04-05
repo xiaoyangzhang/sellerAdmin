@@ -61,7 +61,7 @@
 	</div>
 	<table class="table tab-inputgroup">
 		<tr>
-			<td>酒店信息：</td>
+			<td>景点信息：</td>
 			<td>
 				<textarea class="form-control textarea-count scenicInfo" rows="3" placeholder="" maxlength="1000"></textarea>
 				<span class="word-num">0/1000字</span>

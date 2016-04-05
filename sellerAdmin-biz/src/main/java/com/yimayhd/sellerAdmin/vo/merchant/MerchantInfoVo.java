@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.controller.merchant.vo;
+package com.yimayhd.sellerAdmin.vo.merchant;
 
 import java.io.Serializable;
 import java.util.List;

@@ -36,6 +36,10 @@ public class PriceInfoVO implements Serializable {
 		return limit;
 	}
 
+	public void setLimitBySecond(long limit) {
+		this.limit = Math.round(limit / LIMIT_UNIT);
+	}
+
 	public int getLimitBySecond() {
 		return limit * LIMIT_UNIT;
 	}

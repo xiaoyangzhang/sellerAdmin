@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/filldata.css">
 </head>
 <body>
-	<input type="hidden" class="subpath" value="/sellerAdmin/talent/saveExamineInfo_b.do">
+	<input type="hidden" class="subpath" value="/sellerAdmin/talent/saveExamineInfo_pageTwo">
 
 	<div class="header">
 		<div class="comwidth content clearfix">

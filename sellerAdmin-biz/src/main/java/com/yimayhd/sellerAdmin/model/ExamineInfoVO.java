@@ -2,6 +2,7 @@ package com.yimayhd.sellerAdmin.model;
 
 import java.util.Date;
 
+
 import org.apache.commons.beanutils.BeanUtils;
 
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;

@@ -1,101 +1,121 @@
-#parse("layout/meta.vm")
-<link href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
-<link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/css/groupTravel.css?version=$!{utilWebconfig.getResourceVersion()}"/>
-
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css">
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/common.css"/>
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/addtravel.css"/>
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/editer.css"/>
-<style type="text/css">
-	//禁用输入法
-	.double-only{ime-mode:"disabled"}
-	.int-only{ime-mode:"disabled"}
-</style>
-
-#parse("layout/base-js.vm")
-
-<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
-<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/moment.js" type="text/javascript"></script>
-<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/calendar-tool.js" type="text/javascript"></script>
-<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/input.js" type="text/javascript"></script>
-<!-- 富文本编辑 -->
-<!--
-<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.config.js"></script>
-<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.all.min.js"> </script>
-<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/lang/zh-cn/zh-cn.js"></script>
--->
-<ul class="nav nav-tabs">
-    <li class="active">
-      <a href="#tab1" data-toggle="tab">基本信息</a>
-    </li>
-    <li>
-      <a href="#tab2" data-toggle="tab">详细描述</a>
-    </li>
-    <li>
-      <a href="#tab3" data-toggle="tab">机酒景信息</a>
-    </li>
-    <li>
-      <a href="#tab4" data-toggle="tab">行程信息</a>
-    </li>
-    <li>
-      <a href="#tab5" data-toggle="tab">价格信息</a>
-    </li>
-    <li>
-      <a href="#tab6" data-toggle="tab">预定须知</a>
-    </li>
-</ul>
-<div class="tab-content">
-    <div class="tab-pane baseInfo in active" id="tab1">
-        #parse("/system/comm/line/baseInfo.vm")
-    </div>
-	<div class="tab-pane" id="tab2" style="width: 96%;margin: 15px auto;">
-		#parse("/system/comm/line/pictureText.vm")
-    </div>
-	<div class="tab-pane tripPackageInfo" id="tab3">
-        #parse("/system/comm/line/routePlan.vm")
-    </div>
-    <div class="tab-pane tripInfo" id="tab4">
-        #parse("/system/comm/line/routeInfo.vm")
-    </div>
-    <div class="tab-pane priceInfo" id="tab5">
-        #parse("/system/comm/line/priceInfo.vm")
-    </div>
-	<div class="tab-pane" id="tab6" style="width: 96%;margin: 15px auto;">
-		#parse("/system/comm/line/needKnow.vm")
-	</div>
-</div>
-#if(!${product.isReadonly()})
-<div class="groupTravelBot">
-    <button class="btn btn-primary save">保  存</button>
-	<button class="btn btn-primary reload" onclick="location.reload();">重  载</button>
-</div>
-#end
-<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/addtravel.js"></script>
-<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/editer.js"></script>
-<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/upldf.js"></script>
+#set($layout="layout/blank.vm")
+<!DOCTYPE html>
+<html>
+    <head>
+		#parse("layout/meta.vm")
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <meta property="wb:webmaster" content="3aababe5ed22e23c" />     
+        <title>添加跟团游</title>
+        <link href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/css/groupTravel.css?version=$!{utilWebconfig.getResourceVersion()}"/>
+        
+        <link rel="stylesheet" href="$rs_js_css_path_admin/css/base.css">
+		<link rel="stylesheet" href="$rs_js_css_path_admin/css/common.css"/>
+		<link rel="stylesheet" href="$rs_js_css_path_admin/css/zui.min.css"/>
+		<link rel="stylesheet" href="$rs_js_css_path_admin/css/addtravel.css"/>
+		<link rel="stylesheet" href="$rs_js_css_path_admin/css/editer.css"/>
+		
+        <style type="text/css">
+        	//禁用输入法
+        	.double-only{ime-mode:"disabled"}
+        	.int-only{ime-mode:"disabled"}
+        </style>
+		<script type="text/javascript" src="$rs_js_css_path_admin/js/jquery.js"></script>
+		<script type="text/javascript" src="$rs_js_css_path_admin/js/jquery.form.js"></script>
+		<script type="text/javascript" src="$rs_js_css_path_admin/js/zui.min.js"></script>
+		<script type="text/javascript" src="$rs_js_css_path_admin/layer/layer.js"></script>
+		<script type="text/javascript" src="$rs_js_css_path_admin/js/addtravel.js"></script>
+		<script type="text/javascript" src="$rs_js_css_path_admin/js/upldf.js"></script>
+		
+		
+		<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+        <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
+        <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/moment.js" type="text/javascript"></script>
+        <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/calendar-tool.js" type="text/javascript"></script>
+        <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/input.js" type="text/javascript"></script>
+        <!-- 富文本编辑 -->
+        <!--
+        <script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.config.js"></script>
+        <script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.all.min.js"> </script>
+        <script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/lang/zh-cn/zh-cn.js"></script>
+        -->
+	</head>
+	<body>
+		<div class="tab-container">	
+            <ul class="nav nav-tabs">
+                <li class="active">
+                  <a href="#tab1" data-toggle="tab">基本信息</a>
+                </li>
+                <li>
+                  <a href="#tab2" data-toggle="tab">详细描述</a>
+                </li>
+                <li>
+                  <a href="#tab3" data-toggle="tab">机酒景信息</a>
+                </li>
+                <li>
+                  <a href="#tab4" data-toggle="tab">行程信息</a>
+                </li>
+                <li>
+                  <a href="#tab5" data-toggle="tab">价格信息</a>
+                </li>
+                <li>
+                  <a href="#tab6" data-toggle="tab">预定须知</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane baseInfo in active" id="tab1">
+                    #parse("/system/comm/line/baseInfo.vm")
+                </div>
+            	<div class="tab-pane" id="tab2" style="width: 96%;margin: 15px auto;">
+            		#parse("/system/comm/line/pictureText.vm")
+                </div>
+            	<div class="tab-pane tripPackageInfo" id="tab3">
+                    #parse("/system/comm/line/routePlan.vm")
+                </div>
+                <div class="tab-pane tripInfo" id="tab4">
+                    #parse("/system/comm/line/routeInfo.vm")
+                </div>
+                <div class="tab-pane priceInfo" id="tab5">
+                    #parse("/system/comm/line/priceInfo.vm")
+                </div>
+            	<div class="tab-pane" id="tab6" style="width: 96%;margin: 15px auto;">
+            		#parse("/system/comm/line/needKnow.vm")
+            	</div>
+            </div>
+            #if(!${product.isReadonly()})
+            <div class="groupTravelBot">
+                <button class="btn btn-primary save">保  存</button>
+            	<button class="btn btn-primary reload" onclick="location.reload();">重  载</button>
+            </div>
+			#end
+        </div>
+	</body>
+</html>
+<script type="text/javascript" src="$rs_js_css_path_admin/js/editer.js"></script>
 <script type="text/javascript">
 $(".save").click(function(){
     var result = {
         baseInfo:getBaseInfo(),
+		pictureText:getPictureText(),
 		routePlan:getRoutePlan(),
         routeInfo:getRouteInfo(),
         priceInfo:getPriceInfo(),
 		needKnow:getNeedKnow()
     };
 	console.log(JSON.stringify(result.baseInfo));
+	console.log(JSON.stringify(result.pictureText));
 	console.log(JSON.stringify(result.routePlan));
 	console.log(JSON.stringify(result.routeInfo));
 	console.log(JSON.stringify(result.priceInfo));
 	console.log(JSON.stringify(result.needKnow));
-	//alert(JSON.stringify(result));
 	var params = {
 		json:JSON.stringify(result)
 	};
     var url = "$!{utilWebconfig.getActionDefaultFontPath()}/line/save";
-	return;
     $.post(url,params,function(data){
-		if(data.status == 200) {
+		if(data.success) {
 			layer.alert('添加成功', {
                 time: 0 //不自动关闭
                 ,yes: function(index){
@@ -106,7 +126,7 @@ $(".save").click(function(){
                 }
             });
 		} else {
-			layer.alert(data.message, {
+			layer.alert(data.resultMsg, {
 				icon : 2
 			});
 		}

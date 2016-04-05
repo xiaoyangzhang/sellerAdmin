@@ -20,7 +20,7 @@ public class BaseInfoVO implements Serializable {
 	private String name;// 产品名称
 	private String code; // 商品代码
 	private int days;// 行程天数
-	private String discription;// 亮点
+	private String description;// 亮点
 	private List<Long> themes;// 主题
 	private List<CityVO> departs; // 出发地
 	private List<CityVO> dests; // 目的地
@@ -87,12 +87,12 @@ public class BaseInfoVO implements Serializable {
 		this.days = days;
 	}
 
-	public String getDiscription() {
-		return discription;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDiscription(String discription) {
-		this.discription = discription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public long getItemId() {

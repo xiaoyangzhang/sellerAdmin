@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,9 +24,11 @@ import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.BaseQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
 import com.yimayhd.sellerAdmin.model.query.ActivityListQuery;
@@ -65,28 +68,35 @@ public class ResourceForSelectController extends BaseController {
 	private ActivityService activityService;
 
 	/**
-	 * 选择景区
+	 * 选择出发地
 	 *
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectDeparts")
 	public String selectDeparts() {
-		List<CityVO> allLineDeparts = commLineService.getAllLineDeparts();
-		Map<String, List<CityVO>> departMap = new LinkedHashMap<String, List<CityVO>>();
-		for (CityVO cityVO : allLineDeparts) {
-			CityDTO city = cityVO.getCity();
-			String firstLetter = city.getFirstLetter();
-			if (departMap.containsKey(firstLetter)) {
-				departMap.get(firstLetter).add(cityVO);
-			} else {
-				List<CityVO> cityVOs = new ArrayList<CityVO>();
-				cityVOs.add(cityVO);
-				departMap.put(firstLetter, cityVOs);
+		WebResult<List<CityVO>> result = commLineService.getAllLineDeparts();
+		if (result.isSuccess()) {
+			Map<String, List<CityVO>> departMap = new LinkedHashMap<String, List<CityVO>>();
+			List<CityVO> allLineDeparts = result.getValue();
+			if (CollectionUtils.isNotEmpty(allLineDeparts)) {
+				for (CityVO cityVO : allLineDeparts) {
+					CityDTO city = cityVO.getCity();
+					String firstLetter = city.getFirstLetter();
+					if (departMap.containsKey(firstLetter)) {
+						departMap.get(firstLetter).add(cityVO);
+					} else {
+						List<CityVO> cityVOs = new ArrayList<CityVO>();
+						cityVOs.add(cityVO);
+						departMap.put(firstLetter, cityVOs);
+					}
+				}
 			}
+			put("departMap", departMap);
+			return "/system/resource/forSelect/selectDeparts";
+		} else {
+			throw new BaseException("选择出发地失败");
 		}
-		put("departMap", departMap);
-		return "/system/resource/forSelect/selectDeparts";
 	}
 
 	/**
@@ -97,21 +107,28 @@ public class ResourceForSelectController extends BaseController {
 	 */
 	@RequestMapping(value = "/selectDests")
 	public String selectDests() {
-		List<CityVO> allLineDests = commLineService.getAllLineDests();
-		Map<String, List<CityVO>> destMap = new LinkedHashMap<String, List<CityVO>>();
-		for (CityVO cityVO : allLineDests) {
-			CityDTO city = cityVO.getCity();
-			String firstLetter = city.getFirstLetter();
-			if (destMap.containsKey(firstLetter)) {
-				destMap.get(firstLetter).add(cityVO);
-			} else {
-				List<CityVO> cityVOs = new ArrayList<CityVO>();
-				cityVOs.add(cityVO);
-				destMap.put(firstLetter, cityVOs);
+		WebResult<List<CityVO>> result = commLineService.getAllLineDests();
+		if (result.isSuccess()) {
+			Map<String, List<CityVO>> destMap = new LinkedHashMap<String, List<CityVO>>();
+			List<CityVO> allLineDests = result.getValue();
+			if (CollectionUtils.isNotEmpty(allLineDests)) {
+				for (CityVO cityVO : allLineDests) {
+					CityDTO city = cityVO.getCity();
+					String firstLetter = city.getFirstLetter();
+					if (destMap.containsKey(firstLetter)) {
+						destMap.get(firstLetter).add(cityVO);
+					} else {
+						List<CityVO> cityVOs = new ArrayList<CityVO>();
+						cityVOs.add(cityVO);
+						destMap.put(firstLetter, cityVOs);
+					}
+				}
 			}
+			put("destMap", destMap);
+			return "/system/resource/forSelect/selectDests";
+		} else {
+			throw new BaseException("选择出发地失败");
 		}
-		put("destMap", destMap);
-		return "/system/resource/forSelect/selectDests";
 	}
 
 	/**
@@ -334,9 +351,9 @@ public class ResourceForSelectController extends BaseController {
 			// userService.getTravelKaListByPage(query);
 			query.setNeedCount(true);
 			query.setStatus(ItemStatus.valid.getValue());
-			PageVO<LineDO> pageVo = commLineService.pageQueryLine(query);
+			WebResult<PageVO<LineDO>> pageQueryLine = commLineService.pageQueryLine(query);
 			Map<String, Object> result = new HashMap<String, Object>();
-			result.put("pageVo", pageVo);
+			result.put("pageVo", pageQueryLine.getValue());
 			result.put("query", query);
 			return new ResponseVo(result);
 		} catch (Exception e) {

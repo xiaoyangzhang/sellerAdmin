@@ -13,7 +13,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.yimayhd.sellerAdmin.biz.MenuBiz;
 import com.yimayhd.sellerAdmin.biz.helper.MenuHelper;
 import com.yimayhd.sellerAdmin.cache.MenuCacheMananger;
-import com.yimayhd.sellerAdmin.vo.menu.MenuVO;
+import com.yimayhd.sellerAdmin.model.vo.menu.MenuVO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.session.manager.SessionHelper;
 import com.yimayhd.user.session.manager.SessionManager;
@@ -41,9 +41,12 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 			
 			long userId = userDO.getId() ;
 			String pathInfo = request.getPathInfo() ; 
+			String method = request.getMethod();
+			
+//			menuBiz.cacheUserMenus2Tair(userId);
 			
 			List<MenuVO> menus = menuCacheMananger.getUserMenus(userId);
-			MenuVO menu = MenuHelper.getSelectedMenu(menus, pathInfo);
+			MenuVO menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
 			
 			request.setAttribute("menus", menus);
 			request.setAttribute("currentMenu", menu);

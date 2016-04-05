@@ -79,17 +79,19 @@ public class TalentBiz {
 	 */
 	public WebResultSupport addTalentInfo(TalentInfoVO vo)  {
 		MemResult<Boolean> talentInfoResult=null;
+		WebResultSupport webResultSupport=new WebResultSupport();
 		try {
 			 talentInfoResult = talentInfoDealService.updateTalentInfo(vo.getTalentInfoDTO(vo));
-			//WebResultSupport resultSupport = talentBiz.addTalentInfo(vo);
-			
-			 return getWebResultSupport(talentInfoResult);
-			//return resultSupport;
+			if (talentInfoResult.isSuccess()) {
+				
+			}
+			else {
+				webResultSupport.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
+			}
+			 return webResultSupport;
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
-			WebResultSupport webResultSupport=new WebResultSupport();
-			WebReturnCode returnCode=new WebReturnCode(-1, "保存失败");
-			webResultSupport.setWebReturnCode(returnCode);
+			webResultSupport.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
 			return webResultSupport;
 		}
 		
@@ -103,32 +105,22 @@ public class TalentBiz {
 	 */
 	public WebResultSupport addExamineInfo(ExamineInfoVO vo)  {
 		MemResult<Boolean> ExamineInfoResult = null;
+		WebResultSupport webResultSupport=new WebResultSupport();
 		try {
 			 ExamineInfoResult = examineDealService.submitMerchantExamineInfo(vo.getExamineInfoDTO(vo));
-		
-			return getWebResultSupport(ExamineInfoResult);
-		 //return getWebResultSupport(talentInfoResult);
-			//return resultSupport;
+			 if (ExamineInfoResult.isSuccess()) {
+				
+			}
+			 else {
+				webResultSupport.setWebReturnCode(WebReturnCode.TALENT_INFO_SAVE_FAILURE);
+			}
+			return webResultSupport;
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
-			WebResultSupport webResultSupport=new WebResultSupport();
-			WebReturnCode returnCode=new WebReturnCode(-1, "保存失败");
-			webResultSupport.setWebReturnCode(returnCode);
+			webResultSupport.setWebReturnCode(WebReturnCode.TALENT_INFO_SAVE_FAILURE);
 			return webResultSupport;
 		}
 	}
 	
-	public WebResultSupport getWebResultSupport(MemResult<Boolean> result) {
-		WebResultSupport webResultSupport=new WebResultSupport();
-		if (result.isSuccess()) {
-			
-		}
-		else {
-			WebReturnCode returnCode=new WebReturnCode(result.getErrorCode(), result.getErrorMsg());
-
-			webResultSupport.setWebReturnCode(returnCode);
-		}
-		return webResultSupport;
-		
-	}
+	
 }

@@ -1,42 +1,29 @@
-<!DOCTYPE html>
-<html lang="zh-cmn-Hans">
+#set($layout = "/layout/layout-account.vm")
 	
 	<head>
 		#parse("layout/meta.vm")
 		<title>登录-九休商户后台</title>
-		#parse("layout/link.vm")
-		
-	    <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/account.css">
 	</head>
-	<body>
-		<!-- 头部开始 -->
-		#parse("layout/header-login.vm")
-		<!-- 头部完成 -->
-       <!-- 首页的中心部分开始 -->
-		<div id="ym-login-banner" class="login">
-			<div class="login-body">
-				
-				<h1 class="title">用户登录</h1>
-				<form action="$!{utilWebconfig.rootPath}/user/login" method="post" id="loginForm">					
-					<p class="btngroup">
-						<input type="text" class="textinput" name="username" id="loginname" placeholder="请输入手机号" datatype="m" nullmsg="请输入手机号"  errormsg="请您输入正确的手机号" autocomplete="off"/>
-						<span class="Validform_checktip"></span>
-					</p>
-					<p class="btngroup">
-						<input type="password" class="textinput" name="password" id="loginpwd" placeholder="请输入密码" datatype="/^[0-9A-Za-z]{6,16}$/" nullmsg="请输入您的密码" errormsg="请输入6-16位字母、数字密码" autocomplete="off"/>
-						<span class="Validform_checktip"></span>
-					</p>
-					<p class="first clearfix">
-						<label><input type="checkbox" class="saveuser"/>记住用户名</label>
-						<a href="$utilWebconfig.rootPath/user/toRetrievePassword" target="_blank">忘记密码？</a>
-					</p>
-					<input type="submit" id="loginSubmitBtn" class="winloginbtn" value="登录"/>
-					<p class="last">还没有账号 <a href="$utilWebconfig.rootPath/user/toRegister">立即注册</a></p>
-				</form>			
-			</div>
+    <!-- 首页的中心部分开始 -->
+	<div id="ym-login-banner" class="login">
+		<div class="login-body">
+			
+			<h1 class="title">用户登录</h1>
+			<form action="$root_path/user/login" method="post" id="loginForm">					
+				<p class="btngroup">
+					<input type="text" class="textinput" name="username" id="loginname" placeholder="请输入手机号" datatype="m" nullmsg="请输入手机号"  errormsg="请您输入正确的手机号" autocomplete="off"/>
+					<span class="Validform_checktip"></span>
+				</p>
+				<p class="btngroup">
+					<input type="password" class="textinput" name="password" id="loginpwd" placeholder="请输入密码" datatype="/^[0-9A-Za-z]{6,16}$/" nullmsg="请输入您的密码" errormsg="请输入6-16位字母、数字密码" autocomplete="off"/>
+					<span class="Validform_checktip"></span>
+				</p>
+				<p class="first clearfix">
+					<label><input type="checkbox" class="saveuser"/>记住用户名</label>
+					<a href="$root_path/user/retrievePassword" target="_blank">忘记密码？</a>
+				</p>
+				<input type="submit" id="loginSubmitBtn" class="winloginbtn" value="登录"/>
+				<p class="last">还没有账号 <a href="$root_path/user/register">立即注册</a></p>
+			</form>			
 		</div>
-       <!-- 首页的中心部分结束 -->
-		<!-- 尾部开始 -->
-		#parse("layout/bottom-login.vm")
-	</body>
-</html>
+	</div>
