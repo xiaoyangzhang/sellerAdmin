@@ -14,6 +14,14 @@ public class WebResultSupport implements Serializable {
 	private int errorCode;
 	private String errorMsg;
 	private WebReturnCode webReturnCode;
+	private String url;
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	public boolean isSuccess() {
 		return success;

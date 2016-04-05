@@ -16,10 +16,14 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.client.result.MemResultSupport;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
+import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
+import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.biz.TalentBiz;
 import com.yimayhd.sellerAdmin.constant.ResponseStatus;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
@@ -35,12 +39,10 @@ import com.yimayhd.sellerAdmin.service.RegionService;
 public class TalentController extends BaseController {
 
 	protected  Logger log=LoggerFactory.getLogger(getClass());
+	
 	@Autowired
-	private TalentInfoDealService talentInfoDealService;
-	@Autowired
-	private ExamineDealService examineDealService;
-	@Autowired
-	private RegionService regionService;
+	private TalentBiz talentBiz;
+	
 	@RequestMapping(value="agreement.htm",method=RequestMethod.GET)
 	public String toAgreementPage(HttpServletRequest request,HttpServletResponse response,Model model){
 		return "system/talent/agreement";
@@ -55,42 +57,52 @@ public class TalentController extends BaseController {
 	 * @return
 	 */
 	
-	@RequestMapping(value="userdatafill_a.htm",method=RequestMethod.GET)
-	public String toUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model){
-//		try {
-//			List<Region> provinces = regionService.getProvince();
-//			model.addAttribute("provinces", provinces);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+	@RequestMapping(value="toAddUserdatafill_a.htm",method=RequestMethod.GET)
+	public String toAddUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model){
+		
 		return "system/talent/userdatafill_a";
 		
 	}
+	@RequestMapping("toEditUserdatafill_a.htm")
+	public String toEditUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model) {
+		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
+		return "system/talent/userdatafill_a";
+		
+	}
+	/**
+	 * 跳转到达人申请入驻资料页面2
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="toAddUserdatafill_b.htm",method=RequestMethod.GET)
+	public String toAddUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
+
+		return "system/talent/userdatafill_b";
+		
+	}
+	@RequestMapping(value="toEditUserdatafill_b.htm",method=RequestMethod.GET)
+	public String toEditUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
+		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
+		return "system/talent/userdatafill_b";
+		
+	}
 	
-	
+	/**
+	 * 跳转到达人入驻待审核页面
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="verification.htm",method=RequestMethod.GET)
 	public String verificationPage(HttpServletRequest request,HttpServletResponse response,Model model){
 		return "system/talent/verification";
 		
 	}
 
-	@RequestMapping("saveExamineFile.do")
-	@ResponseBody
-	public String test(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoDTO dto){
-		ExamineInfoVO vo=new ExamineInfoVO();
-		vo.setA("aaa");
-		vo.setB("bbb");
-		return "callback("+JSON.toJSONString(vo)+")";
-	}
 	
-	@RequestMapping("saveExamineFile.dos")
-	@ResponseBody
-	public String tests(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoDTO dto){
-		ExamineInfoVO vo=new ExamineInfoVO();
-		vo.setA("aaa");
-		vo.setB("bbb");
-		return JSON.toJSONString(vo);
-	}
 	/**
 	 * 保存资料页面1并跳转到资料页面2
 	 * @param request
@@ -100,55 +112,81 @@ public class TalentController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("saveExamineInfo_a.do")
-	//@ResponseBody
-	public String saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoDTO dto){
-		return "system/talent/userdatafill_b";
+	@ResponseBody
+	public WebResultSupport saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
+		
+			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo);
+			if (resultSupport.isSuccess()) {
+				
+				resultSupport.setUrl("toAddUserdatafill_b.htm");
+			}
+
+			return resultSupport;
+		
 	}
+	/**
+	 * 保存达人入驻申请页面2并跳转到待审核页面
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param vo
+	 * @return
+	 */
 	@RequestMapping("saveExamineInfo_b.do")
-	//@ResponseBody
-	public String saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoDTO dto){
-		return "system/talent/verification";
+	@ResponseBody
+	public WebResultSupport saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
+		
+			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo);
+			if (resultSupport.isSuccess()) {
+				resultSupport.setUrl("verification.htm");
+			}
+			return resultSupport;
+		
 	}
+	/**
+	 * 新增达人基本信息
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("toAddTalentInfo.htm")
-	public String talentInfo(HttpServletRequest request,HttpServletResponse response,Model model){
-		model.addAttribute("serviceTypes", talentInfoDealService.queryTalentServiceType());
-		//MemResult<TalentInfoDTO> talentInfo= talentInfoDealService.queryTalentInfoByUserId(new SessionManager().getUserId(),1200 );
-		/*if (null == talentInfo ) {
-			log.error("talentInfoDealService.queryTalentInfoByUserId result is null and param"+JSON.toJSONString(talentInfo)+"and userId="+new SessionManager().getUserId()+"and domainId="+1200);
-			throw new BaseException("");
-		}
-		else if (!talentInfo.isSuccess()) {
-			log.error("talentInfoDealService.queryTalentInfoByUserId result error:"+JSON.toJSONString(talentInfo)+"and userId="+new SessionManager().getUserId()+"and domainId="+1200);
-			
-		}
-		else {*/
-			
-		//	model.addAttribute("talentInfo", talentInfo.getValue());
-		//}
+	public String addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model){
+		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
+		
 		return "system/talent/eredar";
 		
 	}
+	/**
+	 * 编辑达人基本信息
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("toEditTalentInfo.htm")
+	public String editTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model) {
+		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
+		model.addAttribute("talentInfo", talentBiz.getTalentInfo());
+		return "system/talent/eredar";
+		
+	}
+	/**
+	 * 保存达人基本信息
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param vo
+	 * @return
+	 */
 	@RequestMapping("saveTalentInfo.do")
 	@ResponseBody
-	public ResponseVo saveTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
-		//TalentInfoVO vo = JSON.parseObject(TalentInfoVOStr, TalentInfoVO.class);
-		try {
-			ResponseVo responseVo=new ResponseVo();
-			MemResult<Boolean> result = talentInfoDealService.updateTalentInfo(vo.getTalentInfoDTO(vo));
+	public WebResultSupport addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
+		
+			WebResultSupport resultSupport = talentBiz.addTalentInfo(vo);
 			
-			if (result.isSuccess()) {
-				//return "/success";
-				responseVo.setMessage("添加成功！");
-				responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
-			} else {
-				//responseVo.setMessage(result.getResultMsg());
-				responseVo.setStatus(ResponseStatus.ERROR.VALUE);
-			}
-			return responseVo;
-		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-			return ResponseVo.error(e);
-		}
+			return resultSupport;
+		
 		
 	}
 }
