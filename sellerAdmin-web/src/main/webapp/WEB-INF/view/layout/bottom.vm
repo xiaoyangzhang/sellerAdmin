@@ -32,5 +32,5 @@
 	</p>
 </div>
 <!-- 尾部结束 -->
-#parse("layout/js.vm")
+#parse("layout/layout-js.vm")
 <script>seajs.use("login");</script><!--应用程序模块入口JS-->

@@ -96,10 +96,10 @@ public class MerchantController extends BaseController{
 						model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
 					}
 					
-					if(ExamineType.MERCHANT.getId()==result.getValue().getType()){
+					if(ExamineType.MERCHANT.getType()==result.getValue().getType()){
 						model.addAttribute("type", "商家");
 						model.addAttribute("url", "/merchant/toDetailPage");
-					}else if(ExamineType.TALENT.getId()==result.getValue().getType()){
+					}else if(ExamineType.TALENT.getType()==result.getValue().getType()){
 						model.addAttribute("type", "达人");
 						model.addAttribute("url", "/talent/toEditUserdatafill_pageOne");
 					}
@@ -194,7 +194,7 @@ public class MerchantController extends BaseController{
 	@RequestMapping(value = "toDetailPage")
 	public String toBusinessDetailPage(Model model){
 		InfoQueryDTO info = new InfoQueryDTO();
-		info.setType(ExamineType.MERCHANT.getId());
+		info.setType(ExamineType.MERCHANT.getType());
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
 		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoById(info);
@@ -219,7 +219,7 @@ public class MerchantController extends BaseController{
 	@RequestMapping(value = "toDetailPageB")
 	public String toDetailPageB(Model model){
 		InfoQueryDTO info = new InfoQueryDTO();
-		info.setType(ExamineType.MERCHANT.getId());
+		info.setType(ExamineType.MERCHANT.getType());
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
 		
@@ -299,7 +299,7 @@ public class MerchantController extends BaseController{
 	public String toBusinessNotThrowPage(Model model){
 		try {
 			InfoQueryDTO info = new InfoQueryDTO();
-			info.setType(ExamineType.MERCHANT.getId());
+			info.setType(ExamineType.MERCHANT.getType());
 			info.setDomainId(Constant.DOMAIN_JIUXIU);
 			info.setSellerId(sessionManager.getUserId());
 			MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
