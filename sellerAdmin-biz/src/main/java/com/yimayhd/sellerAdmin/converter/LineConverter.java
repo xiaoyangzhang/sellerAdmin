@@ -363,7 +363,7 @@ public class LineConverter {
 		routeInfo.setRouteId(routeDO.getId());
 		List<RouteDayVO> tripDays = new ArrayList<RouteDayVO>();
 		Set<Integer> days = new HashSet<Integer>();
-		Map<Integer, RouteItemDetail> detailMap = new HashMap<Integer, RouteItemDetail>();
+		Map<Integer, RouteItemDO> detailMap = new HashMap<Integer, RouteItemDO>();
 		if (CollectionUtils.isNotEmpty(routeItems)) {
 			for (RouteItemDO routeItem : routeItems) {
 				days.add(routeItem.getDay());
@@ -371,7 +371,7 @@ public class LineConverter {
 					RouteItemDetail detail = routeItem.getRouteItemDetail();
 					if (detail != null) {
 						if (RouteItemType.DETAIL.name().equals(detail.getType())) {
-							detailMap.put(routeItem.getDay(), detail);
+							detailMap.put(routeItem.getDay(), routeItem);
 						}
 					}
 				}
@@ -385,7 +385,8 @@ public class LineConverter {
 			}
 		});
 		for (Integer day : dayList) {
-			tripDays.add(new RouteDayVO(detailMap.get(day)));
+			RouteItemDO routeItemDO = detailMap.get(day);
+			tripDays.add(new RouteDayVO(routeItemDO.getId(), routeItemDO.getRouteItemDetail()));
 		}
 		routeInfo.setRouteDays(tripDays);
 		return routeInfo;

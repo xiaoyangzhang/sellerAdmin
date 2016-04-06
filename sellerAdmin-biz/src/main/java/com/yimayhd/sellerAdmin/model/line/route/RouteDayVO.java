@@ -21,9 +21,9 @@ public class RouteDayVO implements Serializable {
 	public RouteDayVO() {
 	}
 
-	public RouteDayVO(RouteItemDetail detail) {
-		if (detail != null) {
-			this.routeItemId = detail.getId();
+	public RouteDayVO(long routeItemId, RouteItemDetail detail) {
+		if (routeItemId > 0 && detail != null) {
+			this.routeItemId = routeItemId;
 			this.title = detail.getName();
 			this.description = detail.getShortDesc();
 			this.picUrls = detail.getPics();
