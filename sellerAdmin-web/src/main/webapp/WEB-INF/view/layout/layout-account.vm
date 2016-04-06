@@ -28,7 +28,7 @@
 	    			#if($stringUtils.isNotBlank($user.avatar))
 	    				<img src="$tfs/$!{user.avatar}" width="32" height="32"/>
 	    			#else
-	    				<img src="$rs_path/img/init-photo.jpg" width="32" height="32"/>
+	    				<img src="$rs_js_css_path_jiuxiu/img/init-photo.jpg" width="32" height="32"/>
 	    			#end
 	    			<a href="$root_path/account/userInfo">$!{user.nickname}($!{user.id})</a>
 	    		</li>
@@ -66,7 +66,7 @@
 	 	  	<dd>9:00~22:00，周一至周日</dd>
 	 	  </dl>
 	 	  <dl class="lfml">
-	 	  	<dt><img src="$rs_path/img/foot-ewm.jpg"/></dt>
+	 	  	<dt><img src="$rs_js_css_path_jiuxiu/img/foot-ewm.jpg"/></dt>
 	 	  	<dd>怡美假日服务号</dd>
 	 	  </dl>
 	 	</div>
@@ -78,7 +78,7 @@
 	</div>
 	
 	<!-- 尾部结束 -->
-	#parse("layout/js.vm")
+	#parse("layout/layout-js.vm")
 	<script>seajs.use("login");</script><!--应用程序模块入口JS-->
 </body>
 </html>

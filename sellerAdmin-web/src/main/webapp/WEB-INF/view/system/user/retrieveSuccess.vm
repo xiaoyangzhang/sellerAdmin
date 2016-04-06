@@ -27,7 +27,7 @@
 		<!-- 尾部开始 -->
        	#parse("layout/footer.vm")
          <!-- 尾部结束 -->
-		#parse("layout/js.vm")
+		#parse("layout/layout-js.vm")
 		<script>
 			var i = 3;
 			var tt = window.setInterval(function(){

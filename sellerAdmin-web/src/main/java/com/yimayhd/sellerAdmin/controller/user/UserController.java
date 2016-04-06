@@ -70,18 +70,18 @@ public class UserController extends BaseController {
 	private String rootPath;
 	
 	
-
-	
-
-	@RequestMapping("/toWinLogin")
-	public ModelAndView toWinLogin() {
-		ModelAndView modelAndView = new ModelAndView("/system/user/winLogin");
-
-		return modelAndView;
-
-	}
-
-	
+//
+//	
+//
+//	@RequestMapping("/toWinLogin")
+//	public ModelAndView toWinLogin() {
+//		ModelAndView modelAndView = new ModelAndView("/system/user/winLogin");
+//
+//		return modelAndView;
+//
+//	}
+//
+//	
 //
 //	@RequestMapping("/toRetrieveSuccess")
 //	public ModelAndView toRetrieveSuccess() {
