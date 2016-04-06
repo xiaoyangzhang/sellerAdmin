@@ -13,6 +13,7 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
 import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
@@ -148,12 +149,13 @@ public class TalentBiz {
 		examineQueryDTO.setDomainId(1200);
 		examineQueryDTO.setType(1);
 		examineQueryDTO.setSellerId(25);
-		MemResult<String> examineDealResult = examineDealService.queryExamineDealResult(examineQueryDTO);
-		if (examineDealResult.isSuccess()) {
-			
+		MemResult<ExamineResultDTO> examineDealResult = examineDealService.queryExamineDealResult(examineQueryDTO);
+		if (examineDealResult.getValue().isOK()) {
+			webResultSupport.initSuccess(examineDealResult.getValue().getDealMes());
 		}
 		else {
-			webResultSupport.setWebReturnCode(WebReturnCode.TALENT_CHECKRESULT_FAILURE);
+		//	webResultSupport.setWebReturnCode(WebReturnCode.TALENT_CHECKRESULT_FAILURE);
+			webResultSupport.initFailure(WebReturnCode.TALENT_CHECKRESULT_FAILURE, examineDealResult.getValue().getDealMes());
 		}
 		return webResultSupport;
 		
