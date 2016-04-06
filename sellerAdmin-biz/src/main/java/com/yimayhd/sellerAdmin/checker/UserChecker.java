@@ -75,7 +75,7 @@ public class UserChecker {
 		if( modifyPasswordVo == null || StringUtils.isBlank(modifyPasswordVo.getOldPassword()) ){
 			result.setWebReturnCode(WebReturnCode.OLD_PASSWORD_EMPTY);
 			return result;
-		}else if( !StringUtils.isBlank(modifyPasswordVo.getNewPassword() ) ){
+		}else if( StringUtils.isBlank(modifyPasswordVo.getNewPassword() ) ){
 			result.setWebReturnCode(WebReturnCode.NEW_PASSWORD_EMPTY);
 			return result;
 		}else if( modifyPasswordVo.getNewPassword().equals(modifyPasswordVo.getOldPassword()) ){

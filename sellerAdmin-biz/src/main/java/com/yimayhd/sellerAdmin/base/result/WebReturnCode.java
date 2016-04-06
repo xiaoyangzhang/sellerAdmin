@@ -53,6 +53,6 @@ public class WebReturnCode implements Serializable {
 
 	/***************************************** 商户相关 ********************************************************/
 	public static final WebReturnCode BUSINESS_BASIC_SAVE_FAILURE = new WebReturnCode(24002001, "商户基本信息保存失败");
-	public final static WebReturnCode PASSWORD_ERROR = new WebReturnCode(24001015, "手机号码错误");
+	public final static WebReturnCode PASSWORD_ERROR = new WebReturnCode(24001015, "密码错误");
 	/***************************************** 商品相关 ********************************************************/
 }

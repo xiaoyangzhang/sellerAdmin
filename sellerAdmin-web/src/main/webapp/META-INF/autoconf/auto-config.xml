@@ -19,8 +19,8 @@
 		<property name="sellerAdmin.rootPath" defaultValue="http://localhost:8080/sellerAdmin/" description="#tfs默认访问地址" />
 	</group>
 	<group name="tair">
-		<property name="tair.configServer.main" defaultValue="tair01.test.yimayholiday.net:5198" description="#tair服务器的地址" />
-		<property name="tair.configServer.slave" defaultValue="tair01.test.yimayholiday.net:5198" description="#tair服务器的地址" />
+		<property name="tair.configServer.main" defaultValue="192.168.1.55:5198" description="#tair服务器的地址" />
+		<property name="tair.configServer.slave" defaultValue="192.168.1.55:5198" description="#tair服务器的地址" />
 		<property name="tair.groupName.per" defaultValue="group_1" description="#持久化tair的namespace" />
 		<property name="tair.groupName.temp" defaultValue="group_1" description="#持久化tair的namespace" />
 		<property name="tair.namespace" defaultValue="299" description="#tair命名空间" />
@@ -34,7 +34,9 @@
 		<property name="actionUploadFilePath" defaultValue="http://seller.test.yimayholiday.com/upload/file" description="#上传附件地址(单个)" />
 		<property name="actionUploadFilesPath" defaultValue="http://seller.test.yimayholiday.com/upload/files" description="#上传附件地址(多个)" />
 		<property name="env" defaultValue="test" description="当前环境" />
-		<property name="schedule.menu.update" defaultValue="0 0/5 * * * ?" description="每5分钟更新一次缓存中的menu" />
+		<property name="resource.path.jiuxiu" defaultValue="http://s0.test.jiuxiulvxing.com/busines" description="" />
+		<property name="resource.path.admin" defaultValue="http://s0.test.jiuxiulvxing.com/admin" description="" />
+		<property name="resource.path" defaultValue="http://s0.test.yimayholiday.com/jiuxiu" description="" />
 	</group>
 
 	<group name="dubbo">
@@ -46,57 +48,22 @@
 		<property name="consumer.dubbo.check" defaultValue="false" description="#" />
 
 		<property name="consumer.dubbo.item.version" defaultValue="1.0.0.test" description="#" />
-
 		<property name="consumer.dubbo.user.version" defaultValue="1.0.0.test" description="#" />
-
 		<property name="consumer.resource.dubbo.version" defaultValue="1.0.0.test" description="#" />
-
 		<property name="consumer.dubbo.member.version" defaultValue="2.0.0.test" description="#" />
-
-
-		<property name="consumer.dubbo.paycore.check" defaultValue="false" description="#" />
 		<property name="consumer.dubbo.paycore.version" defaultValue="1.0.0.test" description="#" />
-
-		<property name="consumer.dubbo.trade.check" defaultValue="false" description="#" />
 		<property name="consumer.dubbo.trade.version" defaultValue="1.0.0.test" description="#" />
-
-		<property name="consumer.dubbo.sns.check" defaultValue="false" description="#" />
 		<property name="consumer.dubbo.sns.version" defaultValue="1.0.0.test" description="#" />
-
-		<property name="consumer.dubbo.comment.check" defaultValue="false" description="#" />
 		<property name="consumer.dubbo.comment.version" defaultValue="1.0.0.test" description="#" />
-
-		<property name="consumer.dubbo.commission.check" defaultValue="false" description="#" />
 		<property name="consumer.dubbo.commission.version" defaultValue="1.0.0.test" description="#" />
-
-		<property name="consumer.dubbo.voucher.check" defaultValue="false" description="#" />
 		<property name="consumer.dubbo.voucher.version" defaultValue="1.0.0.test" description="#" />
-
-		<property name="consumer.dubbo.marketing.check" defaultValue="false" description="#"/>
 		<property name="consumer.dubbo.marketing.version" defaultValue="1.0.0.test" description="#"/>
-
-		<property name="consumer.dubbo.activity.check" defaultValue="false" description="#"/>
 		<property name="consumer.dubbo.activity.version" defaultValue="1.0.0.test" description="#"/>
 
 	</group>
 
-	<group name="session">
-		<property name="jedis.host" defaultValue="192.168.1.207" description="redis的ip"/>
-		<property name="jedis.port" defaultValue="6380" description="redis端口"/>
-		<property name="jedis.password" defaultValue="yimay2015" description="redis密码"/>
-		<property name="jedis.timeout" defaultValue="2000" description="jedis超时时间，单位s"/>
-		<property name="jedis.pool.maxIdle" defaultValue="8" description=""/>
-		<property name="jedis.pool.maxTotal" defaultValue="20" description="redis 最大连接数"/>
-		<property name="jedis.sentinel" defaultValue="192.168.1.207:26379" description="哨兵地址"/>
-		<property name="verify.code.expire" defaultValue="120" description=""/>
-		<property name="session.time.out" defaultValue="180" description="会话有效期，单位秒"/>
-		<property name="jedis.usePool" defaultValue="true" description="是否使用jedis连接池"/>
-		<property name="jedis.master" defaultValue="mymaster" description=""/>
-
-	</group>
 	<script>
-		<generate template="config.properties.vm" destfile="WEB-INF/config.properties"	charset="UTF-8" />
-		<generate template="redis.properties.vm" destfile="WEB-INF/redis.properties"	charset="UTF-8" />
+		<generate template="config.properties" destfile="WEB-INF/config.properties"	charset="UTF-8" />
 		<generate template="logback.xml" destfile="WEB-INF/logback.xml" charset="UTF-8"/>
 	</script>
 </config>
