@@ -6,10 +6,14 @@ import java.util.Date;
 
 
 
+
+
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.struts.action.SessionActionMapping;
 
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.enums.ExamineType;
+import com.yimayhd.user.session.manager.SessionManager;
 
 /***
  * 
@@ -39,7 +43,7 @@ public class ExamineInfoVO extends ExamineInfoDTO  {
 		BeanUtils.copyProperties(dto, vo);
 		dto.setDomainId(1200);
 		//dto.setSellerId(new SessionManager().getUserId());
-		dto.setSellerId(25);
+		dto.setSellerId(new SessionManager().getUserId());
 		dto.setCreateDate(new Date());
 		dto.setType(ExamineType.TALENT.getId());
 		dto.setAccountBankProvinceCode(vo.getProvince());

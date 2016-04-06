@@ -139,7 +139,7 @@ public class TalentInfoVO extends TalentInfoDO {
 		talentInfoDO.setPictures(picList);
 		//talentInfoDO.setId(new SessionManager().getUserId());
 		talentInfoDO.setProvinceCode(Integer.parseInt(vo.getProvince()));
-		talentInfoDO.setId(19000);
+		talentInfoDO.setId(new SessionManager().getUserId());
 		return talentInfoDO;
 		
 	}

@@ -59,8 +59,8 @@ public class TalentController extends BaseController {
 	 */
 	
 	@RequestMapping(value="toAddUserdatafill_pageOne",method=RequestMethod.GET)
-	public String toAddUserdatafill_a(){
-		
+	public String toAddUserdatafill_a(Model model){
+		model.addAttribute("checkResultInfo", talentBiz.getCheckResult());
 		return "system/talent/userdatafill_a";
 		
 	}
@@ -77,8 +77,9 @@ public class TalentController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="toAddUserdatafill_pageTwo",method=RequestMethod.GET)
-	public String toAddUserdatafill_b() {
+	public String toAddUserdatafill_b(Model model) {
 
+		model.addAttribute("checkResultInfo", talentBiz.getCheckResult());
 		return "system/talent/userdatafill_b";
 		
 	}
