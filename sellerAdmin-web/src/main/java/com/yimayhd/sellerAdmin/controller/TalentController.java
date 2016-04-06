@@ -119,7 +119,7 @@ public class TalentController extends BaseController {
 			WebResult<String> result=new WebResult<String>();
 			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo);
 			if (resultSupport.isSuccess()) {
-				if (vo.getId() <= 0 ) {
+				if (vo.getSellerId() <= 0 ) {
 					result.setValue("toAddUserdatafill_pageTwo");
 				}
 				else {

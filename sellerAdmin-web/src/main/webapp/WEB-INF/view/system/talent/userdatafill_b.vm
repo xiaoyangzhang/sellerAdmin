@@ -218,7 +218,7 @@
 							</label>
 						</div>
 					</div>
-					<div class="nextpage"><a href="#if (!$examineInfo.id) $!utilWebconfig.getActionDefaultFontPath()/talent/toAddUserdatafill_pageOne #else 
+					<div class="nextpage"><a href="#if ($examineInfo.sellerId <= 0) $!utilWebconfig.getActionDefaultFontPath()/talent/toAddUserdatafill_pageOne #else 
 					$!utilWebconfig.getActionDefaultFontPath()/talent/toEditUserdatafill_pageOne
 					#end" class="prev mr30">上一页</a><a class="allsub ml30">提交审核</a></div>
 				</div>
