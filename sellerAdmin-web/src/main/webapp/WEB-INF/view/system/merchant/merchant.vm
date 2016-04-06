@@ -3,6 +3,8 @@
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/jquery-ui-1.10.4.custom.css">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/merchant.css">
 
+<input type="hidden" id="merchantSubmit"  value="/sellerAdmin/merchant/saveBasic">
+
 	<div class="header">
 		<div class="comwidth content clearfix">
 			<a class="fl block"><img src="http://s0.test.jiuxiulvxing.com/busines/img/logo.jpg" >
@@ -52,12 +54,6 @@
 						<em><font>*</font>昵称  :</em>
 						<span>
 							<input type="text" value="$!nickName" name="nickName" class="inputxt" datatype="s6-18" errormsg="昵称至少6个字符,最多18个字符！" />
-						</span>
-					</p>
-					<p>
-						<em><font>*</font>店铺名称  :</em>
-						<span>
-							<input type="text" value="$!name" name="name" class="inputxt" datatype="s6-18" errormsg="昵称至少6个字符,最多18个字符！" />
 						</span>
 					</p>
 					<p>

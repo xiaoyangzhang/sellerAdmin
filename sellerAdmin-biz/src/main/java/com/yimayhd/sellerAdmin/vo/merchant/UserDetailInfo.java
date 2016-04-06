@@ -9,6 +9,8 @@ public class UserDetailInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private long id;
+	
+	private int pageNum;
 
 	private long sellerId;
 	// 商户名称
@@ -346,6 +348,12 @@ public class UserDetailInfo implements Serializable {
 	}
 	public void setBank(String bank) {
 		this.bank = bank;
+	}
+	public int getPageNum() {
+		return pageNum;
+	}
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
 	}
 	
 	
