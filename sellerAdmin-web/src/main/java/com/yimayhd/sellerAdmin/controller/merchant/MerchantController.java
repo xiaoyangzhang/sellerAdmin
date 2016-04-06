@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.controller.merchant;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
@@ -84,12 +86,13 @@ public class MerchantController extends BaseController{
 					}
 				}else if(result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_ACCESS){//审核通过
 					return "";
-				}else{//审核不通过
+				}else if(result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW){//审核不通过
 					
 					info.setType(result.getValue().getType());
-					MemResult<String> rest = examineDealService.queryExamineDealResult(info);
-					if(rest.isSuccess()){
-						model.addAttribute("reason", rest.getValue());
+					
+					MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
+					if(rest.isSuccess() && (null!=rest.getValue())){
+						model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
 					}
 					
 					if(ExamineType.MERCHANT.getId()==result.getValue().getType()){
@@ -97,9 +100,11 @@ public class MerchantController extends BaseController{
 						model.addAttribute("url", "/sellerAdmin/merchant/toDetailPage");
 					}else if(ExamineType.TALENT.getId()==result.getValue().getType()){
 						model.addAttribute("type", "达人");
-						model.addAttribute("url", "");
+						model.addAttribute("url", "/sellerAdmin/talent/toEditUserdatafill_pageOne");
 					}
 					return "/system/merchant/nothrough";
+				}else{//未知状态
+					return "/error";
 				}
 			}else{//第一次进入
 				return "/system/merchant/chosetype";
@@ -195,6 +200,12 @@ public class MerchantController extends BaseController{
 		if(result.isSuccess()){
 			model.addAttribute("imgSrc",Constant.TFS_URL);
 			model.addAttribute("examineInfo", result.getValue());
+			if(result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW){//审核不通过时
+				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
+				if(rest.isSuccess() && (null!=rest.getValue())){
+					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+				}
+			}
 		}
 		return "/system/merchant/userdatafill_a";
 	}
@@ -215,8 +226,13 @@ public class MerchantController extends BaseController{
 		if(result.isSuccess()){
 			model.addAttribute("imgSrc",Constant.TFS_URL);
 			model.addAttribute("examineInfo", result.getValue());
+			if(result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW){//审核不通过时
+				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
+				if(rest.isSuccess() && (null!=rest.getValue())){
+					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+				}
+			}
 		}
-		
 		MemResult<List<BankInfoDTO>> bankResult = talentInfoDealService.queryBankList();
 		if(bankResult.isSuccess()){
 			model.addAttribute("bankList", bankResult.getValue());
@@ -285,9 +301,9 @@ public class MerchantController extends BaseController{
 			info.setType(ExamineType.MERCHANT.getId());
 			info.setDomainId(Constant.DOMAIN_JIUXIU);
 			info.setSellerId(sessionManager.getUserId());
-			MemResult<String> result = examineDealService.queryExamineDealResult(info);
-			if(result.isSuccess()){
-				model.addAttribute("reason", result.getValue());
+			MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
+			if(rest.isSuccess() && (null!=rest.getValue())){
+				model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
 			}
 			return "/system/merchant/nothrough";
 		} catch (Exception e) {

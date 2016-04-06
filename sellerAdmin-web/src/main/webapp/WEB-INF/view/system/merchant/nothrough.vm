@@ -34,7 +34,10 @@
 		</div>
 		<div class="waiting nothrough tc m60">
 			<i></i><label class="f18 ml5 gray6">很遗憾，您的申请审核不通过，请修改后再次提交！</label><br>
-			<span class="f16 gray6">失败原因：</span><span class="bcs">$!reason</span>
+			<span class="f16 gray6">失败原因：</span>
+			#foreach( $info in $reason)  
+				<span class="bcs">$velocityCount、$!info 。</span>
+		　　　 #end
 		</div>
 		<div><a class="agreebtn" href="$!url">重新申请</a></div>
 	</div>
