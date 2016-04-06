@@ -1,21 +1,16 @@
 package com.yimayhd.sellerAdmin.model;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
-
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.commentcenter.client.domain.PicTextDO;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.domain.PictureTextDO;
 import com.yimayhd.membercenter.client.domain.talent.TalentInfoDO;
 import com.yimayhd.membercenter.client.dto.PictureTextDTO;
 import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
-import com.yimayhd.user.session.manager.SessionManager;
 
 public class TalentInfoVO extends TalentInfoDO {
 
@@ -23,6 +18,7 @@ public class TalentInfoVO extends TalentInfoDO {
 	 * 
 	 */
 	private static final long serialVersionUID = 6724357327778286510L;
+	
 
 	private String pictureTextDOs;
 	public String getPictureTextDOs() {
@@ -97,10 +93,10 @@ public class TalentInfoVO extends TalentInfoDO {
 		this.filepath = filepath;
 	}
 
-	public  TalentInfoDTO getTalentInfoDTO(TalentInfoVO vo) throws Exception {
+	public  TalentInfoDTO getTalentInfoDTO(TalentInfoVO vo,long userId) throws Exception {
 		TalentInfoDTO dto=new TalentInfoDTO();
 		dto.setDomainId(1200);
-		dto.setTalentInfoDO(getTalentInfoDO(vo));
+		dto.setTalentInfoDO(getTalentInfoDO(vo,userId));
 		PictureTextDTO pictureTextDTO=new PictureTextDTO();
 		List<PictureTextDO> picTextDOs=new ArrayList<PictureTextDO>();
 		
@@ -116,12 +112,11 @@ public class TalentInfoVO extends TalentInfoDO {
 			pictureTextDTO.setPicTexts(picTextDOs);
 			dto.setPictureTextDTO(pictureTextDTO);
 		}
-		//vo.getPicTextDOs();
 		return dto;
 		
 	}
 	
-	public static TalentInfoDO getTalentInfoDO(TalentInfoVO vo) throws Exception {
+	public static TalentInfoDO getTalentInfoDO(TalentInfoVO vo,long userId) throws Exception {
 		TalentInfoDO talentInfoDO=new TalentInfoDO();
 		BeanUtils.copyProperties(talentInfoDO, vo);
 		talentInfoDO.setCityCode(Integer.parseInt(vo.getCity()));
@@ -137,9 +132,8 @@ public class TalentInfoVO extends TalentInfoDO {
 			}
 		}
 		talentInfoDO.setPictures(picList);
-		//talentInfoDO.setId(new SessionManager().getUserId());
 		talentInfoDO.setProvinceCode(Integer.parseInt(vo.getProvince()));
-		talentInfoDO.setId(new SessionManager().getUserId());
+		talentInfoDO.setId(userId);
 		return talentInfoDO;
 		
 	}

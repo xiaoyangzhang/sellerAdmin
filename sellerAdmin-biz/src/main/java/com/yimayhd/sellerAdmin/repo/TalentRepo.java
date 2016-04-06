@@ -5,8 +5,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
@@ -20,7 +18,6 @@ import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
-import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
 import com.yimayhd.sellerAdmin.util.RepoUtils;
@@ -111,7 +108,7 @@ public class TalentRepo {
 		WebResultSupport webResultSupport=new WebResultSupport();
 		try {
 			RepoUtils.requestLog(log, "talentInfoDealService.updateTalentInfo", vo);
-			 talentInfoResult = talentInfoDealService.updateTalentInfo(vo.getTalentInfoDTO(vo));
+			 talentInfoResult = talentInfoDealService.updateTalentInfo(vo.getTalentInfoDTO(vo,sessionManager.getUserId()));
 			 RepoUtils.requestLog(log, "talentInfoDealService.updateTalentInfo", talentInfoResult);
 			
 			 if (talentInfoResult.isSuccess()) {
@@ -144,7 +141,7 @@ public class TalentRepo {
 		WebResultSupport webResultSupport=new WebResultSupport();
 		try {
 			RepoUtils.requestLog(log, " examineDealService.submitMerchantExamineInfo", vo);
-			 ExamineInfoResult = examineDealService.submitMerchantExamineInfo(vo.getExamineInfoDTO(vo));
+			 ExamineInfoResult = examineDealService.submitMerchantExamineInfo(vo.getExamineInfoDTO(vo,sessionManager.getUserId()));
 			 RepoUtils.requestLog(log, " examineDealService.submitMerchantExamineInfo", ExamineInfoResult);
 			 if (ExamineInfoResult.isSuccess()) {
 				
@@ -171,7 +168,6 @@ public class TalentRepo {
 	 * @return
 	 */
 	public String getCheckResult() {
-		//WebResultSupport  webResultSupport = new WebResultSupport();
 		InfoQueryDTO examineQueryDTO = new InfoQueryDTO();
 		examineQueryDTO.setDomainId(1200);
 		examineQueryDTO.setType(ExamineType.TALENT.getId());
@@ -179,15 +175,12 @@ public class TalentRepo {
 		
 		RepoUtils.requestLog(log, " examineDealService.queryExamineDealResult", examineQueryDTO);
 		MemResult<ExamineResultDTO> examineDealResult = examineDealService.queryExamineDealResult(examineQueryDTO);
-		RepoUtils.requestLog(log, " talentInfoDealService.queryBankList", examineDealResult.getValue());
-		//if (examineDealResult.getValue().getStatus().EXAMIN_OK.getId() == Constant.MERCHANT_TYPE_ACCESS ) {
+		RepoUtils.requestLog(log, " examineDealService.queryExamineDealResult", examineDealResult.getValue());
+		if (examineDealResult.getValue() == null) {
+			return null;
+		}
 		return examineDealResult.getValue().getDealMes();
-//		}
-//		else {
-		//	webResultSupport.setWebReturnCode(WebReturnCode.TALENT_CHECKRESULT_FAILURE);
-//			return examineDealResult.getValue().getDealMes();
-//		}
-		//return webResultSupport;
+
 		
 	}
 }

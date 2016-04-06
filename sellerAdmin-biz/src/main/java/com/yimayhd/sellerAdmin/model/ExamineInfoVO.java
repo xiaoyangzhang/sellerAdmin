@@ -1,19 +1,9 @@
 package com.yimayhd.sellerAdmin.model;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-
-
-
-
-
-
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.struts.action.SessionActionMapping;
-
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.enums.ExamineType;
-import com.yimayhd.user.session.manager.SessionManager;
 
 /***
  * 
@@ -24,6 +14,7 @@ import com.yimayhd.user.session.manager.SessionManager;
 public class ExamineInfoVO extends ExamineInfoDTO  {
 	
 	private static final long serialVersionUID = 8113499074191458166L;
+	
 	private String province;
 	private String city;
 	public String getProvince() {
@@ -38,12 +29,11 @@ public class ExamineInfoVO extends ExamineInfoDTO  {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public  ExamineInfoDTO getExamineInfoDTO(ExamineInfoVO vo) throws Exception {
+	public  ExamineInfoDTO getExamineInfoDTO(ExamineInfoVO vo,long userId) throws Exception {
 		ExamineInfoDTO dto=new ExamineInfoDTO();
 		BeanUtils.copyProperties(dto, vo);
 		dto.setDomainId(1200);
-		//dto.setSellerId(new SessionManager().getUserId());
-		dto.setSellerId(new SessionManager().getUserId());
+		dto.setSellerId(userId);
 		dto.setCreateDate(new Date());
 		dto.setType(ExamineType.TALENT.getId());
 		dto.setAccountBankProvinceCode(vo.getProvince());

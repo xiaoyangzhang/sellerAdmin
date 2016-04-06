@@ -86,7 +86,6 @@ public class TalentBiz {
 	}
 	
 	public List<BankInfoDTO> getBankList() {
-		//MemResult<List<BankInfoDTO>> bankList = talentInfoDealService.queryBankList();
 		return talentRepo.getBankList();
 	}
 	public  String formatDate (Date date) {   

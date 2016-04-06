@@ -67,7 +67,7 @@ public class TalentController extends BaseController {
 	@RequestMapping(value="toEditUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toEditUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model) {
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
-		//model.addAttribute("talentBiz", talentBiz);
+		model.addAttribute("checkResultInfo", talentBiz.getCheckResult());
 		return "system/talent/userdatafill_a";
 		
 	}
@@ -78,7 +78,7 @@ public class TalentController extends BaseController {
 	 */
 	@RequestMapping(value="toAddUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toAddUserdatafill_b(Model model) {
-
+		model.addAttribute("bankList", talentBiz.getBankList());
 		model.addAttribute("checkResultInfo", talentBiz.getCheckResult());
 		return "system/talent/userdatafill_b";
 		
@@ -86,8 +86,8 @@ public class TalentController extends BaseController {
 	@RequestMapping(value="toEditUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toEditUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
+		model.addAttribute("checkResultInfo", talentBiz.getCheckResult());
 		model.addAttribute("bankList", talentBiz.getBankList());
-		//model.addAttribute("talentBiz", talentBiz);
 		return "system/talent/userdatafill_b";
 		
 	}
@@ -119,7 +119,13 @@ public class TalentController extends BaseController {
 			WebResult<String> result=new WebResult<String>();
 			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo);
 			if (resultSupport.isSuccess()) {
-				result.setValue("toAddUserdatafill_pageTwo");
+				if (vo.getId() <= 0 ) {
+					result.setValue("toAddUserdatafill_pageTwo");
+				}
+				else {
+					result.setValue("toEditUserdatafill_pageTwo");
+					
+				}
 			}
 			
 			else {
@@ -161,7 +167,6 @@ public class TalentController extends BaseController {
 	@RequestMapping(value="toAddTalentInfo",method=RequestMethod.GET)
 	public String addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model){
 		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
-		//model.addAttribute("talentBiz", talentBiz);
 		return "system/talent/eredar";
 		
 	}
@@ -198,29 +203,6 @@ public class TalentController extends BaseController {
 		
 		
 	}
-	/**
-	 * 根据审核结果跳转到不同页面
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
-	/*@RequestMapping(value="checkResult",method=RequestMethod.GET)
-	public WebResult<String> getCheckResult(HttpServletRequest request,HttpServletResponse response,Model model) {
-		WebResult<String> result = new WebResult<>();
-		WebResultSupport checkResult = talentBiz.getCheckResult();
-		if (checkResult.isSuccess()) {
-			result.setValue("/user/login");
-		}
-		else {
-			result.setValue("nothrough");
-			
-		}
-		return result;
-		
-	}
-	@RequestMapping(value="nothrough",method=RequestMethod.GET)
-	public String nothrough() {
-		return "system/talent/nothrough";
-	}*/
+	
+	
 }
