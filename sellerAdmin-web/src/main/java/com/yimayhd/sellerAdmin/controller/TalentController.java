@@ -64,7 +64,7 @@ public class TalentController extends BaseController {
 		return "system/talent/userdatafill_a";
 		
 	}
-	@RequestMapping("toEditUserdatafill_pageOne")
+	@RequestMapping(value="toEditUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toEditUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model) {
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
 		//model.addAttribute("talentBiz", talentBiz);
@@ -123,6 +123,7 @@ public class TalentController extends BaseController {
 			
 			else {
 				result.setWebReturnCode(resultSupport.getWebReturnCode());
+				
 			}
 			return result;
 		
@@ -203,7 +204,7 @@ public class TalentController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="checkResult",method=RequestMethod.GET)
+	/*@RequestMapping(value="checkResult",method=RequestMethod.GET)
 	public WebResult<String> getCheckResult(HttpServletRequest request,HttpServletResponse response,Model model) {
 		WebResult<String> result = new WebResult<>();
 		WebResultSupport checkResult = talentBiz.getCheckResult();
@@ -220,5 +221,5 @@ public class TalentController extends BaseController {
 	@RequestMapping(value="nothrough",method=RequestMethod.GET)
 	public String nothrough() {
 		return "system/talent/nothrough";
-	}
+	}*/
 }

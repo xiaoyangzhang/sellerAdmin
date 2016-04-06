@@ -39,7 +39,15 @@
 		<div class="tabs">
 			<form id="forminfo" method="post" action="saveExamineInfo_a.do">
 				<div class="panel">
-					<div class="tit gray6 f16">商户信息</div>
+					<div class="tit gray6 f16 error_tip">商户信息
+						<div class="error_box">
+							<div>审核不通过原因</div>
+							<ol>
+								<li>负责人身份证过期</li>
+								<li>地址找不到</li>
+							</ol>
+						</div>
+					</div>
 					<div class="fm_md_one fm_md">
 						<div class="column"><label class="bred">*</label><label>商户名称：</label><input class="inptxt" name="sellerName" datatype="s" value="$!examineInfo.sellerName" maxlength="40" placeholder="公司主体名称、营业执照上名称"></div>
 						<div class="column"><label class="bred" class="red">*</label><label>法人名称：</label><input class="inptxt" datatype="s" name="legralName" value="$!examineInfo.legralName" maxlength="10" placeholder="营业执照上的法人名称"></div>

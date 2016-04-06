@@ -193,7 +193,7 @@
 										#if ($st.id == $serviceType.id) checked = "checked" #end
 									#end
 								#end 
-								name = "certificatess" id="shoppingsite2${velocityCount}"value="$!{serviceType.id}" datatype="*" errormsg="请选择您常去的购物网站！" ><label style="margin-left:5px;margin-right:20px;">$!{serviceType.name}</label>
+								name = "certificatess" id="shoppingsite2$!{velocityCount}"value="$!{serviceType.id}" datatype="*" errormsg="请选择您常去的购物网站！" ><label style="margin-left:5px;margin-right:20px;" class='mr15' for="shoppingsite2$!{velocityCount}">$!{serviceType.name}</label>
 							#end
 							</td>
 						</tr>
