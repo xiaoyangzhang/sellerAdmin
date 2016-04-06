@@ -13,6 +13,7 @@ import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
@@ -62,6 +63,10 @@ public class TalentBiz {
 	 * @throws Exception
 	 */
 	public WebResultSupport addTalentInfo(TalentInfoVO vo)  {
+		if (vo == null ) {
+			log.error("get examineSubmitDTO params error :vo="+vo);
+			throw new BaseException("参数错误");
+		}
 		return talentRepo.addTalentInfo(vo);
 		
 	}
@@ -73,6 +78,10 @@ public class TalentBiz {
 	 * @throws Exception
 	 */
 	public WebResultSupport addExamineInfo(ExamineInfoVO vo,int pageNo)  {
+		if (vo == null ||  pageNo <= 0) {
+			log.error("get examineSubmitDTO params error :vo="+vo+"pageNo="+pageNo);
+			throw new BaseException("参数错误");
+		}
 		return talentRepo.addExamineInfo(vo,pageNo);
 	}
 	/**
