@@ -12,28 +12,14 @@
 	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/base.css">
 	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/common.css">
 	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/jquery-ui-1.10.4.custom.css">
-	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/eredar.css">
 
 </head>
 <body>
 	#parse("layout/layout-top.vm")
 
-	<div class = "comwidth crumbs f12">
-		您所在的位置：
-		#if( $currentMenu )
-			$!currentMenu.parentName > <a class = "f12 gray6">$!currentMenu.name</a></div>
-		#else
-			<a class = "f12 gray6">首页</a></div>
-		#end
-		<div class = "comwidth clearfix" id = "eredar">
-			<div class = "eredar-left">
-				#parse("layout/menu.vm")
-			</div>
-			<div class = "eredar-right">
-		    	$screen_content
-			</div>
-		</div>
-	</div>
+	$screen_content
+	
+	
 </body>
 </html>
 

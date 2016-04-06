@@ -1,20 +1,11 @@
-#set ($layout="/layout/layout2.vm")
+#set($layout = "/layout/layout-apply.vm")
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>申请入驻</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/filldata.css">
+</head>
 
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/filldata.css">
 
-<title>选择</title>
-	<div class="header">
-		<div class="comwidth content clearfix">
-			<a class="fl block"><img src="http://s0.test.jiuxiulvxing.com/busines/img/logo.jpg"></a>
-			<div class="fr user-block">
-				<a class="user-block-link mr15 not-a">
-					<span class="circle mr10"><img src="http://s0.test.jiuxiulvxing.com/busines/img/default_1.png"><i></i></span>
-					<span>Hi：</span><span>13655545879</span>
-				</a>
-				<a class="ext">退出</a>
-			</div>
-		</div>
-	</div>
 	<div class="comwidth agreement-box mt30">
 		<div class="tit gray6 f16">账号类型选择</div>
 		<div class="chsdm pt50 pb50">
@@ -22,21 +13,21 @@
 		</div>
 		<div class="chsdm">
 			<div class="fl">
-				<img src="http://s0.test.jiuxiulvxing.com/busines/img/chs_l.jpg">
+				<img src="$!rs_path_jiuxiu/img/chs_l.jpg">
 				<h4>商家号</h4>
 				<p>给企业和组织提供更强大的业务服
 					务与用户管理能力，帮助企业快速
 					实现全新的公众号服务平台。</p>
-				<a href="$!utilWebconfig.getActionDefaultFontPath()/merchant/toAggrementPage">我是商家选这个</a>
+				<a href="$!root_path/merchant/toAggrementPage">我是商家选这个</a>
 				<div class="centline"></div>
 			</div>
 			<div class="fr">
-				<img src="http://s0.test.jiuxiulvxing.com/busines/img/chs_r.jpg">
+				<img src="$!rs_path_jiuxiu/img/chs_r.jpg">
 				<h4>达人号</h4>
 				<p>给企业和组织提供更强大的业务服
 					务与用户管理能力，帮助企业快速
 					实现全新的公众号服务平台。</p>
-				<a href="$!utilWebconfig.getActionDefaultFontPath()/talent/agreement">我是达人选择个</a>
+				<a href="$!root_path/talent/agreement">我是达人选择个</a>
 			</div>
 		</div>
 	</div>

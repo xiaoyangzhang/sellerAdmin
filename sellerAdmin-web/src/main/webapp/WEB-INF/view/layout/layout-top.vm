@@ -1,0 +1,16 @@
+	
+	<div class="header">
+		<div class="comwidth content clearfix">
+			<a class="fl block"><img src="$!rs_path_jiuxiu/img/logo.jpg"></a>
+			<div class="fr user-block">
+				<a class="user-block-link mr15 not-a">
+					<span class="circle mr10">
+						<img src="$avatar">
+					<i></i></span>
+					<span>Hi：</span><span>$username</span> <span>(  ${user.id}  )</span>
+				</a>
+				<a class="ext" href="$!root_path/user/logout">退出</a>
+			</div>
+		</div>
+	</div>
+

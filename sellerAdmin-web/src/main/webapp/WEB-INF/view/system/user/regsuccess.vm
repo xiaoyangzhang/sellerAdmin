@@ -1,7 +1,7 @@
 #set($layout = "/layout/layout-account.vm")
 	
 	<head>
-		#parse("layout/meta.vm")
+		#parse("layout/layout-meta.vm")
 		<title>注册成功-九休商户后台</title>
 	</head>
 
