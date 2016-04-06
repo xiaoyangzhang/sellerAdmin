@@ -14,7 +14,7 @@ public class WebResultSupport implements Serializable {
 	private int errorCode;
 	private String resultMsg;
 	private WebReturnCode webReturnCode;
-
+	
 	public boolean isSuccess() {
 		return success;
 	}

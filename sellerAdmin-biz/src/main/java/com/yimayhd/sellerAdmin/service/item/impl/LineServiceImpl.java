@@ -251,7 +251,7 @@ public class LineServiceImpl implements LineService {
 			}
 			LinePubAddDTO linePublishDTOForSave = LineConverter.toLinePublishDTOForSave(sellerId, line);
 			LinePublishResult publishLine = lineRepo.saveLine(linePublishDTOForSave);
-			long itemId = publishLine.getLineId();
+			long itemId = publishLine.getItemId();
 			if (itemId > 0) {
 				BaseInfoVO baseInfo = line.getBaseInfo();
 				List<Long> themeIds = baseInfo.getThemes();

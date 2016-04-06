@@ -15,10 +15,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.client.result.MemResultSupport;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
+import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.biz.TalentBiz;
 import com.yimayhd.sellerAdmin.constant.ResponseStatus;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
@@ -34,120 +39,186 @@ import com.yimayhd.sellerAdmin.service.RegionService;
 public class TalentController extends BaseController {
 
 	protected  Logger log=LoggerFactory.getLogger(getClass());
+	
 	@Autowired
-	private TalentInfoDealService talentInfoDealService;
-	@Autowired
-	private ExamineDealService examineDealService;
-	@Autowired
-	private RegionService regionService;
-	@RequestMapping(value="agreement.htm",method=RequestMethod.GET)
-	public String toAgreementPage(HttpServletRequest request,HttpServletResponse response,Model model){
+	private TalentBiz talentBiz;
+	/**
+	 * 跳转到达人审核协议
+	 * @return
+	 */
+	@RequestMapping(value="agreement",method=RequestMethod.GET)
+	public String toAgreementPage() {
 		return "system/talent/agreement";
 		
 	}
 	/**
 	 * 跳转到填写达人申请资料页面1
-	 * 
-	 * @param request
-	 * @param response
-	 * @param model
+	  
+	
 	 * @return
 	 */
 	
-	@RequestMapping(value="userdatafill_a.htm",method=RequestMethod.GET)
-	public String toUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model){
-//		try {
-//			List<Region> provinces = regionService.getProvince();
-//			model.addAttribute("provinces", provinces);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+	@RequestMapping(value="toAddUserdatafill_pageOne",method=RequestMethod.GET)
+	public String toAddUserdatafill_a(){
+		
 		return "system/talent/userdatafill_a";
 		
 	}
+	@RequestMapping("toEditUserdatafill_pageOne")
+	public String toEditUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model) {
+		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
+		//model.addAttribute("talentBiz", talentBiz);
+		return "system/talent/userdatafill_a";
+		
+	}
+	/**
+	 * 跳转到达人申请入驻资料页面2
 	
+	 * @return
+	 */
+	@RequestMapping(value="toAddUserdatafill_pageTwo",method=RequestMethod.GET)
+	public String toAddUserdatafill_b() {
+
+		return "system/talent/userdatafill_b";
+		
+	}
+	@RequestMapping(value="toEditUserdatafill_pageTwo",method=RequestMethod.GET)
+	public String toEditUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
+		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
+		model.addAttribute("bankList", talentBiz.getBankList());
+		//model.addAttribute("talentBiz", talentBiz);
+		return "system/talent/userdatafill_b";
+		
+	}
 	
-	@RequestMapping(value="verification.htm",method=RequestMethod.GET)
-	public String verificationPage(HttpServletRequest request,HttpServletResponse response,Model model){
+	/**
+	 * 跳转到达人入驻待审核页面
+	 
+	 * @return
+	 */
+	@RequestMapping(value="verification",method=RequestMethod.GET)
+	public String verificationPage() {
 		return "system/talent/verification";
 		
 	}
 
-	@RequestMapping("saveExamineFile.do")
-	@ResponseBody
-	public String test(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoDTO dto){
-		ExamineInfoVO vo=new ExamineInfoVO();
-		vo.setA("aaa");
-		vo.setB("bbb");
-		return "callback("+JSON.toJSONString(vo)+")";
-	}
 	
-	@RequestMapping("saveExamineFile.dos")
-	@ResponseBody
-	public String tests(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoDTO dto){
-		ExamineInfoVO vo=new ExamineInfoVO();
-		vo.setA("aaa");
-		vo.setB("bbb");
-		return JSON.toJSONString(vo);
-	}
 	/**
 	 * 保存资料页面1并跳转到资料页面2
 	 * @param request
 	 * @param response
 	 * @param model
-	 * @param dto
+	 * @param vo 封装的达人审核资料对象
 	 * @return
 	 */
-	@RequestMapping("saveExamineInfo_a.do")
-	//@ResponseBody
-	public String saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoDTO dto){
-		return "system/talent/userdatafill_b";
-	}
-	@RequestMapping("saveExamineInfo_b.do")
-	//@ResponseBody
-	public String saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoDTO dto){
-		return "system/talent/verification";
-	}
-	@RequestMapping("toAddTalentInfo.htm")
-	public String talentInfo(HttpServletRequest request,HttpServletResponse response,Model model){
-		model.addAttribute("serviceTypes", talentInfoDealService.queryTalentServiceType());
-		//MemResult<TalentInfoDTO> talentInfo= talentInfoDealService.queryTalentInfoByUserId(new SessionManager().getUserId(),1200 );
-		/*if (null == talentInfo ) {
-			log.error("talentInfoDealService.queryTalentInfoByUserId result is null and param"+JSON.toJSONString(talentInfo)+"and userId="+new SessionManager().getUserId()+"and domainId="+1200);
-			throw new BaseException("");
-		}
-		else if (!talentInfo.isSuccess()) {
-			log.error("talentInfoDealService.queryTalentInfoByUserId result error:"+JSON.toJSONString(talentInfo)+"and userId="+new SessionManager().getUserId()+"and domainId="+1200);
+	@RequestMapping(value="saveExamineInfo_pageOne",method=RequestMethod.POST)
+	@ResponseBody
+	public WebResult<String> saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
+		
+			WebResult<String> result=new WebResult<String>();
+			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo);
+			if (resultSupport.isSuccess()) {
+				result.setValue("toAddUserdatafill_pageTwo");
+			}
 			
-		}
-		else {*/
-			
-		//	model.addAttribute("talentInfo", talentInfo.getValue());
-		//}
+			else {
+				result.setWebReturnCode(resultSupport.getWebReturnCode());
+			}
+			return result;
+		
+	}
+	/**
+	 * 保存达人入驻申请页面2并跳转到待审核页面
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param vo 封装的达人审核资料对象
+	 * @return
+	 */
+	@RequestMapping(value="saveExamineInfo_pageTwo",method=RequestMethod.POST)
+	@ResponseBody
+	public WebResult<String> saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
+			WebResult<String> result=new WebResult<String>();
+			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo);
+			if (resultSupport.isSuccess()) {
+				result.setValue("verification");
+			}
+			else {
+				result.setWebReturnCode(resultSupport.getWebReturnCode());
+			}
+			return result;
+		
+	}
+	/**
+	 * 新增达人基本信息
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="toAddTalentInfo",method=RequestMethod.GET)
+	public String addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model){
+		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
+		//model.addAttribute("talentBiz", talentBiz);
 		return "system/talent/eredar";
 		
 	}
-	@RequestMapping("saveTalentInfo.do")
-	@ResponseBody
-	public ResponseVo saveTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
-		//TalentInfoVO vo = JSON.parseObject(TalentInfoVOStr, TalentInfoVO.class);
-		try {
-			ResponseVo responseVo=new ResponseVo();
-			MemResult<Boolean> result = talentInfoDealService.updateTalentInfo(vo.getTalentInfoDTO(vo));
-			
-			if (result.isSuccess()) {
-				//return "/success";
-				responseVo.setMessage("添加成功！");
-				responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
-			} else {
-				//responseVo.setMessage(result.getResultMsg());
-				responseVo.setStatus(ResponseStatus.ERROR.VALUE);
-			}
-			return responseVo;
-		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-			return ResponseVo.error(e);
-		}
+	/**
+	 * 编辑达人基本信息
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="toEditTalentInfo",method=RequestMethod.GET)
+	public String editTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model) {
+		model.addAttribute("talentBiz", talentBiz);
+		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
+		model.addAttribute("talentInfo", talentBiz.getTalentInfo());
+		return "system/talent/eredar";
 		
+	}
+	/**
+	 * 保存达人基本信息
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param vo 封装的达人基本信息对象
+	 * @return
+	 */
+	@RequestMapping(value="saveTalentInfo",method=RequestMethod.POST)
+	@ResponseBody
+	public WebResultSupport addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
+		
+			WebResultSupport resultSupport = talentBiz.addTalentInfo(vo);
+			
+			return resultSupport;
+		
+		
+	}
+	/**
+	 * 根据审核结果跳转到不同页面
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="checkResult",method=RequestMethod.GET)
+	public WebResult<String> getCheckResult(HttpServletRequest request,HttpServletResponse response,Model model) {
+		WebResult<String> result = new WebResult<>();
+		WebResultSupport checkResult = talentBiz.getCheckResult();
+		if (checkResult.isSuccess()) {
+			result.setValue("/user/login");
+		}
+		else {
+			result.setValue("nothrough");
+			
+		}
+		return result;
+		
+	}
+	@RequestMapping(value="nothrough",method=RequestMethod.GET)
+	public String nothrough() {
+		return "system/talent/nothrough";
 	}
 }

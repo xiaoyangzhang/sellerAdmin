@@ -56,5 +56,12 @@ public class WebReturnCode implements Serializable {
 	public static final WebReturnCode MERCHANT_BASIC_EDIT_FAILURE = new WebReturnCode(24002002, "商户基本信息修改失败");
 	public static final WebReturnCode MERCHANT_INFO_EDIT_FAILURE = new WebReturnCode(24002003, "商户入驻填写信息修改失败");
 	public final static WebReturnCode PASSWORD_ERROR = new WebReturnCode(24001015, "手机号码错误");
+	/***************************************** 达人相关 ********************************************************/
+	public static final WebReturnCode TALENT_BASIC_SAVE_FAILURE = new WebReturnCode(24002004, "达人基本信息保存失败");
+	public static final WebReturnCode TALENT_BASIC_EDIT_FAILURE = new WebReturnCode(24002005, "达人基本信息修改失败");
+	public static final WebReturnCode TALENT_INFO_SAVE_FAILURE = new WebReturnCode(24002006, "达人入驻填写信息保存失败");
+	public static final WebReturnCode TALENT_INFO_EDIT_FAILURE = new WebReturnCode(24002007, "达人入驻填写信息修改失败");
+	public static final WebReturnCode TALENT_CHECKRESULT_FAILURE = new WebReturnCode(24002007, "达人入驻审核结果获取失败");
+	//public final static WebReturnCode PASSWORD_ERROR = new WebReturnCode(24001015, "手机号码错误");
 	/***************************************** 商品相关 ********************************************************/
 }

@@ -20,4 +20,6 @@ public interface ItemService {
 	 * @return
 	 */
 	WebResult<PageVO<ItemListItemVO>> getItemList(long sellerId, ItemListQuery query);
+	
+	WebResult<PageVO<ItemListItemVO>> getCateList();
 }
