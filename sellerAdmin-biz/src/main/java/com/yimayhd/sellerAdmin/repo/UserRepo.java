@@ -99,6 +99,8 @@ public class UserRepo {
 					result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
 				}else if( UserServiceHttpCode.USER_LOCKED_TO_MANY_TIMES_FAILED.getCode() == code ){
 					result.setWebReturnCode(WebReturnCode.USER_LOCKED_TO_MANY_TIMES_FAILED);
+				}else if( UserServiceHttpCode.USER_NOT_FOUND.getCode() == code ){
+					result.setWebReturnCode(WebReturnCode.USER_NOT_FOUND);
 				}else if( UserServiceHttpCode.USERNAME_OR_PASSWORD_ERROR.getCode() == code ){
 					result.setWebReturnCode(WebReturnCode.USERNAME_OR_PASSWORD_ERROR);
 				}else{
