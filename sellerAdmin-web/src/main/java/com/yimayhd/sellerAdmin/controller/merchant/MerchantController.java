@@ -19,6 +19,7 @@ import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
+import com.yimayhd.membercenter.enums.ExaminePageNo;
 import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -251,6 +252,7 @@ public class MerchantController extends BaseController{
 	public WebResult<String> saveUserdata(UserDetailInfo userDetailInfo){
 		WebResult<String> rest = new WebResult<String>();
 		
+		userDetailInfo.setPageNum(ExaminePageNo.PAGE_ONE.getPageNO());
 		WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
 		if(result.isSuccess()){
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/merchant/toDetailPageB");
@@ -270,7 +272,7 @@ public class MerchantController extends BaseController{
 	@ResponseBody
 	public WebResultSupport saveUserdataB(UserDetailInfo userDetailInfo){
 		WebResult<String> rest = new WebResult<String>();
-		
+		userDetailInfo.setPageNum(ExaminePageNo.PAGE_TWO.getPageNO());
 		WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
 		if(result.isSuccess()){
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/merchant/toVerifyPage");

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.dto.ExamineSubmitDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
@@ -103,9 +104,13 @@ public class MerchantBiz {
 		ExamineInfoDTO ex = new ExamineInfoDTO();
 		
 		setExamineInfo(ex,userDetailInfo);
+		ExamineSubmitDTO dto = new ExamineSubmitDTO();
+		dto.setExamineInfoDTO(ex);
+		//提交的当前页数，如果是第一次提交，不update当前的status
+		dto.setPageNo(userDetailInfo.getPageNum());
 		
 		WebResultSupport webResult = new WebResultSupport();
-		MemResult<Boolean> result = merchantRepo.saveUserdata(ex);
+		MemResult<Boolean> result = merchantRepo.saveUserdata(dto);
 		LOGGER.debug("examineInfoDTO={}", JSONObject.toJSONString(ex));
 		if(result.isSuccess()){
 			webResult.isSuccess();
@@ -148,6 +153,8 @@ public class MerchantBiz {
 	
 	private  void setExamineInfo(ExamineInfoDTO ex,UserDetailInfo userDetailInfo){
 		ex.setId(userDetailInfo.getId());
+		
+		
 		ex.setSellerId(sessionManager.getUserId());
 		ex.setSellerName(userDetailInfo.getSellerName());
 		ex.setDomainId(Constant.DOMAIN_JIUXIU);

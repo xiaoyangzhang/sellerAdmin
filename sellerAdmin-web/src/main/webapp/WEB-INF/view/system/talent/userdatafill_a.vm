@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/filldata.css">
 </head>
 <body>
-	<input type="hidden" class="subpath" value="/sellerAdmin/talent/saveExamineInfo_pageOne">
+	<input type="hidden" class="subpath" value="/sellerAdmin/talent/saveExamineInfo_pageOne?sellerId=$!examineInfo.sellerId">
 	<div class="header">
 		<div class="comwidth content clearfix">
 			<a class="fl block"><img src="http://s0.test.jiuxiulvxing.com/busines/img/logo.jpg"></a>
@@ -40,6 +40,7 @@
 			<form id="forminfo" method="post" action="saveExamineInfo_a.do">
 				<div class="panel">
 					<div class="tit gray6 f16 error_tip">商户信息
+					#if ($checkResultInfo )
 						<div class="error_box">
 							<div>审核不通过原因</div>
 							<ol>
@@ -47,6 +48,7 @@
 								<li>地址找不到</li>
 							</ol>
 						</div>
+					#end
 					</div>
 					<div class="fm_md_one fm_md">
 						<div class="column"><label class="bred">*</label><label>商户名称：</label><input class="inptxt" name="sellerName" datatype="s" value="$!examineInfo.sellerName" maxlength="40" placeholder="公司主体名称、营业执照上名称"></div>
@@ -246,7 +248,7 @@
 							</tr>
 						</table>
 					</div>
-					<div class="nextpage"><button type="submit" class="nxt" >下一页并保存</button></div>
+					<div class="nextpage"><a  class="nxt" >下一页并保存</a></div>
 				</div>
 			</form>
 		</div>
