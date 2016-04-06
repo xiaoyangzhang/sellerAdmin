@@ -1,5 +1,9 @@
 package com.yimayhd.sellerAdmin.controller.merchant;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -89,7 +93,10 @@ public class MerchantController extends BaseController{
 					info.setType(result.getValue().getType());
 					MemResult<String> rest = examineDealService.queryExamineDealResult(info);
 					if(rest.isSuccess()){
-						model.addAttribute("reason", rest.getValue());
+						/*String[] s = rest.getValue().split(";");
+						List<String> str = new ArrayList<String>();
+						Collections.addAll(str, s);*/
+						model.addAttribute("reason", rest.getValue() == null ? null :Arrays.asList(rest.getValue().split(Constant.SYMBOL_SEMIONLON)));
 					}
 					
 					if(ExamineType.MERCHANT.getId()==result.getValue().getType()){
@@ -195,6 +202,12 @@ public class MerchantController extends BaseController{
 		if(result.isSuccess()){
 			model.addAttribute("imgSrc",Constant.TFS_URL);
 			model.addAttribute("examineInfo", result.getValue());
+			if(result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW){//审核不通过时
+				MemResult<String> rest = examineDealService.queryExamineDealResult(info);
+				if(rest.isSuccess()){
+					model.addAttribute("reason", rest.getValue() == null ? null :Arrays.asList(rest.getValue().split(Constant.SYMBOL_SEMIONLON)));
+				}
+			}
 		}
 		return "/system/merchant/userdatafill_a";
 	}
@@ -215,8 +228,13 @@ public class MerchantController extends BaseController{
 		if(result.isSuccess()){
 			model.addAttribute("imgSrc",Constant.TFS_URL);
 			model.addAttribute("examineInfo", result.getValue());
+			if(result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW){//审核不通过时
+				MemResult<String> rest = examineDealService.queryExamineDealResult(info);
+				if(rest.isSuccess()){
+					model.addAttribute("reason", rest.getValue() == null ? null :Arrays.asList(rest.getValue().split(Constant.SYMBOL_SEMIONLON)));
+				}
+			}
 		}
-		
 		MemResult<List<BankInfoDTO>> bankResult = talentInfoDealService.queryBankList();
 		if(bankResult.isSuccess()){
 			model.addAttribute("bankList", bankResult.getValue());
