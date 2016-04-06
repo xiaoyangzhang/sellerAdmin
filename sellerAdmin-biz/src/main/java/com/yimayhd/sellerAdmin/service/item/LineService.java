@@ -9,7 +9,6 @@ import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
-import com.yimayhd.sellerAdmin.model.line.LineCategoryConfig;
 import com.yimayhd.sellerAdmin.model.line.LinePropertyConfig;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 
@@ -45,13 +44,6 @@ public interface LineService {
 	 * @return
 	 */
 	WebResult<PageVO<LineDO>> pageQueryLine(LinePageQuery query);
-
-	/**
-	 * 获取线路类目配置
-	 * 
-	 * @return
-	 */
-	WebResult<LineCategoryConfig> getLineCategoryConfig();
 
 	/**
 	 * 获取全部主题

@@ -107,6 +107,7 @@ public class CommentRepo {
 		tagRelationInfoDTO.setOutId(outId);
 		tagRelationInfoDTO.setOrderTime(new Date());
 		tagRelationInfoDTO.setList(tagIds);
+		tagRelationInfoDTO.setDomian(Constant.DOMAIN_JIUXIU);
 		RepoUtils.requestLog(log, "comCenterServiceRef.addTagRelationInfo", tagRelationInfoDTO);
 		BaseResult<Boolean> addTagRelationInfo = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
 		RepoUtils.resultLog(log, "comCenterServiceRef.addTagRelationInfo", addTagRelationInfo);

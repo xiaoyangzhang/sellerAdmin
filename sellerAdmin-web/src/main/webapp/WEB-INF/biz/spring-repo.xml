@@ -27,5 +27,5 @@
 	<bean id="menuRepo" class="com.yimayhd.sellerAdmin.repo.MenuRepo" />
 	<bean id="itemRepo" class="com.yimayhd.sellerAdmin.repo.ItemRepo" />
 	<bean id="talentRepo" class="com.yimayhd.sellerAdmin.repo.TalentRepo" />
-
+	<bean id="pictureTextRepo" class="com.yimayhd.sellerAdmin.repo.PictureTextRepo" />
 </beans>

@@ -87,7 +87,7 @@ public class MerchantController extends BaseController{
 						return "/system/merchant/chosetype";
 					}
 				}else if(result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_ACCESS){//审核通过
-					return "";
+					return "/system/home/home";
 				}else if(result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW){//审核不通过
 					
 					info.setType(result.getValue().getType());
