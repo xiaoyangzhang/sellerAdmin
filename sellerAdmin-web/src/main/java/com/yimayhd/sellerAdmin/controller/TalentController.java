@@ -18,6 +18,7 @@ import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.result.MemResultSupport;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
+import com.yimayhd.membercenter.enums.ExaminePageNo;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -117,7 +118,7 @@ public class TalentController extends BaseController {
 	public WebResult<String> saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
 		
 			WebResult<String> result=new WebResult<String>();
-			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo);
+			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_ONE.getPageNO());
 			if (resultSupport.isSuccess()) {
 				if (vo.getSellerId() <= 0 ) {
 					result.setValue("toAddUserdatafill_pageTwo");
@@ -147,7 +148,7 @@ public class TalentController extends BaseController {
 	@ResponseBody
 	public WebResult<String> saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
 			WebResult<String> result=new WebResult<String>();
-			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo);
+			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_TWO.getPageNO());
 			if (resultSupport.isSuccess()) {
 				result.setValue("verification");
 			}

@@ -54,7 +54,7 @@ public class TalentRepo {
 		}
 		InfoQueryDTO queryDTO=new InfoQueryDTO();
 		queryDTO.setDomainId(domainId);
-		queryDTO.setType(ExamineType.TALENT.getId());
+		queryDTO.setType(ExamineType.TALENT.getType());
 		queryDTO.setSellerId(userId);
 		RepoUtils.requestLog(log,"examineDealService.queryMerchantExamineInfoById", queryDTO);
 		MemResult<ExamineInfoDTO> examineInfoResult = examineDealService.queryMerchantExamineInfoById(queryDTO);
@@ -133,7 +133,7 @@ public class TalentRepo {
 	 * @return
 	 * @throws Exception
 	 */
-	public WebResultSupport addExamineInfo(ExamineInfoVO vo)  {
+	public WebResultSupport addExamineInfo(ExamineInfoVO vo,int pageNo)  {
 		if (vo == null) {
 			return null;
 		}
@@ -141,7 +141,7 @@ public class TalentRepo {
 		WebResultSupport webResultSupport=new WebResultSupport();
 		try {
 			RepoUtils.requestLog(log, " examineDealService.submitMerchantExamineInfo", vo);
-			 ExamineInfoResult = examineDealService.submitMerchantExamineInfo(vo.getExamineInfoDTO(vo,sessionManager.getUserId()));
+			 ExamineInfoResult = examineDealService.submitMerchantExamineInfo(vo.getExamineSubmitDTO(vo,sessionManager.getUserId(),pageNo));
 			 RepoUtils.requestLog(log, " examineDealService.submitMerchantExamineInfo", ExamineInfoResult);
 			 if (ExamineInfoResult.isSuccess()) {
 				
@@ -170,7 +170,7 @@ public class TalentRepo {
 	public String getCheckResult() {
 		InfoQueryDTO examineQueryDTO = new InfoQueryDTO();
 		examineQueryDTO.setDomainId(1200);
-		examineQueryDTO.setType(ExamineType.TALENT.getId());
+		examineQueryDTO.setType(ExamineType.TALENT.getType());
 		examineQueryDTO.setSellerId(sessionManager.getUserId());
 		
 		RepoUtils.requestLog(log, " examineDealService.queryExamineDealResult", examineQueryDTO);

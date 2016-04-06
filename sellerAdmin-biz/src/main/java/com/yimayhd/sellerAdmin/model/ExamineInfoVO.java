@@ -1,8 +1,11 @@
 package com.yimayhd.sellerAdmin.model;
 
 import java.util.Date;
+
 import org.apache.commons.beanutils.BeanUtils;
+
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.dto.ExamineSubmitDTO;
 import com.yimayhd.membercenter.enums.ExamineType;
 
 /***
@@ -35,9 +38,16 @@ public class ExamineInfoVO extends ExamineInfoDTO  {
 		dto.setDomainId(1200);
 		dto.setSellerId(userId);
 		dto.setCreateDate(new Date());
-		dto.setType(ExamineType.TALENT.getId());
+		dto.setType(ExamineType.TALENT.getType());
 		dto.setAccountBankProvinceCode(vo.getProvince());
 		dto.setAccountBankCityCode(vo.getCity());
+		return dto;
+		
+	}
+	public ExamineSubmitDTO getExamineSubmitDTO(ExamineInfoVO vo,long userId,int pageNo) throws Exception {
+		ExamineSubmitDTO dto = new ExamineSubmitDTO();
+		dto.setExamineInfoDTO(getExamineInfoDTO(vo,userId));
+		dto.setPageNo(pageNo);
 		return dto;
 		
 	}

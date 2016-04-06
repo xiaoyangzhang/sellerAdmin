@@ -72,8 +72,8 @@ public class TalentBiz {
 	 * @return
 	 * @throws Exception
 	 */
-	public WebResultSupport addExamineInfo(ExamineInfoVO vo)  {
-		return talentRepo.addExamineInfo(vo);
+	public WebResultSupport addExamineInfo(ExamineInfoVO vo,int pageNo)  {
+		return talentRepo.addExamineInfo(vo,pageNo);
 	}
 	/**
 	 * 获取达人入驻审核结果
