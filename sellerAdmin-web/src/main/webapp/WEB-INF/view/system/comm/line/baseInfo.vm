@@ -16,13 +16,27 @@
 		<tr>
 			<td>*出发地：</td>
 			 <td>
-				<div><button type="button" class="btn btn-success select-departs">选择出发地</button><span id="departs-content"></span></div>
+				<div>
+					<button type="button" class="btn btn-success select-departs">选择出发地</button>
+					<span id="departs-content">
+						#foreach($depart in $baseInfo.departs)
+						<button class="btn btn-info departs remove-self" rid="$!{depart.id}">$!{depart.city.name}</button>
+						#end
+					</span>
+				</div>
 			 </td>
 		</tr>
 		<tr>
 			<td>*目的地：</td>
 			<td>
-				<div><button type="button" class="btn btn-success select-dests">选择目的地</button> <span id="dests-content"></span></div>
+				<div>
+					<button type="button" class="btn btn-success select-dests">选择目的地</button>
+					<span id="dests-content">
+						#foreach($dest in $baseInfo.dests)
+						<button class="btn btn-info dests remove-self" rid="$!{dest.id}">$!{dest.city.name}</button>
+						#end
+					</span>
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -146,9 +160,11 @@
     });
 	$(".select-departs").click(function() {
 		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDeparts','选择出发地 ',function() {
-			var departs = win.getSelected();
+			var departs = win.getSelected() || [];
 			console.log(JSON.stringify(departs));
+			if(departs.length == 0) return true;
 			var content = $("#departs-content");
+			content.empty();
 			for(i in departs) {
 				var depart = departs[i];
 				if($(".departs[rId='"+depart.id+"']").length > 0) continue;
@@ -163,7 +179,9 @@
 		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDests','选择旅游咖 ',function() {
 			var dests = win.getSelected();
 			console.log(JSON.stringify(dests));
+			if(dests.length == 0) return true;
 			var content = $("#dests-content");
+			content.empty();
 			for(i in dests) {
 				var dest = dests[i];
 				if($(".dests[rId='"+dest.id+"']").length > 0) continue;

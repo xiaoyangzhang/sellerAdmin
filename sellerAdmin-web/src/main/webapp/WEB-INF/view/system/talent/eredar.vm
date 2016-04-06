@@ -22,7 +22,7 @@
 						<span class="imgbox mr5">
 							<div class="canclick">
 							#if ($!talentInfo.talentInfoDO.avatar)
-							<img src="http://img.test.yimayholiday.com/v1/tfs/$!talentInfo.talentInfoDO.avatar">
+							<img src="$!tfs/$!talentInfo.talentInfoDO.avatar">
 							#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 							#end
 							</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -70,7 +70,7 @@
 							<div class="canclick">
 							
 							#if ($!talentInfo.talentInfoDO.pictures[0].length()>0)
-							<img src="http://img.test.yimayholiday.com/v1/tfs/$!{talentInfo.talentInfoDO.pictures[0]}">
+							<img src="$!tfs/$!{talentInfo.talentInfoDO.pictures[0]}">
 							#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 							#end
 							</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -85,7 +85,7 @@
 							<div class="canclick">
 							
 							#if ($!talentInfo.talentInfoDO.pictures[1].length()>0)
-							<img src="http://img.test.yimayholiday.com/v1/tfs/$!{talentInfo.talentInfoDO.pictures[1]}">
+							<img src="$!tfs/$!{talentInfo.talentInfoDO.pictures[1]}">
 							#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 							#end
 							</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -100,7 +100,7 @@
 							<div class="canclick">
 								
 							#if ($!talentInfo.talentInfoDO.pictures[2].length()>0)
-							<img src="http://img.test.yimayholiday.com/v1/tfs/$!{talentInfo.talentInfoDO.pictures[2]}">
+							<img src="$!tfs/$!{talentInfo.talentInfoDO.pictures[2]}">
 							#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 							#end
 							</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -114,7 +114,7 @@
 							<div class="canclick">
 							
 								#if ($!talentInfo.talentInfoDO.pictures[3].length()>0)
-							<img src="http://img.test.yimayholiday.com/v1/tfs/$!{talentInfo.talentInfoDO.pictures[3]}">
+							<img src="$!tfs/$!{talentInfo.talentInfoDO.pictures[3]}">
 							#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 							#end
 							</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -128,7 +128,7 @@
 							<div class="canclick">
 							
 								#if ($!talentInfo.talentInfoDO.pictures[4].length()>0)
-							<img src="http://img.test.yimayholiday.com/v1/tfs/$!{talentInfo.talentInfoDO.pictures[4]}">
+							<img src="$!tfs/$!{talentInfo.talentInfoDO.pictures[4]}">
 							#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 							#end
 							</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -183,7 +183,7 @@
 										<p class="text"><font>$!info.value</font></p>
 									#elseif ($info.type == 2)
 										<p class="pic">
-										<img src="http://img.test.yimayholiday.com/v1/tfs/$!info.value">
+										<img src="$!tfs/$!info.value">
 								</p>
 									#end
 								#end
@@ -194,7 +194,7 @@
 								fn:在每一个匹配元素的mouseleave事件中绑定的处理函数。</font></p>
 								
 								<p class="pic">
-									<img src="http://s0.test.jiuxiulvxing.com/busines/img/mypic.jpg">
+									<img src="$!rs_path_jiuxiu/img/mypic.jpg">
 								</p> -->	
 							</div>
 							<textarea id="contentText" style="display:none;"></textarea>

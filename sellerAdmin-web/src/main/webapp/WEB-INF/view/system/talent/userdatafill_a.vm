@@ -54,7 +54,7 @@
 									<span class="imgbox">
 										<div class="canclick card_a">
 											#if ($!examineInfo.legralCardUp)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.legralCardUp">
+											<img src="$!tfs/$!examineInfo.legralCardUp">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -67,7 +67,7 @@
 									<span class="imgbox">
 										<div class="canclick card_b">
 											#if ($!examineInfo.legralCardDown)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.legralCardDown">
+											<img src="$!tfs/$!examineInfo.legralCardDown">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -82,7 +82,7 @@
 									<span class="imgbox">
 										<div class="canclick">
 											#if ($!examineInfo.businessLicense)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.businessLicense">
+											<img src="$!tfs/$!examineInfo.businessLicense">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -95,7 +95,7 @@
 									<span class="imgbox">
 										<div class="canclick">
 											#if ($!examineInfo.orgCard)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.orgCard">
+											<img src="$!tfs/$!examineInfo.orgCard">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -110,7 +110,7 @@
 									<span class="imgbox">
 										<div class="canclick">
 											#if ($!examineInfo.affairsCard)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.affairsCard">
+											<img src="$!tfs/$!examineInfo.affairsCard">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -123,7 +123,7 @@
 									<span class="imgbox">
 										<div class="canclick">
 											#if ($!examineInfo.openCard)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.openCard">
+											<img src="$!tfs/$!examineInfo.openCard">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -138,7 +138,7 @@
 									<span class="imgbox">
 										<div class="canclick">
 											#if ($!examineInfo.travingCard)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.travingCard">
+											<img src="$!tfs/$!examineInfo.travingCard">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -152,7 +152,7 @@
 									<span class="imgbox">
 										<div class="canclick">
 											#if ($!examineInfo.touchProve)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.touchProve">
+											<img src="$!tfs/$!examineInfo.touchProve">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -171,7 +171,7 @@
 											<span class="imgbox mr5 cnat">
 												<div class="canclick">
 													#if ($!examineInfo.touristCard)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.touristCard">
+											<img src="$!tfs/$!examineInfo.touristCard">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 												</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -184,7 +184,7 @@
 											<span class="imgbox mr5 cnat">
 												<div class="canclick">
 													#if ($!examineInfo.drivingLinence)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.drivingLinence">
+											<img src="$!tfs/$!examineInfo.drivingLinence">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 												</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -197,7 +197,7 @@
 											<span class="imgbox mr5 cnat">
 												<div class="canclick">
 													#if ($!examineInfo.divingLinence)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.divingLinence">
+											<img src="$!tfs/$!examineInfo.divingLinence">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 												</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -210,7 +210,7 @@
 											<span class="imgbox mr5 cnat">
 												<div class="canclick">
 													#if ($!examineInfo.photographyCertificate)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.photographyCertificate">
+											<img src="$!tfs/$!examineInfo.photographyCertificate">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 												</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -223,7 +223,7 @@
 											<span class="imgbox mr5 cnat">
 												<div class="canclick">
 													#if ($!examineInfo.climbingCertificate)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.climbingCertificate">
+											<img src="$!tfs/$!examineInfo.climbingCertificate">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 												</div><div class="plhd"></div><div class="del">删除图片</div>

@@ -85,7 +85,7 @@
 									<span class="imgbox mr5">
 										<div class="canclick card_a">
 											#if ($!examineInfo.principleCardUp)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.principleCardUp">
+											<img src="$!tfs/$!examineInfo.principleCardUp">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -98,7 +98,7 @@
 									<span class="imgbox mr5">
 										<div class="canclick card_b">
 											#if ($!examineInfo.principleCardDown)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.principleCardDown">
+											<img src="$!tfs/$!examineInfo.principleCardDown">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -151,7 +151,7 @@
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
 										#if ($!examineInfo.cooperation1)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.cooperation1">
+											<img src="$!tfs/$!examineInfo.cooperation1">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 									</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -163,7 +163,7 @@
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
 										#if ($!examineInfo.cooperation2)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.cooperation2">
+											<img src="$!tfs/$!examineInfo.cooperation2">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 									</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -175,7 +175,7 @@
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
 										#if ($!examineInfo.cooperation3)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.cooperation3">
+											<img src="$!tfs/$!examineInfo.cooperation3">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 									</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -187,7 +187,7 @@
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
 										#if ($!examineInfo.cooperation4)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.cooperation4">
+											<img src="$!tfs/$!examineInfo.cooperation4">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 									</div><div class="plhd"></div><div class="del">删除图片</div>
