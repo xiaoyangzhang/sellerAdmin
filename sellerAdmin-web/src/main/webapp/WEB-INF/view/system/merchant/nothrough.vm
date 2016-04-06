@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="zh-cmn-Hans">
-<head>
-<link rel="shortcut icon" href="http://s0.test.jiuxiulvxing.com/busines/img/jiuxiu_favicon.ico" mce_href="http://s0.test.jiuxiulvxing.com/busines/img/jiuxiu_favicon.ico" type="image/x-icon" />
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible"content="IE=9; IE=8; IE=7; IE=EDGE,chrome=1">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>审核不通过</title>
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/base.css">
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/common.css">
+#set ($layout="/layout/layout2.vm")
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/filldata.css">
-</head>
-<body>
+
+<title>审核不通过</title>
 	<div class="header">
 		<div class="comwidth content clearfix">
 			<a class="fl block"><img src="http://s0.test.jiuxiulvxing.com/busines/img/logo.jpg"></a>
@@ -24,7 +15,7 @@
 		</div>
 	</div>
 	<div class="comwidth agreement-box mt30">
-		<div class="tit gray6 f16">商家开通申请</div>
+		<div class="tit gray6 f16">$!type开通申请</div>
 		<div class="titbox">
 			<div class="progress clearfix">
 				<div class="step start step-on step-fl">
@@ -42,13 +33,16 @@
 			</div>
 		</div>
 		<div class="waiting nothrough tc m60">
-			<i></i><label class="f18 ml5 gray6">很遗憾，您的申请审核不通过，请填充后再次提交！</label><br>
-			<span class="f16 gray6">失败原因：</span><span class="bcs">1.用户证件照片不清。</span><span class="bcs">2.认证信息有误。</span>
+			<i></i><label class="f18 ml5 gray6">很遗憾，您的申请审核不通过，请修改后再次提交！</label><br>
+			<span class="f16 gray6">失败原因：</span>
+			#foreach( $info in $reason)  
+				<span class="bcs">$velocityCount、$!info 。</span>
+		　　　 #end
 		</div>
+		<div><a class="agreebtn" href="$!utilWebconfig.getActionDefaultFontPath()/$!url">重新申请</a></div>
 	</div>
 	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/sea.js"></script>
 	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/seajs-preload.js"></script>
 	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/config.js"></script>		
 	<script>seajs.use("merchant");</script>	
-</body>
-</html>
+

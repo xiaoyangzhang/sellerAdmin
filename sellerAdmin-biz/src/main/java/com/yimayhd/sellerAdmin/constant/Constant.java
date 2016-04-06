@@ -33,5 +33,14 @@ public class Constant {
 	public static final String APP = "selleradmin";
 	
 	public static final String MENU_PARENT_FLAG = "#";
+	
+	public static final String SYMBOL_SEMIONLON = ";";
+	
+	public static final int MERCHANT_TYPE_ACCESS = 1;
+	
+	public static final int MERCHANT_TYPE_WAIT = 2;
+	
+	public static final int MERCHANT_TYPE_NOTTHROW = 3;
+	
 
 }
