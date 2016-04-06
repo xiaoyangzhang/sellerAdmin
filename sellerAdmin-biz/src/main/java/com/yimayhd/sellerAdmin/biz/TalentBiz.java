@@ -143,14 +143,14 @@ public class TalentBiz {
 	 * 获取达人入驻审核结果
 	 * @return
 	 */
-	public WebResultSupport getCheckResult() {
+	/*public WebResultSupport getCheckResult() {
 		WebResultSupport  webResultSupport = new WebResultSupport();
 		InfoQueryDTO examineQueryDTO = new InfoQueryDTO();
 		examineQueryDTO.setDomainId(1200);
 		examineQueryDTO.setType(1);
 		examineQueryDTO.setSellerId(25);
 		MemResult<ExamineResultDTO> examineDealResult = examineDealService.queryExamineDealResult(examineQueryDTO);
-		if (examineDealResult.getValue().isOK()) {
+		if (examineDealResult.getValue().getStatus().) {
 			webResultSupport.initSuccess(examineDealResult.getValue().getDealMes());
 		}
 		else {
@@ -159,7 +159,7 @@ public class TalentBiz {
 		}
 		return webResultSupport;
 		
-	}
+	}*/
 	
 	public List<BankInfoDTO> getBankList() {
 		MemResult<List<BankInfoDTO>> bankList = talentInfoDealService.queryBankList();
