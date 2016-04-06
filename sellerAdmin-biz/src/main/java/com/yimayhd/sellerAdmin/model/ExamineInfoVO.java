@@ -35,9 +35,12 @@ public class ExamineInfoVO extends ExamineInfoDTO  {
 	public  ExamineInfoDTO getExamineInfoDTO(ExamineInfoVO vo,long userId) throws Exception {
 		ExamineInfoDTO dto=new ExamineInfoDTO();
 		BeanUtils.copyProperties(dto, vo);
+		if (vo.getDomainId() <= 0) {
+			
+			dto.setCreateDate(new Date());
+		}
 		dto.setDomainId(1200);
 		dto.setSellerId(userId);
-		dto.setCreateDate(new Date());
 		dto.setType(ExamineType.TALENT.getType());
 		dto.setAccountBankProvinceCode(vo.getProvince());
 		dto.setAccountBankCityCode(vo.getCity());
