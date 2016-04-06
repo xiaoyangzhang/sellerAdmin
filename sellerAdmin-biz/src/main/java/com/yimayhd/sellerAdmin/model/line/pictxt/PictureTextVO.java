@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class PictureTextVO implements Serializable {
 	private static final long serialVersionUID = -7489327287432185333L;
+	private long picTextId;
 	private List<PictureTextItemVo> pictureTextItems;
 
 	public List<PictureTextItemVo> getPictureTextItems() {
@@ -19,5 +20,13 @@ public class PictureTextVO implements Serializable {
 
 	public void setPictureTextItems(List<PictureTextItemVo> pictureTextItems) {
 		this.pictureTextItems = pictureTextItems;
+	}
+
+	public long getPicTextId() {
+		return picTextId;
+	}
+
+	public void setPicTextId(long picTextId) {
+		this.picTextId = picTextId;
 	}
 }

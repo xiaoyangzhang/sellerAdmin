@@ -22,5 +22,15 @@
 		<property name="check" value="${consumer.dubbo.check}"/>
         <property name="retries" value="${dubbo.retries}"/>
         <property name="version" value="${consumer.dubbo.comment.version}"/>
-    </bean>   
+    </bean>
+    
+    <bean id="comPictureTextServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.commentcenter.client.service.ComPictureTextService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
+        <property name="version" value="${consumer.dubbo.comment.version}"/>
+    </bean> 
 </beans>
