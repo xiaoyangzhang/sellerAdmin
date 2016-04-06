@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/filldata.css">
 </head>
 <body>
-	<input type="hidden" class="subpath" value="/sellerAdmin/talent/saveExamineInfo_pageOne">
+	<input type="hidden" class="subpath" value="/sellerAdmin/talent/saveExamineInfo_pageOne?sellerId=$!examineInfo.sellerId">
 	<div class="header">
 		<div class="comwidth content clearfix">
 			<a class="fl block"><img src="http://s0.test.jiuxiulvxing.com/busines/img/logo.jpg"></a>
@@ -248,7 +248,7 @@
 							</tr>
 						</table>
 					</div>
-					<div class="nextpage"><button type="submit" class="nxt" >下一页并保存</button></div>
+					<div class="nextpage"><a  class="nxt" >下一页并保存</a></div>
 				</div>
 			</form>
 		</div>
