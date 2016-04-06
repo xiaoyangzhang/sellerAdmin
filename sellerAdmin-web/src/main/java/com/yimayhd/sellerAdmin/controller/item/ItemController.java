@@ -60,7 +60,7 @@ public class ItemController extends BaseController {
 		put("pageVo", result.getValue());
 		put("itemTypes", ItemType.values());
 		put("query", query);
-		return "/system/comm/category";
+		return "/system/comm/itemList";
 	}
 	
 	@RequestMapping(value = "/cateList", method = RequestMethod.GET)
