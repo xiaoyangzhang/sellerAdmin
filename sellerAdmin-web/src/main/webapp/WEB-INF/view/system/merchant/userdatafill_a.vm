@@ -49,13 +49,14 @@
 				<input type="hidden" name="id" #if("$!examineInfo.id" == "") value="0" #else value="$!examineInfo.id" #end/>
 				<div class="panel">
 					<div class="tit gray6 f16 error_tip">商户信息
-						<div class="error_box">
-							<ol>
-								<li>负责人身份证过期</li>
-								<li>地址找不到</li>
-							</ol>
-						</div>
+						#if ($reason.size()>0)
+							<div class="error_box">
+								<div>审核未通过原因</div>
+								<ol>#foreach( $info in $reason)<li>$!info</li> #end</ol>
+							</div>
+						#end
 					</div>
+					
 					<div class="fm_md_one fm_md">
 						<div class="column"><label class="bred">*</label><label>商户名称：</label><input class="inptxt" datatype="s" name="sellerName" value="$!examineInfo.sellerName" maxlength="40" placeholder="公司主体名称、营业执照上名称"></div>
 						<div class="column"><label class="bred" class="red">*</label><label>法人名称：</label><input class="inptxt" name="legralName" value="$!examineInfo.legralName" datatype="s" maxlength="10" placeholder="营业执照上的法人名称"></div>

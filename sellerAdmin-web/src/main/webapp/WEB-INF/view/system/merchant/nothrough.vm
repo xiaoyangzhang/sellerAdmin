@@ -39,7 +39,7 @@
 				<span class="bcs">$velocityCount、$!info 。</span>
 		　　　 #end
 		</div>
-		<div><a class="agreebtn" href="$!url">重新申请</a></div>
+		<div><a class="agreebtn" href="$!utilWebconfig.getActionDefaultFontPath()/$!url">重新申请</a></div>
 	</div>
 	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/sea.js"></script>
 	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/seajs-preload.js"></script>

@@ -48,7 +48,14 @@
 		<div class="tabs">
 			<form id="forminfo">
 				<div class="panel">
-					<div class="tit gray6 f16">负责人信息</div>
+					<div class="tit gray6 f16 error_tip">负责人信息
+						#if ($reason.size()>0)
+							<div class="error_box">
+								<div>审核未通过原因</div>
+								<ol>#foreach( $info in $reason)<li>$!info</li> #end</ol>
+							</div>
+						#end
+					</div>
 					<div class="fm_md_three fm_md">
 						<table>
 							<tr>
@@ -148,9 +155,9 @@
 							</tr>
 						</table>
 					</div>
-					<div class="column groupimg"><label class="bred">*</label><label>合作合同：</label>
+					<div class="tit gray6 f16">合作合同</div>
 					<div class="fm_md_five fm_md">
-						<div class="column"><label class="bred">*</label><label>合作合同：</label>
+						<div class="column groupimg"><label class="bred">*</label><label>合作合同：</label>
 							<label class="inblock">
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
@@ -223,7 +230,7 @@
 							</label>
 						</div>
 					</div>
-					<div class="nextpage"><a href="/toDetailPage" class="prev mr30">上一页</a><a class="allsub ml30">提交审核</a></div>
+					<div class="nextpage"><a href="$!utilWebconfig.getActionDefaultFontPath()/merchant/toDetailPage" class="prev mr30">上一页</a><a class="allsub ml30">提交审核</a></div>
 				</div>
 			</form>
 		</div>

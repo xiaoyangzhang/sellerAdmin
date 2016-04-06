@@ -25,6 +25,7 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.biz.MerchantBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 import com.yimayhd.sellerAdmin.vo.merchant.MerchantInfoVo;
 import com.yimayhd.sellerAdmin.vo.merchant.UserDetailInfo;
 import com.yimayhd.user.client.domain.MerchantDO;
@@ -97,10 +98,10 @@ public class MerchantController extends BaseController{
 					
 					if(ExamineType.MERCHANT.getId()==result.getValue().getType()){
 						model.addAttribute("type", "商家");
-						model.addAttribute("url", "/sellerAdmin/merchant/toDetailPage");
+						model.addAttribute("url", "/merchant/toDetailPage");
 					}else if(ExamineType.TALENT.getId()==result.getValue().getType()){
 						model.addAttribute("type", "达人");
-						model.addAttribute("url", "/sellerAdmin/talent/toEditUserdatafill_pageOne");
+						model.addAttribute("url", "/talent/toEditUserdatafill_pageOne");
 					}
 					return "/system/merchant/nothrough";
 				}else{//未知状态
@@ -252,7 +253,7 @@ public class MerchantController extends BaseController{
 		
 		WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
 		if(result.isSuccess()){
-			rest.setValue("/sellerAdmin/merchant/toDetailPageB");
+			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/merchant/toDetailPageB");
 		}else{
 			rest.setWebReturnCode(result.getWebReturnCode());
 		}
@@ -272,7 +273,7 @@ public class MerchantController extends BaseController{
 		
 		WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
 		if(result.isSuccess()){
-			rest.setValue("/sellerAdmin/merchant/toVerifyPage");
+			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/merchant/toVerifyPage");
 		}else{
 			rest.setWebReturnCode(result.getWebReturnCode());
 		}
