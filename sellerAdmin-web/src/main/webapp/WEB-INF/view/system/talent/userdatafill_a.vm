@@ -1,22 +1,11 @@
-#set ($layout="/layout/layout2.vm")
-<title>填写资料</title>
-
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/filldata.css">
+#set($layout = "/layout/layout-apply.vm")
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>申请入驻-填写资料</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/filldata.css">
 </head>
-<body>
+
 	<input type="hidden" class="subpath" value="/sellerAdmin/talent/saveExamineInfo_pageOne?sellerId=$!examineInfo.sellerId">
-	<div class="header">
-		<div class="comwidth content clearfix">
-			<a class="fl block"><img src="http://s0.test.jiuxiulvxing.com/busines/img/logo.jpg"></a>
-			<div class="fr user-block">
-				<a class="user-block-link mr15 not-a">
-					<span class="circle mr10"><img src="http://s0.test.jiuxiulvxing.com/busines/img/default_1.png"><i></i></span>
-					<span>Hi：</span><span>13655545879</span>
-				</a>
-				<a class="ext">退出</a>
-			</div>
-		</div>
-	</div>
 
 	<div class="comwidth agreement-box mt30">
 		<div class="tit gray6 f16">达人开通申请</div>
@@ -65,7 +54,7 @@
 									<span class="imgbox">
 										<div class="canclick card_a">
 											#if ($!examineInfo.legralCardUp)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.legralCardUp">
+											<img src="$!tfs/$!examineInfo.legralCardUp">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -78,7 +67,7 @@
 									<span class="imgbox">
 										<div class="canclick card_b">
 											#if ($!examineInfo.legralCardDown)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.legralCardDown">
+											<img src="$!tfs/$!examineInfo.legralCardDown">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -93,7 +82,7 @@
 									<span class="imgbox">
 										<div class="canclick">
 											#if ($!examineInfo.businessLicense)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.businessLicense">
+											<img src="$!tfs/$!examineInfo.businessLicense">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -106,7 +95,7 @@
 									<span class="imgbox">
 										<div class="canclick">
 											#if ($!examineInfo.orgCard)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.orgCard">
+											<img src="$!tfs/$!examineInfo.orgCard">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -121,7 +110,7 @@
 									<span class="imgbox">
 										<div class="canclick">
 											#if ($!examineInfo.affairsCard)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.affairsCard">
+											<img src="$!tfs/$!examineInfo.affairsCard">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -134,7 +123,7 @@
 									<span class="imgbox">
 										<div class="canclick">
 											#if ($!examineInfo.openCard)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.openCard">
+											<img src="$!tfs/$!examineInfo.openCard">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -149,7 +138,7 @@
 									<span class="imgbox">
 										<div class="canclick">
 											#if ($!examineInfo.travingCard)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.travingCard">
+											<img src="$!tfs/$!examineInfo.travingCard">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -163,7 +152,7 @@
 									<span class="imgbox">
 										<div class="canclick">
 											#if ($!examineInfo.touchProve)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.touchProve">
+											<img src="$!tfs/$!examineInfo.touchProve">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -182,7 +171,7 @@
 											<span class="imgbox mr5 cnat">
 												<div class="canclick">
 													#if ($!examineInfo.touristCard)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.touristCard">
+											<img src="$!tfs/$!examineInfo.touristCard">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 												</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -195,7 +184,7 @@
 											<span class="imgbox mr5 cnat">
 												<div class="canclick">
 													#if ($!examineInfo.drivingLinence)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.drivingLinence">
+											<img src="$!tfs/$!examineInfo.drivingLinence">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 												</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -208,7 +197,7 @@
 											<span class="imgbox mr5 cnat">
 												<div class="canclick">
 													#if ($!examineInfo.divingLinence)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.divingLinence">
+											<img src="$!tfs/$!examineInfo.divingLinence">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 												</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -221,7 +210,7 @@
 											<span class="imgbox mr5 cnat">
 												<div class="canclick">
 													#if ($!examineInfo.photographyCertificate)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.photographyCertificate">
+											<img src="$!tfs/$!examineInfo.photographyCertificate">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 												</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -234,7 +223,7 @@
 											<span class="imgbox mr5 cnat">
 												<div class="canclick">
 													#if ($!examineInfo.climbingCertificate)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.climbingCertificate">
+											<img src="$!tfs/$!examineInfo.climbingCertificate">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 												</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -265,8 +254,6 @@
 	            <option value="<#= city[j].id#>"><#= city[j].name#></option>
 	    <# } #>
 	</script>
-	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/sea.js"></script>
-	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/seajs-preload.js"></script>
-	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/config.js"></script>		
+	#parse("layout/layout-js.vm")
 	<script>seajs.use("userdatafill");</script>	
 

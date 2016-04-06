@@ -1,7 +1,7 @@
 #set($layout = "/layout/layout-account.vm")
 	
 	<head>
-		#parse("layout/meta.vm")
+		#parse("layout/layout-meta.vm")
 		<title>登录-九休商户后台</title>
 	</head>
     <!-- 首页的中心部分开始 -->
@@ -9,7 +9,8 @@
 		<div class="login-body">
 			
 			<h1 class="title">用户登录</h1>
-			<form action="$root_path/user/login" method="post" id="loginForm">					
+			<form action="$root_path/user/login" method="post" id="loginForm">
+				<input type='hidden' name='callback' value='$!{callback}'/>					
 				<p class="btngroup">
 					<input type="text" class="textinput" name="username" id="loginname" placeholder="请输入手机号" datatype="m" nullmsg="请输入手机号"  errormsg="请您输入正确的手机号" autocomplete="off"/>
 					<span class="Validform_checktip"></span>

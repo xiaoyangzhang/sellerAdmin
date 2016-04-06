@@ -1,6 +1,6 @@
 
 <div style="margin: 15px;">
-    <form class="form-signin" id="userListForm" name="userListForm" action="$!utilWebconfig.getActionDefaultFontPath()/trade/userManage/selectUserList" method="GET" role="form">
+    <form class="form-signin" id="userListForm" name="userListForm" action="$!root_path/trade/userManage/selectUserList" method="GET" role="form">
         <div class="inputGroup" style="margin-bottom: 10px;">
                 <div class="input-group inpSingle">
                     <span class="input-group-btn">

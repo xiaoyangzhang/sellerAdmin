@@ -142,7 +142,8 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 //	@RequestMapping(value = "/login", headers = "Request-Channel=https")
-	public ModelAndView toLogin() {
+	public ModelAndView toLogin(Model model, String callback) {
+		model.addAttribute("callback", callback);
 		ModelAndView modelAndView = new ModelAndView("/system/user/login");
 		return modelAndView;
 	}
@@ -150,7 +151,7 @@ public class UserController extends BaseController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
-	public WebResult<String> login(LoginVo loginVo, HttpServletResponse response) {
+	public WebResult<String> login(LoginVo loginVo, String callback, HttpServletResponse response) {
 		WebResult<String> result = new WebResult<String>();
 		WebResultSupport checkResult = UserChecker.checkLogin(loginVo);
 		if( !checkResult.isSuccess() ){
@@ -171,7 +172,8 @@ public class UserController extends BaseController {
 		SessionHelper.setCookies(response, token);
 		
 		String targetUrl = null ;
-		String returnUrl = get("callback");
+//		String returnUrl = get("callback");
+		String returnUrl = callback;
 		if( StringUtils.isNotBlank(returnUrl) ){
 			targetUrl = returnUrl ;
 		}else{

@@ -1,23 +1,13 @@
-#set ($layout="/layout/layout2.vm")
-<title>填写资料</title>
 
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/filldata.css">
+#set($layout = "/layout/layout-apply.vm")
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>申请入驻-填写资料</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/filldata.css">
 </head>
-<body>
+
 	<input type="hidden" class="subpath" value="/sellerAdmin/talent/saveExamineInfo_pageTwo">
 
-	<div class="header">
-		<div class="comwidth content clearfix">
-			<a class="fl block"><img src="http://s0.test.jiuxiulvxing.com/busines/img/logo.jpg"></a>
-			<div class="fr user-block">
-				<a class="user-block-link mr15 not-a">
-					<span class="circle mr10"><img src="http://s0.test.jiuxiulvxing.com/busines/img/default_1.png"><i></i></span>
-					<span>Hi：</span><span>13655545879</span>
-				</a>
-				<a class="ext">退出</a>
-			</div>
-		</div>
-	</div>
 <!-- <form id="fm" method="post" action="" enctype=”multipart/form-data”>
 <input type="file" name="adpicfile">
 <input type="submit" value="提交">
@@ -95,7 +85,7 @@
 									<span class="imgbox mr5">
 										<div class="canclick card_a">
 											#if ($!examineInfo.principleCardUp)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.principleCardUp">
+											<img src="$!tfs/$!examineInfo.principleCardUp">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -108,7 +98,7 @@
 									<span class="imgbox mr5">
 										<div class="canclick card_b">
 											#if ($!examineInfo.principleCardDown)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.principleCardDown">
+											<img src="$!tfs/$!examineInfo.principleCardDown">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 										</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -161,7 +151,7 @@
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
 										#if ($!examineInfo.cooperation1)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.cooperation1">
+											<img src="$!tfs/$!examineInfo.cooperation1">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 									</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -173,7 +163,7 @@
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
 										#if ($!examineInfo.cooperation2)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.cooperation2">
+											<img src="$!tfs/$!examineInfo.cooperation2">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 									</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -185,7 +175,7 @@
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
 										#if ($!examineInfo.cooperation3)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.cooperation3">
+											<img src="$!tfs/$!examineInfo.cooperation3">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 									</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -197,7 +187,7 @@
 								<span class="imgbox mr5 cnat">
 									<div class="canclick">
 										#if ($!examineInfo.cooperation4)
-											<img src="http://img.test.yimayholiday.com/v1/tfs/$!examineInfo.cooperation4">
+											<img src="$!tfs/$!examineInfo.cooperation4">
 											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 											#end
 									</div><div class="plhd"></div><div class="del">删除图片</div>
@@ -218,8 +208,8 @@
 							</label>
 						</div>
 					</div>
-					<div class="nextpage"><a href="#if ($examineInfo.sellerId <= 0) ../talent/toAddUserdatafill_pageOne #else 
-					../talent/toEditUserdatafill_pageOne
+					<div class="nextpage"><a href="#if ($examineInfo.sellerId <= 0) $!root_path/talent/toAddUserdatafill_pageOne #else 
+					$!root_path/talent/toEditUserdatafill_pageOne
 					#end" class="prev mr30">上一页</a><a class="allsub ml30">提交审核</a></div>
 				</div>
 			</form>
@@ -237,8 +227,6 @@
 	            <option value="<#= city[j].id#>"><#= city[j].name#></option>
 	    <# } #>
 	</script>
-	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/sea.js"></script>
-	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/seajs-preload.js"></script>
-	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/config.js"></script>		
+	#parse("layout/layout-js.vm")
 	<script>seajs.use("userdatafill");</script>	
 

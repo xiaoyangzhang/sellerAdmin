@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
 	<head>
-		#parse("layout/meta.vm")
+		#parse("layout/layout-meta.vm")
 		<title>找回密码成功-怡美假日</title>
 		#parse("layout/link.vm")
 		
