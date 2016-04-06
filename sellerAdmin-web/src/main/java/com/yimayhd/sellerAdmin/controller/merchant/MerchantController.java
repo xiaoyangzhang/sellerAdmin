@@ -19,6 +19,7 @@ import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
+import com.yimayhd.membercenter.enums.ExaminePageNo;
 import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -96,10 +97,10 @@ public class MerchantController extends BaseController{
 						model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
 					}
 					
-					if(ExamineType.MERCHANT.getId()==result.getValue().getType()){
+					if(ExamineType.MERCHANT.getType()==result.getValue().getType()){
 						model.addAttribute("type", "商家");
 						model.addAttribute("url", "/merchant/toDetailPage");
-					}else if(ExamineType.TALENT.getId()==result.getValue().getType()){
+					}else if(ExamineType.TALENT.getType()==result.getValue().getType()){
 						model.addAttribute("type", "达人");
 						model.addAttribute("url", "/talent/toEditUserdatafill_pageOne");
 					}
@@ -194,7 +195,7 @@ public class MerchantController extends BaseController{
 	@RequestMapping(value = "toDetailPage")
 	public String toBusinessDetailPage(Model model){
 		InfoQueryDTO info = new InfoQueryDTO();
-		info.setType(ExamineType.MERCHANT.getId());
+		info.setType(ExamineType.MERCHANT.getType());
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
 		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoById(info);
@@ -219,7 +220,7 @@ public class MerchantController extends BaseController{
 	@RequestMapping(value = "toDetailPageB")
 	public String toDetailPageB(Model model){
 		InfoQueryDTO info = new InfoQueryDTO();
-		info.setType(ExamineType.MERCHANT.getId());
+		info.setType(ExamineType.MERCHANT.getType());
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
 		
@@ -251,6 +252,7 @@ public class MerchantController extends BaseController{
 	public WebResult<String> saveUserdata(UserDetailInfo userDetailInfo){
 		WebResult<String> rest = new WebResult<String>();
 		
+		userDetailInfo.setPageNum(ExaminePageNo.PAGE_ONE.getPageNO());
 		WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
 		if(result.isSuccess()){
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/merchant/toDetailPageB");
@@ -270,7 +272,7 @@ public class MerchantController extends BaseController{
 	@ResponseBody
 	public WebResultSupport saveUserdataB(UserDetailInfo userDetailInfo){
 		WebResult<String> rest = new WebResult<String>();
-		
+		userDetailInfo.setPageNum(ExaminePageNo.PAGE_TWO.getPageNO());
 		WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
 		if(result.isSuccess()){
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/merchant/toVerifyPage");
@@ -299,7 +301,7 @@ public class MerchantController extends BaseController{
 	public String toBusinessNotThrowPage(Model model){
 		try {
 			InfoQueryDTO info = new InfoQueryDTO();
-			info.setType(ExamineType.MERCHANT.getId());
+			info.setType(ExamineType.MERCHANT.getType());
 			info.setDomainId(Constant.DOMAIN_JIUXIU);
 			info.setSellerId(sessionManager.getUserId());
 			MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
