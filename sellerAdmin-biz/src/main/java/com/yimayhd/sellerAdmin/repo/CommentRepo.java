@@ -3,7 +3,6 @@ package com.yimayhd.sellerAdmin.repo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagInfoAddDTO;
+import com.yimayhd.commentcenter.client.dto.TagInfoByOutIdDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoDTO;
-import com.yimayhd.commentcenter.client.dto.TagOutIdTypeDTO;
 import com.yimayhd.commentcenter.client.dto.TagRelationDomainDTO;
 import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
@@ -120,25 +119,31 @@ public class CommentRepo {
 	 * @param tagType
 	 * @return
 	 */
-	public List<ComTagDO> getTagsByOutId(Long outId, TagType tagType) {
-		TagOutIdTypeDTO tagOutIdTypeDTO = new TagOutIdTypeDTO();
-		tagOutIdTypeDTO.setDomain(Constant.DOMAIN_JIUXIU);
-		if (outId != null) {
-			tagOutIdTypeDTO.setOutId(outId);
+	public List<ComTagDO> getTagsByOutId(long outId, TagType tagType) {
+		if (outId <= 0 || tagType == null) {
+			log.error("CommentRepo.getTagsByOutId warn: 参数异常");
+			throw new BaseException("参数异常");
 		}
-		tagOutIdTypeDTO.setOutType(tagType.name());
-		RepoUtils.requestLog(log, "comTagCenterServiceRef.getTagInfo", tagOutIdTypeDTO);
-		BaseResult<List<ComTagDO>> result = comTagCenterServiceRef.getTagInfo(tagOutIdTypeDTO);
-		RepoUtils.resultLog(log, "comTagCenterServiceRef.getTagInfo", result);
-		return result.getValue();
+		Map<Long, List<ComTagDO>> tagsByOutIds = getTagsByOutIds(Arrays.asList(outId), tagType);
+		if (tagsByOutIds == null) {
+			return new ArrayList<ComTagDO>(0);
+		}
+		return tagsByOutIds.get(outId);
 	}
 
 	public Map<Long, List<ComTagDO>> getTagsByOutIds(List<Long> outIds, TagType tagType) {
-		Map<Long, List<ComTagDO>> result = new HashMap<Long, List<ComTagDO>>();
-		for (Long outId : outIds) {
-			result.put(outId, getTagsByOutId(outId, tagType));
+		if (CollectionUtils.isEmpty(outIds) || tagType == null) {
+			log.error("CommentRepo.getTagsByOutIds warn: 参数异常");
+			throw new BaseException("参数异常");
 		}
-		return result;
+		TagInfoByOutIdDTO tagInfoByOutIdDTO = new TagInfoByOutIdDTO();
+		tagInfoByOutIdDTO.setIdList(outIds);
+		tagInfoByOutIdDTO.setDomain(Constant.DOMAIN_JIUXIU);
+		tagInfoByOutIdDTO.setOutType(tagType.name());
+		RepoUtils.requestLog(log, "comTagCenterServiceRef.getComTag", tagInfoByOutIdDTO);
+		BaseResult<Map<Long, List<ComTagDO>>> comTag = comTagCenterServiceRef.getComTag(tagInfoByOutIdDTO);
+		RepoUtils.resultLog(log, "comTagCenterServiceRef.getComTag", comTag);
+		return comTag.getValue();
 	}
 
 	public PageVO<ComTagDO> pageQueryTag(TagInfoDTO tagInfoDTO) {
