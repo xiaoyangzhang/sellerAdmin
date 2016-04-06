@@ -65,8 +65,10 @@ public class ItemListItemVO {
 
 	public String getDestString() {
 		List<String> names = new ArrayList<String>();
-		for (CityVO cityVO : dests) {
-			names.add(cityVO.getName());
+		if(CollectionUtils.isNotEmpty(dests)) {
+			for (CityVO cityVO : dests) {
+				names.add(cityVO.getName());
+			}
 		}
 		return StringUtils.join(names, "，");
 	}
