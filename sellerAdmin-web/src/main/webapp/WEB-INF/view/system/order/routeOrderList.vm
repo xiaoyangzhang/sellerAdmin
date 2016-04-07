@@ -79,32 +79,32 @@
             <table class="table table-hover">
             <tbody>
                 <tr>
-                    <th><input class="allChecked" name="allChecked" type="checkbox">全选</th>
-                    <th>路线</th>
-                    <th>单价</th>
-                    <th>数量</th>
-                    <th>买家</th>
-                    <th>订单状态</th>
-                    <th>订单金额</th>
-                    <th>操作</th>
+                    <th width="2%"><input class="allChecked" name="allChecked" type="checkbox"></th>
+                    <th width="50%">路线</th>
+                    <th width="6%">单价</th>
+                    <th width="6%">数量</th>
+                    <th width="12%">买家</th>
+                    <th width="8%">订单状态</th>
+                    <th width="8%">订单金额</th>
+                    <th width="8%">操作</th>
                 </tr>
                 #foreach($order in $orderList)
                     <tr></tr>
                     <tr>
                         <td><input class="subChecked" type="checkbox" value="$!order.bizOrderDO.bizOrderId"></td>
                         <td colspan="8" align="left">
-
-                            订单编号：$!order.bizOrderDO.bizOrderId &nbsp;&nbsp;&nbsp;&nbsp;下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrderDO.gmtCreated)
+                           	 订单编号：$!order.bizOrderDO.bizOrderId &nbsp;&nbsp;&nbsp;&nbsp;下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrderDO.gmtCreated)
                         </td>
                     </tr>
 
+                    #set( $size = $order.subOrderList.size())
                     #foreach($subOrder in $order.subOrderList)
                     <tr>
                         <td></td>
                         <td>
                             <div class="goods-item">
                                 <div class="t-img">
-                                    <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!{utilImg.getImgUrl($!{subOrder.bizOrderDO.itemPic})}">
+                                    <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!{utilImg.getImgUrl($!{subOrder.bizOrderDO.itemPic}, 160)}">
                                 </div>
                                 <div class="t-msg">
                                     <div class="t-name">$!subOrder.bizOrderDO.itemTitle</div>
@@ -116,67 +116,70 @@
                                 </div>
                             </div>
                         </td>
-                        <td>
+                        <td class="middle">
                             <div class="order-price">
                                 $!utilNum.moneyTransform($!subOrder.bizOrderDO.itemPrice)
                             </div>
                         </td>
 
-                        <td>
-                            <div class="order-number">
+                        <td class="middle">
+                            <div class="order-number" >
                                 $!subOrder.bizOrderDO.buyAmount
                             </div>
                         </td>
+                        
+                        #if($velocityCount == 1)
+                        	<td rowspan="$!size" class="middle">
+	                            <div>
+	                                <div class="txt">$!order.user.nickname</div>
+	                                <div class="txt">$!order.user.mobileNo</div>
+	                            </div>
+	                        </td>
+	                        <td rowspan="$!size" class="middle">
+	                            <div class="">
+	                                #if($order.orderShowState == 1)
+										未付款
+	                                #elseif($order.orderShowState == 2)
+										已付款
+	                                #elseif($order.orderShowState == 3)
+										已发货
+	                                #elseif($order.orderShowState == 4)
+										交易成功
+	                                #elseif($order.orderShowState == 5)
+										交易关闭
+	                                #elseif($order.orderShowState == 6)
+										待处理
+	                                #elseif($order.orderShowState == 7)
+										 已退款
+	                                #end
+	                            </div>
+	                        </td>
+	                        <td rowspan="$!size" class="middle">
+	                            <div>
+	                                $!utilNum.moneyTransform($!order.bizOrderDO.actualTotalFee)
+	                            </div>
+	                        </td>
+	                        <td rowspan="$!size" class="middle">
+	                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!order.bizOrderDO.bizOrderId">详情</button>
+	                            #if($order.orderShowState == 2)
+	                                <button type="button" class="btn btn-primary affirm"
+	                                        data-target="#affirmModal" orderId="$!order.bizOrderDO.bizOrderId">确认
+	                                </button>
+	                            #elseif($order.orderShowState == 3)
+	                                <button type="button" class="btn btn-primary finish"
+	                                        data-target="#finishModal" orderId="$!order.bizOrderDO.bizOrderId">完成
+	                                </button>
+	                            #end
+	                            #if($order.orderShowState !=7 && $order.orderShowState !=1 && $order.orderShowState !=5)
+	                                <button type="button" class="btn btn-primary refund"
+	                                        data-target="#refundModal" orderId="$!order.bizOrderDO.bizOrderId">退款
+	                                </button>
+	                            #end
+	                        </td>
+                        #end
+                        
                     #end
-                        <td>
-                            <div>
-                                <div class="txt">$!order.user.nickname</div>
-                                <div class="txt">$!order.user.mobileNo</div>
-##                                    <div class="txt">会员</div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="">
-                                #if($order.orderShowState == 1)
-                                    未付款
-                                #elseif($order.orderShowState == 2)
-                                    已付款
-                                #elseif($order.orderShowState == 3)
-                                    已发货
-                                #elseif($order.orderShowState == 4)
-                                    交易成功
-                                #elseif($order.orderShowState == 5)
-                                    交易关闭
-                                #elseif($order.orderShowState == 6)
-                                    待处理
-                                #elseif($order.orderShowState == 7)
-                                    已退款
-                                #end
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                $!utilNum.moneyTransform($!order.bizOrderDO.actualTotalFee)
-                            </div>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!order.bizOrderDO.bizOrderId">详情</button>
-                            #if($order.orderShowState == 2)
-                                <button type="button" class="btn btn-primary affirm"
-                                        data-target="#affirmModal" orderId="$!order.bizOrderDO.bizOrderId">确认
-                                </button>
-                            #elseif($order.orderShowState == 3)
-                                <button type="button" class="btn btn-primary finish"
-                                        data-target="#finishModal" orderId="$!order.bizOrderDO.bizOrderId">完成
-                                </button>
-                            #end
-                            #if($order.orderShowState !=7 && $order.orderShowState !=1 && $order.orderShowState !=5)
-                                <button type="button" class="btn btn-primary refund"
-                                        data-target="#refundModal" orderId="$!order.bizOrderDO.bizOrderId">退款
-                                </button>
-                            #end
-                        </td>
-                </tr>
+                	</tr>
                 #end
             </tbody>
             </table>
