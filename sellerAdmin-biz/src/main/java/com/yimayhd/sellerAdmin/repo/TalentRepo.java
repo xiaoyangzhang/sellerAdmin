@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
@@ -18,6 +19,7 @@ import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
 import com.yimayhd.sellerAdmin.util.RepoUtils;
@@ -57,7 +59,7 @@ public class TalentRepo {
 		queryDTO.setType(ExamineType.TALENT.getType());
 		queryDTO.setSellerId(userId);
 		RepoUtils.requestLog(log,"examineDealService.queryMerchantExamineInfoById", queryDTO);
-		MemResult<ExamineInfoDTO> examineInfoResult = examineDealService.queryMerchantExamineInfoById(queryDTO);
+		MemResult<ExamineInfoDTO> examineInfoResult = examineDealService.queryMerchantExamineInfoBySellerId(queryDTO);
 		RepoUtils.requestLog(log, "examineDealService.queryMerchantExamineInfoById", examineInfoResult.getValue());
 		ExamineInfoDTO dto = null;
  		if (examineInfoResult != null) {
@@ -84,7 +86,8 @@ public class TalentRepo {
 			TalentInfoDTO talentInfoDTO = talentInfoResult.getValue();
 
 			List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
-				while(pictures.size() < 5) {
+			//填充店铺头图集合
+				while(pictures.size() < Constant.TALENT_SHOP_PICNUM) {
 					pictures.add("");
 				}
 			
@@ -169,7 +172,7 @@ public class TalentRepo {
 	 */
 	public String getCheckResult() {
 		InfoQueryDTO examineQueryDTO = new InfoQueryDTO();
-		examineQueryDTO.setDomainId(1200);
+		examineQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		examineQueryDTO.setType(ExamineType.TALENT.getType());
 		examineQueryDTO.setSellerId(sessionManager.getUserId());
 		

@@ -15,6 +15,7 @@ import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
 import com.yimayhd.sellerAdmin.repo.TalentRepo;
@@ -45,7 +46,7 @@ public class TalentBiz {
 	 */
 	public ExamineInfoDTO getExamineInfo () {
 		
- 		return talentRepo.getExamineInfo(1200, sessionManager.getUserId());
+ 		return talentRepo.getExamineInfo(Constant.DOMAIN_JIUXIU, sessionManager.getUserId());
 	}
 	/**
 	 * 根据userID和domainID查询达人基本信息
@@ -53,7 +54,7 @@ public class TalentBiz {
 	 */
 	public TalentInfoDTO getTalentInfo() {
 		
-		return talentRepo.getTalentInfo(1200, sessionManager.getUserId());
+		return talentRepo.getTalentInfo(Constant.DOMAIN_JIUXIU, sessionManager.getUserId());
 	}
 	/**
 	 * 新增达人基本信息

@@ -15,6 +15,7 @@ import com.yimayhd.membercenter.client.domain.talent.TalentInfoDO;
 import com.yimayhd.membercenter.client.dto.PictureTextDTO;
 import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.sellerAdmin.base.BaseException;
+import com.yimayhd.sellerAdmin.constant.Constant;
 
 public class TalentInfoVO extends TalentInfoDO {
 
@@ -103,7 +104,7 @@ public class TalentInfoVO extends TalentInfoDO {
 			throw new BaseException("参数错误");
 		}
 		TalentInfoDTO dto=new TalentInfoDTO();
-		dto.setDomainId(1200);
+		dto.setDomainId(Constant.DOMAIN_JIUXIU);
 		dto.setTalentInfoDO(getTalentInfoDO(vo,userId));
 		PictureTextDTO pictureTextDTO=new PictureTextDTO();
 		List<PictureTextDO> picTextDOs=new ArrayList<PictureTextDO>();
