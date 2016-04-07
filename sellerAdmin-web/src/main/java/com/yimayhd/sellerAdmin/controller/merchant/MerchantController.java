@@ -77,7 +77,7 @@ public class MerchantController extends BaseController{
 		
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
-		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoById(info);
+		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
 		if(result.isSuccess()){
 			if(null != result.getValue()){
 				if(result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_WAIT ){//等待审核状态
@@ -204,7 +204,7 @@ public class MerchantController extends BaseController{
 		info.setType(ExamineType.MERCHANT.getType());
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
-		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoById(info);
+		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
 		if(result.isSuccess()){
 			model.addAttribute("imgSrc",Constant.TFS_URL);
 			model.addAttribute("examineInfo", result.getValue());
@@ -230,7 +230,7 @@ public class MerchantController extends BaseController{
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
 		
-		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoById(info);
+		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
 		if(result.isSuccess()){
 			model.addAttribute("imgSrc",Constant.TFS_URL);
 			model.addAttribute("examineInfo", result.getValue());
