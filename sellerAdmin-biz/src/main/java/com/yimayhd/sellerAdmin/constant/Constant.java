@@ -48,5 +48,7 @@ public class Constant {
 	
 	public static final String TALENT_NAME_CN ="达人";
 	
+	
+	public static final String DOT = ".";
 
 }

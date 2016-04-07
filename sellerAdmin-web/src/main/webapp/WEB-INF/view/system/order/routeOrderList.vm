@@ -104,7 +104,7 @@
                         <td>
                             <div class="goods-item">
                                 <div class="t-img">
-                                    <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!subOrder.bizOrderDO.itemPic">
+                                    <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!{utilImg.getImgUrl($!{subOrder.bizOrderDO.itemPic})}">
                                 </div>
                                 <div class="t-msg">
                                     <div class="t-name">$!subOrder.bizOrderDO.itemTitle</div>
