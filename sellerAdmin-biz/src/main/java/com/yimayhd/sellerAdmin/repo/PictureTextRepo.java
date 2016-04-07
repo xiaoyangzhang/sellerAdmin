@@ -39,7 +39,7 @@ public class PictureTextRepo {
 		comentQueryDTO.setDomain(Constant.DOMAIN_JIUXIU);
 		comentQueryDTO.setOutType(outType.name());
 		RepoUtils.requestLog(log, "comPictureTextServiceRef.getPictureText", comentQueryDTO);
-		BaseResult<PicTextResult> pictureText = comPictureTextServiceRef.getPictureText(new ComentQueryDTO());
+		BaseResult<PicTextResult> pictureText = comPictureTextServiceRef.getPictureText(comentQueryDTO);
 		RepoUtils.resultLog(log, "comPictureTextServiceRef.getPictureText", pictureText);
 		return pictureText.getValue();
 	}

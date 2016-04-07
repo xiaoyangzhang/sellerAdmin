@@ -409,12 +409,12 @@ public class LineConverter {
 			return new ArrayList<RouteItemDO>(0);
 		}
 		RouteItemDetail routeItemDetail = new RouteItemDetail();
-		routeItemDetail.setId(routeDay.getRouteItemId());
 		routeItemDetail.setType(RouteItemType.DETAIL.name());
 		routeItemDetail.setName(routeDay.getTitle());
 		routeItemDetail.setShortDesc(routeDay.getDescription());
 		routeItemDetail.setPics(routeDay.getPicUrls());
 		RouteItemDO routeItemDO = new RouteItemDO();
+		routeItemDO.setId(routeDay.getRouteItemId());
 		routeItemDO.setType(RouteItemBizType.ROUTE_ITEM_DETAIL.getType());
 		routeItemDO.setRouteItemDetail(routeItemDetail);
 		routeItemDO.setDay(day);
@@ -432,6 +432,7 @@ public class LineConverter {
 		RouteUpdateDTO routeUpdateDTO = new RouteUpdateDTO();
 		routeUpdateDTO.setId(routeInfo.getRouteId());
 		routeUpdateDTO.setName(baseInfo.getName());
+		routeUpdateDTO.setRoutePlan(toRoutePlan(line.getRoutePlan()));
 		return routeUpdateDTO;
 	}
 

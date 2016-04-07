@@ -1,3 +1,4 @@
+#set($pictureText = $product.pictureText)
 <div id="editer">
 	<div class="hd clearfix">
 		<ul class="clearfix">
@@ -6,14 +7,19 @@
 		</ul>
 	</div>
 	<div class="bd">
-		<!--<p class="text">
-			<font>文本内容</font>
-		</p>								
+		#foreach($pictureTextItem in $pictureText.pictureTextItems)
+			#if($pictureTextItem.type.equalsIgnoreCase('text'))
+		<p class="text">
+			<font>$!{pictureTextItem.value}</font>
+		</p>
+			#elseif($pictureTextItem.type.equalsIgnoreCase('img'))
 		<p class="pic">
-			<img src="/img/mypic.jpg">
-		</p>	-->
+			<img src="$!{tfs}$!{pictureTextItem.value}">
+		</p>
+			#end
+		#end
 	</div>
-	<textarea name="content" id="contentText" style="display:none;"></textarea>
+	<textarea name="content" id="contentText" style="display:none;">$!{pictureText.pictureTextItemsJson}</textarea>
 	<input type="hidden" id="uploadAction" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file"/>
 	<input type="hidden" id="imgUrl" value="$utilWebconfig.getTfsRootPath()"/>
 </div>
