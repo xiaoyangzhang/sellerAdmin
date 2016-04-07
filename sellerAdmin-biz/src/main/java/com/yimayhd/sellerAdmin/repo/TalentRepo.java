@@ -15,6 +15,7 @@ import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
+import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
@@ -179,7 +180,7 @@ public class TalentRepo {
 		RepoUtils.requestLog(log, " examineDealService.queryExamineDealResult", examineQueryDTO);
 		MemResult<ExamineResultDTO> examineDealResult = examineDealService.queryExamineDealResult(examineQueryDTO);
 		RepoUtils.requestLog(log, " examineDealService.queryExamineDealResult", examineDealResult.getValue());
-		if (examineDealResult.getValue() == null) {
+		if (examineDealResult.getValue() == null || ( examineDealResult.getValue().getStatus().getStatus() == ExamineStatus.EXAMIN_OK.getStatus())) {
 			return null;
 		}
 		return examineDealResult.getValue().getDealMes();
