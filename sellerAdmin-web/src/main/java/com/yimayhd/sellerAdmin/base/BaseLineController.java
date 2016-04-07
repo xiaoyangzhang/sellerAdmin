@@ -36,7 +36,6 @@ public abstract class BaseLineController extends BaseController {
 	}
 
 	protected void initLinePropertyTypes(long categoryId) throws Exception {
-		put("categoryId", categoryId);
 		CategoryDO categoryDO = categoryService.getCategoryDOById(categoryId);
 		ItemType itemType = ItemType.get(categoryDO.getCategoryFeature().getItemType());
 		put("itemType", itemType);
