@@ -1,4 +1,4 @@
-#set($layout="layout/blank.vm")
+#set($layout="layout/layout-blank.vm")
 <!DOCTYPE html>
 <html>
     <head>
