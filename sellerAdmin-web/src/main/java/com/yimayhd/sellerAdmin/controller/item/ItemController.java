@@ -39,8 +39,6 @@ public class ItemController extends BaseController {
 	private ItemService itemService;
 	@Autowired
 	private CategoryService categoryServiceRef;
-	@Autowired
-	private CategoryRepo categoryRepo;
 
 	/**
 	 * 商品列表
@@ -75,14 +73,17 @@ public class ItemController extends BaseController {
 	public List<CategoryVO> getcate() {
 		String cateId = get("categoryId");
 		List<CategoryVO> list = null;
-		// 查询一级节点
-		if (StringUtils.isBlank(cateId)) {
-			CategoryDO categoryDO = categoryRepo.getCategoryByDomainId(DomainType.DOMAIN_JX.getType());
-			list = categoryDoTOVo(categoryDO.getChildren());
-		} else {
-			// 查询某节点下的子节点
-			CategoryDO categoryDO = categoryRepo.getCategoryById(Integer.parseInt(cateId));
-			list = categoryDoTOVo(categoryDO.getChildren());
+		if(StringUtils.isBlank(cateId)){
+			WebResult<CategoryDO> webResult = categoryServiceRef.getCategoryByDomainId(DomainType.DOMAIN_JX.getType());
+			if( null != webResult && webResult.getValue() != null){
+				list = categoryDoTOVo(webResult.getValue().getChildren());
+			}
+		}else {
+			//查询某节点下的子节点
+			WebResult<CategoryDO> webResult = categoryServiceRef.getCategoryById(Integer.parseInt(cateId));
+			if( null != webResult && webResult.getValue() != null ){
+				list = categoryDoTOVo(webResult.getValue().getChildren());
+			}
 		}
 		return list;
 	}
