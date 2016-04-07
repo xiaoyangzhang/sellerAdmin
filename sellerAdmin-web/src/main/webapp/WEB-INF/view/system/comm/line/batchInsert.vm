@@ -1,14 +1,30 @@
-<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/input.js" type="text/javascript"></script>
-<div>
-	#foreach($persionPropertyValue in $persionPropertyValues)
-	<div class="input-group block" v-id="$!{persionPropertyValue.id}">
-		<span class="input-group-addon" block-name="$!{persionPropertyValue.text}">$!{persionPropertyValue.text}：</span>
-		<input type="text" class="form-control double-only item-$!{persionPropertyValue.id}-1" block-type="$!{persionPropertyValue.id}" id="item_$!{persionPropertyValue.id}_1" placeholder="请输入价格">
-		<span class="input-group-addon">库存：</span>
-		<input type="text" class="form-control int-only item-$!{persionPropertyValue.id}-2" block-type="$!{persionPropertyValue.id}" id="item_$!{persionPropertyValue.id}_2" placeholder="请输入库存">
-	</div>
-	#end
-</div>
+#set($layout="layout/blank.vm")
+<html>
+	<head>
+		#parse("layout/layout-meta.vm")
+        <title>批量插入</title>
+        <link rel="stylesheet" href="$rs_js_css_path_admin/css/base.css">
+		<link rel="stylesheet" href="$rs_js_css_path_admin/css/common.css"/>
+		<link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/css/zui.min.css"/>
+		
+		<script type="text/javascript" src="$rs_js_css_path_admin/js/jquery.js"></script>
+		<script type="text/javascript" src="$rs_js_css_path_admin/layer/layer.js"></script>
+		<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/js/zui.min.js" type="text/javascript" ></script>
+        <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/input.js" type="text/javascript"></script>
+    </head>
+	<body>
+        <div>
+        	#foreach($persionPropertyValue in $persionPropertyValues)
+        	<div class="input-group block" v-id="$!{persionPropertyValue.id}">
+        		<span class="input-group-addon" block-name="$!{persionPropertyValue.text}">$!{persionPropertyValue.text}：</span>
+        		<input type="text" class="form-control double-only item-$!{persionPropertyValue.id}-1" block-type="$!{persionPropertyValue.id}" id="item_$!{persionPropertyValue.id}_1" placeholder="请输入价格">
+        		<span class="input-group-addon">库存：</span>
+        		<input type="text" class="form-control int-only item-$!{persionPropertyValue.id}-2" block-type="$!{persionPropertyValue.id}" id="item_$!{persionPropertyValue.id}_2" placeholder="请输入库存">
+        	</div>
+        	#end
+        </div>
+    </body>
+</html>
 <script type="text/javascript">
 	function getData() {
 		var blocks = [];
