@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/jquery-ui-1.10.4.custom.css">
 <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/merchant.css">
 
-<input type="hidden" id="merchantSubmit"  value="$!utilWebconfig.getActionDefaultFontPath()/merchant/saveBasic">
+<input type="hidden" id="merchantSubmit"  value="$!root_path/merchant/saveBasic">
 
 	<!-- 面包屑 -->
 	<div class = "comwidth crumbs f12">您所在的位置：店铺管理><a class = "f12 gray6">基本信息</a></div>
