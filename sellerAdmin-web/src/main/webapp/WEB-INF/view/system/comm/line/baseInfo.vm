@@ -69,10 +69,11 @@
 							<div class="dimg">
 								#if($baseInfo.picUrls && $baseInfo.picUrls.size() > 0)
 								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(0)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode baseInfo-picCode" value="$!{baseInfo.picUrls.get(0)}">
 								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode baseInfo-picCode">
 								#end
-								<input type="hidden" class="picCode">
 							</div>
 							<div class="upimgbtn">
 								<input type="file" name="picfile" class="picfile">
@@ -86,10 +87,11 @@
 							<div class="dimg">
 								#if($baseInfo.picUrls && $baseInfo.picUrls.size() > 1)
 								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(1)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode baseInfo-picCode" value="$!{baseInfo.picUrls.get(1)}">
 								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode baseInfo-picCode">
 								#end
-								<input type="hidden" class="picCode">
 							</div>
 							<div class="upimgbtn">
 								<input type="file" name="picfile" class="picfile">
@@ -103,10 +105,11 @@
 							<div class="dimg">
 								#if($baseInfo.picUrls && $baseInfo.picUrls.size() > 2)
 								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(2)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode baseInfo-picCode" value="$!{baseInfo.picUrls.get(2)}">
 								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode baseInfo-picCode">
 								#end
-								<input type="hidden" class="picCode">
 							</div>
 							<div class="upimgbtn">
 								<input type="file" name="picfile" class="picfile">
@@ -120,10 +123,11 @@
 							<div class="dimg">
 								#if($baseInfo.picUrls && $baseInfo.picUrls.size() > 3)
 								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(3)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode baseInfo-picCode" value="$!{baseInfo.picUrls.get(3)}">
 								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode baseInfo-picCode">
 								#end
-								<input type="hidden" class="picCode">
 							</div>
 							<div class="upimgbtn">
 								<input type="file" name="picfile" class="picfile">
@@ -137,10 +141,11 @@
 							<div class="dimg">
 								#if($baseInfo.picUrls && $baseInfo.picUrls.size() > 4)
 								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(4)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode baseInfo-picCode" value="$!{baseInfo.picUrls.get(4)}">
 								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode baseInfo-picCode">
 								#end
-								<input type="hidden" class="picCode">
 							</div>
 							<div class="upimgbtn">
 								<input type="file" name="picfile" class="picfile">

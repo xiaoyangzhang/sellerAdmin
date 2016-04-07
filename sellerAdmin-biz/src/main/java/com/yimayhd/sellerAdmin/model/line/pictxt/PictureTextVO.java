@@ -1,7 +1,10 @@
 package com.yimayhd.sellerAdmin.model.line.pictxt;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.alibaba.fastjson.JSON;
 
 /**
  * 图文详情
@@ -28,5 +31,12 @@ public class PictureTextVO implements Serializable {
 
 	public void setPicTextId(long picTextId) {
 		this.picTextId = picTextId;
+	}
+
+	public String getPictureTextItemsJson() {
+		if (pictureTextItems == null) {
+			pictureTextItems = new ArrayList<PictureTextItemVo>();
+		}
+		return JSON.toJSONString(pictureTextItems);
 	}
 }

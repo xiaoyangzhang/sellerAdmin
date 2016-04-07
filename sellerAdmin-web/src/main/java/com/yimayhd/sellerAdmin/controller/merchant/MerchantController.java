@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.dubbo.common.json.JSONObject;
+import com.taobao.tair.json.Json;
 import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
@@ -77,7 +79,10 @@ public class MerchantController extends BaseController{
 		
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
+		
+		log.error("hfjewhfejwhfewjhfkjwehfewjkfhwekj1"+com.alibaba.fastjson.JSONObject.toJSONString(info));
 		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
+		log.error("hfjewhfejwhfewjhfkjwehfewjkfhwekj2");
 		if(result.isSuccess()){
 			if(null != result.getValue()){
 				if(result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_WAIT ){//等待审核状态
@@ -208,7 +213,7 @@ public class MerchantController extends BaseController{
 		if(result.isSuccess()){
 			model.addAttribute("imgSrc",Constant.TFS_URL);
 			model.addAttribute("examineInfo", result.getValue());
-			if(result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW){//审核不通过时
+			if(null!=result.getValue() && result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW){//审核不通过时
 				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
 				if(rest.isSuccess() && (null!=rest.getValue())){
 					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
@@ -234,7 +239,7 @@ public class MerchantController extends BaseController{
 		if(result.isSuccess()){
 			model.addAttribute("imgSrc",Constant.TFS_URL);
 			model.addAttribute("examineInfo", result.getValue());
-			if(result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW){//审核不通过时
+			if(null!=result.getValue() && result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW){//审核不通过时
 				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
 				if(rest.isSuccess() && (null!=rest.getValue())){
 					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
