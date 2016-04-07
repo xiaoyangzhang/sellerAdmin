@@ -3,7 +3,7 @@
 
 <title>填写资料</title>
 
-<input type="hidden" class="subpath" value="/sellerAdmin/merchant/saveUserdataB">
+<input type="hidden" class="subpath" value="$!utilWebconfig.getActionDefaultFontPath()/merchant/saveUserdataB">
 
 	<div class="header">
 		<div class="comwidth content clearfix">

@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/jquery-ui-1.10.4.custom.css">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/merchant.css">
 
-<input type="hidden" id="merchantSubmit"  value="/sellerAdmin/merchant/saveBasic">
+<input type="hidden" id="merchantSubmit"  value="$!utilWebconfig.getActionDefaultFontPath()/merchant/saveBasic">
 
 	<div class="header">
 		<div class="comwidth content clearfix">
