@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	#set( $resourcesPath = $!utilWebconfig.getStaticResourcesPath() )
+	#set( $resourceVersion = $!utilWebconfig.getResourceVersion() )
+	#set( $isTest = $utilWebconfig.isTestMode() )
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="$!{resourcesPath}/resources/zui/css/zui.min.css?version=$!{resourceVersion}" >
+    <link rel="stylesheet" href="$!{resourcesPath}/resources/css/common.css?version=$!{resourceVersion}"/>
+    
+    <script src="$!{resourcesPath}/resources/js/jquery.js?version=$!{resourceVersion}"></script>
+    <script src="$!{resourcesPath}/resources/zui/js/zui.min.js?version=$!{resourceVersion}"></script>
+    <script src="$!{resourcesPath}/resources/js/respond.js?version=$!{resourceVersion}"></script>
+    <script src="$!{resourcesPath}/resources/js/common.js?version=$!{resourceVersion}"></script>
+    <script src="$!{resourcesPath}/resources/layer-v2.1/layer.js?version=$!{resourceVersion}"></script>
+	<script src="$!{resourcesPath}/resources/js/jquery-form.js?version=$!{resourceVersion}" type="text/javascript"></script>
+    <script src="$!{resourcesPath}/resources/js/jquery.validate.min.js?version=$!{resourceVersion}"></script>
+    <script src="$!{resourcesPath}/resources/js/JQ_verify.js?version=$!{resourceVersion}"></script>
+    <script src="$!{resourcesPath}/resources/js/jquery.metadata.js?version=$!{resourceVersion}"></script>
+	<script src="$!{resourcesPath}/resources/validate/messages_zh.min.js?version=$!{resourceVersion}" type="text/javascript"></script>
+	<script>
+        layer.config({
+            extend: 'extend/layer.ext.js',
+            extend:['skin/mySkin/style.css'],
+            skin:'layer-ext-mySkin'
+        });
+        var actionDefaultPath = '$!{utilWebconfig.getActionDefaultFontPath()}';
+        var tfsRootPath = '$!{utilWebconfig.getTfsRootPath()}';
+        var staticResourcesPath='$!{utilWebconfig.getStaticResourcesPath()}';
+        var uploadFile='$!{utilWebconfig.getActionUploadFilePath()}';
+        var uploadFiles='$!{utilWebconfig.getActionUploadFilesPath()}';
+    </script>
+</head>
+<body>
+    $screen_content
+    
+    
+</body>
+</html>
+
