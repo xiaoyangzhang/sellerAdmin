@@ -38,6 +38,10 @@ public abstract class BaseLineController extends BaseController {
 	protected void initLinePropertyTypes(long categoryId) throws Exception {
 		CategoryDO categoryDO = categoryService.getCategoryDOById(categoryId);
 		ItemType itemType = ItemType.get(categoryDO.getCategoryFeature().getItemType());
+		if (!ItemType.FREE_LINE.equals(itemType) && !ItemType.TOUR_LINE.equals(itemType)) {
+			log.warn("unsupport categoryId " + categoryId);
+			throw new BaseException("无效categoryId " + categoryId);
+		}
 		put("itemType", itemType);
 		WebResult<LinePropertyConfig> result = commLineService.getLinePropertyConfig(categoryId);
 		if (result.isSuccess()) {
