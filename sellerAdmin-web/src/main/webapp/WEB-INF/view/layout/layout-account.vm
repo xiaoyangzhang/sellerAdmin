@@ -11,33 +11,22 @@
 	
 	<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css">
 	<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/account.css">
-
+	<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/common.css">
+	
 </head>
 <body>
 	<!-- 头部开始 -->
-	<div id="ym-header" class="clearfix">
-		<div class="ym-logo"><a href="$!root_path/"><img src="$rs_path_jiuxiu/img/logo.jpg"/></a></div>
+	<div class="clearfix actlg-header">
+		<div class="logo"><a href="http://s0.yimayholiday.com/PC_B2C/index.html"><img src="$!rs_path_jiuxiu/img/loginlogo.jpg"/></a></div>
 		<ul class="clearfix">
-			<li><a #if($header_on == 'home')class='on'#end href="$root_path/">商户</a></li>
-			<li><a #if($header_on == 'member')class='on'#end href="$root_path/member.html">微旅</a></li>
-			<li><a #if($header_on == 'app')class='on'#end href="$root_path/app.html">九休APP</a></li>
+			<li><a class="on" href="$!rs_official_site/officialweb/indexJX.html">九休旅行APP</a></li>
+			<li><a  href="$!rs_official_site/officialweb/recruitment.html">九休商务</a></li>
+			<li><a href="$!root_path/home">商家中心</a></li>
 		</ul>
-		<ul class="logininfo">
-			#if($user)
-	    		<li class="username">
-	    			#if($stringUtils.isNotBlank($user.avatar))
-	    				<img src="$tfs/$!{user.avatar}" width="32" height="32"/>
-	    			#else
-	    				<img src="$rs_js_css_path_jiuxiu/img/init-photo.jpg" width="32" height="32"/>
-	    			#end
-	    			<a href="$root_path/account/userInfo">$!{user.nickname}($!{user.id})</a>
-	    		</li>
-	    		<li class="logout"><a href="$root_path/user/logout">退出</a></li>
-			#else
-	    		<li class="login"><a href="$root_path/user/login">登录</a></li>
-	    		<li class="register"><a href="$root_path/user/register">注册</a></li>
-			#end
-		</ul>
+		<div class="lgrg">
+			<a  href="$root_path/user/login">登录</a>
+			<a  href="$root_path/user/register">注册</a>
+		</div>
 	</div>
 	
 	$screen_content
@@ -45,36 +34,25 @@
 	
 	<!-- 首页的中心部分结束 -->
 	<!-- 尾部开始 -->
-	<div id="ym-footer" class="clearfix">
-	 	<div class="footer clearfix">
-	 	  <dl>
-	        <dt>关于我们</dt>
-	 	  	<dd><a target="_blank" href="$!{utilWebconfig.rootPath}/about/aboutus.html" rel="nofollow">怡美假日</a></dd>
-	 	  	<dd><a target="_blank" href="$!{utilWebconfig.rootPath}/about/joinus.html" rel="nofollow">加入我们</a></dd>
-	 	  	<dd><a target="_blank" href="$!{utilWebconfig.rootPath}/about/contactus.html" rel="nofollow">联系我们</a></dd>
-	 	  	<dd><a target="_blank" href="$!{utilWebconfig.rootPath}/about/serviceterm.html" rel="nofollow">服务条款</a></dd>
-	 	  </dl>
-	 	  <dl class="lfm">
-			<dt>发现</dt>
-	 	  	<dd><a target="_blank" href="$!{utilWebconfig.rootPath}/">玩法</a></dd>
-	 	  	<dd><a target="_blank" href="$!{utilWebconfig.rootPath}/member.html">会员</a></dd>
-	 	  	<dd><a target="_blank" href="$!{utilWebconfig.rootPath}/app.html">下载app</a></dd>
-	 	  </dl>
-	 	  <dl class="lfmy">
-	 	  	<dt>客服电话</dt>
-	 	  	<dd>4000-696-888</dd>
-	 	  	<dd>9:00~22:00，周一至周日</dd>
-	 	  </dl>
-	 	  <dl class="lfml">
-	 	  	<dt><img src="$rs_js_css_path_jiuxiu/img/foot-ewm.jpg"/></dt>
-	 	  	<dd>怡美假日服务号</dd>
-	 	  </dl>
-	 	</div>
-	</div>
-	<div id="ym-foot">
-		<p class="foot-copyright">
-			Copyright © 2014-2016 yimayholiday.com 怡美假日 版权所有<br/><a target="_blank" href="http://www.miitbeian.gov.cn/" target="_blank" class = "jing-addressID">京ICP备15051416号-1</a>				
-		</p>
+	<div class="footer">
+		<div class="footer-wrap">
+			<div class="footer-inner">
+				<ul class="footer-about">
+					<li><a target="_blank" href="javascript:;">关于九休</a></li>
+					<li><a target="_blank" href="javascript:;">联系我们</a></li>
+					<li><a target="_blank" href="javascript:;">投诉建议</a></li>
+					<li class="footer-aboutcons">招商咨询</li>
+					<li class="footer-constele">4000-696-888   /  9:00~22~00，周一到周日</li>
+				</ul>
+			</div>
+		</div>
+		<div class="footer-wrap-black">
+			<div class="footer-inner2">
+				<p class="foot-copyright">Copyright © 2014-2016 yimayholiday.com 怡美假日 版权所有<br/>
+				    <a class="jing-addressID" target="_blank" href="javascript:;">京ICP备15051416号-1</a>
+				</p>
+			</div>
+		</div>
 	</div>
 	
 	<!-- 尾部结束 -->
