@@ -41,6 +41,8 @@ public class Constant {
 	public static final int MERCHANT_TYPE_WAIT = 2;
 	
 	public static final int MERCHANT_TYPE_NOTTHROW = 3;
+	//达人基本信息店铺头图数量
+	public static final int TALENT_SHOP_PICNUM = 5;
 	
 
 }

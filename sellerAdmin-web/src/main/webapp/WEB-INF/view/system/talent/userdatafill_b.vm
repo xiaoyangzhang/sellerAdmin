@@ -42,8 +42,9 @@
 					<div class="error_box">
 							<div>审核不通过原因</div>
 							<ol>
-								<li>负责人身份证过期</li>
-								<li>地址找不到</li>
+								#foreach( $info in $checkResultInfo)  
+								<li>$!info</li>
+						　　　	 #end
 							</ol>
 						</div>
 					#end
