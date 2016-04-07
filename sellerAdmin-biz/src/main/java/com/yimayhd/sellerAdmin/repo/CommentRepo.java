@@ -94,20 +94,20 @@ public class CommentRepo {
 	 * 保存关联关系
 	 * 
 	 * @param outId
-	 * @param tagType
+	 * @param outType
 	 * @param tagIds
 	 */
-	public void saveTagRelation(long outId, TagType tagType, List<Long> tagIds) {
-		if (outId <= 0 || tagType == null || CollectionUtils.isEmpty(tagIds)) {
+	public void saveTagRelation(long outId, TagType outType, List<Long> tagIds) {
+		if (outId <= 0 || outType == null || CollectionUtils.isEmpty(tagIds)) {
 			log.warn("save tag relation params error");
 			throw new BaseException("参数异常");
 		}
 		TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
-		tagRelationInfoDTO.setTagType(tagType.getType());
+		tagRelationInfoDTO.setOutType(outType.getType());
 		tagRelationInfoDTO.setOutId(outId);
 		tagRelationInfoDTO.setOrderTime(new Date());
 		tagRelationInfoDTO.setList(tagIds);
-		tagRelationInfoDTO.setDomian(Constant.DOMAIN_JIUXIU);
+		tagRelationInfoDTO.setDomain(Constant.DOMAIN_JIUXIU);
 		RepoUtils.requestLog(log, "comCenterServiceRef.addTagRelationInfo", tagRelationInfoDTO);
 		BaseResult<Boolean> addTagRelationInfo = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
 		RepoUtils.resultLog(log, "comCenterServiceRef.addTagRelationInfo", addTagRelationInfo);
