@@ -28,10 +28,10 @@ import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
  * @author czf
  */
 @Controller
-@RequestMapping("/B2C/orderManage")
-public class OrderManageController extends BaseController {
+@RequestMapping("/order")
+public class OrderController extends BaseController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(OrderManageController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(OrderController.class);
 	@Autowired
 	private OrderService orderService;
 
@@ -114,7 +114,7 @@ public class OrderManageController extends BaseController {
 	 * @return 路线订单列表
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/routeOrderList", method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String routeOrderList(Model model, OrderListQuery orderListQuery) throws Exception {
 		int [] orderBizTypes = {OrderBizType.LINE.getBizType(),OrderBizType.FLIGHT_HOTEL.getBizType(),OrderBizType.SPOTS_HOTEL.getBizType()};
 		orderListQuery.setOrderTypes(orderBizTypes);

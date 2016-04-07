@@ -67,8 +67,8 @@ public class LineController extends BaseLineController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create(long categoryId) throws Exception {
+	@RequestMapping(value = "/create/{categoryId}/", method = RequestMethod.GET)
+	public String create(@PathVariable(value = "categoryId") long categoryId) throws Exception {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
 		put("lineType", LineType.TOUR_LINE);
