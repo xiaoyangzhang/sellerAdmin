@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.controller.talent;
 
+import java.util.Arrays;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,6 +27,7 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.biz.TalentBiz;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.constant.ResponseStatus;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
@@ -61,14 +64,14 @@ public class TalentController extends BaseController {
 	
 	@RequestMapping(value="toAddUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toAddUserdatafill_a(Model model){
-		model.addAttribute("checkResultInfo", talentBiz.getCheckResult());
+		model.addAttribute("checkResultInfo", talentBiz.getCheckResult() == null?null : Arrays.asList(talentBiz.getCheckResult().split(Constant.SYMBOL_SEMIONLON)));
 		return "system/talent/userdatafill_a";
 		
 	}
 	@RequestMapping(value="toEditUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toEditUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model) {
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
-		model.addAttribute("checkResultInfo", talentBiz.getCheckResult());
+		model.addAttribute("checkResultInfo", talentBiz.getCheckResult() == null?null : Arrays.asList(talentBiz.getCheckResult().split(Constant.SYMBOL_SEMIONLON)));
 		return "system/talent/userdatafill_a";
 		
 	}
@@ -80,14 +83,14 @@ public class TalentController extends BaseController {
 	@RequestMapping(value="toAddUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toAddUserdatafill_b(Model model) {
 		model.addAttribute("bankList", talentBiz.getBankList());
-		model.addAttribute("checkResultInfo", talentBiz.getCheckResult());
+		model.addAttribute("checkResultInfo", talentBiz.getCheckResult() == null?null : Arrays.asList(talentBiz.getCheckResult().split(Constant.SYMBOL_SEMIONLON)));
 		return "system/talent/userdatafill_b";
 		
 	}
 	@RequestMapping(value="toEditUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toEditUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
-		model.addAttribute("checkResultInfo", talentBiz.getCheckResult());
+		model.addAttribute("checkResultInfo", talentBiz.getCheckResult() == null?null : Arrays.asList(talentBiz.getCheckResult().split(Constant.SYMBOL_SEMIONLON)));
 		model.addAttribute("bankList", talentBiz.getBankList());
 		return "system/talent/userdatafill_b";
 		

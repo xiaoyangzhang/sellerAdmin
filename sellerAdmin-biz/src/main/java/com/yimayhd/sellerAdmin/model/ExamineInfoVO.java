@@ -10,6 +10,7 @@ import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineSubmitDTO;
 import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseException;
+import com.yimayhd.sellerAdmin.constant.Constant;
 
 /***
  * 
@@ -46,7 +47,7 @@ public class ExamineInfoVO extends ExamineInfoDTO  {
 			
 			dto.setCreateDate(new Date());
 		}
-		dto.setDomainId(1200);
+		dto.setDomainId(Constant.DOMAIN_JIUXIU);
 		dto.setSellerId(userId);
 		dto.setType(ExamineType.TALENT.getType());
 		dto.setAccountBankProvinceCode(vo.getProvince());
