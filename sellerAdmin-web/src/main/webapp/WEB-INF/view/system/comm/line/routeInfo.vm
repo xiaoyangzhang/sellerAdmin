@@ -96,7 +96,7 @@
     				var image_form = $("<form action='$!{utilWebconfig.getActionDefaultFontPath()}/upload/file' method='post' class='imgform' enctype='multipart/form-data'/>");
     				var dimg = $("<div class='dimg'/>")
     					.append("<img src='data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==' img-root='$!utilWebconfig.getTfsRootPath()'/>")
-						.append("<input type='hidden' class='picCode day_"+dayId+"_trip_image'/>");
+						.append("<input type='hidden' class='picCode day-"+dayId+"-trip-image trip-image'/>");
     				var upimgbtn = $("<div class='upimgbtn'/>")
     					.append("<input type='file' name='picfile' class='picfile'>")
     					.append("<button class='upl'>上传图片</button>")
@@ -118,13 +118,13 @@
 			<div class="panel trip-title">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程标题</span></div>
 				<div class="panel-body trip-title-content">
-					<input type="text" class="form-control trip-title-text" id="day_${velocityCount}_trip_title" route-item-id="$!{tripDay.descriptionRouteItemId}" value="$!{tripDay.title}"/>
+					<input type="text" class="form-control trip-title-text" id="day_${velocityCount}_trip_title" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.title}"/>
 				</div>
 			</div>
 			<div class="panel trip-description">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程描述</span></div>
 				<div class="panel-body trip-description-content">
-					<textarea class="form-control trip-description-textarea" rows="3" id="day_${velocityCount}_trip_description" route-item-id="$!{tripDay.descriptionRouteItemId}">$!{tripDay.description}</textarea>
+					<textarea class="form-control trip-description-textarea" rows="3" id="day_${velocityCount}_trip_description" route-item-id="$!{tripDay.routeItemId}">$!{tripDay.description}</textarea>
 				</div>
 			</div>
 			<div class="panel trip-images">
@@ -135,10 +135,11 @@
 							<div class="dimg">
 								#if($tripDay.picUrls && $tripDay.picUrls.size() > 0)
 								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(0)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{baseInfo.picUrls.get(0)}">
 								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
 								#end
-								<input type="hidden" class="picCode">
 							</div>
 							<div class="upimgbtn">
 								<input type="file" name="picfile" class="picfile">
@@ -152,10 +153,11 @@
 							<div class="dimg">
 								#if($tripDay.picUrls && $tripDay.picUrls.size() > 1)
 								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(1)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{baseInfo.picUrls.get(1)}">
 								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
 								#end
-								<input type="hidden" class="picCode">
 							</div>
 							<div class="upimgbtn">
 								<input type="file" name="picfile" class="picfile">
@@ -169,10 +171,11 @@
 							<div class="dimg">
 								#if($tripDay.picUrls && $tripDay.picUrls.size() > 2)
 								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(2)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{baseInfo.picUrls.get(2)}">
 								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
 								#end
-								<input type="hidden" class="picCode">
 							</div>
 							<div class="upimgbtn">
 								<input type="file" name="picfile" class="picfile">
@@ -186,10 +189,11 @@
 							<div class="dimg">
 								#if($tripDay.picUrls && $tripDay.picUrls.size() > 3)
 								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(3)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{baseInfo.picUrls.get(3)}">
 								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
 								#end
-								<input type="hidden" class="picCode">
 							</div>
 							<div class="upimgbtn">
 								<input type="file" name="picfile" class="picfile">
@@ -203,10 +207,11 @@
 							<div class="dimg">
 								#if($tripDay.picUrls && $tripDay.picUrls.size() > 4)
 								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(4)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{baseInfo.picUrls.get(4)}">
 								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
 								#end
-								<input type="hidden" class="picCode">
 							</div>
 							<div class="upimgbtn">
 								<input type="file" name="picfile" class="picfile">
@@ -221,31 +226,36 @@
 		#end
     </div>
 	<script type="text/javascript">
+		$(".trip-image").change(function() {
+			// update
+			var route_item_id = $(this).attr("route-item-id")||0;
+			setRouteItem(route_item_id,updatedRouteItems);
+		});
 		$(".trip-description-textarea").change(function() {
 			// update
-			var route_item_id = $(this).attr("route-item-id");
-			setRouteItem(route_item_id,false,updatedRouteItems);
+			var route_item_id = $(this).attr("route-item-id")||0;
+			setRouteItem(route_item_id,updatedRouteItems);
+		});
+		$(".trip-title-text").change(function() {
+			// update
+			var route_item_id = $(this).attr("route-item-id")||0;
+			setRouteItem(route_item_id,updatedRouteItems);
 		});
 		var updatedRouteItems=[];
 		var deletedRouteItems=[];
 		// 设置更新
-		function setRouteItem(item_id,detail_id,arr) {
+		function setRouteItem(item_id,arr) {
 			// TODO 设置更新
 			if(item_id&&item_id>0) {
 				arr.push(item_id);
-			}
-			if(detail_id&&detail_id>0) {
-				arr.push(detail_id);
 			}
 			// alert(arr);
 		}
 		// 设置全更新
 		function setAllRouteItem(day,arr) {
-			
 			var description_content = $("#day_"+day+"_trip_description");
 			route_item_id = description_content.attr("route-item-id");
-			setRouteItem(route_item_id,null,arr);
-			
+			setRouteItem(route_item_id,arr);
 		}
 		function getUpdatedRouteItems() {
 			return updatedRouteItems;
@@ -260,11 +270,11 @@
 				var day_id = $(this).attr("day-id");
 				var day = {};
 				// 描述
-				day["routeItemId"] = $("#day_"+day_id+"_trip_description").attr("route-item-id");
+				day["routeItemId"] = $("#day_"+day_id+"_trip_description").attr("route-item-id") || 0;
 				day["title"] = $("#day_"+day_id+"_trip_title").val()||"";
 				day["description"] = $("#day_"+day_id+"_trip_description").val()||"";
 				var picUrls = [];
-				$(".day_"+day_id+"_trip_image").each(function() {
+				$(".day-"+day_id+"-trip-image").each(function() {
 					if($(this).val()) {
 						picUrls.push($(this).val());
 					}

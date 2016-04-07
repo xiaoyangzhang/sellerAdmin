@@ -1,7 +1,7 @@
 #set($layout="layout/blank.vm")
 <html>
     <head>
-        #parse("layout/meta.vm")
+        #parse("layout/layout-meta.vm")
 		<title>选择目的地</title>  
         <meta name="keywords" content=""></meta>
         <meta name="description" content=""></meta>

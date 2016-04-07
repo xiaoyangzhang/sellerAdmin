@@ -11,7 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.dto.ComentDTO;
+import com.yimayhd.commentcenter.client.dto.ComentEditDTO;
+import com.yimayhd.commentcenter.client.enums.PictureText;
 import com.yimayhd.commentcenter.client.enums.TagType;
+import com.yimayhd.commentcenter.client.result.PicTextResult;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.CategoryValueDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
@@ -27,9 +31,9 @@ import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.converter.LineConverter;
+import com.yimayhd.sellerAdmin.converter.PictureTextConverter;
 import com.yimayhd.sellerAdmin.converter.TagConverter;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
-import com.yimayhd.sellerAdmin.model.line.LineCategoryConfig;
 import com.yimayhd.sellerAdmin.model.line.LinePropertyConfig;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.TagDTO;
@@ -38,6 +42,7 @@ import com.yimayhd.sellerAdmin.repo.CategoryRepo;
 import com.yimayhd.sellerAdmin.repo.CityRepo;
 import com.yimayhd.sellerAdmin.repo.CommentRepo;
 import com.yimayhd.sellerAdmin.repo.LineRepo;
+import com.yimayhd.sellerAdmin.repo.PictureTextRepo;
 import com.yimayhd.sellerAdmin.service.item.LineService;
 import com.yimayhd.user.client.dto.CityDTO;
 
@@ -51,6 +56,8 @@ public class LineServiceImpl implements LineService {
 	private CategoryRepo categoryRepo;
 	@Autowired
 	private CityRepo cityRepo;
+	@Autowired
+	private PictureTextRepo pictureTextRepo;
 
 	@Override
 	public WebResult<LineVO> getByItemId(long itemId) {
@@ -71,7 +78,10 @@ public class LineServiceImpl implements LineService {
 			List<ComTagDO> departTags = commentRepo.getTagsByOutId(itemId, TagType.DEPARTPLACE);
 			// 目的地
 			List<ComTagDO> destTags = commentRepo.getTagsByOutId(itemId, TagType.DESTPLACE);
-			LineVO lineVO = LineConverter.toLineVO(lineResult, themes, toCityVO(departTags), toCityVO(destTags));
+			// 图文详情
+			PicTextResult picTextResult = pictureTextRepo.getPictureText(itemId, PictureText.ITEM);
+			LineVO lineVO = LineConverter.toLineVO(lineResult, picTextResult, themes, toCityVO(departTags),
+					toCityVO(destTags));
 			return WebResult.success(lineVO);
 		} catch (Exception e) {
 			log.error("Params: id=" + itemId);
@@ -92,18 +102,6 @@ public class LineServiceImpl implements LineService {
 		} catch (Exception e) {
 			log.error("Params: query=" + JSON.toJSONString(query));
 			log.error("LineService.pageQueryLine error", e);
-			return WebResult.failure(WebReturnCode.SYSTEM_ERROR);
-		}
-	}
-
-	@Override
-	public WebResult<LineCategoryConfig> getLineCategoryConfig() {
-		try {
-			LineCategoryConfig lineConfig = new LineCategoryConfig();
-			// TODO YEBIN 待开发
-			return WebResult.success(lineConfig);
-		} catch (Exception e) {
-			log.error("LineService.getLineCategoryConfig error", e);
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR);
 		}
 	}
@@ -228,6 +226,8 @@ public class LineServiceImpl implements LineService {
 					destIds.add(tagDTO.getId());
 				}
 				commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
+				ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(line.getPictureText());
+				pictureTextRepo.updatePictureText(comentEditDTO);
 			} else {
 				return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, "更新线路失败 ");
 			}
@@ -268,6 +268,8 @@ public class LineServiceImpl implements LineService {
 					destIds.add(tagDTO.getId());
 				}
 				commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
+				ComentDTO comentDTO = PictureTextConverter.toComentDTO(itemId, PictureText.ITEM, line.getPictureText());
+				pictureTextRepo.savePictureText(comentDTO);
 			} else {
 				return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "保存线路失败 ");
 			}

@@ -2,17 +2,28 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
+<!-- 九牛商户后台静态资源路径 -->
 #set( $rs_path_jiuxiu = $utilWebconfig.getResourcePathJiuXiu() )
+<!-- 九牛商户后台旧样式的资源路径 -->
 #set( $rs_path_admin = $utilWebconfig.getResourcePathAdmin() )
+<!-- 系统根路径 -->
 #set( $root_path = $utilWebconfig.getRootPath() )
+<!-- 是否是测试模式 -->
 #set( $test = $utilWebconfig.isTestMode())
 #if( $test )
+	<!-- 测试模式下旧样式的src路径 -->
 	#set( $rs_js_css_path_admin = $!rs_path_admin+"/src" )
+	<!-- 测试模式下的src路径 -->
 	#set( $rs_js_css_path_jiuxiu = $!rs_path_jiuxiu+"/src" )
 #else
+	<!-- 正式模式下旧样式的src路径 -->
 	#set( $rs_js_css_path_admin = $!rs_path_admin+"/dest" )
+	<!-- 正式模式下的src路径 -->
 	#set( $rs_js_css_path_jiuxiu = $!rs_path_jiuxiu+"/dist" )
 #end
+
+<!-- tfs路径 -->
 #set( $tfs = $utilWebconfig.getTfsRootPath())
 
 

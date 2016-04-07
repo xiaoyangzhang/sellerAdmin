@@ -1,22 +1,11 @@
-#set ($layout="/layout/layout2.vm")
+#set($layout = "/layout/layout-apply.vm")
 
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/filldata.css">
-
-
-<title>用户协议</title>
-
-	<div class="header">
-		<div class="comwidth content clearfix">
-			<a class="fl block"><img src="http://s0.test.jiuxiulvxing.com/busines/img/logo.jpg"></a>
-			<div class="fr user-block">
-				<a class="user-block-link mr15 not-a">
-					<span class="circle mr10"><img src="http://s0.test.jiuxiulvxing.com/busines/img/default_1.png"><i></i></span>
-					<span>Hi：</span><span>13655545879</span>
-				</a>
-				<a class="ext">退出</a>
-			</div>
-		</div>
-	</div>
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>商户入驻-用户协议</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/filldata.css">
+</head>
+	
 	<div class="comwidth agreement-box mt30">
 		<div class="tit gray6 f16">商家开通申请</div>
 		<div class="titbox">
@@ -51,6 +40,9 @@
 			<p>1.2您点击同意本协议的，即视为您确认自己具有享受本站服务、下单购物等相应的权利能力和行为能力，能够独立承担法律责任。</p>
 			<p>1.3您确认，如果您在18周岁以下，您只能在父母或其他监护人的监护参与下才能使用本站。</p>
 		</div>
-		<a class="agreebtn" href="$!utilWebconfig.getActionDefaultFontPath()/merchant/toDetailPage">同意一下协议并进入下一步</a>
+		<a class="agreebtn" href="$!root_path/merchant/toDetailPage">同意一下协议并进入下一步</a>
 	</div>
+	
+	#parse("layout/layout-js.vm")
+	<script>seajs.use("test");</script>
 

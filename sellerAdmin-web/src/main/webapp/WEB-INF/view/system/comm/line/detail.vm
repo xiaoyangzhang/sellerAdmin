@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-		#parse("layout/meta.vm")
+		#parse("layout/layout-meta.vm")
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=9" />
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
         <meta property="wb:webmaster" content="3aababe5ed22e23c" />     
         <title>添加跟团游</title>
-        <link href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.css">
         <link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/css/groupTravel.css?version=$!{utilWebconfig.getResourceVersion()}"/>
 		<link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/css/zui.min.css"/>
 		
@@ -114,6 +114,7 @@ $(".save").click(function(){
 	var params = {
 		json:JSON.stringify(result)
 	};
+	return ;
     var url = "$!{utilWebconfig.getActionDefaultFontPath()}/line/save";
     $.post(url,params,function(data){
 		if(data.success) {

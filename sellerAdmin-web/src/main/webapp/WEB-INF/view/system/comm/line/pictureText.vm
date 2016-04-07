@@ -21,6 +21,9 @@
 	function getPictureText() {
 		var content = $("#contentText").val();
 		return {
+			#if($product.pictureText)
+			picTextId:$!{product.pictureText.picTextId},
+			#end
 			pictureTextItems:JSON.parse(content || "[]")
 		};
 	}

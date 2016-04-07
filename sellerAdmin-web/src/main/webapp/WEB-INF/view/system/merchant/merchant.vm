@@ -1,22 +1,16 @@
-#set ($layout="/layout/layout2.vm")
+#set($layout = "/layout/layout-apply.vm")
 
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/jquery-ui-1.10.4.custom.css">
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/busines/src/css/merchant.css">
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>申请入驻</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/merchant.css">
+</head>
+
+<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/jquery-ui-1.10.4.custom.css">
+<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/merchant.css">
 
 <input type="hidden" id="merchantSubmit"  value="$!utilWebconfig.getActionDefaultFontPath()/merchant/saveBasic">
 
-	<div class="header">
-		<div class="comwidth content clearfix">
-			<a class="fl block"><img src="http://s0.test.jiuxiulvxing.com/busines/img/logo.jpg" >
-			<div class="fr user-block">
-				<a class="user-block-link mr15 not-a">
-					<span class="circle mr10"><img src="http://s0.test.jiuxiulvxing.com/busines/img/default_1.png" ><i></i></span>
-					<span>Hi：</span><span>13655545879</span>
-				</a>
-				<a class="ext">退出</a>
-			</div>
-		</div>
-	</div>
 	<!-- 面包屑 -->
 	<div class = "comwidth crumbs f12">您所在的位置：店铺管理><a class = "f12 gray6">基本信息</a></div>
 	<div class = "comwidth clearfix" id = "eredar">
@@ -116,7 +110,5 @@
 		</div>
 	</div>
 	
-	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/sea.js"></script>
-	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/seajs-preload.js"></script>
-	<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/busines/src/js/config.js"></script>	
+	#parse("layout/layout-js.vm")
 	<script>seajs.use("merchant");</script>	

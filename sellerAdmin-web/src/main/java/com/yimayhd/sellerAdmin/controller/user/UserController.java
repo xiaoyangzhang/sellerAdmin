@@ -142,7 +142,8 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 //	@RequestMapping(value = "/login", headers = "Request-Channel=https")
-	public ModelAndView toLogin() {
+	public ModelAndView toLogin(Model model, String callback) {
+		model.addAttribute("callback", callback);
 		ModelAndView modelAndView = new ModelAndView("/system/user/login");
 		return modelAndView;
 	}
@@ -150,7 +151,7 @@ public class UserController extends BaseController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
-	public WebResult<String> login(LoginVo loginVo, HttpServletResponse response) {
+	public WebResult<String> login(LoginVo loginVo, String callback, HttpServletResponse response) {
 		WebResult<String> result = new WebResult<String>();
 		WebResultSupport checkResult = UserChecker.checkLogin(loginVo);
 		if( !checkResult.isSuccess() ){
@@ -171,7 +172,8 @@ public class UserController extends BaseController {
 		SessionHelper.setCookies(response, token);
 		
 		String targetUrl = null ;
-		String returnUrl = get("callback");
+//		String returnUrl = get("callback");
+		String returnUrl = callback;
 		if( StringUtils.isNotBlank(returnUrl) ){
 			targetUrl = returnUrl ;
 		}else{
@@ -225,20 +227,34 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
 	@ResponseBody
-	public WebResultSupport modifyPassword(HttpServletRequest request, ModifyPasswordVo modifyPasswordVo) {
-		WebResult<String> rs = new WebResult<String>();
+	public WebResult<String> modifyPassword(HttpServletRequest request, ModifyPasswordVo modifyPasswordVo) {
+		WebResult<String> result = new WebResult<String>();
 		WebResultSupport checkResult = UserChecker.checkModifyPasswordPassword(modifyPasswordVo);
 		if ( !checkResult.isSuccess() ) {
-			rs.setWebReturnCode(checkResult.getWebReturnCode());
-			return rs ;
+			result.setWebReturnCode(checkResult.getWebReturnCode());
+			return result ;
 		}
 		long userId = sessionManager.getUserId(request);
 		ChangePasswordDTO changePasswordDTO = UserConverter.toModifyPasswordDTO(modifyPasswordVo, userId);
 		
-		WebResultSupport result = userBiz.modifyPassword(changePasswordDTO);
+		WebResultSupport modifyResult = userBiz.modifyPassword(changePasswordDTO);
+		if( modifyResult == null || !modifyResult.isSuccess() ){
+			if( modifyResult == null ){
+				result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+			}else{
+				result.setWebReturnCode(modifyResult.getWebReturnCode());
+			}
+			return result ;
+		}
+		String url = UrlHelper.getUrl(rootPath, "/user/modifyPasswordSuccess");
+		result.setValue(url);
 		return result;
 	}
-	
+	@RequestMapping(value = "/modifyPasswordSuccess", method = RequestMethod.GET) 
+	@SessionChecker
+	public ModelAndView modifyPasswordSuccess(HttpServletRequest request, HttpServletResponse response) {
+		return new ModelAndView("/system/user/modifyPasswordSuccess");
+	}
 	
 
 	@RequestMapping(value="/retrievePassword", method = RequestMethod.GET)

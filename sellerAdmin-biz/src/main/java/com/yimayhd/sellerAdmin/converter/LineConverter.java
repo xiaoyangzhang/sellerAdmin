@@ -15,6 +15,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
+import com.yimayhd.commentcenter.client.result.PicTextResult;
 import com.yimayhd.fhtd.utils.PictureUtil;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.RouteDO;
@@ -50,6 +51,7 @@ import com.yimayhd.sellerAdmin.model.line.TagDTO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowItemVo;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
+import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextVO;
 import com.yimayhd.sellerAdmin.model.line.price.PackageBlock;
 import com.yimayhd.sellerAdmin.model.line.price.PackageDay;
 import com.yimayhd.sellerAdmin.model.line.price.PackageInfo;
@@ -321,8 +323,8 @@ public class LineConverter {
 		return needKnow;
 	}
 
-	public static LineVO toLineVO(LineResult lineResult, List<TagDTO> themes, List<CityVO> departs,
-			List<CityVO> dests) {
+	public static LineVO toLineVO(LineResult lineResult, PicTextResult picTextResult, List<TagDTO> themes,
+			List<CityVO> departs, List<CityVO> dests) {
 		if (lineResult == null) {
 			return null;
 		}
@@ -347,6 +349,9 @@ public class LineConverter {
 		result.setPriceInfo(toPriceInfoVO(lineResult.getItemSkuDOList(), item));
 		// 购买须知
 		result.setNeedKnow(toNeedKnowVO(line.getNeedKnow()));
+		// 图文详情
+		PictureTextVO pictureTextVO = PictureTextConverter.toPictureTextVO(picTextResult);
+		result.setPictureText(pictureTextVO);
 		return result;
 	}
 
@@ -358,7 +363,7 @@ public class LineConverter {
 		routeInfo.setRouteId(routeDO.getId());
 		List<RouteDayVO> tripDays = new ArrayList<RouteDayVO>();
 		Set<Integer> days = new HashSet<Integer>();
-		Map<Integer, RouteItemDetail> detailMap = new HashMap<Integer, RouteItemDetail>();
+		Map<Integer, RouteItemDO> detailMap = new HashMap<Integer, RouteItemDO>();
 		if (CollectionUtils.isNotEmpty(routeItems)) {
 			for (RouteItemDO routeItem : routeItems) {
 				days.add(routeItem.getDay());
@@ -366,7 +371,7 @@ public class LineConverter {
 					RouteItemDetail detail = routeItem.getRouteItemDetail();
 					if (detail != null) {
 						if (RouteItemType.DETAIL.name().equals(detail.getType())) {
-							detailMap.put(routeItem.getDay(), detail);
+							detailMap.put(routeItem.getDay(), routeItem);
 						}
 					}
 				}
@@ -380,7 +385,8 @@ public class LineConverter {
 			}
 		});
 		for (Integer day : dayList) {
-			tripDays.add(new RouteDayVO(detailMap.get(day)));
+			RouteItemDO routeItemDO = detailMap.get(day);
+			tripDays.add(new RouteDayVO(routeItemDO.getId(), routeItemDO.getRouteItemDetail()));
 		}
 		routeInfo.setRouteDays(tripDays);
 		return routeInfo;

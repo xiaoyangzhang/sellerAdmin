@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.controller;
+package com.yimayhd.sellerAdmin.controller.talent;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
