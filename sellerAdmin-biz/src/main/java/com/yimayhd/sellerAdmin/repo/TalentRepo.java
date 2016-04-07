@@ -180,7 +180,7 @@ public class TalentRepo {
 		RepoUtils.requestLog(log, " examineDealService.queryExamineDealResult", examineQueryDTO);
 		MemResult<ExamineResultDTO> examineDealResult = examineDealService.queryExamineDealResult(examineQueryDTO);
 		RepoUtils.requestLog(log, " examineDealService.queryExamineDealResult", examineDealResult.getValue());
-		if (examineDealResult.getValue() == null || ( examineDealResult.getValue().getStatus().getStatus() == ExamineStatus.EXAMIN_OK.getStatus())) {
+		if (examineDealResult.getValue() == null || ( examineDealResult.getValue().getStatus().getStatus() == Constant.MERCHANT_TYPE_ACCESS)) {
 			return null;
 		}
 		return examineDealResult.getValue().getDealMes();
