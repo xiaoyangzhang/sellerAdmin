@@ -127,26 +127,32 @@ public class MerchantController extends BaseController{
 	 */
 	@RequestMapping(value = "toAddBasicPage")
 	public String toBusinessPage(Model model){
-		UserDO user = sessionManager.getUser();
-		model.addAttribute("nickName", user.getNickname());
-		
-		BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(user.getId(), Constant.DOMAIN_JIUXIU);
-		if(meResult.isSuccess() && null != meResult.getValue()){
-			model.addAttribute("id", meResult.getValue().getId());
-			model.addAttribute("name",meResult.getValue().getName());
-			model.addAttribute("address",meResult.getValue().getAddress());
-			model.addAttribute("imgSrc",Constant.TFS_URL);
-			if(null != meResult.getValue().getLoopImages()){
-				model.addAttribute("djImage", meResult.getValue().getLoopImages().get(0).toString());
-			}
-			if(null != meResult.getValue().getLogo()){
-				model.addAttribute("txImage", meResult.getValue().getLogo());
-			}
-			model.addAttribute("merchantPrincipalTel", meResult.getValue().getMerchantPrincipalTel());
-			model.addAttribute("serviceTel", meResult.getValue().getServiceTel());
+		try {
+			UserDO user = sessionManager.getUser();
+			model.addAttribute("nickName", user.getNickname());
 			
+			BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(user.getId(), Constant.DOMAIN_JIUXIU);
+			if(meResult.isSuccess() && null != meResult.getValue()){
+				model.addAttribute("id", meResult.getValue().getId());
+				model.addAttribute("name",meResult.getValue().getName());
+				model.addAttribute("address",meResult.getValue().getAddress());
+				model.addAttribute("imgSrc",Constant.TFS_URL);
+				if(null != meResult.getValue().getLoopImages()){
+					model.addAttribute("djImage", meResult.getValue().getLoopImages().get(0).toString());
+				}
+				if(null != meResult.getValue().getLogo()){
+					model.addAttribute("txImage", meResult.getValue().getLogo());
+				}
+				model.addAttribute("merchantPrincipalTel", meResult.getValue().getMerchantPrincipalTel());
+				model.addAttribute("serviceTel", meResult.getValue().getServiceTel());
+				
+			}
+			return "/system/merchant/merchant";
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return "/error";
 		}
-		return "/system/merchant/merchant";
+		
 	}
 	
 	/**
@@ -270,7 +276,7 @@ public class MerchantController extends BaseController{
 	 */
 	@RequestMapping(value="saveUserdataB")
 	@ResponseBody
-	public WebResultSupport saveUserdataB(UserDetailInfo userDetailInfo){
+	public WebResult<String> saveUserdataB(UserDetailInfo userDetailInfo){
 		WebResult<String> rest = new WebResult<String>();
 		userDetailInfo.setPageNum(ExaminePageNo.PAGE_TWO.getPageNO());
 		WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
