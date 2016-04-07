@@ -33,7 +33,7 @@
 		<div>
 		<select class="chse" multiple="true"></select>
 		</div>
-		<a id="a_link" class="a_link">确定</a>
+		<a id="$!utilWebconfig.getActionDefaultFontPath()/item/category/{categoryId}/create" class="a_link">确定</a>
 	</body>
 </html>
 <script>

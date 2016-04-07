@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.result.item.CategoryQryResult;
 import com.yimayhd.ic.client.model.result.item.CategoryResult;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 import com.yimayhd.sellerAdmin.repo.CategoryRepo;
 import com.yimayhd.sellerAdmin.service.CategoryService;
@@ -74,5 +75,27 @@ public class CategoryServiceImpl implements CategoryService {
 		} else {
 			return null;
 		}
+	}
+	
+	@Override
+	public WebResult<CategoryDO> getCategoryByDomainId(int domainId) {
+		WebResult<CategoryDO> ret = new WebResult<CategoryDO>();
+		CategoryDO categoryDO = categoryRepo.getCategoryByDomainId(domainId);
+		if( null == categoryDO ){
+			return ret;
+		}
+		ret.setValue(categoryDO);
+		return ret;
+	}
+
+	@Override
+	public WebResult<CategoryDO> getCategoryById(int parentId) {
+		WebResult<CategoryDO> ret = new WebResult<CategoryDO>();
+		CategoryDO categoryDO = categoryRepo.getCategoryById(parentId);
+		if( null == categoryDO ){
+			return ret;
+		}
+		ret.setValue(categoryDO);
+		return ret;
 	}
 }

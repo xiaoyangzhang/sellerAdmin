@@ -128,4 +128,8 @@ public class BaseController {
 	protected void put(final String key, final Object value) {
 		getRequest().setAttribute(key, value);
 	}
+
+	protected String redirect(String path) {
+		return "redirect:" + path;
+	}
 }

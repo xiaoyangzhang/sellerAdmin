@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.service;
 import java.util.List;
 
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 
 /**
@@ -46,5 +47,21 @@ public interface CategoryService {
 	 * @throws Exception
 	 */
 	CategoryDO getCategoryDOById(long id) throws Exception;
+	
+	/**
+	 * 
+	 * @parameter
+	 * @return
+	 * @throws
+	 */
+	WebResult<CategoryDO> getCategoryByDomainId(int domainId);
+	
+	/**
+	 * 
+	 * @parameter
+	 * @return
+	 * @throws
+	 */
+	WebResult<CategoryDO> getCategoryById(int parentId);
 
 }

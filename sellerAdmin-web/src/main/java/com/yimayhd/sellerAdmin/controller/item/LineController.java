@@ -67,7 +67,7 @@ public class LineController extends BaseLineController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/create/{categoryId}/", method = RequestMethod.GET)
+	@RequestMapping(value = "/category/{categoryId}/create/", method = RequestMethod.GET)
 	public String create(@PathVariable(value = "categoryId") long categoryId) throws Exception {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);

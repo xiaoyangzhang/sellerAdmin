@@ -98,10 +98,10 @@ public class MerchantController extends BaseController{
 					}
 					
 					if(ExamineType.MERCHANT.getType()==result.getValue().getType()){
-						model.addAttribute("type", "商家");
+						model.addAttribute("type", Constant.MERCHANT_NAME_CN);
 						model.addAttribute("url", "/merchant/toDetailPage");
 					}else if(ExamineType.TALENT.getType()==result.getValue().getType()){
-						model.addAttribute("type", "达人");
+						model.addAttribute("type", Constant.TALENT_NAME_CN);
 						model.addAttribute("url", "/talent/toEditUserdatafill_pageOne");
 					}
 					return "/system/merchant/nothrough";

@@ -7,6 +7,8 @@
 #set( $rs_path_jiuxiu = $utilWebconfig.getResourcePathJiuXiu() )
 <!-- 九牛商户后台旧样式的资源路径 -->
 #set( $rs_path_admin = $utilWebconfig.getResourcePathAdmin() )
+<!-- 九牛官网域名-->
+#set( $rs_official_site = $utilWebconfig.getJiuXiuOfficialSite() )
 <!-- 系统根路径 -->
 #set( $root_path = $utilWebconfig.getRootPath() )
 <!-- 是否是测试模式 -->
