@@ -116,10 +116,12 @@ $(".save").click(function(){
 			layer.alert('添加成功', {
                 time: 0 //不自动关闭
                 ,yes: function(index){
-                    layer.close(index);
-					// 刷新父页面
-					top.freshPrevFrame();
-					top.tabTopClose(this);
+                    
+                    //layer.close(index);
+					//// 刷新父页面
+					//top.freshPrevFrame();
+					//top.tabTopClose(this);
+					window.location.href = "$!{utilWebconfig.getActionDefaultFontPath()}/item/list"; 
                 }
             });
 		} else {
