@@ -50,12 +50,12 @@ public class PictureTextConverter {
 		return pictureTextVO;
 	}
 
-	public static ComentEditDTO toComentEditDTO(PictureTextVO pictureTextVO) {
+	public static ComentEditDTO toComentEditDTO(long outId, PictureTextVO pictureTextVO) {
 		if (pictureTextVO == null) {
 			return null;
 		}
 		ComentEditDTO comentEditDTO = new ComentEditDTO();
-		comentEditDTO.setOutId(pictureTextVO.getOutId());
+		comentEditDTO.setOutId(outId);
 		List<PicTextDO> picTextDOList = new ArrayList<PicTextDO>();
 		List<PictureTextItemVo> pictureTextItems = pictureTextVO.getPictureTextItems();
 		if (CollectionUtils.isNotEmpty(pictureTextItems)) {
