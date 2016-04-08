@@ -24,6 +24,7 @@ import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
 import com.yimayhd.sellerAdmin.util.RepoUtils;
+import com.yimayhd.tradecenter.client.model.enums.ExamineeStatus;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /***
@@ -180,7 +181,7 @@ public class TalentRepo {
 		RepoUtils.requestLog(log, " examineDealService.queryExamineDealResult", examineQueryDTO);
 		MemResult<ExamineResultDTO> examineDealResult = examineDealService.queryExamineDealResult(examineQueryDTO);
 		RepoUtils.requestLog(log, " examineDealService.queryExamineDealResult", examineDealResult.getValue());
-		if (examineDealResult.getValue() == null || ( examineDealResult.getValue().getStatus().getStatus() == Constant.MERCHANT_TYPE_ACCESS)) {
+		if (examineDealResult.getValue() == null || ( examineDealResult.getValue().getStatus().getStatus() == ExamineStatus.EXAMIN_OK.getStatus())) {
 			return null;
 		}
 		return examineDealResult.getValue().getDealMes();
