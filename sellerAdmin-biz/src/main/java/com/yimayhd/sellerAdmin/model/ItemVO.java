@@ -335,6 +335,26 @@ public class ItemVO extends ItemDO {
         return itemSkuVOList;
     }
 
+    /**
+     * sku jsonStr转list对象
+     * @return
+     */
+    public List<ItemSkuDO> getItemSkuDOList(){
+        if(CollectionUtils.isEmpty(itemSkuVOList)){
+            itemSkuVOList = getItemSkuVOListByStr();
+            if(CollectionUtils.isEmpty(itemSkuVOList)) {
+                return null;
+            }
+        }
+        List<ItemSkuVO> itemSkuVOList = JSON.parseArray(this.itemSkuVOStr,ItemSkuVO.class);
+        List<ItemSkuDO> itemSkuDOList = new ArrayList<>();
+        for(ItemSkuVO itemSkuVO : itemSkuVOList) {
+            ItemSkuDO itemSkuDO = ItemSkuVO.getItemSkuDO(this, itemSkuVO);
+            itemSkuDOList.add(itemSkuDO);
+        }
+        return itemSkuDOList;
+    }
+
     public String getItemSkuVOStr() {
         return itemSkuVOStr;
     }

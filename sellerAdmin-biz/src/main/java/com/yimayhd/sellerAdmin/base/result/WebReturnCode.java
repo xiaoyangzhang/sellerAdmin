@@ -64,4 +64,6 @@ public class WebReturnCode implements Serializable {
 	public static final WebReturnCode TALENT_CHECKRESULT_FAILURE = new WebReturnCode(24002007, "达人入驻审核结果获取失败");
 	//public final static WebReturnCode PASSWORD_ERROR = new WebReturnCode(24001015, "手机号码错误");
 	/***************************************** 商品相关 ********************************************************/
+
+	public final static WebReturnCode UPDATE_ERROR = new WebReturnCode(24003001, "更新失败");
 }
