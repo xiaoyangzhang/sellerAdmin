@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/zui.min.css">
+		<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/common.css" />
+		<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/base.css">
+		<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/addtravel.css" />
+		<title>价格设置</title>
+	</head>
+
+	<body>
+		<div class="example whole">
+			<form name="" id="" action="" method="post">
+				<div class="">
+					<table class="table tab-setlist">
+						<!--<input type="hidden" name="categoryId" value="4">
+						<input type="hidden" name="rootCategoryId" value="3">
+						<input type="hidden" name="itemType" value="1">
+						<input type="hidden" name="payType" value="1">
+						<input type="hidden" name="source" value="1">
+						<input type="hidden" name="version" value="1">
+						<input type="hidden" name="options" value=" 1 ">-->
+						<tbody>
+
+								#foreach($sellCategoryProperty in $category.sellCategoryPropertyVOs)
+                                <tr class="sellProperty" sellPropertyType="$!sellCategoryProperty.categoryPropertyVO.type"  sellPropertyId="$!sellCategoryProperty.categoryPropertyVO.id" sellPropertyText="$!sellCategoryProperty.categoryPropertyVO.text">
+                                    <td><span class="spColor">*</span>$!sellCategoryProperty.categoryPropertyVO.text</td>
+                                    <td>
+										#foreach($categoryValue in $sellCategoryProperty.categoryPropertyVO.categoryValueVOs)
+										#*sku可选值*#
+                                            <span><input type="checkbox" class="skuCheckbox" sellValueId="$!{categoryValue.id}" sellValueText="$!categoryValue.text" name="" value="$!{categoryValue.id}" #if($!categoryValue.checked) checked #end>$!categoryValue.text</span>
+										#end
+                                    </td>
+                                </tr>
+								#end
+                        <tr>
+                            <td><span class="red">*</span>请添加活动时间：</td>
+                            <td>
+                                <input type="text" class="addItemText form-control w500" value="" maxlength="20"/>
+                                <a href="javascript:void(0);" class="btn btn-add">添加</a>
+                            </td>
+                        </tr>
+							<tr class="sellProperty" sellPropertyType="1" sellPropertyId="8" sellPropertyText="活动时间">
+								<td>活动时间：</td>
+								<td class="checkbox-con">
+									<!--<span><input type="checkbox" class="skuCheckbox" sellValueId="-1" sellValueText="星期一" name="" value="-1"  checked >星期一</span>
+									<span><input type="checkbox" class="skuCheckbox" sellValueId="-2" sellValueText="星期二" name="" value="-2" >星期二</span>-->
+								</td>
+							</tr>
+							<tr>
+								<td><span class="red">*</span>请添加活动内容：</td>
+								<td>
+									<input type="text" class="addItemText form-control w500" value="" maxlength="20"/>
+									<a href="javascript:void(0);" class="btn btn-add">添加</a>
+								</td>
+							</tr>
+							<tr class="sellProperty" sellPropertyType="1" sellPropertyId="6" sellPropertyText="活动内容">
+								<td>活动内容：</td>
+								<td class="checkbox-con">
+									<!--<span><input type="checkbox" class="skuCheckbox" sellValueId="-1" sellValueText="徒步、烧烤" name="" value="-1"  checked >徒步、烧烤</span>
+									<span><input type="checkbox" class="skuCheckbox" sellValueId="-2" sellValueText="露营（不含餐）" name="" value="-2"  checked >露营（不含餐）</span>-->
+								</td>
+							</tr>
+							<!--<tr>
+								<td><span class="red">*</span>请添加人员信息：</td>
+								<td>
+									<input type="text" class="addItemText form-control w500" value="" maxlength="20"/>
+									<a href="javascript:void(0);" class="btn btn-add">添加</a>
+								</td>
+							</tr>
+							<tr class="sellProperty" sellPropertyType="1" sellPropertyId="2" sellPropertyText="人员信息">
+								<td>人员信息：</td>
+								<td class="checkbox-con">
+									<span><input type="checkbox" class="skuCheckbox" sellValueId="-1" sellValueText="成人" name="" value="-1"  checked >成人</span>
+									<span><input type="checkbox" class="skuCheckbox" sellValueId="-2" sellValueText="儿童（0-2岁）" name="" value="-2"  checked >儿童（0-2岁）</span>
+									<span><input type="checkbox" class="skuCheckbox" sellValueId="-3" sellValueText="儿童（2-12岁）" name="" value="-3" >儿童（2-12岁）</span>
+								</td>
+							</tr>-->
+						</tbody>
+					</table>
+				</div>
+				<div class="skuTable">
+				</div>
+				<div class="">
+					<table class="table table-hover">
+						<tbody>
+							<tr class="subCheckedTR">
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="clubBotBtn">
+					<div class="btn-group">
+<!--						<input type="hidden" name="itemProperties" id="itemProperties" value="">-->
+						<input type="hidden" name="itemSkuVOStr" id="itemSkuVOStr" value="" >
+						<button class="btn btn-success btnSubmit" type="button">保存</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn closBtn">取消</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<script src="http://s0.test.jiuxiulvxing.com/admin/src/js/jquery.js"></script>
+		<script src="http://s0.test.jiuxiulvxing.com/admin/src/js/zui.min.js"></script>
+		<script src="http://s0.test.jiuxiulvxing.com/admin/src/layer/layer.js"></script>
+		<script src="http://s0.test.jiuxiulvxing.com/admin/src/js/setsku.js"></script>
+		<script>
+			//生成sku最终数组(初始化是check偶是false)
+			var skuPropertyAll=[];
+
+//			skuPropertyAll = [{"categoryId":0,"checked":true,"id":108259,"itemId":0,"itemPrice":0,"idGroup":"_-1_-1_-1","itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-1,"vTxt":"星期一"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-1,"vTxt":"徒步、烧烤"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-1,"vTxt":"成人"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":111,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":5,\"vTxt\":\"星期一\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":10,\"vTxt\":\"徒步、烧烤\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":1,\"vTxt\":\"成人\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":1,"version":1},{"categoryId":0,"checked":true,"id":108273,"itemId":0,"itemPrice":0,"idGroup":"_-1_-1_-2","itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-1,"vTxt":"星期一"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-1,"vTxt":"徒步、烧烤"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-2,"vTxt":"儿童（0-2岁）"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":2,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":5,\"vTxt\":\"星期一\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":10,\"vTxt\":\"徒步、烧烤\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":2,\"vTxt\":\"儿童（0-2岁）\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":2,"version":1},{"categoryId":0,"checked":false,"id":0,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-1,"vTxt":"星期一"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-1,"vTxt":"徒步、烧烤"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-3,"vTxt":"儿童（2-12岁）"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":0,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":5,\"vTxt\":\"星期一\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":10,\"vTxt\":\"徒步、烧烤\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":3,\"vTxt\":\"儿童（2-12岁）\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":0,"version":0},{"categoryId":0,"checked":true,"id":108274,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-1,"vTxt":"星期一"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-2,"vTxt":"露营（不含餐）"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-1,"vTxt":"成人"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":3,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":5,\"vTxt\":\"星期一\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":11,\"vTxt\":\"露营（不含餐）\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":1,\"vTxt\":\"成人\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":3,"version":1},{"categoryId":0,"checked":true,"id":108275,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-1,"vTxt":"星期一"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-2,"vTxt":"露营（不含餐）"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-2,"vTxt":"儿童（0-2岁）"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":4,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":5,\"vTxt\":\"星期一\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":11,\"vTxt\":\"露营（不含餐）\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":2,\"vTxt\":\"儿童（0-2岁）\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":4,"version":1},{"categoryId":0,"checked":false,"id":0,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-1,"vTxt":"星期一"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-2,"vTxt":"露营（不含餐）"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-3,"vTxt":"儿童（2-12岁）"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":0,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":5,\"vTxt\":\"星期一\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":11,\"vTxt\":\"露营（不含餐）\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":3,\"vTxt\":\"儿童（2-12岁）\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":0,"version":0},{"categoryId":0,"checked":false,"id":0,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-2,"vTxt":"星期二"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-1,"vTxt":"徒步、烧烤"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-1,"vTxt":"成人"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":0,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":6,\"vTxt\":\"星期二\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":10,\"vTxt\":\"徒步、烧烤\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":1,\"vTxt\":\"成人\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":0,"version":0},{"categoryId":0,"checked":false,"id":0,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-2,"vTxt":"星期二"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-1,"vTxt":"徒步、烧烤"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-2,"vTxt":"儿童（0-2岁）"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":0,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":6,\"vTxt\":\"星期二\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":10,\"vTxt\":\"徒步、烧烤\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":2,\"vTxt\":\"儿童（0-2岁）\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":0,"version":0},{"categoryId":0,"checked":false,"id":0,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-2,"vTxt":"星期二"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-1,"vTxt":"徒步、烧烤"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-3,"vTxt":"儿童（2-12岁）"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":0,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":6,\"vTxt\":\"星期二\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":10,\"vTxt\":\"徒步、烧烤\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":3,\"vTxt\":\"儿童（2-12岁）\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":0,"version":0},{"categoryId":0,"checked":false,"id":0,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-2,"vTxt":"星期二"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-2,"vTxt":"露营（不含餐）"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-1,"vTxt":"成人"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":0,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":6,\"vTxt\":\"星期二\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":11,\"vTxt\":\"露营（不含餐）\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":1,\"vTxt\":\"成人\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":0,"version":0},{"categoryId":0,"checked":false,"id":0,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-2,"vTxt":"星期二"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-2,"vTxt":"露营（不含餐）"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-2,"vTxt":"儿童（0-2岁）"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":0,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":6,\"vTxt\":\"星期二\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":11,\"vTxt\":\"露营（不含餐）\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":2,\"vTxt\":\"儿童（0-2岁）\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":0,"version":0},{"categoryId":0,"checked":false,"id":0,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-2,"vTxt":"星期二"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-2,"vTxt":"露营（不含餐）"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-3,"vTxt":"儿童（2-12岁）"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":0,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":6,\"vTxt\":\"星期二\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":11,\"vTxt\":\"露营（不含餐）\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":3,\"vTxt\":\"儿童（2-12岁）\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":0,"version":0}];
+//			//sku属性数组
+			var skuProperty = new Array();
+			//显示的sku数组
+			var skuPropertyShowAll = new Array();
+			//sku表格显示标志
+			var skuTableShowFlag = false;
+//			console.log(skuPropertyAll.length); 
+		</script>
+		<script>
+			$(function () {
+				//提交验证	
+				$('.btnSubmit').click(function(e) {
+					e.preventDefault();
+					//非空验证
+					var msg = validate();
+					if (msg) {
+						layer.msg(msg, {
+							icon: 2,
+							time: 2000
+						});
+						return false;
+					}
+		
+					$('#itemSkuVOStr').val(JSON.stringify(skuPropertyAll));
+					
+					var url = '';
+					//$('#commodityForm').attr('action', url);
+					//$('#commodityForm').submit();
+				});				
+			})
+		</script>
+	</body>
+
+</html>
