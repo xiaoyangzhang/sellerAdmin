@@ -43,7 +43,7 @@ public class PictureTextRepo {
 		RepoUtils.resultLog(log, "comPictureTextServiceRef.getPictureText", pictureText);
 		return pictureText.getValue();
 	}
-
+	@Deprecated
 	public void savePictureText(ComentDTO comentDTO) {
 		if (comentDTO == null) {
 			log.warn("PictureTextRepo.savePictureText(comentDTO) warn: 参数异常");
@@ -56,6 +56,7 @@ public class PictureTextRepo {
 		RepoUtils.resultLog(log, "comPictureTextServiceRef.savePictureText", savePictureText);
 	}
 
+	@Deprecated
 	public void updatePictureText(ComentEditDTO comentEditDTO) {
 		if (comentEditDTO == null) {
 			log.warn("PictureTextRepo.updatePictureText(comentEditDTO) warn: 参数异常");
@@ -65,5 +66,16 @@ public class PictureTextRepo {
 		RepoUtils.requestLog(log, "comPictureTextServiceRef.updatePictureText", comentEditDTO);
 		BaseResult<ComentDO> updatePictureText = comPictureTextServiceRef.updatePictureText(comentEditDTO);
 		RepoUtils.resultLog(log, "comPictureTextServiceRef.updatePictureText", updatePictureText);
+	}
+	//TODO ComentEditDTO 中的itemType
+	public void editPictureText(ComentEditDTO comentEditDTO) {
+		if (comentEditDTO == null) {
+			log.warn("PictureTextRepo.editPictureText(comentEditDTO) warn: 参数异常");
+			log.warn("Param comentEditDTO=" + comentEditDTO);
+			throw new BaseException("参数异常");
+		}
+		RepoUtils.requestLog(log, "comPictureTextServiceRef.editPictureText", comentEditDTO);
+		BaseResult<ComentDO> editPictureText = comPictureTextServiceRef.editPictureText(comentEditDTO);
+		RepoUtils.resultLog(log, "comPictureTextServiceRef.updatePictureText", editPictureText);
 	}
 }

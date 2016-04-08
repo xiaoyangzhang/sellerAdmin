@@ -146,7 +146,7 @@ public class CommodityServiceImpl implements CommodityService {
         itemResultVO.setItemVO(ItemVO.getItemVO(itemResult.getItem(), itemResultVO.getCategoryVO()));
         //商品的排序字段
         itemResultVO.getItemVO().setSort(itemResult.getSortNum());
-        //详细描述从tfs读出来（富文本编辑）
+        //h5
         PicTextResult picTextResult = pictureTextRepo.getPictureText(itemResultVO.getItemVO().getId(), PictureText.ITEM);
         itemResultVO.getItemVO().setDetailUrlPictureTextVO(PictureTextConverter.toPictureTextVO(picTextResult));
         return itemResultVO;
@@ -324,10 +324,6 @@ public class CommodityServiceImpl implements CommodityService {
         CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
         ItemDO itemDO = ItemVO.getItemDO(itemVO);
         itemDO.setDomain(Constant.DOMAIN_JIUXIU);
-        //详细描述存tfs（富文本编辑）
-        if(StringUtils.isNotBlank(itemDO.getDetailUrl())){
-            itemDO.setDetailUrl(tfsService.publishHtml5(itemDO.getDetailUrl()));
-        }
         commonItemPublishDTO.setItemDO(itemDO);
         commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
 
@@ -341,7 +337,7 @@ public class CommodityServiceImpl implements CommodityService {
         }
 
         //TODO itemId 需要
-        ComentDTO comentDTO = PictureTextConverter.toComentDTO(1l, PictureText.ITEM, JSON.parseObject(itemDO.getDetailUrl(), PictureTextVO.class));
+        ComentDTO comentDTO = PictureTextConverter.toComentDTO(1l, PictureText.MUSTBUY, JSON.parseObject(itemDO.getDetailUrl(), PictureTextVO.class));
         pictureTextRepo.savePictureText(comentDTO);
     }
 
@@ -422,10 +418,14 @@ public class CommodityServiceImpl implements CommodityService {
                 log.error("ItemPublishService.publishCommonItem error:" + JSON.toJSONString(itemPubResult) + "and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
                 throw new BaseException(itemPubResult.getResultMsg());
             }
-            
-            PictureTextVO pictureTextVO = JSON.parseObject(itemVO.getDetailUrl(), PictureTextVO.class);
-            ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemDB.getId(),pictureTextVO);
-            pictureTextRepo.updatePictureText(comentEditDTO);
+            try {
+                PictureTextVO pictureTextVO = JSON.parseObject(itemVO.getDetailUrl(), PictureTextVO.class);
+                ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemVO.getId(),PictureText.MUSTBUY,pictureTextVO);
+                pictureTextRepo.editPictureText(comentEditDTO);
+            }catch (Exception e){
+                log.error("商品保存成功，H5保存失败",e);
+                throw new BaseException("商品修改成功，H5修改失败");
+            }
 
         }
     }

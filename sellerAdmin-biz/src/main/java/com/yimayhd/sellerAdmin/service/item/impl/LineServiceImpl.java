@@ -226,8 +226,9 @@ public class LineServiceImpl implements LineService {
 					destIds.add(tagDTO.getId());
 				}
 				commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
-				ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemId, line.getPictureText());
-				pictureTextRepo.updatePictureText(comentEditDTO);
+
+				ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemId,PictureText.ITEM,line.getPictureText());
+				pictureTextRepo.editPictureText(comentEditDTO);
 			} else {
 				return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, "更新线路失败 ");
 			}

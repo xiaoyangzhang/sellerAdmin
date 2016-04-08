@@ -86,7 +86,7 @@ public class BarterItemController extends BaseController {
     public String toAddCommon(Model model, long categoryId) throws Exception {
         CategoryDO categoryDO = categoryService.getCategoryVOById(categoryId);
         model.addAttribute("category", categoryDO);
-        return "";
+        return "/system/comm/common/edit";
     }
 
     /**
@@ -105,7 +105,7 @@ public class BarterItemController extends BaseController {
         long sellerId = sessionManager.getUserId();
         itemVO.setSellerId(sellerId);
         commodityService.addCommonItem(itemVO);
-        return "/success";
+        return "/system/comm/common/edit";
     }
 
     /**
@@ -125,6 +125,7 @@ public class BarterItemController extends BaseController {
         model.addAttribute("category", itemResult.getCategory());
         model.addAttribute("commodity", itemResult.getItem());
         model.addAttribute("itemSkuList", itemResult.getItemSkuDOList());
+        model.addAttribute("pictureText", itemResult.getItem().getDetailUrl());
         return "/success";
     }
 
