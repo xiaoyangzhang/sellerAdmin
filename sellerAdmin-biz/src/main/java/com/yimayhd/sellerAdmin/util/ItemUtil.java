@@ -52,4 +52,8 @@ public class ItemUtil {
 		}
 		return null;
 	}
+
+	public static boolean isFreeLine(ItemType itemType) {
+		return ItemType.FREE_LINE.equals(itemType);
+	}
 }
