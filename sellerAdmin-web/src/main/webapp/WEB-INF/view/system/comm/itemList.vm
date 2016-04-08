@@ -13,7 +13,7 @@
                 </span>
                 <select class="form-control" name="state">
 					<option value="0" #if($!query.state == 0) selected #end>全部</option>
-                    <option value="1" #if($!query.state == 1) selected #end>启用</option>
+                    <option value="1" #if($!query.state == 1) selected #end>上架</option>
                     <option value="2" #if($!query.state == 2) selected #end>禁用</option>
                 </select>
             </div>
@@ -96,15 +96,15 @@
 			checkedIdList = temp;
         }
 	});
-	//批量启用
-    $('.batch-enable').click(function(){
+	//批量上架
+    $('.batch-shelve').click(function(){
 		if(checkedIdList.length > 0) {
-    		var param = {ids:checkedIdList};
-    		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/B2C/liveTagManage/toBatchEnable",param,function(result) {
-    			if(result.status == 200) {
+    		var param = {itemIds:checkedIdList};
+    		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/item/batchShelve",param,function(result) {
+    			if(result.success) {
     				window.location.reload();
     			} else {
-    				layer.alert('批量启用失败', {
+    				layer.alert('批量上架失败', {
     					icon : 2
     				});
     			}
@@ -116,15 +116,15 @@
 			});
 		}
     });
-	//批量停用
-    $('.batch-disable').click(function(){
+	//批量下架
+    $('.batch-unshelve').click(function(){
 		if(checkedIdList.length > 0) {
-    		var param = {ids:checkedIdList};
-    		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/B2C/liveTagManage/toBatchDisable",param,function(result) {
-    			if(result.status == 200) {
+    		var param = {itemIds:checkedIdList};
+    		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/item/batchUnshelve",param,function(result) {
+    			if(result.success) {
     				window.location.reload();
     			} else {
-    				layer.alert('批量停用失败', {
+    				layer.alert('批量下架失败', {
     					icon : 2
     				});
     			}
@@ -136,28 +136,28 @@
 			});
 		}
     });
-	// 启用
+	// 上架
 	$('.item-shelve').click(function(){
 		var id = $(this).attr("item-id");
-		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/B2C/liveTagManage/toEnable/"+id,{},function(result) {
-			if(result.status == 200) {
+		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/item/"+id+"/shelve",{},function(result) {
+			if(result.success) {
 				window.location.reload();
 			} else {
-				layer.msg('启用失败', {
+				layer.msg('上架失败', {
     				icon : 2,
     				time : 1000
     			});
 			}
 		},"json");
     });
-	// 停用
+	// 下架
 	$('.item-unshelve').click(function(){
 		var id = $(this).attr("item-id");
-		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/B2C/liveTagManage/toDisable/"+id,{},function(result) {
-			if(result.status == 200) {
+		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/item/"+id+"/unshelve",{},function(result) {
+			if(result.success) {
 				window.location.reload();
 			} else {
-				layer.msg('停用失败', {
+				layer.msg('下架失败', {
     				icon : 2,
     				time : 1000
     			});
