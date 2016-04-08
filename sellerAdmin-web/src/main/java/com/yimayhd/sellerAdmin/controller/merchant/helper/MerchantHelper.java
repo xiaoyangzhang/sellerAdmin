@@ -14,10 +14,12 @@ import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.membercenter.enums.ExamineType;
+import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.biz.MerchantBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.user.session.manager.SessionManager;
 
-public class MerchantHelper {
+public class MerchantHelper extends BaseController{
 	
 	@Autowired
 	private SessionManager sessionManager;
@@ -25,13 +27,16 @@ public class MerchantHelper {
 	@Resource
 	private ExamineDealService examineDealService;
 	
+	@Autowired
+	private MerchantBiz merchantBiz;
+	
 	public  String judgeAuthority(Model model,long userId,String pageType){
 		String chooseUrl = "/system/merchant/chosetype";
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(userId);
 		try {
-			MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
+			MemResult<ExamineInfoDTO> result = merchantBiz.queryMerchantExamineInfoBySellerId(info);
 			if(!result.isSuccess() || null == result.getValue()){
 				return chooseUrl;
 			}

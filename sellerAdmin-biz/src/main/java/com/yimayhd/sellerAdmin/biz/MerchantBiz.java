@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
-import com.yimayhd.membercenter.client.dto.ExamineSubmitDTO;
+import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
@@ -31,6 +31,12 @@ public class MerchantBiz {
 	private MerchantRepo merchantRepo;
 	@Autowired
 	private SessionManager sessionManager;
+	
+	@MethodLogger
+	public MemResult<ExamineInfoDTO> queryMerchantExamineInfoBySellerId(InfoQueryDTO info){
+		return merchantRepo.queryMerchantExamineInfoBySellerId(info);
+	}
+	
 	
 	/**
 	 * 修改用户信息
@@ -104,14 +110,31 @@ public class MerchantBiz {
 		ExamineInfoDTO ex = new ExamineInfoDTO();
 		
 		setExamineInfo(ex,userDetailInfo);
-		ExamineSubmitDTO dto = new ExamineSubmitDTO();
-		dto.setExamineInfoDTO(ex);
+		
 		//提交的当前页数，如果是第一次提交，不update当前的status
-		dto.setPageNo(userDetailInfo.getPageNum());
 		
 		WebResultSupport webResult = new WebResultSupport();
-		MemResult<Boolean> result = merchantRepo.saveUserdata(dto);
+		MemResult<Boolean> result = merchantRepo.saveUserdata(ex);
 		LOGGER.debug("examineInfoDTO={}", JSONObject.toJSONString(ex));
+		if(result.isSuccess()){
+			webResult.isSuccess();
+		}else{
+			webResult.setWebReturnCode(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE);
+		}
+		return webResult;
+	}
+	
+	
+	/**
+	 * 修改商户入驻状态
+	 * @param userDetailInfo
+	 * @return
+	 */
+	@MethodLogger
+	public WebResultSupport changeExamineStatusIntoIng(InfoQueryDTO infoQueryDTO){
+		WebResultSupport webResult = new WebResultSupport();
+		MemResult<Boolean> result = merchantRepo.changeExamineStatusIntoIng(infoQueryDTO);
+		LOGGER.debug("infoQueryDTO={}", JSONObject.toJSONString(infoQueryDTO));
 		if(result.isSuccess()){
 			webResult.isSuccess();
 		}else{

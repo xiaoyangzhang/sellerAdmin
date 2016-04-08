@@ -86,7 +86,7 @@ public class BarterItemController extends BaseController {
     public String toAddCommon(Model model, long categoryId) throws Exception {
         CategoryDO categoryDO = categoryService.getCategoryVOById(categoryId);
         model.addAttribute("category", categoryDO);
-        return "";
+        return "/system/comm/common/edit";
     }
 
     /**
@@ -114,18 +114,18 @@ public class BarterItemController extends BaseController {
      * @param model
      * @param itemId
      *            商品ID
-     * @param itemType
      *            商品类型
      * @return 普通商品详情
      * @throws Exception
      */
     @RequestMapping(value = "/common/edit/{itemId}", method = RequestMethod.GET)
-    public String toEditCommon(Model model, @PathVariable(value = "id") long itemId, int itemType) throws Exception {
-        ItemResult itemResult = commodityService.getCommodityById(itemId);
-        model.addAttribute("category", itemResult.getCategory());
-        model.addAttribute("commodity", itemResult.getItem());
-        model.addAttribute("itemSkuList", itemResult.getItemSkuDOList());
-        return "/success";
+    public String toEditCommon(Model model, @PathVariable(value = "itemId") long itemId) throws Exception {
+        ItemResultVO itemResultVO = commodityService.getCommodityById(itemId);
+        model.addAttribute("category", itemResultVO.getCategoryVO());
+        model.addAttribute("commodity", itemResultVO.getItemVO());
+        model.addAttribute("itemSkuList", itemResultVO.getItemSkuVOList());
+        model.addAttribute("pictureText", itemResultVO.getItemVO().getDetailUrl());
+        return "/system/comm/common/edit";
     }
 
     /**

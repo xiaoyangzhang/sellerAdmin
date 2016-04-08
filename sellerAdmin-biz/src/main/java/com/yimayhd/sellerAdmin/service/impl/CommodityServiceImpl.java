@@ -1,34 +1,15 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import com.yimayhd.commentcenter.client.dto.ComentDTO;
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.dto.ComentEditDTO;
 import com.yimayhd.commentcenter.client.enums.PictureText;
 import com.yimayhd.commentcenter.client.result.PicTextResult;
-import com.yimayhd.sellerAdmin.converter.PictureTextConverter;
-import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextVO;
-import com.yimayhd.sellerAdmin.repo.PictureTextRepo;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
-import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
-import com.yimayhd.ic.client.model.param.item.HotelPublishDTO;
-import com.yimayhd.ic.client.model.param.item.ItemBatchPublishDTO;
-import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
-import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
-import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
+import com.yimayhd.ic.client.model.param.item.*;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
@@ -40,15 +21,27 @@ import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.converter.PictureTextConverter;
 import com.yimayhd.sellerAdmin.exception.NoticeException;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 import com.yimayhd.sellerAdmin.model.ItemResultVO;
 import com.yimayhd.sellerAdmin.model.ItemVO;
+import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextVO;
 import com.yimayhd.sellerAdmin.model.query.CommodityListQuery;
+import com.yimayhd.sellerAdmin.repo.PictureTextRepo;
 import com.yimayhd.sellerAdmin.service.CommodityService;
 import com.yimayhd.sellerAdmin.service.TfsService;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.sellerAdmin.util.NumUtil;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by czf on 2015/11/24.
@@ -146,9 +139,9 @@ public class CommodityServiceImpl implements CommodityService {
         itemResultVO.setItemVO(ItemVO.getItemVO(itemResult.getItem(), itemResultVO.getCategoryVO()));
         //商品的排序字段
         itemResultVO.getItemVO().setSort(itemResult.getSortNum());
-        //详细描述从tfs读出来（富文本编辑）
-        PicTextResult picTextResult = pictureTextRepo.getPictureText(itemResultVO.getItemVO().getId(), PictureText.ITEM);
-        itemResultVO.getItemVO().setDetailUrlPictureTextVO(PictureTextConverter.toPictureTextVO(picTextResult));
+        //h5
+        PicTextResult picTextResult = pictureTextRepo.getPictureText(itemResultVO.getItemVO().getId(), PictureText.MUSTBUY);
+        itemResultVO.getItemVO().setPictureTextVO(PictureTextConverter.toPictureTextVO(picTextResult));
         return itemResultVO;
     }
 
@@ -324,10 +317,6 @@ public class CommodityServiceImpl implements CommodityService {
         CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
         ItemDO itemDO = ItemVO.getItemDO(itemVO);
         itemDO.setDomain(Constant.DOMAIN_JIUXIU);
-        //详细描述存tfs（富文本编辑）
-        if(StringUtils.isNotBlank(itemDO.getDetailUrl())){
-            itemDO.setDetailUrl(tfsService.publishHtml5(itemDO.getDetailUrl()));
-        }
         commonItemPublishDTO.setItemDO(itemDO);
         commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
 
@@ -340,9 +329,8 @@ public class CommodityServiceImpl implements CommodityService {
             throw new BaseException(itemPubResult.getResultMsg());
         }
 
-        //TODO itemId 需要
-        ComentDTO comentDTO = PictureTextConverter.toComentDTO(1l, PictureText.ITEM, JSON.parseObject(itemDO.getDetailUrl(), PictureTextVO.class));
-        pictureTextRepo.savePictureText(comentDTO);
+        ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemPubResult.getItemId(), PictureText.MUSTBUY, JSON.parseObject(itemVO.getPictureTextVOStr(), PictureTextVO.class));
+        pictureTextRepo.editPictureText(comentEditDTO);
     }
 
     @Override
@@ -392,11 +380,6 @@ public class CommodityServiceImpl implements CommodityService {
             }
             //自定义属性
             itemDB.setItemPropertyList(itemVO.getItemPropertyList());
-            //TODO 排序
-            //详细描述存tfs（富文本编辑）
-            if(StringUtils.isNotBlank(itemVO.getDetailUrl())) {
-                commonItemPublishDTO.getItemDO().setDetailUrl(tfsService.publishHtml5(itemVO.getDetailUrl()));
-            }
             //减库存方式
             itemDB.getItemFeature().put(ItemFeatureKey.REDUCE_TYPE, itemVO.getReduceType());
             //评分
@@ -422,10 +405,14 @@ public class CommodityServiceImpl implements CommodityService {
                 log.error("ItemPublishService.publishCommonItem error:" + JSON.toJSONString(itemPubResult) + "and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
                 throw new BaseException(itemPubResult.getResultMsg());
             }
-            
-            PictureTextVO pictureTextVO = JSON.parseObject(itemVO.getDetailUrl(), PictureTextVO.class);
-            ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemDB.getId(),pictureTextVO);
-            pictureTextRepo.updatePictureText(comentEditDTO);
+            try {
+                PictureTextVO pictureTextVO = JSON.parseObject(itemVO.getPictureTextVOStr(), PictureTextVO.class);
+                ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemVO.getId(),PictureText.MUSTBUY,pictureTextVO);
+                pictureTextRepo.editPictureText(comentEditDTO);
+            }catch (Exception e){
+                log.error("商品保存成功，H5保存失败",e);
+                throw new BaseException("商品修改成功，H5修改失败");
+            }
 
         }
     }
