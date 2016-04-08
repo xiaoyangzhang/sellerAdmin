@@ -61,49 +61,52 @@ public class CategoryVO extends CategoryDO {
             CategoryPropertyValueVO categoryPropertyValueVOTran = categoryVO.getSellCategoryPropertyVOs().get(i);
             if(CollectionUtils.isNotEmpty(itemSkuVOListAll)){
                 List<ItemSkuVO> itemSkuVOListAllNew = new ArrayList<ItemSkuVO>();
-                for (int j = 0; j < categoryPropertyValueVOTran.getCategoryPropertyDO().getCategoryValueDOs().size(); j++) {
-                    CategoryValueDO categoryValueDO = categoryPropertyValueVOTran.getCategoryPropertyDO().getCategoryValueDOs().get(j);
-
-                    ItemSkuPVPair itemSkuPVPair = new ItemSkuPVPair();
-                    itemSkuPVPair.setPId(categoryPropertyValueVOTran.getCategoryPropertyDO().getId());
-                    itemSkuPVPair.setPTxt(categoryPropertyValueVOTran.getCategoryPropertyDO().getText());
-                    itemSkuPVPair.setPType(categoryPropertyValueVOTran.getCategoryPropertyDO().getType());
-                    itemSkuPVPair.setVId(categoryValueDO.getId());
-                    itemSkuPVPair.setVTxt(categoryValueDO.getText());
-
-                    for (int k = 0; k < itemSkuVOListAll.size(); k++) {
-                        ItemSkuVO itemSkuVO = new ItemSkuVO();
-                        BeanUtils.copyProperties(itemSkuVOListAll.get(k),itemSkuVO);
-                        List<ItemSkuPVPair> itemSkuPVPairList = itemSkuVO.getItemSkuPVPairList();
-                        List<ItemSkuPVPair> itemSkuPVPairListNew = new ArrayList<ItemSkuPVPair>();
-                        for (int l = 0; l < itemSkuPVPairList.size(); l++) {
-                            itemSkuPVPairListNew.add(itemSkuPVPairList.get(l));
+                List<CategoryValueDO> categoryValueDOList = categoryPropertyValueVOTran.getCategoryPropertyDO().getCategoryValueDOs();
+                if(!CollectionUtils.isEmpty(categoryValueDOList)) {
+                    for (int j = 0; j < categoryValueDOList.size(); j++) {
+                        CategoryValueDO categoryValueDO = categoryValueDOList.get(j);
+                        ItemSkuPVPair itemSkuPVPair = new ItemSkuPVPair();
+                        itemSkuPVPair.setPId(categoryPropertyValueVOTran.getCategoryPropertyDO().getId());
+                        itemSkuPVPair.setPTxt(categoryPropertyValueVOTran.getCategoryPropertyDO().getText());
+                        itemSkuPVPair.setPType(categoryPropertyValueVOTran.getCategoryPropertyDO().getType());
+                        itemSkuPVPair.setVId(categoryValueDO.getId());
+                        itemSkuPVPair.setVTxt(categoryValueDO.getText());
+                        for (int k = 0; k < itemSkuVOListAll.size(); k++) {
+                            ItemSkuVO itemSkuVO = new ItemSkuVO();
+                            BeanUtils.copyProperties(itemSkuVOListAll.get(k),itemSkuVO);
+                            List<ItemSkuPVPair> itemSkuPVPairList = itemSkuVO.getItemSkuPVPairList();
+                            List<ItemSkuPVPair> itemSkuPVPairListNew = new ArrayList<ItemSkuPVPair>();
+                            for (int l = 0; l < itemSkuPVPairList.size(); l++) {
+                                itemSkuPVPairListNew.add(itemSkuPVPairList.get(l));
+                            }
+                            itemSkuPVPairListNew.add(itemSkuPVPair);
+                            itemSkuVO.setItemSkuPVPairList(itemSkuPVPairListNew);
+                            itemSkuVOListAllNew.add(itemSkuVO);
                         }
-                        itemSkuPVPairListNew.add(itemSkuPVPair);
-                        itemSkuVO.setItemSkuPVPairList(itemSkuPVPairListNew);
-                        itemSkuVOListAllNew.add(itemSkuVO);
                     }
-
                 }
                 itemSkuVOListAll = itemSkuVOListAllNew;
             }else{
-                for (int j = 0; j < categoryPropertyValueVOTran.getCategoryPropertyDO().getCategoryValueDOs().size(); j++) {
-                    CategoryValueDO categoryValueDO = categoryPropertyValueVOTran.getCategoryPropertyDO().getCategoryValueDOs().get(j);
+                List<CategoryValueDO> categoryValueDOList = categoryPropertyValueVOTran.getCategoryPropertyDO().getCategoryValueDOs();
+                if(!CollectionUtils.isEmpty(categoryValueDOList)) {
+                    for (int j = 0; j < categoryValueDOList.size(); j++) {
+                        CategoryValueDO categoryValueDO = categoryValueDOList.get(j);
 
-                    ItemSkuVO itemSkuVO = new ItemSkuVO();
-                    List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
+                        ItemSkuVO itemSkuVO = new ItemSkuVO();
+                        List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
 
-                    ItemSkuPVPair itemSkuPVPair = new ItemSkuPVPair();
-                    itemSkuPVPair.setPId(categoryPropertyValueVOTran.getCategoryPropertyDO().getId());
-                    itemSkuPVPair.setPTxt(categoryPropertyValueVOTran.getCategoryPropertyDO().getText());
-                    itemSkuPVPair.setPType(categoryPropertyValueVOTran.getCategoryPropertyDO().getType());
-                    itemSkuPVPair.setVId(categoryValueDO.getId());
-                    itemSkuPVPair.setVTxt(categoryValueDO.getText());
+                        ItemSkuPVPair itemSkuPVPair = new ItemSkuPVPair();
+                        itemSkuPVPair.setPId(categoryPropertyValueVOTran.getCategoryPropertyDO().getId());
+                        itemSkuPVPair.setPTxt(categoryPropertyValueVOTran.getCategoryPropertyDO().getText());
+                        itemSkuPVPair.setPType(categoryPropertyValueVOTran.getCategoryPropertyDO().getType());
+                        itemSkuPVPair.setVId(categoryValueDO.getId());
+                        itemSkuPVPair.setVTxt(categoryValueDO.getText());
 
-                    itemSkuPVPairList.add(itemSkuPVPair);
-                    itemSkuVO.setItemSkuPVPairList(itemSkuPVPairList);
+                        itemSkuPVPairList.add(itemSkuPVPair);
+                        itemSkuVO.setItemSkuPVPairList(itemSkuPVPairList);
 
-                    itemSkuVOListAll.add(itemSkuVO);
+                        itemSkuVOListAll.add(itemSkuVO);
+                    }
                 }
             }
         }
