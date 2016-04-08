@@ -1,55 +1,52 @@
     <div class="createClubTable">
         <table class="table tab-inputgroup base-info">
             <tr>
-                <td><span class="spColor">*</span>活动名称</td>
+                <td><span class="spColor">*</span>商品标题</td>
                 <td>
-                    #if($activity.id)
-                        <input type="hidden" class="inpControl" name="id" id="id" value="$!{activity.id}">
+                    #if($commodity.id)
+                        <input type="hidden" class="inpControl" name="id" id="id" value="$!{commodity.id}">
                     #end
-                    <input type="text" class="form-control" placeholder="请输入20个字以内" name="title" value="$!{activity.title}">
+                    <input type="text" class="form-control" placeholder="请输入商品标题" name="title" value="$!{commodity.title}">
+                    <span class="spColor">38字</span>
                 </td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>所属俱乐部</td>
+                <td><span class="spColor">*</span>商品代码：</td>
                 <td>
-
-                    <select class="form-control" name="clubId">
-                        #foreach($club in $clubList)
-                            <option value="$!{club.id}" #if($!activity.outId == $!club.id) selected #end value="$club.id">$!{club.clubName}</option>
-                        #end
-                    </select>
-
+                    <input type="text" class="form-control" placeholder="请输入商品代码" name="code" value="$!{commodity.code}">
+                    <span class="spColor">20字</span>
                 </td>
             </tr>
             <tr>
-                <td>商品选择</td>
+                <td><span class="spColor">*</span>截止报名日期：</td>
                 <td>
-
-                    <input type="text" class="inpControl" name="productTitle" id="productTitle" value="$!{itemName}">
-                    <input type="hidden" class="inpControl" name="productId" id="productId" value="$!{activity.productId}">
-                    <button type="button" class="btn btn-primary selectActivityComm">选择商品</button>
+                    <div class="row">
+                        <div class="col-md-4"><input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="activityDateStr" value="$!utilDate.dateToString($!{activity.activityDate},"yyyy-MM-dd HH:mm")"></div>
+                    </div>
                 </td>
             </tr>
             <tr>
                 <td><span class="spColor">*</span>活动主题</td>
                 <td>
-                    #foreach($tag in $tagResult)
-
-
-                        <input type="checkbox" name="tagList" value="$!{tag.id}"
-                            #foreach($tagCheck in $tagResultCheck)
-
-                                #if($!tagCheck.id == $!tag.id) checked #end#end><span>$!{tag.name}</span>
-
+                    #foreach($theme in $themes)
+                        <label class="checkbox-inline">
+                            <input type="checkbox" class="productTag" rId="${theme.id}" rName="${theme.name}"
+                                #foreach($itemTheme in $itemThemes)
+                                #if($!itemTheme.id == $!theme.id) checked #end#end/>
+                            ${theme.name}
+                        </label>
                     #end
                 </td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>活动时间</td>
+                <td><span class="spColor">*</span>活动城市</td>
                 <td>
-                    <div class="row">
-                        <div class="col-md-4"><input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="activityDateStr" value="$!utilDate.dateToString($!{activity.activityDate},"yyyy-MM-dd HH:mm")"></div>
-                    </div>
+                    <select class="form-control propertySelect">
+                        <option value="0" >请选择</option>
+                        #foreach($dest in $dests)
+                            <option value="$!dest.id" #if($itemDest.id == $!dest.id)selected#end>$!dest.name</option>
+                        #end
+                    </select>
                 </td>
             </tr>
             <tr>
@@ -77,96 +74,122 @@
                 <td><span class="spColor">*</span>详细地址</td>
                 <td><input type="text" class="form-control" placeholder="请输入30字以内" name="snsPOI.detail" value="$!activity.snsPOI.detail"></td>
             </tr>
+##            <tr>
+##                <td>基础价格</td>
+##                <td>
+##                    <div class="row">
+##                        #set($preferentialPrice=$activity.preferentialPrice / 100.0)
+##                        #set($originalPrice=$activity.originalPrice / 100.0)
+##                        <div class="col-md-4"><input type="text" class="form-control" placeholder="会员" name="preferentialPriceY" value="#if(! $preferentialPrice)#else$preferentialPrice#end"></div>
+##                        <div class="col-md-4"><input type="text" class="form-control" placeholder="非会员" name="originalPriceY" value="#if(! $originalPrice)#else$originalPrice#end"></div>
+##                    </div>
+##                </td>
+##            </tr>
+##            <tr>
+##                <td>客服电话</td>
+##                #if($!activity.id)
+##                    #set($serviceTel=$!activity.serviceTel)
+##                #else
+##                    #set($serviceTel=4000696888)
+##                #end
+##                <td><input type="text" class="form-control serviceTel" placeholder="请输入客服电话" name="serviceTel" value="$!serviceTel"></td>
+##            </tr>
             <tr>
-                <td>基础价格</td>
+                <td>*商品图：</td>
                 <td>
-                    <div class="row">
-                        #set($preferentialPrice=$activity.preferentialPrice / 100.0)
-                        #set($originalPrice=$activity.originalPrice / 100.0)
-                        <div class="col-md-4"><input type="text" class="form-control" placeholder="会员" name="preferentialPriceY" value="#if(! $preferentialPrice)#else$preferentialPrice#end"></div>
-                        <div class="col-md-4"><input type="text" class="form-control" placeholder="非会员" name="originalPriceY" value="#if(! $originalPrice)#else$originalPrice#end"></div>
+                    <div class="uploadbox clearfix">
+                        <div class="imgbox">
+                            <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
+                                <div class="dimg">
+                                    #if($baseInfo.picUrls && $baseInfo.picUrls.size() > 0)
+                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(0)}" img-root="$!utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{baseInfo.picUrls.get(0)}">
+                                    #else
+                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode">
+                                    #end
+                                </div>
+                                <div class="upimgbtn">
+                                    <input type="file" name="picfile" class="picfile">
+                                    <button class="upl">上传图片</button>
+                                    <button class="del">删除图片</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="imgbox">
+                            <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
+                                <div class="dimg">
+                                    #if($baseInfo.picUrls && $baseInfo.picUrls.size() > 1)
+                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(1)}" img-root="$!utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{baseInfo.picUrls.get(1)}">
+                                    #else
+                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode">
+                                    #end
+                                </div>
+                                <div class="upimgbtn">
+                                    <input type="file" name="picfile" class="picfile">
+                                    <button class="upl">上传图片</button>
+                                    <button class="del">删除图片</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="imgbox">
+                            <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
+                                <div class="dimg">
+                                    #if($baseInfo.picUrls && $baseInfo.picUrls.size() > 2)
+                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(2)}" img-root="$!utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{baseInfo.picUrls.get(2)}">
+                                    #else
+                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode">
+                                    #end
+                                </div>
+                                <div class="upimgbtn">
+                                    <input type="file" name="picfile" class="picfile">
+                                    <button class="upl">上传图片</button>
+                                    <button class="del">删除图片</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="imgbox">
+                            <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
+                                <div class="dimg">
+                                    #if($baseInfo.picUrls && $baseInfo.picUrls.size() > 3)
+                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(3)}" img-root="$!utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{baseInfo.picUrls.get(3)}">
+                                    #else
+                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode">
+                                    #end
+                                </div>
+                                <div class="upimgbtn">
+                                    <input type="file" name="picfile" class="picfile">
+                                    <button class="upl">上传图片</button>
+                                    <button class="del">删除图片</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="imgbox">
+                            <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
+                                <div class="dimg">
+                                    #if($baseInfo.picUrls && $baseInfo.picUrls.size() > 4)
+                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(4)}" img-root="$!utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{baseInfo.picUrls.get(4)}">
+                                    #else
+                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode">
+                                    #end
+                                </div>
+                                <div class="upimgbtn">
+                                    <input type="file" name="picfile" class="picfile">
+                                    <button class="upl">上传图片</button>
+                                    <button class="del">删除图片</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </td>
-            </tr>
-            <tr>
-                <td>客服电话</td>
-                #if($!activity.id)
-                    #set($serviceTel=$!activity.serviceTel)
-                #else
-                    #set($serviceTel=4000696888)
-                #end
-                <td><input type="text" class="form-control serviceTel" placeholder="请输入客服电话" name="serviceTel" value="$!serviceTel"></td>
-            </tr>
-            <tr>
-                <td><span class="spColor">*</span>活动宣传图(APP)：</td>
-                <td>
-                    <div class="fileImgWrap">
-                        <button type="button" class="btn btn-success">选择图片</button>
-                        <input id="productImageFile" class="fileInp" type="file" accept="image/png,image/gif,image/jpeg"/>
-                        <input class="productImageUrlVal" type="hidden" name="image" value="$!activity.image"/>
-                        <p>注：图片大小不超过2M<br />建议尺寸：300*300</p>
-                    </div>
-                    <div class="logoView">
-                        <img  class="productImageUrlImg img-square" src="#if($!{activity.image})$!{utilWebconfig.getTfsRootPath()}$!{activity.image} #end"/>
-                    </div>
-                </td>
-            <tr>
-                <td><span class="spColor">*</span>活动宣传图(PC)：</td>
-                <td>
-                    <div class="fileImgWrap">
-                        <button type="button" class="btn btn-success">选择图片</button>
-                        <input id="productImageFilePC" class="fileInp" type="file" accept="image/png,image/gif,image/jpeg"/>
-                        <input class="productImageUrlValPC" type="hidden" name="imagePC" value="$!activity.imagePC"/>
-                        <p>注：图片大小不超过2M<br />建议尺寸：300*300</p>
-                    </div>
-                    <div class="logoView">
-                        <img  class="productImageUrlImgPC img-square" src="#if($!{activity.imagePC})$!{utilWebconfig.getTfsRootPath()}$!{activity.imagePC} #end"/>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>报名须知</td>
-                <td>
-                    <button type="button" class="btn btn-default addNeedKnow">增加条目</button>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>标题（10个字以内）</th>
-                            <th>内容（500字以内）</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody class="extra-info-list needKnowTable">
-
-
-
-                            #if(!$activity.id)
-                            <tr class="needKnow">
-                                <td><input type="text" name="activityJsonArray[0].activityTitle" class="form-control extra-info-item-title" placeholder="优惠活动"></td>
-                                <td>
-                                    <textarea name="activityJsonArray[0].activityDec" class="form-control extra-info-item-text" rows="3" placeholder="优惠活动"></textarea>
-                                </td>
-                                <td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
-                            </tr>
-
-                            #end
-                            #if($activity.id)
-                                #foreach($activityJsonArray in $activity.activityJsonArray)
-                                <tr class="needKnow">
-                                    <td>
-                                        <input type="text" name="activityJsonArray[$!{velocityCount}].activityTitle" class="form-control extra-info-item-title" placeholder="优惠活动" value="$!{activityJsonArray.activityTitle}"></td>
-                                    <td>
-                                        <textarea name="activityJsonArray[$!{velocityCount}].activityDec" class="form-control extra-info-item-text" rows="3">$!{activityJsonArray.activityDec}</textarea>
-                                    </td>
-                                    <td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
-                                </tr>
-                                #end
-                            #end
-                        </tbody>
-                    </table>
-
-                </td>
-
             </tr>
 
             </tbody>

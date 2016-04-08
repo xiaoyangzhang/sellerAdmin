@@ -4,10 +4,6 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/zui.min.css">
-		<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/common.css" />
-		<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/base.css">
-		<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/addtravel.css" />
 		<title>价格设置</title>
 	</head>
 
@@ -26,59 +22,66 @@
 						<tbody>
 
 								#foreach($sellCategoryProperty in $category.sellCategoryPropertyVOs)
+								<tr>
+									<td><span class="red">*</span>请添加$!sellCategoryProperty.categoryPropertyVO.text：</td>
+									<td>
+										<input type="text" class="addItemText form-control w500" value="" maxlength="20"/>
+										<a href="javascript:void(0);" class="btn btn-add">添加</a>
+									</td>
+								</tr>
                                 <tr class="sellProperty" sellPropertyType="$!sellCategoryProperty.categoryPropertyVO.type"  sellPropertyId="$!sellCategoryProperty.categoryPropertyVO.id" sellPropertyText="$!sellCategoryProperty.categoryPropertyVO.text">
                                     <td><span class="spColor">*</span>$!sellCategoryProperty.categoryPropertyVO.text</td>
-                                    <td>
+                                    <td class="checkbox-con">
 										#foreach($categoryValue in $sellCategoryProperty.categoryPropertyVO.categoryValueVOs)
 										#*sku可选值*#
-                                            <span><input type="checkbox" class="skuCheckbox" sellValueId="$!{categoryValue.id}" sellValueText="$!categoryValue.text" name="" value="$!{categoryValue.id}" #if($!categoryValue.checked) checked #end>$!categoryValue.text</span>
+                                            <span><input type="checkbox" class="skuCheckbox" sellValueId="$!{categoryValue.id}" sellValueText="$!categoryValue.text" sellValueType="$!categoryValue.type" name="" value="$!{categoryValue.id}" #if($!categoryValue.checked) checked #end>$!categoryValue.text</span>
 										#end
                                     </td>
                                 </tr>
 								#end
-                        <tr>
-                            <td><span class="red">*</span>请添加活动时间：</td>
-                            <td>
-                                <input type="text" class="addItemText form-control w500" value="" maxlength="20"/>
-                                <a href="javascript:void(0);" class="btn btn-add">添加</a>
-                            </td>
-                        </tr>
-							<tr class="sellProperty" sellPropertyType="1" sellPropertyId="8" sellPropertyText="活动时间">
-								<td>活动时间：</td>
-								<td class="checkbox-con">
-									<!--<span><input type="checkbox" class="skuCheckbox" sellValueId="-1" sellValueText="星期一" name="" value="-1"  checked >星期一</span>
-									<span><input type="checkbox" class="skuCheckbox" sellValueId="-2" sellValueText="星期二" name="" value="-2" >星期二</span>-->
-								</td>
-							</tr>
-							<tr>
-								<td><span class="red">*</span>请添加活动内容：</td>
-								<td>
-									<input type="text" class="addItemText form-control w500" value="" maxlength="20"/>
-									<a href="javascript:void(0);" class="btn btn-add">添加</a>
-								</td>
-							</tr>
-							<tr class="sellProperty" sellPropertyType="1" sellPropertyId="6" sellPropertyText="活动内容">
-								<td>活动内容：</td>
-								<td class="checkbox-con">
-									<!--<span><input type="checkbox" class="skuCheckbox" sellValueId="-1" sellValueText="徒步、烧烤" name="" value="-1"  checked >徒步、烧烤</span>
-									<span><input type="checkbox" class="skuCheckbox" sellValueId="-2" sellValueText="露营（不含餐）" name="" value="-2"  checked >露营（不含餐）</span>-->
-								</td>
-							</tr>
-							<!--<tr>
-								<td><span class="red">*</span>请添加人员信息：</td>
-								<td>
-									<input type="text" class="addItemText form-control w500" value="" maxlength="20"/>
-									<a href="javascript:void(0);" class="btn btn-add">添加</a>
-								</td>
-							</tr>
-							<tr class="sellProperty" sellPropertyType="1" sellPropertyId="2" sellPropertyText="人员信息">
-								<td>人员信息：</td>
-								<td class="checkbox-con">
-									<span><input type="checkbox" class="skuCheckbox" sellValueId="-1" sellValueText="成人" name="" value="-1"  checked >成人</span>
-									<span><input type="checkbox" class="skuCheckbox" sellValueId="-2" sellValueText="儿童（0-2岁）" name="" value="-2"  checked >儿童（0-2岁）</span>
-									<span><input type="checkbox" class="skuCheckbox" sellValueId="-3" sellValueText="儿童（2-12岁）" name="" value="-3" >儿童（2-12岁）</span>
-								</td>
-							</tr>-->
+##							<tr>
+##								<td><span class="red">*</span>请添加活动时间：</td>
+##								<td>
+##									<input type="text" class="addItemText form-control w500" value="" maxlength="20"/>
+##									<a href="javascript:void(0);" class="btn btn-add">添加</a>
+##								</td>
+##							</tr>
+##							<tr class="sellProperty" sellPropertyType="1" sellPropertyId="8" sellPropertyText="活动时间">
+##								<td>活动时间：</td>
+##								<td class="checkbox-con">
+##									<!--<span><input type="checkbox" class="skuCheckbox" sellValueId="-1" sellValueText="星期一" name="" value="-1"  checked >星期一</span>
+##									<span><input type="checkbox" class="skuCheckbox" sellValueId="-2" sellValueText="星期二" name="" value="-2" >星期二</span>-->
+##								</td>
+##							</tr>
+##							<tr>
+##								<td><span class="red">*</span>请添加活动内容：</td>
+##								<td>
+##									<input type="text" class="addItemText form-control w500" value="" maxlength="20"/>
+##									<a href="javascript:void(0);" class="btn btn-add">添加</a>
+##								</td>
+##							</tr>
+##							<tr class="sellProperty" sellPropertyType="1" sellPropertyId="6" sellPropertyText="活动内容">
+##								<td>活动内容：</td>
+##								<td class="checkbox-con">
+##									<!--<span><input type="checkbox" class="skuCheckbox" sellValueId="-1" sellValueText="徒步、烧烤" name="" value="-1"  checked >徒步、烧烤</span>
+##									<span><input type="checkbox" class="skuCheckbox" sellValueId="-2" sellValueText="露营（不含餐）" name="" value="-2"  checked >露营（不含餐）</span>-->
+##								</td>
+##							</tr>
+##							<!--<tr>
+##								<td><span class="red">*</span>请添加人员信息：</td>
+##								<td>
+##									<input type="text" class="addItemText form-control w500" value="" maxlength="20"/>
+##									<a href="javascript:void(0);" class="btn btn-add">添加</a>
+##								</td>
+##							</tr>
+##							<tr class="sellProperty" sellPropertyType="1" sellPropertyId="2" sellPropertyText="人员信息">
+##								<td>人员信息：</td>
+##								<td class="checkbox-con">
+##									<span><input type="checkbox" class="skuCheckbox" sellValueId="-1" sellValueText="成人" name="" value="-1"  checked >成人</span>
+##									<span><input type="checkbox" class="skuCheckbox" sellValueId="-2" sellValueText="儿童（0-2岁）" name="" value="-2"  checked >儿童（0-2岁）</span>
+##									<span><input type="checkbox" class="skuCheckbox" sellValueId="-3" sellValueText="儿童（2-12岁）" name="" value="-3" >儿童（2-12岁）</span>
+##								</td>
+##							</tr>-->
 						</tbody>
 					</table>
 				</div>

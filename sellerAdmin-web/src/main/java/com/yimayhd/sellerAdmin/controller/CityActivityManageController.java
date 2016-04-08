@@ -1,13 +1,18 @@
 package com.yimayhd.sellerAdmin.controller;
 
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.enums.ReduceType;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 import com.yimayhd.sellerAdmin.model.CityActivityItemVO;
 import com.yimayhd.sellerAdmin.model.ItemResultVO;
 import com.yimayhd.sellerAdmin.model.ItemVO;
+import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.TagDTO;
 import com.yimayhd.sellerAdmin.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +36,8 @@ public class CityActivityManageController extends BaseController {
     private CategoryService categoryService;
 	@Autowired
 	private CityActivityService cityActivityService;
+    @Autowired
+    private TagService tagService;
 	
 	/**
 	 * 新增活动商品
@@ -42,6 +49,14 @@ public class CityActivityManageController extends BaseController {
 	public String toAdd(Model model,int categoryId) throws Exception {
 		
 		CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
+        WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.ACTIVETYTAG);
+        if (allThemes.isSuccess()) {
+            put("themes", allThemes.getValue());
+        }
+        WebResult<List<CityVO>> allDests = tagService.getAllDests();
+        if (allDests.isSuccess()) {
+            put("dests", allDests.getValue());
+        }
 		model.addAttribute("category", categoryVO);
 		model.addAttribute("itemType",ItemType.CITY_ACTIVITY.getValue());
 		return "/system/cityactivity/edit";
@@ -72,9 +87,19 @@ public class CityActivityManageController extends BaseController {
     String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
 
 		CityActivityItemVO itemVO = cityActivityService.getCityActivityById(id);
+        WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.ACTIVETYTAG);
+        if (allThemes.isSuccess()) {
+            put("themes", allThemes.getValue());
+        }
+        WebResult<List<CityVO>> allDests = tagService.getAllDests();
+        if (allDests.isSuccess()) {
+            put("dests", allDests.getValue());
+        }
     	model.addAttribute("itemResult", itemVO);
     	model.addAttribute("commodity", itemVO.getItemVO());
     	model.addAttribute("category", itemVO.getCategoryVO());
+        model.addAttribute("itemThemes", itemVO.getThemes());
+        model.addAttribute("itemDest", itemVO.getDest());
     	model.addAttribute("itemType",ItemType.CITY_ACTIVITY.getValue());
        
         return "/system/cityactivity/edit";
