@@ -1,6 +1,7 @@
 package com.yimayhd.sellerAdmin.controller.talent;
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,11 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.result.MemResultSupport;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.enums.ExaminePageNo;
+import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -47,11 +50,25 @@ public class TalentController extends BaseController {
 	@Autowired
 	private TalentBiz talentBiz;
 	/**
+	 * 处理审核结果信息
+	 * @param dto
+	 * @return
+	 */
+	public List<String> getCheckResultMsg(ExamineResultDTO dto) {
+		if (dto == null || ( dto.getDealMes() == null)) {
+			return null;
+		}
+		
+		return Arrays.asList(dto.getDealMes().split(Constant.SYMBOL_SEMIONLON));
+		
+	}
+	/**
 	 * 跳转到达人审核协议
 	 * @return
 	 */
 	@RequestMapping(value="agreement",method=RequestMethod.GET)
 	public String toAgreementPage() {
+		//return checkVisitPage();
 		return "system/talent/agreement";
 		
 	}
@@ -64,14 +81,14 @@ public class TalentController extends BaseController {
 	
 	@RequestMapping(value="toAddUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toAddUserdatafill_a(Model model){
-		model.addAttribute("checkResultInfo", talentBiz.getCheckResult() == null?null : Arrays.asList(talentBiz.getCheckResult().split(Constant.SYMBOL_SEMIONLON)));
+		model.addAttribute("checkResultInfo", getCheckResultMsg(talentBiz.getCheckResult()));
 		return "system/talent/userdatafill_a";
 		
 	}
 	@RequestMapping(value="toEditUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toEditUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model) {
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
-		model.addAttribute("checkResultInfo", talentBiz.getCheckResult() == null?null : Arrays.asList(talentBiz.getCheckResult().split(Constant.SYMBOL_SEMIONLON)));
+		model.addAttribute("checkResultInfo", getCheckResultMsg(talentBiz.getCheckResult()));
 		return "system/talent/userdatafill_a";
 		
 	}
@@ -83,14 +100,14 @@ public class TalentController extends BaseController {
 	@RequestMapping(value="toAddUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toAddUserdatafill_b(Model model) {
 		model.addAttribute("bankList", talentBiz.getBankList());
-		model.addAttribute("checkResultInfo", talentBiz.getCheckResult() == null?null : Arrays.asList(talentBiz.getCheckResult().split(Constant.SYMBOL_SEMIONLON)));
+		model.addAttribute("checkResultInfo", getCheckResultMsg(talentBiz.getCheckResult()));
 		return "system/talent/userdatafill_b";
 		
 	}
 	@RequestMapping(value="toEditUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toEditUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
-		model.addAttribute("checkResultInfo", talentBiz.getCheckResult() == null?null : Arrays.asList(talentBiz.getCheckResult().split(Constant.SYMBOL_SEMIONLON)));
+		model.addAttribute("checkResultInfo", getCheckResultMsg(talentBiz.getCheckResult()));
 		model.addAttribute("bankList", talentBiz.getBankList());
 		return "system/talent/userdatafill_b";
 		
@@ -121,9 +138,10 @@ public class TalentController extends BaseController {
 	public WebResult<String> saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
 		
 			WebResult<String> result=new WebResult<String>();
+			ExamineInfoDTO examineInfoDTO = talentBiz.getExamineInfo();
 			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_ONE.getPageNO());
 			if (resultSupport.isSuccess()) {
-				if (vo.getSellerId() <= 0 ) {
+				if (examineInfoDTO.getSellerId() <= 0 ) {
 					result.setValue("toAddUserdatafill_pageTwo");
 				}
 				else {
@@ -208,5 +226,34 @@ public class TalentController extends BaseController {
 		
 	}
 	
-	
+	public String checkVisitPage() {
+		ExamineResultDTO examineResultDTO = talentBiz.getCheckResult();
+		if (examineResultDTO == null) {
+			return null;
+		}
+		String url = null;
+		if (ExamineStatus.EXAMIN_OK.getStatus() == examineResultDTO.getStatus().EXAMIN_OK.getStatus()) {
+			url = redirectToTalentInfo();
+		}
+		else if (ExamineStatus.EXAMIN_ING.getStatus() ==  examineResultDTO.getStatus().EXAMIN_ING.getStatus()) {
+			url = redirectToVerification();
+		}
+		else if (ExamineStatus.EXAMIN_ERROR.getStatus() == examineResultDTO.getStatus().EXAMIN_ERROR.getStatus()) {
+			url = redirectToNoThrough();
+		}
+		else {
+			url = "talent/agreement";
+		}
+		return "redirect:"+url;
+		
+	}
+	private String redirectToNoThrough() {
+		return "merchant/toNotThrowPage";
+	}
+	private String redirectToVerification() {
+		return "talent/verification";
+	}
+	private String redirectToTalentInfo() {
+		return "talent/toAddTalentInfo";
+	}
 }

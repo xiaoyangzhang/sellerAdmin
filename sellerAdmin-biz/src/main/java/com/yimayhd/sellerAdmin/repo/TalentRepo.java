@@ -172,7 +172,7 @@ public class TalentRepo {
 	 * 获取达人入驻审核结果
 	 * @return
 	 */
-	public String getCheckResult() {
+	public ExamineResultDTO getCheckResult() {
 		InfoQueryDTO examineQueryDTO = new InfoQueryDTO();
 		examineQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		examineQueryDTO.setType(ExamineType.TALENT.getType());
@@ -181,10 +181,10 @@ public class TalentRepo {
 		RepoUtils.requestLog(log, " examineDealService.queryExamineDealResult", examineQueryDTO);
 		MemResult<ExamineResultDTO> examineDealResult = examineDealService.queryExamineDealResult(examineQueryDTO);
 		RepoUtils.requestLog(log, " examineDealService.queryExamineDealResult", examineDealResult.getValue());
-		if (examineDealResult.getValue() == null || ( examineDealResult.getValue().getStatus().getStatus() == ExamineStatus.EXAMIN_OK.getStatus())) {
+		if (examineDealResult.getValue() == null /*|| ( examineDealResult.getValue().getStatus().getStatus() == ExamineStatus.EXAMIN_OK.getStatus())*/) {
 			return null;
 		}
-		return examineDealResult.getValue().getDealMes();
+		return examineDealResult.getValue();
 
 		
 	}

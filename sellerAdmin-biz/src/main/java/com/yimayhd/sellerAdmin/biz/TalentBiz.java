@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
 import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.sellerAdmin.base.BaseException;
@@ -89,9 +90,9 @@ public class TalentBiz {
 	 * 获取达人入驻审核结果
 	 * @return
 	 */
-	public String getCheckResult() {
+	public ExamineResultDTO getCheckResult() {
 		
-		return talentRepo.getCheckResult();
+		return talentRepo.getCheckResult() == null?null:talentRepo.getCheckResult();
 		
 	}
 	
