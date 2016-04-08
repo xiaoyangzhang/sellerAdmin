@@ -141,7 +141,7 @@ public class TalentController extends BaseController {
 			ExamineInfoDTO examineInfoDTO = talentBiz.getExamineInfo();
 			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_ONE.getPageNO());
 			if (resultSupport.isSuccess()) {
-				if (examineInfoDTO.getSellerId() <= 0 ) {
+				if (null == examineInfoDTO || examineInfoDTO.getSellerId() <= 0 ) {
 					result.setValue("toAddUserdatafill_pageTwo");
 				}
 				else {
