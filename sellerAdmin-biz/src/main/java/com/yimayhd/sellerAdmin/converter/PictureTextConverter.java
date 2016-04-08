@@ -28,7 +28,6 @@ public class PictureTextConverter {
 			return null;
 		}
 		PictureTextVO pictureTextVO = new PictureTextVO();
-		pictureTextVO.setPicTextId(picTextResult.getId());
 		List<PictureTextItemVo> pictureTextItemVos = new ArrayList<PictureTextItemVo>();
 		List<PicTextDO> list = picTextResult.getList();
 		if (CollectionUtils.isNotEmpty(list)) {
@@ -51,12 +50,12 @@ public class PictureTextConverter {
 		return pictureTextVO;
 	}
 
-	public static ComentEditDTO toComentEditDTO(PictureTextVO pictureTextVO) {
+	public static ComentEditDTO toComentEditDTO(long outId, PictureTextVO pictureTextVO) {
 		if (pictureTextVO == null) {
 			return null;
 		}
 		ComentEditDTO comentEditDTO = new ComentEditDTO();
-		comentEditDTO.setId(pictureTextVO.getPicTextId());
+		comentEditDTO.setOutId(outId);
 		List<PicTextDO> picTextDOList = new ArrayList<PicTextDO>();
 		List<PictureTextItemVo> pictureTextItems = pictureTextVO.getPictureTextItems();
 		if (CollectionUtils.isNotEmpty(pictureTextItems)) {
