@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextVO;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -51,6 +52,7 @@ public class ItemVO extends ItemDO {
     private String coverPics;//封面大图String
     private List<String> picList;//封面大图List
     private String pcDetail;//pc版详情H5
+    private PictureTextVO DetailUrlPictureTextVO;//pc版详情H5对象
 
     private Integer reduceType = ReduceType.NONE.getBizType();//减库存方式
 
@@ -66,10 +68,27 @@ public class ItemVO extends ItemDO {
         //新增的时候设置skuDOList（注：修改时走setItemSkuDOListCommonItemPublishDTO）
         if(CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListByStr())){
             List<ItemSkuDO> itemSkuDOList = new ArrayList<ItemSkuDO>();
+            long price = 0;
+            int stockNum = 0;
             for (ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()){
                 if(itemSkuVO.isChecked()) {
-                    itemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
+                    ItemSkuDO itemSkuDO = ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO);
+                    itemSkuDOList.add(itemSkuDO);
+                    //有sku时取最小价格
+                    if(0 == price){
+                        price = itemSkuDO.getPrice();
+                    }else if(price > itemSkuDO.getPrice()){
+                        price = itemSkuDO.getPrice();
+                    }
+                    //有sku时库存求和
+                    stockNum += itemSkuDO.getStockNum();
                 }
+            }
+            if(price > 0){
+                itemDO.setPrice(price);
+            }
+            if(stockNum > 0){
+                itemDO.setStockNum(stockNum);
             }
             itemDO.setItemSkuDOList(itemSkuDOList);
         }
@@ -108,6 +127,9 @@ public class ItemVO extends ItemDO {
         itemFeature.put(ItemFeatureKey.REDUCE_TYPE, itemVO.getReduceType());
         //自定义属性(itemDO中会自动set，所以注释掉了)
         //itemDO.setItemProperties(itemVO.getItemProperties());
+
+        //商品编码
+        itemDO.setCode(itemVO.getCode());
         return itemDO;
     }
     /**
@@ -335,6 +357,26 @@ public class ItemVO extends ItemDO {
         return itemSkuVOList;
     }
 
+    /**
+     * sku jsonStr转list对象
+     * @return
+     */
+    public List<ItemSkuDO> getItemSkuDOList(){
+        if(CollectionUtils.isEmpty(itemSkuVOList)){
+            itemSkuVOList = getItemSkuVOListByStr();
+            if(CollectionUtils.isEmpty(itemSkuVOList)) {
+                return null;
+            }
+        }
+        List<ItemSkuVO> itemSkuVOList = JSON.parseArray(this.itemSkuVOStr,ItemSkuVO.class);
+        List<ItemSkuDO> itemSkuDOList = new ArrayList<>();
+        for(ItemSkuVO itemSkuVO : itemSkuVOList) {
+            ItemSkuDO itemSkuDO = ItemSkuVO.getItemSkuDO(this, itemSkuVO);
+            itemSkuDOList.add(itemSkuDO);
+        }
+        return itemSkuDOList;
+    }
+
     public String getItemSkuVOStr() {
         return itemSkuVOStr;
     }
@@ -465,5 +507,14 @@ public class ItemVO extends ItemDO {
 
     public void setPcDetail(String pcDetail) {
         this.pcDetail = pcDetail;
+    }
+
+
+    public PictureTextVO getDetailUrlPictureTextVO() {
+        return DetailUrlPictureTextVO;
+    }
+
+    public void setDetailUrlPictureTextVO(PictureTextVO detailUrlPictureTextVO) {
+        DetailUrlPictureTextVO = detailUrlPictureTextVO;
     }
 }

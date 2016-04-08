@@ -94,7 +94,7 @@ public class CommodityManageController extends BaseController {
 	 *            商品类型
 	 * @return 商品详情
 	 * @throws Exception
-	 */
+	 *//*
 	@RequestMapping(value = "/edit/{itemId}", method = RequestMethod.GET)
 	public String toEdit(Model model, @PathVariable(value = "itemId") long itemId, int itemType, int categoryId,
 			int outId) throws Exception {
@@ -127,12 +127,12 @@ public class CommodityManageController extends BaseController {
 		return "redirect:" + redirectUrl;
 	}
 
-	/**
+	*//**
 	 * 新增普通商品
 	 * 
 	 * @return 新增普通商品页
 	 * @throws Exception
-	 */
+	 *//*
 	@RequestMapping(value = "/common/toAdd", method = RequestMethod.GET)
 	public String toAddCommon(Model model, long categoryId) throws Exception {
 		CategoryDO categoryDO = categoryService.getCategoryVOById(categoryId);
@@ -140,12 +140,12 @@ public class CommodityManageController extends BaseController {
 		return "";
 	}
 
-	/**
+	*//**
 	 * 新增普通商品
 	 * 
 	 * @return 新增普通商品页
 	 * @throws Exception
-	 */
+	 *//*
 	@RequestMapping(value = "/common/add", method = RequestMethod.POST)
 	public String addCommon(ItemVO itemVO) throws Exception {
 		long sellerId = sessionManager.getUserId();
@@ -155,7 +155,7 @@ public class CommodityManageController extends BaseController {
 		return "/success";
 	}
 
-	/**
+	*//**
 	 * 编辑普通商品
 	 * 
 	 * @param model
@@ -165,7 +165,7 @@ public class CommodityManageController extends BaseController {
 	 *            商品类型
 	 * @return 普通商品详情
 	 * @throws Exception
-	 */
+	 *//*
 	@RequestMapping(value = "/common/edit/{itemId}", method = RequestMethod.GET)
 	public String toEditCommon(Model model, @PathVariable(value = "id") long itemId, int itemType) throws Exception {
 		ItemResult itemResult = commodityService.getCommodityById(itemId);
@@ -175,7 +175,7 @@ public class CommodityManageController extends BaseController {
 		return "/success";
 	}
 
-	/**
+	*//**
 	 * 修改普通商品
 	 * 
 	 * @param itemVO
@@ -183,7 +183,7 @@ public class CommodityManageController extends BaseController {
 	 *            商品ID
 	 * @return
 	 * @throws Exception
-	 */
+	 *//*
 	@RequestMapping(value = "/common/edit/{itemId}", method = RequestMethod.POST)
 	public String editCommon(ItemVO itemVO, @PathVariable(value = "itemId") long itemId) throws Exception {
 		itemVO.setId(itemId);
@@ -193,7 +193,7 @@ public class CommodityManageController extends BaseController {
 		itemVO.setSellerId(sellerId);
 		commodityService.modifyCommonItem(itemVO);
 		return "/success";
-	}
+	}*/
 
 	/**
 	 * 商品上架
