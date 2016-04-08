@@ -1,7 +1,6 @@
 package com.yimayhd.sellerAdmin.controller.talent;
 
 import java.util.Arrays;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,26 +14,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
+import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
-import com.yimayhd.membercenter.client.result.MemResultSupport;
-import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.enums.ExaminePageNo;
 import com.yimayhd.membercenter.enums.ExamineStatus;
+import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseController;
-import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
-import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.biz.MerchantBiz;
 import com.yimayhd.sellerAdmin.biz.TalentBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
-import com.yimayhd.sellerAdmin.constant.ResponseStatus;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
-import com.yimayhd.sellerAdmin.service.RegionService;
 /**
  * 达人申请入驻
  * 
@@ -49,6 +44,10 @@ public class TalentController extends BaseController {
 	
 	@Autowired
 	private TalentBiz talentBiz;
+	@Autowired
+	private MerchantBiz merchantBiz;
+	@Autowired
+	private ExamineDealService examineDealService;
 	/**
 	 * 处理审核结果信息
 	 * @param dto
@@ -58,10 +57,9 @@ public class TalentController extends BaseController {
 		if (dto == null || ( dto.getDealMes() == null)) {
 			return ;
 		}
-		if (ExamineStatus.EXAMIN_ERROR.getStatus() == dto.getStatus().EXAMIN_ERROR.getStatus()) {
+		if (ExamineStatus.EXAMIN_ERROR.getStatus() == dto.getStatus().getStatus()) {
 			model.addAttribute("checkResultInfo", Arrays.asList(dto.getDealMes().split(Constant.SYMBOL_SEMIONLON)));
 		}
-		//return Arrays.asList(dto.getDealMes().split(Constant.SYMBOL_SEMIONLON));
 		
 	}
 	/**
@@ -69,8 +67,11 @@ public class TalentController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="agreement",method=RequestMethod.GET)
-	public String toAgreementPage() {
-		//return checkVisitPage();
+	public String toAgreementPage(Model model) {
+		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		if(null != judgeRest){
+			return judgeRest;
+		}
 		return "system/talent/agreement";
 		
 	}
@@ -83,15 +84,21 @@ public class TalentController extends BaseController {
 	
 	@RequestMapping(value="toAddUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toAddUserdatafill_a(Model model){
-		//model.addAttribute("checkResultInfo", getCheckResultMsg(talentBiz.getCheckResult()));
+		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		if(null != judgeRest){
+			return judgeRest;
+		}
 		getCheckResultMsg(talentBiz.getCheckResult(),model);
 		return "system/talent/userdatafill_a";
 		
 	}
 	@RequestMapping(value="toEditUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toEditUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model) {
+		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		if(null != judgeRest){
+			return judgeRest;
+		}
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
-		//model.addAttribute("checkResultInfo", getCheckResultMsg(talentBiz.getCheckResult()));
 		getCheckResultMsg(talentBiz.getCheckResult(),model);
 		return "system/talent/userdatafill_a";
 		
@@ -103,16 +110,22 @@ public class TalentController extends BaseController {
 	 */
 	@RequestMapping(value="toAddUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toAddUserdatafill_b(Model model) {
+		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		if(null != judgeRest){
+			return judgeRest;
+		}
 		model.addAttribute("bankList", talentBiz.getBankList());
-		//model.addAttribute("checkResultInfo", getCheckResultMsg(talentBiz.getCheckResult()));
 		getCheckResultMsg(talentBiz.getCheckResult(),model);
 		return "system/talent/userdatafill_b";
 		
 	}
 	@RequestMapping(value="toEditUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toEditUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
+		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		if(null != judgeRest){
+			return judgeRest;
+		}
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
-		//model.addAttribute("checkResultInfo", getCheckResultMsg(talentBiz.getCheckResult()));
 		model.addAttribute("bankList", talentBiz.getBankList());
 		getCheckResultMsg(talentBiz.getCheckResult(),model);
 		return "system/talent/userdatafill_b";
@@ -125,7 +138,11 @@ public class TalentController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="verification",method=RequestMethod.GET)
-	public String verificationPage() {
+	public String verificationPage(Model model) {
+		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		if(null != judgeRest){
+			return judgeRest;
+		}
 		return "system/talent/verification";
 		
 	}
@@ -142,7 +159,7 @@ public class TalentController extends BaseController {
 	@RequestMapping(value="saveExamineInfo_pageOne",method=RequestMethod.POST)
 	@ResponseBody
 	public WebResult<String> saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
-		
+//		checkVisitPage();
 			WebResult<String> result=new WebResult<String>();
 			ExamineInfoDTO examineInfoDTO = talentBiz.getExamineInfo();
 			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_ONE.getPageNO());
@@ -174,6 +191,7 @@ public class TalentController extends BaseController {
 	@RequestMapping(value="saveExamineInfo_pageTwo",method=RequestMethod.POST)
 	@ResponseBody
 	public WebResult<String> saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
+		//	checkVisitPage();
 			WebResult<String> result=new WebResult<String>();
 			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_TWO.getPageNO());
 			if (resultSupport.isSuccess()) {
@@ -194,6 +212,7 @@ public class TalentController extends BaseController {
 	 */
 	@RequestMapping(value="toAddTalentInfo",method=RequestMethod.GET)
 	public String addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model){
+		
 		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
 		return "system/talent/eredar";
 		
@@ -207,6 +226,7 @@ public class TalentController extends BaseController {
 	 */
 	@RequestMapping(value="toEditTalentInfo",method=RequestMethod.GET)
 	public String editTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model) {
+		
 		model.addAttribute("talentBiz", talentBiz);
 		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
 		model.addAttribute("talentInfo", talentBiz.getTalentInfo());
@@ -232,31 +252,56 @@ public class TalentController extends BaseController {
 		
 	}
 	
-	public String checkVisitPage() {
-		ExamineResultDTO examineResultDTO = talentBiz.getCheckResult();
-		if (examineResultDTO == null) {
-			return null;
+	
+	public  String judgeAuthority(Model model,long userId,String pageType){
+		String chooseUrl = "/system/merchant/chosetype";
+		InfoQueryDTO info = new InfoQueryDTO();
+		info.setDomainId(Constant.DOMAIN_JIUXIU);
+		info.setSellerId(userId);
+		try {
+			MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
+			if(!result.isSuccess()){
+				return chooseUrl;
+			}
+			if(null == result.getValue()){
+				return null;
+			}
+			ExamineInfoDTO dto = result.getValue() ;
+			int type = dto.getType();
+			int status = dto.getExaminStatus();
+			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
+				return "/system/merchant/verification";
+			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
+				if(ExamineType.MERCHANT.getType()==type){
+					return "redirect:/merchant/toAddBasicPage";
+				}else if(ExamineType.TALENT.getType()==type){
+					return "redirect:/talent/toAddTalentInfo";
+				}
+			}else if(ExamineStatus.EXAMIN_ERROR.getStatus() == status){//审核不通过
+				if("edit".equals(pageType)){
+					return null;
+				}
+				
+				info.setType(type);
+				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
+				if(rest.isSuccess() && (null!=rest.getValue())){
+					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+				}
+				if(ExamineType.MERCHANT.getType()==type){
+					model.addAttribute("type", Constant.MERCHANT_NAME_CN);
+				}else if(ExamineType.TALENT.getType()==type){
+					model.addAttribute("type", Constant.TALENT_NAME_CN);
+				}
+				return "/system/merchant/nothrough";
+			}else{
+				return null;
+			}
+		} catch (Exception e) {
+			model.addAttribute("服务器出现错误，请稍后重新登录");
+			return chooseUrl;
 		}
-		String url = null;
-		if (ExamineStatus.EXAMIN_OK.getStatus() == examineResultDTO.getStatus().EXAMIN_OK.getStatus()) {
-			url = redirectToTalentInfo();
-		}else if (ExamineStatus.EXAMIN_ING.getStatus() ==  examineResultDTO.getStatus().EXAMIN_ING.getStatus()) {
-			url = redirectToVerification();
-		}else if (ExamineStatus.EXAMIN_ERROR.getStatus() == examineResultDTO.getStatus().EXAMIN_ERROR.getStatus()) {
-			url = redirectToNoThrough();
-		}else {
-			url = "talent/agreement";
-		}
-		return "redirect:"+url;
+		return chooseUrl;
 		
 	}
-	private String redirectToNoThrough() {
-		return "merchant/toNotThrowPage";
-	}
-	private String redirectToVerification() {
-		return "talent/verification";
-	}
-	private String redirectToTalentInfo() {
-		return "talent/toAddTalentInfo";
-	}
+
 }
