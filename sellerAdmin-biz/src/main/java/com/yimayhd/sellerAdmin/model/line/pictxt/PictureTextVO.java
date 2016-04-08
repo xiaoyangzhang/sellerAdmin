@@ -14,7 +14,7 @@ import com.alibaba.fastjson.JSON;
  */
 public class PictureTextVO implements Serializable {
 	private static final long serialVersionUID = -7489327287432185333L;
-	private long picTextId;
+	private long outId;
 	private List<PictureTextItemVo> pictureTextItems;
 
 	public List<PictureTextItemVo> getPictureTextItems() {
@@ -25,12 +25,12 @@ public class PictureTextVO implements Serializable {
 		this.pictureTextItems = pictureTextItems;
 	}
 
-	public long getPicTextId() {
-		return picTextId;
+	public long getOutId() {
+		return outId;
 	}
 
-	public void setPicTextId(long picTextId) {
-		this.picTextId = picTextId;
+	public void setOutId(long outId) {
+		this.outId = outId;
 	}
 
 	public String getPictureTextItemsJson() {

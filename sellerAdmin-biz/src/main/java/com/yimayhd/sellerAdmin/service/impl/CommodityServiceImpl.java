@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.yimayhd.commentcenter.client.dto.ComentDTO;
+import com.yimayhd.commentcenter.client.dto.ComentEditDTO;
+import com.yimayhd.commentcenter.client.enums.PictureText;
+import com.yimayhd.commentcenter.client.result.PicTextResult;
+import com.yimayhd.sellerAdmin.converter.PictureTextConverter;
+import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextVO;
+import com.yimayhd.sellerAdmin.repo.PictureTextRepo;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -56,6 +63,8 @@ public class CommodityServiceImpl implements CommodityService {
     private TfsService tfsService;
     @Autowired
     private HotelService hotelServiceRef;
+    @Autowired
+    private PictureTextRepo pictureTextRepo;
     @Override
     public PageVO<ItemVO> getList(CommodityListQuery commodityListQuery) throws Exception {
         ItemQryDTO itemQryDTO = new ItemQryDTO();
@@ -132,16 +141,14 @@ public class CommodityServiceImpl implements CommodityService {
             throw new NoticeException(itemResult.getResultMsg());
         }
         ItemResultVO itemResultVO = new ItemResultVO();
-        //详细描述从tfs读出来（富文本编辑）
-        if(StringUtils.isNotBlank(itemResult.getItem().getDetailUrl())){
-            itemResult.getItem().setDetailUrl(tfsService.readHtml5(itemResult.getItem().getDetailUrl()));
-
-        }
 
         itemResultVO.setCategoryVO(CategoryVO.getCategoryVO(itemResult.getCategory()));
         itemResultVO.setItemVO(ItemVO.getItemVO(itemResult.getItem(), itemResultVO.getCategoryVO()));
         //商品的排序字段
         itemResultVO.getItemVO().setSort(itemResult.getSortNum());
+        //详细描述从tfs读出来（富文本编辑）
+        PicTextResult picTextResult = pictureTextRepo.getPictureText(itemResultVO.getItemVO().getId(), PictureText.ITEM);
+        itemResultVO.getItemVO().setDetailUrlPictureTextVO(PictureTextConverter.toPictureTextVO(picTextResult));
         return itemResultVO;
     }
 
@@ -332,6 +339,10 @@ public class CommodityServiceImpl implements CommodityService {
             log.error("ItemPublishService.publishCommonItem error:" + JSON.toJSONString(itemPubResult) + "and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
             throw new BaseException(itemPubResult.getResultMsg());
         }
+
+        //TODO itemId 需要
+        ComentDTO comentDTO = PictureTextConverter.toComentDTO(1l, PictureText.ITEM, JSON.parseObject(itemDO.getDetailUrl(), PictureTextVO.class));
+        pictureTextRepo.savePictureText(comentDTO);
     }
 
     @Override
@@ -400,6 +411,8 @@ public class CommodityServiceImpl implements CommodityService {
                     itemDB.setItemFeature(itemFeature);
                 }
             }
+            //商品编码
+            itemDB.setCode(itemVO.getCode());
 
             ItemPubResult itemPubResult = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
             if(null == itemPubResult){
@@ -409,6 +422,11 @@ public class CommodityServiceImpl implements CommodityService {
                 log.error("ItemPublishService.publishCommonItem error:" + JSON.toJSONString(itemPubResult) + "and parame: " + JSON.toJSONString(commonItemPublishDTO) + "and itemVO:" + JSON.toJSONString(itemVO));
                 throw new BaseException(itemPubResult.getResultMsg());
             }
+            
+            PictureTextVO pictureTextVO = JSON.parseObject(itemVO.getDetailUrl(), PictureTextVO.class);
+            pictureTextVO.setOutId(itemVO.getId());
+            ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(pictureTextVO);
+            pictureTextRepo.updatePictureText(comentEditDTO);
 
         }
     }
