@@ -14,7 +14,7 @@
 	<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/common.css">
 	
 </head>
-<body>
+<body  class = "bodyWhite">
 	<!-- 头部开始 -->
 	<div class="clearfix actlg-header">
 		<div class="logo"><a href="http://s0.yimayholiday.com/PC_B2C/index.html"><img src="$!rs_path_jiuxiu/img/loginlogo.jpg"/></a></div>
@@ -34,7 +34,7 @@
 	
 	<!-- 首页的中心部分结束 -->
 	<!-- 尾部开始 -->
-	<div class="footer">
+	<div class="footer" id = "footID">
 		<div class="footer-wrap">
 			<div class="footer-inner">
 				<ul class="footer-about">

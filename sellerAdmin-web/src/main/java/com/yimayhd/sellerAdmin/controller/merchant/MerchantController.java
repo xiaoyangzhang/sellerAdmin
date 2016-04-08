@@ -31,6 +31,7 @@ import com.yimayhd.sellerAdmin.controller.merchant.helper.MerchantHelper;
 import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 import com.yimayhd.sellerAdmin.vo.merchant.MerchantInfoVo;
 import com.yimayhd.sellerAdmin.vo.merchant.UserDetailInfo;
+import com.yimayhd.tradecenter.client.model.enums.ExamineeStatus;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.UserDTO;
@@ -79,46 +80,56 @@ public class MerchantController extends BaseController{
 		if(reject){
 			return chooseUrl;
 		}
-		InfoQueryDTO info = new InfoQueryDTO();
-		info.setDomainId(Constant.DOMAIN_JIUXIU);
-		info.setSellerId(sessionManager.getUserId());
-		try {
-			MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
-			if(!result.isSuccess() || null == result.getValue()){
-				return chooseUrl;
-			}
-			ExamineInfoDTO dto = result.getValue() ;
-			int type = dto.getType();
-			int status = dto.getExaminStatus();
-			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
-				return chooseUrl;
-			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
-				if(ExamineType.MERCHANT.getType()==type){
-					return "redirect:/merchant/toAddBasicPage";
-				}else if(ExamineType.TALENT.getType()==type){
-					return "redirect://talent/toAddTalentInfo";
-				}
-			}else if(ExamineStatus.EXAMIN_ERROR.getStatus() == status){//审核不通过
-				info.setType(type);
-				
-				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
-				if(rest.isSuccess() && (null!=rest.getValue())){
-					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
-				}
-				if(ExamineType.MERCHANT.getType()==type){
-					model.addAttribute("type", Constant.MERCHANT_NAME_CN);
-				}else if(ExamineType.TALENT.getType()==type){
-					model.addAttribute("type", Constant.TALENT_NAME_CN);
-				}
-				model.addAttribute("url", "/merchant/toChoosePage?reject=true");
-				return "/system/merchant/nothrough";
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			model.addAttribute("服务器出现错误，请稍后重新登录");
+		//权限
+		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "");
+		if(null != judgeRest){
+			return judgeRest;
+		}else{
 			return chooseUrl;
 		}
-		return chooseUrl;
+		
+//		InfoQueryDTO info = new InfoQueryDTO();
+//		info.setDomainId(Constant.DOMAIN_JIUXIU);
+//		info.setSellerId(sessionManager.getUserId());
+//		try {
+//			MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
+//			if(!result.isSuccess() || null == result.getValue()){
+//				return chooseUrl;
+//			}
+//			ExamineInfoDTO dto = result.getValue() ;
+//			int type = dto.getType();
+//			int status = dto.getExaminStatus();
+//			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
+//				return "/system/merchant/verification";
+//			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
+//				if(ExamineType.MERCHANT.getType()==type){
+//					return "redirect:/merchant/toAddBasicPage";
+//				}else if(ExamineType.TALENT.getType()==type){
+//					return "redirect://talent/toAddTalentInfo";
+//				}
+//			}else if(ExamineStatus.EXAMIN_ERROR.getStatus() == status){//审核不通过
+//				info.setType(type);
+//				
+//				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
+//				if(rest.isSuccess() && (null!=rest.getValue())){
+//					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+//				}
+//				if(ExamineType.MERCHANT.getType()==type){
+//					model.addAttribute("type", Constant.MERCHANT_NAME_CN);
+//				}else if(ExamineType.TALENT.getType()==type){
+//					model.addAttribute("type", Constant.TALENT_NAME_CN);
+//				}
+//				model.addAttribute("url", "/merchant/toChoosePage?reject=true");
+//				return "/system/merchant/nothrough";
+//			}else{
+//				return chooseUrl;
+//			}
+//		} catch (Exception e) {
+//			log.error(e.getMessage(), e);
+//			model.addAttribute("服务器出现错误，请稍后重新登录");
+//			return chooseUrl;
+//		}
+//		return chooseUrl;
 	}
 	
 	/**
@@ -204,8 +215,10 @@ public class MerchantController extends BaseController{
 	@RequestMapping(value = "toDetailPage")
 	public String toBusinessDetailPage(Model model){
 		//权限
-		MerchantHelper helper = new MerchantHelper();
-		helper.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		if(null != judgeRest){
+			return judgeRest;
+		}
 		
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setType(ExamineType.MERCHANT.getType());
@@ -233,8 +246,10 @@ public class MerchantController extends BaseController{
 	@RequestMapping(value = "toDetailPageB")
 	public String toDetailPageB(Model model){
 		//权限
-		MerchantHelper helper = new MerchantHelper();
-		helper.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		if(null != judgeRest){
+			return judgeRest;
+		}
 		
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setType(ExamineType.MERCHANT.getType());
@@ -269,7 +284,6 @@ public class MerchantController extends BaseController{
 	public WebResult<String> saveUserdata(UserDetailInfo userDetailInfo){
 		WebResult<String> rest = new WebResult<String>();
 		
-		userDetailInfo.setPageNum(ExaminePageNo.PAGE_ONE.getPageNO());
 		WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
 		if(result.isSuccess()){
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/merchant/toDetailPageB");
@@ -289,9 +303,13 @@ public class MerchantController extends BaseController{
 	@ResponseBody
 	public WebResult<String> saveUserdataB(UserDetailInfo userDetailInfo){
 		WebResult<String> rest = new WebResult<String>();
-		userDetailInfo.setPageNum(ExaminePageNo.PAGE_TWO.getPageNO());
 		WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
 		if(result.isSuccess()){
+			InfoQueryDTO info = new InfoQueryDTO();
+			info.setDomainId(Constant.DOMAIN_JIUXIU);
+			info.setSellerId(sessionManager.getUserId());
+			info.setType(ExamineType.MERCHANT.getType());
+			merchantBiz.changeExamineStatusIntoIng(info);
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/merchant/toVerifyPage");
 		}else{
 			rest.setWebReturnCode(result.getWebReturnCode());
@@ -333,6 +351,57 @@ public class MerchantController extends BaseController{
 		
 	}*/
 	
-	
+	public  String judgeAuthority(Model model,long userId,String pageType){
+		String chooseUrl = "/system/merchant/chosetype";
+		InfoQueryDTO info = new InfoQueryDTO();
+		info.setDomainId(Constant.DOMAIN_JIUXIU);
+		info.setSellerId(userId);
+		try {
+			MemResult<ExamineInfoDTO> result = merchantBiz.queryMerchantExamineInfoBySellerId(info);
+			if(!result.isSuccess()){
+				return chooseUrl;
+			}
+			if(null == result.getValue()){
+				return null;
+			}
+			ExamineInfoDTO dto = result.getValue() ;
+			int type = dto.getType();
+			int status = dto.getExaminStatus();
+			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
+				return "/system/merchant/verification";
+			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
+				if(ExamineType.MERCHANT.getType()==type){
+					return "redirect:/merchant/toAddBasicPage";
+				}else if(ExamineType.TALENT.getType()==type){
+					return "redirect:/talent/toAddTalentInfo";
+				}
+			}else if(ExamineStatus.EXAMIN_ERROR.getStatus() == status){//审核不通过
+				if("edit".equals(pageType)){
+					return null;
+				}
+				
+				info.setType(type);
+				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
+				if(rest.isSuccess() && (null!=rest.getValue())){
+					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+				}
+				if(ExamineType.MERCHANT.getType()==type){
+					model.addAttribute("type", Constant.MERCHANT_NAME_CN);
+				}else if(ExamineType.TALENT.getType()==type){
+					model.addAttribute("type", Constant.TALENT_NAME_CN);
+				}
+				model.addAttribute("url", "/merchant/toChoosePage?reject=true");
+				return "/system/merchant/nothrough";
+			}else{
+				return null;
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			model.addAttribute("服务器出现错误，请稍后重新登录");
+			return chooseUrl;
+		}
+		return chooseUrl;
+		
+	}
 	
 }
