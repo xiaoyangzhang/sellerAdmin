@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
-import com.yimayhd.membercenter.client.dto.ExamineSubmitDTO;
+import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.user.client.domain.MerchantDO;
@@ -29,6 +29,11 @@ public class MerchantRepo {
 	
 	@Resource
 	private ExamineDealService examineDealService;
+	
+	public MemResult<ExamineInfoDTO> queryMerchantExamineInfoBySellerId(InfoQueryDTO info){
+		return examineDealService.queryMerchantExamineInfoBySellerId(info);
+	}
+	
 	
 	/**
 	 * 更新用户信息
@@ -62,8 +67,18 @@ public class MerchantRepo {
 	 * @param examineInfoDTO
 	 * @return
 	 */
-	public MemResult<Boolean> saveUserdata(ExamineSubmitDTO examineSubmitDTO){
-		return examineDealService.submitMerchantExamineInfo(examineSubmitDTO);
+	public MemResult<Boolean> saveUserdata(ExamineInfoDTO examineInfoDTO){
+		return examineDealService.submitMerchantExamineInfo(examineInfoDTO);
 	}
+	
+	/**
+	 * 修改商户入驻状态
+	 * @param examineInfoDTO
+	 * @return
+	 */
+	public MemResult<Boolean> changeExamineStatusIntoIng(InfoQueryDTO nfoQueryDTO){
+		return examineDealService.changeExamineStatusIntoIng(nfoQueryDTO);
+	}
+	
 	
 }

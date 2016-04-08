@@ -14,7 +14,7 @@
 <input type="file" name="adpicfile">
 <input type="submit" value="提交">
 </form>
-<form id='uploadform' action='' method='post' enctype='multipart/form-data'><input type="file" name="adpicfile" class="adpicfile single">3333</form>
+<form id='uploadform' action='' method='post' enctype='multipart/form-data'><a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>3333</form>
 	<input type="hidden" name="id" #if("$!examineInfo.id" == "") value="0" #else value="$!examineInfo.id" #end/>
 	<div class="uploadPicture">  
        <img id="imgHead" src="" width="106" height="122" alt="头像">   
@@ -92,7 +92,7 @@
 											#end
 											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 										</div><div class="plhd"></div><div class="del">删除图片</div>
-										<input type="file" name="adpicfile" class="adpicfile single">
+										<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
 										<input type="hidden" name="principleCardUp" value="$!examineInfo.principleCardUp">
 									</span>
 								</td>
@@ -107,7 +107,7 @@
 											#end
 											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 										</div><div class="plhd"></div><div class="del">删除图片</div>
-										<input type="file" name="adpicfile" class="adpicfile single">
+										<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
 										<input type="hidden" name="principleCardDown" value="$!examineInfo.principleCardDown">
 									</span>
 								</td>
@@ -161,7 +161,7 @@
 											#end
 											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 										</div><div class="plhd"></div><div class="del">删除图片</div>
-										<input type="file" name="adpicfile" class="adpicfile single">
+										<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
 										<input type="hidden" name="cooperation1" value="$!examineInfo.cooperation1">
 								</span>
 							</label>
@@ -175,7 +175,7 @@
 											#end
 											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 										</div><div class="plhd"></div><div class="del">删除图片</div>
-										<input type="file" name="adpicfile" class="adpicfile single">
+										<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
 										<input type="hidden" name="cooperation2" value="$!examineInfo.cooperation2">
 								</span>
 							</label>
@@ -189,7 +189,7 @@
 											#end
 											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 										</div><div class="plhd"></div><div class="del">删除图片</div>
-										<input type="file" name="adpicfile" class="adpicfile single">
+										<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
 										<input type="hidden" name="cooperation3" value="$!examineInfo.cooperation3">
 								</span>
 							</label>
@@ -203,7 +203,7 @@
 											#end
 											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 										</div><div class="plhd"></div><div class="del">删除图片</div>
-										<input type="file" name="adpicfile" class="adpicfile single">
+										<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
 										<input type="hidden" name="cooperation4" value="$!examineInfo.cooperation4">
 								</span>
 							</label>
@@ -217,7 +217,7 @@
 											#end
 											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 										</div><div class="plhd"></div><div class="del">删除图片</div>
-										<input type="file" name="adpicfile" class="adpicfile single">
+										<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
 										<input type="hidden" name="cooperation5" value="$!examineInfo.cooperation5">
 								</span>
 							</label>

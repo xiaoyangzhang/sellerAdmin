@@ -52,7 +52,8 @@ public class ItemVO extends ItemDO {
     private String coverPics;//封面大图String
     private List<String> picList;//封面大图List
     private String pcDetail;//pc版详情H5
-    private PictureTextVO DetailUrlPictureTextVO;//pc版详情H5对象
+    private PictureTextVO pictureTextVO;//图文详情
+    private String pictureTextVOStr;
 
     private Integer reduceType = ReduceType.NONE.getBizType();//减库存方式
 
@@ -509,12 +510,19 @@ public class ItemVO extends ItemDO {
         this.pcDetail = pcDetail;
     }
 
-
-    public PictureTextVO getDetailUrlPictureTextVO() {
-        return DetailUrlPictureTextVO;
+    public PictureTextVO getPictureTextVO() {
+        return pictureTextVO;
     }
 
-    public void setDetailUrlPictureTextVO(PictureTextVO detailUrlPictureTextVO) {
-        DetailUrlPictureTextVO = detailUrlPictureTextVO;
+    public void setPictureTextVO(PictureTextVO pictureTextVO) {
+        this.pictureTextVO = pictureTextVO;
+    }
+
+    public String getPictureTextVOStr() {
+        return pictureTextVOStr;
+    }
+
+    public void setPictureTextVOStr(String pictureTextVOStr) {
+        this.pictureTextVOStr = pictureTextVOStr;
     }
 }

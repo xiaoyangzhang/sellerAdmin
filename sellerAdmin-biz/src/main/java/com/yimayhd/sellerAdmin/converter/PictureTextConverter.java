@@ -50,12 +50,14 @@ public class PictureTextConverter {
 		return pictureTextVO;
 	}
 
-	public static ComentEditDTO toComentEditDTO(long outId, PictureTextVO pictureTextVO) {
-		if (pictureTextVO == null) {
+
+	public static ComentEditDTO toComentEditDTO(long itemId, PictureText pictureTextType, PictureTextVO pictureTextVO) {
+		if (itemId <= 0 || pictureTextType == null || pictureTextVO == null) {
 			return null;
 		}
 		ComentEditDTO comentEditDTO = new ComentEditDTO();
-		comentEditDTO.setOutId(outId);
+		comentEditDTO.setOutId(itemId);
+		comentEditDTO.setOutType(pictureTextType.name());
 		List<PicTextDO> picTextDOList = new ArrayList<PicTextDO>();
 		List<PictureTextItemVo> pictureTextItems = pictureTextVO.getPictureTextItems();
 		if (CollectionUtils.isNotEmpty(pictureTextItems)) {
@@ -79,6 +81,7 @@ public class PictureTextConverter {
 		return comentEditDTO;
 	}
 
+	@Deprecated
 	public static ComentDTO toComentDTO(long itemId, PictureText pictureTextType, PictureTextVO pictureTextVO) {
 		if (itemId <= 0 || pictureTextType == null || pictureTextVO == null) {
 			return null;
