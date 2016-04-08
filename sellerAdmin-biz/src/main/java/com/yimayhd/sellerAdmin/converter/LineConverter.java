@@ -217,14 +217,30 @@ public class LineConverter {
 		if (CollectionUtils.isEmpty(tcs)) {
 			return new ArrayList<ItemSkuDO>(0);
 		}
+		List<Long> packageNameIds = new ArrayList<Long>();
+		long nextId = -1;
+		for (PackageInfo packageInfo : tcs) {
+			long id = packageInfo.getId();
+			if (id < 0) {
+				packageNameIds.add(id);
+				if (id < nextId) {
+					nextId = id - 1;
+				}
+			}
+		}
 		List<ItemSkuDO> itemSkuDOs = new ArrayList<ItemSkuDO>();
 		for (PackageInfo packageInfo : tcs) {
+			if (packageInfo.getId() >= 0) {
+				packageInfo.setId(nextId);
+				nextId--;
+			}
 			ItemSkuPVPair itemSkuPVPair1 = packageInfo.toItemSkuPVPair();
 			if (CollectionUtils.isNotEmpty(packageInfo.getMonths())) {
 				for (PackageMonth packageMonth : packageInfo.getMonths()) {
 					if (CollectionUtils.isNotEmpty(packageMonth.getDays())) {
 						for (PackageDay packageDay : packageMonth.getDays()) {
 							ItemSkuPVPair itemSkuPVPair2 = packageDay.toItemSkuPVPair();
+							itemSkuPVPair2.setVId(-1 * packageDay.getTime());
 							if (CollectionUtils.isNotEmpty(packageMonth.getDays())) {
 								for (PackageBlock packageBlock : packageDay.getBlocks()) {
 									ItemSkuPVPair itemSkuPVPair3 = packageBlock.toItemSkuPVPair();
