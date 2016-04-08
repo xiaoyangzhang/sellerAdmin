@@ -54,12 +54,14 @@ public class TalentController extends BaseController {
 	 * @param dto
 	 * @return
 	 */
-	public List<String> getCheckResultMsg(ExamineResultDTO dto) {
+	public void getCheckResultMsg(ExamineResultDTO dto,Model model) {
 		if (dto == null || ( dto.getDealMes() == null)) {
-			return null;
+			return ;
 		}
-		
-		return Arrays.asList(dto.getDealMes().split(Constant.SYMBOL_SEMIONLON));
+		if (ExamineStatus.EXAMIN_ERROR.getStatus() == dto.getStatus().EXAMIN_ERROR.getStatus()) {
+			model.addAttribute("checkResultInfo", Arrays.asList(dto.getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+		}
+		//return Arrays.asList(dto.getDealMes().split(Constant.SYMBOL_SEMIONLON));
 		
 	}
 	/**
@@ -81,14 +83,16 @@ public class TalentController extends BaseController {
 	
 	@RequestMapping(value="toAddUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toAddUserdatafill_a(Model model){
-		model.addAttribute("checkResultInfo", getCheckResultMsg(talentBiz.getCheckResult()));
+		//model.addAttribute("checkResultInfo", getCheckResultMsg(talentBiz.getCheckResult()));
+		getCheckResultMsg(talentBiz.getCheckResult(),model);
 		return "system/talent/userdatafill_a";
 		
 	}
 	@RequestMapping(value="toEditUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toEditUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model) {
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
-		model.addAttribute("checkResultInfo", getCheckResultMsg(talentBiz.getCheckResult()));
+		//model.addAttribute("checkResultInfo", getCheckResultMsg(talentBiz.getCheckResult()));
+		getCheckResultMsg(talentBiz.getCheckResult(),model);
 		return "system/talent/userdatafill_a";
 		
 	}
@@ -100,15 +104,17 @@ public class TalentController extends BaseController {
 	@RequestMapping(value="toAddUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toAddUserdatafill_b(Model model) {
 		model.addAttribute("bankList", talentBiz.getBankList());
-		model.addAttribute("checkResultInfo", getCheckResultMsg(talentBiz.getCheckResult()));
+		//model.addAttribute("checkResultInfo", getCheckResultMsg(talentBiz.getCheckResult()));
+		getCheckResultMsg(talentBiz.getCheckResult(),model);
 		return "system/talent/userdatafill_b";
 		
 	}
 	@RequestMapping(value="toEditUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toEditUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
-		model.addAttribute("checkResultInfo", getCheckResultMsg(talentBiz.getCheckResult()));
+		//model.addAttribute("checkResultInfo", getCheckResultMsg(talentBiz.getCheckResult()));
 		model.addAttribute("bankList", talentBiz.getBankList());
+		getCheckResultMsg(talentBiz.getCheckResult(),model);
 		return "system/talent/userdatafill_b";
 		
 	}
@@ -234,14 +240,11 @@ public class TalentController extends BaseController {
 		String url = null;
 		if (ExamineStatus.EXAMIN_OK.getStatus() == examineResultDTO.getStatus().EXAMIN_OK.getStatus()) {
 			url = redirectToTalentInfo();
-		}
-		else if (ExamineStatus.EXAMIN_ING.getStatus() ==  examineResultDTO.getStatus().EXAMIN_ING.getStatus()) {
+		}else if (ExamineStatus.EXAMIN_ING.getStatus() ==  examineResultDTO.getStatus().EXAMIN_ING.getStatus()) {
 			url = redirectToVerification();
-		}
-		else if (ExamineStatus.EXAMIN_ERROR.getStatus() == examineResultDTO.getStatus().EXAMIN_ERROR.getStatus()) {
+		}else if (ExamineStatus.EXAMIN_ERROR.getStatus() == examineResultDTO.getStatus().EXAMIN_ERROR.getStatus()) {
 			url = redirectToNoThrough();
-		}
-		else {
+		}else {
 			url = "talent/agreement";
 		}
 		return "redirect:"+url;
