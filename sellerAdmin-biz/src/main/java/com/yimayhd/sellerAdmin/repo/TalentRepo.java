@@ -146,7 +146,7 @@ public class TalentRepo {
 		WebResultSupport webResultSupport=new WebResultSupport();
 		try {
 			RepoUtils.requestLog(log, " examineDealService.submitMerchantExamineInfo", vo);
-			 ExamineInfoResult = examineDealService.submitMerchantExamineInfo(vo.getExamineSubmitDTO(vo,sessionManager.getUserId(),pageNo));
+			 ExamineInfoResult = examineDealService.submitMerchantExamineInfo(vo.getExamineInfoDTO(vo, sessionManager.getUserId()));
 			 RepoUtils.requestLog(log, " examineDealService.submitMerchantExamineInfo", ExamineInfoResult);
 			 if (ExamineInfoResult.isSuccess()) {
 				

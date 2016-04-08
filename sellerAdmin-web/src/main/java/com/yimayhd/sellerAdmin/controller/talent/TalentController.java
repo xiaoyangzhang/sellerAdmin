@@ -72,6 +72,7 @@ public class TalentController extends BaseController {
 		if(null != judgeRest){
 			return judgeRest;
 		}
+		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
 		return "system/talent/agreement";
 		
 	}
