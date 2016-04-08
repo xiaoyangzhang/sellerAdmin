@@ -67,7 +67,7 @@
                     #*json string 提交*#
                     <input type="hidden" name="itemProperties" id="itemProperties" value="$!commodity.itemProperties">
                     <input type="hidden" name="itemSkuVOStr" id="itemSkuVOStr" value="$!commodity.itemSkuVOStr">
-                    <input type="hidden" name="detailUrl" id="detailUrl" value="">
+                    <input type="hidden" name="pictureTextVOStr" id="pictureTextVOStr" value="">
                     <input class="picUrlsVal" type="hidden" name="coverPics" value="$!commodity.coverPics">
                     #*<tr>
                         <td><span class="spColor">*</span>减库存方式</td>
@@ -755,7 +755,7 @@
             $('#itemSkuVOStr').val(JSON.stringify(skuPropertyAll));
 
             //图文编辑
-            $('#detailUrl').val(JSON.stringify(getPictureText()));
+            $('#pictureTextVOStr').val(JSON.stringify(getPictureText()));
             var url = '';
             if($('#commodityForm').attr('commodityId')){
                 url = actionDefaultPath + '/barterItem/common/edit/' + $('#commodityForm').attr('commodityId');

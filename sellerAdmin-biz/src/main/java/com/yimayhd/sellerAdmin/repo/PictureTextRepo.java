@@ -74,8 +74,9 @@ public class PictureTextRepo {
 			log.warn("Param comentEditDTO=" + comentEditDTO);
 			throw new BaseException("参数异常");
 		}
+		comentEditDTO.setDomain(Constant.DOMAIN_JIUXIU);
 		RepoUtils.requestLog(log, "comPictureTextServiceRef.editPictureText", comentEditDTO);
 		BaseResult<ComentDO> editPictureText = comPictureTextServiceRef.editPictureText(comentEditDTO);
-		RepoUtils.resultLog(log, "comPictureTextServiceRef.updatePictureText", editPictureText);
+		RepoUtils.resultLog(log, "comPictureTextServiceRef.editPictureText", editPictureText);
 	}
 }
