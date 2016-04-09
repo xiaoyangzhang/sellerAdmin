@@ -3,7 +3,7 @@
 ul li,ol li{list-style: none;}
 
 table{width: 100%;}
-table th,table td{min-width: 40px;max-width: 250px;padding: 8px 0 !important;text-align: justify;}
+/* table th,table td{min-width: 40px;max-width: 250px;padding: 8px 0 !important;text-align: justify;} */
 
 .bigEditor .edui-editor:nth-child(2){width: 100% !important;}
 

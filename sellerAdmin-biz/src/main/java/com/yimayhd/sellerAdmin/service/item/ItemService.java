@@ -41,6 +41,15 @@ public interface ItemService {
 	WebOperateResult unshelve(long sellerId, long itemId);
 
 	/**
+	 * 删除
+	 * 
+	 * @param sellerId
+	 * @param itemId
+	 * @return
+	 */
+	WebOperateResult delete(long sellerId, long itemId);
+
+	/**
 	 * 批量下架
 	 * 
 	 * @param sellerId
@@ -57,4 +66,13 @@ public interface ItemService {
 	 * @return
 	 */
 	WebOperateResult batchUnshelve(long sellerId, List<Long> itemIds);
+
+	/**
+	 * 批量删除
+	 * 
+	 * @param sellerId
+	 * @param itemIds
+	 * @return
+	 */
+	WebOperateResult batchDelete(long sellerId, List<Long> itemIds);
 }

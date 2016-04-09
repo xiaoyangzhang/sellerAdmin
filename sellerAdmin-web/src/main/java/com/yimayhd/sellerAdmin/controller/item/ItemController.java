@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
+import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseException;
@@ -22,6 +23,7 @@ import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.model.enums.ItemOperate;
 import com.yimayhd.sellerAdmin.model.item.ItemListItemVO;
 import com.yimayhd.sellerAdmin.model.query.ItemListQuery;
 import com.yimayhd.sellerAdmin.service.CategoryService;
@@ -61,7 +63,8 @@ public class ItemController extends BaseController {
 			throw new BaseException(result.getResultMsg());
 		}
 		put("pageVo", result.getValue());
-		put("itemTypes", ItemType.values());
+		put("itemTypeList", ItemType.values());
+		put("itemStatusList", ItemStatus.values());
 		put("query", query);
 		return "/system/comm/itemList";
 	}
@@ -129,42 +132,27 @@ public class ItemController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = "/{id}/shelve")
-	public @ResponseBody WebOperateResult shelve(@PathVariable("id") long id) {
+	@RequestMapping(value = "/{id}/operate")
+	public @ResponseBody WebOperateResult opeate(@PathVariable("id") long id, @RequestParam("operate") String operate) {
 		long sellerId = getCurrentUserId();
 		if (sellerId <= 0) {
 			log.warn("未登录");
 			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR_MERCHANT_TALENT);
 		}
-		return itemService.shelve(sellerId, id);
+		if (ItemOperate.SHELVE.name().equalsIgnoreCase(operate)) {
+			return itemService.shelve(sellerId, id);
+		} else if (ItemOperate.UNSHELVE.name().equalsIgnoreCase(operate)) {
+			return itemService.unshelve(sellerId, id);
+		} else if (ItemOperate.DELETE.name().equalsIgnoreCase(operate)) {
+			return itemService.delete(sellerId, id);
+		} else {
+			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
+		}
 	}
 
-	@RequestMapping(value = "/{id}/unshelve")
-	public @ResponseBody WebOperateResult unshelve(@PathVariable("id") long id) {
-		long sellerId = getCurrentUserId();
-		if (sellerId <= 0) {
-			log.warn("未登录");
-			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR_MERCHANT_TALENT);
-		}
-		return itemService.unshelve(sellerId, id);
-	}
-
-	@RequestMapping(value = "/batchShelve")
-	public @ResponseBody WebOperateResult batchShelve(@RequestParam("itemIds[]") Long[] itemIds) {
-		long sellerId = getCurrentUserId();
-		if (sellerId <= 0) {
-			log.warn("未登录");
-			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR_MERCHANT_TALENT);
-		}
-		if (ArrayUtils.isEmpty(itemIds)) {
-			log.warn("itemIds is null");
-			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
-		}
-		return itemService.batchShelve(sellerId, Arrays.asList(itemIds));
-	}
-
-	@RequestMapping(value = "/batchUnshelve")
-	public @ResponseBody WebOperateResult batchUnshelve(@RequestParam("itemIds[]") Long[] itemIds) {
+	@RequestMapping(value = "/batchOperate")
+	public @ResponseBody WebOperateResult batchPerate(@RequestParam("itemIds[]") Long[] itemIds,
+			@RequestParam("operate") String operate) {
 		long sellerId = getCurrentUserId();
 		if (sellerId <= 0) {
 			log.warn("未登录");
@@ -174,7 +162,26 @@ public class ItemController extends BaseController {
 			log.warn("itemIds is null");
 			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
 		}
-		return itemService.batchUnshelve(sellerId, Arrays.asList(itemIds));
+		if (ItemOperate.SHELVE.name().equalsIgnoreCase(operate)) {
+			return itemService.batchShelve(sellerId, Arrays.asList(itemIds));
+		} else if (ItemOperate.UNSHELVE.name().equalsIgnoreCase(operate)) {
+			return itemService.batchUnshelve(sellerId, Arrays.asList(itemIds));
+		} else if (ItemOperate.DELETE.name().equalsIgnoreCase(operate)) {
+			return itemService.batchDelete(sellerId, Arrays.asList(itemIds));
+		} else {
+			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
+		}
 	}
 
+	@RequestMapping(value = "/{id}/type/{type}")
+	public String detail(@PathVariable(value = "id") long itemId, @PathVariable(value = "type") int itemType) {
+		// TODO YEBIN 待开发
+		if (ItemType.FREE_LINE.getValue() == itemType || ItemType.TOUR_LINE.getValue() == itemType) {
+			return redirect("/line/" + itemId + "/detail/");
+		} /*else if (ItemType.CITY_ACTIVITY.getValue() == itemType) {
+			return redirect("/cityActivity/toAdd?categoryId=" + categoryId);
+		}*/ else {
+			throw new BaseException("unsupport ItemType " + itemType);
+		}
+	}
 }

@@ -1,13 +1,13 @@
 ##     totalPage 总页数   showSize-10   cpage 当前页
 #macro(pageStyle $formId)
 <div class="pagination pagination-large pagination-right pageWrap">
-    #set($pageVoNo = $pageVo.thisPageNumber)
+    #set($pageVoNo = $pageVo.thisPageNo)
     #set($before=0)
     #set($after=0)
     <ul class="pager" style="width: 100%;">
         #if($pageVo.hasPreviousPage)
             <li class="previous">
-                <a href="javascript:void(0);" class="LinkeToPage" pageNo="$pageVo.previousPageNumber" id="prePage">«
+                <a href="javascript:void(0);" class="LinkeToPage" pageNo="$pageVo.previousPageNo" id="prePage">«
                     上一页</a>
             </li>
         #else
@@ -15,7 +15,7 @@
                 <a href="javascript:void(0);" id="prePage">« 上一页</a>
             </li>
         #end
-        #foreach($i in [1 .. $pageVo.lastPageNumber])
+        #foreach($i in [1 .. $pageVo.lastPageNo])
             #if($pageVoNo == $i)
                 <li class="active">
                     <span><a href="javascript:void(0);">$i</a></span>
@@ -24,7 +24,7 @@
                 <li>
                     <span><a href="javascript:void(0);" class="LinkeToPage" pageNo="$i">$i</a></span>
                 </li>
-            #elseif($pageVo.lastPageNumber <= $i + 1)
+            #elseif($pageVo.lastPageNo <= $i + 1)
                 <li>
                     <span><a href="javascript:void(0);" class="LinkeToPage" pageNo="$i">$i</a></span>
                 </li>
@@ -46,7 +46,7 @@
         #end
         #if($pageVo.hasNextPage)
             <li class="next">
-                <a href="javascript:void(0);" class="LinkeToPage" pageNo="$pageVo.nextPageNumber" id="nextPage">下一页»</a>
+                <a href="javascript:void(0);" class="LinkeToPage" pageNo="$!pageVo.nextPageNo" id="nextPage">下一页»</a>
             </li>
         #else
             <li class="next disabled">
@@ -54,7 +54,7 @@
             </li>
         #end
         <li>
-            <div class="input-group" style="width: 149px;">
+            <span class="input-group" style="width: 149px;">
                 <span class="input-group-addon">每页</span>
                 <select class="form-control pageSize" name="" id="pageSize" style="width: 60px;">
                     <option value="10">10</option>
@@ -63,7 +63,7 @@
                 </select>
                 <span class="input-group-addon">条</span>
 				<span class="input-group-addon">共 ${pageVo.totalCount} 条</span>
-            </div>
+            </span>
         </li>
     </ul>
     <script type="text/javascript">
@@ -75,12 +75,9 @@
             $(".pageSize").change(function () {
                 pageFormSubmit(1, $(this).val());
             });
-            var availHei = (top.window.screen.availHeight - 210);
-            var availWid = (top.window.screen.availWidth - 600);
-            top.$(".tabIframe").attr("style","min-height:"+availHei+"px;min-width:"+availWid+"px;");
         });
         function pageFormSubmit(no, size) {
-            var pageNo = $("<input type='hidden' name='pageNumber'/>");
+            var pageNo = $("<input type='hidden' name='pageNo'/>");
             pageNo.val(no);
             $("#$formId").append(pageNo);
             var pageSize = $("<input type='hidden' name='pageSize'/>");

@@ -47,6 +47,16 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	<!-- 请求封装-->
+	<filter>  
+        <filter-name>wrapperRequestFilter</filter-name>  
+        <filter-class>com.yimayhd.sellerAdmin.common.filter.WrapperRequestFilter</filter-class>  
+    </filter>  
+    <filter-mapping>  
+        <filter-name>wrapperRequestFilter</filter-name>  
+        <url-pattern>/*</url-pattern>  
+    </filter-mapping>
 
 
 	<!-- springmvc控制转发器 -->
