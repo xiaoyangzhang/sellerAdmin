@@ -9,7 +9,6 @@
 
 	<body>
 		<div class="example whole">
-			<form name="" id="" action="" method="post">
 				<div class="">
 					<table class="table tab-setlist">
 						<!--<input type="hidden" name="categoryId" value="4">
@@ -97,17 +96,8 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="clubBotBtn">
-					<div class="btn-group">
-<!--						<input type="hidden" name="itemProperties" id="itemProperties" value="">-->
-						<input type="hidden" name="itemSkuVOStr" id="itemSkuVOStr" value="" >
-						<button class="btn btn-success btnSubmit" type="button">保存</button>
-					</div>
-					<div class="btn-group">
-						<button type="button" class="btn closBtn">取消</button>
-					</div>
-				</div>
-			</form>
+                <input type="hidden" name="itemSkuVOStr" id="itemSkuVOStr" value="$!{item.itemSkuVOStr}" />
+
 		</div>
 		<script src="http://s0.test.jiuxiulvxing.com/admin/src/js/jquery.js"></script>
 		<script src="http://s0.test.jiuxiulvxing.com/admin/src/js/zui.min.js"></script>
@@ -115,7 +105,12 @@
 		<script src="http://s0.test.jiuxiulvxing.com/admin/src/js/setsku.js"></script>
 		<script>
 			//生成sku最终数组(初始化是check偶是false)
-			var skuPropertyAll=[];
+            var skuPropertyAll=[];
+            var skuTableShowFlag = false;
+            if($('#id').val()) {
+                skuPropertyAll= JSON.parse($('#itemSkuVOStr').val(JSON.stringify(skuPropertyAll)));
+                skuTableShowFlag = true;
+			}
 
 //			skuPropertyAll = [{"categoryId":0,"checked":true,"id":108259,"itemId":0,"itemPrice":0,"idGroup":"_-1_-1_-1","itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-1,"vTxt":"星期一"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-1,"vTxt":"徒步、烧烤"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-1,"vTxt":"成人"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":111,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":5,\"vTxt\":\"星期一\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":10,\"vTxt\":\"徒步、烧烤\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":1,\"vTxt\":\"成人\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":1,"version":1},{"categoryId":0,"checked":true,"id":108273,"itemId":0,"itemPrice":0,"idGroup":"_-1_-1_-2","itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-1,"vTxt":"星期一"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-1,"vTxt":"徒步、烧烤"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-2,"vTxt":"儿童（0-2岁）"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":2,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":5,\"vTxt\":\"星期一\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":10,\"vTxt\":\"徒步、烧烤\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":2,\"vTxt\":\"儿童（0-2岁）\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":2,"version":1},{"categoryId":0,"checked":false,"id":0,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-1,"vTxt":"星期一"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-1,"vTxt":"徒步、烧烤"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-3,"vTxt":"儿童（2-12岁）"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":0,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":5,\"vTxt\":\"星期一\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":10,\"vTxt\":\"徒步、烧烤\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":3,\"vTxt\":\"儿童（2-12岁）\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":0,"version":0},{"categoryId":0,"checked":true,"id":108274,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-1,"vTxt":"星期一"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-2,"vTxt":"露营（不含餐）"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-1,"vTxt":"成人"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":3,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":5,\"vTxt\":\"星期一\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":11,\"vTxt\":\"露营（不含餐）\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":1,\"vTxt\":\"成人\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":3,"version":1},{"categoryId":0,"checked":true,"id":108275,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-1,"vTxt":"星期一"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-2,"vTxt":"露营（不含餐）"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-2,"vTxt":"儿童（0-2岁）"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":4,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":5,\"vTxt\":\"星期一\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":11,\"vTxt\":\"露营（不含餐）\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":2,\"vTxt\":\"儿童（0-2岁）\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":4,"version":1},{"categoryId":0,"checked":false,"id":0,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-1,"vTxt":"星期一"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-2,"vTxt":"露营（不含餐）"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-3,"vTxt":"儿童（2-12岁）"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":0,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":5,\"vTxt\":\"星期一\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":11,\"vTxt\":\"露营（不含餐）\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":3,\"vTxt\":\"儿童（2-12岁）\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":0,"version":0},{"categoryId":0,"checked":false,"id":0,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-2,"vTxt":"星期二"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-1,"vTxt":"徒步、烧烤"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-1,"vTxt":"成人"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":0,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":6,\"vTxt\":\"星期二\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":10,\"vTxt\":\"徒步、烧烤\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":1,\"vTxt\":\"成人\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":0,"version":0},{"categoryId":0,"checked":false,"id":0,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-2,"vTxt":"星期二"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-1,"vTxt":"徒步、烧烤"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-2,"vTxt":"儿童（0-2岁）"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":0,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":6,\"vTxt\":\"星期二\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":10,\"vTxt\":\"徒步、烧烤\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":2,\"vTxt\":\"儿童（0-2岁）\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":0,"version":0},{"categoryId":0,"checked":false,"id":0,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-2,"vTxt":"星期二"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-1,"vTxt":"徒步、烧烤"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-3,"vTxt":"儿童（2-12岁）"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":0,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":6,\"vTxt\":\"星期二\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":10,\"vTxt\":\"徒步、烧烤\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":3,\"vTxt\":\"儿童（2-12岁）\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":0,"version":0},{"categoryId":0,"checked":false,"id":0,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-2,"vTxt":"星期二"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-2,"vTxt":"露营（不含餐）"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-1,"vTxt":"成人"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":0,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":6,\"vTxt\":\"星期二\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":11,\"vTxt\":\"露营（不含餐）\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":1,\"vTxt\":\"成人\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":0,"version":0},{"categoryId":0,"checked":false,"id":0,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-2,"vTxt":"星期二"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-2,"vTxt":"露营（不含餐）"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-2,"vTxt":"儿童（0-2岁）"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":0,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":6,\"vTxt\":\"星期二\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":11,\"vTxt\":\"露营（不含餐）\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":2,\"vTxt\":\"儿童（0-2岁）\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":0,"version":0},{"categoryId":0,"checked":false,"id":0,"itemId":0,"itemPrice":0,"itemSkuPVPairList":[{"pId":8,"pTxt":"活动时间","pType":1,"vId":-2,"vTxt":"星期二"},{"pId":6,"pTxt":"活动内容","pType":1,"vId":-2,"vTxt":"露营（不含餐）"},{"pId":2,"pTxt":"人员信息","pType":1,"vId":-3,"vTxt":"儿童（2-12岁）"}],"modifyStatus":false,"outSkuId":0,"price":0,"priceY":0,"property":"[{\"pId\":8,\"pTxt\":\"活动时间\",\"pType\":1,\"vId\":6,\"vTxt\":\"星期二\"},{\"pId\":6,\"pTxt\":\"活动内容\",\"pType\":1,\"vId\":11,\"vTxt\":\"露营（不含餐）\"},{\"pId\":2,\"pTxt\":\"人员信息\",\"pType\":1,\"vId\":3,\"vTxt\":\"儿童（2-12岁）\"}]","sellerId":0,"spuId":0,"status":1,"stockNum":0,"version":0}];
 //			//sku属性数组
@@ -123,7 +118,7 @@
 			//显示的sku数组
 			var skuPropertyShowAll = new Array();
 			//sku表格显示标志
-			var skuTableShowFlag = false;
+
 //			console.log(skuPropertyAll.length); 
 		</script>
 		<script>

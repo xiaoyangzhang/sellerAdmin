@@ -1,12 +1,11 @@
 package com.yimayhd.sellerAdmin.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextVO;
+import com.yimayhd.sellerAdmin.util.DateFormat;
+import net.pocrd.util.StringUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -59,6 +58,11 @@ public class ItemVO extends ItemDO {
 
     private List<String> openTimeList;//酒店的可最晚可到店时间
 
+    private String endDateStr; //截止日期
+    private List<String> itemMainPics; //商品图列表
+    private Double longitudeVO; //经度
+    private Double latitudeVO; //纬度
+
     //新增商品提交时调用
     public static ItemDO getItemDO(ItemVO itemVO)throws Exception{
         ItemDO itemDO = new ItemDO();
@@ -103,7 +107,6 @@ public class ItemVO extends ItemDO {
         if (null != itemVO.getEndBookTimeLimit()) {
             itemFeature.put(ItemFeatureKey.END_BOOK_TIME_LIMIT, itemVO.getEndBookTimeLimit() * 24 * 3600);
         }
-      
         
         //最晚到店时间列表(暂时只有酒店用)
         if(CollectionUtils.isNotEmpty(itemVO.getOpenTimeList())){
@@ -119,6 +122,9 @@ public class ItemVO extends ItemDO {
         if(StringUtils.isNotBlank(itemVO.getCoverPics())){
             itemDO.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
         }
+        if(CollectionUtils.isNotEmpty(itemVO.getItemMainPics())) {
+            itemDO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS, PicUrlsUtil.parsePicsString(itemVO.getItemMainPics()));
+        }
         itemDO.setPicUrlsString(itemDO.getPicUrlsString());
         //评分（暂时普通商品用）
         if(null != itemVO.getGrade()){
@@ -131,6 +137,17 @@ public class ItemVO extends ItemDO {
 
         //商品编码
         itemDO.setCode(itemVO.getCode());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH");
+        if(StringUtils.isNotBlank(itemVO.getEndDateStr())) {
+            Date endDate = dateFormat.parse(itemVO.getEndDateStr());
+            itemDO.setEndDate(endDate);
+        }
+        if(itemVO.getLatitudeVO() != null) {
+            itemDO.setLatitude(itemVO.getLatitudeVO());
+        }
+        if(itemVO.getLongitudeVO() != null) {
+            itemDO.setLongitude(itemVO.getLongitude());
+        }
         return itemDO;
     }
     /**
@@ -238,7 +255,14 @@ public class ItemVO extends ItemDO {
             itemVO.setSmallListPic(PicUrlsUtil.getSmallListPic(itemDO));
             itemVO.setBigListPic(PicUrlsUtil.getBigListPic(itemDO));
             itemVO.setPicList(PicUrlsUtil.getPicList(itemDO));
+            itemVO.setItemMainPics(PicUrlsUtil.getItemMainPics(itemDO));
         }
+        //截止时间
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH");
+        if(itemDO.getEndDate() != null);
+        itemVO.setEndDateStr(dateFormat.format(itemDO.getEndDate()));
+        itemVO.setLongitudeVO(itemDO.getLongitude());
+        itemVO.setLatitudeVO(itemDO.getLatitude());
         //个性化处理,构建sku表格所用结构
         List<Set<String>> tranSetList = new ArrayList<Set<String>>();
         //sku属性td的rowspan
@@ -363,15 +387,14 @@ public class ItemVO extends ItemDO {
      * @return
      */
     public List<ItemSkuDO> getItemSkuDOList(){
-        if(CollectionUtils.isEmpty(itemSkuVOList)){
-            itemSkuVOList = getItemSkuVOListByStr();
-            if(CollectionUtils.isEmpty(itemSkuVOList)) {
+        if(CollectionUtils.isEmpty(itemSkuVOListAll)){
+            itemSkuVOListAll = getItemSkuVOListByStr();
+            if(CollectionUtils.isEmpty(itemSkuVOListAll)) {
                 return null;
             }
         }
-        List<ItemSkuVO> itemSkuVOList = JSON.parseArray(this.itemSkuVOStr,ItemSkuVO.class);
         List<ItemSkuDO> itemSkuDOList = new ArrayList<>();
-        for(ItemSkuVO itemSkuVO : itemSkuVOList) {
+        for(ItemSkuVO itemSkuVO : itemSkuVOListAll) {
             ItemSkuDO itemSkuDO = ItemSkuVO.getItemSkuDO(this, itemSkuVO);
             itemSkuDOList.add(itemSkuDO);
         }
@@ -524,5 +547,37 @@ public class ItemVO extends ItemDO {
 
     public void setPictureTextVOStr(String pictureTextVOStr) {
         this.pictureTextVOStr = pictureTextVOStr;
+    }
+
+    public String getEndDateStr() {
+        return endDateStr;
+    }
+
+    public void setEndDateStr(String endDateStr) {
+        this.endDateStr = endDateStr;
+    }
+
+    public List<String> getItemMainPics() {
+        return itemMainPics;
+    }
+
+    public void setItemMainPics(List<String> itemMainPics) {
+        this.itemMainPics = itemMainPics;
+    }
+
+    public Double getLatitudeVO() {
+        return latitudeVO;
+    }
+
+    public void setLatitudeVO(Double latitudeVO) {
+        this.latitudeVO = latitudeVO;
+    }
+
+    public Double getLongitudeVO() {
+        return longitudeVO;
+    }
+
+    public void setLongitudeVO(Double longitudeVO) {
+        this.longitudeVO = longitudeVO;
     }
 }

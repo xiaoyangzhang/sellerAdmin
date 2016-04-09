@@ -4,6 +4,8 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.TagDTO;
+import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
 import com.yimayhd.sellerAdmin.service.ScenicService;
 
 import java.io.Serializable;
@@ -14,11 +16,11 @@ import java.util.List;
  */
 public class CityActivityItemVO{
     private ItemVO itemVO;
-    private List<ItemSkuVO> itemSkuVOList;
     private CategoryVO categoryVO;
     private CityActivityVO cityActivityVO;
-    private List<ComTagDO> themes;
+    private List<Long> themes;
     private CityVO dest;
+    private NeedKnowVO needKnowVO;
 
     public ItemVO getItemVO() {
         return itemVO;
@@ -26,14 +28,6 @@ public class CityActivityItemVO{
 
     public void setItemVO(ItemVO itemVO) {
         this.itemVO = itemVO;
-    }
-
-    public List<ItemSkuVO> getItemSkuVOList() {
-        return itemSkuVOList;
-    }
-
-    public void setItemSkuVOList(List<ItemSkuVO> itemSkuVOList) {
-        this.itemSkuVOList = itemSkuVOList;
     }
 
     public CategoryVO getCategoryVO() {
@@ -52,11 +46,11 @@ public class CityActivityItemVO{
         this.cityActivityVO = cityActivityVO;
     }
 
-    public List<ComTagDO> getThemes() {
+    public List<Long> getThemes() {
         return themes;
     }
 
-    public void setThemes(List<ComTagDO> themes) {
+    public void setThemes(List<Long> themes) {
         this.themes = themes;
     }
 
@@ -66,5 +60,13 @@ public class CityActivityItemVO{
 
     public void setDest(CityVO dest) {
         this.dest = dest;
+    }
+
+    public NeedKnowVO getNeedKnowVO() {
+        return needKnowVO;
+    }
+
+    public void setNeedKnowVO(NeedKnowVO needKnowVO) {
+        this.needKnowVO = needKnowVO;
     }
 }

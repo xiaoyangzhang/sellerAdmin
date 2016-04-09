@@ -3,26 +3,18 @@
             <tr>
                 <td><span class="spColor">*</span>商品标题</td>
                 <td>
-                    #if($commodity.id)
-                        <input type="hidden" class="inpControl" name="id" id="id" value="$!{commodity.id}">
+                    #if($item.id)
+                        <input type="hidden" class="inpControl" name="id" id="id" value="$!{item.id}">
                     #end
-                    <input type="text" class="form-control" placeholder="请输入商品标题" name="title" value="$!{commodity.title}">
+                    <input type="text" class="form-control item-title" placeholder="请输入商品标题" name="title" value="$!{item.title}">
                     <span class="spColor">38字</span>
                 </td>
             </tr>
             <tr>
                 <td><span class="spColor">*</span>商品代码：</td>
                 <td>
-                    <input type="text" class="form-control" placeholder="请输入商品代码" name="code" value="$!{commodity.code}">
+                    <input type="text" class="form-control item-code" placeholder="请输入商品代码" name="code" value="$!{item.code}">
                     <span class="spColor">20字</span>
-                </td>
-            </tr>
-            <tr>
-                <td><span class="spColor">*</span>截止报名日期：</td>
-                <td>
-                    <div class="row">
-                        <div class="col-md-4"><input type="text" class='form-control form-date' placeholder='开始日期：yyyy-MM-dd' readonly name="activityDateStr" value="$!utilDate.dateToString($!{activity.activityDate},"yyyy-MM-dd HH:mm")"></div>
-                    </div>
                 </td>
             </tr>
             <tr>
@@ -31,17 +23,25 @@
                     #foreach($theme in $themes)
                         <label class="checkbox-inline">
                             <input type="checkbox" class="productTag" rId="${theme.id}" rName="${theme.name}"
-                                #foreach($itemTheme in $itemThemes)
-                                #if($!itemTheme.id == $!theme.id) checked #end#end/>
+                                #foreach($itemThemeId in $itemThemes)
+                                #if($!itemThemeId == $!theme.id) checked #end#end/>
                             ${theme.name}
                         </label>
                     #end
                 </td>
             </tr>
             <tr>
+                <td><span class="spColor">*</span>截止报名日期</td>
+                <td>
+                    <div class="row input-group">
+                        <input type="text" class='form-control form-date dateInp end-date' placeholder='' readonly name="endDateStr" value="$!utilDate.dateToString($!{item.startDate},"yyyy-MM-dd HH")">
+                    </div>
+                </td>
+            </tr>
+            <tr>
                 <td><span class="spColor">*</span>活动城市</td>
                 <td>
-                    <select class="form-control propertySelect">
+                    <select class="form-control propertySelect dest" name="dest">
                         <option value="0" >请选择</option>
                         #foreach($dest in $dests)
                             <option value="$!dest.id" #if($itemDest.id == $!dest.id)selected#end>$!dest.name</option>
@@ -49,30 +49,28 @@
                     </select>
                 </td>
             </tr>
+
             <tr>
-                <td><span class="spColor">*</span>报名时间</td>
-                <td>
-                    <div class="row input-group">
-                        <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="startDateStr" value="$!utilDate.dateToString($!{activity.startDate},"yyyy-MM-dd HH:mm")">
-                        <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                        <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDateStr" value="$!utilDate.dateToString($!{activity.endDate},"yyyy-MM-dd HH:mm")">
-                    </div>
-                </td>
+                <td><span class="spColor">*</span>详细地址</td>
+                <td><input type="text" class="form-control location-text" placeholder="" value="$!cityActivity.locationText"><span>38字</span></td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>活动地区</td>
+                <td><span class="spColor">*</span>坐标</td>
                 <td>
                     <span>经度</span>
-                    <input type="text" name="snsPOI.longitude" id="locationX" class="inpControl getAddress" value="$!activity.snsPOI.longitude">
+                    <input type="text" name="item.longitude" id="longitude" class="inpControl getAddress" value="$!item.longitude">
                     <span>维度</span>
-                    <input type="text" name="snsPOI.latitude" id="locationY" class="inpControl getAddress" value="$!activity.snsPOI.latitude">
+                    <input type="text" name="item.latitude" id="latitude" class="inpControl getAddress" value="$!item.latitude">
                     <button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button>
                 #*<code>点击查找经纬度可自动获取</code>*#
                 </td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>详细地址</td>
-                <td><input type="text" class="form-control" placeholder="请输入30字以内" name="snsPOI.detail" value="$!activity.snsPOI.detail"></td>
+                <td>*活动亮点：</td>
+                <td>
+                    <textarea class="form-control textarea-count description" rows="3" placeholder="请输入亮点描述" maxlength="200">$!{item.description}</textarea>
+                    <span class="word-num">0/200字</span>
+                </td>
             </tr>
 ##            <tr>
 ##                <td>基础价格</td>
@@ -101,9 +99,9 @@
                         <div class="imgbox">
                             <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
                                 <div class="dimg">
-                                    #if($baseInfo.picUrls && $baseInfo.picUrls.size() > 0)
-                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(0)}" img-root="$!utilWebconfig.getTfsRootPath()">
-                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{baseInfo.picUrls.get(0)}">
+                                    #if($item.getItemMainPics && $item.getItemMainPics.size() > 0)
+                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.getItemMainPics.get(0)}" img-root="$!utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.getItemMainPics.get(0)}">
                                     #else
                                         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
                                         <input type="hidden" class="picCode baseInfo-picCode">
@@ -119,9 +117,9 @@
                         <div class="imgbox">
                             <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
                                 <div class="dimg">
-                                    #if($baseInfo.picUrls && $baseInfo.picUrls.size() > 1)
-                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(1)}" img-root="$!utilWebconfig.getTfsRootPath()">
-                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{baseInfo.picUrls.get(1)}">
+                                    #if($item.getItemMainPics && $item.getItemMainPics.size() > 1)
+                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.getItemMainPics.get(1)}" img-root="$!utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.getItemMainPics.get(1)}">
                                     #else
                                         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
                                         <input type="hidden" class="picCode baseInfo-picCode">
@@ -137,9 +135,9 @@
                         <div class="imgbox">
                             <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
                                 <div class="dimg">
-                                    #if($baseInfo.picUrls && $baseInfo.picUrls.size() > 2)
-                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(2)}" img-root="$!utilWebconfig.getTfsRootPath()">
-                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{baseInfo.picUrls.get(2)}">
+                                    #if($item.getItemMainPics && $item.getItemMainPics.size() > 2)
+                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.getItemMainPics.get(2)}" img-root="$!utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.getItemMainPics.get(2)}">
                                     #else
                                         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
                                         <input type="hidden" class="picCode baseInfo-picCode">
@@ -155,9 +153,9 @@
                         <div class="imgbox">
                             <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
                                 <div class="dimg">
-                                    #if($baseInfo.picUrls && $baseInfo.picUrls.size() > 3)
-                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(3)}" img-root="$!utilWebconfig.getTfsRootPath()">
-                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{baseInfo.picUrls.get(3)}">
+                                    #if($item.getItemMainPics && $item.getItemMainPics.size() > 3)
+                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.getItemMainPics.get(3)}" img-root="$!utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.getItemMainPics.get(3)}">
                                     #else
                                         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
                                         <input type="hidden" class="picCode baseInfo-picCode">
@@ -173,9 +171,9 @@
                         <div class="imgbox">
                             <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
                                 <div class="dimg">
-                                    #if($baseInfo.picUrls && $baseInfo.picUrls.size() > 4)
-                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(4)}" img-root="$!utilWebconfig.getTfsRootPath()">
-                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{baseInfo.picUrls.get(4)}">
+                                    #if($item.getItemMainPics && $item.getItemMainPics.size() > 4)
+                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.getItemMainPics.get(4)}" img-root="$!utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.getItemMainPics.get(4)}">
                                     #else
                                         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
                                         <input type="hidden" class="picCode baseInfo-picCode">
@@ -195,3 +193,56 @@
             </tbody>
         </table>
     </div>
+    <script type="text/javascript">
+        function getItemInfo() {
+            var picUrls = [];
+            $(".base-info").find(".picCode").each(function(){
+                var picCode = $(this).val();
+                if(picCode) {
+                    picUrls.push(picCode);
+                }
+            });
+            var themes = [];
+            $(".productTag:checked").each(function(){
+                themes.push($(this).attr("rId"));
+            });
+            var dests = [];
+            $(".dests").each(function(){
+                dests.push({id:$(this).attr("rId")});
+            });
+            var result = {
+                #if($product)
+                    itemId:$!{item.itemId},
+                #end
+                title:$(".item-title").val(),
+                code:$(".item-code").val(),
+                itemMainPics:picUrls,
+                description:$(".description").val(),
+                themes:themes,
+                dest:$("#dest").val()||0,
+                latitudeVO:$("#latitude").val()||null,
+                longitudeVO:$("#longitude").val()||null,
+                endDateStr:$(".end-date").val(),
+                itemSkuVOStr:null,
+            };
+            return result;
+        }
+
+        function getThemes() {
+            var themes = [];
+            $(".productTag:checked").each(function(){
+                themes.push($(this).attr("rId"));
+            });
+            return themes;
+        }
+        function getDest() {
+            var dest = $(".dest").val();
+            return dest;
+        }
+        function getCityActivity() {
+            var result = {
+                locationText:$(".location-text").val(),
+            };
+            return result;
+        }
+    </script>

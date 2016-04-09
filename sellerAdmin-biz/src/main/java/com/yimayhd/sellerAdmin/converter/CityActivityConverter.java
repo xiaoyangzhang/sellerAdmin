@@ -52,7 +52,6 @@ public class CityActivityConverter {
 			CategoryVO categoryVO = CategoryVO.getCategoryVO(cityActivityResult.getCategoryDO());
 			cityActivityItemVO.setItemVO(ItemVO.getItemVO(cityActivityResult.getItemDO(), categoryVO));
 			cityActivityItemVO.setCategoryVO(categoryVO);
-			cityActivityItemVO.setItemSkuVOList(ItemSkuConverter.convertVOList(cityActivityResult.getItemSkuDOList()));
 			cityActivityItemVO.setCityActivityVO(convertVO(cityActivityResult.getCityActivityDO()));
 		} catch (Exception e) {
 			throw e;

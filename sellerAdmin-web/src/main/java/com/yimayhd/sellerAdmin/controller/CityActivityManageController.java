@@ -1,17 +1,24 @@
 package com.yimayhd.sellerAdmin.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.enums.ReduceType;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
+import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.checker.CityActivityChecker;
+import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 import com.yimayhd.sellerAdmin.model.CityActivityItemVO;
 import com.yimayhd.sellerAdmin.model.ItemResultVO;
 import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.TagDTO;
 import com.yimayhd.sellerAdmin.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +37,7 @@ import java.util.List;
  * @author xuzj
  */
 @Controller
-@RequestMapping("/cityActivity")
+@RequestMapping("/cityactivity")
 public class CityActivityManageController extends BaseController {
 	@Autowired
     private CategoryService categoryService;
@@ -49,7 +56,8 @@ public class CityActivityManageController extends BaseController {
 	public String toAdd(Model model,int categoryId) throws Exception {
 		
 		CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
-        WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.ACTIVETYTAG);
+        //TODO: add cityActivityTagType
+        WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.LINETAG);
         if (allThemes.isSuccess()) {
             put("themes", allThemes.getValue());
         }
@@ -61,21 +69,6 @@ public class CityActivityManageController extends BaseController {
 		model.addAttribute("itemType",ItemType.CITY_ACTIVITY.getValue());
 		return "/system/cityactivity/edit";
 	}
-
-	 /**
-     * 新增活动商品	
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public
-    String add(CityActivityItemVO itemVO) throws Exception {
-    	
-		//long sellerId = sessionManager.getUserId();
-		//itemVO.setSellerId(sellerId)
-        cityActivityService.addCityActivityItem(itemVO);
-        return "/success";
-    }
 
     /**
      * 编辑活动（商品）
@@ -95,9 +88,8 @@ public class CityActivityManageController extends BaseController {
         if (allDests.isSuccess()) {
             put("dests", allDests.getValue());
         }
-    	model.addAttribute("itemResult", itemVO);
-    	model.addAttribute("commodity", itemVO.getItemVO());
-    	model.addAttribute("category", itemVO.getCategoryVO());
+    	model.addAttribute("item", itemVO.getItemVO());
+        model.addAttribute("cityActivity", itemVO.getCityActivityVO());
         model.addAttribute("itemThemes", itemVO.getThemes());
         model.addAttribute("itemDest", itemVO.getDest());
     	model.addAttribute("itemType",ItemType.CITY_ACTIVITY.getValue());
@@ -110,11 +102,25 @@ public class CityActivityManageController extends BaseController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public
-    String edit(CityActivityItemVO itemVO,@PathVariable("id") long id) throws Exception {
-        cityActivityService.modifyCityActivityItem(itemVO);
-        return "/success";
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public WebResultSupport edit(String json) throws Exception {
+        try {
+            CityActivityItemVO itemVO = (CityActivityItemVO) JSONObject.parseObject(json, CityActivityItemVO.class);
+            WebCheckResult result = CityActivityChecker.checkCityActivity(itemVO);
+            if(!result.isSuccess()) {
+                log.warn(result.getResultMsg());
+                return result;
+            }
+            if(itemVO.getItemVO().getId() > 0) {
+                return cityActivityService.modifyCityActivityItem(itemVO);
+            }
+            else {
+                return cityActivityService.addCityActivityItem(itemVO);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, e.getMessage());
+        }
     }
 	
 	

@@ -17,9 +17,6 @@ import java.util.Map;
 public class CityActivityVO extends CityActivityDO {
 
 	private double priceY;//价格元
-	private Long[] tagList;
-	private String endDateStr;
-	private Long[] cityCodeList;
 
 	public double getPriceY() {
 		return priceY;
@@ -27,30 +24,6 @@ public class CityActivityVO extends CityActivityDO {
 
 	public void setPriceY(double priceY) {
 		this.priceY = priceY;
-	}
-
-	public Long[] getTagList() {
-		return tagList;
-	}
-
-	public void setTagList(Long[] tagList) {
-		this.tagList = tagList;
-	}
-
-	public String getEndDateStr() {
-		return endDateStr;
-	}
-
-	public void setEndDateStr(String endDateStr) {
-		this.endDateStr = endDateStr;
-	}
-
-	public Long[] getCityCodeList() {
-		return cityCodeList;
-	}
-
-	public void setCityCodeList(Long[] cityCodeList) {
-		this.cityCodeList = cityCodeList;
 	}
 
 	public CityActivityDO getCityActivityDO(){

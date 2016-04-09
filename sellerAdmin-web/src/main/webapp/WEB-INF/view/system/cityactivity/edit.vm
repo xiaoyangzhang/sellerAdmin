@@ -6,6 +6,7 @@
 <script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/lang/zh-cn/zh-cn.js"></script>
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/js/zui.min.js"></script>
 
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/base.css">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/common.css"/>
@@ -28,19 +29,18 @@
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
 
 <div class="example whole">
-    <form id="saveActivity">
         <ul id="myTab" class="nav nav-tabs">
             <li class="active">
-                <a href="#tab1" data-toggle="tab">活动基础信息</a>
+                <a href="#tab1" data-toggle="tab">基础信息</a>
             </li>
             <li class="">
-                <a href="#tab2" data-toggle="tab">价格</a>
+                <a href="#tab2" data-toggle="tab">详细描述</a>
             </li>
             <li class="">
-                <a href="#tab3" data-toggle="tab">app详情</a>
+                <a href="#tab3" data-toggle="tab">价格套餐</a>
             </li>
              <li class="">
-                <a href="#tab4" data-toggle="tab">pc详情</a>
+                <a href="#tab4" data-toggle="tab">预订须知</a>
             </li>
         </ul>
         <div class="tab-content">
@@ -54,9 +54,9 @@
                 #parse("/system/sku/setsku.vm")
             </div>
             <div class="clubBotBtn">
-                #if($activity.isStatus !=1)
+                #if($item.status !=2)
                     <div class="btn-group">
-                        <button type="submit" class="btn btn-info">保存</button>
+                        <button type="btn" class="btn btn-info save">保存</button>
                     </div>
                 #end
                 <div class="btn-group">
@@ -64,18 +64,17 @@
                 </div>
             </div>
         </div>
-    </form>
 </div>
 #*<object style="border:0px" type="text/x-scriptlet" data="http://192.168.1.209:7500/v1/tfs/T1IRhTByZT1RX1qZUK" width=100% height=30></object>*#
-<script type="text/html" id="needKnowTemp">
-    <tr class="needKnow">
-        <td><input type="text" name="activityJsonArray[$index].activityTitle" class="form-control extra-info-item-title" placeholder="优惠活动"></td>
-        <td>
-            <textarea name="activityJsonArray[$index1].activityDec" class="form-control extra-info-item-text" rows="3"></textarea>
-        </td>
-        <td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
-    </tr>
-</script>
+##<script type="text/html" id="needKnowTemp">
+##    <tr class="needKnow">
+##        <td><input type="text" name="activityJsonArray[$index].activityTitle" class="form-control extra-info-item-title" placeholder="优惠活动"></td>
+##        <td>
+##            <textarea name="activityJsonArray[$index1].activityDec" class="form-control extra-info-item-text" rows="3"></textarea>
+##        </td>
+##        <td><button type="button" class="btn btn-link" onclick="delneedKnowTR(this)">删除</button></td>
+##    </tr>
+##</script>
 <script>
 ##
 ##    $(".addNeedKnow").unbind("click").click(function () {
@@ -94,131 +93,152 @@
 
     var mapCallback = function (data) {
         if (data) {
-            $("#locationX").val(data['pointX']);
-            $("#locationY").val(data['pointY']);
+            $("#longitude").val(data['pointX']);
+            $("#latitude").val(data['pointY']);
         }
     }
-//    $(".form-date").datetimepicker(
-//            {
-//                language:  "zh-CN",
-//                weekStart: 1,
-//                todayBtn:  1,
-//                autoclose: 1,
-//                todayHighlight: 1,
-//                startView: 2,
-//                forceParse: 0,
-//                showMeridian: 1,
-//                format: "yyyy-mm-dd hh:ii"
-//            });
     $(function(){
-
-        /*弹出框**/
-        $('.selectActivityComm').click(function(){
-            openModalForForm(actionDefaultPath + '/B2C/resourceForSelect/selectOneActivityComm','选择商品',function() {
-                var sce = win.getItems();
-
-                $("#productTitle").val(sce.title);
-                $("#productId").val(sce.id);
-
-                return true;
-            });
-        })
-
 
 
         $('.locationXYSelectBtn').click(function () {
             openBaiduMap(115.727899, 37.723961, mapCallback);
         });
 
-
-
-        //上传图片
-        $(document).delegate("#productImageFile",'change',function(){
-            fileUpload('#productImageFile',1,function(data){
-                if(data && data.status == 200){
-                    $('.productImageUrlVal').val(data.data);
-                    $('.productImageUrlImg').attr('src',tfsRootPath + data.data);
-                }else{
-                    layer.msg('图片上传失败，请重试', {icon: 2});
-                }
-            });
-        });
-        //PC图
-        $(document).delegate("#productImageFilePC",'change',function(){
-            fileUpload('#productImageFilePC',1,function(data){
-                if(data && data.status == 200){
-                    $('.productImageUrlValPC').val(data.data);
-                    $('.productImageUrlImgPC').attr('src',tfsRootPath + data.data);
-                }else{
-                    layer.msg('图片上传失败，请重试', {icon: 2});
-                }
-            });
-        });
+//        //上传图片
+//        $(document).delegate("#productImageFile",'change',function(){
+//            fileUpload('#productImageFile',1,function(data){
+//                if(data && data.status == 200){
+//                    $('.productImageUrlVal').val(data.data);
+//                    $('.productImageUrlImg').attr('src',tfsRootPath + data.data);
+//                }else{
+//                    layer.msg('图片上传失败，请重试', {icon: 2});
+//                }
+//            });
+//        });
+//        //PC图
+//        $(document).delegate("#productImageFilePC",'change',function(){
+//            fileUpload('#productImageFilePC',1,function(data){
+//                if(data && data.status == 200){
+//                    $('.productImageUrlValPC').val(data.data);
+//                    $('.productImageUrlImgPC').attr('src',tfsRootPath + data.data);
+//                }else{
+//                    layer.msg('图片上传失败，请重试', {icon: 2});
+//                }
+//            });
+//        });
         /*提交**/
-        $("#saveActivity").validate({
-            rules: {
-                'title': {
-                    required: true
-                },'preferentialPrice': {
-                    required: true
-                },'originalPrice': {
-                    required: true
-                },'productTitle': {
-                    required: true
-                },'snsPOI.longitude': {
-                    required: true
-                },'snsPOI.latitude': {
-                    required: true
-                },'activityDate': {
-                    required: true
-                },
-            },
-            messages: {
-            },
-            errorPlacement: function (error, element) { // 指定错误信息位置
-                if (element.is(':radio') || element.is(':checkbox')
-                        || element.is(':input')) { // 如果是radio或checkbox
-                    var eid = element.attr('name'); // 获取元素的name属性
-                    error.appendTo(element.parent()); // 将错误信息添加当前元素的父结点后面
-                } else {
-                    error.insertAfter(element);
-                }
-            },
-            submitHandler: function (form) {
-                var options = {
-                    url: actionDefaultPath + "/cityActivity/add",
-                    type: "post",
-                    dataType: "json",
-                    success: function (data) {
-                        if (data.status == 200) {
-                            layer.msg('操作成功', {
-                                icon: 1,
-                                time: 1500
-                            });
-                            setTimeout(function () {
-                                $("#clubCategorySubmit").attr("disabled", false);
-                                location.href = actionDefaultPath + "/B2C/activityManage/list";
-                            },1500);
-                        } else {
-                            $("#clubCategorySubmit").attr("disabled", false);
-                            layer.msg('操作失败', {
-                                icon: 2,
-                                time: 2000
-                            });
+//        $("#saveActivity").validate({
+//            rules: {
+//                'title': {
+//                    required: true
+//                },'preferentialPrice': {
+//                    required: true
+//                },'originalPrice': {
+//                    required: true
+//                },'productTitle': {
+//                    required: true
+//                },'snsPOI.longitude': {
+//                    required: true
+//                },'snsPOI.latitude': {
+//                    required: true
+//                },'activityDate': {
+//                    required: true
+//                },
+//            },
+//            messages: {
+//            },
+//            errorPlacement: function (error, element) { // 指定错误信息位置
+//                if (element.is(':radio') || element.is(':checkbox')
+//                        || element.is(':input')) { // 如果是radio或checkbox
+//                    var eid = element.attr('name'); // 获取元素的name属性
+//                    error.appendTo(element.parent()); // 将错误信息添加当前元素的父结点后面
+//                } else {
+//                    error.insertAfter(element);
+//                }
+//            },
+//            submitHandler: function (form) {
+//                var options = {
+//                    url: actionDefaultPath + "/cityActivity/save",
+//                    type: "post",
+//                    dataType: "json",
+//                    success: function (data) {
+//                        if (data.status == 200) {
+//                            layer.msg('操作成功', {
+//                                icon: 1,
+//                                time: 1500
+//                            });
+//                            setTimeout(function () {
+//                                $("#clubCategorySubmit").attr("disabled", false);
+//                                location.href = actionDefaultPath + "/B2C/activityManage/list";
+//                            },1500);
+//                        } else {
+//                            $("#clubCategorySubmit").attr("disabled", false);
+//                            layer.msg('操作失败', {
+//                                icon: 2,
+//                                time: 2000
+//                            });
+//
+//                        }
+//                    }
+//                };
+//
+//                $(form).ajaxSubmit(options);
+//            },
+//            invalidHandler: function (form, validator) { // 不通过回调
+//                return false;
+//            }
+//        });
 
+        $(".save").click(function(){
+            var itemVO = getItemInfo();
+            itemVO.itemSkuVOStr = JSON.stringify(skuPropertyAll);
+            var result = {
+                itemVO:itemVO,
+                cityActivityVO:getCityActivity(),
+                themes:getThemes(),
+                dest:getDest()
+            };
+            console.log(JSON.stringify(result.itemVO));
+            console.log(JSON.stringify(result.cityActivityVO));
+            console.log(JSON.stringify(result.themes));
+            console.log(JSON.stringify(result.dest));
+            var params = {
+                json:JSON.stringify(result)
+            };
+            var url = "$!{utilWebconfig.getActionDefaultFontPath()}/cityactivity/save";
+            $.post(url,params,function(data){
+                if(data.success) {
+                    layer.alert('添加成功', {
+                        time: 0 //不自动关闭
+                        ,yes: function(index){
+
+                            //layer.close(index);
+                            //// 刷新父页面
+                            //top.freshPrevFrame();
+                            //top.tabTopClose(this);
+                            window.location.href = "$!{utilWebconfig.getActionDefaultFontPath()}/item/list";
                         }
-                    }
-                };
-
-                $(form).ajaxSubmit(options);
-            },
-            invalidHandler: function (form, validator) { // 不通过回调
-                return false;
-            }
+                    });
+                } else {
+                    layer.alert(data.resultMsg, {
+                        icon : 2
+                    });
+                }
+            },"json");
         });
-
-
 
 
     });
+    $(".form-date").datetimepicker(
+        {
+            language:  "zh-CN",
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1,
+            format: "yyyy-mm-dd hh"
+        });
 </script>
