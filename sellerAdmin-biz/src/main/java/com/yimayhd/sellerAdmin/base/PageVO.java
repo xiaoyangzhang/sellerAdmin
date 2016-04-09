@@ -19,14 +19,14 @@ public class PageVO<T> implements Serializable {
 
 	private Paginator paginator;
 
-	public PageVO(int pageNumber, int pageSize, int totalCount) {
-		this(pageNumber, pageSize, totalCount, new ArrayList<T>(0));
+	public PageVO(int pageNo, int pageSize, int totalCount) {
+		this(pageNo, pageSize, totalCount, new ArrayList<T>(0));
 	}
 
 	/**
 	 *
 	 *
-	 * @param pageNumber
+	 * @param pageNo
 	 *            当前页码
 	 * @param pageSize
 	 *            每页显示条数
@@ -35,10 +35,10 @@ public class PageVO<T> implements Serializable {
 	 * @param result
 	 *            结果list
 	 */
-	public PageVO(int pageNumber, int pageSize, int totalCount, List<T> result) {
+	public PageVO(int pageNo, int pageSize, int totalCount, List<T> result) {
 		if (pageSize <= 0)
 			throw new IllegalArgumentException("[pageSize] must great than zero");
-		this.paginator = new Paginator(pageNumber, pageSize, totalCount);
+		this.paginator = new Paginator(pageNo, pageSize, totalCount);
 		setResultList(result);
 	}
 
@@ -48,7 +48,7 @@ public class PageVO<T> implements Serializable {
 	 * @return 首页标识
 	 */
 	public boolean isFirstPage() {
-		return getThisPageNumber() == 1;
+		return getThisPageNo() == 1;
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class PageVO<T> implements Serializable {
 	 * @return 末页标识
 	 */
 	public boolean isLastPage() {
-		return getThisPageNumber() >= getLastPageNumber();
+		return getThisPageNo() >= getLastPageNo();
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class PageVO<T> implements Serializable {
 	 * @return 下一页标识
 	 */
 	public boolean isHasNextPage() {
-		return getLastPageNumber() > getThisPageNumber();
+		return getLastPageNo() > getThisPageNo();
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class PageVO<T> implements Serializable {
 	 * @return 上一页标识
 	 */
 	public boolean isHasPreviousPage() {
-		return getThisPageNumber() > 1;
+		return getThisPageNo() > 1;
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class PageVO<T> implements Serializable {
 	 *
 	 * @return 最后一页页码
 	 */
-	public int getLastPageNumber() {
+	public int getLastPageNo() {
 		return Paginator.computeLastPageNumber(getTotalCount(), getPageSize());
 	}
 
@@ -101,8 +101,8 @@ public class PageVO<T> implements Serializable {
 	 *
 	 * @return 当前页的首条数据的行编码
 	 */
-	public int getThisPageFirstElementNumber() {
-		return (getThisPageNumber() - 1) * getPageSize() + 1;
+	public int getThisPageFirstElementNo() {
+		return (getThisPageNo() - 1) * getPageSize() + 1;
 	}
 
 	/**
@@ -110,8 +110,8 @@ public class PageVO<T> implements Serializable {
 	 *
 	 * @return 当前页的末条数据的行编码
 	 */
-	public int getThisPageLastElementNumber() {
-		int fullPage = getThisPageFirstElementNumber() + getPageSize() - 1;
+	public int getThisPageLastElementNo() {
+		int fullPage = getThisPageFirstElementNo() + getPageSize() - 1;
 		return getTotalCount() < fullPage ? getTotalCount() : fullPage;
 	}
 
@@ -120,8 +120,8 @@ public class PageVO<T> implements Serializable {
 	 *
 	 * @return 下一页编码
 	 */
-	public int getNextPageNumber() {
-		return getThisPageNumber() + 1;
+	public int getNextPageNo() {
+		return getThisPageNo() + 1;
 	}
 
 	/**
@@ -129,8 +129,8 @@ public class PageVO<T> implements Serializable {
 	 *
 	 * @return 上一页编码
 	 */
-	public int getPreviousPageNumber() {
-		return getThisPageNumber() - 1;
+	public int getPreviousPageNo() {
+		return getThisPageNo() - 1;
 	}
 
 	/**
@@ -147,7 +147,7 @@ public class PageVO<T> implements Serializable {
 	 *
 	 * @return 当前页的页码
 	 */
-	public int getThisPageNumber() {
+	public int getThisPageNo() {
 		return paginator.getPage();
 	}
 
@@ -156,8 +156,8 @@ public class PageVO<T> implements Serializable {
 	 * 
 	 * @return
 	 */
-	public Integer[] getLinkPageNumbers() {
-		return linkPageNumbers(7);
+	public Integer[] getLinkPageNos() {
+		return linkPageNos(7);
 	}
 
 	/**
@@ -166,8 +166,8 @@ public class PageVO<T> implements Serializable {
 	 * 
 	 * @return
 	 */
-	public Integer[] linkPageNumbers(int count) {
-		return Paginator.generateLinkPageNumbers(getThisPageNumber(), getLastPageNumber(), count);
+	public Integer[] linkPageNos(int count) {
+		return Paginator.generateLinkPageNumbers(getThisPageNo(), getLastPageNo(), count);
 	}
 
 	public List<T> getResultList() {
