@@ -173,4 +173,15 @@ public class ItemController extends BaseController {
 		}
 	}
 
+	@RequestMapping(value = "/{id}/type/{type}")
+	public String detail(@PathVariable(value = "id") long itemId, @PathVariable(value = "type") int itemType) {
+		// TODO YEBIN 待开发
+		if (ItemType.FREE_LINE.getValue() == itemType || ItemType.TOUR_LINE.getValue() == itemType) {
+			return redirect("/line/" + itemId + "/detail/");
+		} /*else if (ItemType.CITY_ACTIVITY.getValue() == itemType) {
+			return redirect("/cityActivity/toAdd?categoryId=" + categoryId);
+		}*/ else {
+			throw new BaseException("unsupport ItemType " + itemType);
+		}
+	}
 }

@@ -40,7 +40,7 @@ public class LineController extends BaseLineController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/detail", method = RequestMethod.GET)
 	public String detail(@PathVariable(value = "id") long id) throws Exception {
 		initBaseInfo();
 		if (id > 0) {
