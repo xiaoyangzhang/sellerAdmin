@@ -145,6 +145,22 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+	public WebOperateResult delete(long sellerId, long itemId) {
+		try {
+			ItemPublishDTO itemPublishDTO = new ItemPublishDTO();
+			itemPublishDTO.setSellerId(sellerId);
+			itemPublishDTO.setItemId(itemId);
+			itemRepo.delete(itemPublishDTO);
+			return WebOperateResult.success();
+		} catch (Exception e) {
+			log.warn("Params: sellerId=" + sellerId);
+			log.warn("Params: itemId=" + itemId);
+			log.warn("ItemService.unshelve error", e);
+			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
+		}
+	}
+
+	@Override
 	public WebOperateResult batchShelve(long sellerId, List<Long> itemIds) {
 		try {
 			ItemBatchPublishDTO itemBatchPublishDTO = new ItemBatchPublishDTO();
@@ -167,6 +183,22 @@ public class ItemServiceImpl implements ItemService {
 			itemBatchPublishDTO.setSellerId(sellerId);
 			itemBatchPublishDTO.setItemIdList(itemIds);
 			itemRepo.batchUnshelve(itemBatchPublishDTO);
+			return WebOperateResult.success();
+		} catch (Exception e) {
+			log.warn("Params: sellerId=" + sellerId);
+			log.warn("Params: itemIds=" + itemIds);
+			log.warn("ItemService.batchUnshelve error", e);
+			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
+		}
+	}
+
+	@Override
+	public WebOperateResult batchDelete(long sellerId, List<Long> itemIds) {
+		try {
+			ItemBatchPublishDTO itemBatchPublishDTO = new ItemBatchPublishDTO();
+			itemBatchPublishDTO.setSellerId(sellerId);
+			itemBatchPublishDTO.setItemIdList(itemIds);
+			itemRepo.batchDelete(itemBatchPublishDTO);
 			return WebOperateResult.success();
 		} catch (Exception e) {
 			log.warn("Params: sellerId=" + sellerId);

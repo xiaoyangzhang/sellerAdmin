@@ -10,6 +10,7 @@ import com.yimayhd.ic.client.model.param.item.ItemBatchPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
+import com.yimayhd.ic.client.model.result.item.ItemDeleteResult;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
@@ -36,7 +37,7 @@ public class ItemRepo {
 		return itemPageResult;
 	}
 
-	public void shelve(ItemPublishDTO itemPublishDTO) throws Exception {
+	public void shelve(ItemPublishDTO itemPublishDTO) {
 		if (itemPublishDTO == null) {
 			log.warn("ItemRepo.shelve(itemPublishDTO) error: itemPublishDTO is null");
 			throw new BaseException("参数为null ");
@@ -46,7 +47,7 @@ public class ItemRepo {
 		RepoUtils.resultLog(log, "itemQueryServiceRef.publish", itemPubResult);
 	}
 
-	public void unshelve(ItemPublishDTO itemPublishDTO) throws Exception {
+	public void unshelve(ItemPublishDTO itemPublishDTO) {
 		if (itemPublishDTO == null) {
 			log.warn("ItemRepo.unshelve(itemPublishDTO) error: itemPublishDTO is null");
 			throw new BaseException("参数为null ");
@@ -54,6 +55,16 @@ public class ItemRepo {
 		RepoUtils.requestLog(log, "itemQueryServiceRef.close", itemPublishDTO);
 		ItemCloseResult itemCloseResult = itemPublishServiceRef.close(itemPublishDTO);
 		RepoUtils.resultLog(log, "itemQueryServiceRef.close", itemCloseResult);
+	}
+
+	public void delete(ItemPublishDTO itemPublishDTO) {
+		if (itemPublishDTO == null) {
+			log.warn("ItemRepo.delete(itemPublishDTO) error: itemPublishDTO is null");
+			throw new BaseException("参数为null ");
+		}
+		RepoUtils.requestLog(log, "itemQueryServiceRef.delete", itemPublishDTO);
+		ItemDeleteResult delete = itemPublishServiceRef.delete(itemPublishDTO);
+		RepoUtils.resultLog(log, "itemQueryServiceRef.delete", delete);
 	}
 
 	public void batchShelve(ItemBatchPublishDTO itemBatchPublishDTO) {
@@ -74,6 +85,16 @@ public class ItemRepo {
 		RepoUtils.requestLog(log, "itemQueryServiceRef.batchClose", itemBatchPublishDTO);
 		ItemCloseResult batchClose = itemPublishServiceRef.batchClose(itemBatchPublishDTO);
 		RepoUtils.resultLog(log, "itemQueryServiceRef.batchClose", batchClose);
+	}
+
+	public void batchDelete(ItemBatchPublishDTO itemBatchPublishDTO) {
+		if (itemBatchPublishDTO == null) {
+			log.warn("ItemRepo.batchDelete(itemBatchPublishDTO) error: itemPublishDTO is null");
+			throw new BaseException("参数为null ");
+		}
+		RepoUtils.requestLog(log, "itemQueryServiceRef.batchClose", itemBatchPublishDTO);
+		ItemDeleteResult batchDelete = itemPublishServiceRef.batchDelete(itemBatchPublishDTO);
+		RepoUtils.resultLog(log, "itemQueryServiceRef.batchClose", batchDelete);
 	}
 
 }

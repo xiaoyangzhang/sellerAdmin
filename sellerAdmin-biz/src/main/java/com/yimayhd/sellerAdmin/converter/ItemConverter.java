@@ -3,10 +3,9 @@ package com.yimayhd.sellerAdmin.converter;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
 import com.yimayhd.sellerAdmin.model.item.ItemListItemVO;
@@ -33,6 +32,9 @@ public class ItemConverter {
 		itemQryDTO.setSellerId(sellerId);
 		if (query.getStatus() != null) {
 			itemQryDTO.setStatus(Arrays.asList(query.getStatus()));
+		} else {
+			itemQryDTO.setStatus(Arrays.asList(ItemStatus.create.getValue(), ItemStatus.invalid.getValue(),
+					ItemStatus.valid.getValue()));
 		}
 		if (query.getItemType() != null) {
 			itemQryDTO.setItemType(query.getItemType());
