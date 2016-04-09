@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
@@ -65,19 +65,21 @@ public class ItemServiceImpl implements ItemService {
 				return WebResult.failure(WebReturnCode.REMOTE_CALL_FAILED, "返回结果错误,新增失败 ");
 			}
 			List<ItemDO> itemDOList = itemPageResult.getItemDOList();
-			List<Long> itemIds = new ArrayList<Long>();
 			List<ItemListItemVO> resultList = new ArrayList<ItemListItemVO>();
-			for (ItemDO itemDO : itemDOList) {
-				resultList.add(ItemConverter.toItemListItemVO(itemDO));
-				itemIds.add(itemDO.getId());
-			}
-			Map<Long, List<ComTagDO>> tagMap = commentRepo.getTagsByOutIds(itemIds, TagType.DESTPLACE);
-			for (ItemListItemVO itemListItemVO : resultList) {
-				long itemId = itemListItemVO.getId();
-				if (tagMap.containsKey(itemId)) {
-					List<ComTagDO> comTagDOs = tagMap.get(itemId);
-					List<CityVO> dests = toCityVO(comTagDOs);
-					itemListItemVO.setDests(dests);
+			if (CollectionUtils.isNotEmpty(itemDOList)) {
+				List<Long> itemIds = new ArrayList<Long>();
+				for (ItemDO itemDO : itemDOList) {
+					resultList.add(ItemConverter.toItemListItemVO(itemDO));
+					itemIds.add(itemDO.getId());
+				}
+				Map<Long, List<ComTagDO>> tagMap = commentRepo.getTagsByOutIds(itemIds, TagType.DESTPLACE);
+				for (ItemListItemVO itemListItemVO : resultList) {
+					long itemId = itemListItemVO.getId();
+					if (tagMap.containsKey(itemId)) {
+						List<ComTagDO> comTagDOs = tagMap.get(itemId);
+						List<CityVO> dests = toCityVO(comTagDOs);
+						itemListItemVO.setDests(dests);
+					}
 				}
 			}
 			PageVO<ItemListItemVO> pageVO = new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(),

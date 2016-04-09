@@ -26,21 +26,21 @@ public class ItemConverter {
 			return null;
 		}
 		ItemQryDTO itemQryDTO = new ItemQryDTO();
-		if (StringUtils.isNotBlank(query.getName())) {
-			itemQryDTO.setName(query.getName());
-		}
-		if (query.getId() > 0) {
-			itemQryDTO.setId(query.getId());
+		itemQryDTO.setName(query.getName());
+		if (query.getItemId() != null) {
+			itemQryDTO.setId(query.getItemId());
 		}
 		itemQryDTO.setSellerId(sellerId);
-		if (query.getStatus() > 0) {
+		if (query.getStatus() != null) {
 			itemQryDTO.setStatus(Arrays.asList(query.getStatus()));
 		}
-		if (query.getItemType() > 0) {
+		if (query.getItemType() != null) {
 			itemQryDTO.setItemType(query.getItemType());
 		}
 		itemQryDTO.setBeginDate(query.getBeginDate());
 		itemQryDTO.setEndDate(query.getEndDate());
+		itemQryDTO.setPageNo(query.getPageNo());
+		itemQryDTO.setPageSize(query.getPageSize());
 		return itemQryDTO;
 	}
 

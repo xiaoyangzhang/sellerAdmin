@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mysql.fabric.xmlrpc.base.Array;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
+import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseException;
@@ -61,7 +63,8 @@ public class ItemController extends BaseController {
 			throw new BaseException(result.getResultMsg());
 		}
 		put("pageVo", result.getValue());
-		put("itemTypes", ItemType.values());
+		put("itemTypeList", ItemType.values());
+		put("itemStatusList", ItemStatus.values());
 		put("query", query);
 		return "/system/comm/itemList";
 	}
