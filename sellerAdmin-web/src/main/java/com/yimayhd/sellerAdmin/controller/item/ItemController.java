@@ -178,9 +178,9 @@ public class ItemController extends BaseController {
 		// TODO YEBIN 待开发
 		if (ItemType.FREE_LINE.getValue() == itemType || ItemType.TOUR_LINE.getValue() == itemType) {
 			return redirect("/line/" + itemId + "/detail/");
-		} /*else if (ItemType.CITY_ACTIVITY.getValue() == itemType) {
-			return redirect("/cityActivity/toAdd?categoryId=" + categoryId);
-		}*/ else {
+		} else if (ItemType.CITY_ACTIVITY.getValue() == itemType) {
+			return redirect("/cityactivity/edit/" + itemId);
+		} else {
 			throw new BaseException("unsupport ItemType " + itemType);
 		}
 	}

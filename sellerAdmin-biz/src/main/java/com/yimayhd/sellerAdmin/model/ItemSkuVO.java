@@ -24,6 +24,8 @@ public class ItemSkuVO extends ItemSkuDO {
 
     private String mainPic;//sku主图
     private String pcMainPic;//PC版sku主图
+
+    private String idGroup; //各valueid通过下划线拼接而成的sku唯一标识，如"_2_3"
     
     public static ItemSkuDO getItemSkuDO(ItemVO itemVO,ItemSkuVO itemSkuVO){
         ItemSkuDO itemSkuDO = new ItemSkuDO();
@@ -75,6 +77,11 @@ public class ItemSkuVO extends ItemSkuDO {
             itemSkuVO.setMainPic(itemSkuDO.getItemSkuFeature().getMainPic());
             itemSkuVO.setPcMainPic(itemSkuDO.getItemSkuFeature().getMainPic());
         }
+        String idGroup = "";
+        for(ItemSkuPVPair skuPVPair : itemSkuDO.getItemSkuPVPairList()) {
+            idGroup = idGroup + "_"  + skuPVPair.getVId();
+        }
+        itemSkuVO.setIdGroup(idGroup);
         return itemSkuVO;
     }
 
@@ -141,6 +148,14 @@ public class ItemSkuVO extends ItemSkuDO {
             }
             return 0;
         }
+    }
+
+    public String getIdGroup() {
+        return idGroup;
+    }
+
+    public void setIdGroup(String idGroup) {
+        this.idGroup = idGroup;
     }
 }
 

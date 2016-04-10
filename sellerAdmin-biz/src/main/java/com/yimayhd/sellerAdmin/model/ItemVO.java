@@ -240,8 +240,7 @@ public class ItemVO extends ItemDO {
                 itemVO.setStartBookTimeDays(days);
                 itemVO.setStartBookTimeHours(hours);
             }
-           
-         
+
             //评分（暂时普通商品用）
             itemVO.setGrade(itemVO.getItemFeature().getGrade());
             //库存方式
@@ -259,8 +258,9 @@ public class ItemVO extends ItemDO {
         }
         //截止时间
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH");
-        if(itemDO.getEndDate() != null);
-        itemVO.setEndDateStr(dateFormat.format(itemDO.getEndDate()));
+        if(itemDO.getEndDate() != null) {
+            itemVO.setEndDateStr(dateFormat.format(itemDO.getEndDate()));
+        }
         itemVO.setLongitudeVO(itemDO.getLongitude());
         itemVO.setLatitudeVO(itemDO.getLatitude());
         //个性化处理,构建sku表格所用结构
@@ -382,24 +382,24 @@ public class ItemVO extends ItemDO {
         return itemSkuVOList;
     }
 
-    /**
-     * sku jsonStr转list对象
-     * @return
-     */
-    public List<ItemSkuDO> getItemSkuDOList(){
-        if(CollectionUtils.isEmpty(itemSkuVOListAll)){
-            itemSkuVOListAll = getItemSkuVOListByStr();
-            if(CollectionUtils.isEmpty(itemSkuVOListAll)) {
-                return null;
-            }
-        }
-        List<ItemSkuDO> itemSkuDOList = new ArrayList<>();
-        for(ItemSkuVO itemSkuVO : itemSkuVOListAll) {
-            ItemSkuDO itemSkuDO = ItemSkuVO.getItemSkuDO(this, itemSkuVO);
-            itemSkuDOList.add(itemSkuDO);
-        }
-        return itemSkuDOList;
-    }
+//    /**
+//     * sku jsonStr转list对象
+//     * @return
+//     */
+//    public List<ItemSkuDO> getItemSkuDOList(){
+//        if(CollectionUtils.isEmpty(itemSkuVOListAll)){
+//            itemSkuVOListAll = getItemSkuVOListByStr();
+//            if(CollectionUtils.isEmpty(itemSkuVOListAll)) {
+//                return null;
+//            }
+//        }
+//        List<ItemSkuDO> itemSkuDOList = new ArrayList<>();
+//        for(ItemSkuVO itemSkuVO : itemSkuVOListAll) {
+//            ItemSkuDO itemSkuDO = ItemSkuVO.getItemSkuDO(this, itemSkuVO);
+//            itemSkuDOList.add(itemSkuDO);
+//        }
+//        return itemSkuDOList;
+//    }
 
     public String getItemSkuVOStr() {
         return itemSkuVOStr;

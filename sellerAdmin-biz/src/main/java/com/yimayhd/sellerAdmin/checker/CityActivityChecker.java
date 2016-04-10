@@ -43,9 +43,9 @@ public class CityActivityChecker {
 //		if (!checkNeedKnow.isSuccess()) {
 //			return checkNeedKnow;
 //		}
-		if (CollectionUtils.isEmpty(cityActivity.getThemes())) {
-			return WebCheckResult.error("主题不能为空");
-		}
+//		if (CollectionUtils.isEmpty(cityActivity.getThemes())) {
+//			return WebCheckResult.error("主题不能为空");
+//		}
 		if (cityActivity.getDest() == null) {
 			return WebCheckResult.error("活动城市不能为空");
 		}

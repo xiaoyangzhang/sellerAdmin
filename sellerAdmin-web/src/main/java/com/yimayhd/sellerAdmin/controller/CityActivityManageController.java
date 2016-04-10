@@ -88,6 +88,7 @@ public class CityActivityManageController extends BaseController {
         if (allDests.isSuccess()) {
             put("dests", allDests.getValue());
         }
+        model.addAttribute("category", itemVO.getCategoryVO());
     	model.addAttribute("item", itemVO.getItemVO());
         model.addAttribute("cityActivity", itemVO.getCityActivityVO());
         model.addAttribute("itemThemes", itemVO.getThemes());
@@ -104,6 +105,11 @@ public class CityActivityManageController extends BaseController {
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public WebResultSupport edit(String json) throws Exception {
+        long sellerId = getCurrentUserId();
+        if (sellerId <= 0) {
+            log.warn("未登录");
+            return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR_MERCHANT_TALENT);
+        }
         try {
             CityActivityItemVO itemVO = (CityActivityItemVO) JSONObject.parseObject(json, CityActivityItemVO.class);
             WebCheckResult result = CityActivityChecker.checkCityActivity(itemVO);
@@ -111,6 +117,7 @@ public class CityActivityManageController extends BaseController {
                 log.warn(result.getResultMsg());
                 return result;
             }
+            itemVO.getItemVO().setSellerId(sellerId);
             if(itemVO.getItemVO().getId() > 0) {
                 return cityActivityService.modifyCityActivityItem(itemVO);
             }

@@ -1,11 +1,19 @@
     <div class="createClubTable">
         <table class="table tab-inputgroup base-info">
             <tr>
-                <td><span class="spColor">*</span>商品标题</td>
+                <td><span class="spColor">*</span>分类：</td>
+                <td>
+                    $!{category.name}
+                </td>
+            </tr>
+            <tr>
+                <td><span class="spColor">*</span>商品标题：</td>
                 <td>
                     #if($item.id)
                         <input type="hidden" class="inpControl" name="id" id="id" value="$!{item.id}">
                     #end
+                    <input type="hidden" class="inpControl" name="id" id="categoryId" value="$!{category.id}">
+                    <input type="hidden" class="inpControl" name="rootCategoryId" id="rootCategoryId" value="$!{category.parentId}">
                     <input type="text" class="form-control item-title" placeholder="请输入商品标题" name="title" value="$!{item.title}">
                     <span class="spColor">38字</span>
                 </td>
@@ -18,7 +26,7 @@
                 </td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>活动主题</td>
+                <td><span class="spColor">*</span>活动主题：</td>
                 <td>
                     #foreach($theme in $themes)
                         <label class="checkbox-inline">
@@ -31,7 +39,7 @@
                 </td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>截止报名日期</td>
+                <td><span class="spColor">*</span>截止报名日期：</td>
                 <td>
                     <div class="row input-group">
                         <input type="text" class='form-control form-date dateInp end-date' placeholder='' readonly name="endDateStr" value="$!utilDate.dateToString($!{item.startDate},"yyyy-MM-dd HH")">
@@ -39,7 +47,7 @@
                 </td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>活动城市</td>
+                <td><span class="spColor">*</span>活动城市：</td>
                 <td>
                     <select class="form-control propertySelect dest" name="dest">
                         <option value="0" >请选择</option>
@@ -51,11 +59,11 @@
             </tr>
 
             <tr>
-                <td><span class="spColor">*</span>详细地址</td>
+                <td><span class="spColor">*</span>详细地址：</td>
                 <td><input type="text" class="form-control location-text" placeholder="" value="$!cityActivity.locationText"><span>38字</span></td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>坐标</td>
+                <td><span class="spColor">*</span>坐标：</td>
                 <td>
                     <span>经度</span>
                     <input type="text" name="item.longitude" id="longitude" class="inpControl getAddress" value="$!item.longitude">
@@ -206,20 +214,15 @@
             $(".productTag:checked").each(function(){
                 themes.push($(this).attr("rId"));
             });
-            var dests = [];
-            $(".dests").each(function(){
-                dests.push({id:$(this).attr("rId")});
-            });
+
             var result = {
-                #if($product)
-                    itemId:$!{item.itemId},
+                #if($item.id)
+                    id:$!{item.id},
                 #end
                 title:$(".item-title").val(),
                 code:$(".item-code").val(),
                 itemMainPics:picUrls,
                 description:$(".description").val(),
-                themes:themes,
-                dest:$("#dest").val()||0,
                 latitudeVO:$("#latitude").val()||null,
                 longitudeVO:$("#longitude").val()||null,
                 endDateStr:$(".end-date").val(),
@@ -236,12 +239,18 @@
             return themes;
         }
         function getDest() {
-            var dest = $(".dest").val();
+            var dest = {
+                id:$(".dest").attr("rId"),
+            };
             return dest;
         }
         function getCityActivity() {
             var result = {
+                #if($item.id)
+                    id:$!{item.outId},
+                #end
                 locationText:$(".location-text").val(),
+                needKnowVO:getNeedKnow(),
             };
             return result;
         }

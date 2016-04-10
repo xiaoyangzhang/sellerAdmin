@@ -6,6 +6,7 @@ import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
 import com.yimayhd.sellerAdmin.model.line.TagDTO;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
+import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextVO;
 import com.yimayhd.sellerAdmin.service.ScenicService;
 
 import java.io.Serializable;
@@ -21,6 +22,7 @@ public class CityActivityItemVO{
     private List<Long> themes;
     private CityVO dest;
     private NeedKnowVO needKnowVO;
+    private PictureTextVO pictureTextVO;
 
     public ItemVO getItemVO() {
         return itemVO;
@@ -68,5 +70,13 @@ public class CityActivityItemVO{
 
     public void setNeedKnowVO(NeedKnowVO needKnowVO) {
         this.needKnowVO = needKnowVO;
+    }
+
+    public PictureTextVO getPictureTextVO() {
+        return pictureTextVO;
+    }
+
+    public void setPictureTextVO(PictureTextVO pictureTextVO) {
+        this.pictureTextVO = pictureTextVO;
     }
 }

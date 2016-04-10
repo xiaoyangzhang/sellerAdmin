@@ -1,13 +1,12 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.commission.client.enums.Domain;
 import com.yimayhd.ic.client.model.domain.CityActivityDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
-import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
-import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
-import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.enums.*;
 import com.yimayhd.ic.client.model.param.item.*;
 import com.yimayhd.ic.client.model.param.item.cityactivity.CityActivityPubAddDTO;
 import com.yimayhd.ic.client.model.param.item.cityactivity.CityActivityPubUpdateDTO;
@@ -84,7 +83,8 @@ public class CityActivityServiceImpl implements CityActivityService {
         CityActivityPubAddDTO cityActivityPubAddDTO = new CityActivityPubAddDTO();
         ItemVO itemVO = cityActivityItemVO.getItemVO();
         ItemDO itemDO = ItemVO.getItemDO(cityActivityItemVO.getItemVO());
-        CityActivityDO cityActivityDO = cityActivityItemVO.getCityActivityVO().getCityActivityDO();
+        fillItemDO(itemDO, cityActivityItemVO.getCategoryVO());
+        CityActivityDO cityActivityDO = CityActivityConverter.convertDO(cityActivityItemVO.getCityActivityVO());
         List<ItemSkuDO> skuDOList = new ArrayList<>();
         for(ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListAll()) {
             ItemSkuDO itemSkuDO = ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO);
@@ -131,5 +131,13 @@ public class CityActivityServiceImpl implements CityActivityService {
             throw new BaseException(icResultSupport.getResultMsg());
         }
         return result;
+    }
+
+    public void fillItemDO(ItemDO itemDO, CategoryVO categoryVO) {
+        itemDO.setCategoryId(categoryVO.getId());
+        itemDO.setRootCategoryId(categoryVO.getParentId());
+        itemDO.setDomain(Constant.DOMAIN_JIUXIU);
+        itemDO.setItemType(ItemType.CITY_ACTIVITY.getValue());
+        itemDO.setOptions(ItemOptions.HAS_SKU.getType());
     }
 }
