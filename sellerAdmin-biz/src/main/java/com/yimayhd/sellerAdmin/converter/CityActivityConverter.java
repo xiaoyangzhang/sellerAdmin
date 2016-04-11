@@ -19,6 +19,7 @@ import com.yimayhd.ic.client.model.param.item.line.*;
 import com.yimayhd.ic.client.model.result.item.CityActivityResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
+import com.yimayhd.resourcecenter.entity.item.SalesPropertyVO;
 import com.yimayhd.sellerAdmin.model.*;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
@@ -28,10 +29,13 @@ import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowItemVo;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
 import com.yimayhd.sellerAdmin.model.line.price.*;
 import com.yimayhd.sellerAdmin.model.line.route.*;
+import com.yimayhd.sellerAdmin.util.DateUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -50,9 +54,10 @@ public class CityActivityConverter {
 		}
 		try {
 			CategoryVO categoryVO = CategoryVO.getCategoryVO(cityActivityResult.getCategoryDO());
-			cityActivityItemVO.setItemVO(ItemVO.getItemVO(cityActivityResult.getItemDO(), categoryVO));
+			cityActivityResult.getItemDO().setItemSkuDOList(cityActivityResult.getItemSkuDOList());
+			cityActivityItemVO.setItemVO(ItemConverter.convertItemVO(cityActivityResult.getItemDO(), categoryVO));
+			fillCategoryValueVOs(categoryVO, cityActivityResult.getItemSkuDOList());
 			cityActivityItemVO.setCategoryVO(categoryVO);
-			cityActivityItemVO.setItemSkuVOList(ItemSkuConverter.convertVOList(cityActivityResult.getItemSkuDOList()));
 			cityActivityItemVO.setCityActivityVO(convertVO(cityActivityResult.getCityActivityDO()));
 		} catch (Exception e) {
 			throw e;
@@ -66,17 +71,30 @@ public class CityActivityConverter {
 		}
 		CityActivityVO cityActivityVO = new CityActivityVO();
 		BeanUtils.copyProperties(cityActivityDO, cityActivityVO);
+		cityActivityVO.setNeedKnowVO(NeedKnowConverter.convertNeedKnowVO(cityActivityDO.getNeedKnow()));
 		return cityActivityVO;
 	}
 
-	public static CityActivityPubUpdateDTO convertPubUpdateDTO(CityActivityItemVO cityActivityItemVO) {
+	public static CityActivityDO convertDO(CityActivityVO cityActivityVO){
+		CityActivityDO cityActivityDO = new CityActivityDO();
+		BeanUtils.copyProperties(cityActivityVO, cityActivityDO);
+		cityActivityDO.setNeedKnow(NeedKnowConverter.convertNeedKnow(cityActivityVO.getNeedKnowVO()));
+		return cityActivityDO;
+	}
+
+	public static CityActivityPubUpdateDTO convertPubUpdateDTO(CityActivityItemVO cityActivityItemVO) throws Exception{
 		if(cityActivityItemVO == null) {
 			return null;
 		}
-		CityActivityPubUpdateDTO cityActivityPubUpdateDTO = new CityActivityPubUpdateDTO();
-		cityActivityPubUpdateDTO.setCityActivity(convertUpdateDTO(cityActivityItemVO.getCityActivityVO()));
-		cityActivityPubUpdateDTO.setItem(convertItemUpdateDTO(cityActivityItemVO.getItemVO()));
-		setItemSkuDOList(cityActivityPubUpdateDTO, cityActivityItemVO.getItemVO());
+		CityActivityPubUpdateDTO cityActivityPubUpdateDTO = null;
+		try {
+			cityActivityPubUpdateDTO = new CityActivityPubUpdateDTO();
+			cityActivityPubUpdateDTO.setCityActivity(convertUpdateDTO(cityActivityItemVO.getCityActivityVO()));
+			cityActivityPubUpdateDTO.setItem(convertItemUpdateDTO(cityActivityItemVO.getItemVO()));
+			setItemSkuDOList(cityActivityPubUpdateDTO, cityActivityItemVO.getItemVO());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return cityActivityPubUpdateDTO;
 	}
 
@@ -86,16 +104,29 @@ public class CityActivityConverter {
 		}
 		CityActivityUpdateDTO cityActivityUpdateDTO = new CityActivityUpdateDTO();
 		BeanUtils.copyProperties(cityActivityVO, cityActivityUpdateDTO);
+		cityActivityUpdateDTO.setNeedKnow(NeedKnowConverter.convertNeedKnow(cityActivityVO.getNeedKnowVO()));
 		return cityActivityUpdateDTO;
 	}
 
-	public static ItemPubUpdateDTO convertItemUpdateDTO(ItemVO itemVO) {
+	public static ItemPubUpdateDTO convertItemUpdateDTO(ItemVO itemVO) throws Exception {
 		if(itemVO == null) {
 			return null;
 		}
 		ItemPubUpdateDTO itemPubUpdateDTO = new ItemPubUpdateDTO();
 
 		BeanUtils.copyProperties(itemVO, itemPubUpdateDTO);
+		if(itemVO.getLongitudeVO() != null) {
+			itemPubUpdateDTO.setLongitude(itemVO.getLongitudeVO());
+		}
+		if(itemVO.getLatitudeVO() != null) {
+			itemPubUpdateDTO.setLatitude(itemVO.getLatitudeVO());
+		}
+		if(StringUtils.isNotBlank(itemVO.getEndDateStr())) {
+			itemPubUpdateDTO.setEndDate(DateUtil.convertStringToDate(itemVO.getEndDateStr()));
+		}
+		if(!CollectionUtils.isEmpty(itemVO.getItemMainPics())) {
+			itemPubUpdateDTO.setPicUrls(PictureUtil.addPicList(itemPubUpdateDTO.getPicUrls(), ItemPicUrlsKey.ITEM_MAIN_PICS.name(), itemVO.getItemMainPics()));
+		}
 		return itemPubUpdateDTO;
 	}
 
@@ -128,6 +159,47 @@ public class CityActivityConverter {
 			cityActivityPubUpdateDTO.setAddItemSkuList(addItemSkuDOList);
 			cityActivityPubUpdateDTO.setDelItemSkuList(delItemSkuDOIdList);
 			cityActivityPubUpdateDTO.setUpdItemSkuList(updItemSkuDOList);
+		}
+	}
+
+	private static void fillCategoryValueVOs(CategoryVO categoryVO, List<ItemSkuDO> skuDOList) {
+		if(CollectionUtils.isEmpty(skuDOList)) {
+			return;
+		}
+		Map<Long, CategoryPropertyVO> salesPropertyVOMap = new HashMap<>();
+		for(CategoryPropertyValueVO categoryPropertyValueVO : categoryVO.getSellCategoryPropertyVOs()) {
+			salesPropertyVOMap.put(categoryPropertyValueVO.getPropertyId(), categoryPropertyValueVO.getCategoryPropertyVO());
+		}
+		for(ItemSkuDO skuDO : skuDOList) {
+			for(ItemSkuPVPair skuPVPair : skuDO.getItemSkuPVPairList()) {
+				CategoryPropertyVO propertyVO = salesPropertyVOMap.get(skuPVPair.getPId());
+				if(propertyVO == null) {
+					continue;
+				}
+				List<CategoryValueVO> categoryValueVOList = propertyVO.getCategoryValueVOs();
+				if(categoryValueVOList == null) {
+					categoryValueVOList = new ArrayList<>();
+					propertyVO.setCategoryValueVOs(categoryValueVOList);
+				}
+				boolean hasValue = false;
+				if(!CollectionUtils.isEmpty(categoryValueVOList)) {
+					for(CategoryValueVO valueVO : categoryValueVOList) {
+						if(valueVO.getId() == skuPVPair.getVId()) {
+							hasValue = true;
+							break;
+						}
+					}
+				}
+				if(!hasValue) {	//如果没有该value
+					CategoryValueVO categoryValueVO = new CategoryValueVO();
+					categoryValueVO.setId(skuPVPair.getVId());
+					categoryValueVO.setText(skuPVPair.getVTxt());
+					categoryValueVO.setType(skuPVPair.getPType());
+					categoryValueVO.setChecked(true);
+
+					categoryValueVOList.add(categoryValueVO);
+				}
+			}
 		}
 	}
 

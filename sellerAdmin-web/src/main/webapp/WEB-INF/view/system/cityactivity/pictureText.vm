@@ -1,0 +1,35 @@
+#set($pictureText = $pictureTextVO)
+<div id="editer">
+	<div class="hd clearfix">
+		<ul class="clearfix">
+            <li><a href="javascript:void(0)" class="addtext">+文本</a></li>
+            <li><a href="javascript:void(0)" class="addpic">+图片</a></li>
+            <li><a href="javascript:void(0)" class="moveup">↑上移</a></li>
+            <li><a href="javascript:void(0)" class="movedown">↓下移</a></li>
+		</ul>
+	</div>
+	<div class="bd">
+		#foreach($pictureTextItem in $pictureText.pictureTextItems)
+			#if($pictureTextItem.type.equalsIgnoreCase('text'))
+		<p class="text">
+			<font>$!{pictureTextItem.value}</font>
+		</p>
+			#elseif($pictureTextItem.type.equalsIgnoreCase('img'))
+		<p class="pic">
+			<img src="$!{tfs}$!{pictureTextItem.value}">
+		</p>
+			#end
+		#end
+	</div>
+	<textarea name="content" id="contentText" style="display:none;">$!{pictureText.pictureTextItemsJson}</textarea>
+	<input type="hidden" id="uploadAction" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file"/>
+	<input type="hidden" id="imgUrl" value="$utilWebconfig.getTfsRootPath()"/>
+</div>
+<script type="text/javascript">
+	function getPictureText() {
+		var content = $("#contentText").val();
+		return {
+			pictureTextItems:JSON.parse(content || "[]")
+		};
+	}
+</script>

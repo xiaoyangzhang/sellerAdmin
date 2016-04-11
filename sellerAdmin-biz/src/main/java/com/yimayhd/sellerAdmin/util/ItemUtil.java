@@ -19,11 +19,11 @@ public class ItemUtil {
 		if (ItemStatus.create.getValue() == status) {
 			operates.add(ItemOperate.EDIT.name());
 			operates.add(ItemOperate.SHELVE.name());
-			// operates.add(ItemOperate.DELETE.name());
+			operates.add(ItemOperate.DELETE.name());
 		} else if (ItemStatus.invalid.getValue() == status) {
 			operates.add(ItemOperate.EDIT.name());
 			operates.add(ItemOperate.SHELVE.name());
-			// operates.add(ItemOperate.DELETE.name());
+			operates.add(ItemOperate.DELETE.name());
 		} else if (ItemStatus.valid.getValue() == status) {
 			operates.add(ItemOperate.VIEW.name());
 			operates.add(ItemOperate.UNSHELVE.name());
@@ -51,5 +51,9 @@ public class ItemUtil {
 			return is.getText();
 		}
 		return null;
+	}
+
+	public static boolean isFreeLine(ItemType itemType) {
+		return ItemType.FREE_LINE.equals(itemType);
 	}
 }

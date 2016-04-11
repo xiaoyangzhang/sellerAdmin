@@ -4,25 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.param.item.ItemBatchPublishDTO;
+import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
 import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.converter.ItemConverter;
 import com.yimayhd.sellerAdmin.model.item.ItemListItemVO;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
 import com.yimayhd.sellerAdmin.model.query.ItemListQuery;
-import com.yimayhd.sellerAdmin.repo.CategoryRepo;
 import com.yimayhd.sellerAdmin.repo.CityRepo;
 import com.yimayhd.sellerAdmin.repo.CommentRepo;
 import com.yimayhd.sellerAdmin.repo.ItemRepo;
@@ -44,9 +46,7 @@ public class ItemServiceImpl implements ItemService {
 	private CommentRepo commentRepo;
 	@Autowired
 	private CityRepo cityRepo;
-	@Autowired
-	private CategoryRepo categoryRepo;
-	
+
 	@Override
 	public WebResult<PageVO<ItemListItemVO>> getItemList(long sellerId, ItemListQuery query) {
 		try {
@@ -65,19 +65,21 @@ public class ItemServiceImpl implements ItemService {
 				return WebResult.failure(WebReturnCode.REMOTE_CALL_FAILED, "返回结果错误,新增失败 ");
 			}
 			List<ItemDO> itemDOList = itemPageResult.getItemDOList();
-			List<Long> itemIds = new ArrayList<Long>();
 			List<ItemListItemVO> resultList = new ArrayList<ItemListItemVO>();
-			for (ItemDO itemDO : itemDOList) {
-				resultList.add(ItemConverter.toItemListItemVO(itemDO));
-				itemIds.add(itemDO.getId());
-			}
-			Map<Long, List<ComTagDO>> tagMap = commentRepo.getTagsByOutIds(itemIds, TagType.DESTPLACE);
-			for (ItemListItemVO itemListItemVO : resultList) {
-				long itemId = itemListItemVO.getId();
-				if (tagMap.containsKey(itemId)) {
-					List<ComTagDO> comTagDOs = tagMap.get(itemId);
-					List<CityVO> dests = toCityVO(comTagDOs);
-					itemListItemVO.setDests(dests);
+			if (CollectionUtils.isNotEmpty(itemDOList)) {
+				List<Long> itemIds = new ArrayList<Long>();
+				for (ItemDO itemDO : itemDOList) {
+					resultList.add(ItemConverter.toItemListItemVO(itemDO));
+					itemIds.add(itemDO.getId());
+				}
+				Map<Long, List<ComTagDO>> tagMap = commentRepo.getTagsByOutIds(itemIds, TagType.DESTPLACE);
+				for (ItemListItemVO itemListItemVO : resultList) {
+					long itemId = itemListItemVO.getId();
+					if (tagMap.containsKey(itemId)) {
+						List<ComTagDO> comTagDOs = tagMap.get(itemId);
+						List<CityVO> dests = toCityVO(comTagDOs);
+						itemListItemVO.setDests(dests);
+					}
 				}
 			}
 			PageVO<ItemListItemVO> pageVO = new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(),
@@ -111,7 +113,98 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public WebResult<PageVO<ItemListItemVO>> getCateList() {
-		return null;
+	public WebOperateResult shelve(long sellerId, long itemId) {
+		try {
+			ItemPublishDTO itemPublishDTO = new ItemPublishDTO();
+			itemPublishDTO.setSellerId(sellerId);
+			itemPublishDTO.setItemId(itemId);
+			itemRepo.shelve(itemPublishDTO);
+			return WebOperateResult.success();
+		} catch (Exception e) {
+			log.warn("Params: sellerId=" + sellerId);
+			log.warn("Params: itemId=" + itemId);
+			log.warn("ItemService.shelve error", e);
+			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
+		}
+	}
+
+	@Override
+	public WebOperateResult unshelve(long sellerId, long itemId) {
+		try {
+			ItemPublishDTO itemPublishDTO = new ItemPublishDTO();
+			itemPublishDTO.setSellerId(sellerId);
+			itemPublishDTO.setItemId(itemId);
+			itemRepo.unshelve(itemPublishDTO);
+			return WebOperateResult.success();
+		} catch (Exception e) {
+			log.warn("Params: sellerId=" + sellerId);
+			log.warn("Params: itemId=" + itemId);
+			log.warn("ItemService.unshelve error", e);
+			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
+		}
+	}
+
+	@Override
+	public WebOperateResult delete(long sellerId, long itemId) {
+		try {
+			ItemPublishDTO itemPublishDTO = new ItemPublishDTO();
+			itemPublishDTO.setSellerId(sellerId);
+			itemPublishDTO.setItemId(itemId);
+			itemRepo.delete(itemPublishDTO);
+			return WebOperateResult.success();
+		} catch (Exception e) {
+			log.warn("Params: sellerId=" + sellerId);
+			log.warn("Params: itemId=" + itemId);
+			log.warn("ItemService.unshelve error", e);
+			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
+		}
+	}
+
+	@Override
+	public WebOperateResult batchShelve(long sellerId, List<Long> itemIds) {
+		try {
+			ItemBatchPublishDTO itemBatchPublishDTO = new ItemBatchPublishDTO();
+			itemBatchPublishDTO.setSellerId(sellerId);
+			itemBatchPublishDTO.setItemIdList(itemIds);
+			itemRepo.batchShelve(itemBatchPublishDTO);
+			return WebOperateResult.success();
+		} catch (Exception e) {
+			log.warn("Params: sellerId=" + sellerId);
+			log.warn("Params: itemIds=" + itemIds);
+			log.warn("ItemService.batchShelve error", e);
+			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
+		}
+	}
+
+	@Override
+	public WebOperateResult batchUnshelve(long sellerId, List<Long> itemIds) {
+		try {
+			ItemBatchPublishDTO itemBatchPublishDTO = new ItemBatchPublishDTO();
+			itemBatchPublishDTO.setSellerId(sellerId);
+			itemBatchPublishDTO.setItemIdList(itemIds);
+			itemRepo.batchUnshelve(itemBatchPublishDTO);
+			return WebOperateResult.success();
+		} catch (Exception e) {
+			log.warn("Params: sellerId=" + sellerId);
+			log.warn("Params: itemIds=" + itemIds);
+			log.warn("ItemService.batchUnshelve error", e);
+			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
+		}
+	}
+
+	@Override
+	public WebOperateResult batchDelete(long sellerId, List<Long> itemIds) {
+		try {
+			ItemBatchPublishDTO itemBatchPublishDTO = new ItemBatchPublishDTO();
+			itemBatchPublishDTO.setSellerId(sellerId);
+			itemBatchPublishDTO.setItemIdList(itemIds);
+			itemRepo.batchDelete(itemBatchPublishDTO);
+			return WebOperateResult.success();
+		} catch (Exception e) {
+			log.warn("Params: sellerId=" + sellerId);
+			log.warn("Params: itemIds=" + itemIds);
+			log.warn("ItemService.batchUnshelve error", e);
+			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
+		}
 	}
 }

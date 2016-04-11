@@ -48,9 +48,11 @@
                 <li>
                   <a href="#tab2" data-toggle="tab">详细描述</a>
                 </li>
+				#if($utilItem.isFreeLine($itemType))
                 <li>
                   <a href="#tab3" data-toggle="tab">机酒景信息</a>
                 </li>
+				#end
                 <li>
                   <a href="#tab4" data-toggle="tab">行程信息</a>
                 </li>
@@ -68,9 +70,11 @@
             	<div class="tab-pane" id="tab2" style="width: 96%;margin: 15px auto;">
             		#parse("/system/comm/line/pictureText.vm")
                 </div>
+				#if($utilItem.isFreeLine($itemType))
             	<div class="tab-pane tripPackageInfo" id="tab3">
                     #parse("/system/comm/line/routePlan.vm")
                 </div>
+				#end
                 <div class="tab-pane tripInfo" id="tab4">
                     #parse("/system/comm/line/routeInfo.vm")
                 </div>
@@ -96,14 +100,18 @@ $(".save").click(function(){
     var result = {
         baseInfo:getBaseInfo(),
 		pictureText:getPictureText(),
+		#if($utilItem.isFreeLine($itemType))
 		routePlan:getRoutePlan(),
+		#end
         routeInfo:getRouteInfo(),
         priceInfo:getPriceInfo(),
 		needKnow:getNeedKnow()
     };
 	console.log(JSON.stringify(result.baseInfo));
 	console.log(JSON.stringify(result.pictureText));
+	#if($utilItem.isFreeLine($itemType))
 	console.log(JSON.stringify(result.routePlan));
+	#end
 	console.log(JSON.stringify(result.routeInfo));
 	console.log(JSON.stringify(result.priceInfo));
 	console.log(JSON.stringify(result.needKnow));
