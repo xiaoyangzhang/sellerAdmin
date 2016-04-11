@@ -1,46 +1,37 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.commission.client.enums.Domain;
-import com.yimayhd.ic.client.model.domain.CityActivityDO;
+import com.yimayhd.commentcenter.client.dto.ComentEditDTO;
+import com.yimayhd.commentcenter.client.enums.PictureText;
+import com.yimayhd.commentcenter.client.enums.TagType;
+import com.yimayhd.commentcenter.client.result.PicTextResult;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
-import com.yimayhd.ic.client.model.domain.item.ItemFeature;
-import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.*;
 import com.yimayhd.ic.client.model.param.item.*;
 import com.yimayhd.ic.client.model.param.item.cityactivity.CityActivityPubAddDTO;
 import com.yimayhd.ic.client.model.param.item.cityactivity.CityActivityPubUpdateDTO;
-import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.ic.client.model.result.item.*;
-import com.yimayhd.ic.client.service.item.HotelService;
-import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.ic.client.service.item.cityactivity.CityActivityPublishService;
 import com.yimayhd.sellerAdmin.base.BaseException;
-import com.yimayhd.sellerAdmin.base.PageVO;
-import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.biz.TagBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.CityActivityConverter;
-import com.yimayhd.sellerAdmin.converter.ItemSkuConverter;
+import com.yimayhd.sellerAdmin.converter.PictureTextConverter;
 import com.yimayhd.sellerAdmin.exception.NoticeException;
 import com.yimayhd.sellerAdmin.model.*;
-import com.yimayhd.sellerAdmin.model.query.CommodityListQuery;
+import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.repo.CommentRepo;
+import com.yimayhd.sellerAdmin.repo.PictureTextRepo;
 import com.yimayhd.sellerAdmin.service.CityActivityService;
-import com.yimayhd.sellerAdmin.service.CommodityService;
-import com.yimayhd.sellerAdmin.service.TfsService;
-import com.yimayhd.sellerAdmin.util.DateUtil;
-import com.yimayhd.sellerAdmin.util.NumUtil;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,13 +42,13 @@ public class CityActivityServiceImpl implements CityActivityService {
     @Autowired
     private ItemQueryService itemQueryServiceRef;
     @Autowired
-    private ItemPublishService itemPublishServiceRef;
-    @Autowired
-    private TfsService tfsService;
-    @Autowired
-    private HotelService hotelServiceRef;
-    @Autowired
     private CityActivityPublishService cityActivityPublishServiceRef;
+    @Autowired
+    private CommentRepo commentRepo;
+    @Autowired
+    private PictureTextRepo pictureTextRepo;
+    @Autowired
+    private TagBiz tagBiz;
 
     @Override
     public CityActivityItemVO getCityActivityById(long id) throws Exception {
@@ -73,30 +64,18 @@ public class CityActivityServiceImpl implements CityActivityService {
             log.error("itemQueryServiceRef.getCityActivityResult return value error ! returnValue : "+ JSON.toJSONString(cityActivityResult) + " and parame:" + JSON.toJSONString(optionDTO) + " and id is : " + id);
             throw new NoticeException(cityActivityResult.getResultMsg());
         }
-        CityActivityItemVO cityActivityItemVO = CityActivityConverter.convertItemVO(cityActivityResult);
+        List<CityVO> cityVOList = tagBiz.getItemCityVOs(id, TagType.DESTPLACE);
+        List<Long> themeIds = tagBiz.getItemThemeIds(id, TagType.LINETAG);
+        // 图文详情
+        PicTextResult picTextResult = pictureTextRepo.getPictureText(id, PictureText.ITEM);
+        CityActivityItemVO cityActivityItemVO = CityActivityConverter.convertItemVO(cityActivityResult, themeIds, cityVOList, picTextResult);
         return cityActivityItemVO;
     }
 
     @Override
     public WebResultSupport addCityActivityItem(CityActivityItemVO cityActivityItemVO) throws Exception {
         WebResultSupport webResultSupport = new WebResultSupport();
-        CityActivityPubAddDTO cityActivityPubAddDTO = new CityActivityPubAddDTO();
-        ItemVO itemVO = cityActivityItemVO.getItemVO();
-        ItemDO itemDO = ItemVO.getItemDO(cityActivityItemVO.getItemVO());
-        fillItemDO(itemDO, cityActivityItemVO.getCategoryVO());
-        CityActivityDO cityActivityDO = CityActivityConverter.convertDO(cityActivityItemVO.getCityActivityVO());
-        List<ItemSkuDO> skuDOList = new ArrayList<>();
-        for(ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()) {
-            ItemSkuDO itemSkuDO = ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO);
-            itemSkuDO.setItemId(itemVO.getId());
-            itemSkuDO.setSellerId(itemVO.getSellerId());
-            itemSkuDO.setCategoryId(itemVO.getCategoryId());
-            skuDOList.add(itemSkuDO);
-        }
-        cityActivityPubAddDTO.setDomain(Constant.DOMAIN_JIUXIU);
-        cityActivityPubAddDTO.setItem(itemDO);
-        cityActivityPubAddDTO.setCityActivity(cityActivityDO);
-        cityActivityPubAddDTO.setItemSkuList(skuDOList);
+        CityActivityPubAddDTO cityActivityPubAddDTO = CityActivityConverter.convertPubAddDTO(cityActivityItemVO);
         CityActivityPublishResult result = cityActivityPublishServiceRef.add(cityActivityPubAddDTO);
         if(null == result){
             log.error("cityActivityPublishServiceRef.add result is null and param: " + JSON.toJSONString(cityActivityPubAddDTO));
@@ -105,6 +84,16 @@ public class CityActivityServiceImpl implements CityActivityService {
             log.error("cityActivityPublishServiceRef.add error:" + JSON.toJSONString(result) + "and param: " + JSON.toJSONString(cityActivityPubAddDTO));
             throw new BaseException(result.getResultMsg());
         }
+        long itemId = cityActivityItemVO.getItemVO().getId();
+        List<Long> themeIds = cityActivityItemVO.getThemes();
+        commentRepo.saveTagRelation(itemId, TagType.LINETAG, themeIds);
+        CityVO dest = cityActivityItemVO.getDest();
+        List<Long> destIds = new ArrayList<Long>();
+        destIds.add(dest.getId());
+        commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
+        ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemId, PictureText.ITEM,
+                cityActivityItemVO.getPictureTextVO());
+        pictureTextRepo.editPictureText(comentEditDTO);
         return webResultSupport;
     }
 
@@ -133,6 +122,16 @@ public class CityActivityServiceImpl implements CityActivityService {
             log.error("cityActivityPublishServiceRef.update error:" + JSON.toJSONString(icResultSupport) + "and param: " + JSON.toJSONString(cityActivityPubUpdateDTO));
             throw new BaseException(icResultSupport.getResultMsg());
         }
+        long itemId = cityActivityItemVO.getItemVO().getId();
+        List<Long> themeIds = cityActivityItemVO.getThemes();
+        commentRepo.saveTagRelation(itemId, TagType.LINETAG, themeIds);
+        CityVO dest = cityActivityItemVO.getDest();
+        List<Long> destIds = new ArrayList<Long>();
+        destIds.add(dest.getId());
+        commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
+        ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemId, PictureText.ITEM,
+                cityActivityItemVO.getPictureTextVO());
+        pictureTextRepo.editPictureText(comentEditDTO);
         return result;
     }
 

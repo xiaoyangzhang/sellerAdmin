@@ -85,7 +85,7 @@ public class CityActivityManageController extends BaseController {
             //TODO: exception
             return "";
         }
-        WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.ACTIVETYTAG);
+        WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.LINETAG);
         if (allThemes.isSuccess()) {
             put("themes", allThemes.getValue());
         }
@@ -99,7 +99,8 @@ public class CityActivityManageController extends BaseController {
         model.addAttribute("itemThemes", itemVO.getThemes());
         model.addAttribute("itemDest", itemVO.getDest());
     	model.addAttribute("itemType",ItemType.CITY_ACTIVITY.getValue());
-       
+        model.addAttribute("pictureTextVO", itemVO.getPictureTextVO());
+
         return "/system/cityactivity/edit";
     }
 
