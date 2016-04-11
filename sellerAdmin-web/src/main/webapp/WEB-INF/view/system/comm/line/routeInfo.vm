@@ -76,14 +76,14 @@
 				var title = $("<div class='panel trip-title'></div>");
                 title.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-exclamation-sign'></i><span class='tripAddSp'>行程标题</span></div>"));
                 var title_content = $("<div class='panel-body trip-title-content'></div>");
-				title_content.append($("<input type='text' class='form-control trip-title-text' id='day_"+dayId+"_trip_title'/>"));
+				title_content.append($("<input type='text' class='form-control trip-title-text' id='day_"+dayId+"_trip_title' maxlength='38'/>"));
                 title.append(title_content);	
 				page.append(title);
 				// 行程描述
 				var desc = $("<div class='panel trip-description'></div>");
                 desc.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-exclamation-sign'></i><span class='tripAddSp'>行程描述</span></div>"));
                 var desc_content = $("<div class='panel-body trip-description-content'></div>");
-				desc_content.append($("<textarea class='form-control trip-description-textarea' rows='3' id='day_"+dayId+"_trip_description'></textarea>"));
+				desc_content.append($("<textarea class='form-control trip-description-textarea' rows='3' id='day_"+dayId+"_trip_description' maxlength='500'></textarea>"));
                 desc.append(desc_content);	
 				page.append(desc);
 				// 行程图片
@@ -118,13 +118,13 @@
 			<div class="panel trip-title">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程标题</span></div>
 				<div class="panel-body trip-title-content">
-					<input type="text" class="form-control trip-title-text" id="day_${velocityCount}_trip_title" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.title}"/>
+					<input type="text" class="form-control trip-title-text" id="day_${velocityCount}_trip_title" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.title}" maxlength="38"/>
 				</div>
 			</div>
 			<div class="panel trip-description">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程描述</span></div>
 				<div class="panel-body trip-description-content">
-					<textarea class="form-control trip-description-textarea" rows="3" id="day_${velocityCount}_trip_description" route-item-id="$!{tripDay.routeItemId}">$!{tripDay.description}</textarea>
+					<textarea class="form-control trip-description-textarea" rows="3" id="day_${velocityCount}_trip_description" route-item-id="$!{tripDay.routeItemId}" maxlength="500">$!{tripDay.description}</textarea>
 				</div>
 			</div>
 			<div class="panel trip-images">
