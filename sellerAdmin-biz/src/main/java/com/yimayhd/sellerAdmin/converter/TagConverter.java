@@ -2,7 +2,10 @@ package com.yimayhd.sellerAdmin.converter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.user.client.dto.CityDTO;
 import org.apache.commons.collections.CollectionUtils;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
