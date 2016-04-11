@@ -145,9 +145,9 @@ public class LineChecker {
 		if (StringUtils.isNotBlank(baseInfo.getCode()) && baseInfo.getCode().length() > 20) {
 			return WebCheckResult.error("商品代码不能超过20个字");
 		}
-		if (CollectionUtils.isEmpty(baseInfo.getDeparts())) {
+		if (!baseInfo.isAllDeparts() && CollectionUtils.isEmpty(baseInfo.getDeparts())) {
 			return WebCheckResult.error("出发地不能为空");
-		} else if (baseInfo.getDeparts().size() > 15) {
+		} else if (!baseInfo.isAllDeparts() && baseInfo.getDeparts().size() > 15) {
 			return WebCheckResult.error("出发地不能超过15个");
 		}
 		if (CollectionUtils.isEmpty(baseInfo.getDests())) {
