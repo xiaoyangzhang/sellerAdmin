@@ -88,6 +88,7 @@ public class CityActivityServiceImpl implements CityActivityService {
         List<ItemSkuDO> skuDOList = new ArrayList<>();
         for(ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()) {
             ItemSkuDO itemSkuDO = ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO);
+            itemSkuDO.setItemId(itemVO.getId());
             itemSkuDO.setSellerId(itemVO.getSellerId());
             itemSkuDO.setCategoryId(itemVO.getCategoryId());
             skuDOList.add(itemSkuDO);
