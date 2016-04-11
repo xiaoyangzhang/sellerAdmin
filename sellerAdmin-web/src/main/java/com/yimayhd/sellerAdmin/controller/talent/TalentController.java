@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
+import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.enums.ExaminePageNo;
 import com.yimayhd.membercenter.enums.ExamineStatus;
@@ -48,6 +50,8 @@ public class TalentController extends BaseController {
 	private MerchantBiz merchantBiz;
 	@Autowired
 	private ExamineDealService examineDealService;
+	@Autowired
+	private TalentInfoDealService talentInfoDealService;
 	/**
 	 * 处理审核结果信息
 	 * @param dto
@@ -230,8 +234,19 @@ public class TalentController extends BaseController {
 		
 		model.addAttribute("talentBiz", talentBiz);
 		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
-		model.addAttribute("talentInfo", talentBiz.getTalentInfo());
-		return "system/talent/eredar";
+		try {
+			MemResult<TalentInfoDTO> queryTalentInfoResult = talentInfoDealService.queryTalentInfoByUserId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
+			if (queryTalentInfoResult.isSuccess() && queryTalentInfoResult.getValue() != null) {
+				
+				model.addAttribute("talentInfo", queryTalentInfoResult);
+			}
+			
+			return "system/talent/eredar";
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+			model.addAttribute("服务器出错，请稍后再试");
+			return "system/talent/eredar";
+		}
 		
 	}
 	/**
