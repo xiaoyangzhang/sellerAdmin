@@ -173,7 +173,7 @@ public class LineChecker {
 		if (CollectionUtils.isEmpty(baseInfo.getPicUrls())) {
 			return WebCheckResult.error("商品图不能为空");
 		} else if (baseInfo.getPicUrls().size() > 5) {
-			return WebCheckResult.error("商品图不能超过3个");
+			return WebCheckResult.error("商品图不能超过五张");
 		}
 		return WebCheckResult.success();
 	}
@@ -304,6 +304,9 @@ public class LineChecker {
 		}
 		if (StringUtils.isBlank(tripDay.getDescription())) {
 			return WebCheckResult.error("行程描述不能为空");
+		}
+		if (CollectionUtils.isNotEmpty(tripDay.getPicUrls()) && tripDay.getPicUrls().size() > 5) {
+			return WebCheckResult.error("行程图片不能超过5张");
 		}
 		return WebCheckResult.success();
 	}
