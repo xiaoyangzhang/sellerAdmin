@@ -23,7 +23,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="ag-content">
+		<div class="ag-content" >
 			<h2>九休达人使用协议</h2>
 			<p>本协议是用户（以下简称“您”）与京东网站（网址：包括但不限于www.jd.com等，简称“本站”）所有者及其关联公司（以下简称为“京东”）之间就京东网站服务等相关事宜所订立的契约，请您仔细阅读本注册协议，您点击"同意并继续"按钮后，即视为您接受并同意遵守本协议的约定。</p>
 			<h3>第1条 本站服务条款的确认和接纳</h3>
@@ -39,7 +39,7 @@
 			<p>1.2您点击同意本协议的，即视为您确认自己具有享受本站服务、下单购物等相应的权利能力和行为能力，能够独立承担法律责任。</p>
 			<p>1.3您确认，如果您在18周岁以下，您只能在父母或其他监护人的监护参与下才能使用本站。</p>
 		</div>
-		<a class="agreebtn" href="$!root_path/talent/toAddUserdatafill_pageOne">同意一下协议并进入下一步</a>
+		<a class="agreebtn" href="#if ($examineInfo.sellerId) $!root_path/talent/toEditUserdatafill_pageOne #else $!root_path/talent/toAddUserdatafill_pageOne #end">同意一下协议并进入下一步</a>
 	</div>
 	
 	

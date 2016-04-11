@@ -100,7 +100,7 @@ public class TalentInfoVO extends TalentInfoDO {
 
 	public  TalentInfoDTO getTalentInfoDTO(TalentInfoVO vo,long userId) throws Exception {
 		if (vo == null || userId <= 0 ) {
-			log.error("get examineSubmitDTO params error :vo="+vo+"userId="+userId);
+			log.error("get talentInfoDTO params error :vo="+vo+"userId="+userId);
 			throw new BaseException("参数错误");
 		}
 		TalentInfoDTO dto=new TalentInfoDTO();
@@ -127,24 +127,31 @@ public class TalentInfoVO extends TalentInfoDO {
 	
 	public  TalentInfoDO getTalentInfoDO(TalentInfoVO vo,long userId) throws Exception {
 		if (vo == null || userId <= 0 ) {
-			log.error("get examineSubmitDTO params error :vo="+vo+"userId="+userId);
+			log.error("get talentInfoDTO params error :vo="+vo+"userId="+userId);
 			throw new BaseException("参数错误");
 		}
 		TalentInfoDO talentInfoDO=new TalentInfoDO();
 		BeanUtils.copyProperties(talentInfoDO, vo);
 		talentInfoDO.setCityCode(Integer.parseInt(vo.getCity()));
-		talentInfoDO.setAvatar(vo.getFilepath());
+		if (vo.getFilepath() != null) {
+			
+			talentInfoDO.setAvatar(vo.getFilepath());
+		}
 		talentInfoDO.setReallyName(vo.getPeopleName());
 		talentInfoDO.setServeDesc(vo.getDescribe());
 		talentInfoDO.setTelNum(vo.getTel());
 		talentInfoDO.setCertificates(JSON.parseArray(vo.getCertificatess(), CertificatesDO.class));
 		List<String> picList=new ArrayList<>();
-		for (String str : JSON.parseArray(vo.getImgpath(), String.class)) {
-			if (str.length()>0) {
-				picList.add(str);
+		List<String> imgs = JSON.parseArray(vo.getImgpath(), String.class);
+		if (imgs != null && imgs.size() > 0) {
+			
+			for (String str : imgs) {
+				if (str.length()>0) {
+					picList.add(str);
+				}
 			}
+			talentInfoDO.setPictures(picList);
 		}
-		talentInfoDO.setPictures(picList);
 		talentInfoDO.setProvinceCode(Integer.parseInt(vo.getProvince()));
 		talentInfoDO.setId(userId);
 		return talentInfoDO;

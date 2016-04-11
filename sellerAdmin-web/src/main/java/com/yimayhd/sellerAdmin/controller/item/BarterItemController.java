@@ -124,7 +124,7 @@ public class BarterItemController extends BaseController {
         model.addAttribute("category", itemResultVO.getCategoryVO());
         model.addAttribute("commodity", itemResultVO.getItemVO());
         model.addAttribute("itemSkuList", itemResultVO.getItemSkuVOList());
-        model.addAttribute("pictureText", itemResultVO.getItemVO().getDetailUrl());
+        model.addAttribute("pictureText", itemResultVO.getItemVO().getPictureTextVO());
         return "/system/comm/common/edit";
     }
 

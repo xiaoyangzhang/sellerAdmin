@@ -177,7 +177,7 @@ public class ItemController extends BaseController {
 	public String detail(@PathVariable(value = "id") long itemId, @PathVariable(value = "type") int itemType) {
 		// TODO YEBIN 待开发
 		if (ItemType.FREE_LINE.getValue() == itemType || ItemType.TOUR_LINE.getValue() == itemType) {
-			return redirect("/line/" + itemId + "/detail/");
+			return redirect("/line/detail/" + itemId + "/");
 		} else if (ItemType.CITY_ACTIVITY.getValue() == itemType) {
 			return redirect("/cityactivity/edit/" + itemId);
 		} else {

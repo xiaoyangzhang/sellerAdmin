@@ -142,11 +142,18 @@ public class LineChecker {
 		} else if (baseInfo.getName().length() > 38) {
 			return WebCheckResult.error("商品标题不能超过38个字");
 		}
+		if (StringUtils.isNotBlank(baseInfo.getCode()) && baseInfo.getCode().length() > 20) {
+			return WebCheckResult.error("商品代码不能超过20个字");
+		}
 		if (CollectionUtils.isEmpty(baseInfo.getDeparts())) {
 			return WebCheckResult.error("出发地不能为空");
+		} else if (baseInfo.getDeparts().size() > 15) {
+			return WebCheckResult.error("出发地不能超过15个");
 		}
 		if (CollectionUtils.isEmpty(baseInfo.getDests())) {
 			return WebCheckResult.error("目的地不能为空");
+		} else if (baseInfo.getDests().size() > 15) {
+			return WebCheckResult.error("出发地不能超过15个");
 		}
 		if (baseInfo.getDays() <= 0) {
 			return WebCheckResult.error("行程天数不能小于0");
@@ -155,12 +162,18 @@ public class LineChecker {
 		}
 		if (StringUtils.isBlank(baseInfo.getDescription())) {
 			return WebCheckResult.error("线路亮点不能为空");
+		} else if (baseInfo.getDescription().length() > 200) {
+			return WebCheckResult.error("线路亮点不能超过200字");
 		}
 		if (CollectionUtils.isEmpty(baseInfo.getThemes())) {
 			return WebCheckResult.error("主题不能为空");
+		} else if (baseInfo.getThemes().size() > 3) {
+			return WebCheckResult.error("主题不能超过3个");
 		}
 		if (CollectionUtils.isEmpty(baseInfo.getPicUrls())) {
 			return WebCheckResult.error("商品图不能为空");
+		} else if (baseInfo.getPicUrls().size() > 5) {
+			return WebCheckResult.error("商品图不能超过五张");
 		}
 		return WebCheckResult.success();
 	}
@@ -291,6 +304,9 @@ public class LineChecker {
 		}
 		if (StringUtils.isBlank(tripDay.getDescription())) {
 			return WebCheckResult.error("行程描述不能为空");
+		}
+		if (CollectionUtils.isNotEmpty(tripDay.getPicUrls()) && tripDay.getPicUrls().size() > 5) {
+			return WebCheckResult.error("行程图片不能超过5张");
 		}
 		return WebCheckResult.success();
 	}
