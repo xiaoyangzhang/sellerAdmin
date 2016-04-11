@@ -127,6 +127,8 @@ public class ItemController extends BaseController {
 			return redirect("/line/category/" + categoryId + "/create/");
 		} else if (ItemType.CITY_ACTIVITY.equals(itemType)) {
 			return redirect("/cityActivity/toAdd?categoryId=" + categoryId);
+		}else if (ItemType.NORMAL.equals(itemType)) {
+			return redirect("/barterItem/common/toAdd?categoryId=" + categoryId);
 		} else {
 			throw new BaseException("unsupport ItemType " + itemType.name());
 		}
@@ -180,6 +182,8 @@ public class ItemController extends BaseController {
 			return redirect("/line/detail/" + itemId + "/");
 		} else if (ItemType.CITY_ACTIVITY.getValue() == itemType) {
 			return redirect("/cityactivity/edit/" + itemId);
+		}else if (ItemType.NORMAL.getValue() == itemType) {
+			return redirect("/barterItem/common/edit/" + itemId);
 		} else {
 			throw new BaseException("unsupport ItemType " + itemType);
 		}
