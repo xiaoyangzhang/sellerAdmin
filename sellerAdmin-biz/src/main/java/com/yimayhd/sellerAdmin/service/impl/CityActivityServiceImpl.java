@@ -86,8 +86,10 @@ public class CityActivityServiceImpl implements CityActivityService {
         fillItemDO(itemDO, cityActivityItemVO.getCategoryVO());
         CityActivityDO cityActivityDO = CityActivityConverter.convertDO(cityActivityItemVO.getCityActivityVO());
         List<ItemSkuDO> skuDOList = new ArrayList<>();
-        for(ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListAll()) {
+        for(ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()) {
             ItemSkuDO itemSkuDO = ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO);
+            itemSkuDO.setSellerId(itemVO.getSellerId());
+            itemSkuDO.setCategoryId(itemVO.getCategoryId());
             skuDOList.add(itemSkuDO);
         }
         cityActivityPubAddDTO.setDomain(Constant.DOMAIN_JIUXIU);
