@@ -30,26 +30,26 @@
 		<table>
 			<tr>
 				<td class="tit">商户名称：</td>
-				<td><input name="aaa" maxlength="30" /></td>
+				<td><input name="merchantName" value="$!dto.merchantName" maxlength="30" /></td>
 				<td class="tit">商户编号：</td>
-				<td><input name="bbb" maxlength="30" /></td>
+				<td><input name="sellerId" value="$!dto.sellerId" maxlength="30" /></td>
 				<td class="tit">商户类型：</td>
-				<td><select name="ccc">
-					<option value="0">全部</option>
-					<option value="1">审核通过</option>
-					<option value="2">审核不通过</option>
+				<td><select name="type">
+					<option  value="0">全部</option>
+					<option #if ($!dto.type == 1) selected="selected"  #end value="1">审核通过</option>
+					<option #if ($!dto.type == 2) selected="selected" #end value="2">审核不通过</option>
 				</select></td><td colspan="2"></td>
 			</tr>
 			<tr>
 				<td class="tit">负责人：</td>
-				<td><input name="ddd" maxlength="30" /></td>
+				<td><input name="principleName" value="$!dto.principleName" maxlength="30" /></td>
 				<td class="tit">手机号码：</td>
-				<td><input name="bbb" maxlength="30" /></td>
+				<td><input name="principleTel" value="$!dto.principleTel" maxlength="30" /></td>
 				<td class="tit">状态：</td>
-				<td><select name="ccc">
-					<option value="0">全部</option>
-					<option value="1">启用</option>
-					<option value="2">禁用</option>
+				<td><select name="status">
+					<option  value="0">全部</option>
+					<option #if ($!dto.status == 1) selected="selected" #end value="1">启用</option>
+					<option #if ($!dto.status == 2) selected="selected" #end value="2">禁用</option>
 				</select></td>
 				<td><button class="searchbtn">搜索</button></td>
 			</tr>
@@ -69,66 +69,18 @@
 			<th>操作</th>
 		</thead>
 		<tbody>
+		#foreach ($examInfo in $examInfoList)
 			<tr>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
+				<td># if ($!examInfo.type == 1) 审核通过 #elseif ($!examInfo.type == 2) 审核不通过  #end</td>
+				<td>$!examInfo.sellerName</td>
+				<td>$!examInfo.sellerId</td>
+				<td>$!examInfo.principleName</td>
+				<td>$!examInfo.principleTel</td>
+				<td>$!talentBiz.formatDate($!examInfo.createDate)</td>
+				<td># if ($!examInfo.status == 1) 启用 #elseif ($!examInfo.type == 2) 禁用  #end</td>
 				<td><a href="#" class="exam">查看</a>&nbsp;&nbsp;<label id="row_id" class="exam">审核</label></td>
 			</tr>
-			<tr>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td><a href="#" class="exam">查看</a>&nbsp;&nbsp;<label id="row_id" class="exam">审核</label></td>
-			</tr>
-			<tr>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td><a href="#" class="exam">查看</a>&nbsp;&nbsp;<label id="row_id" class="exam">审核</label></td>
-			</tr>
-			<tr>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td><a href="#" class="exam">查看</a>&nbsp;&nbsp;<label id="row_id" class="exam">审核</label></td>
-			</tr>
-			<tr>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td><a href="#" class="exam">查看</a>&nbsp;&nbsp;<label id="row_id" class="exam">审核</label></td>
-			</tr>
-			<tr>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td>New York</td>
-				<td>+1 718 000000</td>
-				<td>Albert Ellis</td>
-				<td><a href="#" class="exam">查看</a>&nbsp;&nbsp;<label id="row_id" class="exam">审核</label></td>
-			</tr>
+		#end
 		</tbody>
 	</table>
 	<div class='pagebox'>

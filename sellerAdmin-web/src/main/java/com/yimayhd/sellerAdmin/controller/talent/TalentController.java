@@ -1,6 +1,7 @@
 package com.yimayhd.sellerAdmin.controller.talent;
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -236,15 +237,24 @@ public class TalentController extends BaseController {
 		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
 		try {
 			MemResult<TalentInfoDTO> queryTalentInfoResult = talentInfoDealService.queryTalentInfoByUserId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
+			TalentInfoDTO dto = null;
 			if (queryTalentInfoResult.isSuccess() && queryTalentInfoResult.getValue() != null) {
+				TalentInfoDTO talentInfoDTO = queryTalentInfoResult.getValue();
 				
-				model.addAttribute("talentInfo", queryTalentInfoResult);
+							List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
+							//填充店铺头图集合
+								while(pictures.size() < Constant.TALENT_SHOP_PICNUM) {
+									pictures.add("");
+								}
+							
+							dto = talentInfoDTO;
+				model.addAttribute("talentInfo", dto);
 			}
 			
 			return "system/talent/eredar";
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
-			model.addAttribute("服务器出错，请稍后再试");
+			//model.addAttribute("服务器出错，请稍后再试");
 			return "system/talent/eredar";
 		}
 		

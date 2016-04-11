@@ -1,11 +1,4 @@
-﻿<html>
-<head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title></title>
-<link rel="stylesheet" href="../src/css/base.css">
-</head>
-<body>
+﻿#set ($layout="/layout/layout-jiuxiu.vm")
 <table class="addfood">
 	<tr>
 		<td class="tit"><span>*</span><label>商家名称：</label></td>
@@ -103,8 +96,8 @@
 		<td colspan="2" class="save"><button>保存</button></td>
 	</tr>
 </table>
-<script type="text/javascript" src="../src/js/jquery-1.11.0.js"></script>
-<script type="text/javascript" src="../src/js/jquery.form.js"></script>
+<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/jquery-1.11.0.js"></script>
+<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/jquery.form.js"></script>
 <script>
  var uploadPic=function(img,fileObj) {
 	  var $imgbox=$(img).closest('.imgbox'),_self=this;
@@ -156,5 +149,3 @@ $(function(){
 	});
 });
 </script>
-</body>
-</html>

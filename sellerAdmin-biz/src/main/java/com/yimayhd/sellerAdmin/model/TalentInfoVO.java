@@ -140,7 +140,7 @@ public class TalentInfoVO extends TalentInfoDO {
 		talentInfoDO.setReallyName(vo.getPeopleName());
 		talentInfoDO.setServeDesc(vo.getDescribe());
 		talentInfoDO.setTelNum(vo.getTel());
-		talentInfoDO.setCertificates(JSON.parseArray(vo.getCertificatess(), CertificatesDO.class));
+		talentInfoDO.setServiceTypes(JSON.parseArray(vo.getCertificatess(), CertificatesDO.class));
 		List<String> picList=new ArrayList<>();
 		List<String> imgs = JSON.parseArray(vo.getImgpath(), String.class);
 		if (imgs != null && imgs.size() > 0) {
