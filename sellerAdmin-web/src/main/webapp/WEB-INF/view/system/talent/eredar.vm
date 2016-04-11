@@ -9,7 +9,7 @@
 	<div class = "eredar-info clearfix">
 		<ul>
 			<li class = " first on">基本信息</li>
-			<li>账户信息</li>
+			
 		</ul>
 	</div>
 	<div class = "eredar-list eredar-list1">
@@ -26,7 +26,8 @@
 							#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 							#end
 							</div><div class="plhd"></div><div class="del">删除图片</div>
-							<input type="file" name="adpicfile" class="adpicfile mult" >
+							<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile single" ></a>
+							
 							<input type="hidden" name="filepath" value="$!talentInfo.talentInfoDO.avatar">
 						</span>
 						</label>
@@ -74,7 +75,7 @@
 							#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 							#end
 							</div><div class="plhd"></div><div class="del">删除图片</div>
-							<input type="file" name="adpicfile" class="adpicfile mult">
+							<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile mult" ></a>
 							<input type="hidden" name="imgpath" value="$!talentInfo.talentInfoDO.pictures[0]">
 							
 							
@@ -89,7 +90,7 @@
 							#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 							#end
 							</div><div class="plhd"></div><div class="del">删除图片</div>
-							<input type="file" name="adpicfile" class="adpicfile mult">
+							<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile mult" ></a>
 							<input type="hidden" name="imgpath" value="$!talentInfo.talentInfoDO.pictures[1]">
 							
 							
@@ -104,7 +105,7 @@
 							#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 							#end
 							</div><div class="plhd"></div><div class="del">删除图片</div>
-							<input type="file" name="adpicfile" class="adpicfile mult">
+							<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile mult" ></a>
 							<input type="hidden" name="imgpath" value="$!talentInfo.talentInfoDO.pictures[2]">
 							
 						</span>
@@ -118,7 +119,7 @@
 							#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 							#end
 							</div><div class="plhd"></div><div class="del">删除图片</div>
-							<input type="file" name="adpicfile" class="adpicfile mult">
+							<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile mult" ></a>
 							<input type="hidden" name="imgpath" value="$!talentInfo.talentInfoDO.pictures[3]">
 							
 						</span>
@@ -132,7 +133,7 @@
 							#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 							#end
 							</div><div class="plhd"></div><div class="del">删除图片</div>
-							<input type="file" name="adpicfile" class="adpicfile mult">
+							<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile mult" ></a>
 							<input type="hidden" name="imgpath" value="$!talentInfo.talentInfoDO.pictures[4]">
 							
 						</span>

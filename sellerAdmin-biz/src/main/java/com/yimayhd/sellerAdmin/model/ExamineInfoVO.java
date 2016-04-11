@@ -54,16 +54,6 @@ public class ExamineInfoVO extends ExamineInfoDTO  {
 		return dto;
 		
 	}
-//	public ExamineSubmitDTO getExamineSubmitDTO(ExamineInfoVO vo,long userId,int pageNo) throws Exception {
-//		if (vo == null || userId <= 0 || pageNo <= 0) {
-//			log.error("get examineSubmitDTO params error :vo="+vo+"userId="+userId+"pageNo="+pageNo);
-//			throw new BaseException("参数错误");
-//		}
-//		ExamineSubmitDTO dto = new ExamineSubmitDTO();
-//		dto.setExamineInfoDTO(getExamineInfoDTO(vo,userId));
-//		dto.setPageNo(pageNo);
-//		return dto;
-//
-//	}
+
 	
 }
