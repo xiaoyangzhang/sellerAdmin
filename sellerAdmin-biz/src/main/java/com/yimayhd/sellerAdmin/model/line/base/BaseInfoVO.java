@@ -22,6 +22,7 @@ public class BaseInfoVO implements Serializable {
 	private int days;// 行程天数
 	private String description;// 亮点
 	private List<Long> themes;// 主题
+	private boolean allDeparts;
 	private List<CityVO> departs; // 出发地
 	private List<CityVO> dests; // 目的地
 	private List<String> picUrls; // App详情轮播图
@@ -133,6 +134,14 @@ public class BaseInfoVO implements Serializable {
 
 	public List<CityVO> getDests() {
 		return dests;
+	}
+
+	public boolean isAllDeparts() {
+		return allDeparts;
+	}
+
+	public void setAllDeparts(boolean allDeparts) {
+		this.allDeparts = allDeparts;
 	}
 
 }

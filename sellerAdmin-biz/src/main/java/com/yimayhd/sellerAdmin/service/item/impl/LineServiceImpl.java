@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
-import com.yimayhd.commentcenter.client.dto.ComentDTO;
 import com.yimayhd.commentcenter.client.dto.ComentEditDTO;
 import com.yimayhd.commentcenter.client.enums.PictureText;
 import com.yimayhd.commentcenter.client.enums.TagType;
@@ -30,6 +29,7 @@ import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.LineConverter;
 import com.yimayhd.sellerAdmin.converter.PictureTextConverter;
 import com.yimayhd.sellerAdmin.converter.TagConverter;
@@ -75,13 +75,24 @@ public class LineServiceImpl implements LineService {
 			List<ComTagDO> themeTags = commentRepo.getTagsByOutId(itemId, TagType.LINETAG);
 			List<TagDTO> themes = TagConverter.toTagDTO(themeTags);
 			// 出发地
+			boolean allDeparts = false;
 			List<ComTagDO> departTags = commentRepo.getTagsByOutId(itemId, TagType.DEPARTPLACE);
+			if (CollectionUtils.isNotEmpty(departTags)) {
+				for (ComTagDO comTagDO : departTags) {
+					String name = comTagDO.getName();
+					if (Constant.ALL_PLACE_CODE.equalsIgnoreCase(name)) {
+						departTags = new ArrayList<ComTagDO>();
+						allDeparts = true;
+					}
+				}
+			}
 			// 目的地
 			List<ComTagDO> destTags = commentRepo.getTagsByOutId(itemId, TagType.DESTPLACE);
 			// 图文详情
 			PicTextResult picTextResult = pictureTextRepo.getPictureText(itemId, PictureText.ITEM);
 			LineVO lineVO = LineConverter.toLineVO(lineResult, picTextResult, themes, toCityVO(departTags),
 					toCityVO(destTags));
+			lineVO.getBaseInfo().setAllDeparts(allDeparts);
 			return WebResult.success(lineVO);
 		} catch (Exception e) {
 			log.error("Params: id=" + itemId);
@@ -214,12 +225,20 @@ public class LineServiceImpl implements LineService {
 				BaseInfoVO baseInfo = line.getBaseInfo();
 				List<Long> themeIds = baseInfo.getThemes();
 				commentRepo.saveTagRelation(itemId, TagType.LINETAG, themeIds);
-				List<CityVO> departs = baseInfo.getDeparts();
 				List<Long> departIds = new ArrayList<Long>();
-				for (TagDTO tagDTO : departs) {
-					departIds.add(tagDTO.getId());
+				if (baseInfo.isAllDeparts()) {
+					ComTagDO tagByName = commentRepo.getTagByName(TagType.DEPARTPLACE, Constant.ALL_PLACE_CODE);
+					if (tagByName != null) {
+						departIds.add(tagByName.getId());
+						commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
+					}
+				} else {
+					List<CityVO> departs = baseInfo.getDeparts();
+					for (TagDTO tagDTO : departs) {
+						departIds.add(tagDTO.getId());
+					}
+					commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
 				}
-				commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
 				List<CityVO> dests = baseInfo.getDests();
 				List<Long> destIds = new ArrayList<Long>();
 				for (TagDTO tagDTO : dests) {
@@ -227,7 +246,8 @@ public class LineServiceImpl implements LineService {
 				}
 				commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
 
-				ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemId,PictureText.ITEM,line.getPictureText());
+				ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemId, PictureText.ITEM,
+						line.getPictureText());
 				pictureTextRepo.editPictureText(comentEditDTO);
 			} else {
 				return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, "更新线路失败 ");
@@ -257,20 +277,29 @@ public class LineServiceImpl implements LineService {
 				BaseInfoVO baseInfo = line.getBaseInfo();
 				List<Long> themeIds = baseInfo.getThemes();
 				commentRepo.saveTagRelation(itemId, TagType.LINETAG, themeIds);
-				List<CityVO> departs = baseInfo.getDeparts();
 				List<Long> departIds = new ArrayList<Long>();
-				for (TagDTO tagDTO : departs) {
-					departIds.add(tagDTO.getId());
+				if (baseInfo.isAllDeparts()) {
+					ComTagDO tagByName = commentRepo.getTagByName(TagType.DEPARTPLACE, Constant.ALL_PLACE_CODE);
+					if (tagByName != null) {
+						departIds.add(tagByName.getId());
+						commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
+					}
+				} else {
+					List<CityVO> departs = baseInfo.getDeparts();
+					for (TagDTO tagDTO : departs) {
+						departIds.add(tagDTO.getId());
+					}
+					commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
 				}
-				commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
 				List<CityVO> dests = baseInfo.getDests();
 				List<Long> destIds = new ArrayList<Long>();
 				for (TagDTO tagDTO : dests) {
 					destIds.add(tagDTO.getId());
 				}
 				commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
-				ComentDTO comentDTO = PictureTextConverter.toComentDTO(itemId, PictureText.ITEM, line.getPictureText());
-				pictureTextRepo.savePictureText(comentDTO);
+				ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemId, PictureText.ITEM,
+						line.getPictureText());
+				pictureTextRepo.editPictureText(comentEditDTO);
 			} else {
 				return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "保存线路失败 ");
 			}

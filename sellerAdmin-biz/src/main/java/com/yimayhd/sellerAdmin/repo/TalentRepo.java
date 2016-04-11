@@ -74,29 +74,29 @@ public class TalentRepo {
 	 * 根据userID和domainID查询达人基本信息
 	 * @return
 	 */
-	public TalentInfoDTO getTalentInfo(int domainId,long userId) {
-		if (domainId <= 0 || userId <= 0 ) {
-			log.error("get talentInfo error params: domainId="+domainId+"userId="+userId);
-			throw new BaseException("参数错误");
-		}
-		RepoUtils.requestLog(log, "talentInfoDealService.queryTalentInfoByUserId", userId,domainId);
-		MemResult<TalentInfoDTO> talentInfoResult  = talentInfoDealService.queryTalentInfoByUserId(userId, domainId);
-		RepoUtils.requestLog(log, "talentInfoDealService.queryTalentInfoByUserId", talentInfoResult.getValue());
-		
-		TalentInfoDTO dto = null;
-		if (talentInfoResult != null) {
-			TalentInfoDTO talentInfoDTO = talentInfoResult.getValue();
-
-			List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
-			//填充店铺头图集合
-				while(pictures.size() < Constant.TALENT_SHOP_PICNUM) {
-					pictures.add("");
-				}
-			
-			dto = talentInfoDTO;
-		}
-		return dto;
-	}
+//	public TalentInfoDTO getTalentInfo(int domainId,long userId) {
+//		if (domainId <= 0 || userId <= 0 ) {
+//			log.error("get talentInfo error params: domainId="+domainId+"userId="+userId);
+//			throw new BaseException("参数错误");
+//		}
+//		RepoUtils.requestLog(log, "talentInfoDealService.queryTalentInfoByUserId", userId,domainId);
+//		MemResult<TalentInfoDTO> talentInfoResult  = talentInfoDealService.queryTalentInfoByUserId(userId, domainId);
+//		RepoUtils.requestLog(log, "talentInfoDealService.queryTalentInfoByUserId", talentInfoResult.getValue());
+//		
+//		TalentInfoDTO dto = null;
+//		if (talentInfoResult != null) {
+//			TalentInfoDTO talentInfoDTO = talentInfoResult.getValue();
+//
+//			List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
+//			//填充店铺头图集合
+//				while(pictures.size() < Constant.TALENT_SHOP_PICNUM) {
+//					pictures.add("");
+//				}
+//			
+//			dto = talentInfoDTO;
+//		}
+//		return dto;
+//	}
 	
 	/**
 	 * 新增达人基本信息
@@ -146,7 +146,10 @@ public class TalentRepo {
 		WebResultSupport webResultSupport=new WebResultSupport();
 		try {
 			RepoUtils.requestLog(log, " examineDealService.submitMerchantExamineInfo", vo);
-			 ExamineInfoResult = examineDealService.submitMerchantExamineInfo(vo);
+
+			 ExamineInfoResult = examineDealService.submitMerchantExamineInfo(vo.getExamineInfoDTO(vo, sessionManager.getUserId()));
+
+			
 			 RepoUtils.requestLog(log, " examineDealService.submitMerchantExamineInfo", ExamineInfoResult);
 			 if (ExamineInfoResult.isSuccess()) {
 				

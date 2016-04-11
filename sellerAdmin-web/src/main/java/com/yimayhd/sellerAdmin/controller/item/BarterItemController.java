@@ -33,48 +33,6 @@ public class BarterItemController extends BaseController {
     private CommodityService commodityService;
     @Autowired
     private CategoryService categoryService;
-    /**
-     * 编辑商品
-     *
-     * @param model
-     * @param itemId
-     *            商品ID
-     * @param itemType
-     *            商品类型
-     * @return 商品详情
-     * @throws Exception
-     */
-    @RequestMapping(value = "/edit/{itemId}", method = RequestMethod.GET)
-    public String toEdit(Model model, @PathVariable(value = "itemId") long itemId, int itemType, int categoryId,
-                         int outId) throws Exception {
-        String redirectUrl = "";
-        if (itemType == ItemType.HOTEL.getValue()) {
-            redirectUrl = "/B2C/comm/hotelManage/edit/" + itemId;
-        } else if (itemType == ItemType.SPOTS.getValue()) {
-            redirectUrl = "/B2C/comm/scenicManage/edit/" + itemId;
-        } else if (itemType == ItemType.LINE.getValue()) {
-            redirectUrl = "/B2C/comm/groupTravel/detail/" + outId + "?categoryId=" + categoryId;
-        } else if (itemType == ItemType.FLIGHT_HOTEL.getValue()) {
-            redirectUrl = "/B2C/comm/selfServiceTravel/detail/" + outId + "?categoryId=" + categoryId;
-        } else if (itemType == ItemType.SPOTS_HOTEL.getValue()) {
-            redirectUrl = "/B2C/comm/selfServiceTravel/detail/" + outId + "?categoryId=" + categoryId;
-        } else if (itemType == ItemType.ACTIVITY.getValue()) {
-            redirectUrl = "/B2C/comm/activityManage/edit/" + itemId;
-        } else {
-            // 普通商品，伴手礼应该也走普通商品
-            ItemResultVO itemResultVO = commodityService.getCommodityById(itemId);
-            ItemType.NORMAL.getValue();
-            // 库存选项
-            List<ReduceType> reduceTypeList = Arrays.asList(ReduceType.values());
-            model.addAttribute("reduceTypeList", reduceTypeList);
-            model.addAttribute("itemResult", itemResultVO);
-            model.addAttribute("commodity", itemResultVO.getItemVO());
-            model.addAttribute("category", itemResultVO.getCategoryVO());
-            model.addAttribute("itemType", ItemType.NORMAL.getValue());
-            return "/system/comm/common/edit";
-        }
-        return "redirect:" + redirectUrl;
-    }
 
     /**
      * 新增普通商品
@@ -124,7 +82,7 @@ public class BarterItemController extends BaseController {
         model.addAttribute("category", itemResultVO.getCategoryVO());
         model.addAttribute("commodity", itemResultVO.getItemVO());
         model.addAttribute("itemSkuList", itemResultVO.getItemSkuVOList());
-        model.addAttribute("pictureText", itemResultVO.getItemVO().getDetailUrl());
+        model.addAttribute("pictureText", itemResultVO.getItemVO().getPictureTextVO());
         return "/system/comm/common/edit";
     }
 
