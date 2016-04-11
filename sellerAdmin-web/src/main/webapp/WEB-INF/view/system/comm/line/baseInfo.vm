@@ -7,11 +7,11 @@
 		</tr>
 		<tr>
 			<td>*商品标题：</td>
-			<td><input type="text" value="$!baseInfo.name" class="form-control item-name" placeholder="用户名38字以内" maxlength="38"></td>
+			<td><input type="text" value="$!baseInfo.name" class="form-control item-name" placeholder="请输入商品标题" maxlength="38"></td>
 		</tr>
 		<tr>
 			<td>商品代码：</td>
-			<td><input type="text" value="$!{baseInfo.code}" class="form-control item-code" placeholder="请输入商品编号"/></td>
+			<td><input type="text" value="$!{baseInfo.code}" class="form-control item-code" placeholder="请输入商品编号" maxlength="20"/></td>
 		</tr>
 		<tr>
 			<td>*出发地：</td>
@@ -163,11 +163,32 @@
 	$(document).delegate(".remove-self",'click',function() { 
 		$(this).remove();
     });
+	$(function(){
+		if($(".productTag:checked").length >= 3) {
+			alert($(".productTag").not(".productTag:checked").length);
+			$(".productTag").not(".productTag:checked").attr("disabled",true);
+		} else {
+			$(".productTag").not(".productTag:checked").attr("disabled",false);
+		}
+	});
+	$(".productTag").change(function() {
+		if($(".productTag:checked").length >= 3) {
+			$(".productTag").not(".productTag:checked").attr("disabled",true);
+		} else {
+			$(".productTag").not(".productTag:checked").attr("disabled",false);
+		}
+	});
 	$(".select-departs").click(function() {
 		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDeparts','选择出发地 ',function() {
 			var departs = win.getSelected() || [];
 			console.log(JSON.stringify(departs));
 			if(departs.length == 0) return true;
+			if(departs.length > 15) {
+				layer.alert("出发地最多选择15个", {
+    				icon : 2
+    			});
+				return false;
+			}
 			var content = $("#departs-content");
 			content.empty();
 			for(i in departs) {
@@ -185,6 +206,12 @@
 			var dests = win.getSelected();
 			console.log(JSON.stringify(dests));
 			if(dests.length == 0) return true;
+			if(departs.length > 15) {
+				layer.alert("目的地最多选择15个", {
+    				icon : 2
+    			});
+				return false;
+			}
 			var content = $("#dests-content");
 			content.empty();
 			for(i in dests) {
