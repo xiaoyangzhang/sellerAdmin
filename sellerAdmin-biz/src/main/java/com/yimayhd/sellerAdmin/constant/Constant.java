@@ -17,7 +17,7 @@ public class Constant {
 
 	public static final String TOKEN_CLIENT = SessionConstant.TOKEN_CLIENT;
 
-//	public static final String LOGIN_URL = "/user/login";
+	// public static final String LOGIN_URL = "/user/login";
 
 	public static final int DOMAIN_B2CPC = 1000;
 
@@ -25,30 +25,30 @@ public class Constant {
 
 	public static final String ENV_PROD = "prod";
 
-	
 	public static final String TFS_URL = "http://img.test.yimayholiday.com/v1/tfs/";
 
 	public static final String MOBILE_PRE = "+86";
-	
+
 	public static final String APP = "selleradmin";
-	
+
 	public static final String MENU_PARENT_FLAG = "#";
-	
+
 	public static final String SYMBOL_SEMIONLON = ";";
-	
+
 	public static final int MERCHANT_TYPE_ACCESS = 1;
-	
+
 	public static final int MERCHANT_TYPE_WAIT = 2;
-	
+
 	public static final int MERCHANT_TYPE_NOTTHROW = 3;
-	//达人基本信息店铺头图数量
+	// 达人基本信息店铺头图数量
 	public static final int TALENT_SHOP_PICNUM = 5;
-	
-	public static final String MERCHANT_NAME_CN ="商户";
-	
-	public static final String TALENT_NAME_CN ="达人";
-	
-	
+
+	public static final String MERCHANT_NAME_CN = "商户";
+
+	public static final String TALENT_NAME_CN = "达人";
+
 	public static final String DOT = ".";
+
+	public static final String ALL_PLACE_CODE = "-1";
 
 }

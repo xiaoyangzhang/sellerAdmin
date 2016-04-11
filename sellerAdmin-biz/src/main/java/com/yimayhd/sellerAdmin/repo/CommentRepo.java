@@ -6,11 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.yimayhd.sellerAdmin.base.result.WebResult;
-import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
-import com.yimayhd.sellerAdmin.model.line.CityVO;
-import com.yimayhd.user.client.dto.CityDTO;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +16,7 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.TagInfoAddDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoByOutIdDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoDTO;
+import com.yimayhd.commentcenter.client.dto.TagNameTypeDTO;
 import com.yimayhd.commentcenter.client.dto.TagRelationDomainDTO;
 import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
@@ -245,5 +243,19 @@ public class CommentRepo {
 		BaseResult<List<ComTagDO>> baseResult = comTagCenterServiceRef.getTagListByTagType(tagRelationDomainDTO);
 		RepoUtils.resultLog(log, "comTagCenterServiceRef.selectTagListByTagType", baseResult);
 		return baseResult.getValue();
+	}
+
+	public ComTagDO getTagByName(TagType outType, String name) {
+		if (StringUtils.isBlank(name)) {
+			return null;
+		}
+		TagNameTypeDTO tagNameTypeDTO = new TagNameTypeDTO();
+		tagNameTypeDTO.setName(name);
+		tagNameTypeDTO.setOutType(outType.name());
+		tagNameTypeDTO.setDomain(Constant.DOMAIN_JIUXIU);
+		RepoUtils.requestLog(log, "comTagCenterServiceRef.getTagByName", tagNameTypeDTO);
+		BaseResult<ComTagDO> tagByName = comTagCenterServiceRef.getTagByName(tagNameTypeDTO);
+		RepoUtils.resultLog(log, "comTagCenterServiceRef.getTagByName", tagByName);
+		return tagByName.getValue();
 	}
 }

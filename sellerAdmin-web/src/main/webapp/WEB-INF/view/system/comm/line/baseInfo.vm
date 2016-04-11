@@ -17,12 +17,17 @@
 			<td>*出发地：</td>
 			 <td>
 				<div>
-					<button type="button" class="btn btn-success select-departs">选择出发地</button>
-					<span id="departs-content">
-						#foreach($depart in $baseInfo.departs)
+					<label class="checkbox-inline">
+						<input type="checkbox" class="all-departs" value="true" #if($baseInfo.allDeparts) checked #end/>全国
+                    </label>
+					<button type="button" class="btn btn-success select-departs"  #if($baseInfo.allDeparts) disabled="disabled" #end>选择出发地</button>
+					<div id="departs-content">
+						#if(!$baseInfo.allDeparts)
+							#foreach($depart in $baseInfo.departs)
 						<button class="btn btn-info departs remove-self" rid="$!{depart.id}">$!{depart.city.name}</button>
+							#end
 						#end
-					</span>
+					</div>
 				</div>
 			 </td>
 		</tr>
@@ -31,11 +36,11 @@
 			<td>
 				<div>
 					<button type="button" class="btn btn-success select-dests">选择目的地</button>
-					<span id="dests-content">
+					<div id="dests-content">
 						#foreach($dest in $baseInfo.dests)
 						<button class="btn btn-info dests remove-self" rid="$!{dest.id}">$!{dest.city.name}</button>
 						#end
-					</span>
+					</div>
 				</div>
 			</td>
 		</tr>
@@ -54,9 +59,9 @@
 			<td>*线路主题：</td>
 			<td>
 				#foreach($theme in $themes)
-					<label class="checkbox-inline">
-						<input type="checkbox" class="productTag" rId="${theme.id}" rName="${theme.name}" #if($product.baseInfo.containsTag($theme.id)) checked #end/>${theme.name}
-					</label>
+				<label class="checkbox-inline">
+					<input type="checkbox" class="productTag" rId="${theme.id}" rName="${theme.name}" #if($product.baseInfo.containsTag($theme.id)) checked #end/>${theme.name}
+				</label>
 				#end
 			</td>
 		</tr>
@@ -160,12 +165,19 @@
 	</tbody>
 </table>
 <script type="text/javascript">
+	$(".all-departs").change(function() {
+		if($(".all-departs:checked").length == 1) {
+			$(".select-departs").attr("disabled",true);
+			$("#departs-content").empty();
+		} else {
+			$(".select-departs").attr("disabled",false);
+		}
+	});
 	$(document).delegate(".remove-self",'click',function() { 
 		$(this).remove();
     });
 	$(function(){
 		if($(".productTag:checked").length >= 3) {
-			alert($(".productTag").not(".productTag:checked").length);
 			$(".productTag").not(".productTag:checked").attr("disabled",true);
 		} else {
 			$(".productTag").not(".productTag:checked").attr("disabled",false);
@@ -206,7 +218,7 @@
 			var dests = win.getSelected();
 			console.log(JSON.stringify(dests));
 			if(dests.length == 0) return true;
-			if(departs.length > 15) {
+			if(dests.length > 15) {
 				layer.alert("目的地最多选择15个", {
     				icon : 2
     			});
@@ -258,6 +270,7 @@
 			days:$(".days").val() || 0,
 			description:$(".description").val(),
 			themes:themes,
+			allDeparts:$(".all-departs:checked").val()||false,
 			departs:departs,
 			dests:dests
 		};
