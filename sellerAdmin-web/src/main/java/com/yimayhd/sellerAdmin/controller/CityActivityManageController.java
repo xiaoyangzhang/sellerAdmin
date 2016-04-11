@@ -27,6 +27,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Arrays;
 import java.util.List;
@@ -80,6 +81,10 @@ public class CityActivityManageController extends BaseController {
     String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
 
 		CityActivityItemVO itemVO = cityActivityService.getCityActivityById(id);
+        if(itemVO == null) {
+            //TODO: exception
+            return "";
+        }
         WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.ACTIVETYTAG);
         if (allThemes.isSuccess()) {
             put("themes", allThemes.getValue());
@@ -104,7 +109,7 @@ public class CityActivityManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public WebResultSupport edit(String json) throws Exception {
+    public @ResponseBody WebResultSupport edit(String json) throws Exception {
         long sellerId = getCurrentUserId();
         if (sellerId <= 0) {
             log.warn("未登录");
