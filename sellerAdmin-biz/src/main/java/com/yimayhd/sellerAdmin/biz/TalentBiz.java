@@ -53,10 +53,10 @@ public class TalentBiz {
 	 * 根据userID和domainID查询达人基本信息
 	 * @return
 	 */
-	public TalentInfoDTO getTalentInfo() {
-		
-		return talentRepo.getTalentInfo(Constant.DOMAIN_JIUXIU, sessionManager.getUserId());
-	}
+//	public TalentInfoDTO getTalentInfo() {
+//		
+//		return talentRepo.getTalentInfo(Constant.DOMAIN_JIUXIU, sessionManager.getUserId());
+//	}
 	/**
 	 * 新增达人基本信息
 	 * @param vo
@@ -100,6 +100,9 @@ public class TalentBiz {
 		return talentRepo.getBankList();
 	}
 	public  String formatDate (Date date) {   
+		if (date == null) {
+			return null;
+		}
 	    return  new SimpleDateFormat("yyyy-MM-dd").format(date);
 	}
 }
