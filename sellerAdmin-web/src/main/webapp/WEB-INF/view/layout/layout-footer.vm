@@ -1,0 +1,21 @@
+	<div class="footer" id = "footID">
+		<div class="footer-wrap">
+			<div class="footer-inner">
+				<ul class="footer-about">
+					<li><a target="_blank" href="$!rs_official_site/officialweb/about.html">关于九休</a></li>
+					<li><a target="_blank" href="$!rs_official_site/officialweb/contactus.html">联系我们</a></li>
+					<li><a target="_blank" href="$!rs_official_site/officialweb/feedback.html">投诉建议</a></li>
+					<li class="footer-aboutcons">招商咨询</li>
+					<li class="footer-constele">4000-696-888   /  9:00~22~00，周一到周日</li>
+				</ul>
+			</div>
+		</div>
+		<div class="footer-wrap-black">
+			<div class="footer-inner2">
+				<p class="foot-copyright">Copyright © 2014-2016 yimayholiday.com 怡美假日 版权所有<br/>
+					<a class="jing-addressID" target="_blank" href="javascript:;">京ICP备15051416号-1</a>
+				</p>
+			</div>
+		</div>
+	</div>
+

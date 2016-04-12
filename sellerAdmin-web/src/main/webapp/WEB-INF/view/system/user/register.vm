@@ -1,8 +1,7 @@
 #set($layout = "/layout/layout-account.vm")
-	<head>
-		#parse("layout/layout-meta.vm")
-		<title>注册-九休卖家</title>
-	</head>
+#set($title = "注册-九休卖家")
+#parse("/layout/layout-meta.vm")
+
 	 <div id="ym-login-banner">
 		<div class="login-body register">
 			<h1 class="title">用户注册</h1>
