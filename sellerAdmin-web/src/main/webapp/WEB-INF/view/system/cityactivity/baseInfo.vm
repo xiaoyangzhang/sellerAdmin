@@ -42,7 +42,7 @@
                 <td><span class="spColor">*</span>截止报名日期：</td>
                 <td>
                     <div class="row input-group">
-                        <input type="text" class='form-control form-date dateInp end-date' placeholder='' readonly name="endDateStr" value="$!utilDate.dateToString($!{item.startDate},"yyyy-MM-dd HH")">
+                        <input type="text" class='form-control form-date dateInp end-date' placeholder='' readonly name="endDateStr" value="$!utilDate.dateToString($!{item.endDate},"yyyy-mm-dd hh")">
                     </div>
                 </td>
             </tr>

@@ -211,6 +211,7 @@
                 cityActivityVO:getCityActivity(),
                 themes:getThemes(),
                 dest:getDest(),
+                pictureTextVO:getPictureText(),
                 categoryVO:category
             };
             console.log(JSON.stringify(result.itemVO));
