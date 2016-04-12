@@ -83,7 +83,7 @@ public class CityActivityManageController extends BaseController {
 		CityActivityItemVO itemVO = cityActivityService.getCityActivityById(id);
         if(itemVO == null) {
             //TODO: exception
-            return "";
+            return "/system/comm/itemList";
         }
         WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.LINETAG);
         if (allThemes.isSuccess()) {

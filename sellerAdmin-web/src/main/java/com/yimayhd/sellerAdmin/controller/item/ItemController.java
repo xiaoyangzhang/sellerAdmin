@@ -126,7 +126,7 @@ public class ItemController extends BaseController {
 		if (ItemType.FREE_LINE.equals(itemType) || ItemType.TOUR_LINE.equals(itemType)) {
 			return redirect("/line/category/" + categoryId + "/create/");
 		} else if (ItemType.CITY_ACTIVITY.equals(itemType)) {
-			return redirect("/cityActivity/toAdd?categoryId=" + categoryId);
+			return redirect("/cityactivity/toAdd?categoryId=" + categoryId);
 		}else if (ItemType.NORMAL.equals(itemType)) {
 			return redirect("/barterItem/common/toAdd?categoryId=" + categoryId);
 		} else {
