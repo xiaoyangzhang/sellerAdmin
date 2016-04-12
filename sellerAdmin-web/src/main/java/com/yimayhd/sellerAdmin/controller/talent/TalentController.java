@@ -200,12 +200,15 @@ public class TalentController extends BaseController {
 		//	checkVisitPage();
 			WebResult<String> result=new WebResult<String>();
 			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_TWO.getPageNO());
-			if (resultSupport.isSuccess()) {
+			WebResultSupport updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
+			if (resultSupport.isSuccess() && updateCheckStatusResult.isSuccess()) {
 				result.setValue("verification");
-			}
-			else {
+			}else if(!resultSupport.isSuccess()){
 				result.setWebReturnCode(resultSupport.getWebReturnCode());
+			}else if (!updateCheckStatusResult.isSuccess()) {
+				result.setWebReturnCode(updateCheckStatusResult.getWebReturnCode());
 			}
+			
 			return result;
 		
 	}

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.dubbo.rpc.Result;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
@@ -84,7 +85,7 @@ public class TalentBiz {
 			log.error("get examineSubmitDTO params error :vo="+vo+"pageNo="+pageNo);
 			throw new BaseException("参数错误");
 		}
-		return talentRepo.addExamineInfo(vo,pageNo);
+		return talentRepo.addExamineInfo(vo);
 	}
 	/**
 	 * 获取达人入驻审核结果
@@ -104,5 +105,9 @@ public class TalentBiz {
 			return null;
 		}
 	    return  new SimpleDateFormat("yyyy-MM-dd").format(date);
+	}
+	public WebResultSupport updateCheckStatus(ExamineInfoVO vo) {
+		return  talentRepo.updateCheckStatus(vo);
+		
 	}
 }

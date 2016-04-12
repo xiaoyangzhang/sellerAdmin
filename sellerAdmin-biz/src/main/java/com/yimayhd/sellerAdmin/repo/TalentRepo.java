@@ -138,26 +138,22 @@ public class TalentRepo {
 	 * @return
 	 * @throws Exception
 	 */
-	public WebResultSupport addExamineInfo(ExamineInfoVO vo,int pageNo)  {
+	public WebResultSupport addExamineInfo(ExamineInfoVO vo)  {
 		if (vo == null) {
 			return null;
 		}
 		MemResult<Boolean> ExamineInfoResult = null;
 		WebResultSupport webResultSupport=new WebResultSupport();
 		try {
-			RepoUtils.requestLog(log, " examineDealService.submitMerchantExamineInfo", vo);
 
-			 ExamineInfoResult = examineDealService.submitMerchantExamineInfo(vo.getExamineInfoDTO(vo, sessionManager.getUserId()));
+			ExamineInfoResult = examineDealService.submitMerchantExamineInfo(vo.getExamineInfoDTO(vo, sessionManager.getUserId()));
 
-			
-			 RepoUtils.requestLog(log, " examineDealService.submitMerchantExamineInfo", ExamineInfoResult);
-			 if (ExamineInfoResult.isSuccess()) {
-				
-			}
-			 else {
+			if(!ExamineInfoResult.isSuccess()) {
 				webResultSupport.setWebReturnCode(WebReturnCode.TALENT_INFO_SAVE_FAILURE);
 			}
+			
 			return webResultSupport;
+			
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 			webResultSupport.setWebReturnCode(WebReturnCode.TALENT_INFO_SAVE_FAILURE);
@@ -189,6 +185,21 @@ public class TalentRepo {
 		}
 		return examineDealResult.getValue();
 
+		
+	}
+	public WebResultSupport updateCheckStatus(ExamineInfoVO vo) {
+		WebResultSupport resultSupport = new WebResultSupport();
+		try {
+			MemResult<Boolean> changeExamineStatusResult = examineDealService.changeExamineStatusIntoIng(vo.getInfoQueryDTO(sessionManager.getUserId()));
+			if (!changeExamineStatusResult.isSuccess()) {
+				resultSupport.setWebReturnCode(WebReturnCode.UPDATE_CHECKRESULT_FAILURE);
+			}
+			return resultSupport;
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+			resultSupport.setWebReturnCode(WebReturnCode.UPDATE_CHECKRESULT_FAILURE);
+			return resultSupport;
+		}
 		
 	}
 }
