@@ -10,12 +10,10 @@ import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
-import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
-import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
@@ -24,7 +22,6 @@ import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
 import com.yimayhd.sellerAdmin.util.RepoUtils;
-import com.yimayhd.tradecenter.client.model.enums.ExamineeStatus;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /***

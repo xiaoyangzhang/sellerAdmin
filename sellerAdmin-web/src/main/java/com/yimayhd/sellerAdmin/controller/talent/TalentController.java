@@ -53,6 +53,7 @@ public class TalentController extends BaseController {
 	private ExamineDealService examineDealService;
 	@Autowired
 	private TalentInfoDealService talentInfoDealService;
+	
 	/**
 	 * 处理审核结果信息
 	 * @param dto
@@ -73,7 +74,7 @@ public class TalentController extends BaseController {
 	 */
 	@RequestMapping(value="agreement",method=RequestMethod.GET)
 	public String toAgreementPage(Model model) {
-		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -282,7 +283,7 @@ public class TalentController extends BaseController {
 	}
 	
 	
-	public  String judgeAuthority(Model model,long userId,String pageType){
+	/*public  String judgeAuthority(Model model,long userId,String pageType){
 		String chooseUrl = "/system/merchant/chosetype";
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
@@ -332,5 +333,5 @@ public class TalentController extends BaseController {
 		return chooseUrl;
 		
 	}
-
+*/
 }
