@@ -49,7 +49,7 @@
                     <tr>
                         <td><span class="spColor">*</span>商品代码</td>
                         <td>
-                            <input class="title" type="text" name="code" value="$!commodity.code">
+                            <input class="code" type="text" name="code" value="$!commodity.code">
                         </td>
                     </tr>
                     <tr>
@@ -384,28 +384,56 @@
     var validate = function(){
         if(!$('.title').val()){
             return '请输入商品名称';
-        }else if($('.title').val().length > 20){
-            return '商品名称不能超过20个字';
+        }else if($('.title').val().length > 38){
+            return '商品名称不能超过38个字';
         }
-        if(!$('.priceY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
-            return '请输入正确的价格';
+        if($('.code').val() && $('.code').val().length > 38){
+            return '商品代码不能超过38个字';
         }
-        if(!$('.stockNum').val() || !/^[1-9]\d*|0$/.test($('.stockNum').val())){
-            return '请输入正确的库存';
-        }
-
-        if($('.picUrlsUrl').length <= 0){
-            return '请选择详情竖图';
-        }
-        //图文编辑
-        if(!getPictureText()){
-            return "请编辑图文详情"
-        }
-        //必填属性
         var msg;
 
+        //sku
+        if(!skuTableShowFlag){
+            if(!$('.priceY').val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($('.priceY').val())){
+                return '请输入正确的价格';
+            }
+            if(!$('.stockNum').val() || !/^[1-9]\d*|0$/.test($('.stockNum').val())){
+                return '请输入正确的库存';
+            }
+            //return '您需要选择所有的销售属性，才能组合成完整的规格信息。';
+        }else{
+            $('.price').each(function(){
+                if(!$(this).val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($(this).val())){
+                    msg = '请检查sku价格格式';
+                }
+            });
+            $('.stock').each(function(){
+                if(!$(this).val() || !/^[1-9]\d*|0$/.test($(this).val())){
+                    msg = '请检查sku库存格式';
+                }
+            });
+        }
+
+        if(msg){
+            return msg;
+        }
+
+
+        var hasPicFlag = false;
+        $('.picCode').each(function(){
+            if($(this).val()){
+                hasPicFlag = true;
+            }
+        });
+        if(!hasPicFlag){
+            return '请选择商品主图';
+        }
+
+        //必填属性
+
+
         $('.keyProperty').each(function(){
-            if($(this).find('.propertySelect').val() == '0' && !$(this).find('.propertyInput').val()){
+            if(($(this).find('.propertySelect').length == 0 || $(this).find('.propertySelect').val() == '0') && !$(this).find('.propertyInput').val()){
                 msg = '请填写必填属性' + $(this).attr('pTxt');
                 return false;
             }else if($(this).find('.propertyInput').val() && $(this).find('.propertyInput').val().length > 30){
@@ -426,24 +454,7 @@
         if(msg){
             return msg;
         }
-        //sku
-        if(!skuTableShowFlag){
-            return '您需要选择所有的销售属性，才能组合成完整的规格信息。';
-        }
-        $('.price').each(function(){
-            if(!$(this).val() || !/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test($(this).val())){
-                msg = '请检查sku价格格式';
-            }
-        });
-        $('.stock').each(function(){
-            if(!$(this).val() || !/^[1-9]\d*|0$/.test($(this).val())){
-                msg = '请检查sku库存格式';
-            }
-        });
 
-        if(msg){
-            return msg;
-        }
     }
 
     //构建sku属性数组
@@ -664,14 +675,14 @@
         });
         $('.btnSubmit').click(function(){
             //非空验证
-            /*var msg = validate();
+            var msg = validate();
             if(msg){
                 layer.msg(msg, {
                     icon: 2,
                     time: 2000
                 });
                 return false;
-            }*/
+            }
 
             //property
             var propertyArr = new Array();

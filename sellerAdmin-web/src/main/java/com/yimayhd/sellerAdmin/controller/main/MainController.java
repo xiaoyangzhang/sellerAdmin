@@ -24,10 +24,9 @@ public class MainController {
 			return new ModelAndView("/system/home/home");
 		}
 		
-		
 		UserDO user = sessionManager.getUser(request);
 		long option = user.getOptions() ;
-		boolean isTalent = UserOptions.USER_TALENT.has(option) ;
+		boolean isTalent = UserOptions.CERTIFICATED.has(option) ;
 		boolean isMerchant = UserOptions.COMMERCIAL_TENANT.has(option) ;
 		if( !isTalent && !isMerchant ){
 			//不是达人、也不是商户
