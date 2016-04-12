@@ -91,7 +91,7 @@ public class TalentController extends BaseController {
 	
 	@RequestMapping(value="toAddUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toAddUserdatafill_a(Model model){
-		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -101,7 +101,7 @@ public class TalentController extends BaseController {
 	}
 	@RequestMapping(value="toEditUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toEditUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model) {
-		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -117,7 +117,7 @@ public class TalentController extends BaseController {
 	 */
 	@RequestMapping(value="toAddUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toAddUserdatafill_b(Model model) {
-		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -128,7 +128,7 @@ public class TalentController extends BaseController {
 	}
 	@RequestMapping(value="toEditUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toEditUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
-		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -146,7 +146,7 @@ public class TalentController extends BaseController {
 	 */
 	@RequestMapping(value="verification",method=RequestMethod.GET)
 	public String verificationPage(Model model) {
-		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
