@@ -220,13 +220,13 @@ public class TalentController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="toAddTalentInfo",method=RequestMethod.GET)
-	public String addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model){
-		
-		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
-		return "system/talent/eredar";
-		
-	}
+//	@RequestMapping(value="toAddTalentInfo",method=RequestMethod.GET)
+//	public String addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model){
+//		
+//		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
+//		return "system/talent/eredar";
+//		
+//	}
 	/**
 	 * 编辑达人基本信息
 	 * @param request
@@ -234,7 +234,7 @@ public class TalentController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="toEditTalentInfo",method=RequestMethod.GET)
+	@RequestMapping(value="toAddTalentInfo",method=RequestMethod.GET)
 	public String editTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model) {
 		
 		model.addAttribute("talentBiz", talentBiz);
