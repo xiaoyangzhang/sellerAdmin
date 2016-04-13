@@ -132,7 +132,7 @@ public class CityActivityManageController extends BaseController {
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, e.getMessage());
+            return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, "");
         }
     }
 	

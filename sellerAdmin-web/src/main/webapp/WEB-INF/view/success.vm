@@ -1,3 +1,5 @@
+#set($layout="layout/layout-blank.vm")
+<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/js/jquery.js"></script>
 <div class="alert alert-success with-icon alertPageNote" style="width: 60%;position: fixed;top: 50%;left: 50%;margin-left: -30%;margin-top: -101px;">
 
     <div class="content" style="text-align: center;">
@@ -17,24 +19,33 @@
 <script>
     $(function(){
         setTimeout(function(){
-            /*window.opener.location.href = window.opener.location.href;
+            if('$!href'){
+                var url = '$!{utilWebconfig.getActionDefaultFontPath()}' + '$!href';
+                window.location.href = url;
+            }else{
+                /*window.opener.location.href = window.opener.location.href;
             window.close();*/
-            var tabId = top.$(".tab-pane.active").attr("id");
-            top.$("#myTabList li").each(function(){
-                if($(this).attr("dataid") == tabId){
-                    $(this).prev().addClass("active");
-                    $(this).remove();
-                }
-            });
-            top.freshPrevFrame();
-            top.$("#"+tabId).prev().addClass("active");
-            top.$("#"+tabId).prev().show();
-            top.$("#"+tabId).remove();
+                var tabId = top.$(".tab-pane.active").attr("id");
+                top.$("#myTabList li").each(function(){
+                    if($(this).attr("dataid") == tabId){
+                        $(this).prev().addClass("active");
+                        $(this).remove();
+                    }
+                });
+                top.freshPrevFrame();
+                top.$("#"+tabId).prev().addClass("active");
+                top.$("#"+tabId).prev().show();
+                top.$("#"+tabId).remove();
+            }
         },2000)
     })
     $('.closeBtn').click(function(){
-        top.freshPrevFrame();
-        window.close();
+        if('$!href'){
+            window.location.href = '$!{utilWebconfig.getActionDefaultFontPath()}' + '$!href';
+        }else {
+            top.freshPrevFrame();
+            window.close();
+        }
     });
 
 </script>

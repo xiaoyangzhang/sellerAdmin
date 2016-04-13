@@ -54,7 +54,7 @@ public class BarterItemController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/common/add", method = RequestMethod.POST)
-    public String addCommon(ItemVO itemVO) throws Exception {
+    public String addCommon(Model model,ItemVO itemVO) throws Exception {
 
         WebCheckResult check = BarterItemChecker.BarterItemCheck(itemVO);
         if(!check.isSuccess()){
@@ -63,6 +63,7 @@ public class BarterItemController extends BaseController {
         long sellerId = sessionManager.getUserId();
         itemVO.setSellerId(sellerId);
         commodityService.addCommonItem(itemVO);
+        model.addAttribute("href", "/item/list");
         return "/success";
     }
 
@@ -96,7 +97,7 @@ public class BarterItemController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/common/edit/{itemId}", method = RequestMethod.POST)
-    public String editCommon(ItemVO itemVO, @PathVariable(value = "itemId") long itemId) throws Exception {
+    public String editCommon(Model model,ItemVO itemVO, @PathVariable(value = "itemId") long itemId) throws Exception {
 
         WebCheckResult check = BarterItemChecker.BarterItemCheck(itemVO);
         if(!check.isSuccess()){
@@ -108,6 +109,7 @@ public class BarterItemController extends BaseController {
         sellerId = Constant.YIMAY_OFFICIAL_ID;
         itemVO.setSellerId(sellerId);
         commodityService.modifyCommonItem(itemVO);
+        model.addAttribute("href","/item/list");
         return "/success";
     }
 }
