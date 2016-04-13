@@ -16,7 +16,7 @@
 		</p>
 			#elseif($pictureTextItem.type.equalsIgnoreCase('img'))
 		<p class="pic">
-			<img src="$!{tfs}$!{pictureTextItem.value}">
+			<img src="$utilWebconfig.getTfsRootPath()$!{pictureTextItem.value}">
 		</p>
 			#end
 		#end

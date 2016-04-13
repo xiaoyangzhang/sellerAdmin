@@ -100,6 +100,7 @@ public class CityActivityManageController extends BaseController {
         model.addAttribute("itemDest", itemVO.getDest());
     	model.addAttribute("itemType",ItemType.CITY_ACTIVITY.getValue());
         model.addAttribute("pictureTextVO", itemVO.getPictureTextVO());
+        model.addAttribute("needKnow", itemVO.getNeedKnowVO());
 
         return "/system/cityactivity/edit";
     }
