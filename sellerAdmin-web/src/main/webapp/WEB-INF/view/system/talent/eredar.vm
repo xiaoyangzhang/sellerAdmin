@@ -154,8 +154,8 @@
 					#foreach ($serviceType in $serviceTypes.value)
 					<input type = "checkbox" 
 								
-						#if ($!talentInfo.talentInfoDO.certificates)
-							#foreach ($st in $talentInfo.talentInfoDO.certificates)
+						#if ($!talentInfo.talentInfoDO.serviceTypes)
+							#foreach ($st in $talentInfo.talentInfoDO.serviceTypes)
 								#if ($st.id == $serviceType.id) checked = "checked" #end
 							#end
 						#end 
@@ -199,7 +199,7 @@
 								</p> -->	
 							</div>
 							<textarea id="contentText" style="display:none;"></textarea>
-							<input type="hidden" id="uploadAction" value="http://192.168.0.139:80/file/upload"/>
+							
 						</div>
 					</td>
 				</tr>
