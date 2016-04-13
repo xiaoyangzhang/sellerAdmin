@@ -188,7 +188,7 @@ public class MerchantController extends BaseController{
 			if(null!=result.getValue() && result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW){//审核不通过时
 				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
 				if(rest.isSuccess() && (null!=rest.getValue())){
-					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes()));
 				}
 			}
 		}
@@ -220,7 +220,7 @@ public class MerchantController extends BaseController{
 			if(null!=result.getValue() && result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW){//审核不通过时
 				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
 				if(rest.isSuccess() && (null!=rest.getValue())){
-					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes()));
 				}
 			}
 		}
@@ -298,7 +298,7 @@ public class MerchantController extends BaseController{
 			info.setSellerId(sessionManager.getUserId());
 			MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
 			if(rest.isSuccess() && (null!=rest.getValue())){
-				model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+				model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes()));
 			}
 			return "/system/merchant/nothrough";
 		} catch (Exception e) {
@@ -340,7 +340,7 @@ public class MerchantController extends BaseController{
 				info.setType(type);
 				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
 				if(rest.isSuccess() && (null!=rest.getValue())){
-					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes()));
 				}
 				if(ExamineType.MERCHANT.getType()==type){
 					model.addAttribute("type", Constant.MERCHANT_NAME_CN);

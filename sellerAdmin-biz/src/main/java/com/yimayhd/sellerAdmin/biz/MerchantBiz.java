@@ -192,7 +192,7 @@ public class MerchantBiz {
 				info.setType(type);
 				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
 				if(rest.isSuccess() && (null!=rest.getValue())){
-					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes()));
 				}
 				if(ExamineType.MERCHANT.getType()==type){
 					model.addAttribute("type", Constant.MERCHANT_NAME_CN);

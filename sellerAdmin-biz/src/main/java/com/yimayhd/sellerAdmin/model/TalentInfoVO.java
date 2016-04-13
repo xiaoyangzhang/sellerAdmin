@@ -100,7 +100,7 @@ public class TalentInfoVO extends TalentInfoDO {
 
 	public  TalentInfoDTO getTalentInfoDTO(TalentInfoVO vo,long userId) throws Exception {
 		if (vo == null || userId <= 0 ) {
-			log.error("get talentInfoDTO params error :vo="+vo+"userId="+userId);
+			log.error("get talentInfoDTO params error :vo="+vo+"and userId="+userId);
 			throw new BaseException("参数错误");
 		}
 		TalentInfoDTO dto=new TalentInfoDTO();
@@ -127,7 +127,7 @@ public class TalentInfoVO extends TalentInfoDO {
 	
 	public  TalentInfoDO getTalentInfoDO(TalentInfoVO vo,long userId) throws Exception {
 		if (vo == null || userId <= 0 ) {
-			log.error("get talentInfoDTO params error :vo="+vo+"userId="+userId);
+			log.error("get talentInfoDTO params error :vo="+vo+" and userId="+userId);
 			throw new BaseException("参数错误");
 		}
 		TalentInfoDO talentInfoDO=new TalentInfoDO();
@@ -140,7 +140,7 @@ public class TalentInfoVO extends TalentInfoDO {
 		talentInfoDO.setReallyName(vo.getPeopleName());
 		talentInfoDO.setServeDesc(vo.getDescribe());
 		talentInfoDO.setTelNum(vo.getTel());
-		talentInfoDO.setCertificates(JSON.parseArray(vo.getCertificatess(), CertificatesDO.class));
+		talentInfoDO.setServiceTypes(JSON.parseArray(vo.getCertificatess(), CertificatesDO.class));
 		List<String> picList=new ArrayList<>();
 		List<String> imgs = JSON.parseArray(vo.getImgpath(), String.class);
 		if (imgs != null && imgs.size() > 0) {

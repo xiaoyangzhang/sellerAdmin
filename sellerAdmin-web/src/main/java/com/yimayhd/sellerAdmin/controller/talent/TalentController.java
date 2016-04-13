@@ -1,6 +1,7 @@
 package com.yimayhd.sellerAdmin.controller.talent;
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,6 +53,7 @@ public class TalentController extends BaseController {
 	private ExamineDealService examineDealService;
 	@Autowired
 	private TalentInfoDealService talentInfoDealService;
+	
 	/**
 	 * 处理审核结果信息
 	 * @param dto
@@ -72,7 +74,7 @@ public class TalentController extends BaseController {
 	 */
 	@RequestMapping(value="agreement",method=RequestMethod.GET)
 	public String toAgreementPage(Model model) {
-		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -89,7 +91,7 @@ public class TalentController extends BaseController {
 	
 	@RequestMapping(value="toAddUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toAddUserdatafill_a(Model model){
-		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -99,7 +101,7 @@ public class TalentController extends BaseController {
 	}
 	@RequestMapping(value="toEditUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toEditUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model) {
-		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -115,7 +117,7 @@ public class TalentController extends BaseController {
 	 */
 	@RequestMapping(value="toAddUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toAddUserdatafill_b(Model model) {
-		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -126,7 +128,7 @@ public class TalentController extends BaseController {
 	}
 	@RequestMapping(value="toEditUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toEditUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
-		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -144,7 +146,7 @@ public class TalentController extends BaseController {
 	 */
 	@RequestMapping(value="verification",method=RequestMethod.GET)
 	public String verificationPage(Model model) {
-		String judgeRest = this.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -199,12 +201,15 @@ public class TalentController extends BaseController {
 		//	checkVisitPage();
 			WebResult<String> result=new WebResult<String>();
 			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_TWO.getPageNO());
-			if (resultSupport.isSuccess()) {
+			WebResultSupport updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
+			if (resultSupport.isSuccess() && updateCheckStatusResult.isSuccess()) {
 				result.setValue("verification");
-			}
-			else {
+			}else if(!resultSupport.isSuccess()){
 				result.setWebReturnCode(resultSupport.getWebReturnCode());
+			}else if (!updateCheckStatusResult.isSuccess()) {
+				result.setWebReturnCode(updateCheckStatusResult.getWebReturnCode());
 			}
+			
 			return result;
 		
 	}
@@ -215,13 +220,13 @@ public class TalentController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="toAddTalentInfo",method=RequestMethod.GET)
-	public String addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model){
-		
-		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
-		return "system/talent/eredar";
-		
-	}
+//	@RequestMapping(value="toAddTalentInfo",method=RequestMethod.GET)
+//	public String addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model){
+//		
+//		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
+//		return "system/talent/eredar";
+//		
+//	}
 	/**
 	 * 编辑达人基本信息
 	 * @param request
@@ -229,22 +234,31 @@ public class TalentController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="toEditTalentInfo",method=RequestMethod.GET)
+	@RequestMapping(value="toAddTalentInfo",method=RequestMethod.GET)
 	public String editTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model) {
 		
 		model.addAttribute("talentBiz", talentBiz);
 		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
 		try {
 			MemResult<TalentInfoDTO> queryTalentInfoResult = talentInfoDealService.queryTalentInfoByUserId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
+			TalentInfoDTO dto = null;
 			if (queryTalentInfoResult.isSuccess() && queryTalentInfoResult.getValue() != null) {
+				TalentInfoDTO talentInfoDTO = queryTalentInfoResult.getValue();
 				
-				model.addAttribute("talentInfo", queryTalentInfoResult);
+							List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
+							//填充店铺头图集合
+								while(pictures.size() < Constant.TALENT_SHOP_PICNUM) {
+									pictures.add("");
+								}
+							
+							dto = talentInfoDTO;
+				model.addAttribute("talentInfo", dto);
 			}
 			
 			return "system/talent/eredar";
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
-			model.addAttribute("服务器出错，请稍后再试");
+			//model.addAttribute("服务器出错，请稍后再试");
 			return "system/talent/eredar";
 		}
 		
@@ -269,7 +283,7 @@ public class TalentController extends BaseController {
 	}
 	
 	
-	public  String judgeAuthority(Model model,long userId,String pageType){
+	/*public  String judgeAuthority(Model model,long userId,String pageType){
 		String chooseUrl = "/system/merchant/chosetype";
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
@@ -319,5 +333,5 @@ public class TalentController extends BaseController {
 		return chooseUrl;
 		
 	}
-
+*/
 }

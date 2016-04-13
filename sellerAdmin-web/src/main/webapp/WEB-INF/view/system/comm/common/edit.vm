@@ -1,4 +1,4 @@
-#set($layout="layout/blank.vm")
+#set($layout="layout/layout-blank.vm")
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/zui/css/zui.min.css" >
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/base.css">

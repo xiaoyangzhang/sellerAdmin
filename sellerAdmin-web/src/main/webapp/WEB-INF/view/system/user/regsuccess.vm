@@ -1,18 +1,14 @@
 #set($layout = "/layout/layout-account.vm")
-	
-	<head>
-		#parse("layout/layout-meta.vm")
-		<title>注册成功-九休商户后台</title>
-	</head>
+
+#set($title = "注册成功-九休商户")
+#parse("/layout/layout-meta.vm")	
 
 	<!-- 首页的中心部分开始 -->
 	<div id="ym-login-banner">
 		<div class="login-body regsuccess">
 			<h1 class="title">恭喜您注册成功</h1>
-			<h2>欢迎来到怡美假日</h2>
-			<!--
-			<a href="$root_path/" class="winloginbtn">返回首页</a>
-			-->
+			<h2>欢迎来到九休旅行</h2>
+			<a href="$root_path/home" class="winloginbtn">立即入住</a>
 			<p>页面将在<em id="dtime"> 3 </em>秒后自动跳转</p>
 		</div>		
 	</div>

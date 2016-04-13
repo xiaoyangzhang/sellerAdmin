@@ -8,16 +8,18 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	
+
 	<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css">
 	<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/account.css">
 	<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/common.css">
+
+	<title>$!title</title>	
 	
 </head>
 <body  class = "bodyWhite">
 	<!-- 头部开始 -->
 	<div class="clearfix actlg-header">
-		<div class="logo"><a href="http://s0.yimayholiday.com/PC_B2C/index.html"><img src="$!rs_path_jiuxiu/img/loginlogo.jpg"/></a></div>
+		<div class="logo"><a href="$!rs_official_site/officialweb/indexJX.html"><img src="$!rs_path_jiuxiu/img/loginlogo.jpg"/></a></div>
 		<ul class="clearfix">
 			<li><a class="on" href="$!rs_official_site/officialweb/indexJX.html">九休旅行APP</a></li>
 			<li><a  href="$!rs_official_site/officialweb/recruitment.html">九休商务</a></li>
@@ -31,29 +33,8 @@
 	
 	$screen_content
 	
-	
 	<!-- 首页的中心部分结束 -->
-	<!-- 尾部开始 -->
-	<div class="footer" id = "footID">
-		<div class="footer-wrap">
-			<div class="footer-inner">
-				<ul class="footer-about">
-					<li><a target="_blank" href="javascript:;">关于九休</a></li>
-					<li><a target="_blank" href="javascript:;">联系我们</a></li>
-					<li><a target="_blank" href="javascript:;">投诉建议</a></li>
-					<li class="footer-aboutcons">招商咨询</li>
-					<li class="footer-constele">4000-696-888   /  9:00~22~00，周一到周日</li>
-				</ul>
-			</div>
-		</div>
-		<div class="footer-wrap-black">
-			<div class="footer-inner2">
-				<p class="foot-copyright">Copyright © 2014-2016 yimayholiday.com 怡美假日 版权所有<br/>
-				    <a class="jing-addressID" target="_blank" href="javascript:;">京ICP备15051416号-1</a>
-				</p>
-			</div>
-		</div>
-	</div>
+	#parse("layout/layout-footer.vm")
 	
 	<!-- 尾部结束 -->
 	#parse("layout/layout-js.vm")
