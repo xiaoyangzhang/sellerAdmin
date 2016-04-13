@@ -27,19 +27,19 @@
 					<p>
 						<em>店铺负责人电话  :</em>
 						<span>
-							<input type="text" value="$!merchantPrincipalTel" name="merchantPrincipalTel" class="inputxt" datatype="m" errormsg="请输入店铺负责人手机号码！"  />
+							<input type="text" value="$!merchantPrincipalTel" name="merchantPrincipalTel" class="inputxt zetel"  />
 						</span>
 					</p>
 					<p>
 						<em>客服电话  :</em>
 						<span>
-							<input type="text" value="$!serviceTel" name="serviceTel" class="inputxt" datatype="m" errormsg="请填写座机例:(0731-83187200)或手机号码！"  />
+							<input type="text" value="$!serviceTel" name="serviceTel" class="inputxt fixdetel"   />
 						</span>
 					</p>
 					<p>
 						<em class="mt">店铺地址  :</em>
 						<span>
-							<textarea tip="请在这里输入您的店铺地址。" value="" altercss="gray" class="gray" name="address"  datatype="*" errormsg="请在这里输入您的店铺地址！">$!address</textarea><label class = "lab">0/100</label>
+							<textarea tip="请在这里输入您的店铺地址。" value="" altercss="gray" class="gray" name="address"  >$!address</textarea><label class = "lab">0/100</label>
 						</span>
 					</p>
 					<div class="merchant-shop">
