@@ -8,7 +8,7 @@
 			<h3>欢迎来到九休旅行，我们将用心去换您一路上的故事和风景！</h3>
 			<form action="$root_path/user/register" method="post" id="registerForm">					
 				<p class="btngroup clearfix">
-					<input type="text" class="textinput" name="nickname" id="loginname" placeholder="您的昵称"  nullmsg="请输入您的昵称" autocomplete="off" datatype="/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,20}$/" errormsg="请输入2~20位字符，支持中文、字母、数字、下划线"/>
+					<input type="text" class="textinput" name="nickname" id="loginname" placeholder="您的昵称"  nullmsg="请输入您的昵称" autocomplete="off" datatype="/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,15}$/" errormsg="请输入2~20位字符，支持中文、字母、数字、下划线"/>
 					<span class="Validform_checktip"></span>
 				</p>
 				<p class="btngroup clearfix">
@@ -20,7 +20,7 @@
 					<span class="Validform_checktip"></span>
 				</p>
 				<p class="btngroup clearfix">
-					<input type="password" class="textinput" name="password2" id="userpwd2" placeholder="请重新输入您的密码" datatype="/^[0-9A-Za-z]{6,16}$/" nullmsg="请输入您的密码" errormsg="您的密码和重复密码不一致" autocomplete="off" recheck="password"/>
+					<input type="password" class="textinput" name="password2" id="userpwd2" placeholder="请重新输入您的密码" datatype="/^[0-9A-Za-z]{6,16}$/" nullmsg="请输入您的密码" errormsg="请输入相同的密码" autocomplete="off" recheck="password"/>
 					<span class="Validform_checktip"></span>
 				</p>
 				<p class="btngroup clearfix">
