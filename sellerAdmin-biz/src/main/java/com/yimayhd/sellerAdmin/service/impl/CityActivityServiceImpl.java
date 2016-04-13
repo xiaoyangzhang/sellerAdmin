@@ -84,7 +84,7 @@ public class CityActivityServiceImpl implements CityActivityService {
             log.error("cityActivityPublishServiceRef.add error:" + JSON.toJSONString(result) + "and param: " + JSON.toJSONString(cityActivityPubAddDTO));
             throw new BaseException(result.getResultMsg());
         }
-        long itemId = cityActivityItemVO.getItemVO().getId();
+        long itemId = result.getItemId();
         List<Long> themeIds = cityActivityItemVO.getThemes();
         commentRepo.saveTagRelation(itemId, TagType.LINETAG, themeIds);
         CityVO dest = cityActivityItemVO.getDest();

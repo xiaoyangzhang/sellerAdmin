@@ -9,13 +9,10 @@
 <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/jquery-ui-1.10.4.custom.css">
 <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/merchant.css">
 
-<input type="hidden" id="merchantSubmit"  value="$!root_path/merchant/saveBasic">
-
 	<!-- 面包屑 -->
 			<div class = "eredar-info clearfix">
 				<ul>
 					<li class = " first on">基本信息</li>
-					<li>账户信息</li>
 				</ul>
 			</div>
 			<form class="registerform" method="post" action="">
@@ -36,7 +33,7 @@
 					<p>
 						<em>客服电话  :</em>
 						<span>
-							<input type="text" value="$!serviceTel" name="serviceTel" class="inputxt" datatype="m" errormsg="请输入客服电话号码！"  />
+							<input type="text" value="$!serviceTel" name="serviceTel" class="inputxt" datatype="m" errormsg="请填写座机例:(0731-83187200)或手机号码！"  />
 						</span>
 					</p>
 					<p>

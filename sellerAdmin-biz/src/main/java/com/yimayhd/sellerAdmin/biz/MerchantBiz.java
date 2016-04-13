@@ -1,14 +1,22 @@
 package com.yimayhd.sellerAdmin.biz;
 
+import java.util.Arrays;
+
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
+import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
@@ -31,6 +39,8 @@ public class MerchantBiz {
 	private MerchantRepo merchantRepo;
 	@Autowired
 	private SessionManager sessionManager;
+	@Resource
+	private ExamineDealService examineDealService;
 	
 	@MethodLogger
 	public MemResult<ExamineInfoDTO> queryMerchantExamineInfoBySellerId(InfoQueryDTO info){
@@ -142,6 +152,67 @@ public class MerchantBiz {
 		}
 		return webResult;
 	}
+	
+	/**
+	 * 判断权限的通用方法
+	 * @param model
+	 * @param userId
+	 * @param pageType
+	 * @return
+	 */
+	public  String judgeAuthority(Model model,long userId,String pageType){
+		String chooseUrl = "/system/merchant/chosetype";
+		InfoQueryDTO info = new InfoQueryDTO();
+		info.setDomainId(Constant.DOMAIN_JIUXIU);
+		info.setSellerId(userId);
+		try {
+			MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
+			if(!result.isSuccess()){
+				return chooseUrl;
+			}
+			if(null == result.getValue()){
+				return null;
+			}
+			ExamineInfoDTO dto = result.getValue() ;
+			int type = dto.getType();
+			int status = dto.getExaminStatus();
+			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
+				return "/system/merchant/verification";
+			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
+				if(ExamineType.MERCHANT.getType()==type){
+					return "redirect:/merchant/toAddBasicPage";
+				}else if(ExamineType.TALENT.getType()==type){
+					return "redirect:/talent/toAddTalentInfo";
+				}
+			}else if(ExamineStatus.EXAMIN_ERROR.getStatus() == status){//审核不通过
+				if("edit".equals(pageType)){
+					return null;
+				}
+				
+				info.setType(type);
+				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
+				if(rest.isSuccess() && (null!=rest.getValue())){
+					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes()));
+				}
+				if(ExamineType.MERCHANT.getType()==type){
+					model.addAttribute("type", Constant.MERCHANT_NAME_CN);
+				}else if(ExamineType.TALENT.getType()==type){
+					model.addAttribute("type", Constant.TALENT_NAME_CN);
+				}
+				model.addAttribute("url", "/merchant/toChoosePage?reject=true");
+				return "/system/merchant/nothrough";
+			}else{
+				return null;
+			}
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			model.addAttribute("服务器出现错误，请稍后重新登录");
+			return chooseUrl;
+		}
+		return chooseUrl;
+		
+	}
+	
 	
 	private void setMerchantAddMag(MerchantDO merchantDO,MerchantInfoVo basicInfo){
 		merchantDO.setSellerId(sessionManager.getUserId());

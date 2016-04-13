@@ -24,14 +24,17 @@ public class MainController {
 			return new ModelAndView("/system/home/home");
 		}
 		
-		
 		UserDO user = sessionManager.getUser(request);
 		long option = user.getOptions() ;
-		boolean isTalent = UserOptions.USER_TALENT.has(option) ;
+		boolean isTalent = UserOptions.CERTIFICATED.has(option) ;
 		boolean isMerchant = UserOptions.COMMERCIAL_TENANT.has(option) ;
 		if( !isTalent && !isMerchant ){
 			//不是达人、也不是商户
 			return new ModelAndView("redirect:/merchant/toChoosePage");
+		}else if(isTalent){
+			return new ModelAndView("redirect:/talent/toAddTalentInfo");
+		}else if(isMerchant){
+			return new ModelAndView("redirect:/merchant/toAddBasicPage");
 		}
 		
 		return new ModelAndView("/system/home/home");

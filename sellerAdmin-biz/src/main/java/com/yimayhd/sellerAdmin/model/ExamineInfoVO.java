@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -55,5 +56,16 @@ public class ExamineInfoVO extends ExamineInfoDTO  {
 		
 	}
 
-	
+	public InfoQueryDTO getInfoQueryDTO (long userId) {
+		if (userId <= 0  ) {
+			log.error("get infoQueryDTO error and params:userId="+userId);
+			throw new BaseException("参数错误");
+		}
+		InfoQueryDTO infoQueryDTO = new InfoQueryDTO();
+		infoQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+		infoQueryDTO.setSellerId(userId);
+		infoQueryDTO.setType(ExamineType.TALENT.getType());
+		return infoQueryDTO;
+		
+	}
 }
