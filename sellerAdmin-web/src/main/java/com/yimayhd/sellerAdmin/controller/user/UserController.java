@@ -209,12 +209,12 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public WebResultSupport sendRetrievePasswordVerifyCode(String username, String imageCode) {
 		WebResultSupport result = new WebResultSupport();
-		if (!isTest()) { // 压力测试不校验
+//		if (!isTest()) { // 压力测试不校验
 			if (StringUtils.isBlank(imageCode) || !verifyCodeManager.checkVerifyCode(imageCode)) {
 				result.setWebReturnCode(WebReturnCode.IMAGE_VERIFY_CODE_ERROR);
 				return result;
 			}
-		}
+//		}
 		result = userBiz.sendRetrievePasswordVerifyCode(username);
 		return result;
 	}
