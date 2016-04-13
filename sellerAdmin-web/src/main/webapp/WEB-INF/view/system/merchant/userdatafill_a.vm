@@ -163,7 +163,7 @@
 							<tr>
 								<td class="tbtxt"><label>旅行社业务经营许可证： </label></td>
 								<td>
-									<span class="imgbox">
+									<span class="imgbox allownull">
 										<div class="canclick card_a">
 											#if("$!examineInfo.travingCard" == "")
 											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
@@ -179,7 +179,7 @@
 								</td>
 								<td class="tbtxt"><label>旅行社责任险证明正面：</label></td>
 								<td>
-									<span class="imgbox">
+									<span class="imgbox allownull">
 										<div class="canclick card_a">
 											#if("$!examineInfo.travelAgencyInsurance" == "")
 											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
@@ -197,7 +197,7 @@
 							<tr>
 								<td class="tbtxt"><label>联系人变更证明：</label></td>
 								<td>
-									<span class="imgbox">
+									<span class="imgbox allownull">
 										<div class="canclick card_a">
 											#if("$!examineInfo.touchProve" == "")
 											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
@@ -213,7 +213,7 @@
 								</td>
 								<td class="tbtxt"><label>旅行社授权书：</label></td>
 								<td>
-									<span class="imgbox">
+									<span class="imgbox allownull">
 										<div class="canclick card_a">
 											#if("$!examineInfo.travelAgencyAuthorization" == "")
 											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
