@@ -73,14 +73,17 @@ public class ItemServiceImpl implements ItemService {
 					itemIds.add(itemDO.getId());
 				}
 				Map<Long, List<ComTagDO>> tagMap = commentRepo.getTagsByOutIds(itemIds, TagType.DESTPLACE);
-				for (ItemListItemVO itemListItemVO : resultList) {
-					long itemId = itemListItemVO.getId();
-					if (tagMap.containsKey(itemId)) {
-						List<ComTagDO> comTagDOs = tagMap.get(itemId);
-						List<CityVO> dests = toCityVO(comTagDOs);
-						itemListItemVO.setDests(dests);
+				if(!org.springframework.util.CollectionUtils.isEmpty(tagMap)) {
+					for (ItemListItemVO itemListItemVO : resultList) {
+						long itemId = itemListItemVO.getId();
+						if (tagMap.containsKey(itemId)) {
+							List<ComTagDO> comTagDOs = tagMap.get(itemId);
+							List<CityVO> dests = toCityVO(comTagDOs);
+							itemListItemVO.setDests(dests);
+						}
 					}
 				}
+
 			}
 			PageVO<ItemListItemVO> pageVO = new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(),
 					itemPageResult.getRecordCount(), resultList);
