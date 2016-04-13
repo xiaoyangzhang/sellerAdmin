@@ -146,7 +146,7 @@ public class ItemVO extends ItemDO {
             itemDO.setLatitude(itemVO.getLatitudeVO());
         }
         if(itemVO.getLongitudeVO() != null) {
-            itemDO.setLongitude(itemVO.getLongitude());
+            itemDO.setLongitude(itemVO.getLongitudeVO());
         }
         return itemDO;
     }
