@@ -10,12 +10,10 @@ import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
-import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
-import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
@@ -24,7 +22,6 @@ import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
 import com.yimayhd.sellerAdmin.util.RepoUtils;
-import com.yimayhd.tradecenter.client.model.enums.ExamineeStatus;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /***
@@ -138,26 +135,22 @@ public class TalentRepo {
 	 * @return
 	 * @throws Exception
 	 */
-	public WebResultSupport addExamineInfo(ExamineInfoVO vo,int pageNo)  {
+	public WebResultSupport addExamineInfo(ExamineInfoVO vo)  {
 		if (vo == null) {
 			return null;
 		}
 		MemResult<Boolean> ExamineInfoResult = null;
 		WebResultSupport webResultSupport=new WebResultSupport();
 		try {
-			RepoUtils.requestLog(log, " examineDealService.submitMerchantExamineInfo", vo);
 
-			 ExamineInfoResult = examineDealService.submitMerchantExamineInfo(vo.getExamineInfoDTO(vo, sessionManager.getUserId()));
+			ExamineInfoResult = examineDealService.submitMerchantExamineInfo(vo.getExamineInfoDTO(vo, sessionManager.getUserId()));
 
-			
-			 RepoUtils.requestLog(log, " examineDealService.submitMerchantExamineInfo", ExamineInfoResult);
-			 if (ExamineInfoResult.isSuccess()) {
-				
-			}
-			 else {
+			if(!ExamineInfoResult.isSuccess()) {
 				webResultSupport.setWebReturnCode(WebReturnCode.TALENT_INFO_SAVE_FAILURE);
 			}
+			
 			return webResultSupport;
+			
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 			webResultSupport.setWebReturnCode(WebReturnCode.TALENT_INFO_SAVE_FAILURE);
@@ -189,6 +182,21 @@ public class TalentRepo {
 		}
 		return examineDealResult.getValue();
 
+		
+	}
+	public WebResultSupport updateCheckStatus(ExamineInfoVO vo) {
+		WebResultSupport resultSupport = new WebResultSupport();
+		try {
+			MemResult<Boolean> changeExamineStatusResult = examineDealService.changeExamineStatusIntoIng(vo.getInfoQueryDTO(sessionManager.getUserId()));
+			if (!changeExamineStatusResult.isSuccess()) {
+				resultSupport.setWebReturnCode(WebReturnCode.UPDATE_CHECKRESULT_FAILURE);
+			}
+			return resultSupport;
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+			resultSupport.setWebReturnCode(WebReturnCode.UPDATE_CHECKRESULT_FAILURE);
+			return resultSupport;
+		}
 		
 	}
 }

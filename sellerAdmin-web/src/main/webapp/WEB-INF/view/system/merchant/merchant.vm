@@ -33,7 +33,7 @@
 					<p>
 						<em>客服电话  :</em>
 						<span>
-							<input type="text" value="$!serviceTel" name="serviceTel" class="inputxt" datatype="m" errormsg="请输入客服电话号码！"  />
+							<input type="text" value="$!serviceTel" name="serviceTel" class="inputxt" datatype="m" errormsg="请填写座机例:(0731-83187200)或手机号码！"  />
 						</span>
 					</p>
 					<p>

@@ -96,12 +96,11 @@ public class LineController extends BaseLineController {
 	@RequestMapping(value = "/save")
 	public @ResponseBody WebResultSupport save(String json) {
 		try {
-			/*
-			 * long sellerId = getCurrentUserId(); if (sellerId <= 0) {
-			 * log.warn("未登录"); return
-			 * WebOperateResult.failure(WebReturnCode.USER_NOT_FOUND); }
-			 */
-			long sellerId = 12800;
+			long sellerId = getCurrentUserId();
+			if (sellerId <= 0) {
+				log.warn("未登录");
+				return WebOperateResult.failure(WebReturnCode.USER_NOT_FOUND);
+			}
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
 			WebCheckResult checkLine = LineChecker.checkLine(gt);
 			if (!checkLine.isSuccess()) {

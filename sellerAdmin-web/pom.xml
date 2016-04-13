@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<parent>
+	<parent> 
 		<artifactId>sellerAdmin</artifactId>
 		<groupId>com.yimayhd</groupId>
 		<version>1.0.0-SNAPSHOT</version>
@@ -253,19 +253,7 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-					<encoding>UTF-8</encoding>
-					<showWarnings>true</showWarnings>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
 				<configuration>
 					<archiveClasses>false</archiveClasses>
 					<outputDirectory>./target/</outputDirectory>
@@ -273,9 +261,41 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
-	<properties>
-		<autoconfig-plugin-version>1.2</autoconfig-plugin-version>
-	</properties>
+	
+	<profiles>
+		<profile>
+			<id>test</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+		                <groupId>com.alibaba.citrus.tool</groupId>
+		                <artifactId>autoconfig-maven-plugin</artifactId>
+		                <configuration>
+		                	<charset>UTF-8</charset>
+		                	<dest>../target/sellerAdmin.war</dest>
+		                	<userProperties>src/main/resources/config/test.properties</userProperties>
+		                </configuration>
+		            </plugin>
+	            </plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>stest</id>
+			<build>
+				<plugins>
+					<plugin>
+		                <groupId>com.alibaba.citrus.tool</groupId>
+		                <artifactId>autoconfig-maven-plugin</artifactId>
+		                <configuration>
+		                	<dest>../target/sellerAdmin.war</dest>
+		                	<userProperties>src/main/resources/config/stest.properties</userProperties>
+		                </configuration>
+		            </plugin>
+	            </plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
