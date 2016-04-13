@@ -5,7 +5,7 @@
 	 <div id="ym-login-banner">
 		<div class="login-body register">
 			<h1 class="title">用户注册</h1>
-			<h3>欢迎来到怡美假日，我们将用心去换您一路上的故事和风景！</h3>
+			<h3>欢迎来到九休旅行，我们将用心去换您一路上的故事和风景！</h3>
 			<form action="$root_path/user/register" method="post" id="registerForm">					
 				<p class="btngroup clearfix">
 					<input type="text" class="textinput" name="nickname" id="loginname" placeholder="您的昵称"  nullmsg="请输入您的昵称" autocomplete="off" datatype="/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,20}$/" errormsg="请输入2~20位字符，支持中文、字母、数字、下划线"/>
