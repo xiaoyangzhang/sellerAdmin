@@ -566,8 +566,8 @@ public class LineConverter {
 			return null;
 		}
 		ItemPubUpdateDTO itemUpdateDTO = new ItemPubUpdateDTO();
-		// private String code; // 商品代码
 		itemUpdateDTO.setId(baseInfo.getItemId());
+		itemUpdateDTO.setCode(baseInfo.getCode());
 		// 赋值
 		itemUpdateDTO.setTitle(baseInfo.getName());
 		itemUpdateDTO.setDays(baseInfo.getDays());
