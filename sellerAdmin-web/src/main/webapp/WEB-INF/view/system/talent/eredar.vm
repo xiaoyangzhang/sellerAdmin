@@ -36,11 +36,11 @@
 				</tr>
 				<tr>
 					<td class="tbtxt w280"><label class="bred">*</label><span>昵称：</span></td>
-					<td><input id = "nickName" class="field inputxt" type = "text" value="$!talentInfo.talentInfoDO.nickName" name="nickName" datatype="s6-18" errormsg="昵称至少6个字符,最多18个字符！"></td>
+					<td><input id = "nickName" class="field inputxt" type = "text" value="$!talentInfo.talentInfoDO.nickName" name="nickName" ></td>
 				</tr>
 				<tr>
 					<td class="tbtxt w280"><label class="bred">*</label><span>真实姓名：</span></td>
-					<td><input class="field inputxt" type = "text" name="peopleName" value="$!talentInfo.talentInfoDO.reallyName" datatype="s6-18" errormsg="昵称至少6个字符,最多18个字符！"><span></span></td>
+					<td><input class="field inputxt" type = "text" name="peopleName" id="realName" value="$!talentInfo.talentInfoDO.reallyName" ><span></span></td>
 				</tr>
 				<tr>
 					<td class="tbtxt w280"><label class="bred">*</label><span>性别：</span></td>
@@ -51,7 +51,7 @@
 				</tr>
 				<tr>
 					<td class="tbtxt w280"><span>出生日期：</span></td>
-					<td><input class="field" id="tm" placeholder="开始时间" name="birthday" value="$!talentBiz.formatDate($!talentInfo.talentInfoDO.birthday)" title="开始时间" datatype="*" errormsg="亲选择时间呀" readonly="readonly"><span></span></td>
+					<td><input class="field" id="tm" placeholder="1990-01-01" name="birthday" value="$!talentBiz.formatDate($!talentInfo.talentInfoDO.birthday)" title="开始时间" datatype="*" errormsg="亲选择时间呀" readonly="readonly"><span></span></td>
 				</tr>
 				<tr>
 					<td class="tbtxt w280"><label class="bred">*</label><span>所在城市：</span></td>
@@ -143,7 +143,7 @@
 				</tr>
 				<tr>
 					<td class="tbtxt w280"><span>店铺负责人电话：</span></td>
-					<td><input type ="text" class="field inputxt"  name="tel" value="$!{talentInfo.talentInfoDO.telNum}" datatype="m" errormsg="请输入您的手机号码！"><span></span></td>
+					<td><input type ="text" class="field inputxt phone"  name="tel" value="$!{talentInfo.talentInfoDO.telNum}" ><span></span></td>
 				</tr>
 				<tr>
 					<td class="tbtxt w280"><span>服务类型：</span></td>

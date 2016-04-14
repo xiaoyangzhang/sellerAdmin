@@ -107,8 +107,8 @@ public class MerchantController extends BaseController{
 				model.addAttribute("name",meResult.getValue().getName());
 				model.addAttribute("address",meResult.getValue().getAddress());
 				model.addAttribute("imgSrc",Constant.TFS_URL);
-				if(null != meResult.getValue().getLoopImages()){
-					model.addAttribute("djImage", meResult.getValue().getLoopImages().get(0).toString());
+				if(null != meResult.getValue().getBackgroudImage()){
+					model.addAttribute("djImage", meResult.getValue().getBackgroudImage());
 				}
 				if(null != meResult.getValue().getLogo()){
 					model.addAttribute("txImage", meResult.getValue().getLogo());

@@ -14,7 +14,9 @@
 	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/jquery-ui-1.10.4.custom.css">
 	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/eredar.css">
 
-	
+	#if( $!title ) 
+		<title>$!title</title>
+	#end
 </head>
 <body>
 	#parse("layout/layout-top.vm")

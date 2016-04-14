@@ -136,7 +136,7 @@
 							<tr>
 								<td class="tbtxt"><label>旅行社业务经营许可证： </label></td>
 								<td>
-									<span class="imgbox">
+									<span class="imgbox allownull">
 										<div class="canclick">
 											#if ($!examineInfo.travingCard)
 											<img src="$!tfs/$!examineInfo.travingCard">
@@ -150,7 +150,7 @@
 								</td>
 								<td class="tbtxt"><label>联系人变更证明：</label></td>
 								<td>
-									<span class="imgbox">
+									<span class="imgbox allownull">
 										<div class="canclick">
 											#if ($!examineInfo.touchProve)
 											<img src="$!tfs/$!examineInfo.touchProve">
