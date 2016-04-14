@@ -19,7 +19,7 @@
                 </td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>商品代码：</td>
+                <td>商品代码：</td>
                 <td>
                     <input type="text" class="form-control item-code" placeholder="请输入商品代码" name="code" value="$!{item.code}">
                     <span class="spColor">20字</span>
@@ -74,7 +74,7 @@
                 </td>
             </tr>
             <tr>
-                <td>*活动亮点：</td>
+                <td><span class="spColor">*</span>活动亮点：</td>
                 <td>
                     <textarea class="form-control textarea-count description" rows="3" placeholder="请输入亮点描述" maxlength="200">$!{item.description}</textarea>
                     <span class="word-num">0/200字</span>
@@ -101,7 +101,7 @@
 ##                <td><input type="text" class="form-control serviceTel" placeholder="请输入客服电话" name="serviceTel" value="$!serviceTel"></td>
 ##            </tr>
             <tr>
-                <td>*商品图：</td>
+                <td><span class="spColor">*</span>商品图：</td>
                 <td>
                     <div class="uploadbox clearfix">
                         <div class="imgbox">

@@ -35,17 +35,20 @@ public class CityActivityChecker {
 		if (!checkCityActivityInfo.isSuccess()) {
 			return checkCityActivityInfo;
 		}
-//		WebCheckResult checkPictureText = checkPictureText(cityActivity.getPictureText());
-//		if (!checkPictureText.isSuccess()) {
-//			return checkPictureText;
-//		}
-//		WebCheckResult checkNeedKnow = checkNeedKnow(cityActivity.getNeedKnow());
-//		if (!checkNeedKnow.isSuccess()) {
-//			return checkNeedKnow;
-//		}
-//		if (CollectionUtils.isEmpty(cityActivity.getThemes())) {
-//			return WebCheckResult.error("主题不能为空");
-//		}
+		WebCheckResult checkPictureText = checkPictureText(cityActivity.getPictureTextVO());
+		if (!checkPictureText.isSuccess()) {
+			return checkPictureText;
+		}
+		WebCheckResult checkNeedKnow = checkNeedKnow(cityActivity.getNeedKnowVO());
+		if (!checkNeedKnow.isSuccess()) {
+			return checkNeedKnow;
+		}
+		if (CollectionUtils.isEmpty(cityActivity.getThemes())) {
+			return WebCheckResult.error("活动主题不能为空");
+		}
+		if (cityActivity.getThemes().size() > 3) {
+			return WebCheckResult.error("活动主题最多选3个");
+		}
 		if (cityActivity.getDest() == null) {
 			return WebCheckResult.error("活动城市不能为空");
 		}
@@ -75,12 +78,18 @@ public class CityActivityChecker {
 		} else if (itemInfo.getTitle().length() > 38) {
 			return WebCheckResult.error("商品标题不能超过38个字");
 		}
+		if (!StringUtils.isBlank(itemInfo.getCode()) && itemInfo.getCode().length() > 20) {
+			return WebCheckResult.error("商品代码不能超过20个字");
+		}
 		if (StringUtils.isBlank(itemInfo.getDescription())) {
 			return WebCheckResult.error("活动亮点不能为空");
 		}
-//		if (CollectionUtils.isEmpty(itemInfo.getItemMainPics())) {
-//			return WebCheckResult.error("商品图不能为空");
-//		}
+		if (StringUtils.isBlank(itemInfo.getEndDateStr())) {
+			return WebCheckResult.error("截止报名日期不能为空");
+		}
+		if (CollectionUtils.isEmpty(itemInfo.getItemMainPics())) {
+			return WebCheckResult.error("商品图不能为空");
+		}
 		if (itemInfo.getLatitudeVO() == null || itemInfo.getLongitudeVO() == null) {
 			return WebCheckResult.error("经纬度不能为空");
 		}
