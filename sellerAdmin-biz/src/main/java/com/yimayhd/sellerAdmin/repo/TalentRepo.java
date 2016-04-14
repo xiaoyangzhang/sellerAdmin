@@ -113,12 +113,11 @@ public class TalentRepo {
 			 talentInfoResult = talentInfoDealService.updateTalentInfo(vo.getTalentInfoDTO(vo,sessionManager.getUserId()));
 			 RepoUtils.requestLog(log, "talentInfoDealService.updateTalentInfo", talentInfoResult);
 			
-			 if (talentInfoResult.isSuccess()) {
+			 if (!talentInfoResult.isSuccess()) {
 				
+				 webResultSupport.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
 			}
-			else {
-				webResultSupport.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
-			}
+			
 			 return webResultSupport;
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
