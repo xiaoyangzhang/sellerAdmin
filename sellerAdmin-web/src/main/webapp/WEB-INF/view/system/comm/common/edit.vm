@@ -349,7 +349,7 @@
                 </table>
             </div>
 
-
+			#if(!$isReadonly)
             <div class="clubBotBtn">
                 <div class="btn-group">
 
@@ -359,6 +359,7 @@
                     <button type="button"  class="btn closBtn">取消</button>
                 </div>
             </div>
+			#end
         <div class="">
             #if($!commodity.id)
                 <table class="table">
