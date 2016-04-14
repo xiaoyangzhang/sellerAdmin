@@ -39,7 +39,7 @@ public class CityActivityChecker {
 		if (!checkPictureText.isSuccess()) {
 			return checkPictureText;
 		}
-		WebCheckResult checkNeedKnow = checkNeedKnow(cityActivity.getNeedKnowVO());
+		WebCheckResult checkNeedKnow = checkNeedKnow(cityActivity.getCityActivityVO().getNeedKnowVO());
 		if (!checkNeedKnow.isSuccess()) {
 			return checkNeedKnow;
 		}
@@ -49,13 +49,16 @@ public class CityActivityChecker {
 		if (cityActivity.getThemes().size() > 3) {
 			return WebCheckResult.error("活动主题最多选3个");
 		}
-		if (cityActivity.getDest() == null) {
+		if (cityActivity.getDest() == null || cityActivity.getDest().getId() <= 0) {
 			return WebCheckResult.error("活动城市不能为空");
 		}
 		return WebCheckResult.success();
 	}
 
 	public static WebCheckResult checkNeedKnow(NeedKnowVO needKnow) {
+		if (needKnow == null) {
+			return WebCheckResult.error("预定须知不能为空");
+		}
 		List<NeedKnowItemVo> needKnowItems = needKnow.getNeedKnowItems();
 		if (CollectionUtils.isNotEmpty(needKnowItems)) {
 			for (NeedKnowItemVo needKnowItem : needKnowItems) {
