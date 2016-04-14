@@ -54,7 +54,7 @@
             </li>
         #end
         <li>
-            <span class="input-group" style="width:149px;padding:0px;">
+            <div class="input-group" style="width:149px;padding:0px;">
                 <span class="input-group-addon">每页</span>
                 <select class="form-control pageSize" name="" id="pageSize" style="width: 60px;">
                     <option value="10">10</option>
@@ -63,7 +63,7 @@
                 </select>
                 <span class="input-group-addon">条</span>
 				<span class="input-group-addon">共 ${pageVo.totalCount} 条</span>
-            </span>
+            </div>
         </li>
     </ul>
     <script type="text/javascript">
