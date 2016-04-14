@@ -246,11 +246,12 @@ public class TalentController extends BaseController {
 				TalentInfoDTO talentInfoDTO = queryTalentInfoResult.getValue();
 				
 							List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
-							//填充店铺头图集合
-								while(pictures.size() < Constant.TALENT_SHOP_PICNUM) {
+							if (pictures != null ) {
+								//填充店铺头图集合
+								while (pictures.size() < Constant.TALENT_SHOP_PICNUM) {
 									pictures.add("");
 								}
-							
+							}
 							dto = talentInfoDTO;
 				model.addAttribute("talentInfo", dto);
 			}
