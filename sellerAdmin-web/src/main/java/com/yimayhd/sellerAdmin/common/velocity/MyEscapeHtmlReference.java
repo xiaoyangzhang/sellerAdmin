@@ -1,11 +1,12 @@
 package com.yimayhd.sellerAdmin.common.velocity;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.oro.text.perl.MalformedPerl5PatternException;
 import org.apache.oro.text.perl.Perl5Util;
 import org.apache.velocity.app.event.implement.EscapeReference;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.util.StringUtils;
+
+import com.yimayhd.sellerAdmin.util.EscapeUtil;
 
 /**
  * 彻底重写EscapeReference<br>
@@ -43,7 +44,7 @@ public class MyEscapeHtmlReference extends EscapeReference {
 
 	@Override
 	protected String escape(Object text) {
-		return StringEscapeUtils.escapeHtml(text.toString());
+		return EscapeUtil.baseEscapeHtml(text.toString());
 	}
 
 	public void setRuntimeServices(RuntimeServices rs) {
