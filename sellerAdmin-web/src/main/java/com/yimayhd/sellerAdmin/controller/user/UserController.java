@@ -195,11 +195,6 @@ public class UserController extends BaseController {
 		return result;
 	}
 	
-	@RequestMapping(value = "/modifyPassword", method = RequestMethod.GET) 
-	@SessionChecker
-	public ModelAndView modifyPassword(HttpServletRequest request, HttpServletResponse response) {
-		return new ModelAndView("/system/user/modifyPassword");
-	}
 	
 //	@RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
 //	@ResponseBody
