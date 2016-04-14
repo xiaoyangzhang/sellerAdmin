@@ -177,7 +177,11 @@ public class MerchantBiz {
 			int type = dto.getType();
 			int status = dto.getExaminStatus();
 			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
-				return "/system/merchant/verification";
+				if(ExamineType.MERCHANT.getType()==type){
+					return "/system/merchant/verification";
+				}else if(ExamineType.TALENT.getType()==type){
+					return "/system/talent/verification";
+				}
 			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
 				if(ExamineType.MERCHANT.getType()==type){
 					return "redirect:/merchant/toAddBasicPage";
