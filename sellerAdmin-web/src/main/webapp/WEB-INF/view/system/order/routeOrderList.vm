@@ -253,7 +253,8 @@
     $(function () {
         $(".detail").click(function () {
             var orderId = $(this).attr("orderId");
-            window.parent.tabsAdd('', actionDefaultPath + "/B2C/orderManage/routeOrder/"+orderId, 2,"线路订单详情");
+           // window.parent.tabsAdd('', actionDefaultPath + "/B2C/orderManage/routeOrder/"+orderId, 2,"线路订单详情");
+            window.location.href = actionDefaultPath +"/order/routeOrder/"+orderId;
         });
 
 
