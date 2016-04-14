@@ -71,6 +71,7 @@ public class CityActivityConverter {
 				cityActivityItemVO.setDest(destCitys.get(0));
 			}
 			cityActivityItemVO.setPictureTextVO(PictureTextConverter.toPictureTextVO(picTextResult));
+			cityActivityItemVO.setNeedKnowVO(cityActivityItemVO.getCityActivityVO().getNeedKnowVO());
 		} catch (Exception e) {
 			throw e;
 		}

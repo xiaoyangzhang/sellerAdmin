@@ -3,7 +3,7 @@
 <html>
     <head>
 		#parse("layout/layout-meta.vm")
-        <title>添加跟团游</title>
+        <title>$!{itemType.text}</title>
         <link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.css">
         <link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/css/groupTravel.css?version=$!{utilWebconfig.getResourceVersion()}"/>
 		<link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/css/zui.min.css"/>

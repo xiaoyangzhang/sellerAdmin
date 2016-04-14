@@ -1,9 +1,7 @@
 #set($layout = "/layout/layout-account.vm")
+#set($title = "登录-九休商户后台")
+#parse("/layout/layout-meta.vm")	
 	
-	<head>
-		#parse("layout/layout-meta.vm")
-		<title>登录-九休商户后台</title>
-	</head>
     <!-- 首页的中心部分开始 -->
 	<div id="ym-login-banner" class="login">
 		<div class="login-body">

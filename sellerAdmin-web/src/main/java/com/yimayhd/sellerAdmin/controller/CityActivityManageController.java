@@ -100,6 +100,7 @@ public class CityActivityManageController extends BaseController {
         model.addAttribute("itemDest", itemVO.getDest());
     	model.addAttribute("itemType",ItemType.CITY_ACTIVITY.getValue());
         model.addAttribute("pictureTextVO", itemVO.getPictureTextVO());
+        model.addAttribute("needKnow", itemVO.getNeedKnowVO());
 
         return "/system/cityactivity/edit";
     }
@@ -132,7 +133,7 @@ public class CityActivityManageController extends BaseController {
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, e.getMessage());
+            return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, "");
         }
     }
 	

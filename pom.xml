@@ -676,8 +676,99 @@
 				<version>${spread_version}</version>
 			</dependency>
 		</dependencies>
-
-
-
 	</dependencyManagement>
+	
+	<build>
+		<finalName>sellerAdmin</finalName>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.1</version>
+					<configuration>
+						<source>1.7</source>
+						<target>1.7</target>
+						<encoding>UTF-8</encoding>
+						<showWarnings>true</showWarnings>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.4</version>
+					<configuration>
+						<encoding>UTF-8</encoding>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.19.1</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.maven.surefire</groupId>
+							<artifactId>surefire-junit47</artifactId>
+							<version>2.19.1</version>
+						</dependency>
+					</dependencies>
+					<!-- 跳过单元测试 -->
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.4</version>
+				</plugin>
+				<!-- autoconfig -->
+				<plugin>
+	                <groupId>com.alibaba.citrus.tool</groupId>
+	                <artifactId>autoconfig-maven-plugin</artifactId>
+	                <version>1.2</version>
+	                <configuration>
+	               		<!--  避免maven因为placeholder未定义而停止 -->
+	                	<strict>false</strict>
+	                    <!-- 要进行AutoConfig的目标文件，默认为${project.artifact.file}。 
+	                    <dest>${project.artifact.file}</dest>
+	                    -->
+	                    <!-- 配置后，是否展开目标文件，默认为false，不展开。 
+	                    <exploding>true</exploding>
+	                    -->
+	                    <!-- 展开到指定目录，默认为${project.build.directory}/${project.build.finalName}。 
+	                    <explodedDirectory>
+	                        ${project.build.directory}/${project.build.finalName}
+	                    </explodedDirectory>
+	                    -->
+	                   	<!--  关闭交互模式 -->
+	                    <interactive>false</interactive>
+	                </configuration>
+	                <executions>
+	                    <execution>
+	                        <phase>package</phase>
+	                        <goals>
+	                            <goal>autoconfig</goal>
+	                        </goals>
+	                    </execution>
+	                </executions>
+	            </plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+			</plugin>
+			<!-- 忽略单元测试 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 </project>

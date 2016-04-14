@@ -42,7 +42,7 @@
                 <td><span class="spColor">*</span>截止报名日期：</td>
                 <td>
                     <div class="row input-group">
-                        <input type="text" class='form-control form-date dateInp end-date' placeholder='' readonly name="endDateStr" value="$!utilDate.dateToString($!{item.endDate},"yyyy-mm-dd hh")">
+                        <input type="text" class='form-control form-date dateInp end-date' placeholder='' readonly name="endDateStr" value="$!{item.endDateStr}">
                     </div>
                 </td>
             </tr>
@@ -107,9 +107,9 @@
                         <div class="imgbox">
                             <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
                                 <div class="dimg">
-                                    #if($item.getItemMainPics && $item.getItemMainPics.size() > 0)
-                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.getItemMainPics.get(0)}" img-root="$!utilWebconfig.getTfsRootPath()">
-                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.getItemMainPics.get(0)}">
+                                    #if($!item.itemMainPics && $item.itemMainPics.size() > 0)
+                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.itemMainPics.get(0)}" img-root="$!utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.itemMainPics.get(0)}">
                                     #else
                                         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
                                         <input type="hidden" class="picCode baseInfo-picCode">
@@ -125,9 +125,9 @@
                         <div class="imgbox">
                             <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
                                 <div class="dimg">
-                                    #if($item.getItemMainPics && $item.getItemMainPics.size() > 1)
-                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.getItemMainPics.get(1)}" img-root="$!utilWebconfig.getTfsRootPath()">
-                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.getItemMainPics.get(1)}">
+                                    #if($!item.itemMainPics && $item.itemMainPics.size() > 1)
+                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.itemMainPics.get(1)}" img-root="$!utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.itemMainPics.get(1)}">
                                     #else
                                         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
                                         <input type="hidden" class="picCode baseInfo-picCode">
@@ -143,9 +143,9 @@
                         <div class="imgbox">
                             <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
                                 <div class="dimg">
-                                    #if($item.getItemMainPics && $item.getItemMainPics.size() > 2)
-                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.getItemMainPics.get(2)}" img-root="$!utilWebconfig.getTfsRootPath()">
-                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.getItemMainPics.get(2)}">
+                                    #if($!item.itemMainPics && $item.itemMainPics.size() > 2)
+                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.itemMainPics.get(2)}" img-root="$!utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.itemMainPics.get(2)}">
                                     #else
                                         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
                                         <input type="hidden" class="picCode baseInfo-picCode">
@@ -161,9 +161,9 @@
                         <div class="imgbox">
                             <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
                                 <div class="dimg">
-                                    #if($item.getItemMainPics && $item.getItemMainPics.size() > 3)
-                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.getItemMainPics.get(3)}" img-root="$!utilWebconfig.getTfsRootPath()">
-                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.getItemMainPics.get(3)}">
+                                    #if($!item.itemMainPics && $item.itemMainPics.size() > 3)
+                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.itemMainPics.get(3)}" img-root="$!utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.itemMainPics.get(3)}">
                                     #else
                                         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
                                         <input type="hidden" class="picCode baseInfo-picCode">
@@ -179,9 +179,9 @@
                         <div class="imgbox">
                             <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
                                 <div class="dimg">
-                                    #if($item.getItemMainPics && $item.getItemMainPics.size() > 4)
-                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.getItemMainPics.get(4)}" img-root="$!utilWebconfig.getTfsRootPath()">
-                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.getItemMainPics.get(4)}">
+                                    #if($!item.itemMainPics && $item.itemMainPics.size() > 4)
+                                        <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.itemMainPics.get(4)}" img-root="$!utilWebconfig.getTfsRootPath()">
+                                        <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.itemMainPics.get(4)}">
                                     #else
                                         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
                                         <input type="hidden" class="picCode baseInfo-picCode">
@@ -240,7 +240,7 @@
         }
         function getDest() {
             var dest = {
-                id:$(".dest").attr("rId"),
+                id:$("select option:selected").attr("value"),
             };
             return dest;
         }

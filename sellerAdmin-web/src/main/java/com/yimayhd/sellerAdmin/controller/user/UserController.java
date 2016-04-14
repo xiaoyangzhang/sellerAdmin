@@ -209,12 +209,12 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public WebResultSupport sendRetrievePasswordVerifyCode(String username, String imageCode) {
 		WebResultSupport result = new WebResultSupport();
-		if (!isTest()) { // 压力测试不校验
+//		if (!isTest()) { // 压力测试不校验
 			if (StringUtils.isBlank(imageCode) || !verifyCodeManager.checkVerifyCode(imageCode)) {
 				result.setWebReturnCode(WebReturnCode.IMAGE_VERIFY_CODE_ERROR);
 				return result;
 			}
-		}
+//		}
 		result = userBiz.sendRetrievePasswordVerifyCode(username);
 		return result;
 	}
@@ -260,9 +260,7 @@ public class UserController extends BaseController {
 	@RequestMapping(value="/retrievePassword", method = RequestMethod.GET)
 	public ModelAndView toLostPassword() {
 		ModelAndView modelAndView = new ModelAndView("/system/user/retrievePassword");
-
 		return modelAndView;
-
 	}
 	
 	@RequestMapping(value = "/retrievePassword", method = RequestMethod.POST)
@@ -282,10 +280,18 @@ public class UserController extends BaseController {
 		}else if( !retrieveResult.isSuccess() ){
 			result.setWebReturnCode(retrieveResult.getWebReturnCode());
 		}else{
-			String url =  UrlHelper.getUrl(rootPath, "/user/login") ;
+			String url =  UrlHelper.getUrl(rootPath, "/user/retrievePasswordSuccess") ;
 			result.setValue(url);
 		}
 		return result;
+	}
+	
+	@RequestMapping(value="/retrievePasswordSuccess", method = RequestMethod.GET)
+	public ModelAndView toRetrievePasswordSuccess(Model model) {
+		String loginUrl = UrlHelper.getUrl(rootPath, "/user/login");
+		model.addAttribute("loginUrl", loginUrl);
+		ModelAndView modelAndView = new ModelAndView("/system/user/retrievePasswordSuccess");
+		return modelAndView;
 	}
 
 	@RequestMapping(value = "/getImgCode")
