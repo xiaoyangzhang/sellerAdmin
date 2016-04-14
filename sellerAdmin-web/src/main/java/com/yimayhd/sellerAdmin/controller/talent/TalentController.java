@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.controller.talent;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -245,14 +246,15 @@ public class TalentController extends BaseController {
 			if (queryTalentInfoResult.isSuccess() && queryTalentInfoResult.getValue() != null) {
 				TalentInfoDTO talentInfoDTO = queryTalentInfoResult.getValue();
 				
-							List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
-							if (pictures != null ) {
-								//填充店铺头图集合
-								while (pictures.size() < Constant.TALENT_SHOP_PICNUM) {
-									pictures.add("");
-								}
-							}
-							dto = talentInfoDTO;
+				List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
+				if (pictures == null ) {
+					pictures = new ArrayList<String>();
+				}
+				//填充店铺头图集合
+				while (pictures.size() < Constant.TALENT_SHOP_PICNUM) {
+					pictures.add("");
+				}
+				dto = talentInfoDTO;
 				model.addAttribute("talentInfo", dto);
 			}
 			
