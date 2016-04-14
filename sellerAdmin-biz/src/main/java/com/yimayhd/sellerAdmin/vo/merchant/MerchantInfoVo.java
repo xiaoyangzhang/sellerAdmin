@@ -22,8 +22,8 @@ public class MerchantInfoVo implements Serializable{
 		private String serviceTel;
 		//店铺地址
 		private String address;
-		// 店铺店招
-		private List<String> djImage;
+		//店铺店招
+		private String djImage;
 		//商户头像
 		private String txImage;
 		public String getNickName() {
@@ -56,11 +56,11 @@ public class MerchantInfoVo implements Serializable{
 		public void setAddress(String address) {
 			this.address = address;
 		}
-	
-		public List<String> getDjImage() {
+
+		public String getDjImage() {
 			return djImage;
 		}
-		public void setDjImage(List<String> djImage) {
+		public void setDjImage(String djImage) {
 			this.djImage = djImage;
 		}
 		public String getTxImage() {
