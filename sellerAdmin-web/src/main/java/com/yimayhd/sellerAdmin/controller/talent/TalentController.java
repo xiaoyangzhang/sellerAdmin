@@ -273,11 +273,16 @@ public class TalentController extends BaseController {
 	 */
 	@RequestMapping(value="saveTalentInfo",method=RequestMethod.POST)
 	@ResponseBody
-	public WebResultSupport addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
-		
+	public WebResult<String> addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
+			WebResult<String> result = new WebResult<>();
 			WebResultSupport resultSupport = talentBiz.addTalentInfo(vo);
-			
-			return resultSupport;
+			if (resultSupport.isSuccess()) {
+				result.setValue("talent/toAddTalentInfo");
+			}
+			else {
+				result.setWebReturnCode(resultSupport.getWebReturnCode());
+			}
+			return result;
 		
 		
 	}
