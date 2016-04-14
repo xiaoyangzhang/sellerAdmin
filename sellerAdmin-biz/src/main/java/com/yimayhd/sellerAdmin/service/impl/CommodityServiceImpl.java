@@ -140,7 +140,7 @@ public class CommodityServiceImpl implements CommodityService {
         //商品的排序字段
         itemResultVO.getItemVO().setSort(itemResult.getSortNum());
         //h5
-        PicTextResult picTextResult = pictureTextRepo.getPictureText(itemResultVO.getItemVO().getId(), PictureText.MUSTBUY);
+        PicTextResult picTextResult = pictureTextRepo.getPictureText(itemResultVO.getItemVO().getId(), PictureText.ITEM);
         itemResultVO.getItemVO().setPictureTextVO(PictureTextConverter.toPictureTextVO(picTextResult));
         return itemResultVO;
     }
@@ -329,7 +329,7 @@ public class CommodityServiceImpl implements CommodityService {
             throw new BaseException(itemPubResult.getResultMsg());
         }
 
-        ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemPubResult.getItemId(), PictureText.MUSTBUY, JSON.parseObject(itemVO.getPictureTextVOStr(), PictureTextVO.class));
+        ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemPubResult.getItemId(), PictureText.ITEM, JSON.parseObject(itemVO.getPictureTextVOStr(), PictureTextVO.class));
         pictureTextRepo.editPictureText(comentEditDTO);
     }
 
@@ -407,7 +407,7 @@ public class CommodityServiceImpl implements CommodityService {
             }
             try {
                 PictureTextVO pictureTextVO = JSON.parseObject(itemVO.getPictureTextVOStr(), PictureTextVO.class);
-                ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemVO.getId(),PictureText.MUSTBUY,pictureTextVO);
+                ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemVO.getId(),PictureText.ITEM,pictureTextVO);
                 pictureTextRepo.editPictureText(comentEditDTO);
             }catch (Exception e){
                 log.error("商品保存成功，H5保存失败",e);

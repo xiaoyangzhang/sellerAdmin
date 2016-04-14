@@ -177,7 +177,11 @@ public class MerchantBiz {
 			int type = dto.getType();
 			int status = dto.getExaminStatus();
 			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
-				return "/system/merchant/verification";
+				if(ExamineType.MERCHANT.getType()==type){
+					return "/system/merchant/verification";
+				}else if(ExamineType.TALENT.getType()==type){
+					return "/system/talent/verification";
+				}
 			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
 				if(ExamineType.MERCHANT.getType()==type){
 					return "redirect:/merchant/toAddBasicPage";
@@ -224,7 +228,7 @@ public class MerchantBiz {
 		merchantDO.setServiceTel(basicInfo.getServiceTel());
 		merchantDO.setAddress(basicInfo.getAddress());
 		//店铺店招
-		merchantDO.setLoopImages(basicInfo.getDjImage());
+		merchantDO.setBackgroudImage(basicInfo.getDjImage());
 		//商户头像
 		merchantDO.setLogo(basicInfo.getTxImage());
 		
@@ -238,7 +242,7 @@ public class MerchantBiz {
 		merchantDTO.setServiceTel(basicInfo.getServiceTel());
 		merchantDTO.setAddress(basicInfo.getAddress());
 		//店铺店招
-		merchantDTO.setLoopImages(basicInfo.getDjImage());
+		merchantDTO.setBackgroundImage(basicInfo.getDjImage());;
 		//商户头像
 		merchantDTO.setLogoImage(basicInfo.getTxImage());
 	}
