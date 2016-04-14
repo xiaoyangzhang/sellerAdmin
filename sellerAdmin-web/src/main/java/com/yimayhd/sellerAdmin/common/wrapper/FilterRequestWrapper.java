@@ -22,7 +22,7 @@ public class FilterRequestWrapper extends HttpServletRequestWrapper {
 	@Override
 	public String getParameter(String name) {
 		String parameter = super.getParameter(name);
-		return filter(parameter);
+		return filter(name, parameter);
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class FilterRequestWrapper extends HttpServletRequestWrapper {
 		String[] parameterValues = super.getParameterValues(name);
 		if (parameterValues != null) {
 			for (int i = 0; i < parameterValues.length; i++) {
-				String value = filter(parameterValues[i]);
+				String value = filter(name, parameterValues[i]);
 				// XXX Yebin 去首尾空格
 				if (value != null) {
 					value = StringUtils.trim(value);
@@ -47,13 +47,21 @@ public class FilterRequestWrapper extends HttpServletRequestWrapper {
 	 * @param value
 	 * @return
 	 */
-	private String filter(String value) {
+	private String filter(String name, String value) {
 		String temp = value;
 		if (StringUtils.isNotBlank(temp)) {
 			// sql转义
 			temp = StringEscapeUtils.escapeSql(temp);
+			if (!name.endsWith("Html")) {
+				// html 转义
+				temp = StringEscapeUtils.escapeHtml(temp);
+			}
 		}
 		return temp;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(StringEscapeUtils.escapeHtml("<script>"));
 	}
 
 }
