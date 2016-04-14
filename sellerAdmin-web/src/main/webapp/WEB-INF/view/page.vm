@@ -54,7 +54,7 @@
             </li>
         #end
         <li>
-            <span class="input-group" style="width: 149px;">
+            <span class="input-group" style="width:149px;padding:0px;">
                 <span class="input-group-addon">每页</span>
                 <select class="form-control pageSize" name="" id="pageSize" style="width: 60px;">
                     <option value="10">10</option>

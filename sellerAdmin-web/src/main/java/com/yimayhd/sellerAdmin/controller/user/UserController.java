@@ -24,14 +24,11 @@ import com.yimayhd.sellerAdmin.biz.UserBiz;
 import com.yimayhd.sellerAdmin.checker.UserChecker;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.UserConverter;
-import com.yimayhd.sellerAdmin.model.User;
 import com.yimayhd.sellerAdmin.model.vo.user.LoginVo;
-import com.yimayhd.sellerAdmin.model.vo.user.ModifyPasswordVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RetrievePasswordVo;
 import com.yimayhd.sellerAdmin.url.UrlHelper;
 import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.dto.ChangePasswordDTO;
 import com.yimayhd.user.client.dto.LoginDTO;
 import com.yimayhd.user.client.dto.RegisterDTO;
 import com.yimayhd.user.client.dto.RevivePasswordDTO;
@@ -70,27 +67,6 @@ public class UserController extends BaseController {
 	private String rootPath;
 	
 	
-//
-//	
-//
-//	@RequestMapping("/toWinLogin")
-//	public ModelAndView toWinLogin() {
-//		ModelAndView modelAndView = new ModelAndView("/system/user/winLogin");
-//
-//		return modelAndView;
-//
-//	}
-//
-//	
-//
-//	@RequestMapping("/toRetrieveSuccess")
-//	public ModelAndView toRetrieveSuccess() {
-//		ModelAndView modelAndView = new ModelAndView("/system/user/retrieveSuccess");
-//
-//		return modelAndView;
-//	}
-	
-
 	@RequestMapping(value = "/register", method =RequestMethod.GET)
 	public ModelAndView toRegister() {
 		ModelAndView modelAndView = new ModelAndView("/system/user/register");
@@ -225,37 +201,37 @@ public class UserController extends BaseController {
 		return new ModelAndView("/system/user/modifyPassword");
 	}
 	
-	@RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
-	@ResponseBody
-	public WebResult<String> modifyPassword(HttpServletRequest request, ModifyPasswordVo modifyPasswordVo) {
-		WebResult<String> result = new WebResult<String>();
-		WebResultSupport checkResult = UserChecker.checkModifyPasswordPassword(modifyPasswordVo);
-		if ( !checkResult.isSuccess() ) {
-			result.setWebReturnCode(checkResult.getWebReturnCode());
-			return result ;
-		}
-		long userId = sessionManager.getUserId(request);
-		ChangePasswordDTO changePasswordDTO = UserConverter.toModifyPasswordDTO(modifyPasswordVo, userId);
-		
-		WebResultSupport modifyResult = userBiz.modifyPassword(changePasswordDTO);
-		if( modifyResult == null || !modifyResult.isSuccess() ){
-			if( modifyResult == null ){
-				result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
-			}else{
-				result.setWebReturnCode(modifyResult.getWebReturnCode());
-			}
-			return result ;
-		}
-		String url = UrlHelper.getUrl(rootPath, "/user/modifyPasswordSuccess");
-		result.setValue(url);
-		return result;
-	}
-	@RequestMapping(value = "/modifyPasswordSuccess", method = RequestMethod.GET) 
-	@SessionChecker
-	public ModelAndView modifyPasswordSuccess(HttpServletRequest request, HttpServletResponse response) {
-		return new ModelAndView("/system/user/modifyPasswordSuccess");
-	}
-	
+//	@RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
+//	@ResponseBody
+//	public WebResult<String> modifyPassword(HttpServletRequest request, ModifyPasswordVo modifyPasswordVo) {
+//		WebResult<String> result = new WebResult<String>();
+//		WebResultSupport checkResult = UserChecker.checkModifyPasswordPassword(modifyPasswordVo);
+//		if ( !checkResult.isSuccess() ) {
+//			result.setWebReturnCode(checkResult.getWebReturnCode());
+//			return result ;
+//		}
+//		long userId = sessionManager.getUserId(request);
+//		ChangePasswordDTO changePasswordDTO = UserConverter.toModifyPasswordDTO(modifyPasswordVo, userId);
+//		
+//		WebResultSupport modifyResult = userBiz.modifyPassword(changePasswordDTO);
+//		if( modifyResult == null || !modifyResult.isSuccess() ){
+//			if( modifyResult == null ){
+//				result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+//			}else{
+//				result.setWebReturnCode(modifyResult.getWebReturnCode());
+//			}
+//			return result ;
+//		}
+//		String url = UrlHelper.getUrl(rootPath, "/user/modifyPasswordSuccess");
+//		result.setValue(url);
+//		return result;
+//	}
+//	@RequestMapping(value = "/modifyPasswordSuccess", method = RequestMethod.GET) 
+//	@SessionChecker
+//	public ModelAndView modifyPasswordSuccess(HttpServletRequest request, HttpServletResponse response) {
+//		return new ModelAndView("/system/user/modifyPasswordSuccess");
+//	}
+//	
 
 	@RequestMapping(value="/retrievePassword", method = RequestMethod.GET)
 	public ModelAndView toLostPassword() {
