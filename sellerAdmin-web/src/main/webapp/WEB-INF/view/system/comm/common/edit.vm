@@ -30,7 +30,7 @@
                     #*有没有sku*#
                     <input type="hidden" name="options" value="#if($!category.sellCategoryPropertyDOs) 1 #else 0 #end">
                     #*减库存方式*#
-                    <input class="reduceType" type="radio" name="reduceType" value="1">
+                    <input class="reduceType" type="hidden" name="reduceType" value="1">
 
 
                     <tbody>
@@ -47,7 +47,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>商品代码</td>
+                        <td>商品代码</td>
                         <td>
                             <input class="code" type="text" name="code" value="$!commodity.code">
                         </td>
@@ -68,7 +68,7 @@
                     <input type="hidden" name="itemProperties" id="itemProperties" value="$!commodity.itemProperties">
                     <input type="hidden" name="itemSkuVOStr" id="itemSkuVOStr" value="$!commodity.itemSkuVOStr">
                     <input type="hidden" name="pictureTextVOStr" id="pictureTextVOStr" value="">
-                    <input class="picUrlsVal" type="hidden" name="coverPics" value="$!commodity.coverPics">
+                    <input class="picUrlsVal" type="hidden" name="itemMainPics" value="$!commodity.ItemMainPics">
                     #*<tr>
                         <td><span class="spColor">*</span>减库存方式</td>
                         <td>
@@ -136,144 +136,163 @@
                         <td><span class="spColor">*</span>排序</td>
                         <td><input type="text" name="index" value="$!commodity.index" disabled></td>
                     </tr>*#
+                    <tr>
+                        <td>属性</td>
+                        <td>
+                            <div style="border:1px solid #ccc;padding: 30px">
+                            <table>
+                                #*解析关键属性*#
+                                #foreach($keyCategoryProperty in $category.keyCategoryPropertyDOs)
+                                    <tr class="property keyProperty" pId="$!keyCategoryProperty.categoryPropertyDO.id" pTxt="$!keyCategoryProperty.categoryPropertyDO.text" pType="$!keyCategoryProperty.categoryPropertyDO.type">
+                                        <td><span class="spColor">*</span>$!keyCategoryProperty.categoryPropertyDO.text</td>
+                                        <td>
+                                            #*编辑的时候回填属性*#
+                                                #set($propertyEditPId = 100)
+                                                #set($propertyEditVId = 200)
+                                                #set($propertyEditVTxt = '')
+                                                #foreach($itemProperty in $commodity.itemPropertyList)
+                                                    #if($itemProperty.pId == $keyCategoryProperty.categoryPropertyDO.id)
+                                                        #set($propertyEditPId = $itemProperty.pId)
+                                                        #set($propertyEditVId = $itemProperty.vId)
+                                                        #if($itemProperty.vId == 0)
+                                                            #set($propertyEditVTxt = $itemProperty.vTxt)
+                                                        #end
+                                                        #break
+                                                    #end
+                                                #end
+                                                #*属性可选值*#
+                                                #if($keyCategoryProperty.categoryPropertyDO.categoryValueDOs.size() > 0)
 
-                    #*解析关键属性*#
-                    #foreach($keyCategoryProperty in $category.keyCategoryPropertyDOs)
-                        <tr class="property keyProperty" pId="$!keyCategoryProperty.categoryPropertyDO.id" pTxt="$!keyCategoryProperty.categoryPropertyDO.text" pType="$!keyCategoryProperty.categoryPropertyDO.type">
-                            <td><span class="spColor">*</span>$!keyCategoryProperty.categoryPropertyDO.text</td>
+                                                    <select class="form-control propertySelect">
+                                                        <option value="0" >请选择</option>
+                                                        #foreach($categoryValueDO in $keyCategoryProperty.categoryPropertyDO.categoryValueDOs)
+                                                            <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($propertyEditVId == $!categoryValueDO.id)selected#end>$!categoryValueDO.text</option>
+                                                        #end
+                                                    </select>
+                                                #end
+                                                #*支持自定义*#
+                                                #if($!keyCategoryProperty.canCustom == 1)
+                                                #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
+                                                    #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
+                                                        <span><input class="propertyInput" type="text" value="$!propertyEditVTxt"></span>
+                                                    #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
+                                                        <input type="text" class='form-control form-date propertyInput propertyInput' placeholder='yyyy-MM-dd' readonly value="$!propertyEditVTxt">
+                                                    #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
+                                                        3
+                                                    #elseif($!keyCategoryProperty.categoryPropertyDO.type == 4)
+                                                        4
+                                                    #elseif($!keyCategoryProperty.categoryPropertyDO.type == 5)
+                                                        5
+                                                    #end
+                                                #end
+                                        </td>
+                                    </tr>
+                                #end
+                                #*解析普通属性*#
+                                    #foreach($keyCategoryProperty in $category.nonKeyCategoryPropertyDOs)
+                                    <tr class="property nonKeyProperty" pId="$!keyCategoryProperty.categoryPropertyDO.id" pTxt="$!keyCategoryProperty.categoryPropertyDO.text" pType="$!keyCategoryProperty.categoryPropertyDO.type">
+                                        <td>$!keyCategoryProperty.categoryPropertyDO.text</td>
+                                        <td>
+                                            #*编辑的时候回填属性*#
+                                                #foreach($itemProperty in $commodity.itemPropertyList)
+                                                    #if($itemProperty.pId == $keyCategoryProperty.categoryPropertyDO.id)
+                                                        #set($propertyEditPId = $itemProperty.pId)
+                                                        #set($propertyEditVId = $itemProperty.vId)
+                                                        #if($itemProperty.vId == 0)
+                                                            #set($propertyEditVTxt = $itemProperty.vTxt)
+                                                        #end
+                                                        #break
+                                                    #end
+                                                #end
+                                        #*属性可选值*#
+                                        #if($keyCategoryProperty.categoryPropertyDO.categoryValueDOs.size() > 0)
+                                            <select class="form-control propertySelect">
+                                                <option value="0" >请选择</option>
+                                                #foreach($categoryValueDO in $keyCategoryProperty.categoryPropertyDO.categoryValueDOs)
+                                                    <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($propertyEditVId == $!categoryValueDO.id)selected#end>$!categoryValueDO.text</option>
+                                                #end
+                                            </select>
+                                        #end
+                                        #*支持自定义*#
+                                            #if($!keyCategoryProperty.canCustom == 1)
+                                            #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
+                                                #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
+                                                    <span><input type="text" class="propertyInput" value="$!propertyEditVTxt"></span>
+                                                #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
+                                                    <input type="text" class='form-control form-date propertyInput' placeholder='yyyy-MM-dd' readonly value="$!propertyEditVTxt">
+                                                #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
+                                                    3
+                                                #elseif($!keyCategoryProperty.categoryPropertyDO.type == 4)
+                                                    4
+                                                #elseif($!keyCategoryProperty.categoryPropertyDO.type == 5)
+                                                    5
+                                                #end
+                                            #end
+                                        </td>
+                                    </tr>
+                                    #end
+                            </table>
+                        </td>
+                    </tr>
+                    #if($!category.sellCategoryPropertyVOs)
+                        <tr>
+                            <td>商品规格</td>
                             <td>
-                                #*编辑的时候回填属性*#
-                                    #set($propertyEditPId = 100)
-                                    #set($propertyEditVId = 200)
-                                    #set($propertyEditVTxt = '')
-                                    #foreach($itemProperty in $commodity.itemPropertyList)
-                                        #if($itemProperty.pId == $keyCategoryProperty.categoryPropertyDO.id)
-                                            #set($propertyEditPId = $itemProperty.pId)
-                                            #set($propertyEditVId = $itemProperty.vId)
-                                            #if($itemProperty.vId == 0)
-                                                #set($propertyEditVTxt = $itemProperty.vTxt)
-                                            #end
-                                            #break
+                                <div style="border:1px solid #ccc;padding: 30px">
+                                    <table>
+                                        #*解析销售属性(sku属性)*#
+                                        #foreach($sellCategoryProperty in $category.sellCategoryPropertyVOs)
+                                        <tr class="sellProperty" sellPropertyType="$!sellCategoryProperty.categoryPropertyVO.type"  sellPropertyId="$!sellCategoryProperty.categoryPropertyVO.id" sellPropertyText="$!sellCategoryProperty.categoryPropertyVO.text">
+                                            <td>$!sellCategoryProperty.categoryPropertyVO.text</td>
+                                            <td>
+                                                #foreach($categoryValue in $sellCategoryProperty.categoryPropertyVO.categoryValueVOs)
+                                                #*sku可选值*#
+                                                        <span><input type="checkbox" class="skuCheckbox" sellValueId="$!{categoryValue.id}" sellValueText="$!categoryValue.text" name="" value="$!{categoryValue.id}" #if($!categoryValue.checked) checked #end>$!categoryValue.text</span>
+                                                #end
+                                            </td>
+                                        </tr>
                                         #end
-                                    #end
-                                    #*属性可选值*#
-                                    #if($keyCategoryProperty.categoryPropertyDO.categoryValueDOs.size() > 0)
-
-                                        <select class="form-control propertySelect">
-                                            <option value="0" >请选择</option>
-                                            #foreach($categoryValueDO in $keyCategoryProperty.categoryPropertyDO.categoryValueDOs)
-                                                <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($propertyEditVId == $!categoryValueDO.id)selected#end>$!categoryValueDO.text</option>
-                                            #end
-                                        </select>
-                                    #end
-                                    #*支持自定义*#
-                                    #if($!keyCategoryProperty.canCustom == 1)
-                                    #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
-                                        #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
-                                            <span><input class="propertyInput" type="text" value="$!propertyEditVTxt"></span>
-                                        #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
-                                            <input type="text" class='form-control form-date propertyInput propertyInput' placeholder='yyyy-MM-dd' readonly value="$!propertyEditVTxt">
-                                        #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
-                                            3
-                                        #elseif($!keyCategoryProperty.categoryPropertyDO.type == 4)
-                                            4
-                                        #elseif($!keyCategoryProperty.categoryPropertyDO.type == 5)
-                                            5
-                                        #end
-                                    #end
+                                    </table>
                             </td>
                         </tr>
                     #end
-                    #*解析普通属性*#
-                        #foreach($keyCategoryProperty in $category.nonKeyCategoryPropertyDOs)
-                        <tr class="property nonKeyProperty" pId="$!keyCategoryProperty.categoryPropertyDO.id" pTxt="$!keyCategoryProperty.categoryPropertyDO.text" pType="$!keyCategoryProperty.categoryPropertyDO.type">
-                            <td>$!keyCategoryProperty.categoryPropertyDO.text</td>
-                            <td>
-                                #*编辑的时候回填属性*#
-                                    #foreach($itemProperty in $commodity.itemPropertyList)
-                                        #if($itemProperty.pId == $keyCategoryProperty.categoryPropertyDO.id)
-                                            #set($propertyEditPId = $itemProperty.pId)
-                                            #set($propertyEditVId = $itemProperty.vId)
-                                            #if($itemProperty.vId == 0)
-                                                #set($propertyEditVTxt = $itemProperty.vTxt)
-                                            #end
-                                            #break
-                                        #end
-                                    #end
-                            #*属性可选值*#
-                            #if($keyCategoryProperty.categoryPropertyDO.categoryValueDOs.size() > 0)
-                                <select class="form-control propertySelect">
-                                    <option value="0" >请选择</option>
-                                    #foreach($categoryValueDO in $keyCategoryProperty.categoryPropertyDO.categoryValueDOs)
-                                        <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($propertyEditVId == $!categoryValueDO.id)selected#end>$!categoryValueDO.text</option>
-                                    #end
-                                </select>
-                            #end
-                            #*支持自定义*#
-                                #if($!keyCategoryProperty.canCustom == 1)
-                                #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
-                                    #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
-                                        <span><input type="text" class="propertyInput" value="$!propertyEditVTxt"></span>
-                                    #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
-                                        <input type="text" class='form-control form-date propertyInput' placeholder='yyyy-MM-dd' readonly value="$!propertyEditVTxt">
-                                    #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
-                                        3
-                                    #elseif($!keyCategoryProperty.categoryPropertyDO.type == 4)
-                                        4
-                                    #elseif($!keyCategoryProperty.categoryPropertyDO.type == 5)
-                                        5
-                                    #end
-                                #end
-                            </td>
-                        </tr>
-                        #end
-                    #*解析销售属性(sku属性)*#
-                        #foreach($sellCategoryProperty in $category.sellCategoryPropertyVOs)
-                        <tr class="sellProperty" sellPropertyType="$!sellCategoryProperty.categoryPropertyVO.type"  sellPropertyId="$!sellCategoryProperty.categoryPropertyVO.id" sellPropertyText="$!sellCategoryProperty.categoryPropertyVO.text">
-                            <td>$!sellCategoryProperty.categoryPropertyVO.text</td>
-                            <td>
-                                #foreach($categoryValue in $sellCategoryProperty.categoryPropertyVO.categoryValueVOs)
-                                #*sku可选值*#
-                                        <span><input type="checkbox" class="skuCheckbox" sellValueId="$!{categoryValue.id}" sellValueText="$!categoryValue.text" name="" value="$!{categoryValue.id}" #if($!categoryValue.checked) checked #end>$!categoryValue.text</span>
-                                #end
-                            </td>
-                        </tr>
-                        #end
                     </tbody>
                 </table>
             </div>
         </form>
-            <div class="skuTable">
-                #if($commodity.itemSkuVOList && $commodity.itemSkuVOList.size() > 0)
-                    <table>
-                        <caption>销售属性匹配表</caption>
-                        <thead>
-                        #foreach($sellCategoryProperty in $category.sellCategoryPropertyVOs)
-                            <th><span>$!sellCategoryProperty.categoryPropertyVO.text</span></th>
-                        #end
-
-                            <th><span>价格</span></th>
-                            <th><span>数量</span></th>
-                        </thead>
-                        #foreach($itemSkuVO in $commodity.itemSkuVOList)
-                            #set($index = $velocityCount - 1)
-                            <tr class="skuTbEdit" skuTrId="$!itemSkuVO.id">
-                                #foreach($itemSkuPVPair in $itemSkuVO.itemSkuPVPairList)
-                                    #set($index2 = $velocityCount - 1)
-                                    #set($showFlag = $index % $commodity.skuTdRowNumList.get($index2) == 0)
-                                    #if($showFlag)
-                                        <td rowspan="$commodity.skuTdRowNumList.get($index2)"><span>$itemSkuPVPair.vTxt</span></td>
-                                    #end
+        #if($!category.sellCategoryPropertyVOs)
+                    <div class="skuTable">
+                        #if($commodity.itemSkuVOList && $commodity.itemSkuVOList.size() > 0)
+                            <table>
+                                <caption>销售属性匹配表</caption>
+                                <thead>
+                                #foreach($sellCategoryProperty in $category.sellCategoryPropertyVOs)
+                                    <th><span>$!sellCategoryProperty.categoryPropertyVO.text</span></th>
                                 #end
-                                <td><input class="price" type="text" value="$!itemSkuVO.priceY"></td>
-                                <td><input class="stock" type="text" value="$!itemSkuVO.stockNum"></td>
-                            </tr>
+
+                                    <th><span>价格</span></th>
+                                    <th><span>数量</span></th>
+                                </thead>
+                                #foreach($itemSkuVO in $commodity.itemSkuVOList)
+                                    #set($index = $velocityCount - 1)
+                                    <tr class="skuTbEdit" skuTrId="$!itemSkuVO.id">
+                                        #foreach($itemSkuPVPair in $itemSkuVO.itemSkuPVPairList)
+                                            #set($index2 = $velocityCount - 1)
+                                            #set($showFlag = $index % $commodity.skuTdRowNumList.get($index2) == 0)
+                                            #if($showFlag)
+                                                <td rowspan="$commodity.skuTdRowNumList.get($index2)"><span>$itemSkuPVPair.vTxt</span></td>
+                                            #end
+                                        #end
+                                        <td><input class="price" type="text" value="$!itemSkuVO.priceY"></td>
+                                        <td><input class="stock" type="text" value="$!itemSkuVO.stockNum"></td>
+                                    </tr>
+                                #end
+                            </table>
+                        #else
+                            您需要选择所有的销售属性，才能组合成完整的规格信息。
                         #end
-                    </table>
-                #else
-                    您需要选择所有的销售属性，才能组合成完整的规格信息。
-                #end
-            </div>
+                    </div>
+        #end
             <div class="">
                 <table class="table table-hover">
                     <tbody>
@@ -291,10 +310,10 @@
 
                                             <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
                                                 <div class="dimg">
-                                                    #set($flag = ($!commodity.picList.size() > $index))
+                                                    #set($flag = ($!commodity.itemMainPics.size() > $index))
                                                     #if($flag)
-                                                        <img src="$utilWebconfig.getTfsRootPath()/$!commodity.picList.get($index)" img-root="$utilWebconfig.getTfsRootPath()" />
-                                                        <input type="hidden" class="picCode" value="$!commodity.picList.get($index)" />
+                                                        <img src="$utilWebconfig.getTfsRootPath()/$!commodity.itemMainPics.get($index)" img-root="$utilWebconfig.getTfsRootPath()" />
+                                                        <input type="hidden" class="picCode" value="$!commodity.itemMainPics.get($index)" />
                                                     #else
                                                         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()" />
                                                         <input type="hidden" class="picCode" />
