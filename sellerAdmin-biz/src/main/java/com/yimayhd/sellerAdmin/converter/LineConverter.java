@@ -372,7 +372,7 @@ public class LineConverter {
 	}
 
 	public static RouteInfoVO toRouteInfoVO(RouteDO routeDO, List<RouteItemDO> routeItems) {
-		if (routeDO == null || CollectionUtils.isEmpty(routeItems)) {
+		if (routeDO == null) {
 			return null;
 		}
 		RouteInfoVO routeInfo = new RouteInfoVO();
