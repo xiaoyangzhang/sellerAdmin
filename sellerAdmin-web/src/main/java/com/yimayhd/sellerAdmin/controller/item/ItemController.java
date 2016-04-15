@@ -23,6 +23,7 @@ import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.enums.BizItemType;
 import com.yimayhd.sellerAdmin.model.enums.ItemOperate;
 import com.yimayhd.sellerAdmin.model.item.ItemListItemVO;
 import com.yimayhd.sellerAdmin.model.query.ItemListQuery;
@@ -63,7 +64,7 @@ public class ItemController extends BaseController {
 			throw new BaseException(result.getResultMsg());
 		}
 		put("pageVo", result.getValue());
-		put("itemTypeList", ItemType.values());
+		put("itemTypeList", BizItemType.values());
 		put("itemStatusList", ItemStatus.values());
 		put("query", query);
 		return "/system/comm/itemList";

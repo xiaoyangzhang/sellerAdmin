@@ -121,7 +121,7 @@ $(".save").click(function(){
     var url = "$!{utilWebconfig.getActionDefaultFontPath()}/line/save";
     $.post(url,params,function(data){
 		if(data.success) {
-			layer.alert('添加成功', {
+			layer.alert('保存成功', {
                 time: 0 //不自动关闭
                 ,yes: function(index){
                     

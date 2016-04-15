@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.sellerAdmin.enums.BizItemType;
 import com.yimayhd.sellerAdmin.model.enums.ItemOperate;
 
 /**
@@ -35,7 +36,7 @@ public class ItemUtil {
 		if (itemType <= 0) {
 			return null;
 		}
-		ItemType it = ItemType.get(itemType);
+		BizItemType it = BizItemType.get(itemType);
 		if (it != null) {
 			return it.getText();
 		}

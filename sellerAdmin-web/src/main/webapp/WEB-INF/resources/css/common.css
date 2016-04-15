@@ -30,7 +30,7 @@ table{width: 100%;}
 @media (max-width: 500px) {
     .inpSingle{width: 100%;float: left;}
 }
-.pageWrap{width: 50%;margin: 0 auto;}
+.pageWrap{width: 80%;margin: 0 auto;}
 .pageWrap .pageSize{width: 100px;}
 
 .dialogPoint .formPoint{padding: 0;float: left;width: 50%;margin: 0;}

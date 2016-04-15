@@ -52,6 +52,10 @@ public class LineChecker {
 		if (!checkBaseInfo.isSuccess()) {
 			return checkBaseInfo;
 		}
+		WebCheckResult checkPictureText = checkPictureText(line.getPictureText());
+		if (!checkPictureText.isSuccess()) {
+			return checkPictureText;
+		}
 		int itemType = line.getBaseInfo().getType();
 		if (itemType == ItemType.FREE_LINE.getValue()) {
 			WebCheckResult checkRoutePlan = checkRoutePlan(line.getRoutePlan());
@@ -63,9 +67,9 @@ public class LineChecker {
 		if (!checkTripInfoForSave.isSuccess()) {
 			return checkTripInfoForSave;
 		}
-		WebCheckResult checkPictureText = checkPictureText(line.getPictureText());
-		if (!checkPictureText.isSuccess()) {
-			return checkPictureText;
+		WebCheckResult checkPriceInfo = checkPriceInfo(line.getPriceInfo());
+		if (!checkPriceInfo.isSuccess()) {
+			return checkPriceInfo;
 		}
 		WebCheckResult checkNeedKnow = checkNeedKnow(line.getNeedKnow());
 		if (!checkNeedKnow.isSuccess()) {
