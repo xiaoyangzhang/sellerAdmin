@@ -105,6 +105,7 @@ public class CityActivityConverter {
 			cityActivityPubUpdateDTO.setCityActivity(convertUpdateDTO(cityActivityItemVO.getCityActivityVO()));
 			cityActivityPubUpdateDTO.setItem(convertItemUpdateDTO(cityActivityItemVO.getItemVO()));
 			setItemSkuDOList(cityActivityPubUpdateDTO, cityActivityItemVO.getItemVO());
+			cityActivityPubUpdateDTO.setItemId(cityActivityItemVO.getItemVO().getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

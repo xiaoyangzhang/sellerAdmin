@@ -68,6 +68,7 @@
                     #parse("/system/comm/line/baseInfo.vm")
                 </div>
             	<div class="tab-pane" id="tab2" style="width: 96%;margin: 15px auto;">
+					#set($pictureText = $product.pictureText)
             		#parse("/system/comm/line/pictureText.vm")
                 </div>
 				#if($utilItem.isFreeLine($itemType))
