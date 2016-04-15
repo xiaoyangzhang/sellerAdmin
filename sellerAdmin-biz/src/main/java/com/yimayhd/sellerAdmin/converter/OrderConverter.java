@@ -4,6 +4,11 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.yimayhd.ic.client.model.enums.PropertyType;
+import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
+import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
+import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
+import com.yimayhd.tradecenter.client.util.SkuUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -36,11 +41,10 @@ public class OrderConverter {
 
     public static OrderQueryDTO orderListQueryToOrderQueryDTO(OrderListQuery orderListQuery,long userId){
         OrderQueryDTO orderQueryDTO = new OrderQueryDTO();
-        if (orderListQuery.getDomain() == null || orderListQuery.getDomain()==0){
-            orderQueryDTO.setDomain(1000);
-        }else{
+        if (orderListQuery.getDomain() != null && orderListQuery.getDomain()!=0){
             orderQueryDTO.setDomain(orderListQuery.getDomain());
         }
+
         orderQueryDTO.setPageNo(orderListQuery.getPageNo());
         orderQueryDTO.setPageSize(orderListQuery.getPageSize());
         //订单类型
@@ -113,6 +117,10 @@ public class OrderConverter {
         if (userId >0){
             orderQueryDTO.setBuyerId(userId);
         }
+        //卖家sellerId
+        if (orderListQuery.getSellerId() >0){
+            orderQueryDTO.setSellerId(orderListQuery.getSellerId());
+        }
         //商品名称
         if (StringUtils.isNotEmpty(orderListQuery.getItemName())){
             orderQueryDTO.setItemName(orderListQuery.getItemName());
@@ -125,14 +133,16 @@ public class OrderConverter {
         return orderQueryDTO;
     }
 
-    public static MainOrder mainOrderStatusConverter(MainOrder mainOrder,BizOrderDO bizOrderDO) {
-        int payStatus = bizOrderDO.getPayStatus();
-        int logisticsStatus = bizOrderDO.getLogisticsStatus();
-        int refundStatus = bizOrderDO.getRefundStatus();
+    public static MainOrder mainOrderStatusConverter(MainOrder mainOrder,TcMainOrder tcMainOrder) {
+        TcBizOrder tcBizOrder = tcMainOrder.getBizOrder();
+        int payStatus = tcBizOrder.getPayStatus();
+        int logisticsStatus = tcBizOrder.getLogisticsStatus();
+        int refundStatus = tcBizOrder.getRefundStatus();
 
+        //订单状态
         if (payStatus == PayStatus.NOT_PAY.getStatus()){
             mainOrder.setOrderShowState(OrderShowStatus.NOTING.getStatus());//待付款
-            if(bizOrderDO.getBizType() == OrderBizType.NORMAL.getBizType()){
+            if(tcBizOrder.getOrderType() == OrderBizType.NORMAL.getBizType()){
                 mainOrder.setOrderActionStates(OrderActionStatus.UPDATE_ADDRESS_CANCEL.getStatus());
             }else{
                 mainOrder.setOrderActionStates(OrderActionStatus.CANCEL.getStatus());
@@ -144,7 +154,7 @@ public class OrderConverter {
             mainOrder.setOrderActionStates(OrderActionStatus.AFFIRM_REFUND.getStatus());
         }else if (PayStatus.PAID.getStatus() == payStatus && LogisticsStatus.CONSIGNED.getStatus() == logisticsStatus){
             mainOrder.setOrderShowState(OrderShowStatus.SHIPPED.getStatus());//待收货|已发货
-            if(bizOrderDO.getBizType() == OrderBizType.NORMAL.getBizType()){
+            if(tcBizOrder.getOrderType() == OrderBizType.NORMAL.getBizType()){
                 mainOrder.setOrderActionStates(OrderActionStatus.OVERTIME.getStatus());
             }else{
                 mainOrder.setOrderActionStates(OrderActionStatus.FINISH_REFUND.getStatus());
@@ -160,61 +170,38 @@ public class OrderConverter {
 
 
 
-    public static MainOrder orderVOConverter(BizOrderDO bizOrderDO) {
-        if(bizOrderDO!=null){
-            if (BizOrderUtil.hasDetailOrder(bizOrderDO)) {
-                List<SubOrder> subOrderList = new ArrayList<SubOrder>();
-                if (!CollectionUtils.isEmpty(bizOrderDO.getDetailOrderList())){
-                    for (BizOrderDO detailOrder : bizOrderDO.getDetailOrderList()) {
-                        SubOrder subOrder =  new SubOrder();
-                        subOrder.setBizOrderDO(detailOrder);
-                        if (bizOrderDO.getBizType() == OrderBizType.LINE.getBizType() ||bizOrderDO.getBizType() == OrderBizType.FLIGHT_HOTEL.getBizType() ||bizOrderDO.getBizType() == OrderBizType.SPOTS_HOTEL.getBizType()){
-                            long departDate = BizOrderUtil.getLineDepartDate(bizOrderDO);
-                            subOrder.setExecuteTime(departDate);//出发时间
-                            //sku
-                            SkuInfo skuInfo = detailOrder.getSkuInfo();
-                            if (skuInfo!=null){
-                                List<SkuPropertyInfo> skuPropertyInfoList = skuInfo.getSkuPropertyInfoList();
-                                for (SkuPropertyInfo skuPropertyInfo : skuPropertyInfoList) {
-                                    //{"skuPropertyInfoList":[{"pId":1,"pTxt":"出行日期","pType":2,"vId":5,"vTxt":"1448625207921"},{"pId":2,"pTxt":"人员","pType":1,"vId":6,"vTxt":"儿童"}]}
-                                    //为了获取购买类型（无枚举）
-                                    if (skuPropertyInfo.getPId() == 2){
-                                        subOrder.setvTxt(skuPropertyInfo.getVTxt());
-                                    }
-                                }
-                            }
-                        }else if (bizOrderDO.getBizType() == OrderBizType.SPOTS.getBizType()){
-                            long spotStartDate = BizOrderUtil.getSpotStartDate(bizOrderDO);
-                            subOrder.setExecuteTime(spotStartDate);//入院时间
-                        }else if (bizOrderDO.getBizType() == OrderBizType.HOTEL.getBizType()){
-                            long hotelStartDate = BizOrderUtil.getHotelStartDate(bizOrderDO);
-                            long hotelEndDate = BizOrderUtil.getHotelEndDate(bizOrderDO);
-                            subOrder.setStartTime(hotelStartDate);//入住日期
-                            subOrder.setEndTime(hotelEndDate);//离店日期
-                        }
-                        subOrderList.add(subOrder);
+    public static MainOrder orderVOConverter(TcMainOrder tcMainOrder) {
+        if(tcMainOrder!=null){
+            List<TcDetailOrder> tcDetailOrderList = tcMainOrder.getDetailOrders();
+            List<SubOrder> subOrderList = new ArrayList<>();
+            for (TcDetailOrder tcDetailOrder : tcDetailOrderList) {
+                SubOrder subOrder =  new SubOrder();
+                subOrder.setTcDetailOrder(tcDetailOrder);
+                TcBizOrder tcBizOrder = tcDetailOrder.getBizOrder();
+                //sku
+                SkuInfo skuInfo = tcBizOrder.getSkuInfo();
+                if (tcBizOrder.getOrderType() == OrderBizType.TOUR_LINE.getBizType() ||tcBizOrder.getOrderType() == OrderBizType.FREE_LINE.getBizType()){
+                    //获取出发时间
+                    String startDate = SkuUtils.getPropertyValue(skuInfo, PropertyType.START_DATE.getType());
+                    if (StringUtils.isNotEmpty(startDate)){
+                        subOrder.setExecuteTime(Long.parseLong(startDate));
                     }
-                    return new MainOrder(bizOrderDO,subOrderList);
-                }else{
-                    subOrderList.add(new SubOrder(bizOrderDO));
-                    return new MainOrder(bizOrderDO,subOrderList);
-                }
-            } else {
-                List<SubOrder> subOrderList = new ArrayList<SubOrder>();
-                subOrderList.add(new SubOrder(bizOrderDO));
-                for (SubOrder subOrder : subOrderList) {
-                    if (subOrder.getBizOrderDO().getBizType() == OrderBizType.SPOTS.getBizType()){
-                        long spotStartDate = BizOrderUtil.getSpotStartDate(bizOrderDO);
-                        subOrder.setExecuteTime(spotStartDate);//入院时间
-                    }else if (subOrder.getBizOrderDO().getBizType() == OrderBizType.HOTEL.getBizType()){
-                        long hotelStartDate = BizOrderUtil.getHotelStartDate(bizOrderDO);
-                        long hotelEndDate = BizOrderUtil.getHotelEndDate(bizOrderDO);
-                        subOrder.setStartTime(hotelStartDate);//入住日期
-                        subOrder.setEndTime(hotelEndDate);//离店日期
+                    //人员类型
+                    String personType = SkuUtils.getPropertyValue(skuInfo, PropertyType.PERSON_TYPE.getType());
+                    if (StringUtils.isNotEmpty(personType)){
+                        subOrder.setvTxt(personType);
                     }
+                }else if (tcBizOrder.getOrderType() == OrderBizType.CITY_ACTIVITY.getBizType()){
+                    String activityTime = SkuUtils.getPropertyValue(skuInfo, PropertyType.ACTIVITY_TIME.getType());
+                    if (StringUtils.isNotEmpty(activityTime)){
+                        subOrder.setActivityTime(activityTime);
+                    }
+                }else if (tcBizOrder.getOrderType() == OrderBizType.NORMAL.getBizType()){
+
                 }
-                return new MainOrder(bizOrderDO,subOrderList);
+                subOrderList.add(subOrder);
             }
+            return new MainOrder(tcMainOrder,subOrderList);
         }
         return null;
     }

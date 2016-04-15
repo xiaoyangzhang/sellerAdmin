@@ -16,6 +16,8 @@ public class OrderListQuery extends BaseQuery {
 	private String endDate;
 	private int [] orderTypes;//订单类型
 	private Integer domain; //1000--b2c、1100--gf;
+	private int itemType;//商品类型
+	private long sellerId;
 
 
 	public String getOrderNO() {
@@ -88,5 +90,21 @@ public class OrderListQuery extends BaseQuery {
 
 	public void setDomain(Integer domain) {
 		this.domain = domain;
+	}
+
+	public long getSellerId() {
+		return sellerId;
+	}
+
+	public void setSellerId(long sellerId) {
+		this.sellerId = sellerId;
+	}
+
+	public int getItemType() {
+		return itemType;
+	}
+
+	public void setItemType(int itemType) {
+		this.itemType = itemType;
 	}
 }
