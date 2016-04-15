@@ -138,7 +138,7 @@ public class CityActivityConverter {
 			itemPubUpdateDTO.setEndDate(DateUtil.convertStringToDate(itemVO.getEndDateStr()));
 		}
 		if(!CollectionUtils.isEmpty(itemVO.getItemMainPics())) {
-			itemPubUpdateDTO.setPicUrls(PictureUtil.addPicList(itemPubUpdateDTO.getPicUrls(), ItemPicUrlsKey.ITEM_MAIN_PICS.getCode(), itemVO.getItemMainPics()));
+			itemPubUpdateDTO.setItemMainPics(itemVO.getItemMainPics());
 		}
 		return itemPubUpdateDTO;
 	}
