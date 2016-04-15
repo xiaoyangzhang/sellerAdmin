@@ -297,7 +297,7 @@
 	
 	var currentTcId;
     // 批量插入
-	$(document).delegate(".batch-insert","click",function() {
+	$(document).delegate(".batch-insert","click",function() {	
 		var currentTcId = $(this).attr("tc-id");
 		openModalForForm('$!{utilWebconfig.getStaticResourcesPath()}/line/batchInsert?categoryId=${categoryId}','批量录入 ',function() {
 			var data = win.getData();
@@ -344,6 +344,7 @@
 					blocks.push({
 						skuId: $("#"+key_$!{persionPropertyValue.id}+"_1").attr("sku-id"),
 						id: $!{persionPropertyValue.id},
+						type: $!{persionPropertyValue.type},
                     	name: "$!{persionPropertyValue.text}",
                     	PId: $!{persionProperty.id},
                     	PType: $!{persionProperty.type},
