@@ -174,7 +174,8 @@ public class TalentController extends BaseController {
 			ExamineInfoDTO examineInfoDTO = talentBiz.getExamineInfo();
 			MemResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_ONE.getPageNO());
 			if (resultSupport == null) {
-				bizResult.buildFailResult(-1, "保存失败", false);
+				//bizResult.buildFailResult(-1, "保存失败", false);
+				bizResult.init(false, -1, "保存失败");
 				return bizResult;
 			}
 			if (resultSupport.isSuccess()) {
@@ -214,7 +215,8 @@ public class TalentController extends BaseController {
 			MemResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_TWO.getPageNO());
 			MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
 			if (resultSupport == null && updateCheckStatusResult == null) {
-				bizResult.buildFailResult(-1, "保存失败", false);
+				//bizResult.buildFailResult(-1, "保存失败", false);
+				bizResult.init(false, -1, "保存失败");
 				return bizResult;
 			}
 			if (resultSupport.isSuccess()
@@ -305,7 +307,7 @@ public class TalentController extends BaseController {
 			if (addTalentInfoResult == null) {
 				//bizResult.buildFailResult(-1, "保存失败", false);
 				bizResult.init(false, -1, "保存失败");
-				System.out.println(bizResult.getMsg()+"----------------"+bizResult.getCode());
+				System.out.println(bizResult.getMsg()+"----------------"+bizResult.getCode()+"============="+bizResult.isSuccess());
 				return bizResult;
 			}
 			if (addTalentInfoResult.isSuccess()) {
