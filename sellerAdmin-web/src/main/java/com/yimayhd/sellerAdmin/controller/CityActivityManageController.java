@@ -58,7 +58,7 @@ public class CityActivityManageController extends BaseController {
 		
 		CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
         //TODO: add cityActivityTagType
-        WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.LINETAG);
+        WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.CITYACTIVITY);
         if (allThemes.isSuccess()) {
             put("themes", allThemes.getValue());
         }
@@ -85,7 +85,7 @@ public class CityActivityManageController extends BaseController {
             //TODO: exception
             return "/system/comm/itemList";
         }
-        WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.LINETAG);
+        WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.CITYACTIVITY);
         if (allThemes.isSuccess()) {
             put("themes", allThemes.getValue());
         }
