@@ -2,7 +2,7 @@
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/upload.js"></script>
 -->
-#set($needKnowItems = $product.needKnow.needKnowItems)
+#set($needKnowItems = $needKnow.needKnowItems)
 <table class="table tab-inputgroup" id="need-know">
 	<tbody>
 		<tr class="need-know-item">

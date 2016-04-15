@@ -83,6 +83,7 @@
                     #parse("/system/comm/line/priceInfo.vm")
                 </div>
             	<div class="tab-pane" id="tab6" style="width: 96%;margin: 15px auto;">
+					#set($needKnow = $product.needKnow)
             		#parse("/system/comm/line/needKnow.vm")
             	</div>
             </div>
