@@ -65,7 +65,7 @@ public class CityActivityServiceImpl implements CityActivityService {
             throw new NoticeException(cityActivityResult.getResultMsg());
         }
         List<CityVO> cityVOList = tagBiz.getItemCityVOs(id, TagType.DESTPLACE);
-        List<Long> themeIds = tagBiz.getItemThemeIds(id, TagType.LINETAG);
+        List<Long> themeIds = tagBiz.getItemThemeIds(id, TagType.CITYACTIVITY);
         // 图文详情
         PicTextResult picTextResult = pictureTextRepo.getPictureText(id, PictureText.ITEM);
         CityActivityItemVO cityActivityItemVO = CityActivityConverter.convertItemVO(cityActivityResult, themeIds, cityVOList, picTextResult);
@@ -86,7 +86,7 @@ public class CityActivityServiceImpl implements CityActivityService {
         }
         long itemId = result.getItemId();
         List<Long> themeIds = cityActivityItemVO.getThemes();
-        commentRepo.saveTagRelation(itemId, TagType.LINETAG, themeIds);
+        commentRepo.saveTagRelation(itemId, TagType.CITYACTIVITY, themeIds);
         CityVO dest = cityActivityItemVO.getDest();
         List<Long> destIds = new ArrayList<Long>();
         destIds.add(dest.getId());
@@ -124,7 +124,7 @@ public class CityActivityServiceImpl implements CityActivityService {
         }
         long itemId = cityActivityItemVO.getItemVO().getId();
         List<Long> themeIds = cityActivityItemVO.getThemes();
-        commentRepo.saveTagRelation(itemId, TagType.LINETAG, themeIds);
+        commentRepo.saveTagRelation(itemId, TagType.CITYACTIVITY, themeIds);
         CityVO dest = cityActivityItemVO.getDest();
         List<Long> destIds = new ArrayList<Long>();
         destIds.add(dest.getId());
