@@ -1,4 +1,3 @@
-#set($pictureText = $product.pictureText)
 <div id="editer">
 	<div class="hd clearfix">
 		<ul class="clearfix">
