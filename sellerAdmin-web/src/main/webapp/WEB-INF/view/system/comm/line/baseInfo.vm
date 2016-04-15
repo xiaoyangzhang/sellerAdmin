@@ -214,7 +214,7 @@
 		});
 	});
 	$(".select-dests").click(function() {
-		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDests','选择旅游咖 ',function() {
+		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDests','选择目的地 ',function() {
 			var dests = win.getSelected();
 			console.log(JSON.stringify(dests));
 			if(dests.length == 0) return true;
