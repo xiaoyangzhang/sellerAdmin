@@ -16,7 +16,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import com.yimayhd.commentcenter.client.result.PicTextResult;
-import com.yimayhd.fhtd.utils.PictureUtil;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.RouteDO;
 import com.yimayhd.ic.client.model.domain.RouteItemDO;
@@ -456,9 +455,15 @@ public class LineConverter {
 		if (sellerId <= 0 || line == null) {
 			return null;
 		}
+		BaseInfoVO baseInfo = line.getBaseInfo();
+		if (baseInfo == null) {
+			return null;
+		}
 		LinePubUpdateDTO dto = new LinePubUpdateDTO();
+		dto.setItemId(baseInfo.getItemId());
+		dto.setSellerId(sellerId);
 		// LineDO
-		LineUpdateDTO lineUpdateDTO = toLineUpdateDTO(line.getBaseInfo(), line.getNeedKnow());
+		LineUpdateDTO lineUpdateDTO = toLineUpdateDTO(baseInfo, line.getNeedKnow());
 		dto.setLine(lineUpdateDTO);
 		// 行程信息
 		RouteInfoVO routeInfo = line.getRouteInfo();
@@ -466,19 +471,25 @@ public class LineConverter {
 			RouteUpdateDTO routeUpdateDTO = toRouteUpdateDTO(line);
 			dto.setRoute(routeUpdateDTO);
 			RouteInfoDTO routeInfoDTO = toRouteInfoDTO(line.getRouteInfo());
-			dto.setAddRouteItemList(routeInfoDTO.getAddRouteItemList());
-			dto.setUpdrouteItemList(routeInfoDTO.getUpdrouteItemList());
-			dto.setDelRouteItemList(routeInfoDTO.getDelRouteItemList());
+			if (routeInfoDTO != null) {
+				dto.setAddRouteItemList(routeInfoDTO.getAddRouteItemList());
+				dto.setUpdrouteItemList(routeInfoDTO.getUpdrouteItemList());
+				dto.setDelRouteItemList(routeInfoDTO.getDelRouteItemList());
+			}
 		}
 		// 价格信息
-		BaseInfoVO baseInfo = line.getBaseInfo();
 		// ItemDO
-		ItemPubUpdateDTO itemPubUpdateDTO = toItemPubUpdateDTO(baseInfo);
-		dto.setItem(itemPubUpdateDTO);
-		PriceInfoDTO priceInfoDTO = toPriceInfoDTO(baseInfo.getCategoryId(), sellerId, line.getPriceInfo());
-		dto.setAddItemSkuList(priceInfoDTO.getAddItemSkuList());
-		dto.setUpdItemSkuList(priceInfoDTO.getUpdItemSkuList());
-		dto.setDelItemSkuList(priceInfoDTO.getDelItemSkuList());
+		PriceInfoVO priceInfo = line.getPriceInfo();
+		if(priceInfo != null) {
+			ItemPubUpdateDTO itemPubUpdateDTO = toItemPubUpdateDTO(baseInfo, priceInfo.getLimitBySecond());
+			dto.setItem(itemPubUpdateDTO);
+			PriceInfoDTO priceInfoDTO = toPriceInfoDTO(baseInfo.getCategoryId(), sellerId, priceInfo);
+			if (priceInfoDTO != null) {
+				dto.setAddItemSkuList(priceInfoDTO.getAddItemSkuList());
+				dto.setUpdItemSkuList(priceInfoDTO.getUpdItemSkuList());
+				dto.setDelItemSkuList(priceInfoDTO.getDelItemSkuList());
+			}
+		}
 		return dto;
 	}
 
@@ -561,21 +572,20 @@ public class LineConverter {
 		return itemDO;
 	}
 
-	public static ItemPubUpdateDTO toItemPubUpdateDTO(BaseInfoVO baseInfo) {
+	public static ItemPubUpdateDTO toItemPubUpdateDTO(BaseInfoVO baseInfo, int startBookTimeLimit) {
 		if (baseInfo == null) {
 			return null;
 		}
 		ItemPubUpdateDTO itemUpdateDTO = new ItemPubUpdateDTO();
-		// private String code; // 商品代码
 		itemUpdateDTO.setId(baseInfo.getItemId());
+		itemUpdateDTO.setCode(baseInfo.getCode());
 		// 赋值
 		itemUpdateDTO.setTitle(baseInfo.getName());
 		itemUpdateDTO.setDays(baseInfo.getDays());
 		itemUpdateDTO.setDescription(baseInfo.getDescription());
-		itemUpdateDTO.setPicUrls(PictureUtil.addPicList(itemUpdateDTO.getPicUrls(),
-				ItemPicUrlsKey.ITEM_MAIN_PICS.getCode(), baseInfo.getPicUrls()));
+		itemUpdateDTO.setItemMainPics(baseInfo.getPicUrls());
+		itemUpdateDTO.setStartBookTimeLimit(startBookTimeLimit);
 		itemUpdateDTO.setDays(baseInfo.getDays());
-		// TODO YEBIN 待开发 features相关字段
 		return itemUpdateDTO;
 	}
 

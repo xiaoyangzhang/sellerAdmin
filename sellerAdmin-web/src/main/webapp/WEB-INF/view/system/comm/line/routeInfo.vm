@@ -134,8 +134,8 @@
 						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
 							<div class="dimg">
 								#if($tripDay.picUrls && $tripDay.picUrls.size() > 0)
-								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(0)}" img-root="$!utilWebconfig.getTfsRootPath()">
-								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{baseInfo.picUrls.get(0)}">
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{tripDay.picUrls.get(0)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.picUrls.get(0)}">
 								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
 								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
@@ -152,8 +152,8 @@
 						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
 							<div class="dimg">
 								#if($tripDay.picUrls && $tripDay.picUrls.size() > 1)
-								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(1)}" img-root="$!utilWebconfig.getTfsRootPath()">
-								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{baseInfo.picUrls.get(1)}">
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{tripDay.picUrls.get(1)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.picUrls.get(1)}">
 								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
 								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
@@ -170,8 +170,8 @@
 						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
 							<div class="dimg">
 								#if($tripDay.picUrls && $tripDay.picUrls.size() > 2)
-								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(2)}" img-root="$!utilWebconfig.getTfsRootPath()">
-								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{baseInfo.picUrls.get(2)}">
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{tripDay.picUrls.get(2)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.picUrls.get(2)}">
 								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
 								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
@@ -188,11 +188,11 @@
 						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
 							<div class="dimg">
 								#if($tripDay.picUrls && $tripDay.picUrls.size() > 3)
-								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(3)}" img-root="$!utilWebconfig.getTfsRootPath()">
-								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{baseInfo.picUrls.get(3)}">
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{tripDay.picUrls.get(3)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.picUrls.get(3)}">
 								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
-								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
+								<input type="hidden" class="picCode day-${velocityCount}-trip-image  trip-image" route-item-id="$!{tripDay.routeItemId}">
 								#end
 							</div>
 							<div class="upimgbtn">
@@ -206,8 +206,8 @@
 						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
 							<div class="dimg">
 								#if($tripDay.picUrls && $tripDay.picUrls.size() > 4)
-								<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(4)}" img-root="$!utilWebconfig.getTfsRootPath()">
-								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{baseInfo.picUrls.get(4)}">
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{tripDay.picUrls.get(4)}" img-root="$!utilWebconfig.getTfsRootPath()">
+								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.picUrls.get(4)}">
 								#else
 								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
 								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
@@ -227,7 +227,6 @@
     </div>
 	<script type="text/javascript">
 		$(".trip-image").change(function() {
-			// update
 			var route_item_id = $(this).attr("route-item-id")||0;
 			setRouteItem(route_item_id,updatedRouteItems);
 		});

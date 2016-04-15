@@ -2,6 +2,8 @@ package com.yimayhd.sellerAdmin.base.result;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Web服务支持
  * 
@@ -9,12 +11,12 @@ import java.io.Serializable;
  *
  */
 public class WebResultSupport implements Serializable {
-	private static final long serialVersionUID = -2235152751651905167L;
-	private boolean success = true;
-	private int errorCode;
-	private String resultMsg;
-	private WebReturnCode webReturnCode;
-	
+	private static final long	serialVersionUID	= -2235152751651905167L;
+	private boolean				success				= true;
+	private int					errorCode;
+	private String				resultMsg;
+	private WebReturnCode		webReturnCode;
+
 	public boolean isSuccess() {
 		return success;
 	}
@@ -43,7 +45,7 @@ public class WebResultSupport implements Serializable {
 	public void initFailure(WebReturnCode webReturnCode, String message) {
 		this.success = false;
 		this.errorCode = webReturnCode.getErrorCode();
-		this.resultMsg = webReturnCode.getErrorMsg() + ":" + message;
+		this.resultMsg = StringUtils.isNotBlank(message) ? message : webReturnCode.getErrorMsg();
 	}
 
 	public void initFailure(WebReturnCode webReturnCode) {

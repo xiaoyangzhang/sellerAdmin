@@ -40,7 +40,7 @@
                         <select class="form-control" name="itemType">
         					<option value="" #if(!$query.itemType) selected #end>全部</option>
         					#foreach($itemType in $itemTypeList)
-        					<option value="$!{itemType.value}" #if($query.itemType == $itemType.value) selected #end >$!{itemType.text}</option>
+        					<option value="$!{itemType.value}" #if($query.itemType == $itemType.value) selected #end >$!{utilItem.getItemTypeName($itemType.value)}</option>
         					#end
                         </select>
                     </div>

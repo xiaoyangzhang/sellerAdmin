@@ -68,6 +68,7 @@
                     #parse("/system/comm/line/baseInfo.vm")
                 </div>
             	<div class="tab-pane" id="tab2" style="width: 96%;margin: 15px auto;">
+					#set($pictureText = $product.pictureText)
             		#parse("/system/comm/line/pictureText.vm")
                 </div>
 				#if($utilItem.isFreeLine($itemType))
@@ -121,7 +122,7 @@ $(".save").click(function(){
     var url = "$!{utilWebconfig.getActionDefaultFontPath()}/line/save";
     $.post(url,params,function(data){
 		if(data.success) {
-			layer.alert('添加成功', {
+			layer.alert('保存成功', {
                 time: 0 //不自动关闭
                 ,yes: function(index){
                     

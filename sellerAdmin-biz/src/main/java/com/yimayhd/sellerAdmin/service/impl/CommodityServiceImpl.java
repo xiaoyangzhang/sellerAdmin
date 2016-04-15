@@ -18,6 +18,7 @@ import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.ic.client.service.item.HotelService;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import com.yimayhd.ic.client.util.PicUrlsUtil;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -377,6 +378,9 @@ public class CommodityServiceImpl implements CommodityService {
             if(StringUtils.isNotBlank(itemVO.getCoverPics())){
                 itemDB.addPicUrls(ItemPicUrlsKey.COVER_PICS, itemVO.getCoverPics());
 
+            }
+            if(CollectionUtils.isNotEmpty(itemVO.getItemMainPics())) {
+                itemDB.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS, PicUrlsUtil.parsePicsString(itemVO.getItemMainPics()));
             }
             //自定义属性
             itemDB.setItemPropertyList(itemVO.getItemPropertyList());

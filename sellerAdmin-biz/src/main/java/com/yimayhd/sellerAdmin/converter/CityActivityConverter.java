@@ -105,6 +105,7 @@ public class CityActivityConverter {
 			cityActivityPubUpdateDTO.setCityActivity(convertUpdateDTO(cityActivityItemVO.getCityActivityVO()));
 			cityActivityPubUpdateDTO.setItem(convertItemUpdateDTO(cityActivityItemVO.getItemVO()));
 			setItemSkuDOList(cityActivityPubUpdateDTO, cityActivityItemVO.getItemVO());
+			cityActivityPubUpdateDTO.setItemId(cityActivityItemVO.getItemVO().getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -138,7 +139,7 @@ public class CityActivityConverter {
 			itemPubUpdateDTO.setEndDate(DateUtil.convertStringToDate(itemVO.getEndDateStr()));
 		}
 		if(!CollectionUtils.isEmpty(itemVO.getItemMainPics())) {
-			itemPubUpdateDTO.setPicUrls(PictureUtil.addPicList(itemPubUpdateDTO.getPicUrls(), ItemPicUrlsKey.ITEM_MAIN_PICS.name(), itemVO.getItemMainPics()));
+			itemPubUpdateDTO.setItemMainPics(itemVO.getItemMainPics());
 		}
 		return itemPubUpdateDTO;
 	}

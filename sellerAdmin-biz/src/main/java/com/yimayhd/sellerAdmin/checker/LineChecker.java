@@ -34,8 +34,8 @@ import com.yimayhd.sellerAdmin.model.line.route.RouteTrafficVO;
  *
  */
 public class LineChecker {
-	private static final List<Integer> supportItemTypes = new ArrayList<Integer>();
-	private static final List<String> supportTrafficTypes = new ArrayList<String>();
+	private static final List<Integer>	supportItemTypes	= new ArrayList<Integer>();
+	private static final List<String>	supportTrafficTypes	= new ArrayList<String>();
 
 	static {
 		supportItemTypes.add(ItemType.FREE_LINE.getValue());
@@ -52,6 +52,10 @@ public class LineChecker {
 		if (!checkBaseInfo.isSuccess()) {
 			return checkBaseInfo;
 		}
+		WebCheckResult checkPictureText = checkPictureText(line.getPictureText());
+		if (!checkPictureText.isSuccess()) {
+			return checkPictureText;
+		}
 		int itemType = line.getBaseInfo().getType();
 		if (itemType == ItemType.FREE_LINE.getValue()) {
 			WebCheckResult checkRoutePlan = checkRoutePlan(line.getRoutePlan());
@@ -63,9 +67,9 @@ public class LineChecker {
 		if (!checkTripInfoForSave.isSuccess()) {
 			return checkTripInfoForSave;
 		}
-		WebCheckResult checkPictureText = checkPictureText(line.getPictureText());
-		if (!checkPictureText.isSuccess()) {
-			return checkPictureText;
+		WebCheckResult checkPriceInfo = checkPriceInfo(line.getPriceInfo());
+		if (!checkPriceInfo.isSuccess()) {
+			return checkPriceInfo;
 		}
 		WebCheckResult checkNeedKnow = checkNeedKnow(line.getNeedKnow());
 		if (!checkNeedKnow.isSuccess()) {
@@ -301,9 +305,13 @@ public class LineChecker {
 	public static WebCheckResult checkRouteDay(RouteDayVO tripDay) {
 		if (StringUtils.isBlank(tripDay.getTitle())) {
 			return WebCheckResult.error("行程标题不能为空");
+		} else if (tripDay.getTitle().length() > 38) {
+			return WebCheckResult.error("行程标题不能超过38个字");
 		}
 		if (StringUtils.isBlank(tripDay.getDescription())) {
 			return WebCheckResult.error("行程描述不能为空");
+		} else if (tripDay.getDescription().length() > 200) {
+			return WebCheckResult.error("行程描述不能超过200个字");
 		}
 		if (CollectionUtils.isNotEmpty(tripDay.getPicUrls()) && tripDay.getPicUrls().size() > 5) {
 			return WebCheckResult.error("行程图片不能超过5张");

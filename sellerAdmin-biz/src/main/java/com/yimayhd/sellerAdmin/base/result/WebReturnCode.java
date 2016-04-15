@@ -27,14 +27,14 @@ public class WebReturnCode implements Serializable {
 		return errorMsg;
 	}
 
-	public static final WebReturnCode REMOTE_CALL_FAILED = new WebReturnCode(23000000, "远程调用失败!");
-	public static final WebReturnCode SYSTEM_ERROR = new WebReturnCode(23000001, "系统错误!");
-	public static final WebReturnCode PARAM_ERROR = new WebReturnCode(23000002, "参数错误!");
+	public static final WebReturnCode REMOTE_CALL_FAILED = new WebReturnCode(23000000, "远程调用失败");
+	public static final WebReturnCode SYSTEM_ERROR = new WebReturnCode(23000001, "系统错误");
+	public static final WebReturnCode PARAM_ERROR = new WebReturnCode(23000002, "参数错误");
 	public static final WebReturnCode DATA_NOT_FOUND = new WebReturnCode(23000002, "数据不存在");
 	/******************************************* 用户相关 ******************************************************/
-	public static final WebReturnCode USER_NOT_FOUND = new WebReturnCode(24001000, "用户不存在!");
-	public static final WebReturnCode USER_LOCKED_TO_MANY_TIMES_FAILED = new WebReturnCode(24001001, "登陆失败次数过多!");
-	public static final WebReturnCode USERNAME_OR_PASSWORD_ERROR = new WebReturnCode(24001002, "用户名或者密码错误!");
+	public static final WebReturnCode USER_NOT_FOUND = new WebReturnCode(24001000, "用户不存在");
+	public static final WebReturnCode USER_LOCKED_TO_MANY_TIMES_FAILED = new WebReturnCode(24001001, "登陆失败次数过多");
+	public static final WebReturnCode USERNAME_OR_PASSWORD_ERROR = new WebReturnCode(24001002, "用户名或者密码错误");
 	public final static WebReturnCode MOBILE_REGISTED = new WebReturnCode(24001003, "手机号码已注册");
 	public final static WebReturnCode SMS_SEND_FAILED = new WebReturnCode(24001004, "短信发送失败");
 	public final static WebReturnCode SMS_ALREADY_SEND = new WebReturnCode(24001006, "短信已发送");
