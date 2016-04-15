@@ -63,7 +63,7 @@ public class WebResourceConfigUtil {
 	}
 
 	public static String getResourceVersion() {
-		return "20151227";
+		return "20160414";
 	}
 
 	public static String getItemImgUrlPath() {

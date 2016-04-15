@@ -36,6 +36,8 @@
 		    	$screen_content
 			</div>
 		</div>
+		
+		#parse("layout/layout-footer.vm")
 	</div>
 </body>
 </html>
