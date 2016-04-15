@@ -43,13 +43,13 @@
                     <tr>
                         <td><span class="spColor">*</span>商品名称</td>
                         <td>
-                            <input class="title" type="text" name="title" value="$!commodity.title">
+                            <input class="title" type="text" name="title" value="$!esc.html($!commodity.title)">
                         </td>
                     </tr>
                     <tr>
                         <td>商品代码</td>
                         <td>
-                            <input class="code" type="text" name="code" value="$!commodity.code">
+                            <input class="code" type="text" name="code" value="$!esc.html($!commodity.code)">
                         </td>
                     </tr>
                     <tr>
@@ -65,10 +65,10 @@
                         </td>
                     </tr>
                     #*json string 提交*#
-                    <input type="hidden" name="itemProperties" id="itemProperties" value="$!commodity.itemProperties">
-                    <input type="hidden" name="itemSkuVOStr" id="itemSkuVOStr" value="$!commodity.itemSkuVOStr">
+                    <input type="hidden" name="itemProperties" id="itemProperties" value="$!esc.html($!commodity.itemProperties)">
+                    <input type="hidden" name="itemSkuVOStr" id="itemSkuVOStr" value="$!esc.html($!commodity.itemSkuVOStr)">
                     <input type="hidden" name="pictureTextVOStr" id="pictureTextVOStr" value="">
-                    <input class="picUrlsVal" type="hidden" name="itemMainPics" value="$!commodity.ItemMainPics">
+                    <input class="picUrlsVal" type="hidden" name="itemMainPics" value="$!esc.html($!commodity.ItemMainPics)">
                     #*<tr>
                         <td><span class="spColor">*</span>减库存方式</td>
                         <td>
@@ -166,7 +166,7 @@
                                                     <select class="form-control propertySelect">
                                                         <option value="0" >请选择</option>
                                                         #foreach($categoryValueDO in $keyCategoryProperty.categoryPropertyDO.categoryValueDOs)
-                                                            <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($propertyEditVId == $!categoryValueDO.id)selected#end>$!categoryValueDO.text</option>
+                                                            <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($propertyEditVId == $!categoryValueDO.id)selected#end>$!esc.html($!categoryValueDO.text)</option>
                                                         #end
                                                     </select>
                                                 #end
@@ -174,9 +174,9 @@
                                                 #if($!keyCategoryProperty.canCustom == 1)
                                                 #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
                                                     #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
-                                                        <span><input class="propertyInput" type="text" value="$!propertyEditVTxt"></span>
+                                                        <span><input class="propertyInput" type="text" value="$!esc.html($!propertyEditVTxt)"></span>
                                                     #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
-                                                        <input type="text" class='form-control form-date propertyInput propertyInput' placeholder='yyyy-MM-dd' readonly value="$!propertyEditVTxt">
+                                                        <input type="text" class='form-control form-date propertyInput propertyInput' placeholder='yyyy-MM-dd' readonly value="$!esc.html($!propertyEditVTxt)">
                                                     #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
                                                         3
                                                     #elseif($!keyCategoryProperty.categoryPropertyDO.type == 4)
@@ -209,7 +209,7 @@
                                             <select class="form-control propertySelect">
                                                 <option value="0" >请选择</option>
                                                 #foreach($categoryValueDO in $keyCategoryProperty.categoryPropertyDO.categoryValueDOs)
-                                                    <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($propertyEditVId == $!categoryValueDO.id)selected#end>$!categoryValueDO.text</option>
+                                                    <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($propertyEditVId == $!categoryValueDO.id)selected#end>$!esc.html($!categoryValueDO.text)</option>
                                                 #end
                                             </select>
                                         #end
@@ -217,9 +217,9 @@
                                             #if($!keyCategoryProperty.canCustom == 1)
                                             #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
                                                 #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
-                                                    <span><input type="text" class="propertyInput" value="$!propertyEditVTxt"></span>
+                                                    <span><input type="text" class="propertyInput" value="$!esc.html($!propertyEditVTxt)"></span>
                                                 #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
-                                                    <input type="text" class='form-control form-date propertyInput' placeholder='yyyy-MM-dd' readonly value="$!propertyEditVTxt">
+                                                    <input type="text" class='form-control form-date propertyInput' placeholder='yyyy-MM-dd' readonly value="$!esc.html($!propertyEditVTxt)">
                                                 #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
                                                     3
                                                 #elseif($!keyCategoryProperty.categoryPropertyDO.type == 4)
