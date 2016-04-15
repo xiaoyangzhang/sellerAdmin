@@ -173,11 +173,15 @@ public class TalentController extends BaseController {
 			BizResult<String> bizResult = new BizResult<>();
 			ExamineInfoDTO examineInfoDTO = talentBiz.getExamineInfo();
 			MemResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_ONE.getPageNO());
+			if (resultSupport == null) {
+				bizResult.buildFailResult(-1, "保存失败", false);
+				return bizResult;
+			}
 			if (resultSupport.isSuccess()) {
-				if (null == examineInfoDTO || examineInfoDTO.getSellerId() <= 0 ) {
+				if (null == examineInfoDTO
+						|| examineInfoDTO.getSellerId() <= 0) {
 					bizResult.setValue("toAddUserdatafill_pageTwo");
-				}
-				else {
+				} else {
 					bizResult.setValue("toEditUserdatafill_pageTwo");
 					
 				}
@@ -185,7 +189,9 @@ public class TalentController extends BaseController {
 			
 			else {
 				//result.setWebReturnCode(resultSupport.getWebReturnCode());
-				bizResult.buildFailResult(resultSupport.getErrorCode(), resultSupport.getErrorMsg(), resultSupport.getValue());
+				bizResult.buildFailResult(resultSupport.getErrorCode(),
+						resultSupport.getErrorMsg(),
+						resultSupport.getValue());
 				
 			}
 			return bizResult;
@@ -207,16 +213,25 @@ public class TalentController extends BaseController {
 			BizResult<String> bizResult = new BizResult<>();
 			MemResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_TWO.getPageNO());
 			MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
-			if (resultSupport.isSuccess() && updateCheckStatusResult.isSuccess()) {
+			if (resultSupport == null && updateCheckStatusResult == null) {
+				bizResult.buildFailResult(-1, "保存失败", false);
+				return bizResult;
+			}
+			if (resultSupport.isSuccess()
+					&& updateCheckStatusResult.isSuccess()) {
 				bizResult.setValue("verification");
-			}else if(!resultSupport.isSuccess()){
+			} else if (!resultSupport.isSuccess()) {
 				//bizResult.setWebReturnCode(resultSupport.getWebReturnCode());
-				bizResult.buildFailResult(resultSupport.getErrorCode(), resultSupport.getErrorMsg(), resultSupport.getValue());
-			}else if (!updateCheckStatusResult.isSuccess()) {
-				bizResult.buildFailResult(updateCheckStatusResult.getErrorCode(), updateCheckStatusResult.getErrorMsg(), updateCheckStatusResult.getValue());
+				bizResult.buildFailResult(resultSupport.getErrorCode(),
+						resultSupport.getErrorMsg(),
+						resultSupport.getValue());
+			} else if (!updateCheckStatusResult.isSuccess()) {
+				bizResult.buildFailResult(
+						updateCheckStatusResult.getErrorCode(),
+						updateCheckStatusResult.getErrorMsg(),
+						updateCheckStatusResult.getValue());
 				//result.setWebReturnCode(updateCheckStatusResult.getWebReturnCode());
 			}
-			
 			return bizResult;
 		
 	}
@@ -287,18 +302,25 @@ public class TalentController extends BaseController {
 			BizResult<String> bizResult = new BizResult<>();
 			//WebResultSupport resultSupport = talentBiz.addTalentInfo(vo);
 			MemResult<Boolean> addTalentInfoResult = talentBiz.addTalentInfo(vo);
+			if (addTalentInfoResult == null) {
+				//bizResult.buildFailResult(-1, "保存失败", false);
+				bizResult.init(false, -1, "保存失败");
+				System.out.println(bizResult.getMsg()+"----------------"+bizResult.getCode());
+				return bizResult;
+			}
 			if (addTalentInfoResult.isSuccess()) {
 				//addTalentInfoResult.s
 				//result.setValue("talent/toAddTalentInfo");
 				bizResult.setValue("talent/toAddTalentInfo");
 			}
-//			if (resultSupport.isSuccess()) {
-//			}
+			//			if (resultSupport.isSuccess()) {
+			//			}
 			else {
-//				addTalentInfoResult.
-//				result.setWebReturnCode(resultSupport.getWebReturnCode());
-//				result.
-				bizResult.init(false, addTalentInfoResult.getErrorCode(), addTalentInfoResult.getErrorMsg());
+				//				addTalentInfoResult.
+				//				result.setWebReturnCode(resultSupport.getWebReturnCode());
+				//				result.
+				bizResult.init(false, addTalentInfoResult.getErrorCode(),
+						addTalentInfoResult.getErrorMsg());
 				//bizResult.buildFailResult(addTalentInfoResult.getErrorCode(), addTalentInfoResult.getErrorMsg(), addTalentInfoResult.)
 			}
 			return bizResult;
