@@ -61,7 +61,7 @@ public class MerchantBiz {
 		if(result.isSuccess()){
 			webResult.isSuccess();
 		}else{
-			webResult.setWebReturnCode(WebReturnCode.UPDATE_USER_ERROR);
+			webResult.setWebReturnCode(WebReturnCode.USER_NICKNAME_EXIT);
 		}
 		return webResult;
 		
