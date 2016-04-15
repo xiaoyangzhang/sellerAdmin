@@ -65,7 +65,7 @@ public class TalentBiz {
 	 * @return
 	 * @throws Exception
 	 */
-	public WebResultSupport addTalentInfo(TalentInfoVO vo)  {
+	public MemResult<Boolean> addTalentInfo(TalentInfoVO vo)  {
 		if (vo == null ) {
 			log.error("get examineSubmitDTO params error :vo="+vo);
 			throw new BaseException("参数错误");
@@ -80,7 +80,7 @@ public class TalentBiz {
 	 * @return
 	 * @throws Exception
 	 */
-	public WebResultSupport addExamineInfo(ExamineInfoVO vo,int pageNo)  {
+	public MemResult<Boolean> addExamineInfo(ExamineInfoVO vo,int pageNo)  {
 		if (vo == null ||  pageNo <= 0) {
 			log.error("get examineSubmitDTO params error :vo="+vo+"pageNo="+pageNo);
 			throw new BaseException("参数错误");
@@ -106,7 +106,7 @@ public class TalentBiz {
 		}
 	    return  new SimpleDateFormat("yyyy-MM-dd").format(date);
 	}
-	public WebResultSupport updateCheckStatus(ExamineInfoVO vo) {
+	public MemResult<Boolean> updateCheckStatus(ExamineInfoVO vo) {
 		return  talentRepo.updateCheckStatus(vo);
 		
 	}

@@ -34,6 +34,7 @@ import com.yimayhd.sellerAdmin.biz.TalentBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
+import com.yimayhd.sellerAdmin.result.BizResult;
 /**
  * 达人申请入驻
  * 
@@ -166,26 +167,28 @@ public class TalentController extends BaseController {
 	 */
 	@RequestMapping(value="saveExamineInfo_pageOne",method=RequestMethod.POST)
 	@ResponseBody
-	public WebResult<String> saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
+	public BizResult<String> saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
 //		checkVisitPage();
-			WebResult<String> result=new WebResult<String>();
+			//WebResult<String> result=new WebResult<String>();
+			BizResult<String> bizResult = new BizResult<>();
 			ExamineInfoDTO examineInfoDTO = talentBiz.getExamineInfo();
-			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_ONE.getPageNO());
+			MemResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_ONE.getPageNO());
 			if (resultSupport.isSuccess()) {
 				if (null == examineInfoDTO || examineInfoDTO.getSellerId() <= 0 ) {
-					result.setValue("toAddUserdatafill_pageTwo");
+					bizResult.setValue("toAddUserdatafill_pageTwo");
 				}
 				else {
-					result.setValue("toEditUserdatafill_pageTwo");
+					bizResult.setValue("toEditUserdatafill_pageTwo");
 					
 				}
 			}
 			
 			else {
-				result.setWebReturnCode(resultSupport.getWebReturnCode());
+				//result.setWebReturnCode(resultSupport.getWebReturnCode());
+				bizResult.buildFailResult(resultSupport.getErrorCode(), resultSupport.getErrorMsg(), resultSupport.getValue());
 				
 			}
-			return result;
+			return bizResult;
 		
 	}
 	/**
@@ -198,20 +201,23 @@ public class TalentController extends BaseController {
 	 */
 	@RequestMapping(value="saveExamineInfo_pageTwo",method=RequestMethod.POST)
 	@ResponseBody
-	public WebResult<String> saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
+	public BizResult<String> saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
 		//	checkVisitPage();
-			WebResult<String> result=new WebResult<String>();
-			WebResultSupport resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_TWO.getPageNO());
-			WebResultSupport updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
+			//WebResult<String> result=new WebResult<String>();
+			BizResult<String> bizResult = new BizResult<>();
+			MemResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_TWO.getPageNO());
+			MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
 			if (resultSupport.isSuccess() && updateCheckStatusResult.isSuccess()) {
-				result.setValue("verification");
+				bizResult.setValue("verification");
 			}else if(!resultSupport.isSuccess()){
-				result.setWebReturnCode(resultSupport.getWebReturnCode());
+				//bizResult.setWebReturnCode(resultSupport.getWebReturnCode());
+				bizResult.buildFailResult(resultSupport.getErrorCode(), resultSupport.getErrorMsg(), resultSupport.getValue());
 			}else if (!updateCheckStatusResult.isSuccess()) {
-				result.setWebReturnCode(updateCheckStatusResult.getWebReturnCode());
+				bizResult.buildFailResult(updateCheckStatusResult.getErrorCode(), updateCheckStatusResult.getErrorMsg(), updateCheckStatusResult.getValue());
+				//result.setWebReturnCode(updateCheckStatusResult.getWebReturnCode());
 			}
 			
-			return result;
+			return bizResult;
 		
 	}
 	/**
@@ -276,16 +282,26 @@ public class TalentController extends BaseController {
 	 */
 	@RequestMapping(value="saveTalentInfo",method=RequestMethod.POST)
 	@ResponseBody
-	public WebResult<String> addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
-			WebResult<String> result = new WebResult<>();
-			WebResultSupport resultSupport = talentBiz.addTalentInfo(vo);
-			if (resultSupport.isSuccess()) {
-				result.setValue("talent/toAddTalentInfo");
+	public BizResult<String> addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
+			//WebResult<String> result = new WebResult<>();
+			BizResult<String> bizResult = new BizResult<>();
+			//WebResultSupport resultSupport = talentBiz.addTalentInfo(vo);
+			MemResult<Boolean> addTalentInfoResult = talentBiz.addTalentInfo(vo);
+			if (addTalentInfoResult.isSuccess()) {
+				//addTalentInfoResult.s
+				//result.setValue("talent/toAddTalentInfo");
+				bizResult.setValue("talent/toAddTalentInfo");
 			}
+//			if (resultSupport.isSuccess()) {
+//			}
 			else {
-				result.setWebReturnCode(resultSupport.getWebReturnCode());
+//				addTalentInfoResult.
+//				result.setWebReturnCode(resultSupport.getWebReturnCode());
+//				result.
+				bizResult.init(false, addTalentInfoResult.getErrorCode(), addTalentInfoResult.getErrorMsg());
+				//bizResult.buildFailResult(addTalentInfoResult.getErrorCode(), addTalentInfoResult.getErrorMsg(), addTalentInfoResult.)
 			}
-			return result;
+			return bizResult;
 		
 		
 	}
