@@ -79,15 +79,19 @@ public class OrderServiceImpl implements OrderService {
 			BaseResult<UserDO> result = userServiceRef.getUserByMobile(orderListQuery.getBuyerPhone());
 			if (result.getValue()!=null){
 				userId = result.getValue().getId();
+			} else {
+				return new PageVO<MainOrder>(orderListQuery.getPageNo(),orderListQuery.getPageSize(), 0,mainOrderList);
 			}
 		}
 		if (userId == 0 && StringUtils.isNotEmpty(orderListQuery.getBuyerName())){
 			BaseResult<List<UserDO>> result= userServiceRef.getUserByNickname(orderListQuery.getBuyerName());
-			if (result.getValue()!=null){
+			if (result.getValue() != null && !CollectionUtils.isEmpty(result.getValue())){
 				List<UserDO> userDOList = result.getValue();
 				UserDO userDO = userDOList.get(0);
 				if (userDO!=null){
 					userId = userDO.getId();
+				} else {
+					return new PageVO<MainOrder>(orderListQuery.getPageNo(),orderListQuery.getPageSize(), 0,mainOrderList);
 				}
 			}
 		}
