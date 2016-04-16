@@ -94,7 +94,7 @@
             </tr>
             <tr>
                 <td>付款时间：</td>
-                <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)</td>
+                <td>#if($!order.mainOrder.tcMainOrder.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)#end</td>
                 <td>
                     付款方式：
                     #if($!order.mainOrder.tcMainOrder.payChannel == 1)

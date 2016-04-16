@@ -79,9 +79,9 @@ public class OrderConverter {
 //            }
         }
         //下单结束日期
-        if (StringUtils.isNotEmpty(orderListQuery.getBeginDate())){
+        if (StringUtils.isNotEmpty(orderListQuery.getEndDate())){
             try {
-                orderQueryDTO.setEndDate(DateUtil.convertStringToDate(orderListQuery.getEndDate()));
+                orderQueryDTO.setEndDate(DateUtil.add23Hours(DateUtil.convertStringToDate(orderListQuery.getEndDate())));
             } catch (ParseException e) {
                 LOG.error("orderQueryDTO.setEndDate(DateUtil.convertStringToDate(orderListQuery.getEndDate())); Exception:" + e);
                 e.printStackTrace();
