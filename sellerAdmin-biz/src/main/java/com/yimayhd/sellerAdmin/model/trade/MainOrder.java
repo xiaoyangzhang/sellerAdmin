@@ -4,13 +4,14 @@ import java.util.List;
 
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
+import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.user.client.domain.UserDO;
 
 /**
  * Created by zhaozhaonan on 2015/12/22.
  */
 public class MainOrder {
-    private BizOrderDO bizOrderDO;
+    private TcMainOrder tcMainOrder;
 
     private LogisticsOrderDO logisticsOrderDO;
 
@@ -24,12 +25,12 @@ public class MainOrder {
 
     private UserDO user;
 
-    public BizOrderDO getBizOrderDO() {
-        return bizOrderDO;
+    public TcMainOrder getTcMainOrder() {
+        return tcMainOrder;
     }
 
-    public void setBizOrderDO(BizOrderDO bizOrderDO) {
-        this.bizOrderDO = bizOrderDO;
+    public void setTcMainOrder(TcMainOrder tcMainOrder) {
+        this.tcMainOrder = tcMainOrder;
     }
 
     public List<SubOrder> getSubOrderList() {
@@ -72,7 +73,7 @@ public class MainOrder {
         this.orderTotalFee = orderTotalFee;
     }
 
-   public LogisticsOrderDO getLogisticsOrderDO() {
+    public LogisticsOrderDO getLogisticsOrderDO() {
         return logisticsOrderDO;
     }
 
@@ -80,10 +81,8 @@ public class MainOrder {
         this.logisticsOrderDO = logisticsOrderDO;
     }
 
-     public MainOrder(BizOrderDO bizOrderDO, List<SubOrder> subOrderList) {
-        this.bizOrderDO = bizOrderDO;
+    public MainOrder(TcMainOrder tcMainOrder, List<SubOrder> subOrderList) {
+        this.tcMainOrder = tcMainOrder;
         this.subOrderList = subOrderList;
-
-
-}
+    }
 }
