@@ -255,7 +255,8 @@
             startView: 2,
             forceParse: 0,
             showMeridian: 1,
-            format: "yyyy-mm-dd hh"
+            minView: 1,
+            format: "yyyy-mm-dd hh:00"
         });
 </script>
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/js/editer.js"></script>
