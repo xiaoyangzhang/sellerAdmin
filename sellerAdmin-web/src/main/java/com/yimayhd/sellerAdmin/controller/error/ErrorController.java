@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.controller.about;
+package com.yimayhd.sellerAdmin.controller.error;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,13 +17,12 @@ import com.yimayhd.sellerAdmin.base.BaseController;
  *
  */
 @RestController
-@RequestMapping("/about")
-public class AboutController extends BaseController {
+@RequestMapping("/error")
+public class ErrorController extends BaseController {
 
-	
-	@RequestMapping(value = "/service", method = RequestMethod.GET) 
+
+	@RequestMapping(value = "/lackPermission", method = RequestMethod.GET) 
 	public ModelAndView service(HttpServletRequest request, HttpServletResponse response) {
-		return new ModelAndView("/system/user/service");
+		return new ModelAndView("/system/error/lackPermission");
 	}
-	
 }

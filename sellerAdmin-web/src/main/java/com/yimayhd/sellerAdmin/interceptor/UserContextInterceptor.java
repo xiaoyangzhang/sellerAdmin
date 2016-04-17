@@ -8,13 +8,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.biz.MenuBiz;
 import com.yimayhd.sellerAdmin.biz.helper.MenuHelper;
 import com.yimayhd.sellerAdmin.cache.MenuCacheMananger;
 import com.yimayhd.sellerAdmin.model.vo.menu.MenuVO;
+import com.yimayhd.sellerAdmin.url.UrlHelper;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.session.manager.SessionHelper;
 import com.yimayhd.user.session.manager.SessionManager;
@@ -30,7 +31,10 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 	private MenuCacheMananger menuCacheMananger ;
 	@Autowired
 	private MenuBiz menuBiz;
-
+	
+	@Value("${sellerAdmin.rootPath}")
+	private String rootPath;
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -48,6 +52,13 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 			
 			List<MenuVO> menus = menuCacheMananger.getUserMenus(userId);
 			MenuVO menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
+			
+			if( menu == null ){
+				String url = UrlHelper.getUrl(true, rootPath, "/error/lackPermission") ;
+//				String url ="redirect:/error/lackPermission" ;
+				response.sendRedirect(url);
+				return false;
+			}
 			
 			request.setAttribute("menus", menus);
 			request.setAttribute("currentMenu", menu);
