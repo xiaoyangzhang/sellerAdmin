@@ -184,9 +184,9 @@ public class MerchantBiz {
 				}
 			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
 				if(ExamineType.MERCHANT.getType()==type){
-					return "redirect:/apply/merchant/toAddBasicPage";
+					return "redirect:/basicInfo/merchant/toAddBasicPage";
 				}else if(ExamineType.TALENT.getType()==type){
-					return "redirect:/apply/talent/toAddTalentInfo";
+					return "redirect:/basicInfo/talent/toAddTalentInfo";
 				}
 			}else if(ExamineStatus.EXAMIN_ERROR.getStatus() == status){//审核不通过
 				if("edit".equals(pageType)){
