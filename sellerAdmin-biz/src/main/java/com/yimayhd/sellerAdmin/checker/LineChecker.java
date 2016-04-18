@@ -150,11 +150,11 @@ public class LineChecker {
 		}
 		String name = baseInfo.getName();
 		if (!NAME_PATTERN.matcher(name).matches()) {
-			return WebCheckResult.error("商品名称为1-38个字符（包括中文、字母）");
+			return WebCheckResult.error("请输入正确的商品名称，1-38个字符（包括中文、字母）");
 		}
 		String code = baseInfo.getCode();
 		if (StringUtils.isNotBlank(code) && !CODE_PATTERN.matcher(code).matches()) {
-			return WebCheckResult.error("商品代码为1-20位数字");
+			return WebCheckResult.error("请输入正确的商品代码，1-20位数字");
 		}
 		if (!baseInfo.isAllDeparts() && CollectionUtils.isEmpty(baseInfo.getDeparts())) {
 			return WebCheckResult.error("出发地不能为空");
