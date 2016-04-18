@@ -101,6 +101,7 @@ public class LineController extends BaseLineController {
 				log.warn("未登录");
 				return WebOperateResult.failure(WebReturnCode.USER_NOT_FOUND);
 			}
+			json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
 			WebCheckResult checkLine = LineChecker.checkLine(gt);
 			if (!checkLine.isSuccess()) {
