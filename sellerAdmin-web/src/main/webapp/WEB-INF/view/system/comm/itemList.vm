@@ -164,41 +164,51 @@
 	//批量操作
     $('.batch-operate').click(function(){
 		if(checkedIdList.length > 0) {
-    		var param = {
-    			itemIds:checkedIdList,
-    			operate:$(this).attr("operate-type")
-			};
-    		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/item/batchOperate",param,function(result) {
-    			if(result.success) {
-    				window.location.reload();
-    			} else {
-    				layer.alert('操作失败', {
-    					icon : 2
-    				});
-    			}
-    		},"json");
-		} else {
-			layer.msg('请选择标签', {
-				icon : 2,
-				time : 1000
-			});
-		}
+    		layer.confirm('是否确认'+ $(this).text()+'？', {icon: 3, title:'提示'}, function(index){
+            	var param = {
+            		itemIds:checkedIdList,
+            		operate:$(this).attr("operate-type")
+            	};
+            	$.post("$!{utilWebconfig.getActionDefaultFontPath()}/item/batchOperate",param,function(result) {
+            		if(result.success) {
+            			window.location.reload();
+            		} else {
+            			layer.alert('操作失败', {
+            				icon : 2
+            			});
+            		}
+            	},"json");
+                layer.close(index);
+            });
+        } else {
+        	layer.msg('请选择标签', {
+        		icon : 2,
+        		time : 1000
+        	});
+        }
     });
 	// 商品操作
+	var operateUrl;
+	var operateParams;
 	$('.item-operate').click(function(){
 		var id = $(this).attr("item-id");
 		var params = {
 			operate:$(this).attr("operate-type")
 		};
-		$.post("$!{utilWebconfig.getActionDefaultFontPath()}/item/"+id+"/operate",params,function(result) {
-			if(result.success) {
-				window.location.reload();
-			} else {
-				layer.msg('操作失败', {
-    				icon : 2,
-    				time : 1000
-    			});
-			}
-		},"json");
+		operateUrl = "$!{utilWebconfig.getActionDefaultFontPath()}/item/"+id+"/operate";
+		operateParams = params;
+		layer.confirm('是否确认'+ $(this).text()+'？', {icon: 3, title:'提示'}, function(index){
+    		$.post(operateUrl,operateParams,function(result) {
+    			if(result.success) {
+    				window.location.reload();
+    			} else {
+    				layer.msg('操作失败', {
+        				icon : 2,
+        				time : 1000
+        			});
+    			}
+    		},"json");
+			layer.close(index);
+        });
     });
 </script>
