@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.sellerAdmin.enums.BizItemStatus;
 import com.yimayhd.sellerAdmin.enums.BizItemType;
 import com.yimayhd.sellerAdmin.model.enums.ItemOperate;
 
@@ -40,18 +41,18 @@ public class ItemUtil {
 		if (it != null) {
 			return it.getText();
 		}
-		return null;
+		return "未知类型";
 	}
 
 	public static String getItemStatusName(int status) {
 		if (status <= 0) {
 			return null;
 		}
-		ItemStatus is = ItemStatus.get(status);
+		BizItemStatus is = BizItemStatus.get(status);
 		if (is != null) {
 			return is.getText();
 		}
-		return null;
+		return "异常状态";
 	}
 
 	public static boolean isFreeLine(ItemType itemType) {

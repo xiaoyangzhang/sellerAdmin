@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.controller.item;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -101,6 +102,11 @@ public class LineController extends BaseLineController {
 				log.warn("未登录");
 				return WebOperateResult.failure(WebReturnCode.USER_NOT_FOUND);
 			}
+			if (StringUtils.isBlank(json)) {
+				log.warn("json is null");
+				return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
+			}
+			json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
 			WebCheckResult checkLine = LineChecker.checkLine(gt);
 			if (!checkLine.isSuccess()) {
