@@ -82,10 +82,7 @@
 			<mvc:exclude-mapping path="/help/**"/>
 			<mvc:exclude-mapping path="/about/**"/>
 			<mvc:exclude-mapping path="/error/**"/>
-			<!-- 
-			<mvc:exclude-mapping path="/merchant/**"/>
-			<mvc:exclude-mapping path="/talent/**"/>
-			 -->
+			<mvc:exclude-mapping path="/apply/**"/>
 			<bean class="com.yimayhd.sellerAdmin.interceptor.UserContextInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
