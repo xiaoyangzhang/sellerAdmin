@@ -37,7 +37,7 @@ public class LineChecker {
 	private static final List<Integer>	supportItemTypes	= new ArrayList<Integer>();
 	private static final List<String>	supportTrafficTypes	= new ArrayList<String>();
 	private static final Pattern		NAME_PATTERN		= Pattern.compile("^[a-zA-Z\\u4e00-\\u9fa5]{1,38}$");
-
+	private static final Pattern		CODE_PATTERN		= Pattern.compile("^[1-9]{1,20}$");
 	static {
 		supportItemTypes.add(ItemType.FREE_LINE.getValue());
 		supportItemTypes.add(ItemType.TOUR_LINE.getValue());
@@ -149,11 +149,12 @@ public class LineChecker {
 			return WebCheckResult.error("未知商品类型");
 		}
 		String name = baseInfo.getName();
-		if (NAME_PATTERN.matcher(name).matches()) {
+		if (!NAME_PATTERN.matcher(name).matches()) {
 			return WebCheckResult.error("商品名称为1-38个字符（包括中文、字母）");
 		}
-		if (StringUtils.isNotBlank(baseInfo.getCode()) && baseInfo.getCode().length() > 20) {
-			return WebCheckResult.error("商品代码不能超过20个字");
+		String code = baseInfo.getCode();
+		if (StringUtils.isNotBlank(code) && !CODE_PATTERN.matcher(code).matches()) {
+			return WebCheckResult.error("商品代码为1-20位数字");
 		}
 		if (!baseInfo.isAllDeparts() && CollectionUtils.isEmpty(baseInfo.getDeparts())) {
 			return WebCheckResult.error("出发地不能为空");
