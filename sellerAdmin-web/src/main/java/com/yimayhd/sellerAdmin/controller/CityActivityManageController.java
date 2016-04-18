@@ -58,7 +58,7 @@ public class CityActivityManageController extends BaseController {
 		
 		CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
         //TODO: add cityActivityTagType
-        WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.LINETAG);
+        WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.CITYACTIVITY);
         if (allThemes.isSuccess()) {
             put("themes", allThemes.getValue());
         }
@@ -85,7 +85,7 @@ public class CityActivityManageController extends BaseController {
             //TODO: exception
             return "/system/comm/itemList";
         }
-        WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.LINETAG);
+        WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.CITYACTIVITY);
         if (allThemes.isSuccess()) {
             put("themes", allThemes.getValue());
         }
@@ -99,7 +99,7 @@ public class CityActivityManageController extends BaseController {
         model.addAttribute("itemThemes", itemVO.getThemes());
         model.addAttribute("itemDest", itemVO.getDest());
     	model.addAttribute("itemType",ItemType.CITY_ACTIVITY.getValue());
-        model.addAttribute("pictureTextVO", itemVO.getPictureTextVO());
+        model.addAttribute("pictureText", itemVO.getPictureTextVO());
         model.addAttribute("needKnow", itemVO.getNeedKnowVO());
 
         return "/system/cityactivity/edit";

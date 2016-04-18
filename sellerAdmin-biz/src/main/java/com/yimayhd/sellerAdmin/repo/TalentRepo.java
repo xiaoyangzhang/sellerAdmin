@@ -102,27 +102,28 @@ public class TalentRepo {
 	 * @return
 	 * @throws Exception
 	 */
-	public WebResultSupport addTalentInfo(TalentInfoVO vo)  {
+	public MemResult<Boolean> addTalentInfo(TalentInfoVO vo)  {
 		if (vo == null) {
 			return null;
 		}
 		MemResult<Boolean> talentInfoResult=null;
-		WebResultSupport webResultSupport=new WebResultSupport();
+//		WebResultSupport webResultSupport=new WebResultSupport();
+//		members
 		try {
 			RepoUtils.requestLog(log, "talentInfoDealService.updateTalentInfo", vo);
 			 talentInfoResult = talentInfoDealService.updateTalentInfo(vo.getTalentInfoDTO(vo,sessionManager.getUserId()));
 			 RepoUtils.requestLog(log, "talentInfoDealService.updateTalentInfo", talentInfoResult);
 			
-			 if (!talentInfoResult.isSuccess()) {
-				
-				 webResultSupport.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
-			}
+//			 if (!talentInfoResult.isSuccess()) {
+//				talentInfoResult.
+//				 webResultSupport.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
+//			}
 			
-			 return webResultSupport;
+			 return talentInfoResult;
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
-			webResultSupport.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
-			return webResultSupport;
+			//webResultSupport.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
+			return null;
 		}
 		
 	}
@@ -134,26 +135,26 @@ public class TalentRepo {
 	 * @return
 	 * @throws Exception
 	 */
-	public WebResultSupport addExamineInfo(ExamineInfoVO vo)  {
+	public MemResult<Boolean> addExamineInfo(ExamineInfoVO vo)  {
 		if (vo == null) {
 			return null;
 		}
 		MemResult<Boolean> ExamineInfoResult = null;
-		WebResultSupport webResultSupport=new WebResultSupport();
+		//WebResultSupport webResultSupport=new WebResultSupport();
 		try {
 
 			ExamineInfoResult = examineDealService.submitMerchantExamineInfo(vo.getExamineInfoDTO(vo, sessionManager.getUserId()));
 
-			if(!ExamineInfoResult.isSuccess()) {
-				webResultSupport.setWebReturnCode(WebReturnCode.TALENT_INFO_SAVE_FAILURE);
-			}
+//			if(!ExamineInfoResult.isSuccess()) {
+//				webResultSupport.setWebReturnCode(WebReturnCode.TALENT_INFO_SAVE_FAILURE);
+//			}
 			
-			return webResultSupport;
+			return ExamineInfoResult;
 			
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
-			webResultSupport.setWebReturnCode(WebReturnCode.TALENT_INFO_SAVE_FAILURE);
-			return webResultSupport;
+			//webResultSupport.setWebReturnCode(WebReturnCode.TALENT_INFO_SAVE_FAILURE);
+			return null;
 		}
 	}
 	public List<BankInfoDTO> getBankList() {
@@ -183,18 +184,18 @@ public class TalentRepo {
 
 		
 	}
-	public WebResultSupport updateCheckStatus(ExamineInfoVO vo) {
-		WebResultSupport resultSupport = new WebResultSupport();
+	public MemResult<Boolean> updateCheckStatus(ExamineInfoVO vo) {
+		//WebResultSupport resultSupport = new WebResultSupport();
 		try {
 			MemResult<Boolean> changeExamineStatusResult = examineDealService.changeExamineStatusIntoIng(vo.getInfoQueryDTO(sessionManager.getUserId()));
-			if (!changeExamineStatusResult.isSuccess()) {
-				resultSupport.setWebReturnCode(WebReturnCode.UPDATE_CHECKRESULT_FAILURE);
-			}
-			return resultSupport;
+//			if (!changeExamineStatusResult.isSuccess()) {
+//				resultSupport.setWebReturnCode(WebReturnCode.UPDATE_CHECKRESULT_FAILURE);
+//			}
+			return changeExamineStatusResult;
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
-			resultSupport.setWebReturnCode(WebReturnCode.UPDATE_CHECKRESULT_FAILURE);
-			return resultSupport;
+			//resultSupport.setWebReturnCode(WebReturnCode.UPDATE_CHECKRESULT_FAILURE);
+			return null;
 		}
 		
 	}

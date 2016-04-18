@@ -11,6 +11,7 @@ import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 public class PackageBlock {		
 	private long skuId;
 	private long id;
+	private int type;
 	private String name;
 	private long PId;
 	private int PType;
@@ -110,6 +111,7 @@ public class PackageBlock {
 		SKU.setPTxt(this.PTxt);
 		SKU.setVId(this.id);
 		SKU.setVTxt(this.name);
+		SKU.setVType(this.type);
 		return SKU;
 	}
 
@@ -119,6 +121,14 @@ public class PackageBlock {
 
 	public void setSkuId(long skuId) {
 		this.skuId = skuId;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 
 }
