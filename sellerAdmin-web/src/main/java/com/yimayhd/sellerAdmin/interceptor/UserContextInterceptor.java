@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.yimayhd.sellerAdmin.biz.MenuBiz;
@@ -53,7 +54,7 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 			List<MenuVO> menus = menuCacheMananger.getUserMenus(userId);
 			MenuVO menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
 			
-//			if( menu == null ){
+//			if(RequestMethod.GET.name().equalsIgnoreCase(method)  && menu == null  && !pathInfo.contains("home") ){
 //				String url = UrlHelper.getUrl( rootPath, "/error/lackPermission") ;
 //				response.sendRedirect(url);
 //				return false;
