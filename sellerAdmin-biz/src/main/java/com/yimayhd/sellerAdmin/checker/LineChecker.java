@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -15,8 +17,6 @@ import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowItemVo;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
-import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextItemVo;
-import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextVO;
 import com.yimayhd.sellerAdmin.model.line.price.PackageBlock;
 import com.yimayhd.sellerAdmin.model.line.price.PackageDay;
 import com.yimayhd.sellerAdmin.model.line.price.PackageInfo;
@@ -36,7 +36,8 @@ import com.yimayhd.sellerAdmin.model.line.route.RouteTrafficVO;
 public class LineChecker {
 	private static final List<Integer>	supportItemTypes	= new ArrayList<Integer>();
 	private static final List<String>	supportTrafficTypes	= new ArrayList<String>();
-
+	private static final Pattern		NAME_PATTERN		= Pattern.compile("^[a-zA-Z\\u4e00-\\u9fa5]{1,38}$");
+	private static final Pattern		CODE_PATTERN		= Pattern.compile("^[1-9]{1,20}$");
 	static {
 		supportItemTypes.add(ItemType.FREE_LINE.getValue());
 		supportItemTypes.add(ItemType.TOUR_LINE.getValue());
@@ -52,13 +53,13 @@ public class LineChecker {
 		if (!checkBaseInfo.isSuccess()) {
 			return checkBaseInfo;
 		}
-		WebCheckResult checkPictureText = checkPictureText(line.getPictureText());
+		WebCheckResult checkPictureText = PictureTextChecker.checkPictureText(line.getPictureText());
 		if (!checkPictureText.isSuccess()) {
 			return checkPictureText;
 		}
 		int itemType = line.getBaseInfo().getType();
 		if (itemType == ItemType.FREE_LINE.getValue()) {
-			WebCheckResult checkRoutePlan = checkRoutePlan(line.getRoutePlan());
+			WebCheckResult checkRoutePlan = checkRoutePlan(itemType, line.getRoutePlan());
 			if (!checkRoutePlan.isSuccess()) {
 				return checkRoutePlan;
 			}
@@ -95,7 +96,10 @@ public class LineChecker {
 		return WebCheckResult.success();
 	}
 
-	public static WebCheckResult checkRoutePlan(RoutePlanVo routePlan) {
+	public static WebCheckResult checkRoutePlan(int itemType, RoutePlanVo routePlan) {
+		if (routePlan == null) {
+			return WebCheckResult.error("机酒景信息不能为空");
+		}
 		RouteTrafficVO go = routePlan.getGo();
 		RouteTrafficVO back = routePlan.getBack();
 		if (go == null && back == null && StringUtils.isBlank(routePlan.getScenicInfo())
@@ -122,8 +126,8 @@ public class LineChecker {
 				}
 				if (StringUtils.isBlank(back.getDescription())) {
 					return WebCheckResult.error("回程详细描述不能为空");
-				} else if (back.getDescription().length() > 200) {
-					return WebCheckResult.error("回程详细描述不超过200字");
+				} else if (back.getDescription().length() > 500) {
+					return WebCheckResult.error("回程详细描述不超过500字");
 				}
 			}
 			if (StringUtils.isNotBlank(routePlan.getHotelInfo()) && routePlan.getHotelInfo().length() > 1000) {
@@ -137,17 +141,20 @@ public class LineChecker {
 	}
 
 	public static WebCheckResult checkBaseInfo(BaseInfoVO baseInfo) {
+		if (baseInfo == null) {
+			return WebCheckResult.error("基础信息不能为空");
+		}
 		int type = baseInfo.getType();
 		if (!supportItemTypes.contains(type)) {
 			return WebCheckResult.error("未知商品类型");
 		}
-		if (StringUtils.isBlank(baseInfo.getName())) {
-			return WebCheckResult.error("商品标题不能为空");
-		} else if (baseInfo.getName().length() > 38) {
-			return WebCheckResult.error("商品标题不能超过38个字");
+		String name = baseInfo.getName();
+		if (!NAME_PATTERN.matcher(name).matches()) {
+			return WebCheckResult.error("请输入正确的商品名称，1-38个字符（包括中文、字母）");
 		}
-		if (StringUtils.isNotBlank(baseInfo.getCode()) && baseInfo.getCode().length() > 20) {
-			return WebCheckResult.error("商品代码不能超过20个字");
+		String code = baseInfo.getCode();
+		if (StringUtils.isNotBlank(code) && !CODE_PATTERN.matcher(code).matches()) {
+			return WebCheckResult.error("请输入正确的商品代码，1-20位数字");
 		}
 		if (!baseInfo.isAllDeparts() && CollectionUtils.isEmpty(baseInfo.getDeparts())) {
 			return WebCheckResult.error("出发地不能为空");
@@ -161,8 +168,8 @@ public class LineChecker {
 		}
 		if (baseInfo.getDays() <= 0) {
 			return WebCheckResult.error("行程天数不能小于0");
-		} else if (baseInfo.getDays() > 10000) {
-			return WebCheckResult.error("行程天数不能大于10000");
+		} else if (baseInfo.getDays() > 100) {
+			return WebCheckResult.error("行程天数不能大于100");
 		}
 		if (StringUtils.isBlank(baseInfo.getDescription())) {
 			return WebCheckResult.error("线路亮点不能为空");
@@ -182,16 +189,10 @@ public class LineChecker {
 		return WebCheckResult.success();
 	}
 
-	public static WebCheckResult checkPictureText(PictureTextVO pictureText) {
-		// TODO YEBIN 待开发
-		return WebCheckResult.success();
-	}
-
-	public static WebCheckResult checkPictureTextItem(PictureTextItemVo pictureTextItem) {
-		return WebCheckResult.success();
-	}
-
 	public static WebCheckResult checkPriceInfo(PriceInfoVO priceInfo) {
+		if (priceInfo == null) {
+			return WebCheckResult.error("价格信息不能为空");
+		}
 		List<PackageInfo> tcs = priceInfo.getTcs();
 		if (CollectionUtils.isEmpty(tcs)) {
 			return WebCheckResult.error("线路套餐不能为空");
@@ -223,6 +224,9 @@ public class LineChecker {
 	}
 
 	public static WebCheckResult checkPackageInfo(PackageInfo tc) {
+		if (tc == null) {
+			return WebCheckResult.error("套餐信息不能为空");
+		}
 		List<PackageMonth> months = tc.getMonths();
 		if (StringUtils.isBlank(tc.getName())) {
 			return WebCheckResult.error("线路套餐名称不能为空");
@@ -242,6 +246,9 @@ public class LineChecker {
 	}
 
 	public static WebCheckResult checkPackageMonth(PackageMonth month) {
+		if (month == null) {
+			return WebCheckResult.error("月份信息不能为空");
+		}
 		List<PackageDay> days = month.getDays();
 		if (CollectionUtils.isEmpty(days)) {
 			return WebCheckResult.error("套餐日期项不能为空");
@@ -256,6 +263,9 @@ public class LineChecker {
 	}
 
 	public static WebCheckResult checkPackageDay(PackageDay day) {
+		if (day == null) {
+			return WebCheckResult.error("日期信息不能为空");
+		}
 		List<PackageBlock> blocks = day.getBlocks();
 		if (CollectionUtils.isEmpty(blocks)) {
 			return WebCheckResult.error("套餐sku不能为空");
@@ -270,11 +280,16 @@ public class LineChecker {
 	}
 
 	public static WebCheckResult checkPackageBlock(PackageBlock block) {
+		if (block == null) {
+			return WebCheckResult.error("价格单元不能为空");
+		}
 		if (block.getPrice() < 0) {
 			return WebCheckResult.error("无效套餐sku价格");
 		}
 		if (block.getStock() < 0) {
 			return WebCheckResult.error("无效套餐sku库存");
+		} else if (block.getStock() > 10000) {
+			return WebCheckResult.error("库存不能大于10000");
 		}
 		if (block.getDiscount() < 0) {
 			return WebCheckResult.error("无效套餐sku会员优惠");
@@ -286,6 +301,9 @@ public class LineChecker {
 	}
 
 	public static WebCheckResult checkRouteInfo(int itemType, RouteInfoVO tripInfo) {
+		if (tripInfo == null) {
+			return WebCheckResult.error("行程信息不能为空");
+		}
 		List<RouteDayVO> routeDays = tripInfo.getRouteDays();
 		if (CollectionUtils.isNotEmpty(routeDays)) {
 			for (RouteDayVO tripDay : routeDays) {
@@ -303,6 +321,9 @@ public class LineChecker {
 	}
 
 	public static WebCheckResult checkRouteDay(RouteDayVO tripDay) {
+		if (tripDay == null) {
+			return WebCheckResult.error("行程每日信息不能为空");
+		}
 		if (StringUtils.isBlank(tripDay.getTitle())) {
 			return WebCheckResult.error("行程标题不能为空");
 		} else if (tripDay.getTitle().length() > 38) {
@@ -317,5 +338,11 @@ public class LineChecker {
 			return WebCheckResult.error("行程图片不能超过5张");
 		}
 		return WebCheckResult.success();
+	}
+
+	public static void main(String[] args) {
+		Pattern p = Pattern.compile("^[a-zA-Z\\u4e00-\\u9fa5]+$");
+		Matcher matcher = p.matcher("ssss");
+		System.out.println(matcher.matches());
 	}
 }

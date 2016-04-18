@@ -8,7 +8,7 @@
 
 
 
-<input type="hidden" class="subpath" value="$!root_path/merchant/saveUserdataB">
+<input type="hidden" class="subpath" value="$!root_path/apply/merchant/saveUserdataB">
 
 <!-- <form id="fm" method="post" action="/handle.php" enctype=”multipart/form-data”>
 <input type="file" name="adpicfile">
@@ -81,7 +81,7 @@
 								<td colspan="3"><input class="inptxt" datatype="e" name="principleMail" value="$!examineInfo.principleMail" maxlength="80" placeholder="请输入商户负责人邮箱"></td>
 							</tr>
 							<tr>
-								<td class="tbvt w280"><label class="bred">*</label><label>法人身份证正面：</label></td>
+								<td class="tbvt w280"><label class="bred">*</label><label>负责人身份证正面：</label></td>
 								<td class="w380">
 									<span class="imgbox mr5">
 										<div class="canclick card_a">
@@ -96,7 +96,7 @@
 										<input type="hidden" name="principleCardUp" value="$!examineInfo.principleCardUp">
 									</span>
 								</td>
-								<td class="tbvt w150"><label class="bred">*</label><label>法人身份证背面：</label></td>
+								<td class="tbvt w150"><label class="bred">*</label><label>负责人身份证反面：</label></td>
 								<td>
 									<span class="imgbox mr5">
 										<div class="canclick card_b">

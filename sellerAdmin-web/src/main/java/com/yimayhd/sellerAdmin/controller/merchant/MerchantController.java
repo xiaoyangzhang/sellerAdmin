@@ -217,7 +217,7 @@ public class MerchantController extends BaseController{
 		if(result.isSuccess()){
 			model.addAttribute("imgSrc",Constant.TFS_URL);
 			model.addAttribute("examineInfo", result.getValue());
-			if(null!=result.getValue() && result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW){//审核不通过时
+			if(null!=result.getValue() && (result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW || result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_HALF)){//审核不通过时或者修改填写页面a后
 				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
 				if(rest.isSuccess() && (null!=rest.getValue())){
 					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes()));

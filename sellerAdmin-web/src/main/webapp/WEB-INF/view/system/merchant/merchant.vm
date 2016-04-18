@@ -21,7 +21,7 @@
 				    <p>	
 						<em><font>*</font>昵称  :</em>
 						<span>
-							<input type="text" value="$!nickName" name="nickName" class="inputxt" datatype="s6-18" errormsg="昵称至少6个字符,最多18个字符！" />
+							<input type="text" value="$!nickName" name="nickName" class="inputxt niname" />
 						</span>
 					</p>
 					<p>
@@ -39,7 +39,7 @@
 					<p>
 						<em class="mt">店铺地址  :</em>
 						<span>
-							<textarea tip="请在这里输入您的店铺地址。" value="" altercss="gray" class="gray" name="address"  >$!address</textarea><label class = "lab">0/100</label>
+							<textarea tip="请在这里输入您的店铺地址。" value="" id="textareaInpute"  altercss="gray" class="gray" name="address"  >$!address</textarea><label><span id="isUsed" >0</span><span class="fx">/</span> <span id="unUse" >100</span></label>
 						</span>
 					</p>
 					<div class="merchant-shop">
@@ -56,7 +56,7 @@
 								<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
 								<input type="hidden" name="txImage" value="$!txImage">
 							</span>
-						<label class="lab">图片大小不超过500K,建议图片尺寸为：800*300,仅限于JPG,BMP,PNG格式</label>
+						<label class="lab">图片大小不超过500K,建议图片尺寸为：800*300,仅限于JPG,JPEG,PNG格式</label>
 			           </div>
 					</div>
 			    	<div class="merchant-shop">
@@ -73,7 +73,7 @@
 								<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
 								<input type="hidden" name="djImage" value="$!djImage">
 							</span>
-						<label class="lab">图片大小不超过500K,建议图片尺寸为：200*200,仅限于JPG,BMP,PNG格式</label>
+						<label class="lab">图片大小不超过500K,建议图片尺寸为：800*300,仅限于JPG,JPEG,PNG格式</label>
 			           </div>
 					</div>
 				</div>

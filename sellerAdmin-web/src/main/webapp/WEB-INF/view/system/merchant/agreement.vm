@@ -40,7 +40,7 @@
 			<p>1.2您点击同意本协议的，即视为您确认自己具有享受本站服务、下单购物等相应的权利能力和行为能力，能够独立承担法律责任。</p>
 			<p>1.3您确认，如果您在18周岁以下，您只能在父母或其他监护人的监护参与下才能使用本站。</p>
 		</div>
-		<a class="agreebtn" href="$!root_path/merchant/toDetailPage">同意一下协议并进入下一步</a>
+		<a class="agreebtn" href="$!root_path/apply/merchant/toDetailPage">同意一下协议并进入下一步</a>
 	</div>
 	
 	#parse("layout/layout-js.vm")
