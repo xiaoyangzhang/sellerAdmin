@@ -51,7 +51,7 @@
                         <select class="form-control" name="status">
         					<option value="" #if(!$query.status) selected #end>全部</option>
         					#foreach($itemStatus in $itemStatusList)
-                            <option value="$!{itemStatus.value}" #if($query.status == $itemStatus.value) selected #end >$!{itemStatus.text}</option>
+                            <option value="$!{itemStatus.value}" #if($query.status == $itemStatus.value) selected #end >$!{utilItem.getItemStatusName($itemStatus.value)}</option>
         					#end
                         </select>
                     </div>

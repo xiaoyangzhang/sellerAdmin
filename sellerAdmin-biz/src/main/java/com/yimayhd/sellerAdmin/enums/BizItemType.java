@@ -49,7 +49,7 @@ public enum BizItemType {
 				return em;
 			}
 		}
-		throw new IllegalArgumentException("Can't get enum with this enumValue.");
+		return null;
 	}
 
 	public static BizItemType getByName(String name) {

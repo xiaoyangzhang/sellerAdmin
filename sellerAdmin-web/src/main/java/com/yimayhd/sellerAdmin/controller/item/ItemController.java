@@ -23,6 +23,7 @@ import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.enums.BizItemStatus;
 import com.yimayhd.sellerAdmin.enums.BizItemType;
 import com.yimayhd.sellerAdmin.model.enums.ItemOperate;
 import com.yimayhd.sellerAdmin.model.item.ItemListItemVO;
@@ -42,9 +43,9 @@ import com.yimayhd.stone.enums.DomainType;
 @RequestMapping("/item")
 public class ItemController extends BaseController {
 	@Autowired
-	private ItemService itemService;
+	private ItemService		itemService;
 	@Autowired
-	private CategoryService categoryService;
+	private CategoryService	categoryService;
 
 	/**
 	 * 商品列表
@@ -65,7 +66,7 @@ public class ItemController extends BaseController {
 		}
 		put("pageVo", result.getValue());
 		put("itemTypeList", BizItemType.values());
-		put("itemStatusList", ItemStatus.values());
+		put("itemStatusList", BizItemStatus.values());
 		put("query", query);
 		return "/system/comm/itemList";
 	}
@@ -128,7 +129,7 @@ public class ItemController extends BaseController {
 			return redirect("/line/category/" + categoryId + "/create/");
 		} else if (ItemType.CITY_ACTIVITY.equals(itemType)) {
 			return redirect("/cityactivity/toAdd?categoryId=" + categoryId);
-		}else if (ItemType.NORMAL.equals(itemType)) {
+		} else if (ItemType.NORMAL.equals(itemType)) {
 			return redirect("/barterItem/common/toAdd?categoryId=" + categoryId);
 		} else {
 			throw new BaseException("unsupport ItemType " + itemType.name());
@@ -183,7 +184,7 @@ public class ItemController extends BaseController {
 			return redirect("/line/detail/" + itemId + "/");
 		} else if (ItemType.CITY_ACTIVITY.getValue() == itemType) {
 			return redirect("/cityactivity/edit/" + itemId);
-		}else if (ItemType.NORMAL.getValue() == itemType) {
+		} else if (ItemType.NORMAL.getValue() == itemType) {
 			return redirect("/barterItem/common/edit/" + itemId);
 		} else {
 			throw new BaseException("unsupport ItemType " + itemType);
