@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +36,7 @@ import com.yimayhd.sellerAdmin.model.line.route.RouteTrafficVO;
 public class LineChecker {
 	private static final List<Integer>	supportItemTypes	= new ArrayList<Integer>();
 	private static final List<String>	supportTrafficTypes	= new ArrayList<String>();
+	private static final Pattern		NAME_PATTERN		= Pattern.compile("^[a-zA-Z\\u4e00-\\u9fa5]{1,38}$");
 
 	static {
 		supportItemTypes.add(ItemType.FREE_LINE.getValue());
@@ -145,10 +148,9 @@ public class LineChecker {
 		if (!supportItemTypes.contains(type)) {
 			return WebCheckResult.error("未知商品类型");
 		}
-		if (StringUtils.isBlank(baseInfo.getName())) {
-			return WebCheckResult.error("商品标题不能为空");
-		} else if (baseInfo.getName().length() > 38) {
-			return WebCheckResult.error("商品标题不能超过38个字");
+		String name = baseInfo.getName();
+		if (NAME_PATTERN.matcher(name).matches()) {
+			return WebCheckResult.error("商品名称为1-38个字符（包括中文、字母）");
 		}
 		if (StringUtils.isNotBlank(baseInfo.getCode()) && baseInfo.getCode().length() > 20) {
 			return WebCheckResult.error("商品代码不能超过20个字");
@@ -333,5 +335,11 @@ public class LineChecker {
 			return WebCheckResult.error("行程图片不能超过5张");
 		}
 		return WebCheckResult.success();
+	}
+
+	public static void main(String[] args) {
+		Pattern p = Pattern.compile("^[a-zA-Z\\u4e00-\\u9fa5]+$");
+		Matcher matcher = p.matcher("ssss");
+		System.out.println(matcher.matches());
 	}
 }
