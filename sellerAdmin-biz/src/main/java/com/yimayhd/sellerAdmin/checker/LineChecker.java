@@ -15,8 +15,6 @@ import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowItemVo;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
-import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextItemVo;
-import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextVO;
 import com.yimayhd.sellerAdmin.model.line.price.PackageBlock;
 import com.yimayhd.sellerAdmin.model.line.price.PackageDay;
 import com.yimayhd.sellerAdmin.model.line.price.PackageInfo;
@@ -52,13 +50,13 @@ public class LineChecker {
 		if (!checkBaseInfo.isSuccess()) {
 			return checkBaseInfo;
 		}
-		WebCheckResult checkPictureText = checkPictureText(line.getPictureText());
+		WebCheckResult checkPictureText = PictureTextChecker.checkPictureText(line.getPictureText());
 		if (!checkPictureText.isSuccess()) {
 			return checkPictureText;
 		}
 		int itemType = line.getBaseInfo().getType();
 		if (itemType == ItemType.FREE_LINE.getValue()) {
-			WebCheckResult checkRoutePlan = checkRoutePlan(line.getRoutePlan());
+			WebCheckResult checkRoutePlan = checkRoutePlan(itemType, line.getRoutePlan());
 			if (!checkRoutePlan.isSuccess()) {
 				return checkRoutePlan;
 			}
@@ -95,7 +93,10 @@ public class LineChecker {
 		return WebCheckResult.success();
 	}
 
-	public static WebCheckResult checkRoutePlan(RoutePlanVo routePlan) {
+	public static WebCheckResult checkRoutePlan(int itemType, RoutePlanVo routePlan) {
+		if (routePlan == null) {
+			return WebCheckResult.error("机酒景信息不能为空");
+		}
 		RouteTrafficVO go = routePlan.getGo();
 		RouteTrafficVO back = routePlan.getBack();
 		if (go == null && back == null && StringUtils.isBlank(routePlan.getScenicInfo())
@@ -137,6 +138,9 @@ public class LineChecker {
 	}
 
 	public static WebCheckResult checkBaseInfo(BaseInfoVO baseInfo) {
+		if (baseInfo == null) {
+			return WebCheckResult.error("基础信息不能为空");
+		}
 		int type = baseInfo.getType();
 		if (!supportItemTypes.contains(type)) {
 			return WebCheckResult.error("未知商品类型");
@@ -182,16 +186,10 @@ public class LineChecker {
 		return WebCheckResult.success();
 	}
 
-	public static WebCheckResult checkPictureText(PictureTextVO pictureText) {
-		// TODO YEBIN 待开发
-		return WebCheckResult.success();
-	}
-
-	public static WebCheckResult checkPictureTextItem(PictureTextItemVo pictureTextItem) {
-		return WebCheckResult.success();
-	}
-
 	public static WebCheckResult checkPriceInfo(PriceInfoVO priceInfo) {
+		if (priceInfo == null) {
+			return WebCheckResult.error("价格信息不能为空");
+		}
 		List<PackageInfo> tcs = priceInfo.getTcs();
 		if (CollectionUtils.isEmpty(tcs)) {
 			return WebCheckResult.error("线路套餐不能为空");
@@ -223,6 +221,9 @@ public class LineChecker {
 	}
 
 	public static WebCheckResult checkPackageInfo(PackageInfo tc) {
+		if (tc == null) {
+			return WebCheckResult.error("套餐信息不能为空");
+		}
 		List<PackageMonth> months = tc.getMonths();
 		if (StringUtils.isBlank(tc.getName())) {
 			return WebCheckResult.error("线路套餐名称不能为空");
@@ -242,6 +243,9 @@ public class LineChecker {
 	}
 
 	public static WebCheckResult checkPackageMonth(PackageMonth month) {
+		if (month == null) {
+			return WebCheckResult.error("月份信息不能为空");
+		}
 		List<PackageDay> days = month.getDays();
 		if (CollectionUtils.isEmpty(days)) {
 			return WebCheckResult.error("套餐日期项不能为空");
@@ -256,6 +260,9 @@ public class LineChecker {
 	}
 
 	public static WebCheckResult checkPackageDay(PackageDay day) {
+		if (day == null) {
+			return WebCheckResult.error("日期信息不能为空");
+		}
 		List<PackageBlock> blocks = day.getBlocks();
 		if (CollectionUtils.isEmpty(blocks)) {
 			return WebCheckResult.error("套餐sku不能为空");
@@ -270,6 +277,9 @@ public class LineChecker {
 	}
 
 	public static WebCheckResult checkPackageBlock(PackageBlock block) {
+		if (block == null) {
+			return WebCheckResult.error("价格单元不能为空");
+		}
 		if (block.getPrice() < 0) {
 			return WebCheckResult.error("无效套餐sku价格");
 		}
@@ -286,6 +296,9 @@ public class LineChecker {
 	}
 
 	public static WebCheckResult checkRouteInfo(int itemType, RouteInfoVO tripInfo) {
+		if (tripInfo == null) {
+			return WebCheckResult.error("行程信息不能为空");
+		}
 		List<RouteDayVO> routeDays = tripInfo.getRouteDays();
 		if (CollectionUtils.isNotEmpty(routeDays)) {
 			for (RouteDayVO tripDay : routeDays) {
@@ -303,6 +316,9 @@ public class LineChecker {
 	}
 
 	public static WebCheckResult checkRouteDay(RouteDayVO tripDay) {
+		if (tripDay == null) {
+			return WebCheckResult.error("行程每日信息不能为空");
+		}
 		if (StringUtils.isBlank(tripDay.getTitle())) {
 			return WebCheckResult.error("行程标题不能为空");
 		} else if (tripDay.getTitle().length() > 38) {
