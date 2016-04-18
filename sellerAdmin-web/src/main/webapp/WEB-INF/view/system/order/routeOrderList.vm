@@ -269,7 +269,11 @@
 
     //清空
     $(".form-clear").click(function() {
-        $(".form-control").val("");
+       $("input[class='form-control']").val("");
+       $("input[name='beginDate']").val("");
+       $("input[name='endDate']").val("");
+       $("select[name='itemType'] option:first").prop("selected", 'selected');
+       $("select[name='orderStat'] option:first").prop("selected", 'selected');
     });
 
     $(".form-date").datetimepicker(

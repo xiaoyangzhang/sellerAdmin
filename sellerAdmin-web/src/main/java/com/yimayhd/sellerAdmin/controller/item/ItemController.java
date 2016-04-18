@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
-import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseException;
@@ -32,6 +33,8 @@ import com.yimayhd.sellerAdmin.service.CategoryService;
 import com.yimayhd.sellerAdmin.service.item.ItemService;
 import com.yimayhd.sellerAdmin.vo.menu.CategoryVO;
 import com.yimayhd.stone.enums.DomainType;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.enums.UserOptions;
 
 /**
  * 商品管理
@@ -78,13 +81,18 @@ public class ItemController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "/getcate")
-	public List<CategoryVO> getcate() {
+	public List<CategoryVO> getcate(HttpServletRequest request) {
+		//判断是否是达人
+		UserDO user = sessionManager.getUser(request);
+		long option = user.getOptions() ;
+		boolean isTalent = UserOptions.USER_TALENT.has(option) ;
+		
 		String cateId = get("categoryId");
 		List<CategoryVO> list = null;
 		if (StringUtils.isBlank(cateId)) {
 			WebResult<CategoryDO> webResult = categoryService.getCategoryByDomainId(DomainType.DOMAIN_JX.getType());
 			if (null != webResult && webResult.getValue() != null) {
-				list = categoryDoTOVo(webResult.getValue().getChildren());
+				list = categoryDoTOVo(webResult.getValue().getChildren(),isTalent);
 			}
 		} else {
 			// 查询某节点下的子节点
@@ -96,6 +104,24 @@ public class ItemController extends BaseController {
 		return list;
 	}
 
+	private List<CategoryVO> categoryDoTOVo(List<CategoryDO> children, boolean isTalent) {
+		List<CategoryVO> list = new ArrayList<CategoryVO>();
+		if (CollectionUtils.isEmpty(children)) {
+			return list;
+		}
+		for (CategoryDO categoryDO : children) {
+			if(!isTalent && categoryDO.getCategoryFeature().getItemType() != ItemType.NORMAL.getValue()){
+				CategoryVO vo = new CategoryVO();
+				vo.setCategoryId(categoryDO.getId());
+				vo.setIsLeaf(categoryDO.getLeaf());
+				vo.setLevel(categoryDO.getLevel());
+				vo.setCategoryName(categoryDO.getName());
+				list.add(vo);
+			}
+		}
+		return list;
+	}
+	
 	private List<CategoryVO> categoryDoTOVo(List<CategoryDO> children) {
 		List<CategoryVO> list = new ArrayList<CategoryVO>();
 		if (CollectionUtils.isEmpty(children)) {
