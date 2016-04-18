@@ -12,7 +12,7 @@
 
 
 
-<input type="hidden" class="subpath" value="$!root_path/merchant/saveUserdata">
+<input type="hidden" class="subpath" value="$!root_path/apply/merchant/saveUserdata">
 
 <!-- <form id="fm" method="post" action="/handle.php" enctype=”multipart/form-data”>
 <input type="file" name="adpicfile">

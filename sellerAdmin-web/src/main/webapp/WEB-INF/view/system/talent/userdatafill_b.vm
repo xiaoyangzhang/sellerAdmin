@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/filldata.css">
 </head>
 
-	<input type="hidden" class="subpath" value="/sellerAdmin/talent/saveExamineInfo_pageTwo">
+	<input type="hidden" class="subpath" value="/sellerAdmin/apply/talent/saveExamineInfo_pageTwo">
 
 <!-- <form id="fm" method="post" action="" enctype=”multipart/form-data”>
 <input type="file" name="adpicfile">
@@ -72,16 +72,13 @@
 								<td class="tbtxt w280"><label class="bred">*</label><span>负责人手机号：</span></td>
 								<td colspan="3"><input class="inptxt" value="$!examineInfo.principleTel" name="principleTel" datatype="m" maxlength="11" placeholder="手机号码"></td>
 							</tr>
-							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>请获取验证码：</span></td>
-								<td colspan="3"><input class="inptxt w250"  datatype="n" maxlength="6" placeholder="请获取验证码"><label class="getcode ml15">获取验证码</label></td>
-							</tr>
+							
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>负责人邮箱：</span></td>
 								<td colspan="3"><input class="inptxt" value="$!examineInfo.principleMail"  name="principleMail" datatype="e" maxlength="80" placeholder="请输入商户负责人邮箱"></td>
 							</tr>
 							<tr>
-								<td class="tbvt w280"><label class="bred">*</label><label>法人身份证正面：</label></td>
+								<td class="tbvt w280"><label class="bred">*</label><label>负责人身份证正面：</label></td>
 								<td class="w380">
 									<span class="imgbox mr5">
 										<div class="canclick card_a">
@@ -94,7 +91,7 @@
 										<input type="hidden" name="principleCardUp" value="$!examineInfo.principleCardUp" >
 									</span>
 								</td>
-								<td class="tbvt w150"><label class="bred">*</label><label>法人身份证背面：</label></td>
+								<td class="tbvt w150"><label class="bred">*</label><label>负责人身份证背面：</label></td>
 								<td>
 									<span class="imgbox mr5">
 										<div class="canclick card_b">

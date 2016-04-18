@@ -23,7 +23,6 @@ import com.yimayhd.sellerAdmin.model.vo.user.ModifyPasswordVo;
 import com.yimayhd.sellerAdmin.url.UrlHelper;
 import com.yimayhd.user.client.dto.ChangePasswordDTO;
 import com.yimayhd.user.session.manager.SessionManager;
-import com.yimayhd.user.session.manager.annot.SessionChecker;
 
 /**
  * 
@@ -67,7 +66,7 @@ public class AccountController extends BaseController {
 			}
 			return result ;
 		}
-		String url = UrlHelper.getUrl(rootPath, "/user/modifyPasswordSuccess");
+		String url = UrlHelper.getUrl(rootPath, "/account/modifyPasswordSuccess");
 		result.setValue(url);
 		return result;
 	}
