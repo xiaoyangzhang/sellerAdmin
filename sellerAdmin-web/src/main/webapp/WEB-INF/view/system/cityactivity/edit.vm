@@ -56,13 +56,13 @@
                 #parse("/system/cityactivity/baseInfo.vm")
             </div>
             <div class="tab-pane" id="tab2">
-            #parse("/system/cityactivity/pictureText.vm")
+            #parse("/system/comm/line/pictureText.vm")
             </div>
             <div class="tab-pane" id="tab3">
                 #parse("/system/sku/setsku.vm")
             </div>
             <div class="tab-pane" id="tab4">
-                #parse("/system/cityactivity/needKnow.vm")
+                #parse("/system/comm/line/needKnow.vm")
             </div>
             <div class="clubBotBtn">
                 #if($item.status !=2)
@@ -255,7 +255,8 @@
             startView: 2,
             forceParse: 0,
             showMeridian: 1,
-            format: "yyyy-mm-dd hh"
+            minView: 1,
+            format: "yyyy-mm-dd hh:00"
         });
 </script>
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/js/editer.js"></script>

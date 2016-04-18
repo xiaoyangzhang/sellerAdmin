@@ -1,40 +1,41 @@
 package com.yimayhd.sellerAdmin.model.trade;
 
-import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
 
 /**
  * Created by zhaozhaonan on 2015/12/22.
  */
 public class SubOrder {
-    private BizOrderDO bizOrderDO;
+    private TcDetailOrder tcDetailOrder;
     private long startTime;
     private long endTime;
     private long executeTime;
+    private String activityTime;
     private String vTxt;
 
     public SubOrder(){}
 
-    public SubOrder(BizOrderDO bizOrderDO) {
-        this.bizOrderDO = bizOrderDO;
+    public SubOrder(TcDetailOrder tcDetailOrder) {
+        this.tcDetailOrder = tcDetailOrder;
     }
 
-    public SubOrder(BizOrderDO bizOrderDO, long startTime, long endTime) {
-        this.bizOrderDO = bizOrderDO;
+    public SubOrder(TcDetailOrder tcDetailOrder, long startTime, long endTime) {
+        this.tcDetailOrder = tcDetailOrder;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
-    public SubOrder(BizOrderDO bizOrderDO, long executeTime) {
-        this.bizOrderDO = bizOrderDO;
+    public SubOrder(TcDetailOrder tcDetailOrder, long executeTime) {
+        this.tcDetailOrder = tcDetailOrder;
         this.executeTime = executeTime;
     }
 
-    public BizOrderDO getBizOrderDO() {
-        return bizOrderDO;
+    public TcDetailOrder getTcDetailOrder() {
+        return tcDetailOrder;
     }
 
-    public void setBizOrderDO(BizOrderDO bizOrderDO) {
-        this.bizOrderDO = bizOrderDO;
+    public void setTcDetailOrder(TcDetailOrder tcDetailOrder) {
+        this.tcDetailOrder = tcDetailOrder;
     }
 
     public long getStartTime() {
@@ -59,6 +60,14 @@ public class SubOrder {
 
     public void setExecuteTime(long executeTime) {
         this.executeTime = executeTime;
+    }
+
+    public String getActivityTime() {
+        return activityTime;
+    }
+
+    public void setActivityTime(String activityTime) {
+        this.activityTime = activityTime;
     }
 
     public String getvTxt() {
