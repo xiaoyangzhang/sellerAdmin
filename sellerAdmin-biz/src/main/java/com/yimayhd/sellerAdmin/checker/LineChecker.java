@@ -126,8 +126,8 @@ public class LineChecker {
 				}
 				if (StringUtils.isBlank(back.getDescription())) {
 					return WebCheckResult.error("回程详细描述不能为空");
-				} else if (back.getDescription().length() > 200) {
-					return WebCheckResult.error("回程详细描述不超过200字");
+				} else if (back.getDescription().length() > 500) {
+					return WebCheckResult.error("回程详细描述不超过500字");
 				}
 			}
 			if (StringUtils.isNotBlank(routePlan.getHotelInfo()) && routePlan.getHotelInfo().length() > 1000) {
@@ -167,8 +167,8 @@ public class LineChecker {
 		}
 		if (baseInfo.getDays() <= 0) {
 			return WebCheckResult.error("行程天数不能小于0");
-		} else if (baseInfo.getDays() > 10000) {
-			return WebCheckResult.error("行程天数不能大于10000");
+		} else if (baseInfo.getDays() > 100) {
+			return WebCheckResult.error("行程天数不能大于100");
 		}
 		if (StringUtils.isBlank(baseInfo.getDescription())) {
 			return WebCheckResult.error("线路亮点不能为空");
@@ -287,6 +287,8 @@ public class LineChecker {
 		}
 		if (block.getStock() < 0) {
 			return WebCheckResult.error("无效套餐sku库存");
+		} else if (block.getStock() > 10000) {
+			return WebCheckResult.error("库存不能大于10000");
 		}
 		if (block.getDiscount() < 0) {
 			return WebCheckResult.error("无效套餐sku会员优惠");
