@@ -184,9 +184,9 @@ public class MerchantBiz {
 				}
 			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
 				if(ExamineType.MERCHANT.getType()==type){
-					return "redirect:/merchant/toAddBasicPage";
+					return "redirect:/apply/merchant/toAddBasicPage";
 				}else if(ExamineType.TALENT.getType()==type){
-					return "redirect:/talent/toAddTalentInfo";
+					return "redirect:/apply/talent/toAddTalentInfo";
 				}
 			}else if(ExamineStatus.EXAMIN_ERROR.getStatus() == status){//审核不通过
 				if("edit".equals(pageType)){
@@ -203,7 +203,7 @@ public class MerchantBiz {
 				}else if(ExamineType.TALENT.getType()==type){
 					model.addAttribute("type", Constant.TALENT_NAME_CN);
 				}
-				model.addAttribute("url", "/merchant/toChoosePage?reject=true");
+				model.addAttribute("url", "/basicInfo/toChoosePage?reject=true");
 				return "/system/merchant/nothrough";
 			}else{
 				return null;
