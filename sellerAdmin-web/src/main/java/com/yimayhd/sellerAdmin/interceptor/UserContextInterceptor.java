@@ -54,8 +54,7 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 			MenuVO menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
 			
 //			if( menu == null ){
-//				String url = UrlHelper.getUrl(true, rootPath, "/error/lackPermission") ;
-////				String url ="redirect:/error/lackPermission" ;
+//				String url = UrlHelper.getUrl( rootPath, "/error/lackPermission") ;
 //				response.sendRedirect(url);
 //				return false;
 //			}

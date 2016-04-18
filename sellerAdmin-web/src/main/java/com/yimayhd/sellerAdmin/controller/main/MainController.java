@@ -32,9 +32,9 @@ public class MainController {
 			//不是达人、也不是商户
 			return new ModelAndView("redirect:/merchant/toChoosePage");
 		}else if(isTalent){
-			return new ModelAndView("redirect:/talent/toAddTalentInfo");
+			return new ModelAndView("redirect:/basicInfo/talent/toAddTalentInfo");
 		}else if(isMerchant){
-			return new ModelAndView("redirect:/merchant/toAddBasicPage");
+			return new ModelAndView("redirect:/basicInfo/merchant/toAddBasicPage");
 		}
 		
 		return new ModelAndView("/system/home/home");
