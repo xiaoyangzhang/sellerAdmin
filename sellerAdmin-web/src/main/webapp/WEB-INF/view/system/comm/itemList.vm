@@ -107,10 +107,10 @@
         						<td>$!{utilDate.date2String($item.publishDate)}</td>
                                 <td>
         							#if($item.containsOperate('VIEW'))
-        							<a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/item/$!item.id/type/$!item.type/edit/" target="_blank">查看</a><br/>
+        							<a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/item/$!item.id/type/$!item.type/view/" target="_blank">查看</a><br/>
         							#end
         							#if($item.containsOperate('EDIT'))
-									<a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/item/$!item.id/type/$!item.type/view/" target="_blank">编辑</a><br/>
+									<a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/item/$!item.id/type/$!item.type/edit/" target="_blank">编辑</a><br/>
         							#end
         							#if($item.containsOperate('SHELVE'))
         							<a class="btn btn-mini btn-link item-operate" href="javascript:void(0);" item-id="$!item.id" operate-type="SHELVE">上架</a><br/>

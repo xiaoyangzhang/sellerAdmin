@@ -83,7 +83,7 @@ public class LineController extends BaseLineController {
 					initLinePropertyTypes(baseInfo.getCategoryId());
 				}
 				put("product", gt);
-				put("isReadonly", false);
+				put("isReadonly", true);
 				return "/system/comm/line/detail";
 			} else {
 				throw new BaseException(result.getResultMsg());

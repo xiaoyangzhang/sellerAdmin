@@ -19,10 +19,12 @@ public class ItemUtil {
 	public static List<String> getItemOperates(int ItemType, int status) {
 		List<String> operates = new ArrayList<String>();
 		if (ItemStatus.create.getValue() == status) {
+			operates.add(ItemOperate.VIEW.name());
 			operates.add(ItemOperate.EDIT.name());
 			operates.add(ItemOperate.SHELVE.name());
 			operates.add(ItemOperate.DELETE.name());
 		} else if (ItemStatus.invalid.getValue() == status) {
+			operates.add(ItemOperate.VIEW.name());
 			operates.add(ItemOperate.EDIT.name());
 			operates.add(ItemOperate.SHELVE.name());
 			operates.add(ItemOperate.DELETE.name());
