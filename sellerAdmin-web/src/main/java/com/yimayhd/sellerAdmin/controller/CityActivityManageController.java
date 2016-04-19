@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
+import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.enums.ReduceType;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
@@ -102,6 +103,40 @@ public class CityActivityManageController extends BaseController {
         model.addAttribute("pictureText", itemVO.getPictureTextVO());
         model.addAttribute("needKnow", itemVO.getNeedKnowVO());
 
+        return "/system/cityactivity/edit";
+    }
+
+    /**
+     * chakan活动（商品）
+     * @return 活动（商品）详情
+     * @throws Exception
+     */
+    @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
+    public
+    String toView(Model model,@PathVariable(value = "id") long id) throws Exception {
+
+        CityActivityItemVO itemVO = cityActivityService.getCityActivityById(id);
+        if(itemVO == null) {
+            //TODO: exception
+            return "/system/comm/itemList";
+        }
+        WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.CITYACTIVITY);
+        if (allThemes.isSuccess()) {
+            put("themes", allThemes.getValue());
+        }
+        WebResult<List<CityVO>> allDests = tagService.getAllDests();
+        if (allDests.isSuccess()) {
+            put("dests", allDests.getValue());
+        }
+        model.addAttribute("category", itemVO.getCategoryVO());
+        model.addAttribute("item", itemVO.getItemVO());
+        model.addAttribute("cityActivity", itemVO.getCityActivityVO());
+        model.addAttribute("itemThemes", itemVO.getThemes());
+        model.addAttribute("itemDest", itemVO.getDest());
+        model.addAttribute("itemType",ItemType.CITY_ACTIVITY.getValue());
+        model.addAttribute("pictureText", itemVO.getPictureTextVO());
+        model.addAttribute("needKnow", itemVO.getNeedKnowVO());
+        model.addAttribute("isReadonly", true);
         return "/system/cityactivity/edit";
     }
 
