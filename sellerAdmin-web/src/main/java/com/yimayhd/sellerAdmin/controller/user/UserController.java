@@ -38,7 +38,6 @@ import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionHelper;
 import com.yimayhd.user.session.manager.SessionManager;
 import com.yimayhd.user.session.manager.VerifyCodeManager;
-import com.yimayhd.user.session.manager.annot.SessionChecker;
 
 /**
  * 
