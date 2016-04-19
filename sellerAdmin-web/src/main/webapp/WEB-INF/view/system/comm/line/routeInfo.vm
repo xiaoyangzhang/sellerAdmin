@@ -92,6 +92,9 @@
 				var images = $("<div class='panel trip-images'></div>");
                 images.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-exclamation-sign'></i><span class='tripAddSp'>行程图片</span></div>"));
                 var images_content = $("<div class='panel-body trip-images-content uploadbox clearfix'></div>");
+				var images_uplUrl = $("<input type='hidden' class='uplUrl' value='$!{utilWebconfig.getActionUploadFilePath()}' />");
+				var images_imgUrl = $("<input type='hidden' class='imgUrl' value='$!{utilWebconfig.getTfsRootPath()}' />");
+				images_content.append(images_uplUrl).append(images_imgUrl);
 				var image_size = 5;
 				while(image_size > 0) {
     				var image = $("<div class='imgbox'/>");
@@ -130,6 +133,8 @@
 			<div class="panel trip-images">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程图片</span></div>
 				<div class="panel-body trip-images-content uploadbox clearfix">
+                    <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionUploadFilePath()}" />
+                    <input type="hidden" class="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />	
 					<div class="imgbox">									
 						<div class="dimg">
 							#if($tripDay.picUrls && $tripDay.picUrls.size() > 0)
