@@ -2,65 +2,67 @@
       rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js"
         type="text/javascript"></script>
+
+<head>
+    <title>订单详情</title>
+</head>
+
 <div>
 	<div class="position">
 		<div>您所在的位置： 订单管理>订单详情</div>
 	</div>
     <br><br>
 
-
     <div class="orderState">
-		    <span>订单状态：<span>
+		    <span>
+                订单状态：
+            </span>
             #if($order.mainOrder.orderShowState == 1)
                 <span>
-                    未付款
-                    <button type="button" class="btn btn-primary cancel"
-                            data-target="#cancelModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">取消订单
-                    </button>
+                    未付款；
+                </span>
+                <span>
+                    下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.createTime)
                 </span>
             #elseif($order.mainOrder.orderShowState == 2)
                 <span>
-                    已付款
+                    已付款；
+                </span>
+                <span>
+                    付款时间：#if($!order.mainOrder.tcMainOrder.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)#end
+                </span>
+                <span>
                     <button type="button" class="btn btn-primary affirm"
-                            data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">确认
-                    </button>
-                    <button type="button" class="btn btn-primary refund"
-                            data-target="#refundModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">退款
+                            data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">发货
                     </button>
                 </span>
             #elseif($order.mainOrder.orderShowState == 3)
                 <span>
-                    已发货；发货时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.deliveryTime)
-                    <button type="button" class="btn btn-primary finish"
-                         data-target="#finishModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">完成
-                    </button>
-                    <button type="button" class="btn btn-primary refund"
-                        data-target="#refundModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">退款
-                    </button>
+                    待出行；
+                </span>
+                <span>
+                    发货时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.deliveryTime)
                 </span>
             #elseif($order.mainOrder.orderShowState == 4)
                 <span>
-                    交易成功
-                    <button type="button" class="btn btn-primary refund"
-                            data-target="#refundModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">退款
-                    </button>
+                    已完成;
+                </span>
+                <span>
+                    完成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
                 </span>
             #elseif($order.mainOrder.orderShowState == 5)
                 <span>
-                    交易关闭;
+                    已取消;
                 </span>
                 <span>
-                    关闭时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
+                    取消时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
                 </span>
                 <span>
-                    取消原因：$!order.closeReason
+                    取消原因：$!order.mainOrder.tcMainOrder.closeReason
                 </span>
             #elseif($order.mainOrder.orderShowState == 6)
                 <span>
                     待处理
-                    <button type="button" class="btn btn-primary refund"
-                            data-target="#refundModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">退款
-                    </button>
                 </span>
             #elseif($order.mainOrder.orderShowState == 7)
                 已退款
@@ -91,10 +93,14 @@
                 <td>$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId</td>
                 <td>下单时间：</td>
                 <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.createTime)</td>
+                <td>出发日期：</td>
+                <td>
+                    <div class="t-date">出发日期：$!date.format('yyyy-MM-dd',$!order.mainOrder.tcMainOrder.departTime)</div>
+                </td>
             </tr>
             <tr>
                 <td>付款时间：</td>
-                <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)</td>
+                <td>#if($!order.mainOrder.tcMainOrder.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)#end</td>
                 <td>
                     付款方式：
                     #if($!order.mainOrder.tcMainOrder.payChannel == 1)
@@ -118,9 +124,9 @@
         <div>联系人信息</div>
         <table class="table table-hover">
             <tr>
-                <th>姓名</th>
-                <th>手机号</th>
-                <th>邮箱</th>
+                <td>姓名</td>
+                <td>手机号</td>
+                <td>邮箱</td>
             </tr>
             <tr>
                 <td>$!order.contacts.contactName</td>
@@ -136,12 +142,12 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>序号</th>
-                <th>类型</th>
-                <th>姓名</th>
-                <th>手机号</th>
+                <td>序号</td>
+                <td>类型</td>
+                <td>姓名</td>
+                <td>手机号</td>
 ##                <th>证件类型</th>
-                <th>证件号</th>
+                <td>证件号</td>
             </tr>
                 #foreach($tourist in $order.tourists)
                 <tr>
@@ -207,7 +213,7 @@
                             #elseif($order.mainOrder.orderShowState == 2)
                                 已付款
                             #elseif($order.mainOrder.orderShowState == 3)
-                                已发货
+                                待出行
                             #elseif($order.mainOrder.orderShowState == 4)
                                 交易成功
                             #elseif($order.mainOrder.orderShowState == 5)
@@ -275,7 +281,7 @@
     <script>
         $(function () {
             $(".finish").click(function(){
-                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/buyerConfirmGoods/',{'orderId':$(this).attr('orderId')} ,function(data){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()' + '/order/buyerConfirmGoods/', {'orderId': $(this).attr('orderId')}, function (data) {
                     if(data.status == 200){
                         var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
                         msg.show();
@@ -294,7 +300,7 @@
             $('.refund').each(function(){
                 $(this).click(function(){
                     $(this).prop('disabled',true);
-                    $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/refundOrder/',{'orderId':$(this).attr('orderId')} ,function(data){
+                    $.post('$!utilWebconfig.getActionDefaultFontPath()' + '/order/refundOrder/', {'orderId': $(this).attr('orderId')}, function (data) {
                         if(data.status == 200){
                             var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
                             msg.show();
@@ -312,7 +318,7 @@
 
             //发货、确认
             $(".affirm").click(function(){
-                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/sellerSendGoods/',{'orderId':$(this).attr('orderId')} ,function(data){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()' + '/order/sellerSendGoods/', {'orderId': $(this).attr('orderId')}, function (data) {
                     if(data.status == 200){
                         var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
                         msg.show();
@@ -330,7 +336,7 @@
 
             //取消订单
             $(".cancel").click(function(){
-                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/B2C/orderManage/closeOrder/',{'orderId':$(this).attr('orderId')} ,function(data){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/order/closeOrder/',{'orderId':$(this).attr('orderId')} ,function(data){
                     if(data.status == 200){
                         var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
                         msg.show();

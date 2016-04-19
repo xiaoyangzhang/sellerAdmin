@@ -112,6 +112,7 @@ public class LineConverter {
 		baseInfo.setDays(itemDO.getDays());
 		baseInfo.setDescription(itemDO.getDescription());
 		baseInfo.setPicUrls(PicUrlsUtil.getItemMainPics(itemDO));
+		baseInfo.setItemStatus(itemDO.getStatus());
 		// themes
 		if (CollectionUtils.isNotEmpty(themes)) {
 			List<Long> themeIds = new ArrayList<Long>();
@@ -349,7 +350,6 @@ public class LineConverter {
 		ItemDO item = lineResult.getItemDO();
 		BaseInfoVO baseInfo = toBaseInfoVO(line, item, themes, departs, dests);
 		result.setBaseInfo(baseInfo);
-		result.setReadonly(item.getStatus() == ItemStatus.valid.getValue());
 		// 线路个性化部分 start
 		if (item.getItemType() == ItemType.FREE_LINE.getValue()) {
 			RouteDO routeDO = lineResult.getRouteDO();
@@ -481,7 +481,7 @@ public class LineConverter {
 		// 价格信息
 		// ItemDO
 		PriceInfoVO priceInfo = line.getPriceInfo();
-		if(priceInfo != null) {
+		if (priceInfo != null) {
 			ItemPubUpdateDTO itemPubUpdateDTO = toItemPubUpdateDTO(baseInfo, priceInfo.getLimitBySecond());
 			dto.setItem(itemPubUpdateDTO);
 			PriceInfoDTO priceInfoDTO = toPriceInfoDTO(baseInfo.getCategoryId(), sellerId, priceInfo);

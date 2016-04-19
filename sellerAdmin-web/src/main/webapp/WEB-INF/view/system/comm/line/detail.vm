@@ -87,7 +87,7 @@
             		#parse("/system/comm/line/needKnow.vm")
             	</div>
             </div>
-            #if(!${product.isReadonly()})
+            #if(!${isReadonly})
             <div class="groupTravelBot">
                 <button class="btn btn-primary save">保  存</button>
             	<button class="btn btn-primary reload" onclick="location.reload();">重  载</button>

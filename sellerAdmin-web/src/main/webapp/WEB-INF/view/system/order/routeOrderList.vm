@@ -2,6 +2,12 @@
       rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js"
         type="text/javascript"></script>
+
+<head>
+    <title>订单列表</title>
+</head>
+
+
 <div>
     <form class="form-signin" id="tradeListForm" name="tradeListForm"
           action="$!utilWebconfig.getActionDefaultFontPath()/order/list" method="GET" role="form">
@@ -16,7 +22,7 @@
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">商品类型</button>
                 </span>
-                <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="itemType">
+                <select data-placeholder="请选择..." class="chosen-select form-control integer-field " tabindex="2" name="itemType">
                     <option value="0">全部</option>
                     <option value="3100" #if($!orderListQuery.itemType == 3100) selected #end>跟团游</option>
                     <option value="3200" #if($!orderListQuery.itemType == 3200) selected #end>自由行</option>
@@ -176,11 +182,11 @@
                                         #elseif($order.orderShowState == 2)
                                             已付款
                                         #elseif($order.orderShowState == 3)
-                                            已发货
+                                            待出行
                                         #elseif($order.orderShowState == 4)
-                                            交易成功
+                                            已完成
                                         #elseif($order.orderShowState == 5)
-                                            交易关闭
+                                            已取消
                                         #elseif($order.orderShowState == 6)
                                             待处理
                                         #elseif($order.orderShowState == 7)
@@ -197,16 +203,7 @@
                                     <a class="btn btn-primary addRefund detail" href="$!utilWebconfig.getActionDefaultFontPath()/order/$!order.tcMainOrder.bizOrder.bizOrderId/" target="_blank">详情</a><br/>
                                     #if($order.orderShowState == 2)
                                         <button type="button" class="btn btn-primary affirm"
-                                                data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">确认发货
-                                        </button>
-                                    #elseif($order.orderShowState == 3)
-                                        <button type="button" class="btn btn-primary finish"
-                                                data-target="#finishModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">完成
-                                        </button>
-                                    #end
-                                    #if($order.orderShowState !=7 && $order.orderShowState !=1 && $order.orderShowState !=5)
-                                        <button type="button" class="btn btn-primary refund"
-                                                data-target="#refundModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">退款
+                                                data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">发货
                                         </button>
                                     #end
                                 </td>
@@ -272,7 +269,11 @@
 
     //清空
     $(".form-clear").click(function() {
-        $(".form-control").val("");
+       $("input[class='form-control']").val("");
+       $("input[name='beginDate']").val("");
+       $("input[name='endDate']").val("");
+       $("select[name='itemType'] option:first").prop("selected", 'selected');
+       $("select[name='orderStat'] option:first").prop("selected", 'selected');
     });
 
     $(".form-date").datetimepicker(

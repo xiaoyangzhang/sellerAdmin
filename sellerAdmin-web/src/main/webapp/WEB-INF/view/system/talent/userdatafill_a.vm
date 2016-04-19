@@ -5,7 +5,7 @@
 	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/filldata.css">
 </head>
 
-	<input type="hidden" class="subpath" value="/sellerAdmin/talent/saveExamineInfo_pageOne">
+	<input type="hidden" class="subpath" value="/sellerAdmin/apply/talent/saveExamineInfo_pageOne">
 
 	<div class="comwidth agreement-box mt30">
 		<div class="tit gray6 f16">达人开通申请</div>

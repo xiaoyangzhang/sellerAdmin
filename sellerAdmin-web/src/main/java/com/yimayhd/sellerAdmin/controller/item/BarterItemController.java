@@ -84,6 +84,26 @@ public class BarterItemController extends BaseController {
 	}
 
 	/**
+	 * 查看普通商品
+	 *
+	 * @param model
+	 * @param itemId
+	 *            商品ID 商品类型
+	 * @return 普通商品详情
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/common/view/{itemId}", method = RequestMethod.GET)
+	public String toViewCommon(Model model, @PathVariable(value = "itemId") long itemId) throws Exception {
+		ItemResultVO itemResultVO = commodityService.getCommodityById(itemId);
+		model.addAttribute("category", itemResultVO.getCategoryVO());
+		model.addAttribute("commodity", itemResultVO.getItemVO());
+		model.addAttribute("itemSkuList", itemResultVO.getItemSkuVOList());
+		model.addAttribute("pictureText", itemResultVO.getItemVO().getPictureTextVO());
+		model.addAttribute("isReadonly", true);
+		return "/system/comm/common/edit";
+	}
+
+	/**
 	 * 修改普通商品
 	 *
 	 * @param itemVO

@@ -1048,7 +1048,7 @@ public class DateUtil {
 		if (date == null) {
 			return null;
 		}
-		return new Date(date.getTime() + 24L * 3600L * 1000L);
+		return new Date(date.getTime() + 24L * 3600L * 1000L - 1);
 	}
 
 	/**

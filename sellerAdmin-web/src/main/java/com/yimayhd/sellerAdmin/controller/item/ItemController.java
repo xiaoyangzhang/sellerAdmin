@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
-import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseException;
@@ -23,6 +24,7 @@ import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.enums.BizItemStatus;
 import com.yimayhd.sellerAdmin.enums.BizItemType;
 import com.yimayhd.sellerAdmin.model.enums.ItemOperate;
 import com.yimayhd.sellerAdmin.model.item.ItemListItemVO;
@@ -31,6 +33,8 @@ import com.yimayhd.sellerAdmin.service.CategoryService;
 import com.yimayhd.sellerAdmin.service.item.ItemService;
 import com.yimayhd.sellerAdmin.vo.menu.CategoryVO;
 import com.yimayhd.stone.enums.DomainType;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.enums.UserOptions;
 
 /**
  * 商品管理
@@ -42,9 +46,9 @@ import com.yimayhd.stone.enums.DomainType;
 @RequestMapping("/item")
 public class ItemController extends BaseController {
 	@Autowired
-	private ItemService itemService;
+	private ItemService		itemService;
 	@Autowired
-	private CategoryService categoryService;
+	private CategoryService	categoryService;
 
 	/**
 	 * 商品列表
@@ -65,7 +69,7 @@ public class ItemController extends BaseController {
 		}
 		put("pageVo", result.getValue());
 		put("itemTypeList", BizItemType.values());
-		put("itemStatusList", ItemStatus.values());
+		put("itemStatusList", BizItemStatus.values());
 		put("query", query);
 		return "/system/comm/itemList";
 	}
@@ -77,19 +81,42 @@ public class ItemController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "/getcate")
-	public List<CategoryVO> getcate() {
+	public List<CategoryVO> getcate(HttpServletRequest request) {
+		// 判断是否是达人
+		UserDO user = sessionManager.getUser(request);
+		long option = user.getOptions();
+		boolean isTalent = UserOptions.USER_TALENT.has(option);
+
 		String cateId = get("categoryId");
 		List<CategoryVO> list = null;
 		if (StringUtils.isBlank(cateId)) {
 			WebResult<CategoryDO> webResult = categoryService.getCategoryByDomainId(DomainType.DOMAIN_JX.getType());
 			if (null != webResult && webResult.getValue() != null) {
-				list = categoryDoTOVo(webResult.getValue().getChildren());
+				list = categoryDoTOVo(webResult.getValue().getChildren(), isTalent);
 			}
 		} else {
 			// 查询某节点下的子节点
 			WebResult<CategoryDO> webResult = categoryService.getCategoryById(Integer.parseInt(cateId));
 			if (null != webResult && webResult.getValue() != null) {
 				list = categoryDoTOVo(webResult.getValue().getChildren());
+			}
+		}
+		return list;
+	}
+
+	private List<CategoryVO> categoryDoTOVo(List<CategoryDO> children, boolean isTalent) {
+		List<CategoryVO> list = new ArrayList<CategoryVO>();
+		if (CollectionUtils.isEmpty(children)) {
+			return list;
+		}
+		for (CategoryDO categoryDO : children) {
+			if (!isTalent && categoryDO.getCategoryFeature().getItemType() != ItemType.NORMAL.getValue()) {
+				CategoryVO vo = new CategoryVO();
+				vo.setCategoryId(categoryDO.getId());
+				vo.setIsLeaf(categoryDO.getLeaf());
+				vo.setLevel(categoryDO.getLevel());
+				vo.setCategoryName(categoryDO.getName());
+				list.add(vo);
 			}
 		}
 		return list;
@@ -128,7 +155,7 @@ public class ItemController extends BaseController {
 			return redirect("/line/category/" + categoryId + "/create/");
 		} else if (ItemType.CITY_ACTIVITY.equals(itemType)) {
 			return redirect("/cityactivity/toAdd?categoryId=" + categoryId);
-		}else if (ItemType.NORMAL.equals(itemType)) {
+		} else if (ItemType.NORMAL.equals(itemType)) {
 			return redirect("/barterItem/common/toAdd?categoryId=" + categoryId);
 		} else {
 			throw new BaseException("unsupport ItemType " + itemType.name());
@@ -176,15 +203,29 @@ public class ItemController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = "/{id}/type/{type}")
+	@RequestMapping(value = "/{id}/type/{type}/edit")
 	public String detail(@PathVariable(value = "id") long itemId, @PathVariable(value = "type") int itemType) {
 		// TODO YEBIN 待开发
 		if (ItemType.FREE_LINE.getValue() == itemType || ItemType.TOUR_LINE.getValue() == itemType) {
-			return redirect("/line/detail/" + itemId + "/");
+			return redirect("/line/edit/" + itemId + "/");
 		} else if (ItemType.CITY_ACTIVITY.getValue() == itemType) {
 			return redirect("/cityactivity/edit/" + itemId);
-		}else if (ItemType.NORMAL.getValue() == itemType) {
+		} else if (ItemType.NORMAL.getValue() == itemType) {
 			return redirect("/barterItem/common/edit/" + itemId);
+		} else {
+			throw new BaseException("unsupport ItemType " + itemType);
+		}
+	}
+
+	@RequestMapping(value = "/{id}/type/{type}/view")
+	public String view(@PathVariable(value = "id") long itemId, @PathVariable(value = "type") int itemType) {
+		// TODO YEBIN 待开发
+		if (ItemType.FREE_LINE.getValue() == itemType || ItemType.TOUR_LINE.getValue() == itemType) {
+			return redirect("/line/view/" + itemId + "/");
+		} else if (ItemType.CITY_ACTIVITY.getValue() == itemType) {
+			return redirect("/cityactivity/edit/" + itemId);
+		} else if (ItemType.NORMAL.getValue() == itemType) {
+			return redirect("/barterItem/common/view/" + itemId);
 		} else {
 			throw new BaseException("unsupport ItemType " + itemType);
 		}
