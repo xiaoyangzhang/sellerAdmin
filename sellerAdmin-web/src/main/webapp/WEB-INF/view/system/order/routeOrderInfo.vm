@@ -38,7 +38,7 @@
                 </span>
             #elseif($order.mainOrder.orderShowState == 3)
                 <span>
-                    已发货；
+                    待出行；
                 </span>
                 <span>
                     发货时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.deliveryTime)
@@ -213,7 +213,7 @@
                             #elseif($order.mainOrder.orderShowState == 2)
                                 已付款
                             #elseif($order.mainOrder.orderShowState == 3)
-                                已发货
+                                待出行
                             #elseif($order.mainOrder.orderShowState == 4)
                                 交易成功
                             #elseif($order.mainOrder.orderShowState == 5)
