@@ -16,7 +16,7 @@
 					#set($length = $content.length())
 				#end
 				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="500">$!content</textarea>
-				<span class="word-num">$!{length}/500字</span>
+				<span class="word-num">$!{length}/2000字</span>
 			</td>
 		</tr>
 		<tr class="need-know-item">
@@ -44,7 +44,7 @@
 					#set($length = $content.length())
 				#end
 				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="1000">$!content</textarea>
-				<span class="word-num">$!{length}/1000字</span>
+				<span class="word-num">$!{length}/2000字</span>
 			</td>
 		</tr>
 		<tr class="need-know-item">
