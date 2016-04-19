@@ -203,7 +203,7 @@ public class MerchantBiz {
 				}else if(ExamineType.TALENT.getType()==type){
 					model.addAttribute("type", Constant.TALENT_NAME_CN);
 				}
-				model.addAttribute("url", "/basicInfo/toChoosePage?reject=true");
+				model.addAttribute("url", "/apply/toChoosePage?reject=true");
 				return "/system/merchant/nothrough";
 			}else{
 				return null;

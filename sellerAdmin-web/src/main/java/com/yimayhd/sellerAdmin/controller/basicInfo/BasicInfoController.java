@@ -63,26 +63,7 @@ public class BasicInfoController extends BaseController {
 	@Resource
 	private TalentInfoDealService talentInfoDealService;
 	
-	/**
-	 * 跳转到选择页面
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "toChoosePage")
-	public String toChoosePage(Model model,boolean reject){
-		String chooseUrl = "/system/merchant/chosetype";
-		if(reject){
-			return chooseUrl;
-		}
-		//权限
-		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "");
-		if(null != judgeRest){
-			return judgeRest;
-		}else{
-			return chooseUrl;
-		}
-		
-	}
+	
 	
 	/**
 	 * 跳转到商户基本信息页面
