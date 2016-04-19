@@ -28,6 +28,7 @@ public class MenuHelper {
 			}
 			for( MenuVO child : children ){
 				String ml = child.getUrl() ;
+				System.err.println(ml);
 				if( ml != null && url.equalsIgnoreCase(ml.trim()) ){
 					HaMenuRequestType type = HaMenuRequestType.getRequestType(menu.getRequestType());
 					if( type == null ){

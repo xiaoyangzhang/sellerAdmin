@@ -52,13 +52,14 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 			menuBiz.cacheUserMenus2Tair(userId);
 			
 			List<MenuVO> menus = menuCacheMananger.getUserMenus(userId);
+			
 			MenuVO menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
 			
-//			if(RequestMethod.GET.name().equalsIgnoreCase(method)  && menu == null  && !pathInfo.toLowerCase().contains("home") ){
-//				String url = UrlHelper.getUrl( rootPath, "/error/lackPermission") ;
-//				response.sendRedirect(url);
-//				return false;
-//			}
+			if(RequestMethod.GET.name().equalsIgnoreCase(method)  && menu == null  && !pathInfo.toLowerCase().contains("home") ){
+				String url = UrlHelper.getUrl( rootPath, "/error/lackPermission") ;
+				response.sendRedirect(url);
+				return false;
+			}
 			
 			request.setAttribute("menus", menus);
 			request.setAttribute("currentMenu", menu);
