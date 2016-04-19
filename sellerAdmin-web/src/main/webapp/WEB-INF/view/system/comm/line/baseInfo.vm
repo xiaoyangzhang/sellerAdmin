@@ -1,7 +1,5 @@
 #set($baseInfo = $product.baseInfo)
 <table border="0" class="table tab-inputgroup base-info">
-    <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionUploadFilePath()}" />
-    <input type="hidden" class="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />	
 	<tbody>
 		<tr>
 			<td>商品类型：</td>
@@ -71,6 +69,8 @@
 			<td>*商品图：</td>
 			<td>
 				<div class="uploadbox clearfix">
+                    <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionUploadFilePath()}" />
+                    <input type="hidden" class="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />	
 					<div class="imgbox">												
 						<div class="dimg">
 							#if($baseInfo.picUrls && $baseInfo.picUrls.size() > 0)
