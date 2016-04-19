@@ -37,6 +37,8 @@ import com.yimayhd.sellerAdmin.result.BizResult;
 import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 import com.yimayhd.sellerAdmin.vo.merchant.UserDetailInfo;
 import com.yimayhd.tradecenter.client.model.enums.ExamineeStatus;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.enums.UserOptions;
 import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionManager;
@@ -84,7 +86,7 @@ public class ApplyController extends BaseController {
 			return chooseUrl;
 		}
 		//权限
-		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "");
+		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "");
 		if(null != judgeRest){
 			return judgeRest;
 		}else{
@@ -110,7 +112,7 @@ public class ApplyController extends BaseController {
 	@RequestMapping(value = "/merchant/toDetailPage")
 	public String toBusinessDetailPage(Model model){
 		//权限
-		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -141,7 +143,7 @@ public class ApplyController extends BaseController {
 	@RequestMapping(value = "/merchant/toDetailPageB")
 	public String toDetailPageB(Model model){
 		//权限
-		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -243,7 +245,7 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/talent/agreement",method=RequestMethod.GET)
 	public String toAgreementPage(Model model) {
-		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -260,7 +262,7 @@ public class ApplyController extends BaseController {
 	
 	@RequestMapping(value="/talent/toAddUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toAddUserdatafill_a(Model model){
-		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -268,9 +270,9 @@ public class ApplyController extends BaseController {
 		return "system/talent/userdatafill_a";
 		
 	}
-	@RequestMapping(value="toEditUserdatafill_pageOne",method=RequestMethod.GET)
+	@RequestMapping(value="/talent/toEditUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toEditUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model) {
-		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -286,7 +288,7 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/talent/toAddUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toAddUserdatafill_b(Model model) {
-		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -297,7 +299,7 @@ public class ApplyController extends BaseController {
 	}
 	@RequestMapping(value="/talent/toEditUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toEditUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
-		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -315,7 +317,7 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/talent/verification",method=RequestMethod.GET)
 	public String verificationPage(Model model) {
-		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
+		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
 		if(null != judgeRest){
 			return judgeRest;
 		}
@@ -348,9 +350,9 @@ public class ApplyController extends BaseController {
 			if (resultSupport.isSuccess()) {
 				if (null == examineInfoDTO
 						|| examineInfoDTO.getSellerId() <= 0) {
-					bizResult.setValue("talent/toAddUserdatafill_pageTwo");
+					bizResult.setValue("/toAddUserdatafill_pageTwo");
 				} else {
-					bizResult.setValue("talent/toEditUserdatafill_pageTwo");
+					bizResult.setValue("/toEditUserdatafill_pageTwo");
 					
 				}
 			}
@@ -388,7 +390,7 @@ public class ApplyController extends BaseController {
 			}
 			if (resultSupport.isSuccess()
 					&& updateCheckStatusResult.isSuccess()) {
-				bizResult.setValue("talent/verification");
+				bizResult.setValue("/apply/talent/verification");
 			} else if (!resultSupport.isSuccess()) {
 				//bizResult.setWebReturnCode(resultSupport.getWebReturnCode());
 				bizResult.buildFailResult(resultSupport.getErrorCode(),
@@ -402,6 +404,88 @@ public class ApplyController extends BaseController {
 				//result.setWebReturnCode(updateCheckStatusResult.getWebReturnCode());
 			}
 			return bizResult;
+		
+	}
+	/**
+	 * 判断权限的通用方法
+	 * @param model
+	 * @param userId
+	 * @param pageType
+	 * @return
+	 */
+	public  String judgeAuthority(Model model,long userId,String pageType){
+//		UserDO userDO = sessionManager.getUser() ;
+//		long option = userDO.getOptions() ;
+//		boolean isTalentA = UserOptions.CERTIFICATED.has(option) ;
+//		boolean isTalentB = UserOptions.USER_TALENT.has(option) ;
+//		
+//		boolean isMerchant = UserOptions.COMMERCIAL_TENANT.has(option) ;
+//		if(isTalentA || isTalentB){
+//			return "redirect:/basicInfo/talent/toAddTalentInfo";
+//		}else if(isMerchant){
+//			return "redirect:/basicInfo/merchant/toAddBasicPage";
+//		}
+		
+		String chooseUrl = "/system/merchant/chosetype";
+		InfoQueryDTO info = new InfoQueryDTO();
+		info.setDomainId(Constant.DOMAIN_JIUXIU);
+		info.setSellerId(userId);
+		try {
+			MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
+			if(!result.isSuccess()){
+				return chooseUrl;
+			}
+			if(null == result.getValue()){
+				return null;
+			}
+			ExamineInfoDTO dto = result.getValue() ;
+			int type = dto.getType();
+			int status = dto.getExaminStatus();
+			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
+				if(ExamineType.MERCHANT.getType()==type){
+					return "/system/merchant/verification";
+				}else if(ExamineType.TALENT.getType()==type){
+					return "/system/talent/verification";
+				}
+			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
+				if(ExamineType.MERCHANT.getType()==type){
+					return "redirect:/basicInfo/merchant/toAddBasicPage";
+				}else if(ExamineType.TALENT.getType()==type){
+					return "redirect:/basicInfo/talent/toAddTalentInfo";
+				}
+			}else if(ExamineStatus.EXAMIN_ERROR.getStatus() == status){//审核不通过
+				if("edit".equals(pageType)){
+					return null;
+				}
+				
+				info.setType(type);
+				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
+				if(rest.isSuccess() && (null!=rest.getValue())){
+					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+				}
+				if(ExamineType.MERCHANT.getType()==type){
+					model.addAttribute("type", Constant.MERCHANT_NAME_CN);
+				}else if(ExamineType.TALENT.getType()==type){
+					model.addAttribute("type", Constant.TALENT_NAME_CN);
+				}
+				model.addAttribute("url", "toChoosePage?reject=true");
+				return "/system/merchant/nothrough";
+			}else if (ExamineStatus.EXAMIN_NOT_ABLE.getStatus() == status) {
+				if(ExamineType.MERCHANT.getType()==type){
+					//return "redirect:/basicInfo/merchant/toAddBasicPage";
+					return "redirect:merchant/toDetailPage";
+				}else if(ExamineType.TALENT.getType()==type){
+					return "redirect:talent/toEditUserdatafill_pageOne";
+				}
+			}else{
+				return null;
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			model.addAttribute("服务器出现错误，请稍后重新登录");
+			return chooseUrl;
+		}
+		return chooseUrl;
 		
 	}
 }
