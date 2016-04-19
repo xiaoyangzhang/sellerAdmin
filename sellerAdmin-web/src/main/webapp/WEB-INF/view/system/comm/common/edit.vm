@@ -1,5 +1,6 @@
 #set($layout="layout/layout-blank.vm")
-<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/zui/css/zui.min.css" >
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/zui/css/zui.min.css"
+      xmlns="http://www.w3.org/1999/html">
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/base.css">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/common.css">
@@ -11,7 +12,7 @@
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/js/jquery.js"></script>
 <title>添加特产-$!category.name</title>
 <div class="example whole">
-    <form name="commodityForm" id="commodityForm" action="" method="post" commodityId="$!commodity.id">
+    <form name="commodityForm" id="commodityForm" class="form-horizontal" action="" method="post" commodityId="$!commodity.id">
         <div class="">
                 <table class="table">
                     <input type="hidden" name="categoryId" value="$!category.id">
@@ -41,27 +42,30 @@
                         </td>
                     </tr>
                     <tr>
+
                         <td><span class="spColor">*</span>商品名称</td>
                         <td>
-                            <input class="title" type="text" name="title" value="$!esc.html($!commodity.title)">
+                            <div class="input-group">
+                                <input class="title form-control" type="text" name="title" value="$!esc.html($!commodity.title)"><span class="input-group-addon">0/38字</span>
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td>商品代码</td>
                         <td>
-                            <input class="code" type="text" name="code" value="$!esc.html($!commodity.code)">
+                            <input class="code form-control" type="text" name="code" value="$!esc.html($!commodity.code)">
                         </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>商品价格</td>
                         <td>
-                            <input class="priceY" type="text" name="priceY" value="$!commodity.priceY">
+                            <input class="priceY form-control" type="text" name="priceY" value="$!commodity.priceY">
                         </td>
                     </tr>
                     <tr>
                         <td><span class="spColor">*</span>商品库存</td>
                         <td>
-                            <input class="stockNum" type="text" name="stockNum" value="$!commodity.stockNum">
+                            <input class="stockNum form-control" type="text" name="stockNum" value="$!commodity.stockNum">
                         </td>
                     </tr>
                     #*json string 提交*#
@@ -174,7 +178,7 @@
                                                 #if($!keyCategoryProperty.canCustom == 1)
                                                 #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
                                                     #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
-                                                        <span><input class="propertyInput" type="text" value="$!esc.html($!propertyEditVTxt)"></span>
+                                                        <span><input class="propertyInput form-control" type="text" value="$!esc.html($!propertyEditVTxt)"></span>
                                                     #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
                                                         <input type="text" class='form-control form-date propertyInput propertyInput' placeholder='yyyy-MM-dd' readonly value="$!esc.html($!propertyEditVTxt)">
                                                     #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
@@ -217,7 +221,7 @@
                                             #if($!keyCategoryProperty.canCustom == 1)
                                             #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
                                                 #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
-                                                    <span><input type="text" class="propertyInput" value="$!esc.html($!propertyEditVTxt)"></span>
+                                                    <span><input type="text" class="propertyInput form-control" value="$!esc.html($!propertyEditVTxt)"></span>
                                                 #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
                                                     <input type="text" class='form-control form-date propertyInput' placeholder='yyyy-MM-dd' readonly value="$!esc.html($!propertyEditVTxt)">
                                                 #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
@@ -303,7 +307,7 @@
                         <tr>
                             <td><span class="red">*</span>商品主图：</td>
                             <td>
-                                <div class="uploadbox clearfix">
+                                #*<div class="uploadbox clearfix">
                                     #set($numArr=[0,1,2,3,4])
                                     #foreach($index in $numArr)
                                         <div class="imgbox">
@@ -329,7 +333,35 @@
                                         </div>
 
                                     #end
-                                    图片大小不超过500K，建议图片尺寸为：800*300，至少上传1张图
+                                    图片大小不超过500K，格式为JPG,JPEG,PNG；建议图片尺寸为：800*300
+                                    至少上传1张图片，第一张图片将被展示在搜索结果列表页面和订单页面
+                                </div>*#
+                                <div class="uploadbox clearfix">
+                                    <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" />
+                                    <input type="hidden" class="imgUrl" value="$utilWebconfig.getTfsRootPath()" />
+                                    #set($numArr=[0,1,2,3,4])
+                                    #foreach($index in $numArr)
+                                        <div class="imgbox"><!--这里开始imgbox开始-->
+                                            <div class="dimg">
+                                                #set($flag = ($!commodity.itemMainPics.size() > $index))
+                                                #if($flag)
+                                                    <img src="$utilWebconfig.getTfsRootPath()/$!commodity.itemMainPics.get($index)" img-root="$utilWebconfig.getTfsRootPath()" />
+                                                    <input type="hidden" class="picCode" value="$!commodity.itemMainPics.get($index)" />
+                                                #else
+                                                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()" />
+                                                    <input type="hidden" class="picCode" />
+                                                #end
+
+                                            </div>
+                                            <div class="upimgbtn">
+                                                <a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
+                                                <button class="del">删除图片</button>
+                                            </div>
+                                            <input type="hidden" name="imgvalue" class="imgvalue">
+                                        </div>
+                                    #end
+                                    图片大小不超过500K，格式为JPG,JPEG,PNG；建议图片尺寸为：800*300</br>
+                                    至少上传1张图片，第一张图片将被展示在搜索结果列表页面和订单页面
                                 </div>
                             </td>
                         </tr>
@@ -403,7 +435,7 @@
 <script>
     //验证
     var validate = function(){
-        if(!$('.title').val()){
+        if(!$('.title').val() || !$('.title').val().trim()){
             return '请输入商品名称';
         }else if($('.title').val().length > 38){
             return '商品名称不能超过38个字';

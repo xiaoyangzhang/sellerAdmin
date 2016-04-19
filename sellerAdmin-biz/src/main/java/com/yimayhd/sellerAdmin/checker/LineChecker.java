@@ -84,12 +84,36 @@ public class LineChecker {
 		List<NeedKnowItemVo> needKnowItems = needKnow.getNeedKnowItems();
 		if (CollectionUtils.isNotEmpty(needKnowItems)) {
 			for (NeedKnowItemVo needKnowItem : needKnowItems) {
-				if (StringUtils.isBlank(needKnowItem.getTitle())) {
+				String title = needKnowItem.getTitle();
+				if (StringUtils.isBlank(title)) {
 					return WebCheckResult.error("预定须知标题为空");
+				} else {
+					String content = needKnowItem.getContent();
+					if (StringUtils.isBlank(content)) {
+						return WebCheckResult.error(title + "内容不能为空");
+					} else {
+						if ("费用包含".endsWith(title)) {
+							if (content.length() > 2000) {
+								return WebCheckResult.error(title + "内容不能超过2000个字符");
+							}
+						} else if ("费用不含".endsWith(title)) {
+							if (content.length() > 500) {
+								return WebCheckResult.error(title + "内容不能超过500个字符");
+							}
+						} else if ("预订说明".endsWith(title)) {
+							if (content.length() > 2000) {
+								return WebCheckResult.error(title + "内容不能超过2000个字符");
+							}
+						} else if ("退改规定".endsWith(title)) {
+							if (content.length() > 500) {
+								return WebCheckResult.error(title + "内容不能超过500个字符");
+							}
+						} else {
+							return WebCheckResult.error("错误的须知标题");
+						}
+					}
 				}
-				if (StringUtils.isBlank(needKnowItem.getContent())) {
-					return WebCheckResult.error(needKnowItem.getTitle() + "内容不能为空");
-				}
+
 			}
 		} else {
 			return WebCheckResult.error("预定须知不能为空");
