@@ -91,7 +91,7 @@
 				// 行程图片
 				var images = $("<div class='panel trip-images'></div>");
                 images.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-exclamation-sign'></i><span class='tripAddSp'>行程图片</span></div>"));
-                var images_content = $("<div class='panel-body trip-images-content'></div>");
+                var images_content = $("<div class='panel-body trip-images-content uploadbox clearfix'></div>");
 				var image_size = 5;
 				while(image_size > 0) {
     				var image = $("<div class='imgbox'/>");
@@ -129,7 +129,7 @@
 			</div>
 			<div class="panel trip-images">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程图片</span></div>
-				<div class="panel-body trip-images-content">
+				<div class="panel-body trip-images-content uploadbox clearfix">
 					<div class="imgbox">									
 						<div class="dimg">
 							#if($tripDay.picUrls && $tripDay.picUrls.size() > 0)
