@@ -2,6 +2,8 @@
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
 -->
 <div class="tripInfo">
+	<input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionUploadFilePath()}" />
+    <input type="hidden" class="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />
 	<ul id="day_tab" class="nav nav-tabs tripInfoNav">
 		#foreach($tripDay in $product.routeInfo.routeDays)
 		<li class='day_${velocityCount}_tab day_tab #if(${velocityCount}==1) active #end' day-id='${velocityCount}'>
@@ -93,15 +95,13 @@
 				var image_size = 5;
 				while(image_size > 0) {
     				var image = $("<div class='imgbox'/>");
-    				var image_form = $("<form action='$!{utilWebconfig.getActionDefaultFontPath()}/upload/file' method='post' class='imgform' enctype='multipart/form-data'/>");
     				var dimg = $("<div class='dimg'/>")
-    					.append("<img src='data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==' img-root='$!utilWebconfig.getTfsRootPath()'/>")
+    					.append("<img src='data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='/>")
 						.append("<input type='hidden' class='picCode day-"+dayId+"-trip-image trip-image'/>");
     				var upimgbtn = $("<div class='upimgbtn'/>")
-    					.append("<input type='file' name='picfile' class='picfile'>")
-    					.append("<button class='upl'>上传图片</button>")
+    					.append("<a class='upl'>上传图片<input type='file' name='picfile' class='picfile'></a>")
     					.append("<button class='del'>删除图片</button>");
-    				images_content.append(image.append(image_form.append(dimg).append(upimgbtn)));
+    				images_content.append(image.append(dimg).append(upimgbtn));
                 	image_size--;
 				}
 				images.append(images_content);	
@@ -130,95 +130,80 @@
 			<div class="panel trip-images">
 				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程图片</span></div>
 				<div class="panel-body trip-images-content">
-					<div class="imgbox">
-						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
-							<div class="dimg">
-								#if($tripDay.picUrls && $tripDay.picUrls.size() > 0)
-								<img src="$!{utilWebconfig.getTfsRootPath()}$!{tripDay.picUrls.get(0)}" img-root="$!utilWebconfig.getTfsRootPath()">
-								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.picUrls.get(0)}">
-								#else
-								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
-								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
-								#end
-							</div>
-							<div class="upimgbtn">
-								<input type="file" name="picfile" class="picfile">
-								<button class="upl">上传图片</button>
-								<button class="del">删除图片</button>
-							</div>													
-						</form>
+					<div class="imgbox">									
+						<div class="dimg">
+							#if($tripDay.picUrls && $tripDay.picUrls.size() > 0)
+							<img src="$!{utilWebconfig.getTfsRootPath()}$!{tripDay.picUrls.get(0)}">
+							<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.picUrls.get(0)}">
+							#else
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+							<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
+							#end
+						</div>
+						<div class="upimgbtn">
+							<a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
+							<button class="del">删除图片</button>
+						</div>
 					</div>
-					<div class="imgbox">
-						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
-							<div class="dimg">
-								#if($tripDay.picUrls && $tripDay.picUrls.size() > 1)
-								<img src="$!{utilWebconfig.getTfsRootPath()}$!{tripDay.picUrls.get(1)}" img-root="$!utilWebconfig.getTfsRootPath()">
-								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.picUrls.get(1)}">
-								#else
-								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
-								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
-								#end
-							</div>
-							<div class="upimgbtn">
-								<input type="file" name="picfile" class="picfile">
-								<button class="upl">上传图片</button>
-								<button class="del">删除图片</button>
-							</div>													
-						</form>
+					<div class="imgbox">													
+						<div class="dimg">
+							#if($tripDay.picUrls && $tripDay.picUrls.size() > 1)
+							<img src="$!{utilWebconfig.getTfsRootPath()}$!{tripDay.picUrls.get(1)}" img-root="$!utilWebconfig.getTfsRootPath()">
+							<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.picUrls.get(1)}">
+							#else
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+							<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
+							#end
+						</div>
+						<div class="upimgbtn">
+							<a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
+							<button class="del">删除图片</button>
+						</div>
 					</div>
-					<div class="imgbox">
-						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
-							<div class="dimg">
-								#if($tripDay.picUrls && $tripDay.picUrls.size() > 2)
-								<img src="$!{utilWebconfig.getTfsRootPath()}$!{tripDay.picUrls.get(2)}" img-root="$!utilWebconfig.getTfsRootPath()">
-								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.picUrls.get(2)}">
-								#else
-								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
-								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
-								#end
-							</div>
-							<div class="upimgbtn">
-								<input type="file" name="picfile" class="picfile">
-								<button class="upl">上传图片</button>
-								<button class="del">删除图片</button>
-							</div>													
-						</form>
+					<div class="imgbox">								
+						<div class="dimg">
+							#if($tripDay.picUrls && $tripDay.picUrls.size() > 2)
+							<img src="$!{utilWebconfig.getTfsRootPath()}$!{tripDay.picUrls.get(2)}" img-root="$!utilWebconfig.getTfsRootPath()">
+							<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.picUrls.get(2)}">
+							#else
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+							<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
+							#end
+						</div>
+						<div class="upimgbtn">
+							<a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
+							<button class="del">删除图片</button>
+						</div>
 					</div>
-					<div class="imgbox">
-						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
-							<div class="dimg">
-								#if($tripDay.picUrls && $tripDay.picUrls.size() > 3)
-								<img src="$!{utilWebconfig.getTfsRootPath()}$!{tripDay.picUrls.get(3)}" img-root="$!utilWebconfig.getTfsRootPath()">
-								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.picUrls.get(3)}">
-								#else
-								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
-								<input type="hidden" class="picCode day-${velocityCount}-trip-image  trip-image" route-item-id="$!{tripDay.routeItemId}">
-								#end
-							</div>
-							<div class="upimgbtn">
-								<input type="file" name="picfile" class="picfile">
-								<button class="upl">上传图片</button>
-								<button class="del">删除图片</button>
-							</div>													
-						</form>
+					<div class="imgbox">									
+						<div class="dimg">
+							#if($tripDay.picUrls && $tripDay.picUrls.size() > 3)
+							<img src="$!{utilWebconfig.getTfsRootPath()}$!{tripDay.picUrls.get(3)}" img-root="$!utilWebconfig.getTfsRootPath()">
+							<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.picUrls.get(3)}">
+							#else
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+							<input type="hidden" class="picCode day-${velocityCount}-trip-image  trip-image" route-item-id="$!{tripDay.routeItemId}">
+							#end
+						</div>
+						<div class="upimgbtn">
+							<a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
+							<button class="del">删除图片</button>
+						</div>
 					</div>
-					<div class="imgbox">
-						<form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">													
-							<div class="dimg">
-								#if($tripDay.picUrls && $tripDay.picUrls.size() > 4)
-								<img src="$!{utilWebconfig.getTfsRootPath()}$!{tripDay.picUrls.get(4)}" img-root="$!utilWebconfig.getTfsRootPath()">
-								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.picUrls.get(4)}">
-								#else
-								<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
-								<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
-								#end
-							</div>
-							<div class="upimgbtn">
-								<input type="file" name="picfile" class="picfile">
-								<button class="upl">上传图片</button>
-								<button class="del">删除图片</button>
-							</div>													
-						</form>
+					<div class="imgbox">													
+						<div class="dimg">
+							#if($tripDay.picUrls && $tripDay.picUrls.size() > 4)
+							<img src="$!{utilWebconfig.getTfsRootPath()}$!{tripDay.picUrls.get(4)}" img-root="$!utilWebconfig.getTfsRootPath()">
+							<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.picUrls.get(4)}">
+							#else
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+							<input type="hidden" class="picCode day-${velocityCount}-trip-image trip-image" route-item-id="$!{tripDay.routeItemId}">
+							#end
+						</div>
+						<div class="upimgbtn">
+							<a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
+							<button class="del">删除图片</button>
+						</div>
 					</div>
 				</div>
 			</div>
