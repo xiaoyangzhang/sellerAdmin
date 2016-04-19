@@ -72,7 +72,7 @@ public class MerchantController extends BaseController{
 	 * 跳转到选择页面
 	 * @param model
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "toChoosePage")
 	public String toChoosePage(Model model,boolean reject){
 		String chooseUrl = "/system/merchant/chosetype";
@@ -89,11 +89,11 @@ public class MerchantController extends BaseController{
 		
 	}
 	
-	/**
+	*//**
 	 * 跳转到商户基本信息页面
 	 * @param model
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "toAddBasicPage")
 	public String toBusinessPage(Model model){
 		try {
@@ -126,11 +126,11 @@ public class MerchantController extends BaseController{
 		
 	}
 	
-	/**
+	*//**
 	 * 保存商户基本信息
 	 * @param merchantDO
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "/saveBasic",method=RequestMethod.POST)
 	@ResponseBody
 	public WebResultSupport saveBusinessBasic(MerchantInfoVo basicInfo){
@@ -154,21 +154,21 @@ public class MerchantController extends BaseController{
 		}
 	}
 	
-	/**
+	*//**
 	 * 跳转到商户入驻用户协议页面
 	 * @param model
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "toAggrementPage")
 	public String toBusinessAggrementPage(Model model){
 		return "/system/merchant/agreement";
 	}
 	
-	/**
+	*//**
 	 * 跳转到商户入驻填写页面A
 	 * @param model
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "toDetailPage")
 	public String toBusinessDetailPage(Model model){
 		//权限
@@ -195,11 +195,11 @@ public class MerchantController extends BaseController{
 		return "/system/merchant/userdatafill_a";
 	}
 	
-	/**
+	*//**
 	 * 跳转到商户入驻填写页面B
 	 * @param model
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "toDetailPageB")
 	public String toDetailPageB(Model model){
 		//权限
@@ -231,11 +231,11 @@ public class MerchantController extends BaseController{
 		
 		return "/system/merchant/userdatafill_b";
 	}
-	/**
+	*//**
 	 * 新增或修改商户入驻填写信息PAGE-1
 	 * @param userDetailInfo
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value="saveUserdata" ,method=RequestMethod.POST)
 	@ResponseBody
 	public WebResult<String> saveUserdata(UserDetailInfo userDetailInfo){
@@ -251,11 +251,11 @@ public class MerchantController extends BaseController{
 		
 	}
 	
-	/**
+	*//**
 	 * 新增或修改商户入驻填写信息PAGE-2
 	 * @param userDetailInfo
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value="saveUserdataB" ,method=RequestMethod.POST)
 	@ResponseBody
 	public WebResult<String> saveUserdataB(UserDetailInfo userDetailInfo){
@@ -274,15 +274,15 @@ public class MerchantController extends BaseController{
 		return rest;
 	}
 	
-	/**
+	*//**
 	 * 跳转到商户入驻等待审核页面
 	 * @param model
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "toVerifyPage")
 	public String toBusinessVerifyPage(Model model){
 		return "/system/merchant/verification";
-	}
+	}*/
 	
 	/**
 	 * 跳转到商户入驻审核不通过过页面

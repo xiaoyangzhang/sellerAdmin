@@ -64,7 +64,7 @@ public class TalentController extends BaseController {
 	 * @param dto
 	 * @return
 	 */
-	public void getCheckResultMsg(ExamineResultDTO dto,Model model) {
+	/*public void getCheckResultMsg(ExamineResultDTO dto,Model model) {
 		if (dto == null || ( dto.getDealMes() == null)) {
 			return ;
 		}
@@ -73,10 +73,10 @@ public class TalentController extends BaseController {
 		}
 		
 	}
-	/**
+	*//**
 	 * 跳转到达人审核协议
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value="agreement",method=RequestMethod.GET)
 	public String toAgreementPage(Model model) {
 		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
@@ -87,12 +87,12 @@ public class TalentController extends BaseController {
 		return "system/talent/agreement";
 		
 	}
-	/**
+	*//**
 	 * 跳转到填写达人申请资料页面1
 	  
 	
 	 * @return
-	 */
+	 *//*
 	
 	@RequestMapping(value="toAddUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toAddUserdatafill_a(Model model){
@@ -115,11 +115,11 @@ public class TalentController extends BaseController {
 		return "system/talent/userdatafill_a";
 		
 	}
-	/**
+	*//**
 	 * 跳转到达人申请入驻资料页面2
 	
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value="toAddUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toAddUserdatafill_b(Model model) {
 		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
@@ -144,11 +144,11 @@ public class TalentController extends BaseController {
 		
 	}
 	
-	/**
+	*//**
 	 * 跳转到达人入驻待审核页面
 	 
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value="verification",method=RequestMethod.GET)
 	public String verificationPage(Model model) {
 		String judgeRest = merchantBiz.judgeAuthority(model,sessionManager.getUserId(), "edit");
@@ -160,14 +160,14 @@ public class TalentController extends BaseController {
 	}
 
 	
-	/**
+	*//**
 	 * 保存资料页面1并跳转到资料页面2
 	 * @param request
 	 * @param response
 	 * @param model
 	 * @param vo 封装的达人审核资料对象
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value="saveExamineInfo_pageOne",method=RequestMethod.POST)
 	@ResponseBody
 	public BizResult<String> saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
@@ -201,14 +201,14 @@ public class TalentController extends BaseController {
 			return bizResult;
 		
 	}
-	/**
+	*//**
 	 * 保存达人入驻申请页面2并跳转到待审核页面
 	 * @param request
 	 * @param response
 	 * @param model
 	 * @param vo 封装的达人审核资料对象
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value="saveExamineInfo_pageTwo",method=RequestMethod.POST)
 	@ResponseBody
 	public BizResult<String> saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
@@ -239,7 +239,7 @@ public class TalentController extends BaseController {
 			}
 			return bizResult;
 		
-	}
+	}*/
 	/**
 	 * 新增达人基本信息
 	 * @param request
@@ -261,7 +261,7 @@ public class TalentController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="toAddTalentInfo",method=RequestMethod.GET)
+	/*@RequestMapping(value="toAddTalentInfo",method=RequestMethod.GET)
 	public String editTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model) {
 		
 		model.addAttribute("talentBiz", talentBiz);
@@ -295,14 +295,14 @@ public class TalentController extends BaseController {
 		}
 		
 	}
-	/**
+	*//**
 	 * 保存达人基本信息
 	 * @param request
 	 * @param response
 	 * @param model
 	 * @param vo 封装的达人基本信息对象
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value="saveTalentInfo",method=RequestMethod.POST)
 	@ResponseBody
 	public BizResult<String> addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
@@ -334,7 +334,7 @@ public class TalentController extends BaseController {
 			return bizResult;
 		
 		
-	}
+	}*/
 	
 	
 	/*public  String judgeAuthority(Model model,long userId,String pageType){
