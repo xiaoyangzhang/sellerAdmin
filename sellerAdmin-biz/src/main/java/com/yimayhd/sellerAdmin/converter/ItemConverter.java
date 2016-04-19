@@ -68,55 +68,55 @@ public class ItemConverter {
 		itemListItemVO.setType(itemDO.getItemType());
 		itemListItemVO.setStatus(itemDO.getStatus());
 		itemListItemVO.setOperates(ItemUtil.getItemOperates(itemDO.getItemType(), itemDO.getStatus()));
-		itemListItemVO.setPublishDate(itemDO.getGmtModified());
+		itemListItemVO.setPublishDate(itemDO.getGmtCreated());
 		return itemListItemVO;
 	}
 
 	public static ItemVO convertItemVO(ItemDO itemDO, CategoryVO categoryVO) {
 		ItemVO itemVO = new ItemVO();
 		BeanUtils.copyProperties(itemDO, itemVO);
-		//分转元
+		// 分转元
 		itemVO.setPriceY(NumUtil.moneyTransformDouble(itemVO.getPrice()));
-//		if(CollectionUtils.isNotEmpty(itemVO.getItemSkuDOList())){
-//			List<ItemSkuVO> itemSkuVOList = new ArrayList<ItemSkuVO>();
-//			for (ItemSkuDO itemSkuDO : itemVO.getItemSkuDOList()){
-//				itemSkuVOList.add(ItemSkuVO.getItemSkuVO(itemSkuDO));
-//			}
-//			itemVO.setItemSkuVOList(itemSkuVOList);
-//		}
+		// if(CollectionUtils.isNotEmpty(itemVO.getItemSkuDOList())){
+		// List<ItemSkuVO> itemSkuVOList = new ArrayList<ItemSkuVO>();
+		// for (ItemSkuDO itemSkuDO : itemVO.getItemSkuDOList()){
+		// itemSkuVOList.add(ItemSkuVO.getItemSkuVO(itemSkuDO));
+		// }
+		// itemVO.setItemSkuVOList(itemSkuVOList);
+		// }
 
-		if(null != itemVO.getItemFeature()){
-			//提前预定时间(暂时酒店用)
+		if (null != itemVO.getItemFeature()) {
+			// 提前预定时间(暂时酒店用)
 			itemVO.setEndBookTimeLimit((long) (itemVO.getItemFeature().getEndBookTimeLimit() / (24 * 3600)));
 
-			if(itemVO.getItemFeature().getStartBookTimeLimit()!=0){
-				//入园规则提前几天（暂时景区用）
-				long startBookTimeLimit = itemVO.getItemFeature().getStartBookTimeLimit() ;
-				//入园规则提前几点（暂时景区用）
-				long days = startBookTimeLimit / ( 60 * 60 * 24);
-				//入园规则提前几点（暂时景区用）
-				long hours = (24  - (startBookTimeLimit % ( 60 * 60 * 24)) / ( 60 * 60));
+			if (itemVO.getItemFeature().getStartBookTimeLimit() != 0) {
+				// 入园规则提前几天（暂时景区用）
+				long startBookTimeLimit = itemVO.getItemFeature().getStartBookTimeLimit();
+				// 入园规则提前几点（暂时景区用）
+				long days = startBookTimeLimit / (60 * 60 * 24);
+				// 入园规则提前几点（暂时景区用）
+				long hours = (24 - (startBookTimeLimit % (60 * 60 * 24)) / (60 * 60));
 				itemVO.setStartBookTimeDays(days);
 				itemVO.setStartBookTimeHours(hours);
 			}
 
-			//评分（暂时普通商品用）
+			// 评分（暂时普通商品用）
 			itemVO.setGrade(itemVO.getItemFeature().getGrade());
-			//库存方式
+			// 库存方式
 			itemVO.setReduceType(itemVO.getItemFeature().getReduceType().getBizType());
-			//最晚到店时间列表(暂时只有酒店用)
+			// 最晚到店时间列表(暂时只有酒店用)
 			itemVO.setOpenTimeList(itemVO.getItemFeature().getLatestArriveTime());
 		}
-		//picUrls转对应的list
-		if(StringUtils.isNotBlank(itemVO.getPicUrlsString())){
+		// picUrls转对应的list
+		if (StringUtils.isNotBlank(itemVO.getPicUrlsString())) {
 			itemVO.setSmallListPic(PicUrlsUtil.getSmallListPic(itemDO));
 			itemVO.setBigListPic(PicUrlsUtil.getBigListPic(itemDO));
 			itemVO.setPicList(PicUrlsUtil.getPicList(itemDO));
 			itemVO.setItemMainPics(PicUrlsUtil.getItemMainPics(itemDO));
 		}
-		//截止时间
+		// 截止时间
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH");
-		if(itemDO.getEndDate() != null) {
+		if (itemDO.getEndDate() != null) {
 			itemVO.setEndDateStr(dateFormat.format(itemDO.getEndDate()));
 		}
 		itemVO.setLongitudeVO(itemDO.getLongitude());
@@ -124,7 +124,7 @@ public class ItemConverter {
 
 		itemVO.setItemSkuVOListAll(convertItemSkuVOListAll(itemVO.getItemSkuDOList()));
 
-		if(org.apache.commons.collections.CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListAll())) {
+		if (org.apache.commons.collections.CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListAll())) {
 			Collections.sort(itemVO.getItemSkuVOListAll(), new ItemSkuVO.ItemSkuVOSort());
 		}
 
@@ -132,11 +132,11 @@ public class ItemConverter {
 	}
 
 	public static List<ItemSkuVO> convertItemSkuVOListAll(List<ItemSkuDO> skuDOList) {
-		if(CollectionUtils.isEmpty(skuDOList)) {
+		if (CollectionUtils.isEmpty(skuDOList)) {
 			return null;
 		}
 		List<ItemSkuVO> skuVOList = new ArrayList<>();
-		for(ItemSkuDO skuDO : skuDOList) {
+		for (ItemSkuDO skuDO : skuDOList) {
 			ItemSkuVO skuVO = ItemSkuVO.getItemSkuVO(skuDO);
 			skuVO.setChecked(true);
 			skuVOList.add(skuVO);
