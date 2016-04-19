@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.util;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
@@ -39,6 +40,7 @@ public class MoneyUtil {
 	}
 
 	public static String centToYuanMoneyFormat(long money) {
-		return moneyFormat(money * 0.01);
+		DecimalFormat df = new DecimalFormat("0.00");
+		return df.format(money * 0.01);
 	}
 }

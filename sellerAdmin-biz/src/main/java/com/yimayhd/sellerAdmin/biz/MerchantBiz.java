@@ -161,7 +161,7 @@ public class MerchantBiz {
 	 * @param userId
 	 * @param pageType
 	 * @return
-	 */
+	 *//*
 	public  String judgeAuthority(Model model,long userId,String pageType){
 		UserDO userDO = sessionManager.getUser() ;
 		long option = userDO.getOptions() ;
@@ -227,7 +227,7 @@ public class MerchantBiz {
 		}
 		return chooseUrl;
 		
-	}
+	}*/
 	
 	
 	private void setMerchantAddMag(MerchantDO merchantDO,MerchantInfoVo basicInfo){

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.BaseLineController;
@@ -41,8 +42,8 @@ public class LineController extends BaseLineController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-	public String detail(@PathVariable(value = "id") long id) throws Exception {
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+	public String edit(@PathVariable(value = "id") long id) throws Exception {
 		initBaseInfo();
 		if (id > 0) {
 			WebResult<LineVO> result = commLineService.getByItemId(id);
@@ -53,6 +54,36 @@ public class LineController extends BaseLineController {
 					initLinePropertyTypes(baseInfo.getCategoryId());
 				}
 				put("product", gt);
+				put("isReadonly", baseInfo.getItemStatus() == ItemStatus.valid.getValue());
+				return "/system/comm/line/detail";
+			} else {
+				throw new BaseException(result.getResultMsg());
+			}
+		} else {
+			throw new BaseException("参数错误");
+		}
+	}
+
+	/**
+	 * 详细信息页
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/view/{id}/", method = RequestMethod.GET)
+	public String view(@PathVariable(value = "id") long id) throws Exception {
+		initBaseInfo();
+		if (id > 0) {
+			WebResult<LineVO> result = commLineService.getByItemId(id);
+			if (result.isSuccess()) {
+				LineVO gt = result.getValue();
+				BaseInfoVO baseInfo = gt.getBaseInfo();
+				if (baseInfo != null) {
+					initLinePropertyTypes(baseInfo.getCategoryId());
+				}
+				put("product", gt);
+				put("isReadonly", true);
 				return "/system/comm/line/detail";
 			} else {
 				throw new BaseException(result.getResultMsg());
