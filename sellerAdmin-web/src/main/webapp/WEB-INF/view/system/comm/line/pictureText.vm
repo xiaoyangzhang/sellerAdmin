@@ -20,7 +20,7 @@
 	</div>
 	<textarea name="content" id="contentText" style="display:none;">$!{pictureText.pictureTextItemsJson}</textarea>
 	<input type="hidden" id="uploadAction" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file"/>
-	<input type="hidden" id="imgUrl" value="$utilWebconfig.getTfsRootPath()"/>
+	<input type="hidden" id="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}"/>
 </div>
 <script type="text/javascript">
 	function getPictureText() {
