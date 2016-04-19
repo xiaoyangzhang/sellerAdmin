@@ -26,6 +26,7 @@ public class BaseInfoVO implements Serializable {
 	private List<CityVO> departs; // 出发地
 	private List<CityVO> dests; // 目的地
 	private List<String> picUrls; // App详情轮播图
+	private int itemStatus; // 商品状态
 
 	/**
 	 * 包含某个tag
@@ -142,6 +143,14 @@ public class BaseInfoVO implements Serializable {
 
 	public void setAllDeparts(boolean allDeparts) {
 		this.allDeparts = allDeparts;
+	}
+
+	public int getItemStatus() {
+		return itemStatus;
+	}
+
+	public void setItemStatus(int itemStatus) {
+		this.itemStatus = itemStatus;
 	}
 
 }
