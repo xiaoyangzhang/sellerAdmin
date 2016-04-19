@@ -350,9 +350,9 @@ public class ApplyController extends BaseController {
 			if (resultSupport.isSuccess()) {
 				if (null == examineInfoDTO
 						|| examineInfoDTO.getSellerId() <= 0) {
-					bizResult.setValue("/toAddUserdatafill_pageTwo");
+					bizResult.setValue("/talent/toAddUserdatafill_pageTwo");
 				} else {
-					bizResult.setValue("/toEditUserdatafill_pageTwo");
+					bizResult.setValue("/talent/toEditUserdatafill_pageTwo");
 					
 				}
 			}
@@ -390,7 +390,7 @@ public class ApplyController extends BaseController {
 			}
 			if (resultSupport.isSuccess()
 					&& updateCheckStatusResult.isSuccess()) {
-				bizResult.setValue("/apply/talent/verification");
+				bizResult.setValue("/talent/verification");
 			} else if (!resultSupport.isSuccess()) {
 				//bizResult.setWebReturnCode(resultSupport.getWebReturnCode());
 				bizResult.buildFailResult(resultSupport.getErrorCode(),
@@ -468,16 +468,16 @@ public class ApplyController extends BaseController {
 				}else if(ExamineType.TALENT.getType()==type){
 					model.addAttribute("type", Constant.TALENT_NAME_CN);
 				}
-				model.addAttribute("url", "toChoosePage?reject=true");
+				model.addAttribute("url", "/apply/toChoosePage?reject=true");
 				return "/system/merchant/nothrough";
-			}else if (ExamineStatus.EXAMIN_NOT_ABLE.getStatus() == status) {
+			}/*else if (ExamineStatus.EXAMIN_NOT_ABLE.getStatus() == status) {
 				if(ExamineType.MERCHANT.getType()==type){
 					//return "redirect:/basicInfo/merchant/toAddBasicPage";
-					return "redirect:merchant/toDetailPage";
+					return "redirect:/apply/merchant/toDetailPage";
 				}else if(ExamineType.TALENT.getType()==type){
-					return "redirect:talent/toEditUserdatafill_pageOne";
+					return "redirect:/apply/talent/toEditUserdatafill_pageOne";
 				}
-			}else{
+			}*/else{
 				return null;
 			}
 		} catch (Exception e) {
