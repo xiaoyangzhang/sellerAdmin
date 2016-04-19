@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -406,6 +407,8 @@ public class ApplyController extends BaseController {
 			return bizResult;
 		
 	}
+	
+	
 	/**
 	 * 判断权限的通用方法
 	 * @param model
@@ -414,17 +417,17 @@ public class ApplyController extends BaseController {
 	 * @return
 	 */
 	public  String judgeAuthority(Model model,long userId,String pageType){
-		UserDO userDO = sessionManager.getUser() ;
-		long option = userDO.getOptions() ;
-		boolean isTalentA = UserOptions.CERTIFICATED.has(option) ;
-		boolean isTalentB = UserOptions.USER_TALENT.has(option) ;
-		
-		boolean isMerchant = UserOptions.COMMERCIAL_TENANT.has(option) ;
-		if(isTalentA || isTalentB){
-			return "redirect:/basicInfo/talent/toAddTalentInfo";
-		}else if(isMerchant){
-			return "redirect:/basicInfo/merchant/toAddBasicPage";
-		}
+//		UserDO userDO = sessionManager.getUser() ;
+//		long option = userDO.getOptions() ;
+//		boolean isTalentA = UserOptions.CERTIFICATED.has(option) ;
+////		boolean isTalentB = UserOptions.USER_TALENT.has(option) ;
+//		
+//		boolean isMerchant = UserOptions.COMMERCIAL_TENANT.has(option) ;
+//		if(isTalentA){
+//			return "redirect:/basicInfo/talent/toAddTalentInfo";
+//		}else if(isMerchant){
+//			return "redirect:/basicInfo/merchant/toAddBasicPage";
+//		}
 		
 		String chooseUrl = "/system/merchant/chosetype";
 		InfoQueryDTO info = new InfoQueryDTO();
