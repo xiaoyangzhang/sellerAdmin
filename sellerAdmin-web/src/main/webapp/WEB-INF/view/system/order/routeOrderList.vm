@@ -182,7 +182,7 @@
                                         #elseif($order.orderShowState == 2)
                                             已付款
                                         #elseif($order.orderShowState == 3)
-                                            已发货
+                                            待出行
                                         #elseif($order.orderShowState == 4)
                                             已完成
                                         #elseif($order.orderShowState == 5)
