@@ -30,7 +30,7 @@ public class MainController {
 		boolean isMerchant = UserOptions.COMMERCIAL_TENANT.has(option) ;
 		if( !isTalent && !isMerchant ){
 			//不是达人、也不是商户
-			return new ModelAndView("redirect:/basicInfo/merchant/toChoosePage");
+			return new ModelAndView("redirect:/basicInfo/toChoosePage");
 		}else if(isTalent){
 			return new ModelAndView("redirect:/basicInfo/talent/toAddTalentInfo");
 		}else if(isMerchant){
