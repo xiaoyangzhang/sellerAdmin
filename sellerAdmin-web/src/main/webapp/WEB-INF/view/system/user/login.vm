@@ -14,7 +14,8 @@
 					<span class="Validform_checktip"></span>
 				</p>
 				<p class="btngroup">
-					<input type="password" class="textinput" name="password" id="loginpwd" placeholder="请输入密码" datatype="/^[0-9A-Za-z]{6,16}$/" nullmsg="请输入您的密码" errormsg="请输入6-16位字母、数字密码" autocomplete="off"/>
+					<input type="hidden" id="loginpwd_" name="password">
+					<input type="password" class="textinput"  id="loginpwd" placeholder="请输入密码" datatype="/^[0-9A-Za-z]{6,16}$/" nullmsg="请输入您的密码" errormsg="请输入6-16位字母、数字密码" autocomplete="off"/>
 					<span class="Validform_checktip"></span>
 				</p>
 				<p class="first clearfix">
