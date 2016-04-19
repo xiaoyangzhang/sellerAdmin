@@ -15,7 +15,7 @@
 					<li class = " first on">基本信息</li>
 				</ul>
 			</div>
-			<form class="registerform" method="post" action="">
+			<form class="registerform" method="post" autocomplete="off" action="">
 				<input type="hidden" name="id" #if("$!id" == "") value="0" #else value="$!id" #end/>
 			   <div class = "eredar-list eredar-list1 merchant-list1">
 				    <p>	
