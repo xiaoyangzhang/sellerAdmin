@@ -183,7 +183,7 @@ public class ApplyController extends BaseController {
 		
 		WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
 		if(result.isSuccess()){
-			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"apply/merchant/toDetailPageB");
+			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/merchant/toDetailPageB");
 		}else{
 			rest.setWebReturnCode(result.getWebReturnCode());
 		}
@@ -207,7 +207,7 @@ public class ApplyController extends BaseController {
 			info.setSellerId(sessionManager.getUserId());
 			info.setType(ExamineType.MERCHANT.getType());
 			merchantBiz.changeExamineStatusIntoIng(info);
-			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"apply/merchant/toVerifyPage");
+			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/merchant/toVerifyPage");
 		}else{
 			rest.setWebReturnCode(result.getWebReturnCode());
 		}
@@ -350,9 +350,9 @@ public class ApplyController extends BaseController {
 			if (resultSupport.isSuccess()) {
 				if (null == examineInfoDTO
 						|| examineInfoDTO.getSellerId() <= 0) {
-					bizResult.setValue("/talent/toAddUserdatafill_pageTwo");
+					bizResult.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/toAddUserdatafill_pageTwo");
 				} else {
-					bizResult.setValue("/talent/toEditUserdatafill_pageTwo");
+					bizResult.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/toEditUserdatafill_pageTwo");
 					
 				}
 			}
@@ -390,7 +390,7 @@ public class ApplyController extends BaseController {
 			}
 			if (resultSupport.isSuccess()
 					&& updateCheckStatusResult.isSuccess()) {
-				bizResult.setValue("/talent/verification");
+				bizResult.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/verification");
 			} else if (!resultSupport.isSuccess()) {
 				//bizResult.setWebReturnCode(resultSupport.getWebReturnCode());
 				bizResult.buildFailResult(resultSupport.getErrorCode(),
@@ -414,17 +414,17 @@ public class ApplyController extends BaseController {
 	 * @return
 	 */
 	public  String judgeAuthority(Model model,long userId,String pageType){
-//		UserDO userDO = sessionManager.getUser() ;
-//		long option = userDO.getOptions() ;
-//		boolean isTalentA = UserOptions.CERTIFICATED.has(option) ;
-//		boolean isTalentB = UserOptions.USER_TALENT.has(option) ;
-//		
-//		boolean isMerchant = UserOptions.COMMERCIAL_TENANT.has(option) ;
-//		if(isTalentA || isTalentB){
-//			return "redirect:/basicInfo/talent/toAddTalentInfo";
-//		}else if(isMerchant){
-//			return "redirect:/basicInfo/merchant/toAddBasicPage";
-//		}
+		UserDO userDO = sessionManager.getUser() ;
+		long option = userDO.getOptions() ;
+		boolean isTalentA = UserOptions.CERTIFICATED.has(option) ;
+		boolean isTalentB = UserOptions.USER_TALENT.has(option) ;
+		
+		boolean isMerchant = UserOptions.COMMERCIAL_TENANT.has(option) ;
+		if(isTalentA || isTalentB){
+			return "redirect:/basicInfo/talent/toAddTalentInfo";
+		}else if(isMerchant){
+			return "redirect:/basicInfo/merchant/toAddBasicPage";
+		}
 		
 		String chooseUrl = "/system/merchant/chosetype";
 		InfoQueryDTO info = new InfoQueryDTO();
