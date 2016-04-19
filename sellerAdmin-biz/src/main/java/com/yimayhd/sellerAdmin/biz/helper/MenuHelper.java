@@ -6,20 +6,27 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.AntPathMatcher;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.client.enums.HaMenuRequestType;
 import com.yimayhd.membercenter.client.enums.HaMenuType;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.vo.menu.MenuVO;
 
 public class MenuHelper {
+	private static AntPathMatcher matcher = new AntPathMatcher() ;
 	
-	public static MenuVO getSelectedMenu(List<MenuVO> menus, String menuUrl, String method){
-		if( CollectionUtils.isEmpty(menus) || StringUtils.isBlank(menuUrl) ){
+	public static MenuVO getSelectedMenu(List<MenuVO> menus, String pathUrl, String method){
+		if( CollectionUtils.isEmpty(menus) || StringUtils.isBlank(pathUrl) ){
 			return null;
 		}
-		String url = menuUrl.trim() ;
+		String path = pathUrl.trim() ;
+		String last =  path.substring(path.length()-1, path.length()) ;
+		if( "/".equals(last) ){
+			path = path.substring(0, path.length()-1) ;
+		}
 		
 		for( MenuVO menu : menus ){
 			List<MenuVO> children = menu.getChildren() ;
@@ -27,18 +34,24 @@ public class MenuHelper {
 				continue ;
 			}
 			for( MenuVO child : children ){
-				String ml = child.getUrl() ;
-				System.err.println(ml);
-				if( ml != null && url.equalsIgnoreCase(ml.trim()) ){
-					HaMenuRequestType type = HaMenuRequestType.getRequestType(menu.getRequestType());
-					if( type == null ){
-						continue;
-					}else if( HaMenuRequestType.ALL == type ){
-						return child ;
-					}else if( type.name().equalsIgnoreCase(method) ){
-						return child ;
-					}
+				String urlPattern = child.getUrl().trim() ;
+				if( urlPattern.contains("/upload/file") ){
+					System.err.println();
 				}
+				boolean match = matcher.match(urlPattern, path);
+	        	if( match ){
+//	        		if( ml != null && url.equalsIgnoreCase(ml.trim()) ){
+	        			HaMenuRequestType type = HaMenuRequestType.getRequestType(child.getRequestType());
+	        			if( type == null ){
+	        				continue;
+	        			}else if( HaMenuRequestType.ALL == type ){
+	        				return child ;
+	        			}else if( type.name().equalsIgnoreCase(method) ){
+	        				return child ;
+	        			}
+//	        		}
+	        		
+	        	}
 			}
 		}
 		return null;
@@ -90,6 +103,7 @@ public class MenuHelper {
 		}
 		ArrayList<MenuVO> list = new ArrayList<MenuVO>();
 		Map<Long, List<MenuVO>> map = groupMenus(menus);
+		System.err.println("111="+JSON.toJSONString(map)+"\n\n");
 		for( MenuVO menu: menus ){
 			if( !menu.hasParent() ){
 				long menuId = menu.getId() ;
@@ -114,7 +128,8 @@ public class MenuHelper {
 		Map<Long, List<MenuVO>> map = new HashMap<Long, List<MenuVO>>() ;
 		for( MenuVO menu: menus ){
 			long parentId = menu.getParentId() ;
-			if( HaMenuType.MENU.getType() == menu.getType() && menu.hasParent() ){
+//			if( HaMenuType.MENU.getType() == menu.getType() && menu.hasParent() ){
+			if( menu.hasParent() ){
 				List<MenuVO> list = map.get(parentId);
 				if( list == null ){
 					list = new ArrayList<MenuVO>() ;
