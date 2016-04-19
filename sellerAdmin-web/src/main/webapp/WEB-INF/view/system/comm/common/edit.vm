@@ -10,7 +10,7 @@
 
 
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/js/jquery.js"></script>
-
+<title>添加特产-$!category.name</title>
 <div class="example whole">
     <form name="commodityForm" id="commodityForm" class="form-horizontal" action="" method="post" commodityId="$!commodity.id">
         <div class="">
