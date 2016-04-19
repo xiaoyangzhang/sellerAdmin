@@ -14,42 +14,43 @@ import java.util.TimeZone;
 public class DateUtil {
 
 	// protected static Logger logger =LogManager.getLogger();
-	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
-	public static final String DATE_FORMAT_TIME = "yyyy-MM-dd";
-	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-	public static final String DAY_FORMAT = "yyyy-MM-dd";
-	public static final String DAY_HORU_FORMAT = "yyyy-MM-dd HH:mm";
-	public static final String DAY_DATE_EN_FORMAT = "yyyy年MM月dd日";
-	public static final String DEFAULT_HOUR_MINUTE = "HH:mm";
-	public static final String DAY_BEGIN = " 00:00:00";
-	public static final String DAY_END = " 23:59:59";
+	public static final String			DEFAULT_DATE_FORMAT	= "yyyy-MM-dd";
+	public static final String			DATE_FORMAT_TIME	= "yyyy-MM-dd";
+	public static final String			DATE_TIME_FORMAT	= "yyyy-MM-dd HH:mm:ss";
+	public static final String			DAY_FORMAT			= "yyyy-MM-dd";
+	public static final String			DAY_HORU_FORMAT		= "yyyy-MM-dd HH:mm";
+	public static final String			DAY_DATE_EN_FORMAT	= "yyyy年MM月dd日";
+	public static final String			DEFAULT_HOUR_MINUTE	= "HH:mm";
+	public static final String			DAY_BEGIN			= " 00:00:00";
+	public static final String			DAY_END				= " 23:59:59";
 
 	/** the Year field for date math functions of this class */
 	@Deprecated
-	public static final CalendarField YEAR = CalendarField.YEAR;
+	public static final CalendarField	YEAR				= CalendarField.YEAR;
 	/** the Month field for date math functions of this class */
 	@Deprecated
-	public static final CalendarField MONTH = CalendarField.MONTH;
+	public static final CalendarField	MONTH				= CalendarField.MONTH;
 	/** the Day field for date math functions of this class */
 	@Deprecated
-	public static final CalendarField DAY = CalendarField.DAY;
+	public static final CalendarField	DAY					= CalendarField.DAY;
 	/** the hour field for date math functions of this class */
 	@Deprecated
-	public static final CalendarField HOUR = CalendarField.HOUR;
+	public static final CalendarField	HOUR				= CalendarField.HOUR;
 	/** the Minute field for date math functions of this class */
 	@Deprecated
-	public static final CalendarField MINUTE = CalendarField.MINUTE;
+	public static final CalendarField	MINUTE				= CalendarField.MINUTE;
 	/** the Second field for date math functions of this class */
 	@Deprecated
-	public static final CalendarField SECOND = CalendarField.SECOND;
+	public static final CalendarField	SECOND				= CalendarField.SECOND;
 	/** the Millisecond field for date math functions of this class */
 	@Deprecated
-	public static final CalendarField MILLISECOND = CalendarField.MILLISECOND;
+	public static final CalendarField	MILLISECOND			= CalendarField.MILLISECOND;
 
-	private static final TimeZone TIME_ZONE_LOCAL = TimeZone.getDefault();
+	private static final TimeZone		TIME_ZONE_LOCAL		= TimeZone.getDefault();
 
-	private static final String[] WEEK = new String[] { "周日", "周一", "周二", "周三", "周四", "周五", "周六" };
-	private static final String[] STAR_WEEK = new String[] { "星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
+	private static final String[]		WEEK				= new String[] { "周日", "周一", "周二", "周三", "周四", "周五", "周六" };
+	private static final String[]		STAR_WEEK			= new String[] { "星期天", "星期一", "星期二", "星期三", "星期四", "星期五",
+			"星期六" };
 
 	/**
 	 * time=0 过滤时间为1970-01-01 情况
@@ -95,58 +96,61 @@ public class DateUtil {
 		return result.toString();
 	}
 
-	private static ThreadLocal<Calendar> CAL = new ThreadLocal<Calendar>() {
-		@Override
-		protected synchronized Calendar initialValue() {
-			return Calendar.getInstance();
-		}
-	};
+	private static ThreadLocal<Calendar>			CAL					= new ThreadLocal<Calendar>() {
+																			@Override
+																			protected synchronized Calendar initialValue() {
+																				return Calendar.getInstance();
+																			}
+																		};
 
-	private static ThreadLocal<Calendar> CAL2 = new ThreadLocal<Calendar>() {
-		@Override
-		protected synchronized Calendar initialValue() {
-			return Calendar.getInstance();
-		}
-	};
+	private static ThreadLocal<Calendar>			CAL2				= new ThreadLocal<Calendar>() {
+																			@Override
+																			protected synchronized Calendar initialValue() {
+																				return Calendar.getInstance();
+																			}
+																		};
 
 	// TIME_INT_FORMAT
-	private static ThreadLocal<SimpleDateFormat> TIME_INT_FORMAT = new ThreadLocal<SimpleDateFormat>() {
+	private static ThreadLocal<SimpleDateFormat>	TIME_INT_FORMAT		= new ThreadLocal<SimpleDateFormat>() {
 
-		@Override
-		protected synchronized SimpleDateFormat initialValue() {
-			return new SimpleDateFormat("HHmmssSSS");
-		}
-	};
+																			@Override
+																			protected synchronized SimpleDateFormat initialValue() {
+																				return new SimpleDateFormat(
+																						"HHmmssSSS");
+																			}
+																		};
 
 	// DATE_INT_FORMAT
-	private static ThreadLocal<SimpleDateFormat> DATE_INT_FORMAT = new ThreadLocal<SimpleDateFormat>() {
+	private static ThreadLocal<SimpleDateFormat>	DATE_INT_FORMAT		= new ThreadLocal<SimpleDateFormat>() {
 
-		@Override
-		protected synchronized SimpleDateFormat initialValue() {
-			return new SimpleDateFormat("yyyyMMdd");
-		}
-	};
+																			@Override
+																			protected synchronized SimpleDateFormat initialValue() {
+																				return new SimpleDateFormat("yyyyMMdd");
+																			}
+																		};
 
 	// SIMPLE_DATE_FORMAT
-	private static ThreadLocal<SimpleDateFormat> SIMPLE_DATE_FORMAT = new ThreadLocal<SimpleDateFormat>() {
+	private static ThreadLocal<SimpleDateFormat>	SIMPLE_DATE_FORMAT	= new ThreadLocal<SimpleDateFormat>() {
 
-		@Override
-		protected synchronized SimpleDateFormat initialValue() {
-			return new SimpleDateFormat("yyyy-MM-dd");
-		}
-	};
+																			@Override
+																			protected synchronized SimpleDateFormat initialValue() {
+																				return new SimpleDateFormat(
+																						"yyyy-MM-dd");
+																			}
+																		};
 
 	// ISO_DATE_FORMAT
-	private static ThreadLocal<SimpleDateFormat> ISO_DATE_FORMAT = new ThreadLocal<SimpleDateFormat>() {
+	private static ThreadLocal<SimpleDateFormat>	ISO_DATE_FORMAT		= new ThreadLocal<SimpleDateFormat>() {
 
-		@Override
-		protected synchronized SimpleDateFormat initialValue() {
-			return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-		}
-	};
+																			@Override
+																			protected synchronized SimpleDateFormat initialValue() {
+																				return new SimpleDateFormat(
+																						"yyyy-MM-dd'T'HH:mm:ss");
+																			}
+																		};
 
-	private static final long START_OF_DAY;
-	private static final long END_OF_DAY;
+	private static final long						START_OF_DAY;
+	private static final long						END_OF_DAY;
 
 	static {
 		START_OF_DAY = clearTime(clearDate(0));
@@ -792,6 +796,9 @@ public class DateUtil {
 	}
 
 	public static String convertDateToString(Date date) throws Exception {
+		if (date == null) {
+			return null;
+		}
 		String dateStr;
 		try {
 			SimpleDateFormat formatter = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
@@ -884,7 +891,7 @@ public class DateUtil {
 	 * @param time
 	 * @return
 	 */
-	public static String longToString(long time,String format) {
+	public static String longToString(long time, String format) {
 		if (time >= 0) {
 			Date date = new Date(time);
 			return dateToString(date, format);
@@ -1020,11 +1027,13 @@ public class DateUtil {
 
 	/**
 	 * 日期加天
-	 * @param date 增加天数
+	 * 
+	 * @param date
+	 *            增加天数
 	 * @param addDay
 	 * @return
 	 */
-	public static String getDayAgo(Date date,int addDay)throws Exception{
+	public static String getDayAgo(Date date, int addDay) throws Exception {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		calendar.add(Calendar.DAY_OF_MONTH, addDay);
@@ -1033,14 +1042,16 @@ public class DateUtil {
 
 	/**
 	 * 日期加月
+	 * 
 	 * @param date
-	 * @param addMonth 增加月数
+	 * @param addMonth
+	 *            增加月数
 	 * @return
 	 */
-	public static String getMonthAgo(Date date,int addMonth)throws Exception{
+	public static String getMonthAgo(Date date, int addMonth) throws Exception {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
-		calendar.add(Calendar.MONTH,addMonth);
+		calendar.add(Calendar.MONTH, addMonth);
 		return dateToString(calendar.getTime(), "yyyy-MM-dd");
 	}
 
@@ -1053,16 +1064,18 @@ public class DateUtil {
 
 	/**
 	 * 计算日期差
+	 * 
 	 * @param beginDate
 	 * @param endDate
 	 * @return
 	 * @throws Exception
 	 */
-	public static long daySubtraction(String beginDate,String endDate)throws Exception{
+	public static long daySubtraction(String beginDate, String endDate) throws Exception {
 		Date begin = DateUtil.formatMinTimeForDate(beginDate);
 		Date end = DateUtil.formatMaxTimeForDate(endDate);
-		return (end.getTime() - begin.getTime())/(24*60*60*1000);
+		return (end.getTime() - begin.getTime()) / (24 * 60 * 60 * 1000);
 	}
+
 	public static void main(String[] args) {
 		System.out.println(dateToString(new Date(), "yyyy-MM-dd"));
 		Calendar calendar = Calendar.getInstance();
