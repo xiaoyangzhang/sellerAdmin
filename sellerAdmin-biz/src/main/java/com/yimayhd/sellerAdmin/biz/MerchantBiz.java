@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
@@ -29,6 +30,7 @@ import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.MerchantDTO;
 import com.yimayhd.user.client.dto.UserDTO;
 import com.yimayhd.user.client.enums.MerchantOption;
+import com.yimayhd.user.client.enums.UserOptions;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.session.manager.SessionManager;
 
@@ -161,6 +163,16 @@ public class MerchantBiz {
 	 * @return
 	 */
 	public  String judgeAuthority(Model model,long userId,String pageType){
+		UserDO userDO = sessionManager.getUser() ;
+		long option = userDO.getOptions() ;
+		boolean isTalent = UserOptions.CERTIFICATED.has(option) ;
+		boolean isMerchant = UserOptions.COMMERCIAL_TENANT.has(option) ;
+		if(isTalent){
+			return "redirect:/basicInfo/talent/toAddTalentInfo";
+		}else if(isMerchant){
+			return "redirect:/basicInfo/merchant/toAddBasicPage";
+		}
+		
 		String chooseUrl = "/system/merchant/chosetype";
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
@@ -203,7 +215,7 @@ public class MerchantBiz {
 				}else if(ExamineType.TALENT.getType()==type){
 					model.addAttribute("type", Constant.TALENT_NAME_CN);
 				}
-				model.addAttribute("url", "/basicInfo/toChoosePage?reject=true");
+				model.addAttribute("url", "/apply/toChoosePage?reject=true");
 				return "/system/merchant/nothrough";
 			}else{
 				return null;
