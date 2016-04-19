@@ -59,9 +59,9 @@
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">发布时间</button>
                         </span>
-                        <input type="text" class='form-control form-date dateInp search-item' placeholder='' readonly name="beginDate" value="$!commodityListQuery.beginDate">
+                        <input type="text" class='form-control form-date dateInp search-item' placeholder='' readonly name="beginDate" value="$!utilDate.convertDateToString($query.beginDate)">
                         <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                        <input type="text" class='form-control form-date dateInp search-item' placeholder='' readonly name="endDate" value="$!commodityListQuery.endDate">
+                        <input type="text" class='form-control form-date dateInp search-item' placeholder='' readonly name="endDate" value="$!utilDate.convertDateToString($query.endDate)">
                     </div>
         			<div class="btn-group">
                         <button type="submit" class="btn btn-primary form-submit">查询</button>
