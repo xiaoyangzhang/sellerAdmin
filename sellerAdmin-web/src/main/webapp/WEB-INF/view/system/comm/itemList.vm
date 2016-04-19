@@ -25,19 +25,19 @@
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">商品名称：</button>
                         </span>
-                        <input type="text"  class="form-control" name="name" value="$!query.name"/>
+                        <input type="text"  class="form-control search-item" name="name" value="$!query.name"/>
                     </div>
         			<div class="input-group inpSingle">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">商品编号：</button>
                         </span>
-                        <input type="text"  class="form-control" name="itemId" value="$!query.itemId"/>
+                        <input type="text"  class="form-control search-item" name="itemId" value="$!query.itemId"/>
                     </div>
         			<div class="input-group inpSingle">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">商品类型：</button>
                         </span>
-                        <select class="form-control" name="itemType">
+                        <select class="form-control search-item" name="itemType">
         					<option value="" #if(!$query.itemType) selected #end>全部</option>
         					#foreach($itemType in $itemTypeList)
         					<option value="$!{itemType.value}" #if($query.itemType == $itemType.value) selected #end >$!{utilItem.getItemTypeName($itemType.value)}</option>
@@ -48,7 +48,7 @@
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">状态：</button>
                         </span>
-                        <select class="form-control" name="status">
+                        <select class="form-control search-item" name="status">
         					<option value="" #if(!$query.status) selected #end>全部</option>
         					#foreach($itemStatus in $itemStatusList)
                             <option value="$!{itemStatus.value}" #if($query.status == $itemStatus.value) selected #end >$!{utilItem.getItemStatusName($itemStatus.value)}</option>
@@ -59,9 +59,9 @@
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">发布时间</button>
                         </span>
-                        <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="beginDate" value="$!commodityListQuery.beginDate">
+                        <input type="text" class='form-control form-date dateInp search-item' placeholder='' readonly name="beginDate" value="$!commodityListQuery.beginDate">
                         <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-                        <input type="text" class='form-control form-date dateInp' placeholder='' readonly name="endDate" value="$!commodityListQuery.endDate">
+                        <input type="text" class='form-control form-date dateInp search-item' placeholder='' readonly name="endDate" value="$!commodityListQuery.endDate">
                     </div>
         			<div class="btn-group">
                         <button type="submit" class="btn btn-primary form-submit">查询</button>
@@ -136,7 +136,7 @@
 </html>
 <script>
 	$(".form-clear").click(function() {
-		$(".form-control").val("");
+		$(".search-item").val("");
 	});
 	$(".form-date").datetimepicker({
         language:  "zh-CN",
