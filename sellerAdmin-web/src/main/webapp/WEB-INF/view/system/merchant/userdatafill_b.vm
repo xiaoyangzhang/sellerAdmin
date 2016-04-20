@@ -223,7 +223,7 @@
 							</label>
 						</div>
 					</div>
-					<div class="nextpage"><a href="$!root_path/merchant/toDetailPage" class="prev mr30">上一页</a><a class="allsub ml30">提交审核</a></div>
+					<div class="nextpage"><a href="$!root_path/apply/merchant/toDetailPage" class="prev mr30">上一页</a><a class="allsub ml30">提交审核</a></div>
 				</div>
 			</form>
 		</div>

@@ -14,6 +14,7 @@ import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.MerchantDTO;
 import com.yimayhd.user.client.dto.UserDTO;
+import com.yimayhd.user.client.enums.Gender;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.client.service.UserService;
@@ -41,6 +42,14 @@ public class MerchantRepo {
 	 * @return
 	 */
 	public BaseResult<UserDO> updateUser (UserDTO userDTO){
+		UserDO userDo = userService.getUserDOById(userDTO.getId());
+		userDTO.setAvatar(userDo.getAvatar());
+		userDTO.setBirthday(userDo.getBirthday());
+		userDTO.setCityCode(userDo.getCityCode());
+		userDTO.setGender(Gender.getGenderByValue(userDo.getGender()));
+		userDTO.setName(userDo.getName());
+		userDTO.setProvinceCode(userDo.getProvinceCode());
+		userDTO.setSignature(userDo.getSignature());
 		return userService.updateUser(userDTO);
 	}
 	

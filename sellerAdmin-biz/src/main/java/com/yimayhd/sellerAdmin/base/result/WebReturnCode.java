@@ -30,7 +30,9 @@ public class WebReturnCode implements Serializable {
 	public static final WebReturnCode REMOTE_CALL_FAILED = new WebReturnCode(23000000, "远程调用失败");
 	public static final WebReturnCode SYSTEM_ERROR = new WebReturnCode(23000001, "系统错误");
 	public static final WebReturnCode PARAM_ERROR = new WebReturnCode(23000002, "参数错误");
-	public static final WebReturnCode DATA_NOT_FOUND = new WebReturnCode(23000002, "数据不存在");
+	public static final WebReturnCode DATA_NOT_FOUND = new WebReturnCode(23000003, "数据不存在");
+	public static final WebReturnCode FILE_TO_BIG = new WebReturnCode(23000004, "文件超过最大限制");
+	public static final WebReturnCode UPLOAD_FILE_FAILED = new WebReturnCode(23000005, "上传文件失败");
 	/******************************************* 用户相关 ******************************************************/
 	public static final WebReturnCode USER_NOT_FOUND = new WebReturnCode(24001000, "用户不存在");
 	public static final WebReturnCode USER_LOCKED_TO_MANY_TIMES_FAILED = new WebReturnCode(24001001, "登陆失败次数过多");

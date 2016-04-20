@@ -4,7 +4,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -22,7 +21,7 @@ public class FilterRequestWrapper extends HttpServletRequestWrapper {
 	@Override
 	public String getParameter(String name) {
 		String parameter = super.getParameter(name);
-		return filter(parameter);
+		return StringUtils.trim(parameter);
 	}
 
 	@Override
@@ -30,7 +29,7 @@ public class FilterRequestWrapper extends HttpServletRequestWrapper {
 		String[] parameterValues = super.getParameterValues(name);
 		if (parameterValues != null) {
 			for (int i = 0; i < parameterValues.length; i++) {
-				String value = filter(parameterValues[i]);
+				String value = parameterValues[i];
 				// XXX Yebin 去首尾空格
 				if (value != null) {
 					value = StringUtils.trim(value);
@@ -39,21 +38,6 @@ public class FilterRequestWrapper extends HttpServletRequestWrapper {
 			}
 		}
 		return parameterValues;
-	}
-
-	/**
-	 * 过滤条件
-	 * 
-	 * @param value
-	 * @return
-	 */
-	private String filter(String value) {
-		String temp = value;
-		if (StringUtils.isNotBlank(temp)) {
-			// sql转义
-			temp = StringEscapeUtils.escapeSql(temp);
-		}
-		return temp;
 	}
 
 }

@@ -45,9 +45,7 @@
 
                         <td><span class="spColor">*</span>商品名称</td>
                         <td>
-                            <div class="input-group">
-                                <input class="title form-control" type="text" name="title" value="$!esc.html($!commodity.title)"><span class="input-group-addon">0/38字</span>
-                            </div>
+                                <input class="title form-control" type="text" name="title" value="$!esc.html($!commodity.title)">
                         </td>
                     </tr>
                     <tr>
@@ -312,7 +310,7 @@
                                     #foreach($index in $numArr)
                                         <div class="imgbox">
 
-                                            <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
+                                            <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file_string" method="post" class="imgform" enctype="multipart/form-data">
                                                 <div class="dimg">
                                                     #set($flag = ($!commodity.itemMainPics.size() > $index))
                                                     #if($flag)
@@ -337,7 +335,7 @@
                                     至少上传1张图片，第一张图片将被展示在搜索结果列表页面和订单页面
                                 </div>*#
                                 <div class="uploadbox clearfix">
-                                    <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" />
+                                    <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file_string" />
                                     <input type="hidden" class="imgUrl" value="$utilWebconfig.getTfsRootPath()" />
                                     #set($numArr=[0,1,2,3,4])
                                     #foreach($index in $numArr)
