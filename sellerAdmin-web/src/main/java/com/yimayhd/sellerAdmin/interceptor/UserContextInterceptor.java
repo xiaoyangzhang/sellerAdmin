@@ -45,22 +45,21 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 		if (userDO != null) {
 			request.setAttribute(SessionConstant.REQ_ATTR_USERID, userDO.getId());
 			request.setAttribute(SessionConstant.REQ_ATTR_USER, userDO);
-			
 			long userId = userDO.getId() ;
 			String pathInfo = request.getPathInfo() ; 
 			String method = request.getMethod();
-			System.err.println(pathInfo);
+//			System.err.println(pathInfo);
 			menuBiz.cacheUserMenus2Tair(userId);
 			
 			List<MenuVO> menus = menuCacheMananger.getUserMenus(userId);
 //			System.err.println(JSON.toJSONString(menus));
 			MenuVO menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
 			
-//			if(RequestMethod.GET.name().equalsIgnoreCase(method)  && menu == null  && !pathInfo.toLowerCase().contains("home") ){
-//				String url = UrlHelper.getUrl( rootPath, "/error/lackPermission") ;
-//				response.sendRedirect(url);
-//				return false;
-//			}
+			if(RequestMethod.GET.name().equalsIgnoreCase(method)  && menu == null  && !pathInfo.toLowerCase().contains("home") ){
+				String url = UrlHelper.getUrl( rootPath, "/error/lackPermission") ;
+				response.sendRedirect(url);
+				return false;
+			}
 			
 			request.setAttribute("menus", menus);
 			request.setAttribute("currentMenu", menu);
