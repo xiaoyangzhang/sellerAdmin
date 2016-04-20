@@ -22,6 +22,6 @@
 				window.location.href= "${loginUrl}";
 			}
 			document.getElementById("dtime").innerHTML = " "+i+" ";
-			i--;
+			// i--;
 		},1000);
 	</script>	

@@ -66,6 +66,8 @@
 		</div>
 		
 		#parse("layout/layout-footer.vm")
+	    #parse("layout/layout-js.vm")
+		<script>seajs.use("public");</script>
 	</div>
 </body>
 </html>
