@@ -1,0 +1,10 @@
+#set($layout = "/layout/layout-error.vm")
+#set($title = "没有权限")
+#parse("/layout/layout-meta.vm")
+
+<div id = "error" class = "no-limits">
+	<div class = "comwidth">
+		<img src = "$!rs_path_jiuxiu/img/no-limites.png" class = "limitesImg">
+		<p>没有权限！</p>
+	</div>
+</div>
