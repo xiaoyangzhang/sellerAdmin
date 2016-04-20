@@ -77,6 +77,10 @@ public class UploadController extends BaseController {
 			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 			Iterator<String> iterator = multipartRequest.getFileNames();
 			MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
+			if( multipartFile.getSize() <=0 ){
+				return null;
+			}
+			
 			String fileName = multipartFile.getOriginalFilename();
 			String suffix = "";
 			if (fileName.lastIndexOf(".") != -1) {

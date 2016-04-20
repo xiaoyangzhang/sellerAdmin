@@ -158,10 +158,10 @@ public class BasicInfoController extends BaseController {
 				dto = talentInfoDTO;
 				model.addAttribute("talentInfo", dto);
 			}
-			UserDO user = userService.getUserDOById(sessionManager.getUserId());
-			model.addAttribute("avatar", user.getAvatar());
-			model.addAttribute("user", user);
-			model.addAttribute("username", user.getNickname());
+			//UserDO user = userService.getUserDOById(sessionManager.getUserId());
+//			model.addAttribute("avatar", user.getAvatar());
+//			model.addAttribute("user", user);
+//			model.addAttribute("username", user.getNickname());
 			return "system/talent/eredar";
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
@@ -194,7 +194,7 @@ public class BasicInfoController extends BaseController {
 			if (addTalentInfoResult.isSuccess()) {
 				//addTalentInfoResult.s
 				//result.setValue("talent/toAddTalentInfo");
-				bizResult.setValue("toAddTalentInfo");
+				bizResult.setValue("/toAddTalentInfo");
 			}
 			//			if (resultSupport.isSuccess()) {
 			//			}

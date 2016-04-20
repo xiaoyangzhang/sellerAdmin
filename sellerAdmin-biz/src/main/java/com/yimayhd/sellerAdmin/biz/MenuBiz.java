@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.client.domain.HaMenuDO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.biz.helper.MenuHelper;
@@ -33,12 +34,15 @@ public class MenuBiz {
 			return false;
 		}
 		List<HaMenuDO> menuDOs = result.getValue();
+//		System.err.println(JSON.toJSONString(menuDOs));
 		if( CollectionUtils.isEmpty(menuDOs) ){
 			return true;
 		}
 		List<MenuVO> menus = MenuConverter.do2MenuVOs(menuDOs);
+//		System.err.println(JSON.toJSONString(menus));
 		//分组
 		ArrayList<MenuVO> ms = MenuHelper.mergeMenus(menus);
+//		System.err.println(JSON.toJSONString(ms));
 		return menuCacheMananger.cacheUserMenus(userId, ms);
 	}
 	

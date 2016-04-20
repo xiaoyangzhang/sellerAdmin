@@ -28,6 +28,7 @@
 
 
 
+<title>$!{itemType.text}</title>
 
 <style type="text/css">
     .demo {width: 850px;margin: 20px auto;display: none;}

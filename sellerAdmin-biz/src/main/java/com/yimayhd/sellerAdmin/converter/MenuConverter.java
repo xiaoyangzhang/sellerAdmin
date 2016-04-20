@@ -3,8 +3,11 @@ package com.yimayhd.sellerAdmin.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.yimayhd.membercenter.client.domain.HaMenuDO;
+import com.yimayhd.sellerAdmin.biz.helper.MenuHelper;
 import com.yimayhd.sellerAdmin.model.vo.menu.MenuVO;
 
 public class MenuConverter {
@@ -19,7 +22,8 @@ public class MenuConverter {
 		menu.setLeaf(haMenuDO.getLeaf() == 0);
 		menu.setParentId(haMenuDO.getParentId());
 		menu.setParentName(parentName);
-		menu.setUrl(haMenuDO.getUrl());
+		String url = MenuHelper.updateUrl(haMenuDO.getUrl() );
+		menu.setUrl(url);
 		menu.setType(haMenuDO.getType());
 		menu.setRequestType(haMenuDO.getReqType());
 		List<HaMenuDO> childrenDOs = haMenuDO.getHaMenuDOList() ;

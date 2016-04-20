@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.biz.MenuBiz;
 import com.yimayhd.sellerAdmin.biz.helper.MenuHelper;
 import com.yimayhd.sellerAdmin.cache.MenuCacheMananger;
@@ -44,22 +45,21 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 		if (userDO != null) {
 			request.setAttribute(SessionConstant.REQ_ATTR_USERID, userDO.getId());
 			request.setAttribute(SessionConstant.REQ_ATTR_USER, userDO);
-			
 			long userId = userDO.getId() ;
 			String pathInfo = request.getPathInfo() ; 
 			String method = request.getMethod();
-			
+//			System.err.println(pathInfo);
 			menuBiz.cacheUserMenus2Tair(userId);
 			
 			List<MenuVO> menus = menuCacheMananger.getUserMenus(userId);
+//			System.err.println(JSON.toJSONString(menus));
 			MenuVO menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
 			
-//			if(RequestMethod.GET.name().equalsIgnoreCase(method)  && menu == null  && !pathInfo.toLowerCase().contains("home") ){
-//				String url = UrlHelper.getUrl( rootPath, "/error/lackPermission") ;
-//				response.sendRedirect(url);
-////				request.getRequestDispatcher(url).forward(request, response);
-//				return false;
-//			}
+			if(RequestMethod.GET.name().equalsIgnoreCase(method)  && menu == null  && !pathInfo.toLowerCase().contains("home") ){
+				String url = UrlHelper.getUrl( rootPath, "/error/lackPermission") ;
+				response.sendRedirect(url);
+				return false;
+			}
 			
 			request.setAttribute("menus", menus);
 			request.setAttribute("currentMenu", menu);

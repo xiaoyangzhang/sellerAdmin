@@ -82,17 +82,17 @@ public class ItemController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/getcate")
 	public List<CategoryVO> getcate(HttpServletRequest request) {
-		//判断是否是达人
+		// 判断是否是达人
 		UserDO user = sessionManager.getUser(request);
-		long option = user.getOptions() ;
-		boolean isTalent = UserOptions.USER_TALENT.has(option) ;
-		
+		long option = user.getOptions();
+		boolean isTalent = UserOptions.USER_TALENT.has(option);
+
 		String cateId = get("categoryId");
 		List<CategoryVO> list = null;
 		if (StringUtils.isBlank(cateId)) {
 			WebResult<CategoryDO> webResult = categoryService.getCategoryByDomainId(DomainType.DOMAIN_JX.getType());
 			if (null != webResult && webResult.getValue() != null) {
-				list = categoryDoTOVo(webResult.getValue().getChildren(),isTalent);
+				list = categoryDoTOVo(webResult.getValue().getChildren(), isTalent);
 			}
 		} else {
 			// 查询某节点下的子节点
@@ -110,7 +110,7 @@ public class ItemController extends BaseController {
 			return list;
 		}
 		for (CategoryDO categoryDO : children) {
-			if(!isTalent && categoryDO.getCategoryFeature().getItemType() != ItemType.NORMAL.getValue()){
+			if (!isTalent && categoryDO.getCategoryFeature().getItemType() != ItemType.NORMAL.getValue()) {
 				CategoryVO vo = new CategoryVO();
 				vo.setCategoryId(categoryDO.getId());
 				vo.setIsLeaf(categoryDO.getLeaf());
@@ -121,7 +121,7 @@ public class ItemController extends BaseController {
 		}
 		return list;
 	}
-	
+
 	private List<CategoryVO> categoryDoTOVo(List<CategoryDO> children) {
 		List<CategoryVO> list = new ArrayList<CategoryVO>();
 		if (CollectionUtils.isEmpty(children)) {
@@ -203,15 +203,29 @@ public class ItemController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = "/{id}/type/{type}")
+	@RequestMapping(value = "/{id}/type/{type}/edit")
 	public String detail(@PathVariable(value = "id") long itemId, @PathVariable(value = "type") int itemType) {
 		// TODO YEBIN 待开发
 		if (ItemType.FREE_LINE.getValue() == itemType || ItemType.TOUR_LINE.getValue() == itemType) {
-			return redirect("/line/detail/" + itemId + "/");
+			return redirect("/line/edit/" + itemId + "/");
 		} else if (ItemType.CITY_ACTIVITY.getValue() == itemType) {
 			return redirect("/cityactivity/edit/" + itemId);
 		} else if (ItemType.NORMAL.getValue() == itemType) {
 			return redirect("/barterItem/common/edit/" + itemId);
+		} else {
+			throw new BaseException("unsupport ItemType " + itemType);
+		}
+	}
+
+	@RequestMapping(value = "/{id}/type/{type}/view")
+	public String view(@PathVariable(value = "id") long itemId, @PathVariable(value = "type") int itemType) {
+		// TODO YEBIN 待开发
+		if (ItemType.FREE_LINE.getValue() == itemType || ItemType.TOUR_LINE.getValue() == itemType) {
+			return redirect("/line/view/" + itemId + "/");
+		} else if (ItemType.CITY_ACTIVITY.getValue() == itemType) {
+			return redirect("/cityactivity/edit/" + itemId);
+		} else if (ItemType.NORMAL.getValue() == itemType) {
+			return redirect("/barterItem/common/view/" + itemId);
 		} else {
 			throw new BaseException("unsupport ItemType " + itemType);
 		}
