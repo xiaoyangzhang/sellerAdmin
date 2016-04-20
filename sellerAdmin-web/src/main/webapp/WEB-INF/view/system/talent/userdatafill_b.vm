@@ -206,8 +206,8 @@
 							</label>
 						</div>
 					</div>
-					<div class="nextpage"><a href="#if ($examineInfo.sellerId <= 0) $!root_path/talent/toAddUserdatafill_pageOne #else 
-					$!root_path/talent/toEditUserdatafill_pageOne
+					<div class="nextpage"><a href="#if ($examineInfo.sellerId <= 0) $!root_path/apply/talent/toAddUserdatafill_pageOne #else 
+					$!root_path/apply/talent/toEditUserdatafill_pageOne
 					#end" class="prev mr30">上一页</a><a class="allsub ml30">提交审核</a></div>
 				</div>
 			</form>
