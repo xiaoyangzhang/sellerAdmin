@@ -28,7 +28,7 @@
 
 
 
-<title>$!{itemType.text}</title>
+<title>添加$!{category.name}</title>
 
 <style type="text/css">
     .demo {width: 850px;margin: 20px auto;display: none;}
