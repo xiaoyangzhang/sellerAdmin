@@ -130,6 +130,7 @@ public class UploadController extends BaseController {
 				result.setWebReturnCode(WebReturnCode.UPLOAD_FILE_FAILED);
 				return result;
 			}
+			result.setValue(tfsName);
 			
 		}catch(Exception e){
 			logger.error("upload failed! ", e);
