@@ -1,0 +1,16 @@
+#set($layout = "/layout/layout-error.vm")
+#set($title = "错误")
+#parse("/layout/layout-meta.vm")
+
+<div id = "error">
+	<div class = "comwidth errorid">
+		<img src = "$!rs_path_jiuxiu/img/bg-500.jpg" class = "errorImg">
+	</div>
+	<div class = "updata clearfix comwidth">
+		<ul>
+			<li>
+				<a class="updata" onclick="javascript:window.location.reload();" >重新加载</a>
+			</li>
+		</ul>
+	</div>
+</div>
