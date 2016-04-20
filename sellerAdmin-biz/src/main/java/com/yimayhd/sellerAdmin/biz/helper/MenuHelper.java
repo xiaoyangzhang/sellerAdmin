@@ -16,17 +16,27 @@ import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.vo.menu.MenuVO;
 
 public class MenuHelper {
+	public static String updateUrl(String url){
+		if( StringUtils.isNotBlank(url) ){
+			url = url.trim();
+			String patternLast =  url.substring(url.length()-1, url.length()) ;
+			if( "/".equals(patternLast) ){
+				url = url.substring(0, url.length()-1) ;
+			}
+			return url ;
+		}else{
+			return "";
+		}
+	}
+	
 	private static AntPathMatcher matcher = new AntPathMatcher() ;
 	
 	public static MenuVO getSelectedMenu(List<MenuVO> menus, String pathUrl, String method){
 		if( CollectionUtils.isEmpty(menus) || StringUtils.isBlank(pathUrl) ){
 			return null;
 		}
-		String path = pathUrl.trim() ;
-		String last =  path.substring(path.length()-1, path.length()) ;
-		if( "/".equals(last) ){
-			path = path.substring(0, path.length()-1) ;
-		}
+		String path = pathUrl ;
+		path = updateUrl(path) ;
 		
 		for( MenuVO menu : menus ){
 			List<MenuVO> children = menu.getChildren() ;
@@ -35,22 +45,19 @@ public class MenuHelper {
 			}
 			for( MenuVO child : children ){
 				String urlPattern = child.getUrl().trim() ;
-				if( urlPattern.contains("/upload/file") ){
-					System.err.println();
-				}
+//				if( urlPattern.contains("/line/category/{categoryId}/create/") ){
+//					System.err.println();
+//				}
 				boolean match = matcher.match(urlPattern, path);
 	        	if( match ){
-//	        		if( ml != null && url.equalsIgnoreCase(ml.trim()) ){
-	        			HaMenuRequestType type = HaMenuRequestType.getRequestType(child.getRequestType());
-	        			if( type == null ){
-	        				continue;
-	        			}else if( HaMenuRequestType.ALL == type ){
-	        				return child ;
-	        			}else if( type.name().equalsIgnoreCase(method) ){
-	        				return child ;
-	        			}
-//	        		}
-	        		
+        			HaMenuRequestType type = HaMenuRequestType.getRequestType(child.getRequestType());
+        			if( type == null ){
+        				continue;
+        			}else if( HaMenuRequestType.ALL == type ){
+        				return child ;
+        			}else if( type.name().equalsIgnoreCase(method) ){
+        				return child ;
+        			}
 	        	}
 			}
 		}
