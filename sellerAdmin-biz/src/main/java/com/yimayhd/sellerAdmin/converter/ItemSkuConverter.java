@@ -1,8 +1,11 @@
 package com.yimayhd.sellerAdmin.converter;
 
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
+import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPubUpdateDTO;
 import com.yimayhd.sellerAdmin.model.ItemSkuVO;
+import com.yimayhd.sellerAdmin.util.NumUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
@@ -42,6 +45,16 @@ public class ItemSkuConverter {
 		}
 		ItemSkuPubUpdateDTO itemSkuPubUpdateDTO = new ItemSkuPubUpdateDTO();
 		BeanUtils.copyProperties(itemSkuVO, itemSkuPubUpdateDTO);
+		itemSkuPubUpdateDTO.setId(itemSkuVO.getId());
+
+		for(ItemSkuPVPair itemSkuPVPair:itemSkuVO.getItemSkuPVPairList()){
+			if(StringUtils.isBlank(itemSkuPubUpdateDTO.getTitle())){
+				itemSkuPubUpdateDTO.setTitle(itemSkuPVPair.getVTxt());
+			}else{
+				itemSkuPubUpdateDTO.setTitle(itemSkuPubUpdateDTO.getTitle() + "," + itemSkuPVPair.getVTxt());
+			}
+		}
+		itemSkuPubUpdateDTO.setPrice(NumUtil.doubleToLong(itemSkuVO.getPriceY()));
 		return itemSkuPubUpdateDTO;
 	}
 }

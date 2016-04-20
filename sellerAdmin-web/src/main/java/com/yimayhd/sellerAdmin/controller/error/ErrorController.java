@@ -25,4 +25,10 @@ public class ErrorController extends BaseController {
 	public ModelAndView service(HttpServletRequest request, HttpServletResponse response) {
 		return new ModelAndView("/system/error/lackPermission");
 	}
+	
+	@RequestMapping(value = "/404", method = RequestMethod.GET) 
+	public ModelAndView notFound(HttpServletRequest request, HttpServletResponse response){
+		return new ModelAndView("/system/error/404");
+	}
+	
 }
