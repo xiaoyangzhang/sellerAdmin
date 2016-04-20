@@ -7,9 +7,25 @@
 					#if( $menu.children )
 						#foreach($child in $!$menu.children)
 							#if( $child.type == 1 )
-								<dt #if($!{velocityCount} ==1) class ="one #if( $currentMenuId == $child.id) on #end" #end>
-									<a href="$!root_path$!{child.url}" >$!child.name</a>
-								</dt>
+								#set( $className = "one" )
+								#if(  $currentMenuId == $child.id || ($!selectMenu &&  $!selectMenu == $!{child.url}) )
+									#set( $className = "one on" )
+								#end
+									<dt class ="$!className">
+										<a href="$!root_path$!{child.url}" >$!child.name</a>
+									</dt>
+								
+								#*
+								#if( $!selectMenu )
+									<dt #if($!{velocityCount} ==1) class ="one #if( $!selectMenu == $!{child.url}) on #end #end">
+										<a href="$!root_path$!{child.url}" >$!child.name $!selectMenu</a>
+									</dt>
+								#else
+									<dt #if($!{velocityCount} ==1) class ="one #if( $currentMenuId == $child.id) on #end #end">
+										<a href="$!root_path$!{child.url}" >$!child.name</a>
+									</dt>
+								#end
+								*# 
 							#end
 						#end
 					#end 

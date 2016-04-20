@@ -1,5 +1,6 @@
 #set($layout="layout/layout-blank.vm")
-<!DOCTYPE html>
+##选中菜单
+#set( $selectMenu = "/item/cateList" )
 <html>
     <head>
 		#parse("layout/layout-meta.vm")
