@@ -69,16 +69,9 @@ public class BaseController {
 	@ExceptionHandler(Exception.class)
 	protected ModelAndView handleException(Exception e) {
 		log.error(e.getMessage(), e);
-		ModelAndView modelAndView = new ModelAndView("/error");
-		if (e instanceof NoticeException || e instanceof BaseException) {
-			modelAndView.addObject("message", e.getMessage() + "，请联系管理员");
-		} else {
-			modelAndView.addObject("message", "服务器未知错误，请联系管理员");
-		}
-		return modelAndView;
-
+		return new ModelAndView("/system/error/500");
 	}
-
+	
 	@InitBinder
 	public void initBinder(ServletRequestDataBinder binder) {
 		binder.registerCustomEditor(Date.class,
