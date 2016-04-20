@@ -104,95 +104,86 @@
                 <td><span class="spColor">*</span>商品图：</td>
                 <td>
                     <div class="uploadbox clearfix">
+                        <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionUploadFilePath()}" />
+                        <input type="hidden" class="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />
                         <div class="imgbox">
-                            <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
                                 <div class="dimg">
                                     #if($!item.itemMainPics && $item.itemMainPics.size() > 0)
                                         <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.itemMainPics.get(0)}" img-root="$!utilWebconfig.getTfsRootPath()">
                                         <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.itemMainPics.get(0)}">
                                     #else
-                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" >
                                         <input type="hidden" class="picCode baseInfo-picCode">
                                     #end
                                 </div>
                                 <div class="upimgbtn">
-                                    <input type="file" name="picfile" class="picfile">
-                                    <button class="upl">上传图片</button>
+                                    <a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
+
                                     <button class="del">删除图片</button>
                                 </div>
-                            </form>
                         </div>
                         <div class="imgbox">
-                            <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
                                 <div class="dimg">
                                     #if($!item.itemMainPics && $item.itemMainPics.size() > 1)
                                         <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.itemMainPics.get(1)}" img-root="$!utilWebconfig.getTfsRootPath()">
                                         <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.itemMainPics.get(1)}">
                                     #else
-                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" >
                                         <input type="hidden" class="picCode baseInfo-picCode">
                                     #end
                                 </div>
                                 <div class="upimgbtn">
-                                    <input type="file" name="picfile" class="picfile">
-                                    <button class="upl">上传图片</button>
+                                    <a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
+
                                     <button class="del">删除图片</button>
                                 </div>
-                            </form>
                         </div>
                         <div class="imgbox">
-                            <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
                                 <div class="dimg">
                                     #if($!item.itemMainPics && $item.itemMainPics.size() > 2)
                                         <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.itemMainPics.get(2)}" img-root="$!utilWebconfig.getTfsRootPath()">
                                         <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.itemMainPics.get(2)}">
                                     #else
-                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" >
                                         <input type="hidden" class="picCode baseInfo-picCode">
                                     #end
                                 </div>
                                 <div class="upimgbtn">
-                                    <input type="file" name="picfile" class="picfile">
-                                    <button class="upl">上传图片</button>
+                                    <a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
+
                                     <button class="del">删除图片</button>
                                 </div>
-                            </form>
                         </div>
                         <div class="imgbox">
-                            <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
                                 <div class="dimg">
                                     #if($!item.itemMainPics && $item.itemMainPics.size() > 3)
                                         <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.itemMainPics.get(3)}" img-root="$!utilWebconfig.getTfsRootPath()">
                                         <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.itemMainPics.get(3)}">
                                     #else
-                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" >
                                         <input type="hidden" class="picCode baseInfo-picCode">
                                     #end
                                 </div>
                                 <div class="upimgbtn">
-                                    <input type="file" name="picfile" class="picfile">
-                                    <button class="upl">上传图片</button>
+                                    <a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
+
                                     <button class="del">删除图片</button>
                                 </div>
-                            </form>
                         </div>
                         <div class="imgbox">
-                            <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file" method="post" class="imgform" enctype="multipart/form-data">
                                 <div class="dimg">
                                     #if($!item.itemMainPics && $item.itemMainPics.size() > 4)
                                         <img src="$!{utilWebconfig.getTfsRootPath()}$!{item.itemMainPics.get(4)}" img-root="$!utilWebconfig.getTfsRootPath()">
                                         <input type="hidden" class="picCode baseInfo-picCode" value="$!{item.itemMainPics.get(4)}">
                                     #else
-                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()">
+                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" >
                                         <input type="hidden" class="picCode baseInfo-picCode">
                                     #end
                                 </div>
                                 <div class="upimgbtn">
-                                    <input type="file" name="picfile" class="picfile">
-                                    <button class="upl">上传图片</button>
+                                    <a class="upl">上传图片<input type="file" name="picfile" class="picfile"></a>
                                     <button class="del">删除图片</button>
                                 </div>
-                            </form>
                         </div>
                     </div>
                 </td>
