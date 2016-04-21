@@ -33,6 +33,8 @@ public class OrderDetails {
 
     private Date consignTime;
 
+    private long sellerId;
+
     public MainOrder getMainOrder() {
         return mainOrder;
     }
@@ -127,5 +129,13 @@ public class OrderDetails {
 
     public void setConsignTime(Date consignTime) {
         this.consignTime = consignTime;
+    }
+
+    public long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(long sellerId) {
+        this.sellerId = sellerId;
     }
 }
