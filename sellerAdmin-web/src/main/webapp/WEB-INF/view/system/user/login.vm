@@ -22,8 +22,8 @@
 					<label><input type="checkbox" class="saveuser"/>记住用户名</label>
 					<a href="$root_path/user/retrievePassword" target="_blank">忘记密码？</a>
 				</p>
+			</form>			
 				<input type="submit" id="loginSubmitBtn" class="winloginbtn" value="登录"/>
 				<p class="last">还没有账号 <a href="$root_path/user/register">立即注册</a></p>
-			</form>			
 		</div>
 	</div>

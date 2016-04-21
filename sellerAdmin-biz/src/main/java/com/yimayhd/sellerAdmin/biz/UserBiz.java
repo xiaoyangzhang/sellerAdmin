@@ -77,7 +77,7 @@ public class UserBiz {
 		verifyCodeDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		verifyCodeDTO.setMobile(mobile);
 		verifyCodeDTO.setSmsType(SmsType.REGISTER);
-		WebResultSupport result= userRepo.sendRegisterVerifyCode(verifyCodeDTO);
+		WebResultSupport result= userRepo.sendSmsVerifyCode(verifyCodeDTO);
 		return result;
 	}
 	public WebResultSupport sendRetrievePasswordVerifyCode(String mobile) {
@@ -85,7 +85,7 @@ public class UserBiz {
 		verifyCodeDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		verifyCodeDTO.setMobile(mobile);
 		verifyCodeDTO.setSmsType(SmsType.RETRIVE_PASSWORD);
-		WebResultSupport result= userRepo.sendRegisterVerifyCode(verifyCodeDTO);
+		WebResultSupport result= userRepo.sendSmsVerifyCode(verifyCodeDTO);
 		return result;
 	}
 	public WebResultSupport modifyPassword(ChangePasswordDTO changePasswordDTO) {
