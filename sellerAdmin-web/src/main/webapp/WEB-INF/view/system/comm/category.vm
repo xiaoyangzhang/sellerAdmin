@@ -1,5 +1,6 @@
 #set($layout="layout/layout-blank.vm")
-<!DOCTYPE html>
+##选中菜单
+#set( $selectMenu = "/item/cateList" )
 <html>
     <head>
 		#parse("layout/layout-meta.vm")
@@ -48,6 +49,7 @@
 					if(data[i].isLeaf){
 						selobj.append('<option value='+data[i].categoryId+'>'+data[i].categoryName+'</option>')
 						.find('option:eq('+i+')').on('click',function(ev){
+							$('.chse:eq('+(n+1)+')').remove();
 							obja.attr({'href':'$!utilWebconfig.getActionDefaultFontPath()/item/category/'+$(this).val()+'/create','style':'background:#1E90FF'});
 						});
 					}else{

@@ -55,10 +55,10 @@
 					</div>
 					
 					<div class="fm_md_one fm_md">
-						<div class="column"><label class="bred">*</label><label>商户名称：</label><input class="inptxt" datatype="s" name="sellerName" value="$!examineInfo.sellerName" maxlength="40" placeholder="公司主体名称、营业执照上名称"></div>
-						<div class="column"><label class="bred" class="red">*</label><label>法人名称：</label><input class="inptxt" name="legralName" value="$!examineInfo.legralName" datatype="s" maxlength="10" placeholder="营业执照上的法人名称"></div>
-						<div class="column"><label class="bred">*</label><label>营业地址：</label><input class="inptxt" datatype="s" name="address" value="$!examineInfo.address" maxlength="60" placeholder="营业执照上的营业地址"></div>
-						<div class="column"><label class="bred">*</label><label>店铺名称：</label><input class="inptxt" datatype="s" name="merchantName" value="$!examineInfo.merchantName" maxlength="20" placeholder="在九休平台上的店铺名称"></div>
+						<div class="column"><label class="bred">*</label><label>商户名称：</label><input class="inptxt" datatype="*" name="sellerName" value="$!examineInfo.sellerName" maxlength="40" placeholder="公司主体名称、营业执照上名称"></div>
+						<div class="column"><label class="bred" class="red">*</label><label>法人名称：</label><input class="inptxt" name="legralName" value="$!examineInfo.legralName" datatype="*" maxlength="10" placeholder="营业执照上的法人名称"></div>
+						<div class="column"><label class="bred">*</label><label>营业地址：</label><input class="inptxt" datatype="*" name="address" value="$!examineInfo.address" maxlength="60" placeholder="营业执照上的营业地址"></div>
+						<div class="column"><label class="bred">*</label><label>店铺名称：</label><input class="inptxt" datatype="*" name="merchantName" value="$!examineInfo.merchantName" maxlength="20" placeholder="在九休平台上的店铺名称"></div>
 						<div class="column"><label class="bred vt">*</label><label class="vt">经营范围：</label><textarea class="inptxt" datatype="*" name="saleScope"  maxlength="300" placeholder="营业执照上的经营范围">$!examineInfo.saleScope</textarea></div>
 					</div>
 					<div class="tit gray6 f16">上传资质</div>

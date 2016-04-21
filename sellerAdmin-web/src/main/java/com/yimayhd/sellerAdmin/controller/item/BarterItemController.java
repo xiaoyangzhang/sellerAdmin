@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.google.common.base.Preconditions;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.sellerAdmin.base.BaseController;
@@ -74,7 +75,10 @@ public class BarterItemController extends BaseController {
 	 */
 	@RequestMapping(value = "/common/edit/{itemId}", method = RequestMethod.GET)
 	public String toEditCommon(Model model, @PathVariable(value = "itemId") long itemId) throws Exception {
-		ItemResultVO itemResultVO = commodityService.getCommodityById(itemId);
+		long sellerId = sessionManager.getUserId();
+		Preconditions.checkState(sellerId > 0, "请登录后访问");
+		ItemResultVO itemResultVO = commodityService.getCommodityById(sellerId, itemId);
+		Preconditions.checkState(itemResultVO != null, "商品未找到");
 		model.addAttribute("category", itemResultVO.getCategoryVO());
 		model.addAttribute("commodity", itemResultVO.getItemVO());
 		model.addAttribute("itemSkuList", itemResultVO.getItemSkuVOList());
@@ -94,7 +98,10 @@ public class BarterItemController extends BaseController {
 	 */
 	@RequestMapping(value = "/common/view/{itemId}", method = RequestMethod.GET)
 	public String toViewCommon(Model model, @PathVariable(value = "itemId") long itemId) throws Exception {
-		ItemResultVO itemResultVO = commodityService.getCommodityById(itemId);
+		long sellerId = sessionManager.getUserId();
+		Preconditions.checkState(sellerId > 0, "请登录后访问");
+		ItemResultVO itemResultVO = commodityService.getCommodityById(sellerId, itemId);
+		Preconditions.checkState(itemResultVO != null, "商品未找到");
 		model.addAttribute("category", itemResultVO.getCategoryVO());
 		model.addAttribute("commodity", itemResultVO.getItemVO());
 		model.addAttribute("itemSkuList", itemResultVO.getItemSkuVOList());

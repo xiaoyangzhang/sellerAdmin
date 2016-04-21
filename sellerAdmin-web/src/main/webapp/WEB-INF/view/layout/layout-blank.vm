@@ -38,6 +38,7 @@
 		</div>
 		
 		#parse("layout/layout-footer.vm")
+		
 	</div>
 </body>
 </html>

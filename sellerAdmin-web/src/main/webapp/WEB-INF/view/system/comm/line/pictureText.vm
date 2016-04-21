@@ -21,6 +21,7 @@
 			#elseif($pictureTextItem.type.equalsIgnoreCase('img'))
 		<p class="pic">
 			<img src="$!{utilWebconfig.getTfsRootPath()}$!{pictureTextItem.value}">
+			<input type="hidden" class="imgDateVal" value="$!{pictureTextItem.value}">
 		</p>
 			#end
 		#end

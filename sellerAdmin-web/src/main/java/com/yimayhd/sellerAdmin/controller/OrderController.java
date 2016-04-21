@@ -103,11 +103,19 @@ public class OrderController extends BaseController {
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String getOrderById(Model model, @PathVariable(value = "id") long id) throws Exception {
+		long currentUserId= getCurrentUserId();
 		OrderDetails orderDetails = orderService.getOrderById(id);
 		if (orderDetails!=null){
-			model.addAttribute("order", orderDetails);
+			long sellerId = orderDetails.getSellerId();
+			if (sellerId>0 && currentUserId == sellerId){
+				model.addAttribute("order", orderDetails);
+				return "/system/order/routeOrderInfo";
+			}else{
+				return "/system/error/lackPermission";
+			}
 		}
-		return "/system/order/routeOrderInfo";
+		return "/system/error/404";
+
 	}
 
 	/**

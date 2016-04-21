@@ -80,94 +80,34 @@ public class UploadController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/file", method = RequestMethod.POST)
 	public WebResult<String> uploadFile(HttpServletRequest request) throws Exception {
-		try {
-			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-			Iterator<String> iterator = multipartRequest.getFileNames();
-			MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
-			if( multipartFile.getSize() <=0 ){
-				return null;
-			}
-			
-			String fileName = multipartFile.getOriginalFilename();
-			String suffix = "";
-			if (fileName.lastIndexOf(".") != -1) {
-				suffix = fileName.substring(fileName.lastIndexOf("."));
-			}
-			String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix);
-			if (StringUtils.isNotBlank(tfsName) && !"null".equals(tfsName)) {
-				tfsName += suffix;
-			} else {
-				return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "上传失败");
-			}
-			return WebResult.success(tfsName);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "上传失败");
-		}
+		WebResult<String> result = upload(request);
+		return result ;
+//		try {
+//			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+//			Iterator<String> iterator = multipartRequest.getFileNames();
+//			MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
+//			if( multipartFile.getSize() <=0 ){
+//				return null;
+//			}
+//			
+//			String fileName = multipartFile.getOriginalFilename();
+//			String suffix = "";
+//			if (fileName.lastIndexOf(".") != -1) {
+//				suffix = fileName.substring(fileName.lastIndexOf("."));
+//			}
+//			String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix);
+//			if (StringUtils.isNotBlank(tfsName) && !"null".equals(tfsName)) {
+//				tfsName += suffix;
+//			} else {
+//				return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "上传失败");
+//			}
+//			return WebResult.success(tfsName);
+//		} catch (Exception e) {
+//			log.error(e.getMessage(), e);
+//			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "上传失败");
+//		}
 	}
 	
-    private static final String DOT = ".";
-    private static final int MAX_LENGTH = 4 * 1024 * 1024 ; 
-    
-	
-	private  WebResult<String> upload(HttpServletRequest request, HttpServletResponse response) {
-		WebResult<String> result = new WebResult<String>();
-		try{
-			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-			
-			
-			Iterator<String> iterator = multipartRequest.getFileNames();
-			MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
-			String fileName = multipartFile.getOriginalFilename();
-			long size = multipartFile.getSize();
-			if (size > MAX_LENGTH) {
-				result.setWebReturnCode(WebReturnCode.FILE_TO_BIG);
-				return result;
-			}
-			
-			String tfsName = upload(fileName, multipartFile.getBytes(), size);
-			if (tfsName == null) {// 上传失败
-				result.setWebReturnCode(WebReturnCode.UPLOAD_FILE_FAILED);
-				return result;
-			}
-			result.setValue(tfsName);
-			
-		}catch(Exception e){
-			logger.error("upload failed! ", e);
-		}
-		return result;
-	}
-	
-    private String upload(String fileName, byte[] bytes, long size){
-    	String log = "UUID="+UUID.randomUUID()+"  filename="+fileName+"  size="+size ;
-    	logger.info(log);
-		int index = fileName.lastIndexOf(DOT);
-		String suffix = index != -1 ? fileName.substring(index, fileName.length()) : null;
-		if (StringUtils.isBlank(suffix)) {
-			suffix = ".jpg";
-		}
-		String tfsName = null;
-		try {
-			if (size > MAX_LENGTH) {
-				return null;
-			} else if (size > TfsFile.MAX_SMALL_IO_LENGTH && size < MAX_LENGTH) {
-				String key = String.valueOf(System.currentTimeMillis());
-				tfsName = tfsManager.saveLargeFile(bytes, null, suffix, key);
-			} else {
-				tfsName = tfsManager.saveFile(bytes, null, suffix);
-			}
-
-		} catch (Exception e) {
-			logger.error("upload  filename={}  size=", fileName, size, e);
-		}
-		if (tfsName == null) {// 上传失败
-			return null;
-		}
-		String targetFileName = tfsName + suffix;
-		
-		logger.info(log+"  result="+targetFileName);
-		return targetFileName;
-    }
     
 	
 
@@ -175,7 +115,7 @@ public class UploadController extends BaseController {
     public void uploadFile4String(HttpServletRequest request, HttpServletResponse response) throws Exception {
     	response.setHeader("Content-Type", "text/html; charset=UTF-8");  
     	response.setHeader("Accept-Charset:", "UTF-8");  
-    	WebResult<String> result = upload(request, response);
+    	WebResult<String> result = upload(request);
     	OutputStream op = response.getOutputStream();  
     	op.write(JSON.toJSONString(result).getBytes());
     	op.close();  
@@ -274,4 +214,70 @@ public class UploadController extends BaseController {
 		JxlFor2003.exportExcel(response, "测试.xls", testPersonList, headList);
 
 	}
+	
+
+    private static final String DOT = ".";
+    private static final int MAX_LENGTH = 4 * 1024 * 1024 ; 
+    
+	
+	private  WebResult<String> upload(HttpServletRequest request) {
+		WebResult<String> result = new WebResult<String>();
+		try{
+			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+			
+			
+			Iterator<String> iterator = multipartRequest.getFileNames();
+			MultipartFile multipartFile = multipartRequest.getFile(iterator.next());
+			String fileName = multipartFile.getOriginalFilename();
+			long size = multipartFile.getSize();
+			if (size > MAX_LENGTH) {
+				result.setWebReturnCode(WebReturnCode.FILE_TO_BIG);
+				return result;
+			}
+			
+			String tfsName = upload(fileName, multipartFile.getBytes(), size);
+			if (tfsName == null) {// 上传失败
+				result.setWebReturnCode(WebReturnCode.UPLOAD_FILE_FAILED);
+				return result;
+			}
+			result.setValue(tfsName);
+			
+		}catch(Exception e){
+			logger.error("upload failed! ", e);
+			result.setWebReturnCode(WebReturnCode.UPLOAD_FILE_FAILED);
+		}
+		return result;
+	}
+	
+    private String upload(String fileName, byte[] bytes, long size){
+    	String log = "UUID="+UUID.randomUUID()+"  filename="+fileName+"  size="+size ;
+    	logger.info(log);
+		int index = fileName.lastIndexOf(DOT);
+		String suffix = index != -1 ? fileName.substring(index, fileName.length()) : null;
+		if (StringUtils.isBlank(suffix)) {
+			suffix = ".jpg";
+		}
+		String tfsName = null;
+		try {
+			if (size > MAX_LENGTH) {
+				return null;
+			} else if (size > TfsFile.MAX_SMALL_IO_LENGTH && size < MAX_LENGTH) {
+				String key = String.valueOf(System.currentTimeMillis());
+				tfsName = tfsManager.saveLargeFile(bytes, null, suffix, key);
+			} else {
+				tfsName = tfsManager.saveFile(bytes, null, suffix);
+			}
+
+		} catch (Exception e) {
+			logger.error("upload  filename={}  size=", fileName, size, e);
+		}
+		if (tfsName == null) {// 上传失败
+			return null;
+		}
+		String targetFileName = tfsName + suffix;
+		
+		logger.info(log+"  result="+targetFileName);
+		return targetFileName;
+    }
+	
 }

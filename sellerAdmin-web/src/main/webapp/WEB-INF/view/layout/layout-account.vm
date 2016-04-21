@@ -18,10 +18,10 @@
 <body  class = "bodyWhite">
 	<!-- 头部开始 -->
 	<div class="clearfix actlg-header">
-		<div class="logo"><a href="$!rs_official_site/officialweb/indexJX.html"><img src="$!rs_path_jiuxiu/img/loginlogo.jpg"/></a></div>
+		<div class="logo"><a href="$!rs_official_site"><img src="$!rs_path_jiuxiu/img/loginlogo.jpg"/></a></div>
 		<ul class="clearfix">
-			<li><a class="on" href="$!rs_official_site/officialweb/indexJX.html">九休旅行APP</a></li>
-			<li><a  href="$!rs_official_site/officialweb/recruitment.html">九休商务</a></li>
+			<li><a class="on" href="$!rs_official_site">九休旅行APP</a></li>
+			<li><a  href="$!rs_official_site/business/">九休商务</a></li>
 			<li><a href="$!root_path/home">商家中心</a></li>
 		</ul>
 		<div class="lgrg">

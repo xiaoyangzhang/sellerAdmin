@@ -1,4 +1,7 @@
 #set($layout="layout/layout-blank.vm")
+##选中菜单
+#set( $selectMenu = "/item/cateList" )
+
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/zui/css/zui.min.css"
       xmlns="http://www.w3.org/1999/html">
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
@@ -45,9 +48,7 @@
 
                         <td><span class="spColor">*</span>商品名称</td>
                         <td>
-                            <div class="input-group">
-                                <input class="title form-control" type="text" name="title" value="$!esc.html($!commodity.title)"><span class="input-group-addon">0/38字</span>
-                            </div>
+                                <input class="title form-control" type="text" name="title" value="$!esc.html($!commodity.title)">
                         </td>
                     </tr>
                     <tr>
