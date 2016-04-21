@@ -50,7 +50,7 @@ public class ItemRepo {
 		ItemResult itemResult = itemQueryServiceRef.getItem(itemId, itemOptionDTO);
 		RepoUtils.resultLog(log, "itemQueryServiceRef.getItem", itemResult);
 		ItemDO item = itemResult.getItem();
-		return item.getSellerId() != sellerId ? itemResult : null;
+		return item.getSellerId() == sellerId ? itemResult : null;
 	}
 
 	public void shelve(ItemPublishDTO itemPublishDTO) {
