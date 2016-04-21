@@ -6,13 +6,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.param.item.ItemBatchPublishDTO;
+import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemDeleteResult;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
+import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.BaseException;
@@ -20,11 +23,11 @@ import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.util.RepoUtils;
 
 public class ItemRepo {
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private Logger				log	= LoggerFactory.getLogger(getClass());
 	@Autowired
-	private ItemQueryService itemQueryServiceRef;
+	private ItemQueryService	itemQueryServiceRef;
 	@Autowired
-	private ItemPublishService itemPublishServiceRef;
+	private ItemPublishService	itemPublishServiceRef;
 
 	public ItemPageResult getItemList(ItemQryDTO itemQryDTO) {
 		if (itemQryDTO == null) {
@@ -35,6 +38,19 @@ public class ItemRepo {
 		ItemPageResult itemPageResult = itemQueryServiceRef.getItem(itemQryDTO);
 		RepoUtils.resultLog(log, "itemQueryServiceRef.getItem", itemPageResult);
 		return itemPageResult;
+	}
+
+	public ItemResult getItemDetail(long sellerId, long itemId) {
+		ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
+		// 全部设置成true
+		itemOptionDTO.setCreditFade(true);
+		itemOptionDTO.setNeedCategory(true);
+		itemOptionDTO.setNeedSku(true);
+		RepoUtils.requestLog(log, "itemQueryServiceRef.getItem", itemOptionDTO);
+		ItemResult itemResult = itemQueryServiceRef.getItem(itemId, itemOptionDTO);
+		RepoUtils.resultLog(log, "itemQueryServiceRef.getItem", itemResult);
+		ItemDO item = itemResult.getItem();
+		return item.getSellerId() != sellerId ? itemResult : null;
 	}
 
 	public void shelve(ItemPublishDTO itemPublishDTO) {
