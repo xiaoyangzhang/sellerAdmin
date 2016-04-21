@@ -31,4 +31,9 @@ public class ErrorController extends BaseController {
 		return new ModelAndView("/system/error/404");
 	}
 	
+	@RequestMapping(value = "/500", method = RequestMethod.GET) 
+	public ModelAndView error(HttpServletRequest request, HttpServletResponse response){
+		return new ModelAndView("/system/error/500");
+	}
+	
 }
