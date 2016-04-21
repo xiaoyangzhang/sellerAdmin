@@ -2,9 +2,9 @@
 		<div class="footer-wrap">
 			<div class="footer-inner">
 				<ul class="footer-about">
-					<li><a target="_blank" href="$!rs_official_site/officialweb/about.html">关于九休</a></li>
-					<li><a target="_blank" href="$!rs_official_site/officialweb/contactus.html">联系我们</a></li>
-					<li><a target="_blank" href="$!rs_official_site/officialweb/feedback.html">投诉建议</a></li>
+					<li><a target="_blank" href="$!rs_official_site/about/aboutus.html">关于九休</a></li>
+					<li><a target="_blank" href="$!rs_official_site/about/contactus.html">联系我们</a></li>
+					<li><a target="_blank" href="$!rs_official_site/feedback/">投诉建议</a></li>
 					<li class="footer-aboutcons">招商咨询</li>
 					<li class="footer-constele">4000-696-888   /  9:00~22~00，周一到周日</li>
 				</ul>
