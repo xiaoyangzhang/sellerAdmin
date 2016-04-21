@@ -135,6 +135,7 @@ public class OrderServiceImpl implements OrderService {
 				if (tcBizOrder!=null){
 					long buyerId = tcBizOrder.getBuyerId();
 					UserDO buyer = userServiceRef.getUserDOById(buyerId);
+					orderDetails.setSellerId(tcBizOrder.getSellerId());
 					orderDetails.setBuyerName(buyer.getName());
 					orderDetails.setBuyerNiceName(buyer.getNickname());
 					orderDetails.setBuyerPhoneNum(buyer.getMobileNo());

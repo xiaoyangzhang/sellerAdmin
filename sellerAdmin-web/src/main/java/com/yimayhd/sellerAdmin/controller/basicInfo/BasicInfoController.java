@@ -158,8 +158,8 @@ public class BasicInfoController extends BaseController {
 				dto = talentInfoDTO;
 				model.addAttribute("talentInfo", dto);
 			}
-			//UserDO user = userService.getUserDOById(sessionManager.getUserId());
-//			model.addAttribute("avatar", user.getAvatar());
+//			UserDO user = userService.getUserDOById(sessionManager.getUserId());
+//			model.addAttribute("headPic", user.getAvatar());
 //			model.addAttribute("user", user);
 //			model.addAttribute("username", user.getNickname());
 			return "system/talent/eredar";
