@@ -1,3 +1,7 @@
+
+##选中菜单
+#set( $selectMenu = "/order/list" )
+
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css"
       rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js"
@@ -8,10 +12,6 @@
 </head>
 
 <div>
-	<div class="position">
-		<div>您所在的位置： 订单管理>订单详情</div>
-	</div>
-    <br><br>
 
     <div class="orderState">
 		    <span>
