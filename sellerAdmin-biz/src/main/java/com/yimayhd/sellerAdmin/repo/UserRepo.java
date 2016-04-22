@@ -230,7 +230,7 @@ public class UserRepo {
 	 * @return
 	 */
 	@MethodLogger
-	public WebResultSupport sendRegisterVerifyCode(VerifyCodeDTO verifyCodeDTO){
+	public WebResultSupport sendSmsVerifyCode(VerifyCodeDTO verifyCodeDTO){
 		WebResultSupport result = new WebResultSupport() ;
 		ResultSupport rs = userSecurityServiceRef.sendSmsVerfiyCode(verifyCodeDTO);
 		if(rs == null || !rs.isSuccess() ){

@@ -8,6 +8,7 @@ import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.enums.ReduceType;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
@@ -58,7 +59,6 @@ public class CityActivityManageController extends BaseController {
 	public String toAdd(Model model,int categoryId) throws Exception {
 		
 		CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
-        //TODO: add cityActivityTagType
         WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.CITYACTIVITY);
         if (allThemes.isSuccess()) {
             put("themes", allThemes.getValue());
@@ -80,11 +80,14 @@ public class CityActivityManageController extends BaseController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public
     String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
-
+        long sellerId = getCurrentUserId();
+        if (sellerId <= 0) {
+            log.warn("未登录");
+            throw new BaseException("未登录");
+        }
 		CityActivityItemVO itemVO = cityActivityService.getCityActivityById(id);
-        if(itemVO == null) {
-            //TODO: exception
-            return "/system/comm/itemList";
+        if(itemVO == null || itemVO.getItemVO() == null || itemVO.getItemVO().getSellerId() != sellerId) {
+            throw new BaseException("系统未知错误");
         }
         WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.CITYACTIVITY);
         if (allThemes.isSuccess()) {
@@ -114,11 +117,14 @@ public class CityActivityManageController extends BaseController {
     @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
     public
     String toView(Model model,@PathVariable(value = "id") long id) throws Exception {
-
+        long sellerId = getCurrentUserId();
+        if (sellerId <= 0) {
+            log.warn("未登录");
+            throw new BaseException("未登录");
+        }
         CityActivityItemVO itemVO = cityActivityService.getCityActivityById(id);
-        if(itemVO == null) {
-            //TODO: exception
-            return "/system/comm/itemList";
+        if(itemVO == null || itemVO.getItemVO() == null || itemVO.getItemVO().getSellerId() != sellerId) {
+            throw new BaseException("系统未知错误");
         }
         WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.CITYACTIVITY);
         if (allThemes.isSuccess()) {
