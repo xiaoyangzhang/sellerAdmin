@@ -39,7 +39,7 @@
 		<property name="resource.path" defaultValue="http://s0.test.yimayholiday.com/jiuxiu" description="" />
 		<property name="login.url" defaultValue="http://localhost:8080/sellerAdmin/user/login" description="" />
 		<property name="jiuxiu.official.site" defaultValue="http://www.test.jiuxiulvxing.com" description="" />
-		<property name="domain" defaultValue="jiuxiulvxing.com" description="domain />
+		<property name="domain" defaultValue="jiuxiulvxing.com" description="domain" />
 	</group>
 
 	<group name="dubbo">
