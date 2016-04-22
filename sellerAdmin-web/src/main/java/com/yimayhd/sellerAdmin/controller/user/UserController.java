@@ -38,7 +38,6 @@ import com.yimayhd.user.client.dto.RevivePasswordDTO;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.result.login.LoginResult;
 import com.yimayhd.user.client.service.UserService;
-import com.yimayhd.user.session.manager.SessionHelper;
 import com.yimayhd.user.session.manager.SessionManager;
 import com.yimayhd.user.session.manager.VerifyCodeManager;
 
@@ -165,7 +164,7 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
 		sessionManager.removeToken(request);
-		SessionHelper.cleanCookies(response);
+		cleanCookies(response);
 		String url = UrlHelper.getUrl(true, rootPath, "/user/login") ;
 		return new ModelAndView(url);
 	}
