@@ -358,8 +358,8 @@ public class LineChecker {
 		}
 		if (StringUtils.isBlank(tripDay.getDescription())) {
 			return WebCheckResult.error("行程描述不能为空");
-		} else if (tripDay.getDescription().length() > 200) {
-			return WebCheckResult.error("行程描述不能超过200个字");
+		} else if (tripDay.getDescription().length() > 500) {
+			return WebCheckResult.error("行程描述不能超过500个字");
 		}
 		if (CollectionUtils.isNotEmpty(tripDay.getPicUrls()) && tripDay.getPicUrls().size() > 5) {
 			return WebCheckResult.error("行程图片不能超过5张");
