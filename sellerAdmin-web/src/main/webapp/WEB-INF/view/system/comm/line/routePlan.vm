@@ -34,6 +34,7 @@
 			<td>回程交通方式：</td>
 			<td>
 				<select class="form-control back-type">
+					<option value="">请选择交通方式</option>
 					#foreach($way in $ways)
 						#if($way.key == $routePlan.back.type)
 					<option value="${way.key}" selected>${way.value}</option>	

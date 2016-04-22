@@ -2,7 +2,9 @@ package com.yimayhd.sellerAdmin.controller.user;
 
 
 import java.util.List;
+import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,11 +26,11 @@ import com.yimayhd.sellerAdmin.biz.UserBiz;
 import com.yimayhd.sellerAdmin.checker.UserChecker;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.UserConverter;
-import com.yimayhd.sellerAdmin.helper.SessionHelper;
 import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.vo.user.LoginVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RetrievePasswordVo;
+import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.LoginDTO;
 import com.yimayhd.user.client.dto.RegisterDTO;
@@ -101,8 +103,8 @@ public class UserController extends BaseController {
 		// 登录成功后跳转
 		rs.setValue(url);
 		// token放到cookie中
-		SessionHelper.setCookies(response, token, Constant.SITE_DOMAIN);
-
+		/*SessionHelper.setCookies(response, token);*/
+		setCookies(response, token);
 		return rs;
 	}
 	
@@ -144,8 +146,8 @@ public class UserController extends BaseController {
 			return result ;
 		}
 		String token = loginResult.getValue().getToken();
-		SessionHelper.setCookies(response, token, Constant.SITE_DOMAIN);
-		
+		//SessionHelper.setCookies(response, token);
+		setCookies(response, token);
 		String targetUrl = null ;
 //		String returnUrl = get("callback");
 		String returnUrl = callback;
@@ -162,7 +164,7 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
 		sessionManager.removeToken(request);
-		SessionHelper.cleanCookies(response);
+		cleanCookies(response);
 		String url = UrlHelper.getUrl(true, rootPath, "/user/login") ;
 		return new ModelAndView(url);
 	}
@@ -300,4 +302,45 @@ public class UserController extends BaseController {
 		return result;
 	}
 
+	private static final String TOKEN_SERVER = "token";
+	private static final String TOKEN_CLIENT = "token2";
+	
+	private void setCookies(HttpServletResponse response, String token) {
+		if (StringUtils.isBlank(token)) {
+			return;
+		}
+		Cookie cookie = new Cookie(TOKEN_SERVER, token);
+		cookie.setDomain(WebResourceConfigUtil.getDomain());
+		cookie.setHttpOnly(true);
+		cookie.setPath("/");
+
+		String token2 = UUID.randomUUID().toString();
+		Cookie cookie2 = new Cookie(TOKEN_CLIENT, token2);
+		cookie2.setDomain(WebResourceConfigUtil.getDomain());
+		cookie2.setPath("/");
+
+		response.addCookie(cookie);
+		response.addCookie(cookie2);
+	}
+	
+	private void cleanCookies(HttpServletResponse response) {
+		Cookie cookie = new Cookie(TOKEN_SERVER, null);
+		cookie.setDomain(WebResourceConfigUtil.getDomain());
+		cookie.setMaxAge(0);
+		cookie.setPath("/");
+
+		Cookie cookie2 = new Cookie(TOKEN_CLIENT, null);
+		cookie2.setDomain(WebResourceConfigUtil.getDomain());
+		cookie2.setMaxAge(0);
+		cookie2.setPath("/");
+
+		// Cookie usernameCookie = new Cookie(COOKIE_USER_NAME, null);
+		// cookie2.setMaxAge(0);
+		// cookie2.setPath("/");
+
+		response.addCookie(cookie);
+		response.addCookie(cookie2);
+		// response.addCookie(usernameCookie);
+
+	}
 }
