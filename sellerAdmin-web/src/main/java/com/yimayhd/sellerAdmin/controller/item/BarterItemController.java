@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.google.common.base.Preconditions;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.checker.BarterItemChecker;
 import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
@@ -40,6 +41,8 @@ public class BarterItemController extends BaseController {
 	@RequestMapping(value = "/common/toAdd", method = RequestMethod.GET)
 	public String toAddCommon(Model model, long categoryId) throws Exception {
 		CategoryDO categoryDO = categoryService.getCategoryVOById(categoryId);
+		ItemType itemType = ItemType.get(categoryDO.getCategoryFeature().getItemType());
+		Preconditions.checkArgument(ItemType.NORMAL.equals(itemType), "错误的商品类型");
 		model.addAttribute("category", categoryDO);
 		return "/system/comm/common/edit";
 	}
@@ -79,6 +82,8 @@ public class BarterItemController extends BaseController {
 		Preconditions.checkState(sellerId > 0, "请登录后访问");
 		ItemResultVO itemResultVO = commodityService.getCommodityById(sellerId, itemId);
 		Preconditions.checkState(itemResultVO != null, "商品未找到");
+		int itemType = itemResultVO.getItem().getItemType();
+		Preconditions.checkArgument(ItemType.NORMAL.getValue() == itemType, "错误的商品类型");
 		model.addAttribute("category", itemResultVO.getCategoryVO());
 		model.addAttribute("commodity", itemResultVO.getItemVO());
 		model.addAttribute("itemSkuList", itemResultVO.getItemSkuVOList());

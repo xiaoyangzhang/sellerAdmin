@@ -6,9 +6,9 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.base.Preconditions;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
-import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.line.LinePropertyConfig;
@@ -24,9 +24,9 @@ import com.yimayhd.sellerAdmin.service.item.LineService;
  */
 public abstract class BaseLineController extends BaseController {
 	@Resource
-	protected LineService commLineService;
+	protected LineService		commLineService;
 	@Autowired
-	protected CategoryService categoryService;
+	protected CategoryService	categoryService;
 
 	protected void initBaseInfo() throws BaseException {
 		WebResult<List<ComTagDO>> allLineThemes = commLineService.getAllLineThemes();
@@ -40,10 +40,8 @@ public abstract class BaseLineController extends BaseController {
 		put("categoryId", categoryId);
 		CategoryDO categoryDO = categoryService.getCategoryDOById(categoryId);
 		ItemType itemType = ItemType.get(categoryDO.getCategoryFeature().getItemType());
-		if (!ItemType.FREE_LINE.equals(itemType) && !ItemType.TOUR_LINE.equals(itemType)) {
-			log.warn("unsupport categoryId " + categoryId);
-			throw new BaseException("无效categoryId " + categoryId);
-		}
+		Preconditions.checkArgument(ItemType.FREE_LINE.equals(itemType) || ItemType.TOUR_LINE.equals(itemType),
+				"错误的商品类型");
 		put("itemType", itemType);
 		WebResult<LinePropertyConfig> result = commLineService.getLinePropertyConfig(categoryId);
 		if (result.isSuccess()) {
