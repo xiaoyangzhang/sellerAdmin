@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.url;
+package com.yimayhd.sellerAdmin.helper;
 
 import org.apache.commons.lang3.StringUtils;
 

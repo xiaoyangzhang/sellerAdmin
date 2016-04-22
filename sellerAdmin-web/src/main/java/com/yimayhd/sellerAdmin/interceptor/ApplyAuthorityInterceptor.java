@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.yimayhd.sellerAdmin.url.AuthorityHelper;
-import com.yimayhd.sellerAdmin.url.UrlHelper;
+import com.yimayhd.sellerAdmin.helper.AuthorityHelper;
+import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.session.manager.SessionManager;
 

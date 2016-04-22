@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.url;
+package com.yimayhd.sellerAdmin.helper;
 
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.enums.UserOptions;

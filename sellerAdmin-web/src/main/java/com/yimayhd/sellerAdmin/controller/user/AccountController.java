@@ -19,8 +19,8 @@ import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.biz.UserBiz;
 import com.yimayhd.sellerAdmin.checker.UserChecker;
 import com.yimayhd.sellerAdmin.converter.UserConverter;
+import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.vo.user.ModifyPasswordVo;
-import com.yimayhd.sellerAdmin.url.UrlHelper;
 import com.yimayhd.user.client.dto.ChangePasswordDTO;
 import com.yimayhd.user.session.manager.SessionManager;
 

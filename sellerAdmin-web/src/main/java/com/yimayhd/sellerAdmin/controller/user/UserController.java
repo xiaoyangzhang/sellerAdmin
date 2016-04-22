@@ -24,10 +24,11 @@ import com.yimayhd.sellerAdmin.biz.UserBiz;
 import com.yimayhd.sellerAdmin.checker.UserChecker;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.UserConverter;
+import com.yimayhd.sellerAdmin.helper.SessionHelper;
+import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.vo.user.LoginVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RetrievePasswordVo;
-import com.yimayhd.sellerAdmin.url.UrlHelper;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.LoginDTO;
 import com.yimayhd.user.client.dto.RegisterDTO;
@@ -35,7 +36,6 @@ import com.yimayhd.user.client.dto.RevivePasswordDTO;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.result.login.LoginResult;
 import com.yimayhd.user.client.service.UserService;
-import com.yimayhd.user.session.manager.SessionHelper;
 import com.yimayhd.user.session.manager.SessionManager;
 import com.yimayhd.user.session.manager.VerifyCodeManager;
 
@@ -101,7 +101,7 @@ public class UserController extends BaseController {
 		// 登录成功后跳转
 		rs.setValue(url);
 		// token放到cookie中
-		SessionHelper.setCookies(response, token);
+		SessionHelper.setCookies(response, token, Constant.SITE_DOMAIN);
 
 		return rs;
 	}
@@ -144,7 +144,7 @@ public class UserController extends BaseController {
 			return result ;
 		}
 		String token = loginResult.getValue().getToken();
-		SessionHelper.setCookies(response, token);
+		SessionHelper.setCookies(response, token, Constant.SITE_DOMAIN);
 		
 		String targetUrl = null ;
 //		String returnUrl = get("callback");
