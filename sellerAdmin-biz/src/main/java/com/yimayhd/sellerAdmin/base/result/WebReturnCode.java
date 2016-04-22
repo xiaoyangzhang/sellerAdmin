@@ -47,7 +47,7 @@ public class WebReturnCode implements Serializable {
 	public final static WebReturnCode PASSWORD_EMPTY = new WebReturnCode(24001012, "密码不能为空");
 	public final static WebReturnCode IMAGE_VERIFY_CODE_ERROR = new WebReturnCode(24001013, "图片验证码错误");
 	public final static WebReturnCode MOBILE_FORMAT_ERROR = new WebReturnCode(24001014, "手机号码格式错误");
-	public final static WebReturnCode USER_NICKNAME_EXIT = new WebReturnCode(24001015, "此昵称已存在");
+	public final static WebReturnCode USER_NICKNAME_EXIT = new WebReturnCode(24001015, "该昵称已存在，换一个试试吧");
 	public final static WebReturnCode UPDATE_USER_ERROR = new WebReturnCode(24001016, "修改用户信息失败");
 	public final static WebReturnCode OLD_PASSWORD_EMPTY = new WebReturnCode(24001017, "旧密码为空");
 	public final static WebReturnCode NEW_PASSWORD_EMPTY = new WebReturnCode(24001018, "新密码为空");
