@@ -43,6 +43,7 @@ public abstract class BaseLineController extends BaseController {
 		Preconditions.checkArgument(ItemType.FREE_LINE.equals(itemType) || ItemType.TOUR_LINE.equals(itemType),
 				"错误的商品类型");
 		put("itemType", itemType);
+		put("category", categoryDO);
 		WebResult<LinePropertyConfig> result = commLineService.getLinePropertyConfig(categoryId);
 		if (result.isSuccess()) {
 			LinePropertyConfig lineConfig = result.getValue();

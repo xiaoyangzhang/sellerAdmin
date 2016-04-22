@@ -310,13 +310,13 @@ public class UserController extends BaseController {
 			return;
 		}
 		Cookie cookie = new Cookie(TOKEN_SERVER, token);
-		cookie.setDomain(WebResourceConfigUtil.getDomain());
+//		cookie.setDomain(WebResourceConfigUtil.getDomain());
 		cookie.setHttpOnly(true);
 		cookie.setPath("/");
 
 		String token2 = UUID.randomUUID().toString();
 		Cookie cookie2 = new Cookie(TOKEN_CLIENT, token2);
-		cookie2.setDomain(WebResourceConfigUtil.getDomain());
+//		cookie2.setDomain(WebResourceConfigUtil.getDomain());
 		cookie2.setPath("/");
 
 		response.addCookie(cookie);

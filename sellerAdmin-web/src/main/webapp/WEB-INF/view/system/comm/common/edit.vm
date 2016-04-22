@@ -1,6 +1,7 @@
 #set($layout="layout/layout-blank.vm")
 ##选中菜单
 #set( $selectMenu = "/item/cateList" )
+#set( $locations = ["商品管理", "添加特产商品", "添加$!category.name"] )
 
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/zui/css/zui.min.css"
       xmlns="http://www.w3.org/1999/html">

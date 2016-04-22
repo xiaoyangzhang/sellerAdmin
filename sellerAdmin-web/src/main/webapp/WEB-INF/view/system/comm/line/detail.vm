@@ -1,7 +1,8 @@
 #set($layout="layout/layout-blank.vm")
 ##选中菜单
 #set( $selectMenu = "/item/cateList" )
-<!DOCTYPE html>
+#set( $locations = ["商品管理", "添加$!category.name"] )
+
 <html>
     <head>
 		#parse("layout/layout-meta.vm")

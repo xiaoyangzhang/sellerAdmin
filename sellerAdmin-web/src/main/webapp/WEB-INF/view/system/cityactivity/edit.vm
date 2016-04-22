@@ -24,7 +24,7 @@
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/js/addtravel.js"></script>
 
 
-
+#set( $locations = ["商品管理", "添加同城活动"] )
 <title>添加$!{category.name}</title>
 
 <style type="text/css">
