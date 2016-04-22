@@ -90,9 +90,10 @@ public class OrderServiceImpl implements OrderService {
 				UserDO userDO = userDOList.get(0);
 				if (userDO!=null){
 					userId = userDO.getId();
-				} else {
-					return new PageVO<MainOrder>(orderListQuery.getPageNo(),orderListQuery.getPageSize(), 0,mainOrderList);
 				}
+			}
+			if (userId == 0) {
+				return new PageVO<MainOrder>(orderListQuery.getPageNo(),orderListQuery.getPageSize(), 0,mainOrderList);
 			}
 		}
 
