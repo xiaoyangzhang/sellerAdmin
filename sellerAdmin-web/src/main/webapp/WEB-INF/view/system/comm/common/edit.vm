@@ -334,8 +334,11 @@
                                         </div>
 
                                     #end
-                                    图片大小不超过500K，格式为JPG,JPEG,PNG；建议图片尺寸为：800*300
-                                    至少上传1张图片，第一张图片将被展示在搜索结果列表页面和订单页面
+                                    <div class="upl-tips">
+						<p>图片大小不超过500K，格式为JPG,JPEG,PNG；建议图片尺寸为：800*300</p>
+						<p>至少上传1张图片，第一张图片将被展示在搜索结果列表页面和订单页面</p>
+					</div>
+
                                 </div>*#
                                 <div class="uploadbox clearfix">
                                     <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file_string" />
@@ -361,8 +364,11 @@
                                             <input type="hidden" name="imgvalue" class="imgvalue">
                                         </div>
                                     #end
-                                    图片大小不超过500K，格式为JPG,JPEG,PNG；建议图片尺寸为：800*300</br>
-                                    至少上传1张图片，第一张图片将被展示在搜索结果列表页面和订单页面
+                                   <div class="upl-tips">
+						<p>图片大小不超过500K，格式为JPG,JPEG,PNG；建议图片尺寸为：800*300</p>
+						<p>至少上传1张图片，第一张图片将被展示在搜索结果列表页面和订单页面</p>
+					</div>
+
                                 </div>
                             </td>
                         </tr>

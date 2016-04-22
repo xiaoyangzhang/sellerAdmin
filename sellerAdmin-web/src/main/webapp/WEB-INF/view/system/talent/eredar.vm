@@ -165,7 +165,7 @@
 				</tr>
 				<tr>
 					<td class="tbtxt w280"><span>服务描述：</span></td>
-					<td><input type ="text" maxlength="30" class="field inputxt" value="$!talentInfo.talentInfoDO.serveDesc" name="describe" datatype="s1-30" errormsg="除下划线以外的特殊字符不允许输入,请输入30以内的描述"><span></span><label class = "lab">0/30</label></td>
+					<td><input type ="text" maxlength="30" class="field inputxt" value="$!talentInfo.talentInfoDO.serveDesc" name="describe" datatype="s1-30" errormsg="除下划线以外的特殊字符不允许输入,请输入30以内的描述"><span></span></td>
 				</tr>
 				<tr>
 					<td class="tbtxt w280 abuteMe"><span>关于我：</span></td>
