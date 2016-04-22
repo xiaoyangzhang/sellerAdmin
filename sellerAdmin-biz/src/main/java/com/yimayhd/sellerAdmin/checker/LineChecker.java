@@ -38,7 +38,7 @@ public class LineChecker {
 	private static final List<String>	supportTrafficTypes	= new ArrayList<String>();
 	// private static final Pattern NAME_PATTERN =
 	// Pattern.compile("^[a-zA-Z\\u4e00-\\u9fa5]{1,38}$");
-	private static final Pattern		CODE_PATTERN		= Pattern.compile("^[1-9]{1,20}$");
+	private static final Pattern		CODE_PATTERN		= Pattern.compile("^[0-9]{1,20}$");
 	static {
 		supportItemTypes.add(ItemType.FREE_LINE.getValue());
 		supportItemTypes.add(ItemType.TOUR_LINE.getValue());

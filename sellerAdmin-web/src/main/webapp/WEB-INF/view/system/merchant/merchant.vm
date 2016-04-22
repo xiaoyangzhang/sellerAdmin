@@ -43,7 +43,7 @@
 						</span>
 					</p>
 					<div class="merchant-shop">
-						<label class="mt"><font>*</font>店铺头像  :</label>
+						<label class="mt"><font>*</font>店铺头图:</label>
 						<div class="bigbox">
 							<span class="imgbox">
 								<div class="canclick canclickL">
@@ -56,7 +56,7 @@
 								<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
 								<input type="hidden" name="txImage" value="$!txImage">
 							</span>
-						<label class="lab">图片大小不超过500K,建议图片尺寸为：800*300,仅限于JPG,JPEG,PNG格式</label>
+						<label class="lab">图片大小不超过500K,建议图片尺寸为：750*260,仅限于JPG,JPEG,PNG格式</label>
 			           </div>
 					</div>
 			    	<div class="merchant-shop">
@@ -73,7 +73,7 @@
 								<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
 								<input type="hidden" name="djImage" value="$!djImage">
 							</span>
-						<label class="lab">图片大小不超过500K,建议图片尺寸为：800*300,仅限于JPG,JPEG,PNG格式</label>
+						<label class="lab">图片大小不超过500K,建议图片尺寸为：80*80,仅限于JPG,JPEG,PNG格式</label>
 			           </div>
 					</div>
 				</div>
