@@ -267,80 +267,44 @@
             </div>
         </form>
         #if($!category.sellCategoryPropertyVOs)
-                    <div class="skuTable">
-                        #if($commodity.itemSkuVOList && $commodity.itemSkuVOList.size() > 0)
-                            <table>
-                                <caption>销售属性匹配表</caption>
-                                <thead>
-                                #foreach($sellCategoryProperty in $category.sellCategoryPropertyVOs)
-                                    <th><span>$!sellCategoryProperty.categoryPropertyVO.text</span></th>
-                                #end
+        <div class="skuTable">
+            #if($commodity.itemSkuVOList && $commodity.itemSkuVOList.size() > 0)
+                <table>
+                    <caption>销售属性匹配表</caption>
+                    <thead>
+                    #foreach($sellCategoryProperty in $category.sellCategoryPropertyVOs)
+                        <th><span>$!sellCategoryProperty.categoryPropertyVO.text</span></th>
+                    #end
 
-                                    <th><span>价格</span></th>
-                                    <th><span>数量</span></th>
-                                </thead>
-                                #foreach($itemSkuVO in $commodity.itemSkuVOList)
-                                    #set($index = $velocityCount - 1)
-                                    <tr class="skuTbEdit" skuTrId="$!itemSkuVO.id">
-                                        #foreach($itemSkuPVPair in $itemSkuVO.itemSkuPVPairList)
-                                            #set($index2 = $velocityCount - 1)
-                                            #set($showFlag = $index % $commodity.skuTdRowNumList.get($index2) == 0)
-                                            #if($showFlag)
-                                                <td rowspan="$commodity.skuTdRowNumList.get($index2)"><span>$itemSkuPVPair.vTxt</span></td>
-                                            #end
-                                        #end
-                                        <td><input class="price" type="text" value="$!itemSkuVO.priceY"></td>
-                                        <td><input class="stock" type="text" value="$!itemSkuVO.stockNum"></td>
-                                    </tr>
+                        <th><span>价格</span></th>
+                        <th><span>数量</span></th>
+                    </thead>
+                    #foreach($itemSkuVO in $commodity.itemSkuVOList)
+                        #set($index = $velocityCount - 1)
+                        <tr class="skuTbEdit" skuTrId="$!itemSkuVO.id">
+                            #foreach($itemSkuPVPair in $itemSkuVO.itemSkuPVPairList)
+                                #set($index2 = $velocityCount - 1)
+                                #set($showFlag = $index % $commodity.skuTdRowNumList.get($index2) == 0)
+                                #if($showFlag)
+                                    <td rowspan="$commodity.skuTdRowNumList.get($index2)"><span>$itemSkuPVPair.vTxt</span></td>
                                 #end
-                            </table>
-                        #else
+                            #end
+                            <td><input class="price" type="text" value="$!itemSkuVO.priceY"></td>
+                            <td><input class="stock" type="text" value="$!itemSkuVO.stockNum"></td>
+                        </tr>
+                    #end
+                </table>
+				#else
                             您需要选择所有的销售属性，才能组合成完整的规格信息。
-                        #end
-                    </div>
-        #end
+                #end
+            </div>
+			#end
             <div class="">
                 <table class="table table-hover">
                     <tbody>
-                        <tr class="subCheckedTR">
-                            <td></td>
-                            <td></td>
-                        </tr>
                         <tr>
                             <td><span class="red">*</span>商品主图：</td>
                             <td>
-                                #*<div class="uploadbox clearfix">
-                                    #set($numArr=[0,1,2,3,4])
-                                    #foreach($index in $numArr)
-                                        <div class="imgbox">
-
-                                            <form action="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file_string" method="post" class="imgform" enctype="multipart/form-data">
-                                                <div class="dimg">
-                                                    #set($flag = ($!commodity.itemMainPics.size() > $index))
-                                                    #if($flag)
-                                                        <img src="$utilWebconfig.getTfsRootPath()/$!commodity.itemMainPics.get($index)" img-root="$utilWebconfig.getTfsRootPath()" />
-                                                        <input type="hidden" class="picCode" value="$!commodity.itemMainPics.get($index)" />
-                                                    #else
-                                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" img-root="$utilWebconfig.getTfsRootPath()" />
-                                                        <input type="hidden" class="picCode" />
-                                                    #end
-
-                                                </div>
-                                                <div class="upimgbtn">
-                                                    <input type="file" name="picfile" class="picfile" />
-                                                    <button class="upl">上传图片</button>
-                                                    <button class="del">删除图片</button>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                    #end
-                                    <div class="upl-tips">
-						<p>图片大小不超过500K，格式为JPG,JPEG,PNG；建议图片尺寸为：800*300</p>
-						<p>至少上传1张图片，第一张图片将被展示在搜索结果列表页面和订单页面</p>
-					</div>
-
-                                </div>*#
                                 <div class="uploadbox clearfix">
                                     <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file_string" />
                                     <input type="hidden" class="imgUrl" value="$utilWebconfig.getTfsRootPath()" />
@@ -366,25 +330,17 @@
                                         </div>
                                     #end
                                    <div class="upl-tips">
-						<p>图片大小不超过500K，格式为JPG,JPEG,PNG；建议图片尺寸为：800*300</p>
-						<p>至少上传1张图片，第一张图片将被展示在搜索结果列表页面和订单页面</p>
-					</div>
-
+                        				<p>图片大小不超过500K，格式为JPG,JPEG,PNG；建议图片尺寸为：800*300</p>
+                        				<p>至少上传1张图片，第一张图片将被展示在搜索结果列表页面和订单页面</p>
+                        			</div>
                                 </div>
                             </td>
                         </tr>
-                        #*<tr>
-                            <td><span class="spColor">*</span>商品主图</td>
-                            <td class="picUrlsTd">
-                                <input id="batchUploadBtn" type="file" multiple="multiple" >
-                                #foreach($pic in $!commodity.picList)
-                                    <img class="picUrlsUrl uploadImgFile" imgUrl="$pic" src="$utilWebconfig.getTfsRootPath()$pic">
-                                #end
-                            </td>
-                            <input class="picUrlsVal" type="hidden" name="coverPics" value="$!commodity.coverPics">
-                        </tr>*#
                         <tr>
+							<td><span class="red">*</span>商品详情：</td>
+							<td>
                             #parse("/system/comm/line/pictureText.vm")
+                            </td>
                         </tr>
                     </tbody>
                 </table>
