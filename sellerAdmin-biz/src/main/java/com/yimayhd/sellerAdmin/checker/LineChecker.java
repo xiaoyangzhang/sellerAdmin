@@ -127,10 +127,8 @@ public class LineChecker {
 		}
 		RouteTrafficVO go = routePlan.getGo();
 		RouteTrafficVO back = routePlan.getBack();
-		if (go == null && back == null && StringUtils.isBlank(routePlan.getScenicInfo())
-				&& StringUtils.isBlank(routePlan.getHotelInfo())) {
-			return WebCheckResult.error("机酒景信息不能为空");
-		} else {
+		if (!(go == null && back == null && StringUtils.isBlank(routePlan.getScenicInfo())
+				&& StringUtils.isBlank(routePlan.getHotelInfo()))) {
 			if (go != null) {
 				if (StringUtils.isBlank(go.getType())) {
 					return WebCheckResult.error("去程交通方式不能为空");
