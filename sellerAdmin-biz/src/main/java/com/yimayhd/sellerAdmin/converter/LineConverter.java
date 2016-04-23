@@ -519,19 +519,19 @@ public class LineConverter {
 					addRouteItemList.add(routeItemDO);
 				}
 			}
-			// 删除
-			Set<Long> deletedRouteItems = routeInfo.getDeletedRouteItems();
-			Set<Long> updatedRouteItems = routeInfo.getUpdatedRouteItems();
-			if (CollectionUtils.isNotEmpty(deletedRouteItems)) {
-				deleteRouteItemList.addAll(deletedRouteItems);
-			}
-			// 修改
-			if (CollectionUtils.isNotEmpty(updatedRouteItems)) {
-				updatedRouteItems.removeAll(deletedRouteItems);
-				for (long routeItemId : updatedRouteItems) {
-					if (routeItemId > 0 && routeItemVOMap.containsKey(routeItemId)) {
-						updateRouteItemList.add(toRouteItemUpdateDTO(routeItemVOMap.get(routeItemId)));
-					}
+		}
+		// 删除
+		Set<Long> deletedRouteItems = routeInfo.getDeletedRouteItems();
+		Set<Long> updatedRouteItems = routeInfo.getUpdatedRouteItems();
+		if (CollectionUtils.isNotEmpty(deletedRouteItems)) {
+			deleteRouteItemList.addAll(deletedRouteItems);
+		}
+		// 修改
+		if (CollectionUtils.isNotEmpty(updatedRouteItems)) {
+			updatedRouteItems.removeAll(deletedRouteItems);
+			for (long routeItemId : updatedRouteItems) {
+				if (routeItemId > 0 && routeItemVOMap.containsKey(routeItemId)) {
+					updateRouteItemList.add(toRouteItemUpdateDTO(routeItemVOMap.get(routeItemId)));
 				}
 			}
 		}
@@ -613,19 +613,19 @@ public class LineConverter {
 					addSkuList.add(itemSkuDO);
 				}
 			}
-			// 删除
-			Set<Long> deletedSKUSet = priceInfo.getDeletedSKU();
-			if (CollectionUtils.isNotEmpty(deletedSKUSet)) {
-				deleteSkuList.addAll(deletedSKUSet);
-			}
-			// 更新
-			Set<Long> updatedSKUSet = priceInfo.getUpdatedSKU();
-			if (CollectionUtils.isNotEmpty(updatedSKUSet)) {
-				updatedSKUSet.removeAll(deletedSKUSet);
-				for (long skuId : updatedSKUSet) {
-					if (skuId > 0 && skuVOMap.containsKey(skuId)) {
-						updateSkuList.add(toItemSkuPubUpdateDTO(skuVOMap.get(skuId)));
-					}
+		}
+		// 删除
+		Set<Long> deletedSKUSet = priceInfo.getDeletedSKU();
+		if (CollectionUtils.isNotEmpty(deletedSKUSet)) {
+			deleteSkuList.addAll(deletedSKUSet);
+		}
+		// 更新
+		Set<Long> updatedSKUSet = priceInfo.getUpdatedSKU();
+		if (CollectionUtils.isNotEmpty(updatedSKUSet)) {
+			updatedSKUSet.removeAll(deletedSKUSet);
+			for (long skuId : updatedSKUSet) {
+				if (skuId > 0 && skuVOMap.containsKey(skuId)) {
+					updateSkuList.add(toItemSkuPubUpdateDTO(skuVOMap.get(skuId)));
 				}
 			}
 		}
