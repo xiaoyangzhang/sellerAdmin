@@ -467,10 +467,10 @@
                 return false;
             }
         });
-		var pt = getPictureText()||[];
-		if(pt.length == 0) {
+		var pt = getPictureText() || {};
+		var pts = pt.pictureTextItems || [];
+		if(pts.length == 0) {
 			msg = '图文详情至少需输入一段文字，或一张图片';
-            return false;
 		}
         if(msg){
             return msg;
