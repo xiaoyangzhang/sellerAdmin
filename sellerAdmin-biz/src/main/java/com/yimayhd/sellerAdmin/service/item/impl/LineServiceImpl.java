@@ -47,26 +47,26 @@ import com.yimayhd.sellerAdmin.service.item.LineService;
 import com.yimayhd.user.client.dto.CityDTO;
 
 public class LineServiceImpl implements LineService {
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private Logger			log	= LoggerFactory.getLogger(getClass());
 	@Autowired
-	private LineRepo lineRepo;
+	private LineRepo		lineRepo;
 	@Autowired
-	private CommentRepo commentRepo;
+	private CommentRepo		commentRepo;
 	@Autowired
-	private CategoryRepo categoryRepo;
+	private CategoryRepo	categoryRepo;
 	@Autowired
-	private CityRepo cityRepo;
+	private CityRepo		cityRepo;
 	@Autowired
-	private PictureTextRepo pictureTextRepo;
+	private PictureTextRepo	pictureTextRepo;
 
 	@Override
-	public WebResult<LineVO> getByItemId(long itemId) {
+	public WebResult<LineVO> getByItemId(long sellerId, long itemId) {
 		try {
 			if (itemId <= 0) {
 				log.warn("无效 ID:" + itemId);
 				return WebResult.failure(WebReturnCode.PARAM_ERROR);
 			}
-			LineResult lineResult = lineRepo.getLineByItemId(itemId);
+			LineResult lineResult = lineRepo.getLineByItemId(sellerId, itemId);
 			if (lineResult == null) {
 				log.warn("数据未找到 ID:" + itemId);
 				return WebResult.failure(WebReturnCode.DATA_NOT_FOUND);
