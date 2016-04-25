@@ -127,10 +127,8 @@ public class LineChecker {
 		}
 		RouteTrafficVO go = routePlan.getGo();
 		RouteTrafficVO back = routePlan.getBack();
-		if (go == null && back == null && StringUtils.isBlank(routePlan.getScenicInfo())
-				&& StringUtils.isBlank(routePlan.getHotelInfo())) {
-			return WebCheckResult.error("机酒景信息不能为空");
-		} else {
+		if (!(go == null && back == null && StringUtils.isBlank(routePlan.getScenicInfo())
+				&& StringUtils.isBlank(routePlan.getHotelInfo()))) {
 			if (go != null) {
 				if (StringUtils.isBlank(go.getType())) {
 					return WebCheckResult.error("去程交通方式不能为空");
@@ -358,8 +356,8 @@ public class LineChecker {
 		}
 		if (StringUtils.isBlank(tripDay.getDescription())) {
 			return WebCheckResult.error("行程描述不能为空");
-		} else if (tripDay.getDescription().length() > 200) {
-			return WebCheckResult.error("行程描述不能超过200个字");
+		} else if (tripDay.getDescription().length() > 500) {
+			return WebCheckResult.error("行程描述不能超过500个字");
 		}
 		if (CollectionUtils.isNotEmpty(tripDay.getPicUrls()) && tripDay.getPicUrls().size() > 5) {
 			return WebCheckResult.error("行程图片不能超过5张");

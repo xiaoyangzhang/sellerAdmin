@@ -46,7 +46,13 @@ public class ItemConverter {
 			itemQryDTO.setItemType(query.getItemType());
 		}
 		itemQryDTO.setBeginDate(query.getBeginDate());
-		itemQryDTO.setEndDate(query.getEndDate());
+		Date endDate = query.getEndDate();
+		if (endDate != null) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(endDate);
+			cal.add(Calendar.DATE, 1);
+			itemQryDTO.setEndDate(cal.getTime());
+		}
 		itemQryDTO.setPageNo(query.getPageNo());
 		itemQryDTO.setPageSize(query.getPageSize());
 		return itemQryDTO;

@@ -34,6 +34,7 @@
 			<td>回程交通方式：</td>
 			<td>
 				<select class="form-control back-type">
+					<option value="">请选择交通方式</option>
 					#foreach($way in $ways)
 						#if($way.key == $routePlan.back.type)
 					<option value="${way.key}" selected>${way.value}</option>	
@@ -48,7 +49,7 @@
 			<td>详细描述：</td>
 			<td>
 				<textarea class="form-control textarea-count back-description" rows="3" placeholder="" maxlength="200">$!{routePlan.back.description}</textarea>										
-				#if($routePlan.go.description)
+				#if($routePlan.back.description)
 				<span class="word-num">$!{routePlan.back.description.length()}/200字</span>
 				#else
 				<span class="word-num">0/200字</span>	

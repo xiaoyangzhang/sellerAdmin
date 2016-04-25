@@ -140,6 +140,8 @@ public class UserRepo {
 					result.setWebReturnCode(WebReturnCode.SMS_ALREADY_SEND);
 				}else if( UserServiceHttpCode.SMS_VERIFY_CODE_ERROR.getCode() == code ){
 					result.setWebReturnCode(WebReturnCode.SMS_VERIFY_CODE_ERROR);
+				}else if( UserServiceHttpCode.NICKNAME_TAKEN.getCode() == code ){
+					result.setWebReturnCode(WebReturnCode.USER_NICKNAME_EXIT);
 				}else{
 					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
 				}

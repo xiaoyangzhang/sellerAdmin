@@ -52,5 +52,7 @@ public class Constant {
 	public static final String DOT = ".";
 
 	public static final String ALL_PLACE_CODE = "-1";
+	
+	public static final String SITE_DOMAIN = "jiuxiulvxing.com";
 
 }
