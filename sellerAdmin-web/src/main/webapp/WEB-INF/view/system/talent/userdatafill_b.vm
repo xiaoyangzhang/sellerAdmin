@@ -38,7 +38,7 @@
 		<div class="tabs">
 			<form id="forminfo" action="saveExamineInfo_b.do" method="post">
 				<div class="tit gray6 f16 error_tip">负责人信息
-					#if ($checkResultInfo && $checkResultInfo.length()>0 )
+					#if ($checkResultInfo && $checkResultInfo.size()>0 )
 					<div class="error_box">
 							<div>审核不通过原因</div>
 							<ol>
