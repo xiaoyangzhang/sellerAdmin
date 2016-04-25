@@ -47,14 +47,14 @@
 						<div class="bigbox">
 							<span class="imgbox">
 								<div class="canclick canclickL">
-									#if("$!txImage" == "")
+									#if("$!ttImage" == "")
 									<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 									#else
-									<img src="$!imgSrc$!txImage">
+									<img src="$!imgSrc$!ttImage">
 									#end
 								</div><div class="plhd"></div><div class="del">删除图片</div>
 								<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
-								<input type="hidden" name="txImage" value="$!txImage">
+								<input type="hidden" name="ttImage" value="$!ttImage">
 							</span>
 						<label class="lab">图片大小不超过500K,建议图片尺寸为：750*260,仅限于JPG,JPEG,PNG格式</label>
 			           </div>
@@ -64,14 +64,14 @@
 						<div class="bigbox">
 							<span class="imgbox">
 								<div class="canclick canclickL">
-									#if("$!djImage" == "")
+									#if("$!dbImage" == "")
 									<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 									#else
-									<img src="$!imgSrc$!djImage">
+									<img src="$!imgSrc$!dbImage">
 									#end
 								</div><div class="plhd"></div><div class="del">删除图片</div>
 								<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
-								<input type="hidden" name="djImage" value="$!djImage">
+								<input type="hidden" name="dbImage" value="$!dbImage">
 							</span>
 						<label class="lab">图片大小不超过500K,建议图片尺寸为：80*80,仅限于JPG,JPEG,PNG格式</label>
 			           </div>

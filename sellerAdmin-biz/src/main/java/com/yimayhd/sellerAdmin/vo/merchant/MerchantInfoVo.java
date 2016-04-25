@@ -22,10 +22,10 @@ public class MerchantInfoVo implements Serializable{
 		private String serviceTel;
 		//店铺地址
 		private String address;
-		//店铺店招
-		private String djImage;
-		//商户头像
-		private String txImage;
+		//店铺头图
+		private String ttImage;
+		//店铺店标
+		private String dbImage;
 		public String getNickName() {
 			return nickName;
 		}
@@ -56,18 +56,17 @@ public class MerchantInfoVo implements Serializable{
 		public void setAddress(String address) {
 			this.address = address;
 		}
-
-		public String getDjImage() {
-			return djImage;
+		public String getTtImage() {
+			return ttImage;
 		}
-		public void setDjImage(String djImage) {
-			this.djImage = djImage;
+		public void setTtImage(String ttImage) {
+			this.ttImage = ttImage;
 		}
-		public String getTxImage() {
-			return txImage;
+		public String getDbImage() {
+			return dbImage;
 		}
-		public void setTxImage(String txImage) {
-			this.txImage = txImage;
+		public void setDbImage(String dbImage) {
+			this.dbImage = dbImage;
 		}
 		public long getId() {
 			return id;

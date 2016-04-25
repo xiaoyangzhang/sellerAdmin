@@ -239,10 +239,10 @@ public class MerchantBiz {
 		merchantDO.setMerchantPrincipalTel(basicInfo.getMerchantPrincipalTel());
 		merchantDO.setServiceTel(basicInfo.getServiceTel());
 		merchantDO.setAddress(basicInfo.getAddress());
-		//
-		merchantDO.setBackgroudImage(basicInfo.getTxImage());
-		//
-		merchantDO.setLogo(basicInfo.getDjImage());
+		//店铺头图
+		merchantDO.setBackgroudImage(basicInfo.getTtImage());
+		//店铺店标
+		merchantDO.setLogo(basicInfo.getDbImage());
 		
 	}
 	
@@ -253,10 +253,10 @@ public class MerchantBiz {
 		merchantDTO.setMerchantPrincipalTel(basicInfo.getMerchantPrincipalTel());
 		merchantDTO.setServiceTel(basicInfo.getServiceTel());
 		merchantDTO.setAddress(basicInfo.getAddress());
-		//
-		merchantDTO.setBackgroundImage(basicInfo.getTxImage());;
-		//
-		merchantDTO.setLogoImage(basicInfo.getDjImage());
+		//店铺头图
+		merchantDTO.setBackgroundImage(basicInfo.getTtImage());;
+		//店铺店标
+		merchantDTO.setLogoImage(basicInfo.getDbImage());
 	}
 	
 	
