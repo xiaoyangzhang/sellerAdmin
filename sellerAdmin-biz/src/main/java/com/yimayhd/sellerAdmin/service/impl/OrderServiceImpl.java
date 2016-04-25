@@ -145,11 +145,13 @@ public class OrderServiceImpl implements OrderService {
 				}
 				//orderDetails.setTotalFee(tcMainOrder.getTotalFee());
 				orderDetails.setActualTotalFee(tcMainOrder.getTotalFee());
-
+				//联系人邮箱
+				//String email = BizOrderUtil.getLineContactEmail(tcBizOrder);
+				//orderDetails.setEmail(email);
 				//参加人
-				orderDetails.setTourists(tcMainOrder.getTouristList());
+				//orderDetails.setTourists(tcMainOrder.getTouristList());
 				//联系人
-				orderDetails.setContacts(tcMainOrder.getContactInfo());
+				//orderDetails.setContacts(tcMainOrder.getContactInfo());
 				//买家备忘录
 				orderDetails.setBuyerMemo(tcMainOrder.getOtherInfo());
 				//关闭原因
