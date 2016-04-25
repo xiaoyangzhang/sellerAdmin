@@ -34,7 +34,7 @@ public class WebReturnCode implements Serializable {
 	public static final WebReturnCode FILE_TO_BIG = new WebReturnCode(23000004, "文件超过最大限制");
 	public static final WebReturnCode UPLOAD_FILE_FAILED = new WebReturnCode(23000005, "上传文件失败");
 	/******************************************* 用户相关 ******************************************************/
-	public static final WebReturnCode USER_NOT_FOUND = new WebReturnCode(24001000, "用户不存在");
+	public static final WebReturnCode USER_NOT_FOUND = new WebReturnCode(24001000, "手机号未注册");
 	public static final WebReturnCode USER_LOCKED_TO_MANY_TIMES_FAILED = new WebReturnCode(24001001, "登陆失败次数过多");
 	public static final WebReturnCode USERNAME_OR_PASSWORD_ERROR = new WebReturnCode(24001002, "用户名或者密码错误");
 	public final static WebReturnCode MOBILE_REGISTED = new WebReturnCode(24001003, "手机号码已注册");

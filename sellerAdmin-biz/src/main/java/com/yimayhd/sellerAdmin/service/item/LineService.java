@@ -36,7 +36,7 @@ public interface LineService {
 	 * @param id
 	 * @return
 	 */
-	WebResult<LineVO> getByItemId(long id);
+	WebResult<LineVO> getByItemId(long sellerId, long id);
 
 	/**
 	 * 查询线路

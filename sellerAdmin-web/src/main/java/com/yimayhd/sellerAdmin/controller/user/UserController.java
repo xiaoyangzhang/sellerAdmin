@@ -75,7 +75,7 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public WebResult<String> register(RegisterVo registerVo, HttpServletResponse response) {
+	public WebResult<String> register(RegisterVo registerVo, HttpServletRequest request, HttpServletResponse response) {
 		WebResult<String> rs = new WebResult<String>();
 		WebResultSupport checkResult = UserChecker.checkRegisterVo(registerVo);
 		if ( !checkResult.isSuccess() ) {
@@ -104,7 +104,7 @@ public class UserController extends BaseController {
 		rs.setValue(url);
 		// token放到cookie中
 		/*SessionHelper.setCookies(response, token);*/
-		setCookies(response, token);
+		setCookies(response,request, token);
 		return rs;
 	}
 	
@@ -128,7 +128,7 @@ public class UserController extends BaseController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
-	public WebResult<String> login(LoginVo loginVo, String callback, HttpServletResponse response) {
+	public WebResult<String> login(LoginVo loginVo, String callback, HttpServletResponse response, HttpServletRequest request) {
 		WebResult<String> result = new WebResult<String>();
 		WebResultSupport checkResult = UserChecker.checkLogin(loginVo);
 		if( !checkResult.isSuccess() ){
@@ -147,7 +147,7 @@ public class UserController extends BaseController {
 		}
 		String token = loginResult.getValue().getToken();
 		//SessionHelper.setCookies(response, token);
-		setCookies(response, token);
+		setCookies(response,request, token);
 		String targetUrl = null ;
 //		String returnUrl = get("callback");
 		String returnUrl = callback;
@@ -305,18 +305,24 @@ public class UserController extends BaseController {
 	private static final String TOKEN_SERVER = "token";
 	private static final String TOKEN_CLIENT = "token2";
 	
-	private void setCookies(HttpServletResponse response, String token) {
+	private void setCookies(HttpServletResponse response, HttpServletRequest request, String token) {
 		if (StringUtils.isBlank(token)) {
 			return;
 		}
 		Cookie cookie = new Cookie(TOKEN_SERVER, token);
-//		cookie.setDomain(WebResourceConfigUtil.getDomain());
+		String domain = WebResourceConfigUtil.getDomain() ;
+		String serverName = request.getServerName();
+		if( StringUtils.isNoneBlank(domain) && serverName.contains(domain) ){
+			cookie.setDomain(domain);
+		}
 		cookie.setHttpOnly(true);
 		cookie.setPath("/");
 
 		String token2 = UUID.randomUUID().toString();
 		Cookie cookie2 = new Cookie(TOKEN_CLIENT, token2);
-//		cookie2.setDomain(WebResourceConfigUtil.getDomain());
+		if( StringUtils.isNoneBlank(domain) && serverName.contains(domain) ){
+			cookie2.setDomain(domain);
+		}
 		cookie2.setPath("/");
 
 		response.addCookie(cookie);

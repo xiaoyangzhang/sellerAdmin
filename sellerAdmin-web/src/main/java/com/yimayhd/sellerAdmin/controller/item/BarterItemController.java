@@ -82,7 +82,7 @@ public class BarterItemController extends BaseController {
 		Preconditions.checkState(sellerId > 0, "请登录后访问");
 		ItemResultVO itemResultVO = commodityService.getCommodityById(sellerId, itemId);
 		Preconditions.checkState(itemResultVO != null, "商品未找到");
-		int itemType = itemResultVO.getItem().getItemType();
+		int itemType = itemResultVO.getItemVO().getItemType();
 		Preconditions.checkArgument(ItemType.NORMAL.getValue() == itemType, "错误的商品类型");
 		model.addAttribute("category", itemResultVO.getCategoryVO());
 		model.addAttribute("commodity", itemResultVO.getItemVO());
