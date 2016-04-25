@@ -84,10 +84,10 @@ public class BasicInfoController extends BaseController {
 				model.addAttribute("address",meResult.getValue().getAddress());
 				model.addAttribute("imgSrc",Constant.TFS_URL);
 				if(null != meResult.getValue().getBackgroudImage()){
-					model.addAttribute("djImage", meResult.getValue().getBackgroudImage());
+					model.addAttribute("ttImage", meResult.getValue().getBackgroudImage());
 				}
 				if(null != meResult.getValue().getLogo()){
-					model.addAttribute("txImage", meResult.getValue().getLogo());
+					model.addAttribute("dbImage", meResult.getValue().getLogo());
 				}
 				model.addAttribute("merchantPrincipalTel", meResult.getValue().getMerchantPrincipalTel());
 				model.addAttribute("serviceTel", meResult.getValue().getServiceTel());
