@@ -233,7 +233,7 @@
 											</span>
 										</label>
 									</div>
-									<div><label class="bred">*</label><label class="gray9">图片大小不超过500K，建议图片尺寸为800*800，格式为jpg,png,bmp。</label></div>
+									<div><label class="bred">*</label><label class="gray9">图片大小不超过500K，建议图片尺寸为800*800，格式为jpg,png,jpeg。</label></div>
 								</td>
 							</tr>
 						</table>
