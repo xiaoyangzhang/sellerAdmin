@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
+import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.enums.ReduceType;
@@ -59,6 +60,11 @@ public class CityActivityManageController extends BaseController {
 	public String toAdd(Model model,int categoryId) throws Exception {
 		
 		CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
+        CategoryFeature categoryFeature = categoryVO.getCategoryFeature();
+        if(categoryFeature == null || categoryFeature.getItemType() != ItemType.CITY_ACTIVITY.getValue()) {
+            log.warn("错误的类目");
+            throw new BaseException("商品类目错误");
+        }
         WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.CITYACTIVITY);
         if (allThemes.isSuccess()) {
             put("themes", allThemes.getValue());
