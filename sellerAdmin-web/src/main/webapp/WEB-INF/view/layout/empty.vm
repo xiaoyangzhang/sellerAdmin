@@ -75,6 +75,7 @@
 		</div>
 		
 		#parse("layout/layout-footer.vm")
+		<script src="$rs_js_css_path_jiuxiu/js/other/public.js"></script>
 	</div>
 </body>
 </html>
