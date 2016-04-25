@@ -13,7 +13,7 @@ import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextVO;
 public class PictureTextChecker {
 	public static WebCheckResult checkPictureText(PictureTextVO pictureTextVO) {
 		if (pictureTextVO == null) {
-			WebCheckResult.error("图文详情不能为空");
+			return WebCheckResult.error("图文详情不能为空");
 		}
 		List<PictureTextItemVo> pictureTextItems = pictureTextVO.getPictureTextItems();
 		if (CollectionUtils.isNotEmpty(pictureTextItems)) {

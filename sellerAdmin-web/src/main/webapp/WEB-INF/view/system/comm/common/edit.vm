@@ -152,45 +152,44 @@
                                     <tr class="property keyProperty" pId="$!keyCategoryProperty.categoryPropertyDO.id" pTxt="$!keyCategoryProperty.categoryPropertyDO.text" pType="$!keyCategoryProperty.categoryPropertyDO.type">
                                         <td><span class="spColor">*</span>$!keyCategoryProperty.categoryPropertyDO.text</td>
                                         <td>
-                                            #*编辑的时候回填属性*#
-                                                #set($propertyEditPId = 100)
-                                                #set($propertyEditVId = 200)
-                                                #set($propertyEditVTxt = '')
-                                                #foreach($itemProperty in $commodity.itemPropertyList)
-                                                    #if($itemProperty.pId == $keyCategoryProperty.categoryPropertyDO.id)
-                                                        #set($propertyEditPId = $itemProperty.pId)
-                                                        #set($propertyEditVId = $itemProperty.vId)
-                                                        #if($itemProperty.vId == 0)
-                                                            #set($propertyEditVTxt = $itemProperty.vTxt)
-                                                        #end
-                                                        #break
+											#*编辑的时候回填属性*#
+                                            #set($propertyEditPId = 100)
+                                            #set($propertyEditVId = 200)
+                                            #set($propertyEditVTxt = '')
+                                            #foreach($itemProperty in $commodity.itemPropertyList)
+                                                #if($itemProperty.pId == $keyCategoryProperty.categoryPropertyDO.id)
+                                                    #set($propertyEditPId = $itemProperty.pId)
+                                                    #set($propertyEditVId = $itemProperty.vId)
+                                                    #if($itemProperty.vId == 0)
+                                                        #set($propertyEditVTxt = $itemProperty.vTxt)
                                                     #end
+                                                    #break
                                                 #end
-                                                #*属性可选值*#
-                                                #if($keyCategoryProperty.categoryPropertyDO.categoryValueDOs.size() > 0)
-
-                                                    <select class="form-control propertySelect">
-                                                        <option value="0" >请选择</option>
-                                                        #foreach($categoryValueDO in $keyCategoryProperty.categoryPropertyDO.categoryValueDOs)
-                                                            <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($propertyEditVId == $!categoryValueDO.id)selected#end>$!esc.html($!categoryValueDO.text)</option>
-                                                        #end
-                                                    </select>
-                                                #end
-                                                #*支持自定义*#
-                                                #if($!keyCategoryProperty.canCustom == 1)
-                                                #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
-                                                    #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
-                                                        <span><input class="propertyInput form-control" type="text" value="$!esc.html($!propertyEditVTxt)"></span>
-                                                    #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
-                                                        <input type="text" class='form-control form-date propertyInput propertyInput' placeholder='yyyy-MM-dd' readonly value="$!esc.html($!propertyEditVTxt)">
-                                                    #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
-                                                        3
-                                                    #elseif($!keyCategoryProperty.categoryPropertyDO.type == 4)
-                                                        4
-                                                    #elseif($!keyCategoryProperty.categoryPropertyDO.type == 5)
-                                                        5
+                                            #end
+                                            #*属性可选值*#
+                                            #if($keyCategoryProperty.categoryPropertyDO.categoryValueDOs.size() > 0)
+                                                <select class="form-control propertySelect">
+                                                    <option value="0" >请选择</option>
+                                                    #foreach($categoryValueDO in $keyCategoryProperty.categoryPropertyDO.categoryValueDOs)
+                                                        <option value="$!categoryValueDO.id" vId="$!categoryValueDO.id" vTxt="$!categoryValueDO.text" #if($propertyEditVId == $!categoryValueDO.id)selected#end>$!esc.html($!categoryValueDO.text)</option>
                                                     #end
+                                                </select>
+                                            #end
+                                            #*支持自定义*#
+                                            #if($!keyCategoryProperty.canCustom == 1)
+                                            #*1:文字,2:日期,3:酒店,4:景点,5:人员*#
+                                                #if($!keyCategoryProperty.categoryPropertyDO.type == 1)
+                                                    <span><input class="propertyInput form-control" type="text" value="$!esc.html($!propertyEditVTxt)"></span>
+                                                #elseif($!keyCategoryProperty.categoryPropertyDO.type == 2)
+                                                    <input type="text" class='form-control form-date propertyInput propertyInput' placeholder='yyyy-MM-dd' readonly value="$!esc.html($!propertyEditVTxt)">
+                                                #elseif($!keyCategoryProperty.categoryPropertyDO.type == 3)
+                                                    3
+                                                #elseif($!keyCategoryProperty.categoryPropertyDO.type == 4)
+                                                    4
+                                                #elseif($!keyCategoryProperty.categoryPropertyDO.type == 5)
+                                                    5
                                                 #end
+                                            #end
                                         </td>
                                     </tr>
                                 #end
@@ -398,7 +397,7 @@
 </script>
 <script>
     //验证
-    var validate = function(){
+    var validate = function() {
         if(!$('.title').val() || !$('.title').val().trim()){
             return '请输入商品名称';
         }else if($('.title').val().length > 38){
@@ -468,6 +467,11 @@
                 return false;
             }
         });
+		var pt = getPictureText() || {};
+		var pts = pt.pictureTextItems || [];
+		if(pts.length == 0) {
+			msg = '图文详情至少需输入一段文字，或一张图片';
+		}
         if(msg){
             return msg;
         }
@@ -743,7 +747,8 @@
             $('#itemSkuVOStr').val(JSON.stringify(skuPropertyAll));
 
             //图文编辑
-            $('#pictureTextVOStr').val(JSON.stringify(getPictureText()));
+			var pt = getPictureText();
+            $('#pictureTextVOStr').val(JSON.stringify(pt));
             var url = '';
             if($('#commodityForm').attr('commodityId')){
                 url = actionDefaultPath + '/barterItem/common/edit/' + $('#commodityForm').attr('commodityId');

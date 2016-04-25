@@ -35,6 +35,8 @@ public class OrderDetails {
 
     private long sellerId;
 
+    private String email;
+
     public MainOrder getMainOrder() {
         return mainOrder;
     }
@@ -137,5 +139,13 @@ public class OrderDetails {
 
     public void setSellerId(long sellerId) {
         this.sellerId = sellerId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

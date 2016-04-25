@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Preconditions;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.LineType;
 import com.yimayhd.sellerAdmin.base.BaseException;
@@ -44,9 +45,11 @@ public class LineController extends BaseLineController {
 	 */
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String edit(@PathVariable(value = "id") long id) throws Exception {
+		long sellerId = sessionManager.getUserId();
+		Preconditions.checkState(sellerId > 0, "请登录后访问");
 		initBaseInfo();
 		if (id > 0) {
-			WebResult<LineVO> result = commLineService.getByItemId(id);
+			WebResult<LineVO> result = commLineService.getByItemId(sellerId, id);
 			if (result.isSuccess()) {
 				LineVO gt = result.getValue();
 				BaseInfoVO baseInfo = gt.getBaseInfo();
@@ -73,9 +76,11 @@ public class LineController extends BaseLineController {
 	 */
 	@RequestMapping(value = "/view/{id}/", method = RequestMethod.GET)
 	public String view(@PathVariable(value = "id") long id) throws Exception {
+		long sellerId = sessionManager.getUserId();
+		Preconditions.checkState(sellerId > 0, "请登录后访问");
 		initBaseInfo();
 		if (id > 0) {
-			WebResult<LineVO> result = commLineService.getByItemId(id);
+			WebResult<LineVO> result = commLineService.getByItemId(sellerId, id);
 			if (result.isSuccess()) {
 				LineVO gt = result.getValue();
 				BaseInfoVO baseInfo = gt.getBaseInfo();

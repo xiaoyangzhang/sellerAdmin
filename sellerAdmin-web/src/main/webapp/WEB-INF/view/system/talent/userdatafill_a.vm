@@ -29,14 +29,10 @@
 			<form id="forminfo" method="post" action="saveExamineInfo_a.do">
 				<div class="panel">
 					<div class="tit gray6 f16 error_tip">商户信息
-					#if ($!checkResultInfo && $!checkResultInfo.length>0 )
+					#if ($!checkResultInfo && $!checkResultInfo.size()>0 )
 						<div class="error_box">
 							<div>审核不通过原因</div>
-							<ol>
-								#foreach( $info in $checkResultInfo)  
-								<li>$!info</li>
-						　　　	 #end
-							</ol>
+							<ol>#foreach( $info in $checkResultInfo)<li>$!info</li>#end</ol>
 						</div>
 					#end
 					</div>
@@ -233,7 +229,7 @@
 											</span>
 										</label>
 									</div>
-									<div><label class="bred">*</label><label class="gray9">图片大小不超过500K，建议图片尺寸为800*800，格式为jpg,png,bmp。</label></div>
+									<div><label class="bred">*</label><label class="gray9">图片大小不超过500K，建议图片尺寸为800*800，格式为jpg,png,jpeg。</label></div>
 								</td>
 							</tr>
 						</table>

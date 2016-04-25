@@ -60,6 +60,10 @@ public class CityActivityManageController extends BaseController {
 	public String toAdd(Model model,int categoryId) throws Exception {
 		
 		CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
+        if(categoryVO == null) {
+            log.warn("错误的类目");
+            throw new BaseException("商品类目错误");
+        }
         CategoryFeature categoryFeature = categoryVO.getCategoryFeature();
         if(categoryFeature == null || categoryFeature.getItemType() != ItemType.CITY_ACTIVITY.getValue()) {
             log.warn("错误的类目");
