@@ -101,14 +101,14 @@
                 <tbody>
                 <tr>
                     <th width="2%"><input class="allChecked" name="allChecked" type="checkbox"></th>
-                    <th width="44%">商品</th>
+                    <th width="41%">商品</th>
                     <th width="5%">单价</th>
                     <th width="6%">数量</th>
                     <th width="10%">类型</th>
                     <th width="12%">买家</th>
                     <th width="9%">订单状态</th>
                     <th width="8%">订单金额</th>
-                    <th width="5%">操作</th>
+                    <th width="8%">操作</th>
                 </tr>
                     #foreach($order in $orderList)
                     <tr></tr>
