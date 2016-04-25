@@ -38,12 +38,10 @@
                 <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="orderStat">
                     <option value="">全部</option>
                     <option value="NOT_PAY" #if($!orderListQuery.orderStat == 'NOT_PAY') selected #end>待付款</option>
-                    <option value="NO_LG_ORDER" #if($!orderListQuery.orderStat == 'NO_LG_ORDER') selected #end>待发货</option>
-                    <option value="CONSIGNED" #if($!orderListQuery.orderStat == 'CONSIGNED') selected #end>待收货</option>
+                    <option value="NO_LG_ORDER" #if($!orderListQuery.orderStat == 'NO_LG_ORDER') selected #end>已付款</option>
+                    <option value="CONSIGNED" #if($!orderListQuery.orderStat == 'CONSIGNED') selected #end>待出行</option>
+                    <option value="NOT_PAY_CLOSE" #if($!orderListQuery.orderStat == 'NOT_PAY_CLOSE') selected #end>已取消</option>
                     <option value="SUCCESS" #if($!orderListQuery.orderStat == 'SUCCESS') selected #end>已完成</option>
-                    <option value="NOT_PAY_CLOSE" #if($!orderListQuery.orderStat == 'NOT_PAY_CLOSE') selected #end>
-                        交易关闭
-                    </option>
                 </select>
             </div>
 
@@ -178,7 +176,7 @@
                                 <td rowspan="$!size" class="middle">
                                     <div class="">
                                         #if($order.orderShowState == 1)
-                                            未付款
+                                            待付款
                                         #elseif($order.orderShowState == 2)
                                             已付款
                                         #elseif($order.orderShowState == 3)
