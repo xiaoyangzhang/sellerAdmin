@@ -140,8 +140,8 @@ public class CommodityServiceImpl implements CommodityService {
 	@Override
 	public ItemResultVO getCommodityById(long sellerId, long id) throws Exception {
 		ItemResult itemResult = itemRepo.getItemDetail(sellerId, id);
-		if (itemResult != null) {
-
+		if (itemResult == null) {
+			throw new BaseException("商品未找到");
 		}
 		ItemResultVO itemResultVO = new ItemResultVO();
 
