@@ -65,7 +65,7 @@
             <div class="clubBotBtn">
                 #if(!${isReadonly})
                     <div class="btn-group">
-                        <button type="btn" class="btn btn-info save">全部保存</button>
+                        <button type="btn" class="btn btn-primary save">全部保存</button>
                     </div>
                 #end
             </div>
