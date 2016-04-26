@@ -6,12 +6,6 @@
     	<p>3、最多添加20段图片或文字</p>
 		<p>4、图片大小不能超过500K，建议尺寸：800*450，格式为JPG,JPEG,PNG</p>
     </div>
-	<div class="hd clearfix">
-		<ul class="clearfix">
-			<li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
-			<li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
-		</ul>
-	</div>
 	<div class="bd">
 		#foreach($pictureTextItem in $pictureText.pictureTextItems)
 			#if($pictureTextItem.type.equalsIgnoreCase('text'))
@@ -25,6 +19,12 @@
 		</p>
 			#end
 		#end
+	</div>
+	<div class="hd clearfix">
+		<ul class="clearfix">
+			<li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
+			<li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
+		</ul>
 	</div>
 	<textarea name="content" id="contentText" style="display:none;">$!{pictureText.pictureTextItemsJson}</textarea>
 	<input type="hidden" id="uploadAction" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file"/>
