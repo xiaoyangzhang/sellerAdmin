@@ -27,7 +27,7 @@ public class OrderDetails {
 
     private long actualTotalFee;
 
-    private int payChannel;
+    private String payChannel;
 
     private String closeReason;
 
@@ -109,11 +109,11 @@ public class OrderDetails {
         this.actualTotalFee = actualTotalFee;
     }
 
-    public int getPayChannel() {
+    public String getPayChannel() {
         return payChannel;
     }
 
-    public void setPayChannel(int payChannel) {
+    public void setPayChannel(String payChannel) {
         this.payChannel = payChannel;
     }
 

@@ -102,16 +102,7 @@
                 <td>付款时间：</td>
                 <td>#if($!order.mainOrder.tcMainOrder.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)#end</td>
                 <td>
-                    付款方式：
-                    #if($!order.mainOrder.tcMainOrder.payChannel == 1)
-                        支付宝条码
-                    #elseif($!order.mainOrder.tcMainOrder.payChannel == 2)
-                        支付宝网页
-                    #elseif($!order.mainOrder.tcMainOrder.payChannel == 3)
-                        支付宝手机
-                    #elseif($!order.mainOrder.tcMainOrder.payChannel == 4)
-                        微信支付
-                    #end
+                    付款方式：$!order.payChannel
                 </td>
                 <td></td>
             </tr>
