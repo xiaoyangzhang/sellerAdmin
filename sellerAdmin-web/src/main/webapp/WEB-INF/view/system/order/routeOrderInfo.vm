@@ -107,9 +107,9 @@
                         支付宝条码
                     #elseif($!order.mainOrder.tcMainOrder.payChannel == 2)
                         支付宝网页
-                    #elseif($!order.mainOrder.tcMainOrder.payChannel == 2)
+                    #elseif($!order.mainOrder.tcMainOrder.payChannel == 3)
                         支付宝手机
-                    #elseif($!order.mainOrder.tcMainOrder.payChannel == 2)
+                    #elseif($!order.mainOrder.tcMainOrder.payChannel == 4)
                         微信支付
                     #end
                 </td>
