@@ -228,6 +228,46 @@
 												<input type="hidden" name="climbingCertificate" value="$!examineInfo.climbingCertificate">
 											</span>
 										</label>
+										<br/>
+										<label class="inblock">
+											<div class="smtit">健身教练证</div>
+											<span class="imgbox mr5 cnat">
+												<div class="canclick">
+													#if ($!examineInfo.trainingCertificate)
+											<img src="$!tfs/$!examineInfo.trainingCertificate">
+											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+											#end
+												</div><div class="plhd"></div><div class="del">删除图片</div>
+												<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile mult" ></a>
+												<input type="hidden" name="trainingCertificate" value="$!examineInfo.trainingCertificate">
+											</span>
+										</label>
+										<label class="inblock">
+											<div class="smtit">教师证</div>
+											<span class="imgbox mr5 cnat">
+												<div class="canclick">
+													#if ($!examineInfo.teacherCertificate)
+											<img src="$!tfs/$!examineInfo.teacherCertificate">
+											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+											#end
+												</div><div class="plhd"></div><div class="del">删除图片</div>
+												<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile mult" ></a>
+												<input type="hidden" name="teacherCertificate" value="$!examineInfo.teacherCertificate">
+											</span>
+										</label>
+										<label class="inblock">
+											<div class="smtit">美术证</div>
+											<span class="imgbox mr5 cnat">
+												<div class="canclick">
+													#if ($!examineInfo.artCertificate)
+											<img src="$!tfs/$!examineInfo.artCertificate">
+											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+											#end
+												</div><div class="plhd"></div><div class="del">删除图片</div>
+												<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile mult" ></a>
+												<input type="hidden" name="artCertificate" value="$!examineInfo.artCertificate">
+											</span>
+										</label>
 									</div>
 									<div><label class="bred">*</label><label class="gray9">图片大小不超过500K，建议图片尺寸为800*800，格式为jpg,png,jpeg。</label></div>
 								</td>
