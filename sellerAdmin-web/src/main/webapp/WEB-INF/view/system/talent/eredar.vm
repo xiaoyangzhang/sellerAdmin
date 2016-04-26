@@ -197,7 +197,6 @@
 								<ul class="clearfix">
 									<li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
 									<li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
-									<li><a href="javascript:void(0)" class="submitbtn">+提交数据</a></li>
 								</ul>
 							</div>
 						</div>
@@ -205,7 +204,7 @@
 				</tr>
 			</table>
 		</form>
-		<button class = "saveBtn" id = "saveBtnEredar">保存</button>
+		<button type= "button" class = "saveBtn" id = "saveBtnEredar">保存</button>
 	</div>
 	<div class = "eredar-list eredar-list2">
 	</div>
