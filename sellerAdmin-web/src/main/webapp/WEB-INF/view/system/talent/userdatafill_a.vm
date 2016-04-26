@@ -162,7 +162,7 @@
 							<tr>
 								<td class="tbtxt"><label class="pt30">达人资质证明：</label></td>
 								<td colspan="3">
-									<div class='groupimg darenzh'>
+									<div class='groupimg darenzh allownull'>
 										<label class="inblock">
 											<div class="smtit">导游证</div>
 											<span class="imgbox mr5 cnat">
