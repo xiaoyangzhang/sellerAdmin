@@ -204,7 +204,7 @@
 				</tr>
 			</table>
 		</form>
-		<button class = "saveBtn" id = "saveBtnEredar">保存</button>
+		<button type= "button" class = "saveBtn" id = "saveBtnEredar">保存</button>
 	</div>
 	<div class = "eredar-list eredar-list2">
 	</div>
