@@ -6,9 +6,7 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/zui/css/zui.min.css"
       xmlns="http://www.w3.org/1999/html">
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/base.css">
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/common.css">
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/zui.min.css">
+
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/addtravel.css">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/editer.css">
 
@@ -18,7 +16,7 @@
 <div class="example whole">
     <form name="commodityForm" id="commodityForm" class="form-horizontal" action="" method="post" commodityId="$!commodity.id">
         <div class="">
-                <table class="table">
+                <table class="table tab-productdetail">
                     <input type="hidden" name="categoryId" value="$!category.id">
                     <input type="hidden" name="rootCategoryId" value="$!category.parent.id">
                     #*商品类型，此页面全是普通商品发布 新增的时候需要，修改的时候不更新此字段*#
@@ -146,7 +144,7 @@
                         <td>属性</td>
                         <td>
                             <div style="border:1px solid #ccc;padding: 30px">
-                            <table>
+                            <table class="table tab-productdetail">
                                 #*解析关键属性*#
                                 #foreach($keyCategoryProperty in $category.keyCategoryPropertyDOs)
                                     <tr class="property keyProperty" pId="$!keyCategoryProperty.categoryPropertyDO.id" pTxt="$!keyCategoryProperty.categoryPropertyDO.text" pType="$!keyCategoryProperty.categoryPropertyDO.type">
@@ -299,10 +297,10 @@
             </div>
 			#end
             <div class="">
-                <table class="table table-hover">
+                <table class="table tab-productdetail">
                     <tbody>
                         <tr>
-                            <td><span class="red">*</span>商品主图：</td>
+                            <td><span class="red">*</span>商品主图</td>
                             <td>
                                 <div class="uploadbox clearfix">
                                     <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file_string" />
@@ -336,7 +334,7 @@
                             </td>
                         </tr>
                         <tr>
-							<td><span class="red">*</span>商品详情：</td>
+							<td><span class="red">*</span>商品详情</td>
 							<td>
                             #parse("/system/comm/line/pictureText.vm")
                             </td>
@@ -349,16 +347,13 @@
             <div class="clubBotBtn">
                 <div class="btn-group">
 
-                    <button class="btn btn-success btnSubmit" type="button" >保存</button>
-                </div>
-                <div class="btn-group">
-                    <button type="button"  class="btn closBtn">取消</button>
+                    <button class="btn btn-success btnSubmit" type="button" >全部保存</button>
                 </div>
             </div>
 			#end
         <div class="">
             #if($!commodity.id)
-                <table class="table">
+                <table class="table tab-productdetail">
                     <tbody>
                     <tr>
                         <td>创建时间</td>
@@ -400,7 +395,7 @@
     var validate = function() {
         if(!$('.title').val() || !$('.title').val().trim()){
             return '请输入商品名称';
-        }else if($('.title').val().length > 38){
+        }else if($('.title').val().trim().length > 38){
             return '商品名称不能超过38个字';
         }
         if($('.code').val() && $('.code').val().length > 38){
@@ -449,10 +444,10 @@
 
 
         $('.keyProperty').each(function(){
-            if(($(this).find('.propertySelect').length == 0 || $(this).find('.propertySelect').val() == '0') && !$(this).find('.propertyInput').val()){
+            if(($(this).find('.propertySelect').length == 0 || $(this).find('.propertySelect').val() == '0') && !$(this).find('.propertyInput').val().trim()){
                 msg = '请填写必填属性' + $(this).attr('pTxt');
                 return false;
-            }else if($(this).find('.propertyInput').val() && $(this).find('.propertyInput').val().length > 30){
+            }else if($(this).find('.propertyInput').val() && $(this).find('.propertyInput').val().trim().length > 30){
                 msg = $(this).attr('pTxt') + '长度不能超过30个字';
                 return false;
             }
@@ -462,7 +457,7 @@
         }
         //非必填属性
         $('.nonKeyProperty').each(function(){
-            if($(this).find('.propertyInput').val() && $(this).find('.propertyInput').val().length > 30){
+            if($(this).find('.propertyInput').val().trim() && $(this).find('.propertyInput').val().trim().length > 30){
                 msg = $(this).attr('pTxt') + '长度不能超过30个字';
                 return false;
             }
