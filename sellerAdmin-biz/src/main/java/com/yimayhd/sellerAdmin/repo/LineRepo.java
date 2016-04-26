@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.ic.client.model.domain.LineDO;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.param.item.line.LinePubAddDTO;
 import com.yimayhd.ic.client.model.param.item.line.LinePubUpdateDTO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
@@ -28,11 +29,11 @@ import com.yimayhd.sellerAdmin.util.RepoUtils;
  *
  */
 public class LineRepo {
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private Logger				log	= LoggerFactory.getLogger(getClass());
 	@Autowired
-	private ItemQueryService itemQueryServiceRef;
+	private ItemQueryService	itemQueryServiceRef;
 	@Autowired
-	private LinePublishService linePublishServiceRef;
+	private LinePublishService	linePublishServiceRef;
 
 	/**
 	 * ID查询
@@ -40,14 +41,15 @@ public class LineRepo {
 	 * @param id
 	 * @return
 	 */
-	public LineResult getLineByItemId(long itemId) {
+	public LineResult getLineByItemId(long sellerId, long itemId) {
 		if (itemId <= 0) {
 			return null;
 		}
 		RepoUtils.requestLog(log, "itemQueryServiceRef.getLineResult", itemId);
 		LineResult lineResult = itemQueryServiceRef.getLineResultByItemId(itemId);
 		RepoUtils.resultLog(log, "itemQueryServiceRef.getLineResult", lineResult);
-		return lineResult;
+		ItemDO itemDO = lineResult.getItemDO();
+		return itemDO.getSellerId() == sellerId ? lineResult : null;
 	}
 
 	/**

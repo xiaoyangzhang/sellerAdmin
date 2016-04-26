@@ -121,8 +121,8 @@ public class ItemConverter {
 			itemVO.setItemMainPics(PicUrlsUtil.getItemMainPics(itemDO));
 		}
 		// 截止时间
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH");
 		if (itemDO.getEndDate() != null) {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			itemVO.setEndDateStr(dateFormat.format(itemDO.getEndDate()));
 		}
 		itemVO.setLongitudeVO(itemDO.getLongitude());

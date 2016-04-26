@@ -136,7 +136,8 @@ public class CityActivityConverter {
 			itemPubUpdateDTO.setLatitude(itemVO.getLatitudeVO());
 		}
 		if(StringUtils.isNotBlank(itemVO.getEndDateStr())) {
-			itemPubUpdateDTO.setEndDate(DateUtil.convertStringToDate(itemVO.getEndDateStr()));
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			itemPubUpdateDTO.setEndDate(dateFormat.parse(itemVO.getEndDateStr()));
 		}
 		if(!CollectionUtils.isEmpty(itemVO.getItemMainPics())) {
 			itemPubUpdateDTO.setItemMainPics(itemVO.getItemMainPics());

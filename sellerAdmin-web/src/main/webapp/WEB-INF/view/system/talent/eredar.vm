@@ -171,13 +171,7 @@
 					<td class="tbtxt w280 abuteMe"><span>关于我：</span></td>
 					<td width='500px'>
 						<div id="editer">
-							<div class="hd clearfix">
-								<ul class="clearfix">
-									<li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
-									<li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
-									<li><a href="javascript:void(0)" class="submitbtn">+提交数据</a></li>
-								</ul>
-							</div>
+							
 							<div class="bd">
 								#foreach ($info in $talentInfo.pictureTextDTO.picTexts)
 									#if ($info.type == 1)
@@ -199,7 +193,13 @@
 								</p> -->	
 							</div>
 							<textarea id="contentText" style="display:none;"></textarea>
-							
+							<div class="hd clearfix">
+								<ul class="clearfix">
+									<li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
+									<li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
+									<li><a href="javascript:void(0)" class="submitbtn">+提交数据</a></li>
+								</ul>
+							</div>
 						</div>
 					</td>
 				</tr>

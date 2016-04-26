@@ -17,7 +17,7 @@
 				</p>
 				<p class="btngroup clearfix">
 				
-					<input type="password" class="textinput" name="password" id="userpwd" placeholder="请输入6-16位字母、数字密码" datatype="/^(?=.{6,16}$)(?![0-9]+$)[0-9a-zA-Z]+$/" nullmsg="请输入您的密码" errormsg="请输入6-16位密码，需同时包含字母及数字！"  autocomplete="off"/>
+					<input type="password" class="textinput" name="password" id="userpwd" placeholder="请输入6-16位字母、数字密码" datatype="/^(?=.{6,16}$)(?![0-9]+$)(?![a-zA-Z]+$)[0-9a-zA-Z]+$/" nullmsg="请输入您的密码" errormsg="请输入6-16位密码，需同时包含字母及数字！"  autocomplete="off"/>
 					<span class="Validform_checktip"></span>
 				</p>
 				<p class="btngroup clearfix">

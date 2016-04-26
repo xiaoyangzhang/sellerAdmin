@@ -47,64 +47,65 @@ import com.yimayhd.snscenter.client.service.SnsCenterService;
 import com.yimayhd.user.client.domain.UserDO;
 
 public class HomeCfgServiceImpl implements HomeCfgService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(HomeCfgServiceImpl.class);
+	private static final Logger				LOGGER								= LoggerFactory
+			.getLogger(HomeCfgServiceImpl.class);
 
-	private static final String BOOT_HOME_ADVERTISE_CODE = "HOME_RECOMMENT";
-	private static final String BOOT_RECOMMEND_CODE = "GREAT_RECOMMENT";
-	private static final String BOOT_TRAVEKA_CODE = "TRAVE_MASTER";
+	private static final String				BOOT_HOME_ADVERTISE_CODE			= "HOME_RECOMMENT";
+	private static final String				BOOT_RECOMMEND_CODE					= "GREAT_RECOMMENT";
+	private static final String				BOOT_TRAVEKA_CODE					= "TRAVE_MASTER";
 
 	/**
 	 * 会员专享boothid
 	 */
-	private static final long HOME_CONFIG_VIP_BOOTH_ID = 60;
+	private static final long				HOME_CONFIG_VIP_BOOTH_ID			= 60;
 
 	/**
 	 * 大咖带你玩boothid
 	 */
-	private static final long HOME_CONFIG_LINE_BOOTH_ID = 61;
+	private static final long				HOME_CONFIG_LINE_BOOTH_ID			= 61;
 
 	/**
 	 * 金牌旅游咖boothid
 	 */
-	private static final long HOME_CONFIG_TRAVEL_KA_BOOTH_ID = 62;
+	private static final long				HOME_CONFIG_TRAVEL_KA_BOOTH_ID		= 62;
 
 	/**
 	 * 目的地boothid
 	 */
-	private static final long HOME_CONFIG_CITY_BOOTH_ID = 63;
+	private static final long				HOME_CONFIG_CITY_BOOTH_ID			= 63;
 
 	/**
 	 * 品质游记boothid
 	 */
-	private static final long HOME_CONFIG_TRAVEL_SPECIAL_BOOTH_ID = 64;
+	private static final long				HOME_CONFIG_TRAVEL_SPECIAL_BOOTH_ID	= 64;
 
-	private static final String img = "T1xthTB4YT1R4cSCrK.png";
+	private static final String				img									= "T1xthTB4YT1R4cSCrK.png";
 
-	private static final BoothClientServer showcaseCilentServer = null;
-
-	@Autowired
-	private ShowcaseClientServer showCaseClientServer;
+	private static final BoothClientServer	showcaseCilentServer				= null;
 
 	@Autowired
-	private BoothClientServer boothCilentServer;
+	private ShowcaseClientServer			showCaseClientServer;
 
 	@Autowired
-	private UserRPCService userRPCService;
+	private BoothClientServer				boothCilentServer;
 
 	@Autowired
-	BoothClientServer boothClientServerRef;
+	private UserRPCService					userRPCService;
 
 	@Autowired
-	private SnsCenterService snsCenterService;
+	BoothClientServer						boothClientServerRef;
 
 	@Autowired
-	private TravelKaService travelKaService;
+	private SnsCenterService				snsCenterService;
 
 	@Autowired
-	private ActivityRepo activityRepo;
+	private TravelKaService					travelKaService;
 
 	@Autowired
-	private LineRepo lineRepo;
+	private ActivityRepo					activityRepo;
+
+	@Autowired
+	private LineRepo						lineRepo;
 
 	@Override
 	public RcResult<Boolean> addVipList(CfgBaseVO cfgBaseVO) {
@@ -367,8 +368,8 @@ public class HomeCfgServiceImpl implements HomeCfgService {
 					}
 					BaseResult<SnsActivityDO> snsActivityDOBaseResult = snsCenterService
 							.getActivityInfoByActivityId(targetId);
-							// LineInfo lineInfo =
-							// JSON.parseObject(showcaseDO.getOperationContent(),LineInfo.class);
+					// LineInfo lineInfo =
+					// JSON.parseObject(showcaseDO.getOperationContent(),LineInfo.class);
 
 					// homeResultInfo.setItemId(lineInfo.getId());
 					// homeResultInfo.setItemTitle(lineInfo.getName());
@@ -668,7 +669,7 @@ public class HomeCfgServiceImpl implements HomeCfgService {
 				}
 
 				showcaseDO.setTitle(showCaseVO.getTitle());
-				if(showCaseVO.getSerialNo() != null){
+				if (showCaseVO.getSerialNo() != null) {
 					showcaseDO.setSerialNo(showCaseVO.getSerialNo());
 				}
 				showcaseDO.setSummary(showCaseVO.getSummary());
@@ -840,7 +841,7 @@ public class HomeCfgServiceImpl implements HomeCfgService {
 	public ServiceResult<LineDO> getLineDetail(Long id) {
 		ServiceResult<LineDO> result = new ServiceResult<LineDO>(false);
 
-		LineResult lineResult = lineRepo.getLineByItemId(id);
+		LineResult lineResult = lineRepo.getLineByItemId(0, id);
 		if (lineResult.isSuccess()) {
 			result.setResult(true);
 			result.setValue(lineResult.getLineDO());
@@ -870,7 +871,7 @@ public class HomeCfgServiceImpl implements HomeCfgService {
 	public ServiceResult<UserDO> getTravelKaDetail(Long id) {
 		ServiceResult<UserDO> serviceResult = new ServiceResult<UserDO>(false);
 
-		UserDO  userDO = userRPCService.getUserById(id);
+		UserDO userDO = userRPCService.getUserById(id);
 		if (userDO != null) {
 			serviceResult.setResult(true);
 			serviceResult.setValue(userDO);
