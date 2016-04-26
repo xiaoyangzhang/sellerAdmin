@@ -17,7 +17,6 @@
 
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/js/jquery.js"></script>
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/js/jquery.form.js"></script>
-<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/js/zui.min.js"></script>
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/layer/layer.js"></script>
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/js/setsku.js"></script>
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/js/upldf.js"></script>
@@ -65,7 +64,7 @@
             <div class="clubBotBtn">
                 #if(!${isReadonly})
                     <div class="btn-group">
-                        <button type="btn" class="btn btn-info save">全部保存</button>
+                        <button type="btn" class="btn btn-primary save">全部保存</button>
                     </div>
                 #end
             </div>

@@ -347,7 +347,7 @@
             <div class="clubBotBtn">
                 <div class="btn-group">
 
-                    <button class="btn btn-success btnSubmit" type="button" >全部保存</button>
+                    <button class="btn btn-primary btnSubmit" type="button" >全部保存</button>
                 </div>
             </div>
 			#end

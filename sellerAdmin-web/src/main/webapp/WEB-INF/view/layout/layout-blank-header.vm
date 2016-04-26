@@ -5,19 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta property="wb:webmaster" content="3aababe5ed22e23c" />     
-    <style>
-		select{width:200px;height:500px;margin:20px;}
-		.a_link{display:inline-block;background:#1E90FF;cursor:pointer;width:100px;heigth:24px;line-height:24px;text-align:center;color:#fff;font-size:14px;text-decoration:none;}
-	</style>
+
     <link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.css" >
     <link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/css/groupTravel.css?version=$!{utilWebconfig.getResourceVersion()}"/>
     <link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/css/zui.min.css"/>
     
-    <link rel="stylesheet" href="$rs_js_css_path_admin/css/base.css">
-	<link rel="stylesheet" href="$rs_js_css_path_admin/css/common.css"/>
-	<!--
-	<link rel="stylesheet" href="$rs_js_css_path_admin/css/zui.min.css"/>
-	-->
 	<link rel="stylesheet" href="$rs_js_css_path_admin/css/addtravel.css"/>
 	<link rel="stylesheet" href="$rs_js_css_path_admin/css/editer.css"/>
 	
@@ -30,7 +22,6 @@
 	<script type="text/javascript" src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" ></script>
 	<script type="text/javascript" src="$rs_js_css_path_admin/js/jquery.js"></script>
 	<script type="text/javascript" src="$rs_js_css_path_admin/js/jquery.form.js"></script>
-	<script type="text/javascript" src="$rs_js_css_path_admin/js/zui.min.js"></script>
 	<script type="text/javascript" src="$rs_js_css_path_admin/layer/layer.js"></script>
 	<script type="text/javascript" src="$rs_js_css_path_admin/js/addtravel.js"></script>
 	<script type="text/javascript" src="$rs_js_css_path_admin/js/upldf.js"></script>
