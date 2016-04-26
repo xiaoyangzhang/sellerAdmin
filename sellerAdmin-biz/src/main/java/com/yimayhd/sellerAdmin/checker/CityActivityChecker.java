@@ -1,22 +1,16 @@
 package com.yimayhd.sellerAdmin.checker;
 
-import com.yimayhd.ic.client.model.enums.ItemType;
-import com.yimayhd.ic.client.model.enums.RouteItemType;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.model.CityActivityItemVO;
 import com.yimayhd.sellerAdmin.model.CityActivityVO;
 import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowItemVo;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
-import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextItemVo;
-import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextVO;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * 线路checker
@@ -35,7 +29,7 @@ public class CityActivityChecker {
 		if (!checkCityActivityInfo.isSuccess()) {
 			return checkCityActivityInfo;
 		}
-		WebCheckResult checkPictureText = checkPictureText(cityActivity.getPictureTextVO());
+		WebCheckResult checkPictureText = PictureTextChecker.checkPictureText(cityActivity.getPictureTextVO());
 		if (!checkPictureText.isSuccess()) {
 			return checkPictureText;
 		}
@@ -108,16 +102,6 @@ public class CityActivityChecker {
 		} else if (cityActivityVO.getLocationText().length() > 38) {
 			return WebCheckResult.error("详细地址不能超过38个字");
 		}
-		return WebCheckResult.success();
-	}
-
-
-	public static WebCheckResult checkPictureText(PictureTextVO pictureText) {
-		// TODO YEBIN 待开发
-		return WebCheckResult.success();
-	}
-
-	public static WebCheckResult checkPictureTextItem(PictureTextItemVo pictureTextItem) {
 		return WebCheckResult.success();
 	}
 

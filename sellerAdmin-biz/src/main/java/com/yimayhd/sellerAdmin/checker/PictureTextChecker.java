@@ -24,7 +24,7 @@ public class PictureTextChecker {
 				}
 			}
 		} else {
-			WebCheckResult.error("至少需输入一段文字，或一张图片");
+			return WebCheckResult.error("至少需输入一段文字，或一张图片");
 		}
 		return WebCheckResult.success();
 	}
