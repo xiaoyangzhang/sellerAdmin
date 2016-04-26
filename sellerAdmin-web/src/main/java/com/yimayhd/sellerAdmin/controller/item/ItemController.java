@@ -85,7 +85,7 @@ public class ItemController extends BaseController {
 		// 判断是否是达人
 		UserDO user = sessionManager.getUser(request);
 		long option = user.getOptions();
-		boolean isTalent = UserOptions.USER_TALENT.has(option);
+		boolean isTalent = UserOptions.COMMERCIAL_TENANT.has(option);
 
 		String cateId = get("categoryId");
 		List<CategoryVO> list = null;
@@ -98,42 +98,35 @@ public class ItemController extends BaseController {
 			// 查询某节点下的子节点
 			WebResult<CategoryDO> webResult = categoryService.getCategoryById(Integer.parseInt(cateId));
 			if (null != webResult && webResult.getValue() != null) {
-				list = categoryDoTOVo(webResult.getValue().getChildren());
+				list = categoryDoTOVo(webResult.getValue().getChildren(),false);
 			}
 		}
 		return list;
 	}
 
-	private List<CategoryVO> categoryDoTOVo(List<CategoryDO> children, boolean isTalent) {
+	private List<CategoryVO> categoryDoTOVo(List<CategoryDO> childrenList, boolean isTalent) {
 		List<CategoryVO> list = new ArrayList<CategoryVO>();
-		if (CollectionUtils.isEmpty(children)) {
+		if (CollectionUtils.isEmpty(childrenList)) {
 			return list;
 		}
-		for (CategoryDO categoryDO : children) {
-			if (!isTalent && categoryDO.getCategoryFeature().getItemType() != ItemType.NORMAL.getValue()) {
+		for (CategoryDO categoryDO : childrenList) {
+			if (isTalent ){
+				if(categoryDO.getCategoryFeature().getItemType() != ItemType.NORMAL.getValue()){
+					CategoryVO vo = new CategoryVO();
+					vo.setCategoryId(categoryDO.getId());
+					vo.setIsLeaf(categoryDO.getLeaf());
+					vo.setLevel(categoryDO.getLevel());
+					vo.setCategoryName(categoryDO.getName());
+					list.add(vo);
+				}
+			}else {
 				CategoryVO vo = new CategoryVO();
 				vo.setCategoryId(categoryDO.getId());
 				vo.setIsLeaf(categoryDO.getLeaf());
 				vo.setLevel(categoryDO.getLevel());
 				vo.setCategoryName(categoryDO.getName());
 				list.add(vo);
-			}
-		}
-		return list;
-	}
-
-	private List<CategoryVO> categoryDoTOVo(List<CategoryDO> children) {
-		List<CategoryVO> list = new ArrayList<CategoryVO>();
-		if (CollectionUtils.isEmpty(children)) {
-			return list;
-		}
-		for (CategoryDO categoryDO : children) {
-			CategoryVO vo = new CategoryVO();
-			vo.setCategoryId(categoryDO.getId());
-			vo.setIsLeaf(categoryDO.getLeaf());
-			vo.setLevel(categoryDO.getLevel());
-			vo.setCategoryName(categoryDO.getName());
-			list.add(vo);
+			} 
 		}
 		return list;
 	}

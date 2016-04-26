@@ -9,8 +9,14 @@
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
         <meta property="wb:webmaster" content="3aababe5ed22e23c" />     
         <title>类目</title>
-        <style>
-			select{width:200px;height:500px;margin:20px;}
+		<style>
+			.chse{float:left; width:200px;height:500px;margin:20px;border:1px solid #ddd;}
+			.chse a{display:block;width:190px;min-height:24px;line-height:24px;padding:0 5px;word-wrap: break-word;}
+			.chse a:hover{background:#ddd;cursor:pointer;}
+			.chse a:link{background:red;}
+			.chse a:active{background:#bbb;}
+			.chse a.clk{background:#98CC65;cursor:pointer;}
+			.chse a.onsel{background: #1E90FF;color: #FFFFFF;}
 			.a_link{display:inline-block;background:#1E90FF;cursor:pointer;width:100px;heigth:24px;line-height:24px;text-align:center;color:#fff;font-size:14px;text-decoration:none;}
 		</style>
         <link href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
@@ -31,10 +37,10 @@
 		<script type="text/javascript" src="$rs_js_css_path_admin/js/upldf.js"></script>
 		</head>
 	<body>
-		<div>
-		<select class="chse" multiple="true"></select>
+		<div class="clearfix">
+			<div class="chse"></div>
 		</div>
-		<a class="a_link">确定</a>
+		<a id="a_link" class="a_link">确定</a>
 	</body>
 </html>
 <script>
@@ -47,20 +53,22 @@
 			var selobj=$('.chse:eq('+n+')').empty(),obja=$('.a_link');
 			for(var i=0;i<data.length;i++){
 					if(data[i].isLeaf){
-						selobj.append('<option value='+data[i].categoryId+'>'+data[i].categoryName+'</option>')
-						.find('option:eq('+i+')').on('click',function(ev){
+						selobj.append('<a id='+data[i].categoryId+'>'+data[i].categoryName+'</a>')
+						.find('a:eq('+i+')').on('click',function(ev){
+							$(this).addClass('onsel').siblings('a').removeClass('onsel');
 							$('.chse:eq('+(n+1)+')').remove();
-							obja.attr({'href':'$!utilWebconfig.getActionDefaultFontPath()/item/category/'+$(this).val()+'/create','style':'background:#1E90FF'});
+							obja.attr({'href':'$!utilWebconfig.getActionDefaultFontPath()/item/category/'+$(this).attr('id')+'/create','style':'background:#1E90FF'});
 						});
 					}else{
 						if(level>(n+1)){
-							selobj.append('<option style="background:#98CC65;cursor:pointer;" value='+data[i].categoryId+'>'+data[i].categoryName+'</option>')
-							.find('option:eq('+i+')').on('click',function(ev){
-								var pr=$(this).closest('select');
+							selobj.append('<a class="clk" id='+data[i].categoryId+'>'+data[i].categoryName+'</a>')
+							.find('a:eq('+i+')').on('click',function(ev){
+								$(this).addClass('onsel').siblings('a').removeClass('onsel');
+								var pr=$(this).closest('.chse');
 								obja.attr({'href':'javascript:void(0)','style':'background:#bbb'});
-								pr.nextAll('select').remove();
-								if(pr.next('select').length==0) pr.after($('<select>',{class:'chse',multiple:true}));
-								getdata(level,$(this).val(),n+1);
+								pr.nextAll('.chse').remove();
+								if(pr.next('.chse').length==0) pr.after($('<div>',{'class':'chse'}));
+								getdata(level,$(this).attr('id'),n+1);
 							});
 						}
 					}
@@ -69,6 +77,6 @@
 	});
 }
 $(function(){
-	getdata(3);
+	getdata(3);	
 });
 </script>
