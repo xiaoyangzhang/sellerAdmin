@@ -6,9 +6,7 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/zui/css/zui.min.css"
       xmlns="http://www.w3.org/1999/html">
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/base.css">
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/common.css">
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/zui.min.css">
+
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/addtravel.css">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/editer.css">
 
@@ -18,7 +16,7 @@
 <div class="example whole">
     <form name="commodityForm" id="commodityForm" class="form-horizontal" action="" method="post" commodityId="$!commodity.id">
         <div class="">
-                <table class="table">
+                <table class="table tab-productdetail">
                     <input type="hidden" name="categoryId" value="$!category.id">
                     <input type="hidden" name="rootCategoryId" value="$!category.parent.id">
                     #*商品类型，此页面全是普通商品发布 新增的时候需要，修改的时候不更新此字段*#
@@ -146,7 +144,7 @@
                         <td>属性</td>
                         <td>
                             <div style="border:1px solid #ccc;padding: 30px">
-                            <table>
+                            <table class="table tab-productdetail">
                                 #*解析关键属性*#
                                 #foreach($keyCategoryProperty in $category.keyCategoryPropertyDOs)
                                     <tr class="property keyProperty" pId="$!keyCategoryProperty.categoryPropertyDO.id" pTxt="$!keyCategoryProperty.categoryPropertyDO.text" pType="$!keyCategoryProperty.categoryPropertyDO.type">
@@ -299,10 +297,10 @@
             </div>
 			#end
             <div class="">
-                <table class="table table-hover">
+                <table class="table tab-productdetail">
                     <tbody>
                         <tr>
-                            <td><span class="red">*</span>商品主图：</td>
+                            <td><span class="red">*</span>商品主图</td>
                             <td>
                                 <div class="uploadbox clearfix">
                                     <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file_string" />
@@ -336,7 +334,7 @@
                             </td>
                         </tr>
                         <tr>
-							<td><span class="red">*</span>商品详情：</td>
+							<td><span class="red">*</span>商品详情</td>
 							<td>
                             #parse("/system/comm/line/pictureText.vm")
                             </td>
@@ -358,7 +356,7 @@
 			#end
         <div class="">
             #if($!commodity.id)
-                <table class="table">
+                <table class="table tab-productdetail">
                     <tbody>
                     <tr>
                         <td>创建时间</td>
