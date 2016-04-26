@@ -216,7 +216,7 @@ public class ItemController extends BaseController {
 		if (ItemType.FREE_LINE.getValue() == itemType || ItemType.TOUR_LINE.getValue() == itemType) {
 			return redirect("/line/view/" + itemId + "/");
 		} else if (ItemType.CITY_ACTIVITY.getValue() == itemType) {
-			return redirect("/cityactivity/edit/" + itemId);
+			return redirect("/cityactivity/view/" + itemId);
 		} else if (ItemType.NORMAL.getValue() == itemType) {
 			return redirect("/barterItem/common/view/" + itemId);
 		} else {
