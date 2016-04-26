@@ -400,7 +400,7 @@
     var validate = function() {
         if(!$('.title').val() || !$('.title').val().trim()){
             return '请输入商品名称';
-        }else if($('.title').val().length > 38){
+        }else if($('.title').val().trim().length > 38){
             return '商品名称不能超过38个字';
         }
         if($('.code').val() && $('.code').val().length > 38){
@@ -449,10 +449,10 @@
 
 
         $('.keyProperty').each(function(){
-            if(($(this).find('.propertySelect').length == 0 || $(this).find('.propertySelect').val() == '0') && !$(this).find('.propertyInput').val()){
+            if(($(this).find('.propertySelect').length == 0 || $(this).find('.propertySelect').val() == '0') && !$(this).find('.propertyInput').val().trim()){
                 msg = '请填写必填属性' + $(this).attr('pTxt');
                 return false;
-            }else if($(this).find('.propertyInput').val() && $(this).find('.propertyInput').val().length > 30){
+            }else if($(this).find('.propertyInput').val() && $(this).find('.propertyInput').val().trim().length > 30){
                 msg = $(this).attr('pTxt') + '长度不能超过30个字';
                 return false;
             }
@@ -462,7 +462,7 @@
         }
         //非必填属性
         $('.nonKeyProperty').each(function(){
-            if($(this).find('.propertyInput').val() && $(this).find('.propertyInput').val().length > 30){
+            if($(this).find('.propertyInput').val().trim() && $(this).find('.propertyInput').val().trim().length > 30){
                 msg = $(this).attr('pTxt') + '长度不能超过30个字';
                 return false;
             }
