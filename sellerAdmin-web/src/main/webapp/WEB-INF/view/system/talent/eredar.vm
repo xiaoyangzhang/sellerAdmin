@@ -197,7 +197,6 @@
 								<ul class="clearfix">
 									<li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
 									<li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
-									<li><a href="javascript:void(0)" class="submitbtn">+提交数据</a></li>
 								</ul>
 							</div>
 						</div>
