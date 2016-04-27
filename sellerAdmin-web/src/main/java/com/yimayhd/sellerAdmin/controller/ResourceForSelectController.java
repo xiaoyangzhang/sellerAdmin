@@ -3,7 +3,6 @@ package com.yimayhd.sellerAdmin.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -110,7 +109,7 @@ public class ResourceForSelectController extends BaseController {
 	public String selectDests() {
 		WebResult<List<CityVO>> result = commLineService.getAllLineDests();
 		if (result.isSuccess()) {
-			Map<String, List<CityVO>> destMap = new LinkedHashMap<String, List<CityVO>>();
+			Map<String, List<CityVO>> destMap = new TreeMap<String, List<CityVO>>();
 			List<CityVO> allLineDests = result.getValue();
 			if (CollectionUtils.isNotEmpty(allLineDests)) {
 				for (CityVO cityVO : allLineDests) {
