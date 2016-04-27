@@ -35,5 +35,7 @@
 		#parse("layout/layout-footer.vm")
 	</div>
 </body>
+<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/common.js"></script>
+
 </html>
 

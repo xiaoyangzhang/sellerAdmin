@@ -4,8 +4,9 @@
        <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/sevice.css">
        <!-- 服务条款的中心部分开始 -->
 		<div id ="servicenter">
+		 <div class="serviceAll">
 		<div class="title rule">九休开放平台总则</div>
-		  <div class="serviceAll">
+		 <div class="content">
 				<div class="fu-title first">第一章 概述</div>
 					<p>
 					第一条 九休开放平台是由北京九休信息科技有限公司负责运营管理的互联网第三方交易平台。 用户（ 买家与卖家） 系委托人， 北京九休信息科技有限公司系居间人。交易成立后， 九休开放平台的用户（买家与卖家） 是其合同法律关系中的双方当事人，双方按照其合同的约定各自承担义务，享有权利。 北京九休信息科技有限公司作为居间人为买家与卖家提供订立合同的媒介服务，承担居间人义务。<br/>
@@ -626,5 +627,6 @@
 
 						</p>
 
+					</div>
 					</div>
 			</div>
