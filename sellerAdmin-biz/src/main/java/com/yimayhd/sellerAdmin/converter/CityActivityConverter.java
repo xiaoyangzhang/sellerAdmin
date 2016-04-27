@@ -220,22 +220,13 @@ public class CityActivityConverter {
 
 	public static CityActivityPubAddDTO convertPubAddDTO(CityActivityItemVO cityActivityItemVO) throws Exception {
 		CityActivityPubAddDTO cityActivityPubAddDTO = new CityActivityPubAddDTO();
-		ItemVO itemVO = cityActivityItemVO.getItemVO();
 		ItemDO itemDO = ItemVO.getItemDO(cityActivityItemVO.getItemVO());
 		fillItemDO(itemDO, cityActivityItemVO.getCategoryVO());
 		CityActivityDO cityActivityDO = CityActivityConverter.convertDO(cityActivityItemVO.getCityActivityVO());
-		List<ItemSkuDO> skuDOList = new ArrayList<>();
-		for(ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()) {
-			ItemSkuDO itemSkuDO = ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO);
-			itemSkuDO.setItemId(itemVO.getId());
-			itemSkuDO.setSellerId(itemVO.getSellerId());
-			itemSkuDO.setCategoryId(itemVO.getCategoryId());
-			skuDOList.add(itemSkuDO);
-		}
 		cityActivityPubAddDTO.setDomain(Constant.DOMAIN_JIUXIU);
 		cityActivityPubAddDTO.setItem(itemDO);
 		cityActivityPubAddDTO.setCityActivity(cityActivityDO);
-		cityActivityPubAddDTO.setItemSkuList(skuDOList);
+		cityActivityPubAddDTO.setItemSkuList(itemDO.getItemSkuDOList());
 		return cityActivityPubAddDTO;
 	}
 
