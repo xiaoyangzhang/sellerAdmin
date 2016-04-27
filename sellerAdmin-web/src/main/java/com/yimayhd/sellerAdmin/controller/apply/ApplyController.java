@@ -124,7 +124,7 @@ public class ApplyController extends BaseController {
 		info.setSellerId(sessionManager.getUserId());
 		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
 		if(result.isSuccess()){
-			model.addAttribute("imgSrc",Constant.TFS_URL);
+//			model.addAttribute("imgSrc",Constant.TFS_URL);
 			model.addAttribute("examineInfo", result.getValue());
 			if(null!=result.getValue() && (result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW || result.getValue().getExaminStatus() == Constant.MERCHANT_TYPE_HALF)){//审核不通过时
 				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
@@ -156,7 +156,7 @@ public class ApplyController extends BaseController {
 		
 		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
 		if(result.isSuccess()){
-			model.addAttribute("imgSrc",Constant.TFS_URL);
+//			model.addAttribute("imgSrc",Constant.TFS_URL);
 			model.addAttribute("examineInfo", result.getValue());
 			if(null!=result.getValue() && (result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW || result.getValue().getExaminStatus() == Constant.MERCHANT_TYPE_HALF)){//审核不通过时
 				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
