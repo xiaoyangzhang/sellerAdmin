@@ -1,4 +1,4 @@
-
+#set($layout = "/layout/layout-apply.vm")
 <head>
 	#parse("layout/layout-meta.vm")
 	<title>申请入驻-填写资料</title>
