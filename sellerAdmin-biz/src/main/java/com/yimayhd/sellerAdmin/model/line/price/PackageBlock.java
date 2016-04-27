@@ -17,7 +17,7 @@ public class PackageBlock {
 	private int PType;
 	private String PTxt;
 	private long price;
-	private int stock;
+	private long stock;
 	private long discount;
 
 	public PackageBlock() {
@@ -43,11 +43,11 @@ public class PackageBlock {
 		this.price = price;
 	}
 
-	public int getStock() {
+	public long getStock() {
 		return stock;
 	}
 
-	public void setStock(int stock) {
+	public void setStock(long stock) {
 		this.stock = stock;
 	}
 

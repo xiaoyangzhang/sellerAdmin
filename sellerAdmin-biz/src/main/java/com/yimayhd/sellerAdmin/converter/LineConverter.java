@@ -256,7 +256,7 @@ public class LineConverter {
 									itemSkuDO.setSellerId(sellerId);
 									itemSkuDO.setItemSkuPVPairList(itemSkuPVPairs);
 									itemSkuDO.setPrice(packageBlock.getPrice());
-									itemSkuDO.setStockNum(packageBlock.getStock());
+									itemSkuDO.setStockNum(Long.valueOf(packageBlock.getStock()).intValue());
 									itemSkuDOs.add(itemSkuDO);
 								}
 							}

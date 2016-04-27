@@ -2,8 +2,10 @@ package com.yimayhd.sellerAdmin.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
+import com.yimayhd.ic.client.model.param.item.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -19,12 +21,6 @@ import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
-import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
-import com.yimayhd.ic.client.model.param.item.HotelPublishDTO;
-import com.yimayhd.ic.client.model.param.item.ItemBatchPublishDTO;
-import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
-import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
-import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
@@ -343,6 +339,7 @@ public class CommodityServiceImpl implements CommodityService {
 	public void addCommonItem(ItemVO itemVO) throws Exception {
 		// 参数类型匹配
 		CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
+		removeEmptyProperty(itemVO);
 		ItemDO itemDO = ItemVO.getItemDO(itemVO);
 		itemDO.setDomain(Constant.DOMAIN_JIUXIU);
 		commonItemPublishDTO.setItemDO(itemDO);
@@ -370,6 +367,7 @@ public class CommodityServiceImpl implements CommodityService {
 		// 修改的时候要先取出来，在更新
 		ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
 		ItemResult itemResult = itemQueryServiceRef.getItem(itemVO.getId(), itemOptionDTO);
+		removeEmptyProperty(itemVO);
 		if (null == itemResult) {
 			log.error("itemQueryService.getItem return value is null and parame: " + JSON.toJSONString(itemOptionDTO)
 					+ " and id is : " + itemVO.getId());
@@ -453,6 +451,20 @@ public class CommodityServiceImpl implements CommodityService {
 				throw new BaseException("商品修改成功，H5修改失败");
 			}
 
+		}
+	}
+
+	private void removeEmptyProperty(ItemVO itemVO) {
+		List<ItemSkuPVPair> list = itemVO.getItemPropertyList();
+		if (CollectionUtils.isEmpty(list)) {
+			return;
+		}
+		Iterator<ItemSkuPVPair> itemSkuPVPairIterator = list.iterator();
+		while (itemSkuPVPairIterator.hasNext()) {
+			ItemSkuPVPair itemSkuPVPair = itemSkuPVPairIterator.next();
+			if (StringUtils.isBlank(itemSkuPVPair.getVTxt())) {
+				itemSkuPVPairIterator.remove();
+			}
 		}
 	}
 }
