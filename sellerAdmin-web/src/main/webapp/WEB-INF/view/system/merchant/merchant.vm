@@ -50,7 +50,7 @@
 									#if("$!ttImage" == "")
 									<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 									#else
-									<img src="$!imgSrc$!ttImage">
+									<img src="$!tfs$!ttImage">
 									#end
 								</div><div class="plhd"></div><div class="del">删除图片</div>
 								<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
@@ -67,7 +67,7 @@
 									#if("$!dbImage" == "")
 									<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 									#else
-									<img src="$!imgSrc$!dbImage">
+									<img src="$!tfs$!dbImage">
 									#end
 								</div><div class="plhd"></div><div class="del">删除图片</div>
 								<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>

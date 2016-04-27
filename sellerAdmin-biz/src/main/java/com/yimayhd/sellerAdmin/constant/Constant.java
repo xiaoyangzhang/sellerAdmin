@@ -25,7 +25,7 @@ public class Constant {
 
 	public static final String ENV_PROD = "prod";
 
-	public static final String TFS_URL = "http://img.test.yimayholiday.com/v1/tfs/";
+//	public static final String TFS_URL = "http://img.test.yimayholiday.com/v1/tfs/";
 
 	public static final String MOBILE_PRE = "+86";
 
