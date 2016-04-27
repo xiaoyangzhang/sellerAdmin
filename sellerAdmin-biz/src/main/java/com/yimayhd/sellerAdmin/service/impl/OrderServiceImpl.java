@@ -142,7 +142,9 @@ public class OrderServiceImpl implements OrderService {
 					orderDetails.setBuyerNiceName(buyer.getNickname());
 					orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
 					//付款方式
-					orderDetails.setPayChannel(TcPayChannel.getPayChannel(tcMainOrder.getPayChannel()).getDesc());
+					if (tcMainOrder.getPayChannel()!=0){
+						orderDetails.setPayChannel(TcPayChannel.getPayChannel(tcMainOrder.getPayChannel()).getDesc());
+					}
 				}
 				//orderDetails.setTotalFee(tcMainOrder.getTotalFee());
 				orderDetails.setActualTotalFee(tcMainOrder.getTotalFee());
