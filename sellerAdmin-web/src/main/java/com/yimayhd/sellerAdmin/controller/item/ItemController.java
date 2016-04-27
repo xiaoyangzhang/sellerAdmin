@@ -85,7 +85,7 @@ public class ItemController extends BaseController {
 		// 判断是否是达人
 		UserDO user = sessionManager.getUser(request);
 		long option = user.getOptions();
-		boolean isTalent = UserOptions.USER_TALENT.has(option);
+		boolean isTalent = UserOptions.CERTIFICATED.has(option);
 
 		String cateId = get("categoryId");
 		List<CategoryVO> list = null;

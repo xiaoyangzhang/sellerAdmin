@@ -6,6 +6,13 @@ $(document).delegate(".double-only","keyup",function(){
 		}
 	}
 });
+$(document).delegate(".double-only","keyup",function(){
+	if (event.keyCode != 8 && event.keyCode != 9) {
+		if(isNaN(this.value)) {
+			document.execCommand('undo');
+		}
+	}
+});
 $(document).delegate(".double-only","onafterpaste",function(){
 	if (event.keyCode != 8 && event.keyCode != 9) {
 		if(isNaN(this.value)) {
