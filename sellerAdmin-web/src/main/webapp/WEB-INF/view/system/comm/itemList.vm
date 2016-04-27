@@ -161,15 +161,20 @@
 			checkedIdList = temp;
         }
 	});
+	// 商品操作
+	var operateUrl;
+	var operateParams;
 	//批量操作
     $('.batch-operate').click(function(){
 		if(checkedIdList.length > 0) {
+        	var params = {
+        		itemIds:checkedIdList,
+        		operate:$(this).attr("operate-type")
+        	};
+    		operateUrl = "$!{utilWebconfig.getActionDefaultFontPath()}/item/batchOperate";
+    		operateParams = params;
     		layer.confirm('是否确认'+ $(this).text()+'？', {icon: 3, title:'提示'}, function(index){
-            	var param = {
-            		itemIds:checkedIdList,
-            		operate:$(this).attr("operate-type")
-            	};
-            	$.post("$!{utilWebconfig.getActionDefaultFontPath()}/item/batchOperate",param,function(result) {
+            	$.post(operateUrl,operateParams,function(result) {
             		if(result.success) {
             			window.location.reload();
             		} else {
@@ -187,9 +192,6 @@
         	});
         }
     });
-	// 商品操作
-	var operateUrl;
-	var operateParams;
 	$('.item-operate').click(function(){
 		var id = $(this).attr("item-id");
 		var params = {

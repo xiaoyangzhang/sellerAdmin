@@ -12,6 +12,7 @@ import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
 import com.yimayhd.tradecenter.client.model.enums.CloseOrderReason;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
+import com.yimayhd.tradecenter.client.model.enums.TcPayChannel;
 import com.yimayhd.tradecenter.client.model.param.order.*;
 import com.yimayhd.tradecenter.client.model.param.refund.RefundTradeDTO;
 import com.yimayhd.tradecenter.client.model.result.ResultSupport;
@@ -141,7 +142,7 @@ public class OrderServiceImpl implements OrderService {
 					orderDetails.setBuyerNiceName(buyer.getNickname());
 					orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
 					//付款方式
-					orderDetails.setPayChannel(tcMainOrder.getPayChannel());
+					orderDetails.setPayChannel(TcPayChannel.getPayChannel(tcMainOrder.getPayChannel()).getDesc());
 				}
 				//orderDetails.setTotalFee(tcMainOrder.getTotalFee());
 				orderDetails.setActualTotalFee(tcMainOrder.getTotalFee());

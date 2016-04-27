@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.Resource;
 
@@ -57,15 +58,15 @@ import com.yimayhd.user.client.enums.UserOptions;
 @RequestMapping("/resourceForSelect")
 public class ResourceForSelectController extends BaseController {
 	@Autowired
-	private UserRPCService userService;
+	private UserRPCService		userService;
 	@Autowired
-	private CommodityService commodityService;
+	private CommodityService	commodityService;
 	@Autowired
-	private TripService tripService;
+	private TripService			tripService;
 	@Resource
-	private LineService commLineService;
+	private LineService			commLineService;
 	@Autowired
-	private ActivityService activityService;
+	private ActivityService		activityService;
 
 	/**
 	 * 选择出发地
@@ -77,7 +78,7 @@ public class ResourceForSelectController extends BaseController {
 	public String selectDeparts() {
 		WebResult<List<CityVO>> result = commLineService.getAllLineDeparts();
 		if (result.isSuccess()) {
-			Map<String, List<CityVO>> departMap = new LinkedHashMap<String, List<CityVO>>();
+			Map<String, List<CityVO>> departMap = new TreeMap<String, List<CityVO>>();
 			List<CityVO> allLineDeparts = result.getValue();
 			if (CollectionUtils.isNotEmpty(allLineDeparts)) {
 				for (CityVO cityVO : allLineDeparts) {
