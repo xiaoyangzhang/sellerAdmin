@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.controller.item;
 
+import java.text.NumberFormat;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -159,5 +161,9 @@ public class LineController extends BaseLineController {
 			log.error(e.getMessage(), e);
 			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, e.getMessage());
 		}
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(Integer.parseInt("100011111111"));
 	}
 }
