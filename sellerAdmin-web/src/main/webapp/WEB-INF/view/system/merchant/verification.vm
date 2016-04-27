@@ -29,7 +29,7 @@
 		</div>
 		<div class="waiting tc m60">
 			<i></i><label class="f18 ml5 gray6">您的商家资料我们已经收到</label><br>
-			<span class="f16 gray6">请等待审核结果，审核通过后即可使用！如果有任何疑问，请联系我们：400-696-888</span>
+			<span class="f16 gray6">请等待审核结果，审核通过后即可使用！如果有任何疑问，请联系我们：4000-696-888</span>
 		</div>
 	</div>
 	#parse("layout/layout-js.vm")
