@@ -7,6 +7,9 @@
 #set( $rs_official_site = $utilWebconfig.getJiuXiuOfficialSite() )
 <!-- 系统根路径 -->
 #set( $root_path = $utilWebconfig.getRootPath() )
+
+#set( $jiuniu_update_file = $utilWebconfig.getActionUploadFilePath() )
+
 <!-- 是否是测试模式 -->
 #set( $test = $utilWebconfig.isTestMode())
 #if( $test )
@@ -41,3 +44,6 @@
 
 
 <input type="hidden" id="root_path" value="$root_path">
+<input type="hidden" id="filegw_url" value="$filegw_url">
+<input type="hidden" id="jiuniu_update_file" value="$jiuniu_update_file">
+<input type="hidden" id="static_path" value="$rs_path_jiuxiu">
