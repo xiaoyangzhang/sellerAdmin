@@ -37,6 +37,7 @@
 		</div>
 		<div class="tabs">
 			<form id="forminfo" action="saveExamineInfo_b.do" method="post">
+			<div class="panel">
 				<div class="tit gray6 f16 error_tip">负责人信息
 					#if ($checkResultInfo && $checkResultInfo.size()>0 )
 					<div class="error_box">
@@ -206,6 +207,7 @@
 					<div class="nextpage"><a href="#if ($examineInfo.sellerId <= 0) $!root_path/apply/talent/toAddUserdatafill_pageOne #else 
 					$!root_path/apply/talent/toEditUserdatafill_pageOne
 					#end" class="prev mr30">上一页</a><a class="allsub ml30">提交审核</a></div>
+				</div>
 				</div>
 			</form>
 		</div>

@@ -16,6 +16,7 @@ import com.yimayhd.sellerAdmin.checker.BarterItemChecker;
 import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.exception.NoticeException;
+import com.yimayhd.sellerAdmin.helper.NumberFormatHelper;
 import com.yimayhd.sellerAdmin.model.ItemResultVO;
 import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.service.CategoryService;
@@ -89,6 +90,7 @@ public class BarterItemController extends BaseController {
 		model.addAttribute("itemSkuList", itemResultVO.getItemSkuVOList());
 		model.addAttribute("pictureText", itemResultVO.getItemVO().getPictureTextVO());
 		model.addAttribute("isReadonly", itemResultVO.getItemVO().getStatus() == ItemStatus.valid.getValue());
+		model.addAttribute("numberHelper",new NumberFormatHelper() );
 		return "/system/comm/common/edit";
 	}
 
@@ -112,6 +114,7 @@ public class BarterItemController extends BaseController {
 		model.addAttribute("itemSkuList", itemResultVO.getItemSkuVOList());
 		model.addAttribute("pictureText", itemResultVO.getItemVO().getPictureTextVO());
 		model.addAttribute("isReadonly", true);
+		model.addAttribute("numberHelper",new NumberFormatHelper() );
 		return "/system/comm/common/edit";
 	}
 

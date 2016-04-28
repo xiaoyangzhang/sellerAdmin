@@ -59,7 +59,7 @@
                     <tr>
                         <td><span class="spColor">*</span>商品价格</td>
                         <td>
-                            <input class="priceY form-control" type="text" name="priceY" value="$!commodity.priceY">
+                            <input class="priceY form-control" type="text" name="priceY" value="$!numberHelper.formatNumber($!commodity.price)">
                         </td>
                     </tr>
                     <tr>
