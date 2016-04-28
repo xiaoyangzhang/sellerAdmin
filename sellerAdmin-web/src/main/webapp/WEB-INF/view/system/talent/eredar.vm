@@ -2,7 +2,7 @@
 #set($layout = "/layout/layout-jiuxiu.vm")
 <head>
 	#parse("layout/layout-meta.vm")
-	<title>达人店铺</title>
+	<title>达人基本信息</title>
 	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/eredar.css">
 </head>
 
