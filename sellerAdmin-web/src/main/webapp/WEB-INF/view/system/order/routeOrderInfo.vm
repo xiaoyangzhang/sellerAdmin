@@ -154,9 +154,9 @@
                         身份证
                     #elseif($!tourist.certificatesType == 2)
                         护照
-                    #elseif($!tourist.certificatesType == 2)
+                    #elseif($!tourist.certificatesType == 3)
                         军人证
-                    #elseif($!tourist.certificatesType == 2)
+                    #elseif($!tourist.certificatesType == 4)
                         港澳通行证
                     #end
                     </td>
