@@ -13,7 +13,7 @@ import com.yimayhd.sellerAdmin.base.BaseQuery;
 public class ItemListQuery extends BaseQuery {
 	private static final long serialVersionUID = -4699187319874706808L;
 	private String name;// 商品名称
-	private Long itemId;// 商品编码
+	private String itemId;// 商品编码
 	private Integer itemType;// 商品类型
 	private Integer status;// 状态
 	private Date BeginDate;// 发布开始时间
@@ -43,11 +43,11 @@ public class ItemListQuery extends BaseQuery {
 		this.endDate = endDate;
 	}
 
-	public Long getItemId() {
+	public String getItemId() {
 		return itemId;
 	}
 
-	public void setItemId(Long itemId) {
+	public void setItemId(String itemId) {
 		this.itemId = itemId;
 	}
 

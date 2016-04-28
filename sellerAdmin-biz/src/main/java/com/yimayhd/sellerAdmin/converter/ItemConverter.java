@@ -32,8 +32,12 @@ public class ItemConverter {
 		}
 		ItemQryDTO itemQryDTO = new ItemQryDTO();
 		itemQryDTO.setName(query.getName());
-		if (query.getItemId() != null) {
-			itemQryDTO.setId(query.getItemId());
+		if (StringUtils.isNotBlank(query.getItemId())) {
+			if (StringUtils.isNumeric(query.getItemId())) {
+				itemQryDTO.setId(Long.parseLong(query.getItemId()));
+			} else {
+				return null;
+			}
 		}
 		itemQryDTO.setSellerId(sellerId);
 		if (query.getStatus() != null) {

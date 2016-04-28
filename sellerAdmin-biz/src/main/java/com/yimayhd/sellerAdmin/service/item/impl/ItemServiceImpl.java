@@ -38,14 +38,14 @@ import com.yimayhd.user.client.dto.CityDTO;
  *
  */
 public class ItemServiceImpl implements ItemService {
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private Logger		log	= LoggerFactory.getLogger(getClass());
 
 	@Autowired
-	private ItemRepo itemRepo;
+	private ItemRepo	itemRepo;
 	@Autowired
-	private CommentRepo commentRepo;
+	private CommentRepo	commentRepo;
 	@Autowired
-	private CityRepo cityRepo;
+	private CityRepo	cityRepo;
 
 	@Override
 	public WebResult<PageVO<ItemListItemVO>> getItemList(long sellerId, ItemListQuery query) {
@@ -59,10 +59,12 @@ public class ItemServiceImpl implements ItemService {
 				query = new ItemListQuery();
 			}
 			ItemQryDTO itemQryDTO = ItemConverter.toItemQryDTO(sellerId, query);
+			if (itemQryDTO == null) {
+				return WebResult.success(new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(), 0));
+			}
 			ItemPageResult itemPageResult = itemRepo.getItemList(itemQryDTO);
 			if (itemPageResult == null) {
-				log.error("查询商品列表返回结果为空" + JSON.toJSONString(itemQryDTO));
-				return WebResult.failure(WebReturnCode.REMOTE_CALL_FAILED, "返回结果错误,新增失败 ");
+				return WebResult.success(new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(), 0));
 			}
 			List<ItemDO> itemDOList = itemPageResult.getItemDOList();
 			List<ItemListItemVO> resultList = new ArrayList<ItemListItemVO>();
@@ -73,7 +75,7 @@ public class ItemServiceImpl implements ItemService {
 					itemIds.add(itemDO.getId());
 				}
 				Map<Long, List<ComTagDO>> tagMap = commentRepo.getTagsByOutIds(itemIds, TagType.DESTPLACE);
-				if(!org.springframework.util.CollectionUtils.isEmpty(tagMap)) {
+				if (!org.springframework.util.CollectionUtils.isEmpty(tagMap)) {
 					for (ItemListItemVO itemListItemVO : resultList) {
 						long itemId = itemListItemVO.getId();
 						if (tagMap.containsKey(itemId)) {
