@@ -197,6 +197,9 @@
                                         <td>$!keyCategoryProperty.categoryPropertyDO.text</td>
                                         <td>
                                             #*编辑的时候回填属性*#
+												#set($propertyEditPId = 100)
+                                                #set($propertyEditVId = 200)
+                                                #set($propertyEditVTxt = '')
                                                 #foreach($itemProperty in $commodity.itemPropertyList)
                                                     #if($itemProperty.pId == $keyCategoryProperty.categoryPropertyDO.id)
                                                         #set($propertyEditPId = $itemProperty.pId)

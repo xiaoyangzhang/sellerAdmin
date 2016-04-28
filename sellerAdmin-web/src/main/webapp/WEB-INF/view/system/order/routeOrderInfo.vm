@@ -95,7 +95,11 @@
                 <td>下单时间：</td>
                 <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.createTime)</td>
                 <td>
-                    <div class="t-date">出发日期：$!date.format('yyyy-MM-dd',$!order.mainOrder.tcMainOrder.departTime)</div>
+                    <div class="t-date">出发日期：
+                        #if($!order.mainOrder.tcMainOrder.bizOrder.orderType == 3100 ||$!order.mainOrder.tcMainOrder.bizOrder.orderType == 3200)
+                            $!date.format('yyyy-MM-dd',$!order.mainOrder.tcMainOrder.departTime)
+                        #end
+                    </div>
                 </td>
             </tr>
             <tr>
