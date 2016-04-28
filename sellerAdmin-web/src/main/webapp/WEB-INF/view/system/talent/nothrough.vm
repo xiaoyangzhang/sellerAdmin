@@ -26,7 +26,7 @@
 		<div class="waiting nothrough tc m60">
 			<i class="mb5"></i><br><label class="f16 gray6">很遗憾，您的申请审核不通过，请填充后再次提交！</label>
 			<div class="message">
-				<span class="f14 gray6">如果有任何疑问，请联系我们：400-696-888</span><br>
+				<span class="f14 gray6">如果有任何疑问，请联系我们：4000-696-888</span><br>
 				<span class="f14 gray6">失败原因：</span>
 				#foreach( $info in $checkResultInfo)  
 				<span class="bcs">$velocityCount、$!info 。</span>

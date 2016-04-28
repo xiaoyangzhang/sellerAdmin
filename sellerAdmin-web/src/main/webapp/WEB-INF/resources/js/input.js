@@ -6,6 +6,13 @@ $(document).delegate(".double-only","keyup",function(){
 		}
 	}
 });
+$(document).delegate(".double-only","keyup",function(){
+	if (event.keyCode != 8 && event.keyCode != 9) {
+		if(isNaN(this.value)) {
+			document.execCommand('undo');
+		}
+	}
+});
 $(document).delegate(".double-only","onafterpaste",function(){
 	if (event.keyCode != 8 && event.keyCode != 9) {
 		if(isNaN(this.value)) {
@@ -36,3 +43,11 @@ $(document).delegate(".int-only","onafterpaste",function(){
 	}
 });
 // 只能输入整数 END
+
+
+
+$(".tab-inputgroup td textarea").keyup(function () {
+	var num=$.trim($(this).val()).length;
+	var count=$(this).attr("maxlength");
+	$(this).siblings(".word-num").text(num+"/"+count+"字");
+})
