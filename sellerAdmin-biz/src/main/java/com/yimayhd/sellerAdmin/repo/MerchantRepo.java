@@ -1,20 +1,27 @@
 package com.yimayhd.sellerAdmin.repo;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.result.BizResult;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.MerchantDTO;
 import com.yimayhd.user.client.dto.UserDTO;
 import com.yimayhd.user.client.enums.Gender;
+import com.yimayhd.user.client.query.MerchantQuery;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.client.service.UserService;
@@ -30,6 +37,26 @@ public class MerchantRepo {
 	
 	@Resource
 	private ExamineDealService examineDealService;
+	
+	
+	public WebResult<List<MerchantDO>> queryMerchant(MerchantQuery merchantQuery){
+		WebResult<List<MerchantDO>> result = new WebResult<List<MerchantDO>>() ;
+		if( merchantQuery == null || merchantQuery.getDomainId() <=0 ){
+			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+			return result;
+		}
+		BaseResult<List<MerchantDO>> queryResult = merchantService.getMerchantList(merchantQuery);
+		if( queryResult == null || !queryResult.isSuccess() ){
+			LOGGER.error("getMerchantList failed!  merchantQuery={}  Result={}", JSON.toJSON(merchantQuery), JSON.toJSON(queryResult));
+			result.setWebReturnCode(WebReturnCode.REMOTE_CALL_FAILED);
+			return result ;
+		}
+		
+		List<MerchantDO> merchantDOs = queryResult.getValue() ;
+		result.setValue(merchantDOs);
+		return result ;
+	}
+	
 	
 	public MemResult<ExamineInfoDTO> queryMerchantExamineInfoBySellerId(InfoQueryDTO info){
 		return examineDealService.queryMerchantExamineInfoBySellerId(info);

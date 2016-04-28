@@ -1,9 +1,12 @@
 package com.yimayhd.sellerAdmin.biz;
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.membercenter.enums.ExamineType;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -31,6 +35,7 @@ import com.yimayhd.user.client.dto.MerchantDTO;
 import com.yimayhd.user.client.dto.UserDTO;
 import com.yimayhd.user.client.enums.MerchantOption;
 import com.yimayhd.user.client.enums.UserOptions;
+import com.yimayhd.user.client.query.MerchantQuery;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.session.manager.SessionManager;
 
@@ -47,6 +52,31 @@ public class MerchantBiz {
 	@MethodLogger
 	public MemResult<ExamineInfoDTO> queryMerchantExamineInfoBySellerId(InfoQueryDTO info){
 		return merchantRepo.queryMerchantExamineInfoBySellerId(info);
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @return 存在数据，返回true；  查询失败，返回true； 其他返回false
+	 */
+	public boolean isMerchantNameExist(String name){
+		if( StringUtils.isBlank(name) ){
+			return true;
+		}
+		MerchantQuery merchantQuery = new MerchantQuery();
+		merchantQuery.setName(name);
+		merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+		WebResult<List<MerchantDO>> result = merchantRepo.queryMerchant(merchantQuery);
+		if( result == null || !result.isSuccess() ){
+			//如果查询操作有出错，为防止出现重复名称，此处返回true，禁止用户此次操作
+			return true;
+		}
+		List<MerchantDO> merchantDOs = result.getValue()	;
+		if( CollectionUtils.isEmpty(merchantDOs) ){
+			return false;
+		}else{
+			return true;
+		}
 	}
 	
 	
@@ -119,13 +149,19 @@ public class MerchantBiz {
 	 */
 	@MethodLogger
 	public WebResultSupport saveUserdata(UserDetailInfo userDetailInfo){
+		WebResultSupport webResult = new WebResultSupport();
+		
+		boolean exit = isMerchantNameExist(userDetailInfo.getMerchantName());
+		if( exit ){
+			webResult.setWebReturnCode(WebReturnCode.MERCHANT_NAME_EXIST);
+			return webResult ;
+		}
+		
+		
 		ExamineInfoDTO ex = new ExamineInfoDTO();
 		
 		setExamineInfo(ex,userDetailInfo);
-		
 		//提交的当前页数，如果是第一次提交，不update当前的status
-		
-		WebResultSupport webResult = new WebResultSupport();
 		MemResult<Boolean> result = merchantRepo.saveUserdata(ex);
 		LOGGER.debug("examineInfoDTO={}", JSONObject.toJSONString(ex));
 		if(result.isSuccess()){

@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
@@ -37,9 +37,6 @@ import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.result.BizResult;
 import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 import com.yimayhd.sellerAdmin.vo.merchant.UserDetailInfo;
-import com.yimayhd.tradecenter.client.model.enums.ExamineeStatus;
-import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.enums.UserOptions;
 import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionManager;
@@ -181,7 +178,6 @@ public class ApplyController extends BaseController {
 	@ResponseBody
 	public WebResult<String> saveUserdata(UserDetailInfo userDetailInfo){
 		WebResult<String> rest = new WebResult<String>();
-		
 		WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
 		if(result.isSuccess()){
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/merchant/toDetailPageB");
