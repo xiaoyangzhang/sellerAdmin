@@ -2,7 +2,7 @@
 
 <head>
 	#parse("layout/layout-meta.vm")
-	<title>申请入驻</title>
+	<title>店铺基本信息</title>
 	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/merchant.css">
 </head>
 
