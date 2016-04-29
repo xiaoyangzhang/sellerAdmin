@@ -7,11 +7,11 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/zui/css/zui.min.css"
       xmlns="http://www.w3.org/1999/html">
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
-<link rel="stylesheet" href="$rs_js_css_path_admin/src/css/addtravel.css">
-<link rel="stylesheet" href="$rs_js_css_path_admin/src/css/editer.css">
+<link rel="stylesheet" href="$rs_js_css_path_admin/css/addtravel.css">
+<link rel="stylesheet" href="$rs_js_css_path_admin/css/editer.css">
 
 
-<script type="text/javascript" src="$rs_js_css_path_admin/src/js/jquery.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_admin/js/jquery.js"></script>
 <title>添加特产-$!category.name</title>
 <div class="example whole">
     <form name="commodityForm" id="commodityForm" class="form-horizontal" action="" method="post" commodityId="$!commodity.id">
@@ -760,10 +760,10 @@
     });
 </script>
 
-<script type="text/javascript" src="$rs_js_css_path_admin/src/js/jquery.form.js"></script>
-<script type="text/javascript" src="$rs_js_css_path_admin/src/js/addtravel.js"></script>
-<script type="text/javascript" src="$rs_js_css_path_admin/src/js/editer.js"></script>
-<script type="text/javascript" src="$rs_js_css_path_admin/src/js/upldf.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_admin/js/jquery.form.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_admin/js/addtravel.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_admin/js/editer.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_admin/js/upldf.js"></script>
 
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/js/zui.min.js"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/layer-v2.1/layer.js"></script>
