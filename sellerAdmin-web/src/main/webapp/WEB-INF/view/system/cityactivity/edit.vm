@@ -12,15 +12,18 @@
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/calendar-tool.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/input.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/editer.css"/>
-<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/admin/src/css/addtravel.css" />
 
-<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/js/jquery.js"></script>
-<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/js/jquery.form.js"></script>
-<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/layer/layer.js"></script>
-<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/js/setsku.js"></script>
-<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/js/upldf.js"></script>
-<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/js/addtravel.js"></script>
+#parse("layout/layout-meta.vm")
+
+<link rel="stylesheet" href="$rs_js_css_path_admin/src/css/editer.css"/>
+<link rel="stylesheet" href="$rs_js_css_path_admin/src/css/addtravel.css" />
+
+<script type="text/javascript" src="$rs_js_css_path_admin/src/js/jquery.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_admin/src/js/jquery.form.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_admin/src/layer/layer.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_admin/src/js/setsku.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_admin/src/js/upldf.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_admin/src/js/addtravel.js"></script>
 
 
 #set( $locations = ["商品管理", "添加同城活动"] )
@@ -253,4 +256,4 @@
             format: "yyyy-mm-dd hh:00"
         });
 </script>
-<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/admin/src/js/editer.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_admin/src/js/editer.js"></script>

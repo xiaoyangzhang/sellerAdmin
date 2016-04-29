@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
+#parse("layout/layout-meta.vm")
 <head>
-<link rel="shortcut icon" href="http://s0.test.jiuxiulvxing.com/busines/img/jiuxiu_favicon.ico" mce_href="http://s0.test.jiuxiulvxing.com/busines/img/jiuxiu_favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="$rs_path_jiuxiu/img/jiuxiu_favicon.ico" mce_href="$rs_path_jiuxiu/img/jiuxiu_favicon.ico" type="image/x-icon" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible"content="IE=9; IE=8; IE=7; IE=EDGE,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,15 +14,15 @@
 <body>
 	<div class="dielog">
 		<div class="loading">
-			<img src="http://s0.test.jiuxiulvxing.com/busines/img/loading.gif">
+			<img src="$rs_path_jiuxiu/img/loading.gif">
 		</div>
 	</div>
 	<div class="header">
 		<div class="comwidth content clearfix">
-			<a class="fl block"><img src="http://s0.test.jiuxiulvxing.com/busines/img/logo.jpg"></a>
+			<a class="fl block"><img src="$rs_path_jiuxiu/img/logo.jpg"></a>
 			<div class="fr user-block">
 				<a class="user-block-link mr15 not-a">
-					<span class="circle mr10"><img src="http://s0.test.jiuxiulvxing.com/busines/img/default_1.png"><i></i></span>
+					<span class="circle mr10"><img src="$rs_path_jiuxiu/img/default_1.png"><i></i></span>
 					<span>Hi：</span><span>13655545879</span>
 				</a>
 				<a class="ext">退出</a>
