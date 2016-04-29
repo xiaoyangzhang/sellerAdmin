@@ -59,9 +59,9 @@ public class MerchantBiz {
 	 * @param name
 	 * @return 存在数据，返回true；  查询失败，返回true； 其他返回false
 	 */
-	public boolean isMerchantNameExist(String name){
+	public boolean isMerchantNameExist(String name, long sellerId){
 		if( StringUtils.isBlank(name) ){
-			return true;
+			return false;
 		}
 		MerchantQuery merchantQuery = new MerchantQuery();
 		merchantQuery.setName(name);
@@ -74,9 +74,13 @@ public class MerchantBiz {
 		List<MerchantDO> merchantDOs = result.getValue()	;
 		if( CollectionUtils.isEmpty(merchantDOs) ){
 			return false;
-		}else{
-			return true;
 		}
+		for( MerchantDO merchantDO : merchantDOs ){
+			if( merchantDO.getSellerId() != sellerId ){
+				return true ;
+			}
+		}
+		return false;
 	}
 	
 	
@@ -150,8 +154,8 @@ public class MerchantBiz {
 	@MethodLogger
 	public WebResultSupport saveUserdata(UserDetailInfo userDetailInfo){
 		WebResultSupport webResult = new WebResultSupport();
-		
-		boolean exit = isMerchantNameExist(userDetailInfo.getMerchantName());
+		long userId = sessionManager.getUserId() ;
+		boolean exit = isMerchantNameExist(userDetailInfo.getMerchantName(), userId);
 		if( exit ){
 			webResult.setWebReturnCode(WebReturnCode.MERCHANT_NAME_EXIST);
 			return webResult ;
