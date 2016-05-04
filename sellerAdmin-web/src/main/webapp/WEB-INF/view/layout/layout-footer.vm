@@ -1,20 +1,20 @@
-	<div class="footer">
-		<div class="footer-wrap">
-			<div class="footer-inner">
-				<ul class="footer-about">
-					<li><a target="_blank" href="$!rs_official_site/about/aboutus.html">关于九休</a></li>
-					<li><a target="_blank" href="$!rs_official_site/about/contactus.html">联系我们</a></li>
-					<li><a target="_blank" href="$!rs_official_site/feedback/">投诉建议</a></li>
-					<li class="footer-aboutcons">招商咨询</li>
-					<li class="footer-constele">4000-696-888   /  9:00~22:00，周一到周日</li>
+	<div class="jiux-footer jiuw2">
+		<div class="footer-top ">
+			<div class="footID clearfix jiuw2">
+				<ul class="fl">
+					<li><a href="$!rs_official_site/about/aboutus.html">关于九休</a></li>
+					<li><a href="$!rs_official_site/about/contactus.html">联系我们</a></li>
+					<li><a href="$!rs_official_site/feedback/">意见反馈</a></li>
+					<li><a href="#">招商咨询</a></li>
+					<li>4000-696-888/9:00~22:00，周一到周日</li>
 				</ul>
 			</div>
 		</div>
-		<div class="footer-wrap-black">
-			<div class="footer-inner2">
-				<p class="foot-copyright">Copyright© 2016 jiuxiulvxing.com 九休旅行版权所有<br/>
-					<a class="jing-addressID" target="_blank" href="javascript:;">京ICP备15051416号-3</a>
-				</p>
+		<div class="footer-bom">
+			<div class="footID jiuw2">
+				<img src="$!rs_path_jiuxiu/img/b_logo.png">
+				<p>COPYRIGHT&copy; 2016 jiuxiulvxing.com 九休旅行版权所有</p>
+				<p><a href="http://www.miibeian.gov.cn/" target="_blank" rel="nofollow">京ICP备15051416号-1</a></p>
 			</div>
 		</div>
 	</div>

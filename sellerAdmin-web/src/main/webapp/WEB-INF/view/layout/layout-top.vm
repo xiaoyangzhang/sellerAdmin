@@ -1,4 +1,4 @@
-	
+	<!--
 	<div class="header">
 		<div class="comwidth content clearfix">
 			<a class="fl block"><img src="$!rs_path_jiuxiu/img/logo.jpg"></a>
@@ -13,4 +13,31 @@
 			</div>
 		</div>
 	</div>
+	-->
 
+	<div id = "jiuxColor" class = "jiuw1">
+		<div class="jiux-header wjiuxiu jiuw1 clearfix">
+			<!-- 头部左侧部分 -->
+			<div class="header-l fl clearfix">
+				<a href="$!rs_official_site" class="fl">
+					<div class="logo">九休旅行</div>
+				</a>
+				<ul class="clearfix fl">
+					<li class="fl"><a href="$!rs_official_site">首页</a></li>
+					<li class="fl"><a href="$!rs_official_site/business">九休商务</a></li>
+					<li class="fl"><a href="$!rs_official_site/index.html">九休旅行App</a></li>
+					<li class="fl active"><a href="$!root_path/home">商家中心</a></li>
+				</ul>
+			</div>
+			<!-- 头部右侧部分 -->
+			<div class="header-r fr clearfix">
+				<div class="tel">
+					<ul>
+						<li class="fl" id="loginBox"><img src="$avatar"><span>Hi：</span><span>$username</span> <span>(  ${user.id}  )</span></li>
+						<li class="fl staticW"><a class="ext" href="$!root_path/user/logout">退出</a></li>
+	
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
