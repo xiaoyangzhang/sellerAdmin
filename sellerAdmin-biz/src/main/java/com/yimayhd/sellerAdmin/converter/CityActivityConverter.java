@@ -53,7 +53,8 @@ public class CityActivityConverter {
 	public static CityActivityItemVO convertItemVO(CityActivityResult cityActivityResult, List<Long> themeIds, List<CityVO> destCitys, PicTextResult picTextResult) throws Exception{
 		CityActivityItemVO cityActivityItemVO = new CityActivityItemVO();
 		if(cityActivityResult == null || !cityActivityResult.isSuccess() || cityActivityResult.getItemDO() == null
-				|| CollectionUtils.isEmpty(cityActivityResult.getItemSkuDOList())) {
+//				|| CollectionUtils.isEmpty(cityActivityResult.getItemSkuDOList())
+				) {
 			return null;
 		}
 		try {
