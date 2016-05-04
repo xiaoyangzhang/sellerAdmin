@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.velocity.tools.generic.ClassTool.Sub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,6 +145,7 @@ public class UploadController extends BaseController {
 				if (fileName.lastIndexOf(".") != -1) {
 					suffix = fileName.substring(fileName.lastIndexOf("."));
 				}
+				suffix = suffix.toLowerCase();
 				String tfsName = tfsManager.saveFile(multipartFile.getBytes(), null, suffix) + suffix;
 				if (StringUtils.isNotBlank(tfsName) && !"null".equals(tfsName)) {
 					// 除去后缀截取十五个字符
@@ -257,6 +259,7 @@ public class UploadController extends BaseController {
 		if (StringUtils.isBlank(suffix)) {
 			suffix = ".jpg";
 		}
+		suffix = suffix.toLowerCase();
 		String tfsName = null;
 		try {
 			if (size > MAX_LENGTH) {
