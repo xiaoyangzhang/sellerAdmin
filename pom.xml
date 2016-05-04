@@ -5,7 +5,7 @@
 
 	<artifactId>sellerAdmin</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<parent>
 		<groupId>com.yimayhd</groupId>
 		<artifactId>parent</artifactId>
