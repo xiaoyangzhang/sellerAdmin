@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.model.CityActivityItemVO;
 import com.yimayhd.sellerAdmin.model.CityActivityVO;
+import com.yimayhd.sellerAdmin.model.ItemSkuVO;
 import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowItemVo;
 import com.yimayhd.sellerAdmin.model.line.nk.NeedKnowVO;
@@ -90,8 +91,20 @@ public class CityActivityChecker {
 		if (itemInfo.getLatitudeVO() == null || itemInfo.getLongitudeVO() == null) {
 			return WebCheckResult.error("经纬度不能为空");
 		}
-		if (CollectionUtils.isEmpty(itemInfo.getItemSkuVOListByStr())) {
+		List<ItemSkuVO> skuVOs = itemInfo.getItemSkuVOListByStr();
+		if (CollectionUtils.isEmpty(skuVOs)) {
 			return WebCheckResult.error("价格信息不能为空");
+		}
+		boolean hasChecked = false;
+		for( ItemSkuVO skuVO : skuVOs ){
+			boolean checked = skuVO.isChecked() ;
+			if( checked ){
+				hasChecked = true;
+				break;
+			}
+		}
+		if( !hasChecked ){
+			return WebCheckResult.error("活动的套餐不能为空");
 		}
 		return WebCheckResult.success();
 	}
