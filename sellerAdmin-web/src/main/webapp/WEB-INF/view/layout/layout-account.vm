@@ -52,7 +52,7 @@
 						<li class="fl" id="loginBox">
 							<a  href="$root_path/user/login">登录</a>
 						</li>
-						<li class="fl staticW"><a  href="$root_path/user/register">注册</a></li>
+						<li class="fl staticW"><a href="$root_path/user/register">注册</a></li>
 					</ul>
 				</div>
 			</div>
