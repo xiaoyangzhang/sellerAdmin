@@ -31,6 +31,7 @@
 		</div>
 	</div>
 	-->
+	
 	<div id = "jiuxColor" class = "jiuw2">
 		<div class="jiux-header wjiuxiu jiuw2 clearfix">
 			<!-- 头部左侧部分 -->
@@ -50,7 +51,7 @@
 				<div class="tel">
 					<ul>
 						<li class="fl" id="loginBox">
-							<a  href="$root_path/user/login">登录</a>
+							<a  href="$root_path/user/login"><span id="userName">登录</span></a>
 						</li>
 						<li class="fl staticW"><a href="$root_path/user/register">注册</a></li>
 					</ul>
