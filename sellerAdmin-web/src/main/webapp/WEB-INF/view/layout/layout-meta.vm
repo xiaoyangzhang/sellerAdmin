@@ -37,7 +37,7 @@
 #end
 
 #if( $user.avatar  )
-	#set( $avatar= $!tfs + $user.avatar)
+	#set( $avatar= $!tfs + $utilImg.getImgUrl($user.avatar, 100) )
 #else
 	#set( $avatar= "$!rs_path_jiuxiu/img/default_1.png" )
 #end

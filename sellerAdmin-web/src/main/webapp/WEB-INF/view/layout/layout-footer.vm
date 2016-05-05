@@ -5,9 +5,13 @@
 					<li><a href="$!rs_official_site/about/aboutus.html">关于九休</a></li>
 					<li><a href="$!rs_official_site/about/contactus.html">联系我们</a></li>
 					<li><a href="$!rs_official_site/feedback/">意见反馈</a></li>
-					<li><a href="#">招商咨询</a></li>
-					<li>4000-696-888/9:00~22:00，周一到周日</li>
+					<li>招商咨询&nbsp;&nbsp;4000-696-888/9:00~22:00，周一到周日</li>
 				</ul>
+				<div class="fr">
+					<a href="http://weibo.com/u/5632782387" class="wb"></a>
+					<a class="wx"><i></i></a>
+					<a href="http://wpa.qq.com/msgrd?v=3&uin=123456789&site=qq&menu=yes" class="qq"></a>
+				</div>
 			</div>
 		</div>
 		<div class="footer-bom">

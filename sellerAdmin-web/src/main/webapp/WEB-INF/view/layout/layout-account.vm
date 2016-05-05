@@ -50,10 +50,11 @@
 			<div class="header-r fr clearfix">
 				<div class="tel">
 					<ul>
-						<li class="fl" id="loginBox">
-							<a  href="$root_path/user/login"><span id="userName">登录</span></a>
+						<li class="fl staticW m-r">
+							<a href="$root_path/user/login">登录</a>
+							<span class="cuttingline"></span>
 						</li>
-						<li class="fl staticW"><a href="$root_path/user/register">注册</a></li>
+						<li class="fl staticW m-r"><a href="$root_path/user/register">注册</a></li>
 					</ul>
 				</div>
 			</div>
