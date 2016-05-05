@@ -41,7 +41,7 @@
 				</a>
 				<ul class="clearfix fl">
 					<li class="fl"><a href="$!rs_official_site">首页</a></li>
-					<li class="fl"><a href="$!rs_official_site/business">九休商务</a></li>
+					<li class="fl"><a href="$!rs_official_site/business/">九休商务</a></li>
 					<li class="fl"><a href="$!rs_official_site/app/index.html">九休旅行App</a></li>
 					<li class="fl active"><a href="$!root_path/home">商家中心</a></li>
 				</ul>
