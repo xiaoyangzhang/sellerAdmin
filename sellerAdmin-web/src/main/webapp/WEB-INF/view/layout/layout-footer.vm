@@ -8,16 +8,16 @@
 					<li>招商咨询&nbsp;&nbsp;4000-696-888/9:00~22:00，周一到周日</li>
 				</ul>
 				<div class="fr">
-					<a href="http://weibo.com/u/5632782387" class="wb"></a>
+					<a class="wb"></a>
 					<a class="wx"><i></i></a>
-					<a href="http://wpa.qq.com/msgrd?v=3&uin=123456789&site=qq&menu=yes" class="qq"></a>
+					<a class="qq"></a>
 				</div>
 			</div>
 		</div>
 		<div class="footer-bom">
 			<div class="footID jiuw2">
 				<img src="$!rs_path_jiuxiu/img/b_logo.png">
-				<p>COPYRIGHT&copy; 2016 jiuxiulvxing.com 九休旅行版权所有</p>
+				<p>COPYRIGHT&copy; 2016 JIUXIULVXING.COM 九休旅行版权所有</p>
 				<p><a href="http://www.miibeian.gov.cn/" target="_blank" rel="nofollow">京ICP备15051416号-1</a></p>
 			</div>
 		</div>
