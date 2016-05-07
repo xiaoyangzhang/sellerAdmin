@@ -416,15 +416,28 @@ public class ApplyController extends BaseController {
 				bizResult.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/verification");
 			} else if (!resultSupport.isSuccess()) {
 				//bizResult.setWebReturnCode(resultSupport.getWebReturnCode());
-				bizResult.buildFailResult(resultSupport.getErrorCode(),
-						resultSupport.getErrorMsg(),
-						resultSupport.getValue());
+				//FIXME 张晓阳
+//				bizResult.buildFailResult(resultSupport.getErrorCode(),
+//						resultSupport.getErrorMsg(),
+//						resultSupport.getValue());
+				
+				bizResult.setSuccess(false);
+				bizResult.setMsg(resultSupport.getErrorMsg());
+				bizResult.setCode(resultSupport.getErrorCode());
+				
 			} else if (!updateCheckStatusResult.isSuccess()) {
-				bizResult.buildFailResult(
-						updateCheckStatusResult.getErrorCode(),
-						updateCheckStatusResult.getErrorMsg(),
-						updateCheckStatusResult.getValue());
+				//FIXME 张晓阳
+//				bizResult.buildFailResult(
+//						updateCheckStatusResult.getErrorCode(),
+//						updateCheckStatusResult.getErrorMsg(),
+//						updateCheckStatusResult.getValue());
 				//result.setWebReturnCode(updateCheckStatusResult.getWebReturnCode());
+				
+
+				bizResult.setSuccess(false);
+				bizResult.setMsg(updateCheckStatusResult.getErrorMsg());
+				bizResult.setCode(updateCheckStatusResult.getErrorCode());
+				
 			}
 			return bizResult;
 		
