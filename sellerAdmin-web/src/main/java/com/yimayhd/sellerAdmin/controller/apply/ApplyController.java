@@ -380,7 +380,7 @@ public class ApplyController extends BaseController {
 				//FIXME 以下代码应该放到repo类中
 				int code = resultSupport.getErrorCode() ;
 				if(MemberReturnCode.DB_SELLERNAME_FAILED.getCode() == code ) {
-					result.setWebReturnCode( WebReturnCode.MERCHANT_NAME_EXIST );
+					result.setWebReturnCode( WebReturnCode.TALENT_MERCHANT_NAME_EXIST );
 				}else if( MemberReturnCode.DB_EXAMINE_FAILED.getCode() == code ){
 					result.setWebReturnCode(WebReturnCode.APPROVE_PASSED_DISABLE_MODIFY);
 				}else{
