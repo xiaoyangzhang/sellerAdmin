@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
@@ -31,7 +32,7 @@ import com.yimayhd.user.session.manager.SessionManager;
  */
 public class TalentRepo {
 
-	protected Logger log = LoggerFactory.getLogger(getClass());
+	protected Logger log = LoggerFactory.getLogger("TalentRepo");
 	@Autowired
 	private TalentInfoDealService talentInfoDealService;
 	@Autowired
@@ -135,6 +136,7 @@ public class TalentRepo {
 	 * @return
 	 * @throws Exception
 	 */
+	@MethodLogger
 	public MemResult<Boolean> addExamineInfo(ExamineInfoVO vo)  {
 		if (vo == null) {
 			return null;
@@ -168,6 +170,7 @@ public class TalentRepo {
 	 * 获取达人入驻审核结果
 	 * @return
 	 */
+	@MethodLogger
 	public ExamineResultDTO getCheckResult() {
 		InfoQueryDTO examineQueryDTO = new InfoQueryDTO();
 		examineQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
@@ -30,6 +31,7 @@ import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
+import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.biz.MerchantBiz;
 import com.yimayhd.sellerAdmin.biz.TalentBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -333,35 +335,59 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/talent/saveExamineInfo_pageOne",method=RequestMethod.POST)
 	@ResponseBody
-	public BizResult<String> saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
-//		checkVisitPage();
+	public WebResult<String> saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
 			//WebResult<String> result=new WebResult<String>();
-			BizResult<String> bizResult = new BizResult<>();
+//			BizResult<String> bizResult = new BizResult<>();
+//			ExamineInfoDTO examineInfoDTO = talentBiz.getExamineInfo();
+//			MemResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_ONE.getPageNO());
+//			if (resultSupport == null) {
+//				//bizResult.buildFailResult(-1, "保存失败", false);
+//				bizResult.init(false, -1, "保存失败");
+//				return bizResult;
+//			}
+//			if (resultSupport.isSuccess()) {
+//				if (null == examineInfoDTO || examineInfoDTO.getSellerId() <= 0) {
+//					bizResult.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/toAddUserdatafill_pageTwo");
+//				} else {
+//					bizResult.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/toEditUserdatafill_pageTwo");
+//					
+//				}
+//			}else {
+//				//result.setWebReturnCode(resultSupport.getWebReturnCode());
+////				bizResult.buildFailResult(resultSupport.getErrorCode(),
+////						resultSupport.getErrorMsg(),
+////						resultSupport.getValue());
+//			}
+//			return bizResult;
+		
+		WebResult<String> result=new WebResult<String>();
 			ExamineInfoDTO examineInfoDTO = talentBiz.getExamineInfo();
 			MemResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_ONE.getPageNO());
 			if (resultSupport == null) {
 				//bizResult.buildFailResult(-1, "保存失败", false);
-				bizResult.init(false, -1, "保存失败");
-				return bizResult;
+//				bizResult.init(false, -1, "保存失败");
+				result.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
+				return result;
 			}
 			if (resultSupport.isSuccess()) {
-				if (null == examineInfoDTO
-						|| examineInfoDTO.getSellerId() <= 0) {
-					bizResult.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/toAddUserdatafill_pageTwo");
+				if (null == examineInfoDTO || examineInfoDTO.getSellerId() <= 0) {
+					result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/toAddUserdatafill_pageTwo");
 				} else {
-					bizResult.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/toEditUserdatafill_pageTwo");
+					result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/toEditUserdatafill_pageTwo");
 					
 				}
+			}else {
+				//FIXME 以下代码应该放到repo类中
+				int code = resultSupport.getErrorCode() ;
+				if(MemberReturnCode.DB_SELLERNAME_FAILED.getCode() == code ) {
+					result.setWebReturnCode( WebReturnCode.TALENT_MERCHANT_NAME_EXIST );
+				}else if( MemberReturnCode.DB_EXAMINE_FAILED.getCode() == code ){
+					result.setWebReturnCode(WebReturnCode.APPROVE_PASSED_DISABLE_MODIFY);
+				}else{
+					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+				}
 			}
-			
-			else {
-				//result.setWebReturnCode(resultSupport.getWebReturnCode());
-				bizResult.buildFailResult(resultSupport.getErrorCode(),
-						resultSupport.getErrorMsg(),
-						resultSupport.getValue());
-				
-			}
-			return bizResult;
+			return result;
 		
 	}
 	/**
@@ -390,15 +416,28 @@ public class ApplyController extends BaseController {
 				bizResult.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/verification");
 			} else if (!resultSupport.isSuccess()) {
 				//bizResult.setWebReturnCode(resultSupport.getWebReturnCode());
-				bizResult.buildFailResult(resultSupport.getErrorCode(),
-						resultSupport.getErrorMsg(),
-						resultSupport.getValue());
+				//FIXME 张晓阳
+//				bizResult.buildFailResult(resultSupport.getErrorCode(),
+//						resultSupport.getErrorMsg(),
+//						resultSupport.getValue());
+				
+				bizResult.setSuccess(false);
+				bizResult.setMsg(resultSupport.getErrorMsg());
+				bizResult.setCode(resultSupport.getErrorCode());
+				
 			} else if (!updateCheckStatusResult.isSuccess()) {
-				bizResult.buildFailResult(
-						updateCheckStatusResult.getErrorCode(),
-						updateCheckStatusResult.getErrorMsg(),
-						updateCheckStatusResult.getValue());
+				//FIXME 张晓阳
+//				bizResult.buildFailResult(
+//						updateCheckStatusResult.getErrorCode(),
+//						updateCheckStatusResult.getErrorMsg(),
+//						updateCheckStatusResult.getValue());
 				//result.setWebReturnCode(updateCheckStatusResult.getWebReturnCode());
+				
+
+				bizResult.setSuccess(false);
+				bizResult.setMsg(updateCheckStatusResult.getErrorMsg());
+				bizResult.setCode(updateCheckStatusResult.getErrorCode());
+				
 			}
 			return bizResult;
 		

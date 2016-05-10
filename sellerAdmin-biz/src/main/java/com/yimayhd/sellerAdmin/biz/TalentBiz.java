@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.rpc.Result;
+import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
@@ -80,6 +81,7 @@ public class TalentBiz {
 	 * @return
 	 * @throws Exception
 	 */
+	@MethodLogger
 	public MemResult<Boolean> addExamineInfo(ExamineInfoVO vo,int pageNo)  {
 		if (vo == null ||  pageNo <= 0) {
 			log.error("get examineSubmitDTO params error :vo="+vo+"pageNo="+pageNo);
