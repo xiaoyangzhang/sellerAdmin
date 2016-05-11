@@ -108,7 +108,7 @@
 					<div class="fm_md_four fm_md">
 						<table>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>财务开户银行：</span></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>开户银行：</span></td>
 								<td><select id="bank" class="selectlist" name="financeOpenBankId">
 									  <option  value="">--请选择--</option>
 									#foreach ($bank in $bankList)
@@ -128,7 +128,7 @@
 								<td><input class="inptxt finance"  name="accountNum" maxlength="25" value="$!examineInfo.accountNum" placeholder="请输入结算账号"></td>
 							</tr>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>财务结算开户行：</span></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>结算开户行：</span></td>
 								<td>
 									<input type="hidden" id="province_" value="$!examineInfo.accountBankProvinceCode">
 									<input type="hidden" id="city_" value="$!examineInfo.accountBankCityCode">

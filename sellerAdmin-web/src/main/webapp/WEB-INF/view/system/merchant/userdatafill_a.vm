@@ -118,7 +118,7 @@
 								</td>
 							</tr>*#
 							<tr>
-								<td class="tbtxt" style="width:304px;"><label class="bred">*</label><label>营业执照正面：</label></td>
+								<td class="tbtxt" style="width:304px;"><label class="bred">*</label><label>营业执照副本复印件正面：</label></td>
 								<td style="width:275px;">
 									<span class="imgbox">
 										<div class="canclick card_a">
@@ -133,9 +133,9 @@
 										<input type="hidden" name="businessLicense" value="$!examineInfo.businessLicense">
 									</span>
 								</td>
-								<td style="width:225px;" class="tbtxt"><label>组织机构代码证正面：</label></td>
+								<td style="width:225px;" class="tbtxt"><label>组织机构代码证复印件正面：</label></td>
 								<td>
-									<span class="imgbox">
+									<span class="imgbox allownull">
 										<div class="canclick card_a">
 											#if("$!examineInfo.orgCard" == "")
 											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
@@ -151,9 +151,9 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="tbtxt"><label>税务登记证正面(国税、地税均可)：</label></td>
+								<td class="tbtxt"><label>税务登记证复印件正面(国税、地税均可)：</label></td>
 								<td>
-									<span class="imgbox">
+									<span class="imgbox allownull">
 										<div class="canclick card_a">
 											#if("$!examineInfo.affairsCard" == "")
 											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
