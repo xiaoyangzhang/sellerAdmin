@@ -14,8 +14,10 @@ import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.cache.CacheManager;
 import com.yimayhd.sellerAdmin.checker.CityActivityChecker;
 import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 import com.yimayhd.sellerAdmin.model.CityActivityItemVO;
 import com.yimayhd.sellerAdmin.model.ItemResultVO;
@@ -24,6 +26,7 @@ import com.yimayhd.sellerAdmin.model.line.CityVO;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.TagDTO;
 import com.yimayhd.sellerAdmin.service.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +37,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 活动商品
@@ -49,6 +53,8 @@ public class CityActivityManageController extends BaseController {
 	private CityActivityService cityActivityService;
     @Autowired
     private TagService tagService;
+    @Autowired
+	private CacheManager cacheManager ;
 	
 	/**
 	 * 新增活动商品
@@ -79,6 +85,7 @@ public class CityActivityManageController extends BaseController {
         }
 		model.addAttribute("category", categoryVO);
 		model.addAttribute("itemType",ItemType.CITY_ACTIVITY.getValue());
+		model.addAttribute("UUID",UUID.randomUUID().toString());
 		return "/system/cityactivity/edit";
 	}
 
@@ -162,7 +169,7 @@ public class CityActivityManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public @ResponseBody WebResultSupport edit(String json) throws Exception {
+    public @ResponseBody WebResultSupport edit(String json,String uuid) throws Exception {
         long sellerId = getCurrentUserId();
         if (sellerId <= 0) {
             log.warn("未登录");
@@ -180,6 +187,11 @@ public class CityActivityManageController extends BaseController {
                 return cityActivityService.modifyCityActivityItem(itemVO);
             }
             else {
+            	String key = Constant.APP+"_repeat_"+sessionManager.getUserId()+uuid;
+        		boolean rs = cacheManager.addToTair(key, true , 2, 24*60*60);
+        		if (!rs) {
+                    return WebOperateResult.failure(WebReturnCode.REPEAT_ERROR);
+                }
                 return cityActivityService.addCityActivityItem(itemVO);
             }
         } catch (Exception e) {

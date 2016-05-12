@@ -1,10 +1,12 @@
 package com.yimayhd.sellerAdmin.controller.item;
 
 import java.text.NumberFormat;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,8 +22,10 @@ import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.cache.CacheManager;
 import com.yimayhd.sellerAdmin.checker.LineChecker;
 import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
 import com.yimayhd.sellerAdmin.service.item.LineService;
@@ -37,6 +41,8 @@ import com.yimayhd.sellerAdmin.service.item.LineService;
 public class LineController extends BaseLineController {
 	@Autowired
 	private LineService commLineService;
+	@Autowired
+	private CacheManager cacheManager ;
 
 	/**
 	 * 详细信息页
@@ -107,10 +113,11 @@ public class LineController extends BaseLineController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/category/{categoryId}/create/", method = RequestMethod.GET)
-	public String create(@PathVariable(value = "categoryId") long categoryId) throws Exception {
+	public String create(Model model,@PathVariable(value = "categoryId") long categoryId) throws Exception {
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
 		put("lineType", LineType.TOUR_LINE);
+		model.addAttribute("UUID",UUID.randomUUID().toString());
 		return "/system/comm/line/detail";
 	}
 
@@ -133,13 +140,14 @@ public class LineController extends BaseLineController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/save")
-	public @ResponseBody WebResultSupport save(String json) {
+	public @ResponseBody WebResultSupport save(String json,String uuid) {
 		try {
 			long sellerId = getCurrentUserId();
 			if (sellerId <= 0) {
 				log.warn("未登录");
 				return WebOperateResult.failure(WebReturnCode.USER_NOT_FOUND);
 			}
+			
 			if (StringUtils.isBlank(json)) {
 				log.warn("json is null");
 				return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
@@ -155,6 +163,12 @@ public class LineController extends BaseLineController {
 			if (itemId > 0) {
 				return commLineService.update(sellerId, gt);
 			} else {
+				String key = Constant.APP+"_repeat_"+sessionManager.getUserId()+uuid;
+				boolean rs = cacheManager.addToTair(key, true , 2, 24*60*60);
+				if (!rs) {
+					log.warn("重复添加");
+					return WebOperateResult.failure(WebReturnCode.REPEAT_ERROR);
+				}
 				return commLineService.save(sellerId, gt);
 			}
 		} catch (Exception e) {
