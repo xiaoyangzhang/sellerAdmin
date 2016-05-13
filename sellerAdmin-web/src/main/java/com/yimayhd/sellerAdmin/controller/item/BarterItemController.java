@@ -1,5 +1,8 @@
 package com.yimayhd.sellerAdmin.controller.item;
 
+import java.io.Serializable;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +15,7 @@ import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.cache.CacheManager;
 import com.yimayhd.sellerAdmin.checker.BarterItemChecker;
 import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -32,6 +36,8 @@ public class BarterItemController extends BaseController {
 	private CommodityService	commodityService;
 	@Autowired
 	private CategoryService		categoryService;
+	@Autowired
+	private CacheManager cacheManager ;
 
 	/**
 	 * 新增普通商品
@@ -45,6 +51,7 @@ public class BarterItemController extends BaseController {
 		ItemType itemType = ItemType.get(categoryDO.getCategoryFeature().getItemType());
 		Preconditions.checkArgument(ItemType.NORMAL.equals(itemType), "错误的商品类型");
 		model.addAttribute("category", categoryDO);
+		model.addAttribute("UUID",UUID.randomUUID().toString());
 		return "/system/comm/common/edit";
 	}
 
@@ -55,16 +62,19 @@ public class BarterItemController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/common/add", method = RequestMethod.POST)
-	public String addCommon(Model model, ItemVO itemVO) throws Exception {
-
-		WebCheckResult check = BarterItemChecker.BarterItemCheck(itemVO);
-		if (!check.isSuccess()) {
-			throw new NoticeException(check.getResultMsg());
+	public String addCommon(Model model, ItemVO itemVO,String uuid) throws Exception {
+		String key = Constant.APP+"_repeat_"+sessionManager.getUserId()+uuid;
+		boolean rs = cacheManager.addToTair(key, true , 2, 24*60*60);
+		if(rs){
+			WebCheckResult check = BarterItemChecker.BarterItemCheck(itemVO);
+			if (!check.isSuccess()) {
+				throw new NoticeException(check.getResultMsg());
+			}
+			long sellerId = sessionManager.getUserId();
+			itemVO.setSellerId(sellerId);
+			commodityService.addCommonItem(itemVO);
+			model.addAttribute("href", "/item/list");
 		}
-		long sellerId = sessionManager.getUserId();
-		itemVO.setSellerId(sellerId);
-		commodityService.addCommonItem(itemVO);
-		model.addAttribute("href", "/item/list");
 		return "/success";
 	}
 

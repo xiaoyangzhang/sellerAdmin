@@ -47,3 +47,4 @@
 <input type="hidden" id="filegw_url" value="$filegw_url">
 <input type="hidden" id="jiuniu_update_file" value="$jiuniu_update_file">
 <input type="hidden" id="static_path" value="$rs_path_jiuxiu">
+<input type="hidden" id="tfs_path" value="$tfs">

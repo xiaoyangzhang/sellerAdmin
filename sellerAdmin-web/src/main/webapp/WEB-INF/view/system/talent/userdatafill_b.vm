@@ -38,7 +38,7 @@
 		<div class="tabs">
 			<form id="forminfo" action="saveExamineInfo_b.do" method="post">
 			<div class="panel">
-				<div class="tit gray6 f16 error_tip">负责人信息
+				<div class="tit gray6 f16 error_tip">基本信息
 					#if ($checkResultInfo && $checkResultInfo.size()>0 )
 					<div class="error_box">
 							<div>审核不通过原因</div>
@@ -49,11 +49,11 @@
 					<div class="fm_md_three fm_md">
 						<table>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>商户负责人姓名：</span></td>
-								<td colspan="3"><input class="inptxt businesname" name="principleName" value="$!examineInfo.principleName"   placeholder="合同签约人的姓名"></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>姓名：</span></td>
+								<td colspan="3"><input class="inptxt businesname"  name="principleName" value="$!examineInfo.principleName"   placeholder="合同签约人的姓名"></td>
 							</tr>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>负责人证件类型：</span></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>证件类型：</span></td>
 								<td colspan="3"><select id="card" class="selectlist" name="principleCard">
 							  <option #if ($examineInfo.principleCard == 0) selected="selected" #end value="0">身份证</option>
 							  <option #if ($examineInfo.principleCard == 1) selected="selected" #end value="1">驾驶证</option>
@@ -62,20 +62,20 @@
 							</select></td>
 							</tr>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>负责人证件号：</span></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>证件号：</span></td>
 								<td colspan="3"><input class="inptxt" id="cardtxt" value="$!examineInfo.principleCardId" name="principleCardId" datatype="s6-18" maxlength="18" placeholder="证件号码"></td>
 							</tr>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>负责人手机号：</span></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>手机号：</span></td>
 								<td colspan="3"><input class="inptxt" value="$!examineInfo.principleTel" name="principleTel" datatype="m" maxlength="11" placeholder="手机号码"></td>
 							</tr>
 							
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>负责人邮箱：</span></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>邮箱：</span></td>
 								<td colspan="3"><input class="inptxt" value="$!examineInfo.principleMail"  name="principleMail" datatype="e" maxlength="80" placeholder="请输入商户负责人邮箱"></td>
 							</tr>
 							<tr>
-								<td class="tbvt w280"><label class="bred">*</label><label>负责人身份证正面：</label></td>
+								<td class="tbvt w280"><label class="bred">*</label><label>身份证正面：</label></td>
 								<td class="w380">
 									<span class="imgbox mr5">
 										<div class="canclick card_a">
@@ -88,7 +88,7 @@
 										<input type="hidden" name="principleCardUp" value="$!examineInfo.principleCardUp" >
 									</span>
 								</td>
-								<td class="tbvt w150"><label class="bred">*</label><label>负责人身份证背面：</label></td>
+								<td class="tbvt w150"><label class="bred">*</label><label>身份证背面：</label></td>
 								<td>
 									<span class="imgbox mr5">
 										<div class="canclick card_b">
@@ -108,7 +108,7 @@
 					<div class="fm_md_four fm_md">
 						<table>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>财务开户银行：</span></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>开户银行：</span></td>
 								<td><select id="bank" class="selectlist" name="financeOpenBankId">
 									  <option  value="">--请选择--</option>
 									#foreach ($bank in $bankList)
@@ -120,15 +120,15 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>财务开户名称：</span></td>
-								<td><input class="inptxt" datatype="*" value="$!examineInfo.financeOpenName" name="financeOpenName" maxlength="60" placeholder="请输入对公结算账号账户名"></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>开户名称：</span></td>
+								<td><input class="inptxt" datatype="*"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" ></td>
 							</tr>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>财务结算账号：</span></td>
-								<td><input class="inptxt finance"  name="accountNum" maxlength="25" value="$!examineInfo.accountNum" placeholder="请输入对公结算账户的账号"></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>结算账号：</span></td>
+								<td><input class="inptxt finance"  name="accountNum" maxlength="25" value="$!examineInfo.accountNum" placeholder="请输入结算账号"></td>
 							</tr>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>财务结算开户行：</span></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>结算开户行：</span></td>
 								<td>
 									<input type="hidden" id="province_" value="$!examineInfo.accountBankProvinceCode">
 									<input type="hidden" id="city_" value="$!examineInfo.accountBankCityCode">

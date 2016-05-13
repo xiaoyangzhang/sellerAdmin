@@ -40,6 +40,7 @@
         -->
 	</head>
 	<body>
+		<input type ="hidden" id ="uuid" name ="uuid" value ="$!UUID" />
 		<div class="tab-container">	
             <ul class="nav nav-tabs">
                 <li class="active">
@@ -119,7 +120,8 @@ $(".save").click(function(){
 	var params = {
 		json:JSON.stringify(result)
 	};
-    var url = "$!{utilWebconfig.getActionDefaultFontPath()}/line/save";
+	var uuid = $("#uuid").val();
+    var url = "$!{utilWebconfig.getActionDefaultFontPath()}/line/save?uuid="+uuid;
     $.post(url,params,function(data){
 		if(data.success) {
 			layer.alert('保存成功', {

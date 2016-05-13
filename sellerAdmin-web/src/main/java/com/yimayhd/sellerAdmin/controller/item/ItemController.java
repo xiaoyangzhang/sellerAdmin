@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
@@ -49,7 +52,8 @@ public class ItemController extends BaseController {
 	private ItemService		itemService;
 	@Autowired
 	private CategoryService	categoryService;
-
+	@Autowired
+	private ItemQueryService itemQueryService;
 	/**
 	 * 商品列表
 	 * 
@@ -155,22 +159,80 @@ public class ItemController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = "/{id}/operate")
-	public @ResponseBody WebOperateResult opeate(@PathVariable("id") long id, @RequestParam("operate") String operate) {
+	@RequestMapping(value = "/{id}/shelve")
+	public @ResponseBody WebOperateResult shelve(@PathVariable("id") long id) {
 		long sellerId = getCurrentUserId();
+		WebOperateResult result = checkBeforeOperate(id,sellerId);
+		if (result != null) {
+			return result;
+		}
+		//if (ItemOperate.SHELVE.name().equalsIgnoreCase(operate)) {
+		return itemService.shelve(sellerId, id);
+//		} else if (ItemOperate.UNSHELVE.name().equalsIgnoreCase(operate)) {
+//			return itemService.unshelve(sellerId, id);
+//		} else if (ItemOperate.DELETE.name().equalsIgnoreCase(operate)) {
+//			return itemService.delete(sellerId, id);
+//		} else {
+//			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
+//		}
+		
+		
+	}
+	@RequestMapping(value = "/{id}/unshelve")
+	public @ResponseBody WebOperateResult unshelve(@PathVariable("id") long id) {
+		long sellerId = getCurrentUserId();
+		WebOperateResult result = checkBeforeOperate(id,sellerId);
+		if (result != null) {
+			return result;
+		}
+//		if (ItemOperate.SHELVE.name().equalsIgnoreCase(operate)) {
+//			return itemService.shelve(sellerId, id);
+//		} else if (ItemOperate.UNSHELVE.name().equalsIgnoreCase(operate)) {
+		return itemService.unshelve(sellerId, id);
+//		} else if (ItemOperate.DELETE.name().equalsIgnoreCase(operate)) {
+//			return itemService.delete(sellerId, id);
+//		} else {
+//			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
+//		}
+		
+		
+	}
+	@RequestMapping(value = "/{id}/delete")
+	public @ResponseBody WebOperateResult delete(@PathVariable("id") long id) {
+		long sellerId = getCurrentUserId();
+		WebOperateResult result = checkBeforeOperate(id,sellerId);
+		if (result != null) {
+			return result;
+		}
+//		if (ItemOperate.SHELVE.name().equalsIgnoreCase(operate)) {
+//			return itemService.shelve(sellerId, id);
+//		} else if (ItemOperate.UNSHELVE.name().equalsIgnoreCase(operate)) {
+//			return itemService.unshelve(sellerId, id);
+//		} else if (ItemOperate.DELETE.name().equalsIgnoreCase(operate)) {
+		return itemService.delete(sellerId, id);
+//		} else {
+//			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
+//		}
+		
+		
+	}
+
+	private WebOperateResult checkBeforeOperate(long id,long sellerId) {
+		//long sellerId = getCurrentUserId();
 		if (sellerId <= 0) {
 			log.warn("未登录");
 			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR_MERCHANT_TALENT);
 		}
-		if (ItemOperate.SHELVE.name().equalsIgnoreCase(operate)) {
-			return itemService.shelve(sellerId, id);
-		} else if (ItemOperate.UNSHELVE.name().equalsIgnoreCase(operate)) {
-			return itemService.unshelve(sellerId, id);
-		} else if (ItemOperate.DELETE.name().equalsIgnoreCase(operate)) {
-			return itemService.delete(sellerId, id);
-		} else {
+		List<Long> itemIds = new ArrayList<Long>();
+		itemIds.add(id);
+		ICResult<List<ItemDO>> itemQueryResult = itemQueryService.getItemByIds(itemIds);
+		if(itemQueryResult.getModule() != null && itemQueryResult.getModule().size() > 0 && itemQueryResult.getModule().get(0).getSellerId() != sellerId) {
+			
+			log.warn("不支持的操作");
 			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
 		}
+		return null;
+		//return sellerId;
 	}
 
 	@RequestMapping(value = "/batchOperate")

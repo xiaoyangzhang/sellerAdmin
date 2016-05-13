@@ -117,7 +117,7 @@
 					<div class="fm_md_four fm_md">
 						<table>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>财务开户银行：</span></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>开户银行：</span></td>
 								<td>
 									<input type="hidden" id="bank_" value="$!examineInfo.financeOpenBankId" />
 									<select id="bank" class="selectlist" >
@@ -128,15 +128,15 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>财务开户名称：</span></td>
-								<td><input class="inptxt" datatype="*" name="financeOpenName" value="$!examineInfo.financeOpenName" maxlength="60" placeholder="请输入对公结算账号账户名"></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>开户名称：</span></td>
+								<td><input class="inptxt" datatype="*" name="financeOpenName" value="$!examineInfo.financeOpenName" maxlength="60" placeholder="请输入开户名称"></td>
 							</tr>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>财务结算账号：</span></td>
-								<td><input class="inptxt finance"  name="accountNum" value="$!examineInfo.accountNum" maxlength="25" placeholder="请输入对公结算账户的账号"></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>结算账号：</span></td>
+								<td><input class="inptxt finance"  name="accountNum" value="$!examineInfo.accountNum" maxlength="25" placeholder="请输入结算账号"></td>
 							</tr>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>财务结算开户行：</span></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>结算开户行：</span></td>
 								<td>
 									<input type="hidden" id="province_" value="$!examineInfo.accountBankProvinceCode" />
 									<input type="hidden" id="city_" value="$!examineInfo.accountBankCityCode" />
@@ -147,7 +147,7 @@
 							</tr>
 						</table>
 					</div>
-					<div class="tit gray6 f16">合作合同</div>
+					#*<div class="tit gray6 f16">合作合同</div>
 					<div class="fm_md_five fm_md">
 						<div class="column groupimg"><label class="bred">*</label><label>合作合同：</label>
 							<label class="inblock">
@@ -221,7 +221,7 @@
 								</span>
 							</label>
 						</div>
-					</div>
+					</div>*#
 					<div class="nextpage"><a href="$!root_path/apply/merchant/toDetailPage" class="prev mr30">上一页</a><a class="allsub ml30">提交审核</a></div>
 				</div>
 			</form>

@@ -159,7 +159,18 @@
 								#if ($st.id == $serviceType.id) checked = "checked" #end
 							#end
 						#end 
-						name = "certificatess" id="shoppingsite2$!{velocityCount}"value="$!{serviceType.id}" datatype="*" errormsg="请选择您常去的购物网站！" ><label style="margin-left:5px;margin-right:20px;" class='mr15' for="shoppingsite2$!{velocityCount}">$!{serviceType.name}</label>
+						name = "certificatess" id="shoppingsite2$!{velocityCount}"value="$!{serviceType.id}" datatype="*" errormsg="请选择您常去的购物网站！" >
+						<label style="margin-left:5px;margin-right:20px;" class='mr15' for="shoppingsite2$!{velocityCount}">
+							#if($!{serviceType.id} == "1")
+							结伴邀约
+							#elseif($!{serviceType.id} == "3")
+							在线咨询
+							#elseif($!{serviceType.id} == "4")
+							行程规划
+							#elseif($!{serviceType.id} == "2")
+							出行服务
+							#end
+						</label>
 					#end
 					</td>
 				</tr>
