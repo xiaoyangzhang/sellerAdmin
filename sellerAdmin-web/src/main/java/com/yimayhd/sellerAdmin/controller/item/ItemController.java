@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
@@ -49,7 +52,8 @@ public class ItemController extends BaseController {
 	private ItemService		itemService;
 	@Autowired
 	private CategoryService	categoryService;
-
+	@Autowired
+	private ItemQueryService itemQueryService;
 	/**
 	 * 商品列表
 	 * 
@@ -162,6 +166,13 @@ public class ItemController extends BaseController {
 			log.warn("未登录");
 			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR_MERCHANT_TALENT);
 		}
+		List<Long> itemIds = new ArrayList<Long>();
+		itemIds.add(id);
+		ICResult<List<ItemDO>> itemQueryResult = itemQueryService.getItemByIds(itemIds);
+		if(itemQueryResult.getModule() == null || itemQueryResult.getModule().size() == 0) {
+				log.warn("不支持的操作");
+				return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
+		}
 		if (ItemOperate.SHELVE.name().equalsIgnoreCase(operate)) {
 			return itemService.shelve(sellerId, id);
 		} else if (ItemOperate.UNSHELVE.name().equalsIgnoreCase(operate)) {
@@ -171,6 +182,8 @@ public class ItemController extends BaseController {
 		} else {
 			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
 		}
+		
+		
 	}
 
 	@RequestMapping(value = "/batchOperate")

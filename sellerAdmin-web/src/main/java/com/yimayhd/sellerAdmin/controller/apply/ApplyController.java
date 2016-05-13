@@ -520,7 +520,7 @@ public class ApplyController extends BaseController {
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			model.addAttribute("服务器出现错误，请稍后重新登录");
+			//model.addAttribute("服务器出现错误，请稍后重新登录");
 			return chooseUrl;
 		}
 		return chooseUrl;

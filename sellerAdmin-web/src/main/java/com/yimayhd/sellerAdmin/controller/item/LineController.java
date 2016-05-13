@@ -1,6 +1,8 @@
 package com.yimayhd.sellerAdmin.controller.item;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,8 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Preconditions;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.LineType;
+import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.BaseLineController;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
@@ -43,7 +48,8 @@ public class LineController extends BaseLineController {
 	private LineService commLineService;
 	@Autowired
 	private CacheManager cacheManager ;
-
+	@Autowired
+	private ItemQueryService itemQueryService;
 	/**
 	 * 详细信息页
 	 * 
@@ -160,6 +166,13 @@ public class LineController extends BaseLineController {
 				return checkLine;
 			}
 			long itemId = gt.getBaseInfo().getItemId();
+			List<Long> itemIds = new ArrayList<Long>();
+			itemIds.add(itemId);
+			ICResult<List<ItemDO>> itemQueryResult = itemQueryService.getItemByIds(itemIds);
+			if(itemQueryResult.getModule() == null || itemQueryResult.getModule().size() == 0) {
+					log.warn("不支持的操作");
+					return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
+			}
 			if (itemId > 0) {
 				return commLineService.update(sellerId, gt);
 			} else {
