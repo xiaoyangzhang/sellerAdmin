@@ -166,14 +166,15 @@ public class LineController extends BaseLineController {
 				return checkLine;
 			}
 			long itemId = gt.getBaseInfo().getItemId();
-			List<Long> itemIds = new ArrayList<Long>();
-			itemIds.add(itemId);
-			ICResult<List<ItemDO>> itemQueryResult = itemQueryService.getItemByIds(itemIds);
-			if(itemQueryResult.getModule() == null || itemQueryResult.getModule().size() == 0) {
+			if (itemId > 0) {
+				List<Long> itemIds = new ArrayList<Long>();
+				itemIds.add(itemId);
+				ICResult<List<ItemDO>> itemQueryResult = itemQueryService.getItemByIds(itemIds);
+				if(itemQueryResult.getModule() != null && itemQueryResult.getModule().size() > 0 && itemQueryResult.getModule().get(0).getSellerId() != sellerId) {
+					
 					log.warn("不支持的操作");
 					return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
-			}
-			if (itemId > 0) {
+				}
 				return commLineService.update(sellerId, gt);
 			} else {
 				String key = Constant.APP+"_repeat_"+sessionManager.getUserId()+uuid;
