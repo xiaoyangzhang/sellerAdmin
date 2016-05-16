@@ -1,7 +1,6 @@
 package com.yimayhd.sellerAdmin.controller.hotelManage;
 
 import com.yimayhd.sellerAdmin.base.BaseController;
-import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +22,7 @@ public class HotelManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list")
-	public String queryHotelManageList(Model model,HotelMessageVO HotelMessageVO) throws Exception {
+	public String queryHotelManageList(Model model) throws Exception {
 		System.out.println("ddddd");
 		return "/system/comm/hotelManage/choicehotel";
 	}

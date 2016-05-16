@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.service.hotelManage;
 
+import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
@@ -12,7 +13,7 @@ public interface HotelManageService {
      * 查询酒店列表
      * @return
      */
-    public WebResult<PageVO<HotelMessageVO>> queryHotelMessageVOListByData( HotelMessageVO hotelMessageVO);
+    public WebResult<PageVO<HotelDO>> queryHotelMessageVOListByData(HotelMessageVO hotelMessageVO);
 
     /**
      * 酒店商品信息查询接口
