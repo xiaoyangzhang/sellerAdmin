@@ -1,9 +1,10 @@
 package com.yimayhd.sellerAdmin.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,7 @@ import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.constant.Constant;
 
-public class TalentInfoVO extends TalentInfoDO {
+public class TalentInfoVO implements Serializable {
 
 	/**
 	 * 
@@ -25,12 +26,12 @@ public class TalentInfoVO extends TalentInfoDO {
 	private static final long serialVersionUID = 6724357327778286510L;
 	
 	protected Logger log = LoggerFactory.getLogger(getClass());
-	private String pictureTextDOs;
+	private String pictureTextDOs;//图文详情
 	public String getPictureTextDOs() {
 		return pictureTextDOs;
 	}
 
-	private String certificatess;
+	private String certificatess;//服务类型
 	public String getCertificatess() {
 		return certificatess;
 	}
@@ -46,9 +47,45 @@ public class TalentInfoVO extends TalentInfoDO {
 	private String filepath;//头像图片名称
 	private String peopleName;//真实姓名
 	private String tel;
-	private String describe;
-	private String imgpath;
+
+	private String describe;//服务描述
+	private String imgpath;//店铺头图
 	private String province;
+	private String city;//cityCode
+	private int gender;
+	private Date birthday;
+	private String nickName; // 昵称
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getCity() {
+		return city;
+	}
+	
+	public void setCity(String city) {
+		this.city = city;
+	}
+	
+	public int getGender() {
+		return gender;
+	}
+	
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
 	
 	public String getProvince() {
 		return province;
@@ -131,7 +168,12 @@ public class TalentInfoVO extends TalentInfoDO {
 			throw new BaseException("参数错误");
 		}
 		TalentInfoDO talentInfoDO=new TalentInfoDO();
-		BeanUtils.copyProperties(talentInfoDO, vo);
+		//BeanUtils.copyProperties(talentInfoDO, vo);
+		talentInfoDO.setBirthday(vo.getBirthday());
+		talentInfoDO.setGender(vo.getGender());
+		talentInfoDO.setNickName(vo.getNickName());
+		talentInfoDO.setProvince(vo.getProvince());
+		talentInfoDO.setCity(vo.getCity());
 		talentInfoDO.setCityCode(Integer.parseInt(vo.getCity()));
 		if (vo.getFilepath() != null) {
 			

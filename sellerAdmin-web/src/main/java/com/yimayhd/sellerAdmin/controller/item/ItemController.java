@@ -247,15 +247,105 @@ public class ItemController extends BaseController {
 			log.warn("itemIds is null");
 			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
 		}
-		if (ItemOperate.SHELVE.name().equalsIgnoreCase(operate)) {
-			return itemService.batchShelve(sellerId, Arrays.asList(itemIds));
-		} else if (ItemOperate.UNSHELVE.name().equalsIgnoreCase(operate)) {
-			return itemService.batchUnshelve(sellerId, Arrays.asList(itemIds));
-		} else if (ItemOperate.DELETE.name().equalsIgnoreCase(operate)) {
-			return itemService.batchDelete(sellerId, Arrays.asList(itemIds));
-		} else {
-			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
+
+		List<Long> itemIdList = checkBeforeBatchOperate(itemIds, sellerId);
+		if (itemIdList.size() == 0) {
+			log.warn("size of itemIdList is 0");
+			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
 		}
+//		if (result != null) {
+//			return result;
+//		}
+		//if (ItemOperate.SHELVE.name().equalsIgnoreCase(operate)) {
+		return itemService.batchShelve(sellerId, itemIdList);
+//		} else if (ItemOperate.UNSHELVE.name().equalsIgnoreCase(operate)) {
+//			return itemService.batchUnshelve(sellerId, Arrays.asList(itemIds));
+//		} else if (ItemOperate.DELETE.name().equalsIgnoreCase(operate)) {
+//			return itemService.batchDelete(sellerId, Arrays.asList(itemIds));
+//		} else {
+//			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
+//		}
+	}
+
+	private List<Long> checkBeforeBatchOperate(Long[] itemIds, long sellerId) {
+//		if (sellerId <= 0) {
+//			log.warn("未登录");
+//			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR_MERCHANT_TALENT);
+//		}
+//		if (ArrayUtils.isEmpty(itemIds)) {
+//			log.warn("itemIds is null");
+//			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
+//		}
+		ICResult<List<ItemDO>> itemsResult = itemQueryService.getItemByIds(Arrays.asList(itemIds));
+		List<Long> itemIdList = new ArrayList<Long>();
+		if (itemsResult.getModule() != null && itemsResult.getModule().size() > 0) {
+			for (ItemDO itemDO : itemsResult.getModule()) {
+				if (itemDO.getSellerId() == sellerId) {
+//					log.error("当前用户不能操作其他用户的商品");
+//					return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
+					itemIdList.add(itemDO.getId());
+				}
+			}
+		}
+		return itemIdList;
+	}
+	@RequestMapping(value = "/batchunshelve")
+	public @ResponseBody WebOperateResult batchUnshelve(@RequestParam("itemIds[]") Long[] itemIds) {
+		long sellerId = getCurrentUserId();
+		if (sellerId <= 0) {
+			log.warn("未登录");
+			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR_MERCHANT_TALENT);
+		}
+		if (ArrayUtils.isEmpty(itemIds)) {
+			log.warn("itemIds is null");
+			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
+		}
+		List<Long> itemIdList = checkBeforeBatchOperate(itemIds, sellerId);
+		if (itemIdList.size() == 0) {
+			log.warn("size of itemIdList is 0");
+			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
+		}
+//		if (result != null) {
+//			return result;
+//		}
+//		if (ItemOperate.SHELVE.name().equalsIgnoreCase(operate)) {
+//			return itemService.batchShelve(sellerId, Arrays.asList(itemIds));
+//		} else if (ItemOperate.UNSHELVE.name().equalsIgnoreCase(operate)) {
+		return itemService.batchUnshelve(sellerId, itemIdList);
+//		} else if (ItemOperate.DELETE.name().equalsIgnoreCase(operate)) {
+//			return itemService.batchDelete(sellerId, Arrays.asList(itemIds));
+//		} else {
+//			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
+//		}
+	}
+	@RequestMapping(value = "/batchdelete")
+	public @ResponseBody WebOperateResult batchDelete(@RequestParam("itemIds[]") Long[] itemIds) {
+		long sellerId = getCurrentUserId();
+		if (sellerId <= 0) {
+			log.warn("未登录");
+			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR_MERCHANT_TALENT);
+		}
+		if (ArrayUtils.isEmpty(itemIds)) {
+			log.warn("itemIds is null");
+			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
+		}
+		List<Long> itemIdList = checkBeforeBatchOperate(itemIds, sellerId);
+		if (itemIdList.size() == 0) {
+			log.warn("size of itemIdList is 0");
+			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
+		}
+//		if (result != null) {
+//			return result;
+//		}
+//		if (ItemOperate.SHELVE.name().equalsIgnoreCase(operate)) {
+//			return itemService.batchShelve(sellerId, Arrays.asList(itemIds));
+//		} else if (ItemOperate.UNSHELVE.name().equalsIgnoreCase(operate)) {
+//			return itemService.batchUnshelve(sellerId, Arrays.asList(itemIds));
+//		} else if (ItemOperate.DELETE.name().equalsIgnoreCase(operate)) {
+		return itemService.batchDelete(sellerId, itemIdList);
+//		} else {
+//			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
+//		}
 	}
 
 	@RequestMapping(value = "/{id}/type/{type}/edit")

@@ -29,7 +29,7 @@
 				<span class="f14 gray6">如果有任何疑问，请联系我们：4000-696-888</span><br>
 				<span class="f14 gray6">失败原因：</span>
 				#foreach( $info in $checkResultInfo)  
-				<span class="bcs">$velocityCount、$!info 。</span>
+				<span class="bcs">$!info</span>
 		　　　	 #end
 			</div>
 		</div>

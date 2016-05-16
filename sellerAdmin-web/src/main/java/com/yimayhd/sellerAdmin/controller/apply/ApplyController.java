@@ -360,12 +360,10 @@ public class ApplyController extends BaseController {
 //			}
 //			return bizResult;
 		
-		WebResult<String> result=new WebResult<String>();
+			WebResult<String> result=new WebResult<String>();
 			ExamineInfoDTO examineInfoDTO = talentBiz.getExamineInfo();
-			MemResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_ONE.getPageNO());
+			WebResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_ONE.getPageNO());
 			if (resultSupport == null) {
-				//bizResult.buildFailResult(-1, "保存失败", false);
-//				bizResult.init(false, -1, "保存失败");
 				result.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
 				return result;
 			}
@@ -376,17 +374,18 @@ public class ApplyController extends BaseController {
 					result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/toEditUserdatafill_pageTwo");
 					
 				}
-			}else {
-				//FIXME 以下代码应该放到repo类中
-				int code = resultSupport.getErrorCode() ;
-				if(MemberReturnCode.DB_MERCHANTNAME_FAILED.getCode() == code ) {
-					result.setWebReturnCode( WebReturnCode.TALENT_MERCHANT_NAME_EXIST );
-				}else if( MemberReturnCode.DB_EXAMINE_FAILED.getCode() == code ){
-					result.setWebReturnCode(WebReturnCode.APPROVE_PASSED_DISABLE_MODIFY);
-				}else{
-					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
-				}
 			}
+//				else {
+//				//FIXME 以下代码应该放到repo类中
+//				int code = resultSupport.getErrorCode() ;
+//				if(MemberReturnCode.DB_MERCHANTNAME_FAILED.getCode() == code ) {
+//					result.setWebReturnCode( WebReturnCode.TALENT_MERCHANT_NAME_EXIST );
+//				}else if( MemberReturnCode.DB_EXAMINE_FAILED.getCode() == code ){
+//					result.setWebReturnCode(WebReturnCode.APPROVE_PASSED_DISABLE_MODIFY);
+//				}else{
+//					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+//				}
+//			}
 			return result;
 		
 	}
@@ -404,7 +403,7 @@ public class ApplyController extends BaseController {
 		//	checkVisitPage();
 			//WebResult<String> result=new WebResult<String>();
 			BizResult<String> bizResult = new BizResult<>();
-			MemResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_TWO.getPageNO());
+			WebResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_TWO.getPageNO());
 			MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
 			if (resultSupport == null && updateCheckStatusResult == null) {
 				//bizResult.buildFailResult(-1, "保存失败", false);
@@ -422,7 +421,7 @@ public class ApplyController extends BaseController {
 //						resultSupport.getValue());
 				
 				bizResult.setSuccess(false);
-				bizResult.setMsg(resultSupport.getErrorMsg());
+				bizResult.setMsg(resultSupport.getResultMsg());
 				bizResult.setCode(resultSupport.getErrorCode());
 				
 			} else if (!updateCheckStatusResult.isSuccess()) {
