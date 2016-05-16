@@ -32,7 +32,7 @@
 			<div class="header-r fr clearfix">
 				<div class="tel">
 					<ul>
-						<li class="fl" id="loginBox"><img src="$avatar"><span>Hi：</span><span style="display:inline-block;line-height: 90px;width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-break:keep-all;">$username</span> <span>(  ${user.id}  )</span></li>
+						<li class="fl" id="loginBox"><img src="$avatar"><span>Hi：</span><span class="uuname">$username</span> <span>(  ${user.id}  )</span></li>
 						<li class="fl staticW"><a class="ext" href="$!root_path/user/logout">退出</a></li>
 	
 					</ul>
