@@ -19,6 +19,10 @@ public class HotelMessageVO extends BaseQuery {
 	private Integer townId;//区id
 
 
+	private String title; // '标题',
+	private String code; // '商品代码',
+	private Integer payType  ; // COMMENT '可支持支付方式',
+
 	public Long getHotelId() {
 		return hotelId;
 	}
@@ -81,5 +85,29 @@ public class HotelMessageVO extends BaseQuery {
 
 	public void setTownId(Integer townId) {
 		this.townId = townId;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public Integer getPayType() {
+		return payType;
+	}
+
+	public void setPayType(Integer payType) {
+		this.payType = payType;
 	}
 }
