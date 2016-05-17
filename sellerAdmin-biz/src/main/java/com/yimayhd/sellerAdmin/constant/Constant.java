@@ -54,5 +54,7 @@ public class Constant {
 	public static final String ALL_PLACE_CODE = "-1";
 	
 	public static final String SITE_DOMAIN = "jiuxiulvxing.com";
+	
+	public static final String JIUXIU_NICKNAME_HEAD = "JX";
 
 }
