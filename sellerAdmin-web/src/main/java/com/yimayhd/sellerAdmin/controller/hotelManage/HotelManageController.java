@@ -63,6 +63,21 @@ public class HotelManageController extends BaseController {
 		}
 		return "";
 	}
+
+	/**
+	 * 查询酒店商品信息详情
+	 * @param model
+	 * @param hotelMessageVO
+     * @return
+     */
+	public String queryHotelMessageVOyData(Model model,HotelMessageVO hotelMessageVO){
+		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
+			throw new BaseException("酒店资源信息错误,无法编辑商品");
+		}
+		return "";
+
+	}
+
 	/**
 	 * 添加酒店商品信息验证
 	 * @param hotelMessageVO

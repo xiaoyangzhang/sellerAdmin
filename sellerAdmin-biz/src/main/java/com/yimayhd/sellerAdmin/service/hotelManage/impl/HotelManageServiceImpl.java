@@ -109,6 +109,8 @@ public class HotelManageServiceImpl implements HotelManageService {
 
 	}
 
+
+
 	/**
 	 * 更新酒店商品信息
 	 * @param hotelMessageVO
