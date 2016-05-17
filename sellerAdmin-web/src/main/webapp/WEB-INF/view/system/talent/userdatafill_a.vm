@@ -32,49 +32,22 @@
 					#if ($!checkResultInfo && $!checkResultInfo.size()>0 )
 						<div class="error_box">
 							<div>审核不通过原因</div>
-							<ol>#foreach( $info in $checkResultInfo)<li>$!info</li>#end</ol>
+							#foreach( $info in $checkResultInfo)<span style="color:white;">$!info</span><br/>#end
 						</div>
 					#end
 					</div>
 					<div class="fm_md_one fm_md">
 						<div class="column"><label class="bred">*</label><label>商户名称：</label><input class="inptxt" name="sellerName" datatype="*" value="$!examineInfo.sellerName" maxlength="40" placeholder="公司主体名称、营业执照上名称"></div>
-						<div class="column"><label class="bred" class="red">*</label><label>法人名称：</label><input class="inptxt" datatype="*" name="legralName" value="$!examineInfo.legralName" maxlength="10" placeholder="营业执照上的法人名称"></div>
+						<div class="column" style="padding-left:160px;"><label class="bred" class="red">*</label><label>法定代表人名称：</label><input class="inptxt" datatype="*" name="legralName" value="$!examineInfo.legralName" maxlength="10" placeholder="营业执照上的法人名称"></div>
 						<div class="column"><label class="bred">*</label><label>营业地址：</label><input class="inptxt" datatype="*" maxlength="60" value="$!examineInfo.address" name="address" placeholder="营业执照上的营业地址"></div>
 						<div class="column"><label class="bred vt">*</label><label class="vt">经营范围：</label><textarea class="inptxt" datatype="*"  name="saleScope" maxlength="300" placeholder="营业执照上的经营范围">$!examineInfo.saleScope</textarea></div>
 					</div>
 					<div class="tit gray6 f16">上传资质</div>
 					<div class="fm_md_two fm_md">
 						<table>
+							
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><label>法人身份证正面：</label></td>
-								<td class="w380">
-									<span class="imgbox">
-										<div class="canclick card_a">
-											#if ($!examineInfo.legralCardUp)
-											<img src="$!tfs/$!examineInfo.legralCardUp">
-											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-											#end
-										</div><div class="plhd"></div><div class="del">删除图片</div>
-										<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile single" ></a>
-										<input type="hidden" name="legralCardUp" value="$!examineInfo.legralCardUp">
-									</span>
-								</td>
-								<td class="tbtxt w150"><label class="bred">*</label><label>法人身份证背面：</label></td>
-								<td>
-									<span class="imgbox">
-										<div class="canclick card_b">
-											#if ($!examineInfo.legralCardDown)
-											<img src="$!tfs/$!examineInfo.legralCardDown">
-											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-											#end
-										</div><div class="plhd"></div><div class="del">删除图片</div>
-										<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile single" ></a>
-										<input type="hidden" name="legralCardDown" value="$!examineInfo.legralCardDown">
-									</span>
-								</td>
-							</tr>
-							<tr>
-								<td class="tbtxt"><label class="bred">*</label><label>营业执照正面：</label></td>
+								<td class="tbtxt"><label class="bred">*</label><label>营业执照副本复印件正面：</label></td>
 								<td>
 									<span class="imgbox">
 										<div class="canclick">
@@ -87,9 +60,9 @@
 										<input type="hidden" name="businessLicense" value="$!examineInfo.businessLicense">
 									</span>
 								</td>
-								<td class="tbtxt"><label class="bred">*</label><label>组织机构代码证正面：</label></td>
+								<td class="tbtxt"><label>组织机构代码证复印件正面：</label></td>
 								<td>
-									<span class="imgbox">
+									<span class="imgbox allownull">
 										<div class="canclick">
 											#if ($!examineInfo.orgCard)
 											<img src="$!tfs/$!examineInfo.orgCard">
@@ -99,12 +72,13 @@
 										<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile single" ></a>
 										<input type="hidden" name="orgCard" value="$!examineInfo.orgCard">
 									</span>
+									<div><label class="bred">*</label><label class="gray9">非三证合一商户必须上传</label></div>
 								</td>
 							</tr>
 							<tr>
-								<td class="tbtxt"><label class="bred">*</label><label>税务登记证正面：</label></td>
+								<td class="tbtxt"><label>税务登记证复印件正面（国税、地税均可）：</label></td>
 								<td>
-									<span class="imgbox">
+									<span class="imgbox allownull">
 										<div class="canclick">
 											#if ($!examineInfo.affairsCard)
 											<img src="$!tfs/$!examineInfo.affairsCard">
@@ -114,8 +88,9 @@
 										<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile single" ></a>
 										<input type="hidden" name="affairsCard" value="$!examineInfo.affairsCard">
 									</span>
+									<div><label class="bred">*</label><label class="gray9">非三证合一商户必须上传</label></div>
 								</td>
-								<td class="tbtxt"><label class="bred">*</label><label>开户许可证正面：</label></td>
+								<td class="tbtxt"><label class="bred">*</label><label>开户许可证复印件正面：</label></td>
 								<td>
 									<span class="imgbox">
 										<div class="canclick">

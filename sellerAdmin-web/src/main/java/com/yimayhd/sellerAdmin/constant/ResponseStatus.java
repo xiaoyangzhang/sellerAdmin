@@ -11,7 +11,8 @@ public enum ResponseStatus {
     FORBIDDEN(403, "没有权限！"),
     NOT_FOUND(404, "资源不存在！"),
     DATA_PARSE_ERROR(4001, "JSON解析错误！"),
-    INVALID_DATA(4002, "数据校验错误，请检查输入！");
+    INVALID_DATA(4002, "数据校验错误，请检查输入！"),
+    PARAM_ERROR(4003, "不支持该商户的操作");
 
     public Integer VALUE;
     public String MESSAGE;

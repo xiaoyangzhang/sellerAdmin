@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
+import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
@@ -17,7 +18,7 @@ import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseException;
-import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
@@ -137,21 +138,31 @@ public class TalentRepo {
 	 * @throws Exception
 	 */
 	@MethodLogger
-	public MemResult<Boolean> addExamineInfo(ExamineInfoVO vo)  {
+	public WebResult<Boolean> addExamineInfo(ExamineInfoVO vo)  {
 		if (vo == null) {
 			return null;
 		}
+		WebResult<Boolean> result = new WebResult<Boolean>();
 		MemResult<Boolean> ExamineInfoResult = null;
 		//WebResultSupport webResultSupport=new WebResultSupport();
 		try {
 
 			ExamineInfoResult = examineDealService.submitMerchantExamineInfo(vo.getExamineInfoDTO(vo, sessionManager.getUserId()));
 
-//			if(!ExamineInfoResult.isSuccess()) {
-//				webResultSupport.setWebReturnCode(WebReturnCode.TALENT_INFO_SAVE_FAILURE);
-//			}
-			
-			return ExamineInfoResult;
+			if(!ExamineInfoResult.isSuccess()) {
+				
+				int code = ExamineInfoResult.getErrorCode() ;
+				if(MemberReturnCode.DB_MERCHANTNAME_FAILED.getCode() == code ) {
+					result.setWebReturnCode( WebReturnCode.TALENT_MERCHANT_NAME_EXIST );
+				}else if( MemberReturnCode.DB_EXAMINE_FAILED.getCode() == code ){
+					result.setWebReturnCode(WebReturnCode.APPROVE_PASSED_DISABLE_MODIFY);
+				}else{
+					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+				}
+			}
+			//else {
+			//}
+			return result;
 			
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
