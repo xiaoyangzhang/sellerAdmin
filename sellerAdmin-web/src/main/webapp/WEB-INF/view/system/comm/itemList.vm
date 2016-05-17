@@ -194,13 +194,9 @@
     });
 	$('.item-operate').click(function(){
 		var id = $(this).attr("item-id");
-		var params = {
-			operate:$(this).attr("operate-type")
-		};
-		operateUrl = "$!{utilWebconfig.getActionDefaultFontPath()}/item/"+id+"/operate";
-		operateParams = params;
+		operateUrl = "$!{utilWebconfig.getActionDefaultFontPath()}/item/"+id+"/"+$(this).attr("operate-type").toLowerCase();
 		layer.confirm('是否确认'+ $(this).text()+'？', {icon: 3, title:'提示'}, function(index){
-    		$.post(operateUrl,operateParams,function(result) {
+    		$.post(operateUrl,function(result) {
     			if(result.success) {
     				window.location.reload();
     			} else {
@@ -213,4 +209,5 @@
 			layer.close(index);
         });
     });
+
 </script>

@@ -188,7 +188,7 @@ public class BasicInfoController extends BaseController {
 			if (addTalentInfoResult == null) {
 				//bizResult.buildFailResult(-1, "保存失败", false);
 				bizResult.init(false, -1, "保存失败");
-				System.out.println(bizResult.getMsg()+"----------------"+bizResult.getCode()+"============="+bizResult.isSuccess());
+			//	System.out.println(bizResult.getMsg()+"----------------"+bizResult.getCode()+"============="+bizResult.isSuccess());
 				return bizResult;
 			}
 			if (addTalentInfoResult.isSuccess()) {

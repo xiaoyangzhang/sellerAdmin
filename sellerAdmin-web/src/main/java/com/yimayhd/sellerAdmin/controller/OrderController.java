@@ -69,6 +69,11 @@ public class OrderController extends BaseController {
 	@RequestMapping(value = "/sellerSendGoods", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo sellerSendGoods(long orderId, HttpServletRequest request) throws Exception {
+		long sellerId = getCurrentUserId();
+		OrderDetails order= orderService.getOrderById(orderId);
+		if (order.getSellerId() != sellerId) {
+			return new ResponseVo(ResponseStatus.PARAM_ERROR);
+		}
 		boolean flag = orderService.sellerSendGoods(orderId);
 		if(flag){
 			return new ResponseVo();
