@@ -121,7 +121,7 @@
 							</tr>
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>开户名称：</span></td>
-								<td><input class="inptxt" datatype="*" readonly="readonly"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" ></td>
+								<td><input class="inptxt" datatype="*" readOnly="readOnly"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" ></td>
 							</tr>
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>结算账号：</span></td>
