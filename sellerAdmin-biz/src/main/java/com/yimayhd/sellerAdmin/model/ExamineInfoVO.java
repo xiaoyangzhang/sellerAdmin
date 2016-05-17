@@ -420,6 +420,10 @@ public class ExamineInfoVO  implements Serializable  {
 			log.error("get examineSubmitDTO params error :vo="+vo+"userId="+userId);
 			throw new BaseException("参数错误");
 		}
+//		if (!vo.getPrincipleName().equals(vo.getFinanceOpenName())) {
+//			log.error("达人姓名与开户名称不相同");
+//			throw new BaseException("商户姓名与开户名称需相同");
+//		}
 		ExamineInfoDTO dto=new ExamineInfoDTO();
 		//BeanUtils.copyProperties(dto, vo);
 		dto.setAccountBankName(vo.getAccountBankName());

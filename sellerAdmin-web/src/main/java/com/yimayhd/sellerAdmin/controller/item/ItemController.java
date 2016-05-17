@@ -235,9 +235,8 @@ public class ItemController extends BaseController {
 		//return sellerId;
 	}
 
-	@RequestMapping(value = "/batchOperate")
-	public @ResponseBody WebOperateResult batchPerate(@RequestParam("itemIds[]") Long[] itemIds,
-			@RequestParam("operate") String operate) {
+	@RequestMapping(value = "/batchshelve")
+	public @ResponseBody WebOperateResult batchPerate(@RequestParam("itemIds[]") Long[] itemIds) {
 		long sellerId = getCurrentUserId();
 		if (sellerId <= 0) {
 			log.warn("未登录");
