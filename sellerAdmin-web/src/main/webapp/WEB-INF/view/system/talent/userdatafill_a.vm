@@ -60,7 +60,7 @@
 										<input type="hidden" name="businessLicense" value="$!examineInfo.businessLicense">
 									</span>
 								</td>
-								<td class="tbtxt"><label class="bred">*</label><label>组织机构代码证复印件正面：</label></td>
+								<td class="tbtxt"><label>组织机构代码证复印件正面：</label></td>
 								<td>
 									<span class="imgbox allownull">
 										<div class="canclick">
@@ -76,7 +76,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="tbtxt"><label class="bred">*</label><label>税务登记证复印件正面：</label></td>
+								<td class="tbtxt"><label>税务登记证复印件正面（国税、地税均可）：</label></td>
 								<td>
 									<span class="imgbox allownull">
 										<div class="canclick">
