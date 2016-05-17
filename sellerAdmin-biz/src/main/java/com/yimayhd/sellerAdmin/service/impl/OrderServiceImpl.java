@@ -2,6 +2,7 @@ package com.yimayhd.sellerAdmin.service.impl;
 
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.converter.OrderConverter;
+import com.yimayhd.sellerAdmin.model.query.AssessmentListQuery;
 import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
@@ -26,6 +27,7 @@ import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
@@ -228,5 +230,37 @@ public class OrderServiceImpl implements OrderService {
 			log.error("tcTradeServiceRef.closeOrder(id);" + e);
 			return false;
 		}
+	}
+
+	@Override
+	public PageVO<MainOrder> getAssessmentList(
+			AssessmentListQuery assessmentListQuery) {
+		
+				return null;
+//		if(StringUtils.isNotEmpty(assessmentListQuery.getNickName())){
+//		     BaseResult<List<UserDO>>  users = userServiceRef.getUserByNickname(assessmentListQuery.getNickName());
+//		}
+//		
+//		
+//
+//		OrderQueryDTO orderQueryDTO = OrderConverter.orderListQueryToOrderQueryDTO(orderListQuery,userId);
+//		if (orderQueryDTO!=null){
+//			BatchBizQueryResult batchBizQueryResult = tcBizQueryServiceRef.queryOrderForSeller(orderQueryDTO);
+//			List<TcMainOrder> tcMainOrderList = batchBizQueryResult.getBizOrderDOList();
+//			if (!CollectionUtils.isEmpty(tcMainOrderList)){
+//				for (TcMainOrder tcMainOrder : tcMainOrderList) {
+//					MainOrder mo = OrderConverter.orderVOConverter(tcMainOrder);
+//					mo = OrderConverter.mainOrderStatusConverter(mo,tcMainOrder);
+//					UserDO user = userServiceRef.getUserDOById(tcMainOrder.getBizOrder().getBuyerId());
+//					mo.setUser(user);
+//					mainOrderList.add(mo);
+//				}
+//			}
+//			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNo(),orderListQuery.getPageSize(),(int)batchBizQueryResult.getTotalCount(),mainOrderList);
+//			return orderPageVO;
+//		}else{
+//			PageVO<MainOrder> orderPageVO = new PageVO<MainOrder>(orderListQuery.getPageNo(),orderListQuery.getPageSize(), 0,mainOrderList);
+//			return orderPageVO;
+//		}
 	}
 }

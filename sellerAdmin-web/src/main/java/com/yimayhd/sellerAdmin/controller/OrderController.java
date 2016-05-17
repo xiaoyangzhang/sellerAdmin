@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import com.yimayhd.sellerAdmin.constant.Constant;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,11 @@ import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.constant.ResponseStatus;
+import com.yimayhd.sellerAdmin.model.query.AssessmentListQuery;
 import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
 import com.yimayhd.sellerAdmin.service.OrderService;
-import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 
 /**
  * 订单管理
@@ -135,6 +136,24 @@ public class OrderController extends BaseController {
 			model.addAttribute("orderListQuery", orderListQuery);
 		}
 		return "/system/order/routeOrderList";
+	}
+	
+	/**
+	 * 评价列表
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/assessmentList", method = RequestMethod.GET)
+	public String addessmentList(Model model, AssessmentListQuery assessmentListQuery) throws Exception {
+		long userId = getCurrentUserId();
+//		if (userId > 0){
+//			assessmentListQuery.setSellerId(userId);
+//			assessmentListQuery.setDomain(Constant.DOMAIN_JIUXIU);
+//			PageVO<MainOrder> pageVo = orderService.getAssessmentList(assessmentListQuery);
+//			model.addAttribute("pageVo", pageVo);
+//			model.addAttribute("assessmentList", pageVo.getResultList());
+//			model.addAttribute("assessmentListQuery", assessmentListQuery);
+//		}
+		return "/system/order/assessmentList";
 	}
 
 

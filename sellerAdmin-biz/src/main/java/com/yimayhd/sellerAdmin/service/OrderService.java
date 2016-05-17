@@ -1,6 +1,7 @@
 package com.yimayhd.sellerAdmin.service;
 
 import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.model.query.AssessmentListQuery;
 import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
@@ -36,5 +37,11 @@ public interface OrderService {
 	boolean refundOrder(long id);
 
 	boolean closeOrder(long id);
+	/**
+	 * 获取评论列表
+	 * @param assessmentListQuery
+	 * @return
+	 */
+	PageVO<MainOrder> getAssessmentList(AssessmentListQuery assessmentListQuery);
 
 }
