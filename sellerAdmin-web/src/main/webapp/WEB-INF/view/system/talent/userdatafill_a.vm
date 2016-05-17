@@ -32,7 +32,7 @@
 					#if ($!checkResultInfo && $!checkResultInfo.size()>0 )
 						<div class="error_box">
 							<div>审核不通过原因</div>
-							#foreach( $info in $checkResultInfo)<span>$!info</span>#end
+							#foreach( $info in $checkResultInfo)<span class="bcs">$!info<br/></span>#end
 						</div>
 					#end
 					</div>
