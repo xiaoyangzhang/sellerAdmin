@@ -82,7 +82,6 @@ public class BasicInfoController extends BaseController {
 				model.addAttribute("id", meResult.getValue().getId());
 				model.addAttribute("name",meResult.getValue().getName());
 				model.addAttribute("address",meResult.getValue().getAddress());
-//				model.addAttribute("imgSrc",Constant.TFS_URL);
 				if(null != meResult.getValue().getBackgroudImage()){
 					model.addAttribute("ttImage", meResult.getValue().getBackgroudImage());
 				}
@@ -158,14 +157,9 @@ public class BasicInfoController extends BaseController {
 				dto = talentInfoDTO;
 				model.addAttribute("talentInfo", dto);
 			}
-//			UserDO user = userService.getUserDOById(sessionManager.getUserId());
-//			model.addAttribute("headPic", user.getAvatar());
-//			model.addAttribute("user", user);
-//			model.addAttribute("username", user.getNickname());
 			return "system/talent/eredar";
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
-			//model.addAttribute("服务器出错，请稍后再试");
 			return "system/talent/eredar";
 		}
 		
@@ -181,30 +175,18 @@ public class BasicInfoController extends BaseController {
 	@RequestMapping(value="/talent/saveTalentInfo",method=RequestMethod.POST)
 	@ResponseBody
 	public BizResult<String> addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
-			//WebResult<String> result = new WebResult<>();
 			BizResult<String> bizResult = new BizResult<>();
-			//WebResultSupport resultSupport = talentBiz.addTalentInfo(vo);
 			MemResult<Boolean> addTalentInfoResult = talentBiz.addTalentInfo(vo);
 			if (addTalentInfoResult == null) {
-				//bizResult.buildFailResult(-1, "保存失败", false);
 				bizResult.init(false, -1, "保存失败");
-			//	System.out.println(bizResult.getMsg()+"----------------"+bizResult.getCode()+"============="+bizResult.isSuccess());
 				return bizResult;
 			}
 			if (addTalentInfoResult.isSuccess()) {
-				//addTalentInfoResult.s
-				//result.setValue("talent/toAddTalentInfo");
 				bizResult.setValue("/toAddTalentInfo");
 			}
-			//			if (resultSupport.isSuccess()) {
-			//			}
 			else {
-				//				addTalentInfoResult.
-				//				result.setWebReturnCode(resultSupport.getWebReturnCode());
-				//				result.
 				bizResult.init(false, addTalentInfoResult.getErrorCode(),
 						addTalentInfoResult.getErrorMsg());
-				//bizResult.buildFailResult(addTalentInfoResult.getErrorCode(), addTalentInfoResult.getErrorMsg(), addTalentInfoResult.)
 			}
 			return bizResult;
 		
