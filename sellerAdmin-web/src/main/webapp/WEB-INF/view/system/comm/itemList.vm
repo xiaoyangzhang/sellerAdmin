@@ -72,13 +72,13 @@
                 </div>
                 <div class="inputGroup whole">
         			 <div class="btn-group">
-                       <button type="button" class="btn btn-primary batch-operate" operate-type="SHELVE">批量上架</button>
+                       <button type="button" class="btn btn-primary batch-operate" operate-type="BATCHSHELVE">批量上架</button>
                      </div>
         			 <div class="btn-group">
-                       <button type="button" class="btn btn-primary batch-operate" operate-type="UNSHELVE">批量下架</button>
+                       <button type="button" class="btn btn-primary batch-operate" operate-type="BATCHUNSHELVE">批量下架</button>
                      </div>
         			 <div class="btn-group">
-                       <button type="button" class="btn btn-primary batch-operate" operate-type="DELETE">批量删除</button>
+                       <button type="button" class="btn btn-primary batch-operate" operate-type="BATCHDELETE">批量删除</button>
                      </div>
         		 </div>
         		 <div class="tableGroup whole">
@@ -168,10 +168,10 @@
     $('.batch-operate').click(function(){
 		if(checkedIdList.length > 0) {
         	var params = {
-        		itemIds:checkedIdList,
-        		operate:$(this).attr("operate-type")
+        		itemIds:checkedIdList
+        		
         	};
-    		operateUrl = "$!{utilWebconfig.getActionDefaultFontPath()}/item/batchOperate";
+    		operateUrl = "$!{utilWebconfig.getActionDefaultFontPath()}/item/"+$(this).attr("operate-type").toLowerCase();
     		operateParams = params;
     		layer.confirm('是否确认'+ $(this).text()+'？', {icon: 3, title:'提示'}, function(index){
             	$.post(operateUrl,operateParams,function(result) {
