@@ -47,7 +47,7 @@
 						<table>
 							
 							<tr>
-								<td class="tbtxt"><label class="bred">*</label><label>营业执照正面：</label></td>
+								<td class="tbtxt"><label class="bred">*</label><label>营业执照副本复印件正面：</label></td>
 								<td>
 									<span class="imgbox">
 										<div class="canclick">
@@ -60,9 +60,9 @@
 										<input type="hidden" name="businessLicense" value="$!examineInfo.businessLicense">
 									</span>
 								</td>
-								<td class="tbtxt"><label class="bred">*</label><label>组织机构代码证正面：</label></td>
+								<td class="tbtxt"><label class="bred">*</label><label>组织机构代码证复印件正面：</label></td>
 								<td>
-									<span class="imgbox">
+									<span class="imgbox allownull">
 										<div class="canclick">
 											#if ($!examineInfo.orgCard)
 											<img src="$!tfs/$!examineInfo.orgCard">
@@ -72,12 +72,13 @@
 										<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile single" ></a>
 										<input type="hidden" name="orgCard" value="$!examineInfo.orgCard">
 									</span>
+									<div><label class="bred">*</label><label class="gray9">非三证合一商户必须上传</label></div>
 								</td>
 							</tr>
 							<tr>
-								<td class="tbtxt"><label class="bred">*</label><label>税务登记证正面：</label></td>
+								<td class="tbtxt"><label class="bred">*</label><label>税务登记证复印件正面：</label></td>
 								<td>
-									<span class="imgbox">
+									<span class="imgbox allownull">
 										<div class="canclick">
 											#if ($!examineInfo.affairsCard)
 											<img src="$!tfs/$!examineInfo.affairsCard">
@@ -87,8 +88,9 @@
 										<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile single" ></a>
 										<input type="hidden" name="affairsCard" value="$!examineInfo.affairsCard">
 									</span>
+									<div><label class="bred">*</label><label class="gray9">非三证合一商户必须上传</label></div>
 								</td>
-								<td class="tbtxt"><label class="bred">*</label><label>开户许可证正面：</label></td>
+								<td class="tbtxt"><label class="bred">*</label><label>开户许可证复印件正面：</label></td>
 								<td>
 									<span class="imgbox">
 										<div class="canclick">
