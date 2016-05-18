@@ -36,6 +36,7 @@ import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.query.ActivityListQuery;
 import com.yimayhd.sellerAdmin.model.query.CommodityListQuery;
 import com.yimayhd.sellerAdmin.model.query.LiveListQuery;
@@ -72,8 +73,6 @@ public class ResourceForSelectController extends BaseController {
 	private LineService			commLineService;
 	@Autowired
 	private ActivityService		activityService;
-	@Autowired
-	private ItemQueryService         itemQueryService;
 	/**
 	 * 选择出发地
 	 *
@@ -82,6 +81,7 @@ public class ResourceForSelectController extends BaseController {
 	 */
 	@RequestMapping(value = "/selectDeparts/{id}")
 	public String selectDeparts(@PathVariable(value="id")long id) {
+		put("item", getItemLineInfo(id));
 		WebResult<List<CityVO>> result = commLineService.getAllLineDeparts();
 		if (result.isSuccess()) {
 			Map<String, List<CityVO>> departMap = new TreeMap<String, List<CityVO>>();
@@ -114,11 +114,9 @@ public class ResourceForSelectController extends BaseController {
 	 */
 	@RequestMapping(value = "/selectDests/{id}")
 	public String selectDests(@PathVariable(value="id")long id) {
+		put("item", getItemLineInfo(id));
 		WebResult<List<CityVO>> result = commLineService.getAllLineDests();
-		List<Long> itemIds = new ArrayList<Long>();
-		itemIds.add(id);
-		ICResult<List<ItemDO>> itemList = itemQueryService.getItemByIds(itemIds);
-		put("item",itemList.getModule().get(0));
+		
 		if (result.isSuccess()) {
 			Map<String, List<CityVO>> destMap = new TreeMap<String, List<CityVO>>();
 			List<CityVO> allLineDests = result.getValue();
@@ -140,6 +138,14 @@ public class ResourceForSelectController extends BaseController {
 		} else {
 			throw new BaseException("选择出发地失败");
 		}
+	}
+
+	private Object getItemLineInfo(long id) {
+		WebResult<LineVO> itemInfoResult = commLineService.getByItemId(getCurrentUserId(), id);
+		if (itemInfoResult != null && itemInfoResult.isSuccess()) {
+			return itemInfoResult.getValue();
+		}
+		return null;
 	}
 
 	/**

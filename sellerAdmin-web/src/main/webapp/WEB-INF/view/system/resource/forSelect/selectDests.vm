@@ -18,7 +18,7 @@
         <div id="$!{entry.key}" class="choosecity">
         	<label>$!{entry.key}:</label>
         	#foreach($dest in $entry.value)  
-        	<label><input type="checkbox" class="city ck" dest-id="$!{dest.id}" dest-code="$!{dest.city.code}" dest-name="$!{dest.city.name}">$!{dest.city.name}</label>
+        	<label><input type="checkbox" class="city ck"  #foreach($ds in $item.baseInfo.dests) #if($ds.id == $dest.id) checked="checked" #end #end dest-id="$!{dest.id}" dest-code="$!{dest.city.code}" dest-name="$!{dest.city.name}">$!{dest.city.name}</label>
         	#end
         </div>
         #end
