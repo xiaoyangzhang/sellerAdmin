@@ -67,6 +67,9 @@ public class HotelManageDomainChecker {
      */
     public WebResult checkQueryHotelMessageVOInfo(){
         if(hotelMessageVO.getHotelId()==null){
+            return WebResult.failure(WebReturnCode.PARAM_ERROR, "酒店ID为空");
+        }
+        if(hotelMessageVO.getItemId()==null){
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "商品ID为空");
         }
        return  WebResult.success(null);

@@ -1,8 +1,10 @@
 package com.yimayhd.sellerAdmin.service.hotelManage.impl;
 
 import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
+import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -67,7 +69,8 @@ public class HotelManageServiceImpl implements HotelManageService {
 						chekResult.getErrorCode(), chekResult.getResultMsg());
 				return chekResult;
 			}
-			//itemQueryServiceRef.getItem(long var1, ItemOptionDTO var3)
+			// 参数?ItemOptionDTO,返回?result
+			ItemResult result= itemQueryServiceRef.getItem(hotelMessageVO.itemId, new ItemOptionDTO());
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -118,6 +121,10 @@ public class HotelManageServiceImpl implements HotelManageService {
      */
 	public  WebResult<Boolean> editHotelMessageVOByData(final HotelMessageVO hotelMessageVO){
 		return null;
+	}
+
+	public ItemQueryService getItemQueryServiceRef() {
+		return itemQueryServiceRef;
 	}
 
 	public void setItemQueryServiceRef(ItemQueryService itemQueryServiceRef) {
