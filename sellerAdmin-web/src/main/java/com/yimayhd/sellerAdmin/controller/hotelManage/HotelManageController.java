@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.util.HtmlUtils;
 
 /**
  * 酒店管理
@@ -93,6 +94,16 @@ public class HotelManageController extends BaseController {
 		//提前预定天数
 		return null;
 
+	}
+
+	public static void main(String[] args) {
+
+		String str = "hello world <br>";//数据库
+		System.out.println("error:"+str);
+		String s = HtmlUtils.htmlEscape("hello world <br>");
+		System.out.println("处理后:"+s);
+		String s2 = HtmlUtils.htmlUnescape(s);
+		System.out.println("不转义:"+s2);
 	}
 
 
