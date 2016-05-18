@@ -9,8 +9,8 @@
 	<div class="bd">
 		#foreach($pictureTextItem in $pictureText.pictureTextItems)
 			#if($pictureTextItem.type.equalsIgnoreCase('text'))
-		<p class="text">
-			<font>$!{pictureTextItem.value}</font>
+		<p class="text">#set($contentHTML = $!pictureTextItem.value.replaceAll("\n","<br/>"))
+			<font>$!contentHTML</font>
 		</p>
 			#elseif($pictureTextItem.type.equalsIgnoreCase('img'))
 		<p class="pic">

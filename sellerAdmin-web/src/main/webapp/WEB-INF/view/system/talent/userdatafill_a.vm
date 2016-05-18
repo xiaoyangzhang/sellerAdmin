@@ -42,7 +42,7 @@
 						<div class="column"><label class="bred">*</label><label>营业地址：</label><input class="inptxt" datatype="*" maxlength="60" value="$!examineInfo.address" name="address" placeholder="营业执照上的营业地址"></div>
 						<div class="column"><label class="bred vt">*</label><label class="vt">经营范围：</label><textarea class="inptxt" datatype="*"  name="saleScope" maxlength="300" placeholder="营业执照上的经营范围">$!examineInfo.saleScope</textarea></div>
 					</div>
-					<div class="tit gray6 f16">上传资质</div>
+					<div class="tit gray6 f16">上传资质（所有文件需加盖公章）</div>
 					<div class="fm_md_two fm_md">
 						<table>
 							
@@ -90,9 +90,9 @@
 									</span>
 									<div><label class="bred">*</label><label class="gray9">非三证合一商户必须上传</label></div>
 								</td>
-								<td class="tbtxt"><label class="bred">*</label><label>开户许可证复印件正面：</label></td>
+								<td class="tbtxt"><label>开户许可证复印件正面：</label></td>
 								<td>
-									<span class="imgbox">
+									<span class="imgbox allownull">
 										<div class="canclick">
 											#if ($!examineInfo.openCard)
 											<img src="$!tfs/$!examineInfo.openCard">

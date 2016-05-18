@@ -187,7 +187,8 @@
 							<div class="bd">
 								#foreach ($info in $talentInfo.pictureTextDTO.picTexts)
 									#if ($info.type == 1)
-										<p class="text"><font>$!info.value</font></p>
+									#set($contentHTML = $!info.value.replaceAll("\n","<br/>"))
+										<p class="text"><font>$!contentHTML</font></p>
 									#elseif ($info.type == 2)
 										<p class="pic">
 										<img src="$!tfs/$!info.value">
