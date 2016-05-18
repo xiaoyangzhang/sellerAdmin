@@ -41,6 +41,7 @@
 	</head>
 	<body>
 		<input type ="hidden" id ="uuid" name ="uuid" value ="$!UUID" />
+		<input type ="hidden" id ="itemId" name ="itemId" value ="$!$product.baseInfo.itemId" />
 		<div class="tab-container">	
             <ul class="nav nav-tabs">
                 <li class="active">
