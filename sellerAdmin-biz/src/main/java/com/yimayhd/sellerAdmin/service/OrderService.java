@@ -4,6 +4,7 @@ import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
+import com.yimayhd.tradecenter.client.model.param.order.UpdateBizOrderExtFeatureDTO;
 
 /**
  * 订单服务接口
@@ -36,5 +37,10 @@ public interface OrderService {
 	boolean refundOrder(long id);
 
 	boolean closeOrder(long id);
-
+	/**
+	 * 更新卖家备注
+	 * @param dto
+	 * @return
+	 */
+	boolean updateOrderInfo(long id,String remark);
 }

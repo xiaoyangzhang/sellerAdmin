@@ -1,8 +1,12 @@
 package com.yimayhd.sellerAdmin.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.yimayhd.sellerAdmin.constant.Constant;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +25,11 @@ import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
 import com.yimayhd.sellerAdmin.service.OrderService;
+import com.yimayhd.tradecenter.client.model.enums.BizOrderExtFeatureKey;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
+import com.yimayhd.tradecenter.client.model.param.order.UpdateBizOrderExtFeatureDTO;
+import com.yimayhd.tradecenter.client.model.result.ResultSupport;
+import com.yimayhd.tradecenter.client.service.trade.TcTradeService;
 
 /**
  * 订单管理
@@ -35,7 +43,6 @@ public class OrderController extends BaseController {
 	private static final Logger LOG = LoggerFactory.getLogger(OrderController.class);
 	@Autowired
 	private OrderService orderService;
-
 
 	/**
 	 * 退款
@@ -141,8 +148,22 @@ public class OrderController extends BaseController {
 		}
 		return "/system/order/routeOrderList";
 	}
-
-
+	/**
+	 * 更新卖家备注
+	 * @param orderId
+	 * @param sellerRemark
+	 * @return 
+	 */
+	@RequestMapping(value="/updateOrderDetail",method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo updateOrderDetail(long orderId,String sellerRemark) {
+		boolean updateResult = orderService.updateOrderInfo(orderId,sellerRemark);
+		if(updateResult) {
+			return new ResponseVo();
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
+		
+	}
 
 
 

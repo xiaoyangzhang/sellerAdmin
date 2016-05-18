@@ -73,7 +73,9 @@
     <br><br>
     <div>
         <div>买家备注：$!order.mainOrder.tcMainOrder.otherInfo</div>
-        <div>卖家备注：<textarea rows="3" cols="50">$!order.customerServiceNote</textarea></div>
+        <form  ><div>卖家备注：<textarea name="customerServiceNote" id="customerServiceNote"  rows="3" cols="50">$!order.customerServiceNote</textarea>
+        <button class="btn btn-primary save" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">保存</button></div>
+        </form>
     </div>
     <br><br>
     <!-- 买家信息 -->
@@ -354,7 +356,22 @@
                     },1050);
                 })
             });
-
+            //编辑卖家备注
+			 $(".save").click(function(){
+			 
+                $.post('$!utilWebconfig.getActionDefaultFontPath()' + '/order/updateOrderDetail/', {orderId: $(this).attr('orderId'),sellerRemark:$("#customerServiceNote").val()}, function (data) {
+                   	
+                    if(data.status == 200){
+                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
+                        msg.show();
+                    }else{
+                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
+                        msg.show();
+                    }
+                    
+                })
+                   return false;
+            });
 
         });
     </script>
