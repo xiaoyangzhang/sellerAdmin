@@ -98,7 +98,15 @@ public class UserDetailInfo implements Serializable {
     // 合同5
     private String cooperation5;
 	
-	
+    //手持身份证
+    private String cardInHand;
+    
+	public String getCardInHand() {
+		return cardInHand;
+	}
+	public void setCardInHand(String cardInHand) {
+		this.cardInHand = cardInHand;
+	}
 	public long getId() {
 		return id;
 	}
