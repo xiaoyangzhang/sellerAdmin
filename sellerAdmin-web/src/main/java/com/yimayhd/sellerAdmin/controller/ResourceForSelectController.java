@@ -14,13 +14,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.ic.client.model.domain.LineDO;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
+import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 import com.yimayhd.sellerAdmin.base.BaseController;
@@ -38,6 +43,7 @@ import com.yimayhd.sellerAdmin.service.ActivityService;
 import com.yimayhd.sellerAdmin.service.CommodityService;
 import com.yimayhd.sellerAdmin.service.TripService;
 import com.yimayhd.sellerAdmin.service.UserRPCService;
+import com.yimayhd.sellerAdmin.service.item.ItemService;
 import com.yimayhd.sellerAdmin.service.item.LineService;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
@@ -66,15 +72,16 @@ public class ResourceForSelectController extends BaseController {
 	private LineService			commLineService;
 	@Autowired
 	private ActivityService		activityService;
-
+	@Autowired
+	private ItemQueryService         itemQueryService;
 	/**
 	 * 选择出发地
 	 *
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/selectDeparts")
-	public String selectDeparts() {
+	@RequestMapping(value = "/selectDeparts/{id}")
+	public String selectDeparts(@PathVariable(value="id")long id) {
 		WebResult<List<CityVO>> result = commLineService.getAllLineDeparts();
 		if (result.isSuccess()) {
 			Map<String, List<CityVO>> departMap = new TreeMap<String, List<CityVO>>();
@@ -105,9 +112,13 @@ public class ResourceForSelectController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/selectDests")
-	public String selectDests() {
+	@RequestMapping(value = "/selectDests/{id}")
+	public String selectDests(@PathVariable(value="id")long id) {
 		WebResult<List<CityVO>> result = commLineService.getAllLineDests();
+		List<Long> itemIds = new ArrayList<Long>();
+		itemIds.add(id);
+		ICResult<List<ItemDO>> itemList = itemQueryService.getItemByIds(itemIds);
+		put("item",itemList.getModule().get(0));
 		if (result.isSuccess()) {
 			Map<String, List<CityVO>> destMap = new TreeMap<String, List<CityVO>>();
 			List<CityVO> allLineDests = result.getValue();

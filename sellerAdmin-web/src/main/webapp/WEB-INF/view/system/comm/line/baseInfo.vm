@@ -178,7 +178,7 @@
 		}
 	});
 	$(".select-departs").click(function() {
-		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDeparts','选择出发地 ',function() {
+		openModalForForm("'$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDeparts/"+$("#itemId").val()+"'",'选择出发地 ',function() {
 			var departs = win.getSelected() || [];
 			console.log(JSON.stringify(departs));
 			if(departs.length == 0) return true;
@@ -201,7 +201,7 @@
 		});
 	});
 	$(".select-dests").click(function() {
-		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDests','选择目的地 ',function() {
+		openModalForForm("'$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDests/"+$("#itemId").val()+"'",'选择目的地 ',function() {
 			var dests = win.getSelected();
 			console.log(JSON.stringify(dests));
 			if(dests.length == 0) return true;

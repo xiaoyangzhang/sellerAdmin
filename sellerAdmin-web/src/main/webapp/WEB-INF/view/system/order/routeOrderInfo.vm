@@ -73,7 +73,7 @@
     <br><br>
     <div>
         <div>买家备注：$!order.mainOrder.tcMainOrder.otherInfo</div>
-        <div>卖家备注：$!order.customerServiceNote</div></td>
+        <div>卖家备注：<textarea rows="3" cols="50">$!order.customerServiceNote</textarea></div>
     </div>
     <br><br>
     <!-- 买家信息 -->
