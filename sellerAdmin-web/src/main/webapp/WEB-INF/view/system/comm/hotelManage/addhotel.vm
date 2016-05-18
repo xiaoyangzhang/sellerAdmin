@@ -1,5 +1,5 @@
 <!-- head start-->
-#set($layout = "/layout/layout-apply.vm")
+#set($layout = "/layout/layout-jiuxiu.vm")
 <head>
 	#parse("layout/layout-meta.vm")
 	<title>选择酒店</title>
@@ -7,39 +7,7 @@
 </head>
 <!-- head end-->
 	<!-- 面包屑 -->
-	<div class = "comwidth crumbs f12">您所在的位置：添加酒店商品><a class = "f12 gray6">选择酒店</a></div>
 	<div class = "comwidth clearfix" id = "eredar">
-		<div class = "eredar-left">
-			<dl class = "first">
-				<dd>商品管理</dd>
-				<dt class = "one">添加商品</dt>
-				<dt>商品列表</dt>
-			</dl>
-			<dl>
-				<dd>添加酒店商品</dd>
-				<dt class = "on">选择酒店</dt>
-				<dt>基本信息</dt>
-				<dt>价格日历</dt>
-			</dl>
-			<dl>
-				<dd>添加景区门票</dd>
-				<dt>基本信息</dt>
-				<dt>价格日历</dt>
-			</dl>
-			<dl>
-				<dd>订单管理</dd>
-				<dt class = "one">订单列表</dt>
-			</dl>
-			<dl>
-				<dd>店铺管理</dd>
-				<dt class = "one">基本信息</dt>
-				<dt>账户信息</dt>
-			</dl>
-			<dl>
-				<dd>对账管理</dd>
-				<dt class = "one">月结账单</dt>
-			</dl>
-		</div>
 		<div class = "eredar-right">
 			<div class = "eredar-info clearfix">
 				<ul>

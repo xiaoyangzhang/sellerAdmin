@@ -15,7 +15,7 @@ import org.springframework.web.util.HtmlUtils;
  * @author wangdi
  *
  */
-//@Controller
+@Controller
 @RequestMapping("/hotel")
 public class HotelManageController extends BaseController {
 
@@ -26,9 +26,9 @@ public class HotelManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/queryHotelManageList")
-	public String queryHotelManageList(Model model,HotelMessageVO hotelMessageVO) throws Exception {
+	public String queryHotelManageList(Model model) throws Exception {
 		System.out.println("ddddd");
-		return "/system/comm/hotelManage/choicehotel";
+		return "/system/comm/hotelManage/addhotel";
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
      */
-	@RequestMapping(value = "/addHotelMessageVOByData")
+	/*@RequestMapping(value = "/addHotelMessageVOByData")
 	public String addHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
 		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
 			throw new BaseException("酒店资源信息错误,无法添加商品");
@@ -49,7 +49,7 @@ public class HotelManageController extends BaseController {
 
 		return "";
 
-	}
+	}*/
 
 	/**
 	 * 编辑酒店资源
@@ -58,12 +58,12 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
      */
-	public String editHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
-		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
-			throw new BaseException("酒店资源信息错误,无法编辑商品");
-		}
-		return "";
-	}
+//	public String editHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
+//		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
+//			throw new BaseException("酒店资源信息错误,无法编辑商品");
+//		}
+//		return "";
+//	}
 
 	/**
 	 * 查询酒店商品信息详情
@@ -71,30 +71,30 @@ public class HotelManageController extends BaseController {
 	 * @param hotelMessageVO
      * @return
      */
-	public String queryHotelMessageVOyData(Model model,HotelMessageVO hotelMessageVO){
-		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
-			throw new BaseException("酒店资源信息错误,无法编辑商品");
-		}
-		return "";
-
-	}
+//	public String queryHotelMessageVOyData(Model model,HotelMessageVO hotelMessageVO){
+//		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
+//			throw new BaseException("酒店资源信息错误,无法编辑商品");
+//		}
+//		return "";
+//
+//	}
 
 	/**
 	 * 添加酒店商品信息验证
 	 * @param hotelMessageVO
 	 * @return
      */
-	public String checkAddHotelMessageVOParam(HotelMessageVO hotelMessageVO){
-		if(StringUtils.isBlank(hotelMessageVO.getTitle())){
-			return "商品标题为空";
-		}
+//	public String checkAddHotelMessageVOParam(HotelMessageVO hotelMessageVO){
+//		if(StringUtils.isBlank(hotelMessageVO.getTitle())){
+//			return "商品标题为空";
+//		}
 		//退订限制
 		//退订规则
 		//最晚到点时间
 		//提前预定天数
-		return null;
-
-	}
+//		return null;
+//
+//	}
 
 	public static void main(String[] args) {
 
