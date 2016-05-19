@@ -51,11 +51,11 @@
 					<div class="fm_md_three fm_md">
 						<table>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>商户姓名：</span></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>商户负责人姓名：</span></td>
 								<td colspan="3"><input class="inptxt businesname"  name="principleName" value="$!examineInfo.principleName"  placeholder="合同签约人的姓名"></td>
 							</tr>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>证件类型：</span></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>负责人证件类型：</span></td>
 								<td colspan="3">
 									<input type="hidden" id="card_" value="$!examineInfo.principleCard" />
 									<select id="card" class="selectlist" >
@@ -68,19 +68,19 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>证件号：</span></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>负责人证件号：</span></td>
 								<td colspan="3"><input class="inptxt" datatype="s6-18" id="cardtxt" name="principleCardId" value="$!examineInfo.principleCardId" maxlength="18" placeholder="证件号码"></td>
 							</tr>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>手机号：</span></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>负责人手机号：</span></td>
 								<td colspan="3"><input class="inptxt" datatype="m" name="principleTel"   #if("$!examineInfo.principleTel" == "0") value="" #else value="$!examineInfo.principleTel" #end  maxlength="11" placeholder="手机号码"></td>
 							</tr>
 							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>邮箱：</span></td>
+								<td class="tbtxt w280"><label class="bred">*</label><span>负责人邮箱：</span></td>
 								<td colspan="3"><input class="inptxt" datatype="e" name="principleMail" value="$!examineInfo.principleMail" maxlength="80" placeholder="请输入商户负责人邮箱"></td>
 							</tr>
 							<tr>
-								<td class="tbvt w280"><label class="bred">*</label><label>身份证正面：</label></td>
+								<td class="tbvt w280"><label class="bred">*</label><label>负责人身份证正面：</label></td>
 								<td class="w380">
 									<span class="imgbox mr5">
 										<div class="canclick card_a">
@@ -95,7 +95,7 @@
 										<input type="hidden" name="principleCardUp" value="$!examineInfo.principleCardUp">
 									</span>
 								</td>
-								<td class="tbvt w150"><label class="bred">*</label><label>身份证反面：</label></td>
+								<td class="tbvt w150"><label class="bred">*</label><label>负责人身份证反面：</label></td>
 								<td>
 									<span class="imgbox mr5">
 										<div class="canclick card_b">
