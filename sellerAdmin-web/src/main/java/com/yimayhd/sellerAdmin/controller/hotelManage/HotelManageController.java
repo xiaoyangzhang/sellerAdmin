@@ -1,6 +1,7 @@
 package com.yimayhd.sellerAdmin.controller.hotelManage;
 
 import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.RoomDO;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
@@ -32,6 +33,19 @@ public class HotelManageController extends BaseController {
 
 	@Autowired
 	private HotelManageService hotelManageService;
+
+	/**
+	 * 选择列表
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/chooseHotelManage")
+	public String queryHotelManageList(Model model) throws Exception {
+		System.out.println("ddddd");
+		return "/system/comm/hotelManage/addhotel";
+	}
+
 	/**
 	 * 商品资源信息列表
 	 * 
@@ -63,14 +77,25 @@ public class HotelManageController extends BaseController {
 	}
 
 	/**
-	 * 选择列表
+	 * 酒店房型列表
 	 * @param model
-	 * @return
-	 * @throws Exception
+	 * @param hotelId
+     * @return
      */
-	@RequestMapping(value = "/chooseHotelManage")
-	public String queryHotelManageList(Model model) throws Exception {
-		System.out.println("ddddd");
+	@RequestMapping(value = "/queryRoomTypeListByData")
+	public String queryRoomTypeListByData(Model model,Long hotelId ){
+		if(hotelId==null){
+			logger.error("酒店pid不能为空");
+			return "/error";
+		}
+		HotelMessageVO hotelMessageVO = new HotelMessageVO();
+		hotelMessageVO.setHotelId(hotelId);
+		WebResult<List<RoomDO>> result = hotelManageService.queryRoomTypeListByData(hotelMessageVO);
+		if(!result.isSuccess()){
+			logger.error("查询房型信息失败");
+			return "/error";
+		}
+		model.addAttribute("roomList", result.getValue());
 		return "/system/comm/hotelManage/addhotel";
 	}
 
@@ -81,7 +106,7 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
      */
-	/*@RequestMapping(value = "/addHotelMessageVOByData")
+	@RequestMapping(value = "/addHotelMessageVOByData")
 	public String addHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
 		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
 			throw new BaseException("酒店资源信息错误,无法添加商品");
@@ -93,7 +118,7 @@ public class HotelManageController extends BaseController {
 
 		return "";
 
-	}*/
+	}
 
 	/**
 	 * 编辑酒店资源
@@ -128,17 +153,17 @@ public class HotelManageController extends BaseController {
 	 * @param hotelMessageVO
 	 * @return
      */
-//	public String checkAddHotelMessageVOParam(HotelMessageVO hotelMessageVO){
-//		if(StringUtils.isBlank(hotelMessageVO.getTitle())){
-//			return "商品标题为空";
-//		}
+	public String checkAddHotelMessageVOParam(HotelMessageVO hotelMessageVO){
+		if(StringUtils.isBlank(hotelMessageVO.getTitle())){
+			return "商品标题为空";
+		}
 		//退订限制
 		//退订规则
 		//最晚到点时间
 		//提前预定天数
-//		return null;
-//
-//	}
+		return null;
+
+	}
 
 	public static void main(String[] args) {
 

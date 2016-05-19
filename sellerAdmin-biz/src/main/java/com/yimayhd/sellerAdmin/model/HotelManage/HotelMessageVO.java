@@ -15,7 +15,7 @@ public class HotelMessageVO extends BaseQuery {
 	private Integer phone;//酒店电话
 
 	private Integer provinceId;//省id
-	private Integer cityId;//市d
+	private Integer cityId;//市id
 	private Integer townId;//区id
 
 

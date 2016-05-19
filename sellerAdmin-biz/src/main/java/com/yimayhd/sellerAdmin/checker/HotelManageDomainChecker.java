@@ -65,15 +65,28 @@ public class HotelManageDomainChecker {
      * 酒店信息查询校验
      * @return
      */
-    public WebResult checkQueryHotelMessageVOInfo(){
+    public WebResult checkQueryHotelMessageInfo(){
+        if(hotelMessageVO.getHotelId()==null){
+            return WebResult.failure(WebReturnCode.PARAM_ERROR, "酒店ID为空");
+        }
+
+       return  WebResult.success(null);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public WebResult checkQueryHotelMessageVOyData(){
         if(hotelMessageVO.getHotelId()==null){
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "酒店ID为空");
         }
         if(hotelMessageVO.getItemId()==null){
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "商品ID为空");
         }
-       return  WebResult.success(null);
+        return  WebResult.success(null);
     }
+
 
 
 }

@@ -1,6 +1,7 @@
 package com.yimayhd.sellerAdmin.service.hotelManage;
 
 
+import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
@@ -14,7 +15,7 @@ public interface ScenicManageService {
      * @param scenicManageVO
      * @return
      */
-    public WebResult<PageVO<ScenicManageVO>> queryScenicManageVOListByData(ScenicManageVO scenicManageVO);
+    public WebResult<PageVO<ScenicDO>> queryScenicManageVOListByData(ScenicManageVO scenicManageVO);
 
     /**
      * 景区商品信息
