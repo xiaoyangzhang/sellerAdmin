@@ -23,7 +23,8 @@ public class HotelMessageVO extends BaseQuery {
 	private String code; // '商品代码',
 	private Integer payType  ; // COMMENT '可支持支付方式',
 
-	public Long itemId;// 商品Id
+	private Long itemId;// 商品Id
+
 
 	public Long getHotelId() {
 		return hotelId;

@@ -70,7 +70,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 				return chekResult;
 			}
 			// 参数?ItemOptionDTO,返回?result
-			ItemResult result= itemQueryServiceRef.getItem(hotelMessageVO.itemId, new ItemOptionDTO());
+			ItemResult result= itemQueryServiceRef.getItem(hotelMessageVO.getItemId(), new ItemOptionDTO());
 		}catch(Exception e){
 			e.printStackTrace();
 		}
