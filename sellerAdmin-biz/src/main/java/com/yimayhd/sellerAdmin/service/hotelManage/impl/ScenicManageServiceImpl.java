@@ -64,7 +64,8 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
      * @return
      */
     @Override
-    public WebResult<ScenicManageVO> queryScenicManageVOByData(ScenicManageVO scenicManageVO) {
+    public WebResult<ScenicManageVO> queryScenicManageVOByData(final ScenicManageVO scenicManageVO) {
+        
         return null;
     }
 
