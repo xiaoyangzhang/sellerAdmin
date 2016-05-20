@@ -136,7 +136,7 @@ public class BasicInfoController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="/talent/toAddTalentInfo",method=RequestMethod.GET)
-	public String editTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model) {
+	public String addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model) {
 		
 		model.addAttribute("talentBiz", talentBiz);
 		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());

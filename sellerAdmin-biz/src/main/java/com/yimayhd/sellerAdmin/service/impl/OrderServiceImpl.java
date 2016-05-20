@@ -216,7 +216,7 @@ public class OrderServiceImpl implements OrderService {
 			ResultSupport resultSupport = tcTradeServiceRef.refundOrder(refundTradeDTO);
 			return resultSupport.isSuccess();
 		}catch (Exception e){
-			log.error("tcTradeServiceRef.refundOrder(refundTradeDTO);" + e);
+			log.error("id={}", id, e);
 			return false;
 		}
 	}
@@ -231,7 +231,7 @@ public class OrderServiceImpl implements OrderService {
 			ResultSupport resultSupport = tcTradeServiceRef.closeOrder(closeOrderDTO);
 			return resultSupport.isSuccess();
 		}catch (Exception e){
-			log.error("tcTradeServiceRef.closeOrder(id);" + e);
+			log.error("id={}" ,id, e);
 			return false;
 		}
 	}
@@ -247,13 +247,10 @@ public class OrderServiceImpl implements OrderService {
 			Map<BizOrderExtFeatureKey, Object> addOrderMap = new HashMap<BizOrderExtFeatureKey, Object>();
 			addOrderMap.put(BizOrderExtFeatureKey.SELLER_MEMO, remark);
 			bizOrderExtFeatureDTO.setAddOrUpdateBizOrderExtFeatureKeyObjectMap(addOrderMap);
-//			Set<BizOrderExtFeatureKey> deleteOrderMap = new HashSet<BizOrderExtFeatureKey>();
-//			deleteOrderMap.add(BizOrderExtFeatureKey.SELLER_MEMO);
-//			bizOrderExtFeatureDTO.setDeleteBizOrderExtFeatureKeySet(deleteOrderMap);
 			ResultSupport updateResult = tcTradeServiceRef.updateBizOrderExtFeature(bizOrderExtFeatureDTO);
 			return updateResult.isSuccess();
 		} catch (Exception e) {
-			log.error("tcTradeServiceRef.updateBizOrderExtFeature;"+e);
+			log.error("id={},remark={}",id,remark,e);
 			return false;
 		}
 	}

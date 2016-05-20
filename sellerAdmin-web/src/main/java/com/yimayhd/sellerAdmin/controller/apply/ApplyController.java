@@ -227,14 +227,15 @@ public class ApplyController extends BaseController {
 	 * @param dto
 	 * @return
 	 */
-	public void getCheckResultMsg(ExamineResultDTO dto,Model model) {
+	public String getCheckResultMsg(ExamineResultDTO dto) {
 		if (dto == null || ( dto.getDealMes() == null)) {
-			return ;
+			return null;
 		}
+		String msg = null;
 		if (ExamineStatus.EXAMIN_ERROR.getStatus() == dto.getStatus().getStatus() || ExamineStatus.EXAMIN_NOT_ABLE.getStatus() == dto.getStatus().getStatus()) {
-			model.addAttribute("checkResultInfo", Arrays.asList(dto.getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+			msg = dto.getDealMes();
 		}
-		
+		return msg;
 	}
 	/**
 	 * 跳转到达人审核协议
@@ -263,7 +264,7 @@ public class ApplyController extends BaseController {
 		if(null != judgeRest){
 			return judgeRest;
 		}
-		getCheckResultMsg(talentBiz.getCheckResult(),model);
+		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
 		return "system/talent/userdatafill_a";
 		
 	}
@@ -274,7 +275,7 @@ public class ApplyController extends BaseController {
 			return judgeRest;
 		}
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
-		getCheckResultMsg(talentBiz.getCheckResult(),model);
+		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
 		return "system/talent/userdatafill_a";
 		
 	}
@@ -290,7 +291,7 @@ public class ApplyController extends BaseController {
 			return judgeRest;
 		}
 		model.addAttribute("bankList", talentBiz.getBankList());
-		getCheckResultMsg(talentBiz.getCheckResult(),model);
+		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
 		return "system/talent/userdatafill_b";
 		
 	}
@@ -302,7 +303,7 @@ public class ApplyController extends BaseController {
 		}
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
 		model.addAttribute("bankList", talentBiz.getBankList());
-		getCheckResultMsg(talentBiz.getCheckResult(),model);
+		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
 		return "system/talent/userdatafill_b";
 		
 	}
@@ -337,7 +338,8 @@ public class ApplyController extends BaseController {
 			
 			WebResult<String> result=new WebResult<String>();
 			ExamineInfoDTO examineInfoDTO = talentBiz.getExamineInfo();
-			WebResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_ONE.getPageNO());
+			
+			WebResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo);
 			if (resultSupport == null) {
 				result.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
 				return result;
@@ -349,6 +351,8 @@ public class ApplyController extends BaseController {
 					result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/toEditUserdatafill_pageTwo");
 					
 				}
+			}else{
+				result.setWebReturnCode(resultSupport.getWebReturnCode());
 			}
 
 			return result;
@@ -366,14 +370,15 @@ public class ApplyController extends BaseController {
 	@ResponseBody
 	public BizResult<String> saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
 			BizResult<String> bizResult = new BizResult<>();
-			WebResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_TWO.getPageNO());
-			if (resultSupport == null || !resultSupport.isSuccess()) {
-				bizResult.init(false, -1, "保存失败");
+			WebResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo);
+			if (resultSupport == null) {
+				BizResult.buildFailResult(-1, "保存失败", false);
 				return bizResult;
 			}
+			//更新审核状态
 			MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
-			if (resultSupport == null && updateCheckStatusResult == null) {
-				bizResult.init(false, -1, "保存失败");
+			if (updateCheckStatusResult == null) {
+				BizResult.buildFailResult(-1, "保存失败", false);
 				return bizResult;
 			}
 			if (resultSupport.isSuccess()

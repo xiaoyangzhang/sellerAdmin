@@ -42,7 +42,6 @@ public class TalentRepo {
 	private SessionManager sessionManager;
 	public MemResult<List<CertificatesDO>> getServiceTypes() {
 		MemResult<List<CertificatesDO>> serviceTypes = talentInfoDealService.queryTalentServiceType();
-		RepoUtils.requestLog(log,"talentInfoDealService.queryTalentServiceType", serviceTypes.getValue());
 		return serviceTypes;
 	}
 	
@@ -51,21 +50,21 @@ public class TalentRepo {
 	 * @return
 	 */
 	public ExamineInfoDTO getExamineInfo (int domainId,long userId) {
+		ExamineInfoDTO dto = null;
 		if (domainId <=0 || userId <= 0) {
-			log.error("get examineInfo error and params: domainId="+domainId+"userId="+userId);
-			throw new BaseException("参数错误");
+			log.error(" params error: domainId={},userId={}",domainId,userId);
+			return dto;
+		//	throw new BaseException("参数错误");
 		}
 		InfoQueryDTO queryDTO=new InfoQueryDTO();
 		queryDTO.setDomainId(domainId);
 		queryDTO.setType(ExamineType.TALENT.getType());
 		queryDTO.setSellerId(userId);
-		RepoUtils.requestLog(log,"examineDealService.queryMerchantExamineInfoById", queryDTO);
 		MemResult<ExamineInfoDTO> examineInfoResult = examineDealService.queryMerchantExamineInfoBySellerId(queryDTO);
-		RepoUtils.requestLog(log, "examineDealService.queryMerchantExamineInfoById", examineInfoResult.getValue());
-		ExamineInfoDTO dto = null;
- 		if (examineInfoResult != null) {
-			dto = examineInfoResult.getValue();
+		if (examineInfoResult == null || !examineInfoResult.isSuccess() || (examineInfoResult.getValue() == null)) {
+			return dto;
 		}
+		dto = examineInfoResult.getValue();
  		return dto;
 	}
 	
@@ -109,22 +108,14 @@ public class TalentRepo {
 			return null;
 		}
 		MemResult<Boolean> talentInfoResult=null;
-//		WebResultSupport webResultSupport=new WebResultSupport();
-//		members
 		try {
 			RepoUtils.requestLog(log, "talentInfoDealService.updateTalentInfo", vo);
 			 talentInfoResult = talentInfoDealService.updateTalentInfo(vo.getTalentInfoDTO(vo,sessionManager.getUserId()));
 			 RepoUtils.requestLog(log, "talentInfoDealService.updateTalentInfo", talentInfoResult);
 			
-//			 if (!talentInfoResult.isSuccess()) {
-//				talentInfoResult.
-//				 webResultSupport.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
-//			}
-			
 			 return talentInfoResult;
 		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-			//webResultSupport.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
+			log.error("param : TalentInfoVO={}",vo,e);
 			return null;
 		}
 		
@@ -144,12 +135,11 @@ public class TalentRepo {
 		}
 		WebResult<Boolean> result = new WebResult<Boolean>();
 		MemResult<Boolean> ExamineInfoResult = null;
-		//WebResultSupport webResultSupport=new WebResultSupport();
 		try {
+			ExamineInfoDTO dto = vo.getExamineInfoDTO(vo, sessionManager.getUserId());
+			ExamineInfoResult = examineDealService.submitMerchantExamineInfo(dto);
 
-			ExamineInfoResult = examineDealService.submitMerchantExamineInfo(vo.getExamineInfoDTO(vo, sessionManager.getUserId()));
-
-			if(!ExamineInfoResult.isSuccess()) {
+			if(ExamineInfoResult == null || !ExamineInfoResult.isSuccess()) {
 				
 				int code = ExamineInfoResult.getErrorCode() ;
 				if(MemberReturnCode.DB_MERCHANTNAME_FAILED.getCode() == code ) {
@@ -160,13 +150,10 @@ public class TalentRepo {
 					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
 				}
 			}
-			//else {
-			//}
 			return result;
 			
 		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-			//webResultSupport.setWebReturnCode(WebReturnCode.TALENT_INFO_SAVE_FAILURE);
+			log.error("param :vo={}",vo,e);
 			return null;
 		}
 	}
@@ -188,27 +175,26 @@ public class TalentRepo {
 		examineQueryDTO.setType(ExamineType.TALENT.getType());
 		examineQueryDTO.setSellerId(sessionManager.getUserId());
 		
-		RepoUtils.requestLog(log, " examineDealService.queryExamineDealResult", examineQueryDTO);
-		MemResult<ExamineResultDTO> examineDealResult = examineDealService.queryExamineDealResult(examineQueryDTO);
-		RepoUtils.requestLog(log, " examineDealService.queryExamineDealResult", examineDealResult.getValue());
-		if (examineDealResult.getValue() == null /*|| ( examineDealResult.getValue().getStatus().getStatus() == ExamineStatus.EXAMIN_OK.getStatus())*/) {
+		try {
+			MemResult<ExamineResultDTO> examineDealResult = examineDealService.queryExamineDealResult(examineQueryDTO);
+			if (examineDealResult == null || examineDealResult.getValue() == null ) {
+				return null;
+			}
+			return examineDealResult.getValue();
+		} catch (Exception e) {
+			log.error("examineQueryDTO={}",examineQueryDTO,e);
 			return null;
 		}
-		return examineDealResult.getValue();
 
 		
 	}
 	public MemResult<Boolean> updateCheckStatus(ExamineInfoVO vo) {
-		//WebResultSupport resultSupport = new WebResultSupport();
 		try {
 			MemResult<Boolean> changeExamineStatusResult = examineDealService.changeExamineStatusIntoIng(vo.getInfoQueryDTO(sessionManager.getUserId()));
-//			if (!changeExamineStatusResult.isSuccess()) {
-//				resultSupport.setWebReturnCode(WebReturnCode.UPDATE_CHECKRESULT_FAILURE);
-//			}
+
 			return changeExamineStatusResult;
 		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-			//resultSupport.setWebReturnCode(WebReturnCode.UPDATE_CHECKRESULT_FAILURE);
+			log.error("param:ExamineInfoVO={}",vo,e);
 			return null;
 		}
 		
