@@ -56,7 +56,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 			HotelPageQuery hotelPageQuery = check.getBizQueryModel();
 			ICPageResult<HotelDO> callBack= itemQueryServiceRef.pageQueryHotel(hotelPageQuery);
 			if(callBack==null){
-				throw new  Exception("查询pageQueryHotel返回结果异常");
+				return WebResult.failure(WebReturnCode.SYSTEM_ERROR,"查询pageQueryHotel返回结果异常");
 			}
 			PageVO<HotelDO> pageModel = new PageVO<HotelDO>(callBack.getPageNo(),callBack.getPageSize(),callBack.getTotalCount(),callBack.getList());
 			result.setValue(pageModel);
