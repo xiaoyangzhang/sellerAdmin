@@ -3,11 +3,19 @@ package com.yimayhd.sellerAdmin.service.hotelManage.impl;
 
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
+import com.yimayhd.ic.client.model.param.item.ScenicPublishAddDTO;
+import com.yimayhd.ic.client.model.param.item.ScenicPublishUpdateDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
+import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.model.result.item.ItemPubResult;
+import com.yimayhd.ic.client.model.result.item.SingleItemQueryResult;
+import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.ScenicManageDomainChecker;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
 import com.yimayhd.sellerAdmin.service.hotelManage.ScenicManageService;
@@ -23,7 +31,8 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
 
     @Autowired
     private ItemQueryService itemQueryServiceRef;
-
+    @Autowired
+    private ItemPublishService itemPublishServiceRef;
     private static final Logger log = LoggerFactory.getLogger(ScenicManageServiceImpl.class);
 
     /**
@@ -65,8 +74,31 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
      */
     @Override
     public WebResult<ScenicManageVO> queryScenicManageVOByData(final ScenicManageVO scenicManageVO) {
-        
-        return null;
+        ScenicManageDomainChecker checker = new ScenicManageDomainChecker(scenicManageVO);
+        WebResult<ScenicManageVO> result = new WebResult<ScenicManageVO>();
+        try{
+            WebResult chekResult = checker.checkQueryScenicManageVOByData();
+            if(!chekResult.isSuccess()){
+                log.error("ScenicManageServiceImpl.queryScenicManageVOByData is fail. code={}, message={} ",
+                        chekResult.getErrorCode(), chekResult.getResultMsg());
+                return chekResult;
+            }
+            ICResult<ScenicDO>  scenicResult = itemQueryServiceRef.getScenic(scenicManageVO.getId());
+            if(scenicResult==null||scenicResult.getModule()==null){
+                log.error("ScenicManageServiceImpl.queryScenicManageVOByData is fail. code={}, message={} ",
+                        chekResult.getErrorCode(), chekResult.getResultMsg());
+                return WebResult.failure(WebReturnCode.PARAM_ERROR, "景区资源信息错误");
+            }
+            ItemOptionDTO dto = new ItemOptionDTO();
+
+            SingleItemQueryResult callBack =  itemQueryServiceRef.querySingleItem(scenicManageVO.getId(), dto);
+            // 景区详情 model
+        }catch(Exception e){
+            log.error("查询景区详情异常");
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     /**
@@ -76,6 +108,8 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
      */
     @Override
     public WebResult<ScenicManageVO> addScenicManageVOByDdata(ScenicManageVO scenicManageVO) {
+
+        ItemPubResult result = itemPublishServiceRef.addPublishScenic(new ScenicPublishAddDTO());
         return null;
     }
 
@@ -86,6 +120,7 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
      */
     @Override
     public WebResult<Boolean> editScenicManageVOByDdata(ScenicManageVO scenicManageVO) {
+        ItemPubResult result =itemPublishServiceRef.updatePublishScenic(new ScenicPublishUpdateDTO());
         return null;
     }
 
@@ -95,5 +130,13 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
 
     public void setItemQueryServiceRef(ItemQueryService itemQueryServiceRef) {
         this.itemQueryServiceRef = itemQueryServiceRef;
+    }
+
+    public ItemPublishService getItemPublishServiceRef() {
+        return itemPublishServiceRef;
+    }
+
+    public void setItemPublishServiceRef(ItemPublishService itemPublishServiceRef) {
+        this.itemPublishServiceRef = itemPublishServiceRef;
     }
 }
