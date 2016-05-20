@@ -60,6 +60,21 @@ public class ScenicManageDomainChecker {
         }
         return  scenicPageQuery;
     }
+
+    /**
+     * 景区详情参数校验
+     * @return
+     */
+    public WebResult checkQueryScenicManageVOByData(){
+        if (scenicManageVO == null) {
+            return WebResult.failure(WebReturnCode.PARAM_ERROR);
+        }
+        if (scenicManageVO.getId()==null) {
+            return WebResult.failure(WebReturnCode.PARAM_ERROR, "景区ID不能为空");
+        }
+
+        return WebResult.success(null);
+    }
     public ScenicManageVO getScenicManageVO() {
         return scenicManageVO;
     }

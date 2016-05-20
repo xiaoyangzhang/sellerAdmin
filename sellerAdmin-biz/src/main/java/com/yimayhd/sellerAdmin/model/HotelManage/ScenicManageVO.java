@@ -15,6 +15,8 @@ public class ScenicManageVO extends BaseQuery {
     private Integer townId;//区id
     private Integer level;//景区等级
 
+
+
     public Long getId() {
         return id;
     }

@@ -2,12 +2,15 @@ package com.yimayhd.sellerAdmin.service.hotelManage.impl;
 
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
+import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.query.RoomQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
+import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -29,6 +32,8 @@ import java.util.List;
 public class HotelManageServiceImpl implements HotelManageService {
 	@Autowired
 	private ItemQueryService itemQueryServiceRef;
+	@Autowired
+	private ItemPublishService itemPublishServiceRef;
 
 	private static final Logger log = LoggerFactory.getLogger(HotelManageServiceImpl.class);
 
@@ -121,7 +126,7 @@ public class HotelManageServiceImpl implements HotelManageService {
      */
 	public WebResult<HotelMessageVO> addHotelMessageVOByData(final HotelMessageVO hotelMessageVO){
 		HotelManageDomainChecker check = new HotelManageDomainChecker(hotelMessageVO);
-
+		ItemPubResult result = itemPublishServiceRef.publishCommonItem(new CommonItemPublishDTO());
 		return null;
 
 	}
@@ -134,6 +139,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 	 * @return
      */
 	public  WebResult<Boolean> editHotelMessageVOByData(final HotelMessageVO hotelMessageVO){
+		ItemPubResult result = itemPublishServiceRef.updatePublishCommonItem(new CommonItemPublishDTO());
 		return null;
 	}
 
