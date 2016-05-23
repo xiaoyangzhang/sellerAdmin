@@ -16,7 +16,7 @@ public interface HotelManageService {
      * 查询酒店列表
      * @return
      */
-    public WebResult<PageVO<HotelDO>> queryHotelMessageVOListByData(HotelMessageVO hotelMessageVO);
+    public WebResult<PageVO<HotelMessageVO>> queryHotelMessageVOListByData(HotelMessageVO hotelMessageVO);
 
     /**
      * 酒店商品信息查询接口
