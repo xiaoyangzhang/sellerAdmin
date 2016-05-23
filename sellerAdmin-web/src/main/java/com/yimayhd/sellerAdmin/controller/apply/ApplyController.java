@@ -372,13 +372,15 @@ public class ApplyController extends BaseController {
 			BizResult<String> bizResult = new BizResult<>();
 			WebResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo);
 			if (resultSupport == null) {
-				BizResult.buildFailResult(-1, "保存失败", false);
+				bizResult.init(false, -1, "保存失败");
+				//BizResult.buildFailResult(-1, "保存失败", false);
 				return bizResult;
 			}
 			//更新审核状态
 			MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
 			if (updateCheckStatusResult == null) {
-				BizResult.buildFailResult(-1, "保存失败", false);
+				bizResult.init(false, -1, "保存失败");
+				//BizResult.buildFailResult(-1, "保存失败", false);
 				return bizResult;
 			}
 			if (resultSupport.isSuccess()

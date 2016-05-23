@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yimayhd.sellerAdmin.mapper.MerchantCatetoryScopeMapper" >
+  <resultMap id="BaseResultMap" type="com.yimayhd.sellerAdmin.model.MerchantCatetoryScopeDO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="merchant_category_id" property="merchantCategoryId" jdbcType="BIGINT" />
+    <result column="business_scope_id" property="businessScopeId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP" />
+    <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, merchant_category_id, business_scope_id, status, gmt_created, gmt_modified
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from merchant_category_scope
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from merchant_category_scope
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yimayhd.sellerAdmin.model.MerchantCatetoryScopeDO" >
+    insert into merchant_category_scope (id, merchant_category_id, business_scope_id, 
+      status, gmt_created, gmt_modified
+      )
+    values (#{id,jdbcType=BIGINT}, #{merchantCategoryId,jdbcType=BIGINT}, #{businessScopeId,jdbcType=BIGINT}, 
+      #{status,jdbcType=INTEGER}, #{gmtCreated,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yimayhd.sellerAdmin.model.MerchantCatetoryScopeDO" >
+    insert into merchant_category_scope
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="merchantCategoryId != null" >
+        merchant_category_id,
+      </if>
+      <if test="businessScopeId != null" >
+        business_scope_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="gmtCreated != null" >
+        gmt_created,
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="merchantCategoryId != null" >
+        #{merchantCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="businessScopeId != null" >
+        #{businessScopeId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreated != null" >
+        #{gmtCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yimayhd.sellerAdmin.model.MerchantCatetoryScopeDO" >
+    update merchant_category_scope
+    <set >
+      <if test="merchantCategoryId != null" >
+        merchant_category_id = #{merchantCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="businessScopeId != null" >
+        business_scope_id = #{businessScopeId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreated != null" >
+        gmt_created = #{gmtCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null" >
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yimayhd.sellerAdmin.model.MerchantCatetoryScopeDO" >
+    update merchant_category_scope
+    set merchant_category_id = #{merchantCategoryId,jdbcType=BIGINT},
+      business_scope_id = #{businessScopeId,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+      gmt_created = #{gmtCreated,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

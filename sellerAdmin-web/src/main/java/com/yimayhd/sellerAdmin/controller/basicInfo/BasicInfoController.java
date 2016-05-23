@@ -95,8 +95,8 @@ public class BasicInfoController extends BaseController {
 			return "/system/merchant/merchant";
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			model.addAttribute("服务器出现错误，请稍后重新登录");
-			return "/system/merchant/merchant";
+			//model.addAttribute("服务器出现错误，请稍后重新登录");
+			return "/system/error/500";
 		}
 		
 	}
@@ -136,16 +136,20 @@ public class BasicInfoController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="/talent/toAddTalentInfo",method=RequestMethod.GET)
-	public String addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model) {
+	public String toAddTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model) {
 		
 		model.addAttribute("talentBiz", talentBiz);
 		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
-		try {
-			MemResult<TalentInfoDTO> queryTalentInfoResult = talentInfoDealService.queryTalentInfoByUserId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
-			TalentInfoDTO dto = null;
-			if (queryTalentInfoResult.isSuccess() && queryTalentInfoResult.getValue() != null) {
-				TalentInfoDTO talentInfoDTO = queryTalentInfoResult.getValue();
-				
+		//try {
+			MemResult<TalentInfoDTO> dtoResult = talentBiz.queryTalentInfoByUserId();
+			if (dtoResult == null) {
+				return "/system/error/500";
+			}
+			if (dtoResult.isSuccess()) {
+				TalentInfoDTO talentInfoDTO = dtoResult.getValue();
+				if (talentInfoDTO == null || talentInfoDTO.getTalentInfoDO() == null) {
+					return "/system/error/500";
+				}
 				List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
 				if (pictures == null ) {
 					pictures = new ArrayList<String>();
@@ -154,14 +158,14 @@ public class BasicInfoController extends BaseController {
 				while (pictures.size() < Constant.TALENT_SHOP_PICNUM) {
 					pictures.add("");
 				}
-				dto = talentInfoDTO;
-				model.addAttribute("talentInfo", dto);
+				model.addAttribute("talentInfo", talentInfoDTO);
 			}
+			
 			return "system/talent/eredar";
-		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-			return "system/talent/eredar";
-		}
+//		} catch (Exception e) {
+//			log.error(e.getMessage(),e);
+//			return "system/talent/eredar";
+//		}
 		
 	}
 	/**
@@ -179,12 +183,14 @@ public class BasicInfoController extends BaseController {
 			MemResult<Boolean> addTalentInfoResult = talentBiz.addTalentInfo(vo);
 			if (addTalentInfoResult == null) {
 				bizResult.init(false, -1, "保存失败");
+				//bizResult = BizResult.buildFailResult(-1, "保存失败", false);
 				return bizResult;
 			}
 			if (addTalentInfoResult.isSuccess()) {
 				bizResult.setValue("/toAddTalentInfo");
 			}
 			else {
+				//BizResult.buildFailResult(addTalentInfoResult.getErrorCode(), addTalentInfoResult.getErrorMsg(), false);
 				bizResult.init(false, addTalentInfoResult.getErrorCode(),
 						addTalentInfoResult.getErrorMsg());
 			}

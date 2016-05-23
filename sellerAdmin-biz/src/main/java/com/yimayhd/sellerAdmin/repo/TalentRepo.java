@@ -12,18 +12,17 @@ import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
+import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.enums.ExamineType;
-import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
-import com.yimayhd.sellerAdmin.util.RepoUtils;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /***
@@ -109,9 +108,7 @@ public class TalentRepo {
 		}
 		MemResult<Boolean> talentInfoResult=null;
 		try {
-			RepoUtils.requestLog(log, "talentInfoDealService.updateTalentInfo", vo);
 			 talentInfoResult = talentInfoDealService.updateTalentInfo(vo.getTalentInfoDTO(vo,sessionManager.getUserId()));
-			 RepoUtils.requestLog(log, "talentInfoDealService.updateTalentInfo", talentInfoResult);
 			
 			 return talentInfoResult;
 		} catch (Exception e) {
@@ -153,13 +150,12 @@ public class TalentRepo {
 			return result;
 			
 		} catch (Exception e) {
-			log.error("param :vo={}",vo,e);
+			log.error("param :ExamineInfoVO={}",vo,e);
 			return null;
 		}
 	}
 	public List<BankInfoDTO> getBankList() {
 		MemResult<List<BankInfoDTO>> bankList = talentInfoDealService.queryBankList();
-		RepoUtils.requestLog(log, " talentInfoDealService.queryBankList", bankList);
 		
 		return bankList.getValue();
 	}
@@ -191,12 +187,37 @@ public class TalentRepo {
 	public MemResult<Boolean> updateCheckStatus(ExamineInfoVO vo) {
 		try {
 			MemResult<Boolean> changeExamineStatusResult = examineDealService.changeExamineStatusIntoIng(vo.getInfoQueryDTO(sessionManager.getUserId()));
-
+			
 			return changeExamineStatusResult;
 		} catch (Exception e) {
 			log.error("param:ExamineInfoVO={}",vo,e);
 			return null;
 		}
 		
+	}
+	
+	public MemResult<TalentInfoDTO> queryTalentInfoByUserId(long userId,int domainId) {
+		MemResult<TalentInfoDTO> queryResult = null;
+		if (userId <= 0 || domainId <= 0) {
+			log.error("params error : userId={},domainId={}",userId,domainId);
+			MemberReturnCode returnCode = new MemberReturnCode(-1, "参数错误");
+			//调用静态方法修改后，对象状态改变？
+			//MemResult.buildFailResult(-1, "参数错误", false);
+//			queryResult.setErrorCode(-1);
+//			queryResult.setErrorMsg("参数错误");
+//			queryResult.setSuccess(false);
+			queryResult.setReturnCode(returnCode);
+			return queryResult;
+		}
+		try {
+			queryResult = talentInfoDealService.queryTalentInfoByUserId(userId, domainId);
+			if (queryResult == null ) {
+				return null;
+			}
+			return queryResult;
+		} catch (Exception e) {
+			log.error("params : userId={},domainId={}",userId,domainId,e);
+			return null;
+		}
 	}
 }
