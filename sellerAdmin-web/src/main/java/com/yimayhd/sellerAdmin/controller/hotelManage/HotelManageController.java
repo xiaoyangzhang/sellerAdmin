@@ -54,7 +54,7 @@ public class HotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/queryHotelManageList")
 	public String queryHotelManageList(Model model,HotelMessageVO hotelMessageVO) throws Exception {
-		WebResult<PageVO<HotelDO>> result =  hotelManageService.queryHotelMessageVOListByData(hotelMessageVO);
+		WebResult<PageVO<HotelDO>> result=null;// =  hotelManageService.queryHotelMessageVOListByData(hotelMessageVO);
 		if(!result.isSuccess()){
 			logger.error("查询列表失败");
 			return "/error";
