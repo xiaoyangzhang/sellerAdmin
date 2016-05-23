@@ -17,7 +17,9 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.HotelManageDomainChecker;
 import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
+import com.yimayhd.sellerAdmin.repo.HotelManageRepo;
 import com.yimayhd.sellerAdmin.service.hotelManage.HotelManageService;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,8 @@ public class HotelManageServiceImpl implements HotelManageService {
 	private ItemQueryService itemQueryServiceRef;
 	@Autowired
 	private ItemPublishService itemPublishServiceRef;
+	@Autowired
+	private HotelManageRepo hotelManageRepo;
 
 	private static final Logger log = LoggerFactory.getLogger(HotelManageServiceImpl.class);
 
@@ -43,23 +47,20 @@ public class HotelManageServiceImpl implements HotelManageService {
 	 * @return
      */
 	@Override
-	public WebResult<PageVO<HotelDO>> queryHotelMessageVOListByData(final HotelMessageVO hotelMessageVO) {
-		HotelManageDomainChecker check = new HotelManageDomainChecker(hotelMessageVO);
-		WebResult <PageVO<HotelDO>> result =new WebResult<PageVO<HotelDO>>();
+	public WebResult<PageVO<HotelMessageVO>> queryHotelMessageVOListByData(final HotelMessageVO hotelMessageVO) {
+		HotelManageDomainChecker domain = new HotelManageDomainChecker(hotelMessageVO);
+		WebResult<PageVO<HotelMessageVO>> result= new  WebResult<PageVO<HotelMessageVO>>();
+		domain.setPageResult(result);
+		domain.setHotelMessageVO(hotelMessageVO);
 		try{
-			WebResult chekResult =  check.checkHotelMessageVO();
+			WebResult chekResult =  domain.checkHotelMessageVO();
 			if(!chekResult.isSuccess()){
 				log.error("HotelManageServiceImpl.queryHotelMessageVOListByData is fail. code={}, message={} ",
 						chekResult.getErrorCode(), chekResult.getResultMsg());
 				return chekResult;
 			}
-			HotelPageQuery hotelPageQuery = check.getBizQueryModel();
-			ICPageResult<HotelDO> callBack= itemQueryServiceRef.pageQueryHotel(hotelPageQuery);
-			if(callBack==null){
-				return WebResult.failure(WebReturnCode.SYSTEM_ERROR,"查询pageQueryHotel返回结果异常");
-			}
-			PageVO<HotelDO> pageModel = new PageVO<HotelDO>(callBack.getPageNo(),callBack.getPageSize(),callBack.getTotalCount(),callBack.getList());
-			result.setValue(pageModel);
+			// 调用中台接口
+			result = hotelManageRepo.queryHotelMessageVOListByDataRepo(domain);
 		}catch(Exception e){
 			e.printStackTrace();
 			result.failure(WebReturnCode.SYSTEM_ERROR,"查询酒店资源列表系统异常");
@@ -85,6 +86,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 			ItemResult result= itemQueryServiceRef.getItem(hotelMessageVO.getItemId(), new ItemOptionDTO());
 		}catch(Exception e){
 			e.printStackTrace();
+			//log
 		}
 
 		return null;
@@ -125,7 +127,8 @@ public class HotelManageServiceImpl implements HotelManageService {
 	 * @return
      */
 	public WebResult<HotelMessageVO> addHotelMessageVOByData(final HotelMessageVO hotelMessageVO){
-		HotelManageDomainChecker check = new HotelManageDomainChecker(hotelMessageVO);
+		HotelManageDomainChecker domain = new HotelManageDomainChecker(hotelMessageVO);
+		domain.setHotelMessageVO(hotelMessageVO);
 		ItemPubResult result = itemPublishServiceRef.publishCommonItem(new CommonItemPublishDTO());
 		return null;
 
