@@ -347,6 +347,6 @@ public class MerchantBiz {
 		ex.setCooperation3(userDetailInfo.getCooperation3());
 		ex.setCooperation4(userDetailInfo.getCooperation4());
 		ex.setCooperation5(userDetailInfo.getCooperation5());
-		
+		ex.setCardInHand(userDetailInfo.getCardInHand());
 	}
 }

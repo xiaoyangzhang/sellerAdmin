@@ -9,6 +9,7 @@
 	<div class="bd">
 		#foreach($pictureTextItem in $pictureText.pictureTextItems)
 			#if($pictureTextItem.type.equalsIgnoreCase('text'))
+
 		<p class="text">#set( $contentHtml = $!{pictureTextItem.value.replaceAll("\n","<br/>")} )
 			<font>$!contentHtml</font>
 		</p>

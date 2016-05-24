@@ -82,7 +82,7 @@
 							</tr>
 						</table>
 					</div>
-					<div class="tit gray6 f16">上传资质</div>
+					<div class="tit gray6 f16">上传资质（所有文件需加盖公章）</div>
 					<div class="fm_md_two fm_md">
 						<table>
 							#*<tr>
@@ -167,9 +167,9 @@
 									</span>
 									<div><label class="bred">*</label><label class="gray9">非三证合一商户必须上传</label></div>
 								</td>
-								<td class="tbtxt"><label class="bred">*</label><label>开户许可证正面：</label></td>
+								<td class="tbtxt"><label>开户许可证正面：</label></td>
 								<td>
-									<span class="imgbox">
+									<span class="imgbox allownull">
 										<div class="canclick card_a">
 											#if("$!examineInfo.openCard" == "")
 											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
@@ -200,7 +200,7 @@
 									</span>
 									<div><label class="bred">*</label><label class="gray9">旅行社必填项</label></div>
 								</td>
-								<td class="tbtxt"><label>旅行社责任险证明正面：</label></td>
+								<td class="tbtxt"><label>旅行社责任险保险单：</label></td>
 								<td>
 									<span class="imgbox allownull">
 										<div class="canclick card_a">
