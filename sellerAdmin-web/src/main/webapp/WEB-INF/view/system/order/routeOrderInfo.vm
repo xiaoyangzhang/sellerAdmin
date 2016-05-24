@@ -73,7 +73,7 @@
     <br><br>
     <div>
         <div>买家备注：$!order.mainOrder.tcMainOrder.otherInfo</div>
-        <form  ><div>卖家备注：<textarea name="customerServiceNote" id="customerServiceNote"  rows="3" cols="50">$!order.customerServiceNote</textarea>
+        <form  ><div>卖家备注：<textarea name="customerServiceNote" id="customerServiceNote"  rows="3" cols="50">$!order.mainOrder.tcMainOrder.customerServiceNote</textarea>
         <button class="btn btn-primary save" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">保存</button></div>
         </form>
     </div>

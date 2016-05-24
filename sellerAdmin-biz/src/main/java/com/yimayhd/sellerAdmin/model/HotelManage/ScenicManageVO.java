@@ -10,6 +10,13 @@ public class ScenicManageVO extends BaseQuery {
     private Long id ;// '自增id',
     private String name ;// '景点名称'
 
+    private Integer provinceId;//省id
+    private Integer cityId;//市d
+    private Integer townId;//区id
+    private Integer level;//景区等级
+
+
+
     public Long getId() {
         return id;
     }
@@ -24,5 +31,37 @@ public class ScenicManageVO extends BaseQuery {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getProvinceId() {
+        return provinceId;
+    }
+
+    public void setProvinceId(Integer provinceId) {
+        this.provinceId = provinceId;
+    }
+
+    public Integer getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
+    }
+
+    public Integer getTownId() {
+        return townId;
+    }
+
+    public void setTownId(Integer townId) {
+        this.townId = townId;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 }

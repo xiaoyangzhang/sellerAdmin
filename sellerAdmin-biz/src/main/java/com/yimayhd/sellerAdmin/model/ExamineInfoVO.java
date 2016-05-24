@@ -431,7 +431,7 @@ public class ExamineInfoVO  implements Serializable  {
 		dto.setAddress(vo.getAddress());
 		dto.setAffairsCard(vo.getAffairsCard());
 		dto.setArtCertificate(vo.getArtCertificate());
-		dto.setBusinessLicense(vo.getBusinessLicense());
+		dto.setBusinessLicense(vo.getBusinessLicense()); 
 		dto.setCardInHand(vo.getCardInHand());
 		dto.setClimbingCertificate(vo.getClimbingCertificate());
 		dto.setCooperation1(vo.getCooperation1());
