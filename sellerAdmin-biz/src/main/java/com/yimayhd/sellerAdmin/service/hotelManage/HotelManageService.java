@@ -31,4 +31,19 @@ public interface HotelManageService {
      * @return
      */
     public WebResult<List<RoomDO>> queryRoomTypeListByData( HotelMessageVO hotelMessageVO);
+
+    /**
+     * 商品信息填加
+     * @param hotelMessageVO
+     * @return
+     */
+    public WebResult<HotelMessageVO> addHotelMessageVOByData( HotelMessageVO hotelMessageVO);
+    /**
+     * 编辑商品信息
+     * @param hotelMessageVO
+     * @return
+     */
+    public  WebResult<Long> editHotelMessageVOByData( HotelMessageVO hotelMessageVO);
+
+
 }

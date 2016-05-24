@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class HotelMessageVO extends BaseQuery {
 
+	private Long sellerId;// 商户Id
 	private Long hotelId;//酒店ID
 	private String name;//酒店名称
 	private String area;//酒店区域
@@ -25,15 +26,23 @@ public class HotelMessageVO extends BaseQuery {
 	private String code; // '商品代码',
 	private Integer payType  ; // COMMENT '可支持支付方式',
 
-	private Long itemId;// 商品Idl
+	private Long itemId;// 商品Id
 
-	private Integer type;//商品类型:1.酒店.2客栈
+	private Integer outType;//商品类型:1.酒店.2客栈
+	private String outTypeStr;//商品类型:1.酒店.2客栈
 	private Integer cancelLimit;// 退订限制:1,可退,2不可退,3免费退
+	private String cancelLimitStr;// 退订限制:1,可退,2不可退,3免费退
 	private String description;// 退订规则
 	private List<Integer> latestCheckin;//最晚到店时间 中台
 	private String storeLastTime;// 最晚到店时间
-	private Long startBookTimeLimit;// 提前预定天数
+	private Integer startBookTimeLimit;// 提前预定天数
 	private Integer breakfast;//早餐
+	//{"supplier_calendar":{ "seller_id":"2088102122524333","biz_list":[{"stock_num":10,"price":"8.8","vTxt":"2088101117955611"}]}}
+	private String supplierCalendar;//价格日历json 信息,
+	private Long roomId;//房型ID
+
+	private RoomMessageVO roomMessageVO;//房型
+	private List<RoomMessageVO> listMoomMessageVO;//房型信息
 
 	public Long getHotelId() {
 		return hotelId;
@@ -132,14 +141,13 @@ public class HotelMessageVO extends BaseQuery {
 		this.phone = phone;
 	}
 
-	public Integer getType() {
-		return type;
+	public Integer getOutType() {
+		return outType;
 	}
 
-	public void setType(Integer type) {
-		this.type = type;
+	public void setOutType(Integer outType) {
+		this.outType = outType;
 	}
-
 
 	public Integer getCancelLimit() {
 		return cancelLimit;
@@ -173,11 +181,11 @@ public class HotelMessageVO extends BaseQuery {
 		this.storeLastTime = storeLastTime;
 	}
 
-	public Long getStartBookTimeLimit() {
+	public Integer getStartBookTimeLimit() {
 		return startBookTimeLimit;
 	}
 
-	public void setStartBookTimeLimit(Long startBookTimeLimit) {
+	public void setStartBookTimeLimit(Integer startBookTimeLimit) {
 		this.startBookTimeLimit = startBookTimeLimit;
 	}
 
@@ -187,5 +195,62 @@ public class HotelMessageVO extends BaseQuery {
 
 	public void setBreakfast(Integer breakfast) {
 		this.breakfast = breakfast;
+	}
+
+	public Long getSellerId() {
+		return sellerId;
+	}
+
+	public void setSellerId(Long sellerId) {
+		this.sellerId = sellerId;
+	}
+
+	public List<RoomMessageVO> getListMoomMessageVO() {
+		return listMoomMessageVO;
+	}
+
+	public void setListMoomMessageVO(List<RoomMessageVO> listMoomMessageVO) {
+		this.listMoomMessageVO = listMoomMessageVO;
+	}
+
+	public String getSupplierCalendar() {
+		return supplierCalendar;
+	}
+
+	public void setSupplierCalendar(String supplierCalendar) {
+		this.supplierCalendar = supplierCalendar;
+	}
+
+	public RoomMessageVO getRoomMessageVO() {
+		return roomMessageVO;
+	}
+
+	public void setRoomMessageVO(RoomMessageVO roomMessageVO) {
+		this.roomMessageVO = roomMessageVO;
+	}
+
+	public Long getRoomId() {
+		return roomId;
+	}
+
+	public void setRoomId(Long roomId) {
+		this.roomId = roomId;
+	}
+
+	public String getOutTypeStr() {
+		return outTypeStr;
+	}
+
+	public void setOutTypeStr(String outTypeStr) {
+		this.outTypeStr = outTypeStr;
+	}
+
+
+	public String getCancelLimitStr() {
+		return cancelLimitStr;
+	}
+
+	public void setCancelLimitStr(String cancelLimitStr) {
+		this.cancelLimitStr = cancelLimitStr;
 	}
 }

@@ -84,9 +84,13 @@ public class HotelManageServiceImpl implements HotelManageService {
 			}
 			// 参数?ItemOptionDTO,返回?result
 			ItemResult result= itemQueryServiceRef.getItem(hotelMessageVO.getItemId(), new ItemOptionDTO());
+			/***1.查询商品**/
+			/***2.查询资源**/
+			/***3.查询房型**/
+			/***4.查询sku**/
 		}catch(Exception e){
 			e.printStackTrace();
-			//log
+			log.error("queryHotelMessageVOyData 查询商品信息异常");
 		}
 
 		return null;
@@ -116,7 +120,6 @@ public class HotelManageServiceImpl implements HotelManageService {
 		}catch(Exception e){
 			e.printStackTrace();
 			log.error("queryRoomTypeListByData 查询酒店房型异常");
-
 		}
 		return roomResult;
 	}
@@ -126,11 +129,28 @@ public class HotelManageServiceImpl implements HotelManageService {
 	 * @param hotelMessageVO
 	 * @return
      */
+	@Override
 	public WebResult<HotelMessageVO> addHotelMessageVOByData(final HotelMessageVO hotelMessageVO){
 		HotelManageDomainChecker domain = new HotelManageDomainChecker(hotelMessageVO);
+		WebResult<HotelMessageVO> result = new WebResult<HotelMessageVO>();
 		domain.setHotelMessageVO(hotelMessageVO);
-		ItemPubResult result = itemPublishServiceRef.publishCommonItem(new CommonItemPublishDTO());
-		return null;
+		domain.setWebResult(result);
+		try{
+			WebResult chekResult = domain.checkAddHotelMessageVOByData();
+			if(!chekResult.isSuccess()){
+				log.error("HotelManageServiceImpl.addHotelMessageVOByData is fail. code={}, message={} ",
+						chekResult.getErrorCode(), chekResult.getResultMsg());
+				return chekResult;
+			}
+
+			result= hotelManageRepo.addHotelMessageVOByData(domain);
+
+		}catch(Exception e){
+			e.printStackTrace();
+			log.error("HotelManageServiceImpl.addHotelMessageVOByData  call interface exception ");
+			return  WebResult.failure(WebReturnCode.SYSTEM_ERROR, "添加酒店商品信息异常");
+		}
+		return result;
 
 	}
 
@@ -141,9 +161,26 @@ public class HotelManageServiceImpl implements HotelManageService {
 	 * @param hotelMessageVO
 	 * @return
      */
-	public  WebResult<Boolean> editHotelMessageVOByData(final HotelMessageVO hotelMessageVO){
-		ItemPubResult result = itemPublishServiceRef.updatePublishCommonItem(new CommonItemPublishDTO());
-		return null;
+
+	public  WebResult<Long> editHotelMessageVOByData(final HotelMessageVO hotelMessageVO){
+		HotelManageDomainChecker domain = new HotelManageDomainChecker(hotelMessageVO);
+		WebResult<Long> result = new WebResult<Long>();
+		domain.setHotelMessageVO(hotelMessageVO);
+		domain.setLongWebResult(result);
+		try{
+			WebResult chekResult = domain.checkAddHotelMessageVOByData();
+			if(!chekResult.isSuccess()){
+				log.error("HotelManageServiceImpl.editHotelMessageVOByData is fail. code={}, message={} ",
+						chekResult.getErrorCode(), chekResult.getResultMsg());
+				return chekResult;
+			}
+			result= hotelManageRepo.editHotelMessageVOByData(domain);
+		}catch(Exception e){
+			log.error("HotelManageServiceImpl.editHotelMessageVOByData  call interface exception ");
+			e.printStackTrace();
+			return  WebResult.failure(WebReturnCode.SYSTEM_ERROR, "编辑酒店商品信息异常");
+		}
+		return result;
 	}
 
 	public ItemQueryService getItemQueryServiceRef() {
