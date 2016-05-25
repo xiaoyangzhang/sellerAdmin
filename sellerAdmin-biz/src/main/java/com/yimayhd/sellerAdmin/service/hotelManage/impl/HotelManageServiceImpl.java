@@ -74,26 +74,28 @@ public class HotelManageServiceImpl implements HotelManageService {
 	 * @return
      */
 	public WebResult<HotelMessageVO> queryHotelMessageVOyData(final HotelMessageVO hotelMessageVO){
-		HotelManageDomainChecker check = new HotelManageDomainChecker(hotelMessageVO);
+		HotelManageDomainChecker domain = new HotelManageDomainChecker(hotelMessageVO);
+		WebResult<HotelMessageVO>  result = new WebResult<HotelMessageVO>();
+		domain.setWebResult(result);
 		try{
-			WebResult chekResult = check.checkQueryHotelMessageVOyData();
+			WebResult chekResult = domain.checkQueryHotelMessageVOyData();
 			if(!chekResult.isSuccess()){
 				log.error("HotelManageServiceImpl.queryHotelMessageVOyData is fail. code={}, message={} ",
 						chekResult.getErrorCode(), chekResult.getResultMsg());
 				return chekResult;
 			}
-			// 参数?ItemOptionDTO,返回?result
-			ItemResult result= itemQueryServiceRef.getItem(hotelMessageVO.getItemId(), new ItemOptionDTO());
-			/***1.查询商品**/
-			/***2.查询资源**/
-			/***3.查询房型**/
-			/***4.查询sku**/
+			 result = hotelManageRepo.queryHotelMessageVOyData(domain);
+			if(!result.isSuccess()){
+				log.error("HotelManageServiceImpl.queryHotelMessageVOyData is fail. code={}, message={} ",
+						result.getErrorCode(), result.getResultMsg());
+				return result;
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 			log.error("queryHotelMessageVOyData 查询商品信息异常");
 		}
 
-		return null;
+		return result;
 
 	}
 

@@ -223,8 +223,8 @@ public class HotelManageDomainChecker {
         hotelMessageVO.setPayType(itemDO.getPayType());
         hotelMessageVO.setDescription(itemDO.getDescription());
         hotelMessageVO.setRoomId(itemFeature.getRoomId());
-        hotelMessageVO.setCancelLimit(itemFeature.getCancelLimit().getType());//退订规则
-        hotelMessageVO.setCancelLimitStr(itemFeature.getCancelLimit().getDesc());//退订规则 string
+        hotelMessageVO.setCancelLimit(itemFeature.getCancelLimit());//退订规则
+        hotelMessageVO.setCancelLimitStr(CancelLimit.getByType(itemFeature.getCancelLimit()).getDesc());//退订规则 string
         hotelMessageVO.setLatestCheckin(itemFeature.getLatestCheckin());//最后到点时间
         hotelMessageVO.setStartBookTimeLimit(itemFeature.getStartBookTimeLimit());// 提前预定天数
         hotelMessageVO.setBreakfast(itemFeature.getBreakfast());//早餐
@@ -243,10 +243,10 @@ public class HotelManageDomainChecker {
         if(roomDO==null){
             return null;
         }
-        vo.setRoomId(roomDO.getId());
-        vo.setName(roomDO.getName());
-        vo.setArea(roomDO.getFeature().getArea());
-        vo.setPeopleNum(roomDO.getFeature().getPeople());
+       // vo.setRoomId(roomDO.getId());
+        //vo.setName(roomDO.getName());
+        //vo.setArea(roomDO.getFeature().getArea());
+        //vo.setPeopleNum(roomDO.getFeature().getPeople());
         return vo;
     }
 
