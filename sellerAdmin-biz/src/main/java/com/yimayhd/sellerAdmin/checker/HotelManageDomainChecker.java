@@ -2,6 +2,7 @@ package com.yimayhd.sellerAdmin.checker;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
@@ -12,6 +13,7 @@ import com.yimayhd.ic.client.model.enums.CancelLimit;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ResourceType;
 import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
+import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -36,12 +38,15 @@ public class HotelManageDomainChecker {
     private WebResult <PageVO<HotelMessageVO>> pageResult ;
     private WebResult <HotelMessageVO> webResult;
     private WebResult<Long> longWebResult;
+    private WebResult<List<RoomMessageVO>> listRoomMessageVOResult;
 
     /***拼装商品信息参数start**/
     private ItemDO itemDO;
     private List<ItemSkuDO> itemSkuDOList;
     private HotelDO hotelDO;
     private List<RoomDO> listRoomDO;
+    private CategoryPropertyValueDO categoryPropertyValueDO;
+
 
     /***拼装商品信息参数end**/
 
@@ -195,14 +200,16 @@ public class HotelManageDomainChecker {
         //itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, CancelLimit.Ok.getType());
         /**房型ID**/
         itemFeature.put(ItemFeatureKey.ROOM_ID,hotelMessageVO.getRoomId().longValue());
+
         itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, hotelMessageVO.getCancelLimit().intValue());//退订规则
         itemFeature.put(ItemFeatureKey.LATEST_CHECKIN,hotelMessageVO.getLatestCheckin());//前端String转list
         itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,hotelMessageVO.getStartBookTimeLimit());//提前预定天数
         itemFeature.put(ItemFeatureKey.BREAKFAST,hotelMessageVO.getBreakfast());//早餐
         itemDO.setItemFeature(itemFeature);
         /****sku价格日历***/
+        // 价格日历 json解析
         List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>();
-
+       // CategoryPropertyValueDO + 日期 存到 ItemSkuPVPair 中,每个sku 只有 一个 pv 属性
         dto.setItemDO(itemDO);
 
         return dto;
@@ -217,20 +224,71 @@ public class HotelManageDomainChecker {
         ItemFeature itemFeature = itemDO.getItemFeature();
         hotelMessageVO.setHotelId(itemDO.getOutId());//酒店ID
         hotelMessageVO.setOutType(itemDO.getOutType());//酒店类型
-        hotelMessageVO.setOutTypeStr(ResourceType.getByType(this.itemDO.getOutType()).getDesc());//酒店类型name
+        hotelMessageVO.setOutTypeStr(ResourceType.getByType(itemDO.getOutType()).getDesc());//酒店类型name
         hotelMessageVO.setTitle(itemDO.getTitle());
         hotelMessageVO.setCode(itemDO.getCode());
         hotelMessageVO.setPayType(itemDO.getPayType());
         hotelMessageVO.setDescription(itemDO.getDescription());
-        hotelMessageVO.setRoomId(itemFeature.getRoomId());
+        hotelMessageVO.setRoomId(itemFeature.getRoomId());// 房型ID
         hotelMessageVO.setCancelLimit(itemFeature.getCancelLimit());//退订规则
         hotelMessageVO.setCancelLimitStr(CancelLimit.getByType(itemFeature.getCancelLimit()).getDesc());//退订规则 string
         hotelMessageVO.setLatestCheckin(itemFeature.getLatestCheckin());//最后到点时间
         hotelMessageVO.setStartBookTimeLimit(itemFeature.getStartBookTimeLimit());// 提前预定天数
         hotelMessageVO.setBreakfast(itemFeature.getBreakfast());//早餐
-
+        /**价格日历**/
+        hotelMessageVO.setSupplierCalendar(getSupplierCalendarJson());
         /***房型信息**/
-        return null;
+        hotelMessageVO.setListRoomMessageVO(getRoomMessageVOList());
+        return hotelMessageVO;
+    }
+
+    /**
+     * 根据itemsku 拼装json信息
+     * @return
+     */
+    public String getSupplierCalendarJson(){
+        String json ="";
+        if(CollectionUtils.isEmpty(itemSkuDOList)){
+            return null;
+        }
+        for(ItemSkuDO sku: itemSkuDOList){
+            sku.getId();
+            sku.getSellerId();//商家ID
+            sku.getPrice();//价格
+            sku.getStockNum();//库存
+            ItemSkuPVPair pvp = sku.getItemSkuPVPairList().get(0);
+            pvp.getVTxt();//日期
+        }
+
+        return json;
+
+    }
+
+    /**
+     * 获取房型信息
+     * @return
+     */
+    public  List<RoomMessageVO> getRoomMessageVOList(){
+        if(CollectionUtils.isEmpty(listRoomDO)){
+            return  null;
+        }
+        List<RoomMessageVO> roomList = new ArrayList<RoomMessageVO>(listRoomDO.size());
+        for(RoomDO room :listRoomDO){
+            RoomMessageVO vo = new  RoomMessageVO();
+            vo.setRoomId(room.getId());
+            vo.setHotelId(room.getHotelId());
+            vo.setName(room.getName());
+            vo.setPics(room.getPics());
+            RoomFeature roomFeature = room.getFeature();
+            vo.setArea(roomFeature.getArea());
+            vo.setBed(roomFeature.getBed());
+            vo.setWindow(roomFeature.getWindow());
+           // vo.getNetwork(roomFeature.getNetwork());
+            vo.setPeople(roomFeature.getPeople());
+
+        }
+        return roomList;
+
     }
 
     /**
@@ -313,6 +371,22 @@ public class HotelManageDomainChecker {
 
     public void setItemDO(ItemDO itemDO) {
         this.itemDO = itemDO;
+    }
+
+    public CategoryPropertyValueDO getCategoryPropertyValueDO() {
+        return categoryPropertyValueDO;
+    }
+
+    public void setCategoryPropertyValueDO(CategoryPropertyValueDO categoryPropertyValueDO) {
+        this.categoryPropertyValueDO = categoryPropertyValueDO;
+    }
+
+    public WebResult<List<RoomMessageVO>> getListRoomMessageVOResult() {
+        return listRoomMessageVOResult;
+    }
+
+    public void setListRoomMessageVOResult(WebResult<List<RoomMessageVO>> listRoomMessageVOResult) {
+        this.listRoomMessageVOResult = listRoomMessageVOResult;
     }
 
     public static void main(String[] args) {

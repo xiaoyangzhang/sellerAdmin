@@ -1,25 +1,13 @@
 package com.yimayhd.sellerAdmin.service.hotelManage.impl;
 
-import com.yimayhd.ic.client.model.domain.HotelDO;
-import com.yimayhd.ic.client.model.domain.RoomDO;
-import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
-import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
-import com.yimayhd.ic.client.model.query.HotelPageQuery;
-import com.yimayhd.ic.client.model.query.RoomQuery;
-import com.yimayhd.ic.client.model.result.ICPageResult;
-import com.yimayhd.ic.client.model.result.ICResult;
-import com.yimayhd.ic.client.model.result.item.ItemPubResult;
-import com.yimayhd.ic.client.model.result.item.ItemResult;
-import com.yimayhd.ic.client.service.item.ItemPublishService;
-import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.HotelManageDomainChecker;
 import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
+import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
 import com.yimayhd.sellerAdmin.repo.HotelManageRepo;
 import com.yimayhd.sellerAdmin.service.hotelManage.HotelManageService;
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +20,6 @@ import java.util.List;
  * Created by wangdi on 2015/11/2.
  */
 public class HotelManageServiceImpl implements HotelManageService {
-	@Autowired
-	private ItemQueryService itemQueryServiceRef;
-	@Autowired
-	private ItemPublishService itemPublishServiceRef;
 	@Autowired
 	private HotelManageRepo hotelManageRepo;
 
@@ -73,6 +57,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 	 * @param hotelMessageVO
 	 * @return
      */
+	@Override
 	public WebResult<HotelMessageVO> queryHotelMessageVOyData(final HotelMessageVO hotelMessageVO){
 		HotelManageDomainChecker domain = new HotelManageDomainChecker(hotelMessageVO);
 		WebResult<HotelMessageVO>  result = new WebResult<HotelMessageVO>();
@@ -105,20 +90,19 @@ public class HotelManageServiceImpl implements HotelManageService {
 	 * @return
      */
 	@Override
-	public WebResult<List<RoomDO>> queryRoomTypeListByData(final HotelMessageVO hotelMessageVO) {
-		HotelManageDomainChecker check = new HotelManageDomainChecker(hotelMessageVO);
-		WebResult<List<RoomDO>> roomResult = new WebResult<List<RoomDO>>();
+	public WebResult<List<RoomMessageVO>> queryRoomTypeListByData(final HotelMessageVO hotelMessageVO) {
+		HotelManageDomainChecker domain = new HotelManageDomainChecker(hotelMessageVO);
+		WebResult<List<RoomMessageVO>> roomResult = new WebResult<List<RoomMessageVO>>();
+		domain.setListRoomMessageVOResult(roomResult);
+		domain.setHotelMessageVO(hotelMessageVO);
 		try{
-			WebResult chekResult = check.checkQueryHotelMessageInfo();
+			WebResult chekResult = domain.checkQueryHotelMessageInfo();
 			if(!chekResult.isSuccess()){
 				log.error("HotelManageServiceImpl.queryRoomTypeListByData is fail. code={}, message={} ",
 						chekResult.getErrorCode(), chekResult.getResultMsg());
 				return chekResult;
 			}
-			RoomQuery roomQuery = new RoomQuery();
-			roomQuery.setHotelId(hotelMessageVO.getHotelId());
-			ICResult<List<RoomDO>> result= itemQueryServiceRef.queryAllRoom( roomQuery);
-			roomResult.setValue(result.getModule());
+			roomResult = hotelManageRepo.queryRoomTypeListByData(domain);
 		}catch(Exception e){
 			e.printStackTrace();
 			log.error("queryRoomTypeListByData 查询酒店房型异常");
@@ -163,7 +147,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 	 * @param hotelMessageVO
 	 * @return
      */
-
+	@Override
 	public  WebResult<Long> editHotelMessageVOByData(final HotelMessageVO hotelMessageVO){
 		HotelManageDomainChecker domain = new HotelManageDomainChecker(hotelMessageVO);
 		WebResult<Long> result = new WebResult<Long>();
@@ -185,11 +169,4 @@ public class HotelManageServiceImpl implements HotelManageService {
 		return result;
 	}
 
-	public ItemQueryService getItemQueryServiceRef() {
-		return itemQueryServiceRef;
-	}
-
-	public void setItemQueryServiceRef(ItemQueryService itemQueryServiceRef) {
-		this.itemQueryServiceRef = itemQueryServiceRef;
-	}
 }

@@ -42,7 +42,9 @@ public class HotelMessageVO extends BaseQuery {
 	private Long roomId;//房型ID
 
 	private RoomMessageVO roomMessageVO;//房型
-	private List<RoomMessageVO> listMoomMessageVO;//房型信息
+	private List<RoomMessageVO> listRoomMessageVO;//房型信息
+
+	private Long categoryId;
 
 	public Long getHotelId() {
 		return hotelId;
@@ -205,12 +207,12 @@ public class HotelMessageVO extends BaseQuery {
 		this.sellerId = sellerId;
 	}
 
-	public List<RoomMessageVO> getListMoomMessageVO() {
-		return listMoomMessageVO;
+	public List<RoomMessageVO> getListRoomMessageVO() {
+		return listRoomMessageVO;
 	}
 
-	public void setListMoomMessageVO(List<RoomMessageVO> listMoomMessageVO) {
-		this.listMoomMessageVO = listMoomMessageVO;
+	public void setListRoomMessageVO(List<RoomMessageVO> listRoomMessageVO) {
+		this.listRoomMessageVO = listRoomMessageVO;
 	}
 
 	public String getSupplierCalendar() {
@@ -252,5 +254,13 @@ public class HotelMessageVO extends BaseQuery {
 
 	public void setCancelLimitStr(String cancelLimitStr) {
 		this.cancelLimitStr = cancelLimitStr;
+	}
+
+	public Long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
 	}
 }
