@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.HtmlUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,7 @@ import java.util.List;
 @RequestMapping("/hotel")
 public class HotelManageController extends BaseController {
 	private static final Logger logger = LoggerFactory.getLogger(HotelManageController.class);
+	private final Integer pageNo=8;
 
 	@Autowired
 	private HotelManageService hotelManageService;
@@ -53,8 +55,12 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/queryHotelManageList")
+	@RequestMapping(value = "/queryHotelManageList", method = RequestMethod.GET)
 	public String queryHotelManageList(Model model,HotelMessageVO hotelMessageVO) throws Exception {
+		long userId = sessionManager.getUserId() ;
+		hotelMessageVO.setSellerId(userId);
+		hotelMessageVO.setPageSize(8);
+		//hotelMessageVO.setPageNo(pageNo);//
 		WebResult<PageVO<HotelMessageVO>> result= hotelManageService.queryHotelMessageVOListByData(hotelMessageVO);
 		if(!result.isSuccess()){
 			logger.error("查询列表失败");
@@ -71,7 +77,7 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("hotelMessageVOList", hotelMessageVOList);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("pageNo", pageResult.getPaginator().getPage());
-		model.addAttribute("pageSize",pageResult.getPaginator().getPageSize());
+		model.addAttribute("pageSize",8);
 		model.addAttribute("totalCount", pageResult.getPaginator().getTotalItems());
 		return "/system/comm/hotelManage/searchhotel";
 	}
@@ -82,7 +88,7 @@ public class HotelManageController extends BaseController {
 	 * @param hotelId
      * @return
      */
-	@RequestMapping(value = "/queryRoomTypeListByData")
+/*	@RequestMapping(value = "/queryRoomTypeListByData")
 	public String queryRoomTypeListByData(Model model,Long hotelId ){
 		if(hotelId==null){
 			logger.error("酒店pid不能为空");
@@ -97,7 +103,7 @@ public class HotelManageController extends BaseController {
 		}
 		model.addAttribute("roomList", result.getValue());
 		return "/system/comm/hotelManage/addhotel";
-	}
+	}*/
 
 
 	/**
@@ -106,7 +112,7 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
      */
-	@RequestMapping(value = "/addHotelMessageVOByData")
+	/*@RequestMapping(value = "/addHotelMessageVOByData")
 	public String addHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
 		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
 			//throw new BaseException("酒店资源信息错误,无法添加商品");
@@ -122,7 +128,7 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("hotelMessageVO", result.getValue());
 		return "";
 
-	}
+	}*/
 
 	/**
 	 * 编辑酒店资源
@@ -131,7 +137,7 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
      */
-	public String editHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
+	/*public String editHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
 		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
 			//throw new BaseException("酒店资源信息错误,无法编辑商品");
 		}
@@ -141,7 +147,7 @@ public class HotelManageController extends BaseController {
 		}
 		model.addAttribute("itemId", result.getValue());
 		return "";
-	}
+	}*/
 
 	/**
 	 * 查询酒店商品信息详情
@@ -149,7 +155,7 @@ public class HotelManageController extends BaseController {
 	 * @param hotelMessageVO
      * @return
      */
-	public String queryHotelMessageVOyData(Model model,HotelMessageVO hotelMessageVO){
+	/*public String queryHotelMessageVOyData(Model model,HotelMessageVO hotelMessageVO){
 		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
 			//throw new BaseException("酒店资源信息错误,无法编辑商品");
 		}
@@ -160,14 +166,14 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("hotelMessageVO", result.getValue());
 		return "";
 
-	}
+	}*/
 
 	/**
 	 * 添加酒店商品信息验证
 	 * @param hotelMessageVO
 	 * @return
      */
-	public String checkAddHotelMessageVOParam(HotelMessageVO hotelMessageVO){
+	/*public String checkAddHotelMessageVOParam(HotelMessageVO hotelMessageVO){
 		if(StringUtils.isBlank(hotelMessageVO.getTitle())){
 			return "商品标题为空";
 		}
@@ -177,7 +183,7 @@ public class HotelManageController extends BaseController {
 		//提前预定天数
 		return null;
 
-	}
+	}*/
 
 	public static void main(String[] args) {
 

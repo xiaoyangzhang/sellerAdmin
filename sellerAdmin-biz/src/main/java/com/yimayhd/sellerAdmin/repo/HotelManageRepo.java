@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.repo;
 
+import com.google.gson.reflect.TypeToken;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
@@ -22,6 +23,7 @@ import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.HotelManageDomainChecker;
 import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
+import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +63,9 @@ public class HotelManageRepo {
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "查询pageQueryHotel返回结果异常");
 		}
 		List<HotelDO> callBackList = callBack.getList();
+		System.out.println(CommonJsonUtil.objectToJson(callBackList,List.class));
+		log.info("result:"+CommonJsonUtil.objectToJson(callBackList,List.class));
+		System.out.println("pageNo:"+callBack.getPageNo()+",pageSize:"+callBack.getPageSize()+",totalCount:"+callBack.getTotalCount());
 		List<HotelMessageVO> modelList = new ArrayList<>();
 		if (CollectionUtils.isNotEmpty(callBackList)) {
 			for (HotelDO _do : callBackList) {

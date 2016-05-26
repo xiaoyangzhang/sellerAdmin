@@ -3,15 +3,18 @@ package com.yimayhd.sellerAdmin.checker;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
-import com.yimayhd.ic.client.model.param.item.ScenicPublishAddDTO;
+import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
+import com.yimayhd.ic.client.model.param.item.ItemPubUpdateDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -69,6 +72,19 @@ public class ScenicManageDomainChecker {
     }
 
     /**
+     * 添加/编辑景区商品信息参数验证
+     * @return
+     */
+    public WebResult checkAddScenicManageVOByDdata(){
+        if(scenicManageVO.getSellerId()==null){
+            return WebResult.failure(WebReturnCode.PARAM_ERROR, "商户id不能为空");
+        }
+        if (scenicManageVO.getScenicId()==null){
+            return WebResult.failure(WebReturnCode.PARAM_ERROR, "景区资源ID不能为空");
+        }
+        return WebResult.success(null);
+    }
+    /**
      * do 2 modle
      * @return
      */
@@ -107,19 +123,74 @@ public class ScenicManageDomainChecker {
         //动态添加 属性
         return scenicManageVO;
     }
-    public void  getBizScenicPublishAddOrUpdateDTO(String className) {
-//        try{
-//            if(className.indexOf("serveMealAddDTO")>0){
-//                ScenicPublishAddDTO scenicPublishAddDTO = (ScenicPublishAddDTO) Class.forName("className").newInstance();
-//            }
-//        }catch(Exception e){
-//            e.printStackTrace();
-//        }
+    public ItemDO  getBizScenicPublishAddDTO() {
+
         ItemDO itemDO = new ItemDO();
-       // itemDO.setItemFea;scenicManageVO.getScenicId()
+        itemDO.setCategoryId(scenicManageVO.getCategoryId());
+        itemDO.setOutId(scenicManageVO.getScenicId());//酒店ID
+        itemDO.setSellerId(scenicManageVO.getSellerId());//商家ID
+        itemDO.setTitle(scenicManageVO.getTitle());
+        itemDO.setPrice(scenicManageVO.getPrice());//价格
+        itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice());//门市价
+
+        //itemDO.setOutType();
+        ItemFeature itemFeature = new ItemFeature(null);
+        /**票型资源信息**/
+        itemFeature.put(ItemFeatureKey.TICKET_ID,scenicManageVO.getTicketId());
+        itemFeature.put(ItemFeatureKey.TICKET_TITLE,scenicManageVO.getTicketTitle());
+        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,scenicManageVO.getStartBookTimeLimit());//提前预定天数
+        itemDO.setItemFeature(itemFeature);
+        scenicManageVO.getDynamicEntry();//动态json列表
 
 
+        return itemDO;
+    }
 
+    /**
+     * 更新ItemPubUpdateDTO参数
+     * @return
+     */
+    public ItemPubUpdateDTO getBizScenicPublishUpdateDTO(){
+        ItemPubUpdateDTO itemDO = new ItemPubUpdateDTO();
+        //itemDO.setCategoryId(scenicManageVO.getCategoryId());
+        itemDO.setOutId(scenicManageVO.getScenicId());//酒店ID
+        //itemDO.setSellerId(scenicManageVO.getSellerId());//商家ID
+        itemDO.setTitle(scenicManageVO.getTitle());
+        itemDO.setPrice(scenicManageVO.getPrice());//价格
+        itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice());//门市价
+
+        //itemDO.setOutType();
+        ItemFeature itemFeature = new ItemFeature(null);
+        /**票型资源信息**/
+        itemFeature.put(ItemFeatureKey.TICKET_ID,scenicManageVO.getTicketId());
+        itemFeature.put(ItemFeatureKey.TICKET_TITLE,scenicManageVO.getTicketTitle());
+        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,scenicManageVO.getStartBookTimeLimit());//提前预定天数
+        itemDO.setItemFeature(itemFeature);
+        scenicManageVO.getDynamicEntry();//动态json列表
+         List<ItemSkuDO> addItemSkuList;
+         List<Long> delItemSkuList;
+         List<ItemSkuDO> updItemSkuList;
+        return itemDO;
+    }
+
+    /**
+     * 拼装skuList
+     * @return
+     */
+    public  List<ItemSkuDO> getAddBizItemSkuDOList(){
+        if (StringUtils.isBlank(scenicManageVO.getSupplierCalendar())){
+            return null;
+        }
+        List<ItemSkuDO> itemSkuList = new ArrayList<ItemSkuDO>();
+        return  null;
+    }
+
+    public  List<ItemSkuDO> getUpdateBizItemSkuDOList(){
+        if (StringUtils.isBlank(scenicManageVO.getSupplierCalendar())){
+            return null;
+        }
+        List<ItemSkuDO> itemSkuList = new ArrayList<ItemSkuDO>();
+        return  null;
     }
     /**
      * 景区详情参数校验

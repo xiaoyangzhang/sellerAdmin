@@ -13,6 +13,10 @@
 		<param-name>logbackConfigLocation</param-name>
 		<param-value>/WEB-INF/logback.xml</param-value>
 	</context-param>
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>myWeb.root</param-value>
+	</context-param>
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

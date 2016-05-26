@@ -36,7 +36,7 @@ public interface ScenicManageService {
      * @param scenicManageVO
      * @return
      */
-    public WebResult<Boolean> editScenicManageVOByDdata(ScenicManageVO scenicManageVO);
+    public WebResult<ScenicManageVO> editScenicManageVOByDdata(ScenicManageVO scenicManageVO);
 
 
 

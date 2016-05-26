@@ -10,12 +10,15 @@ import java.util.List;
  * Created by wangdi on 16/5/16.
  */
 public class ScenicManageVO extends BaseQuery {
+    private Long sellerId;//商家ID
     private Long scenicId;//景区资源
     private Long itemId ;// '自增id',
     private String name ;// '景点名称'
     private String title;//标题
-    private BigDecimal price;//价格
-    private BigDecimal originalPrice;//门市价格
+    private Long price;//价格
+    private Long originalPrice;//门市价格
+    private Integer ticketId;//票型ID
+    private String ticketTitle;//票型名称
 
 
 //    private Integer provinceId;//省id
@@ -43,6 +46,8 @@ public class ScenicManageVO extends BaseQuery {
     private String supplierCalendar;//价格日历json 信息,
 
     private List<TicketDO> ticketDOList;//景区门票类型
+
+    private String  dynamicEntry;//列表参数  json
 
     public Long getItemId() {
         return itemId;
@@ -142,19 +147,19 @@ public class ScenicManageVO extends BaseQuery {
         this.title = title;
     }
 
-    public BigDecimal getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 
-    public BigDecimal getOriginalPrice() {
+    public Long getOriginalPrice() {
         return originalPrice;
     }
 
-    public void setOriginalPrice(BigDecimal originalPrice) {
+    public void setOriginalPrice(Long originalPrice) {
         this.originalPrice = originalPrice;
     }
 
@@ -188,5 +193,37 @@ public class ScenicManageVO extends BaseQuery {
 
     public void setTicketDOList(List<TicketDO> ticketDOList) {
         this.ticketDOList = ticketDOList;
+    }
+
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    public Integer getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Integer ticketId) {
+        this.ticketId = ticketId;
+    }
+
+    public String getTicketTitle() {
+        return ticketTitle;
+    }
+
+    public void setTicketTitle(String ticketTitle) {
+        this.ticketTitle = ticketTitle;
+    }
+
+    public String getDynamicEntry() {
+        return dynamicEntry;
+    }
+
+    public void setDynamicEntry(String dynamicEntry) {
+        this.dynamicEntry = dynamicEntry;
     }
 }

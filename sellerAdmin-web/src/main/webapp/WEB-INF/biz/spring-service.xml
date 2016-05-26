@@ -63,5 +63,6 @@
 	<!--酒店商品管理-->
 	<bean id ="hotelManageService" class="com.yimayhd.sellerAdmin.service.hotelManage.impl.HotelManageServiceImpl" />
 	<!--景区商品管理-->
+	<bean id ="scenicManageService" class="com.yimayhd.sellerAdmin.service.hotelManage.impl.ScenicManageServiceImpl" />
 
 </beans>

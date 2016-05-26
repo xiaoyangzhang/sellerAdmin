@@ -33,16 +33,19 @@ public class HotelManageServiceImpl implements HotelManageService {
 	@Override
 	public WebResult<PageVO<HotelMessageVO>> queryHotelMessageVOListByData(final HotelMessageVO hotelMessageVO) {
 		HotelManageDomainChecker domain = new HotelManageDomainChecker(hotelMessageVO);
+		System.out.println(2);
 		WebResult<PageVO<HotelMessageVO>> result= new  WebResult<PageVO<HotelMessageVO>>();
 		domain.setPageResult(result);
 		domain.setHotelMessageVO(hotelMessageVO);
 		try{
 			WebResult chekResult =  domain.checkHotelMessageVO();
+			System.out.println(3);
 			if(!chekResult.isSuccess()){
 				log.error("HotelManageServiceImpl.queryHotelMessageVOListByData is fail. code={}, message={} ",
 						chekResult.getErrorCode(), chekResult.getResultMsg());
 				return chekResult;
 			}
+			System.out.println(4);
 			// 调用中台接口
 			result = hotelManageRepo.queryHotelMessageVOListByDataRepo(domain);
 		}catch(Exception e){

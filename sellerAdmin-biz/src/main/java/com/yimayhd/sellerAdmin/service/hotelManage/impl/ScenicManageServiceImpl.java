@@ -95,9 +95,24 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
      */
     @Override
     public WebResult<ScenicManageVO> addScenicManageVOByDdata(ScenicManageVO scenicManageVO) {
+        ScenicManageDomainChecker domain = new ScenicManageDomainChecker(scenicManageVO);
+        WebResult<ScenicManageVO> result = new WebResult<ScenicManageVO>();
+        domain.setScenicManageVO(scenicManageVO);
+        domain.setWebResult(result);
+        try{
+            WebResult chekResult = domain.checkAddScenicManageVOByDdata();
+            if(!chekResult.isSuccess()){
+                log.error("ScenicManageServiceImpl.addScenicManageVOByDdata is fail. code={}, message={} ",
+                        chekResult.getErrorCode(), chekResult.getResultMsg());
+                return chekResult;
+            }
+            result  = scenicManageRepo.addScenicManageVOByDdata(domain);
+        }catch(Exception e){
+            log.error("添加景区商品信息异常");
+            e.printStackTrace();
+        }
 
-        ItemPubResult result = itemPublishServiceRef.addPublishScenic(new ScenicPublishAddDTO());
-        return null;
+        return result;
     }
 
     /**
@@ -106,9 +121,25 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
      * @return
      */
     @Override
-    public WebResult<Boolean> editScenicManageVOByDdata(ScenicManageVO scenicManageVO) {
-        ItemPubResult result =itemPublishServiceRef.updatePublishScenic(new ScenicPublishUpdateDTO());
-        return null;
+    public WebResult<ScenicManageVO> editScenicManageVOByDdata(ScenicManageVO scenicManageVO) {
+
+        ScenicManageDomainChecker domain = new ScenicManageDomainChecker(scenicManageVO);
+        WebResult<ScenicManageVO> result = new WebResult<ScenicManageVO>();
+        domain.setScenicManageVO(scenicManageVO);
+        domain.setWebResult(result);
+        try{
+            WebResult chekResult = domain.checkAddScenicManageVOByDdata();
+            if(!chekResult.isSuccess()){
+                log.error("ScenicManageServiceImpl.editScenicManageVOByDdata is fail. code={}, message={} ",
+                        chekResult.getErrorCode(), chekResult.getResultMsg());
+                return chekResult;
+            }
+            result  = scenicManageRepo.editScenicManageVOByDdata(domain);
+        }catch(Exception e){
+            log.error("编辑景区商品信息异常");
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public ItemQueryService getItemQueryServiceRef() {

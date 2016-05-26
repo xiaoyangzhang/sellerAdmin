@@ -82,7 +82,8 @@ public class HotelManageDomainChecker {
         if(StringUtils.isNotBlank(hotelMessageVO.getName())){
 
         }
-
+        hotelPageQuery.setPageNo(hotelMessageVO.getPageNo());
+        hotelPageQuery.setPageSize(hotelMessageVO.getPageSize());
         return hotelPageQuery;
 
     }

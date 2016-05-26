@@ -3,9 +3,12 @@ package com.yimayhd.sellerAdmin.repo;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
+import com.yimayhd.ic.client.model.param.item.ScenicPublishAddDTO;
+import com.yimayhd.ic.client.model.param.item.ScenicPublishUpdateDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.ic.client.model.result.item.SingleItemQueryResult;
 import com.yimayhd.ic.client.service.item.CategoryService;
@@ -97,11 +100,40 @@ public class ScenicManageRepo {
 	 * @param domain
 	 * @return
      */
-	public WebResult<ScenicManageVO> addScenicManageVOByDdata(ScenicManageDomainChecker domain){
+	public WebResult<ScenicManageVO> addScenicManageVOByDdata(ScenicManageDomainChecker domain) throws Exception{
 		WebResult<ScenicManageVO> result = domain.getWebResult();
-		return null;
+		ScenicManageVO scenicManageVO = domain.getScenicManageVO();
+		ScenicPublishAddDTO scenicPublishAddDTO = new ScenicPublishAddDTO();
+		scenicPublishAddDTO.setItemDO(domain.getBizScenicPublishAddDTO());
+		scenicPublishAddDTO.setItemSkuList(domain.getAddBizItemSkuDOList());
+		ItemPubResult itemResult = itemPublishServiceRef.addPublishScenic(new ScenicPublishAddDTO());
+		if(!itemResult.isSuccess()){
+			log.error("添加景区商品错误");
+			return WebResult.failure(WebReturnCode.PARAM_ERROR, "添加景区商品错误");
+		}
+		scenicManageVO.setItemId(itemResult.getItemId());
+		result.setValue(scenicManageVO);
+		return result;
 
 	}
+
+	/**
+	 * 编辑景区商品
+	 * @param domain
+	 * @return
+	 * @throws Exception
+     */
+	public WebResult<ScenicManageVO> editScenicManageVOByDdata(ScenicManageDomainChecker domain) throws Exception{
+		WebResult<ScenicManageVO> result = domain.getWebResult();
+		ScenicManageVO scenicManageVO = domain.getScenicManageVO();
+		ScenicPublishUpdateDTO scenicPublishUpdateDTO =new ScenicPublishUpdateDTO();
+		scenicPublishUpdateDTO.setItemDTO(domain.getBizScenicPublishUpdateDTO());
+		ItemPubResult itemResult =itemPublishServiceRef.updatePublishScenic(scenicPublishUpdateDTO);
+		scenicManageVO.setItemId(itemResult.getItemId());
+		return result;
+
+	}
+
 
 
 	public ItemQueryService getItemQueryServiceRef() {
