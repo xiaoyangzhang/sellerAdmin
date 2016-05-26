@@ -126,7 +126,22 @@ public class ExamineInfoVO  implements Serializable  {
     //手持身份证
     private String cardInHand;
     
+	private byte isDirectSale;//是否直营
+	private long merchantCategoryId;//商家身份
 	
+	
+	public long getMerchantCategoryId() {
+		return merchantCategoryId;
+	}
+	public void setMerchantCategoryId(long merchantCategoryId) {
+		this.merchantCategoryId = merchantCategoryId;
+	}
+	public byte getIsDirectSale() {
+		return isDirectSale;
+	}
+	public void setIsDirectSale(byte isDirectSale) {
+		this.isDirectSale = isDirectSale;
+	}
 	public int getDomainId() {
 		return domainId;
 	}
@@ -431,7 +446,7 @@ public class ExamineInfoVO  implements Serializable  {
 		dto.setAddress(vo.getAddress());
 		dto.setAffairsCard(vo.getAffairsCard());
 		dto.setArtCertificate(vo.getArtCertificate());
-		dto.setBusinessLicense(vo.getBusinessLicense()); 
+		dto.setBusinessLicense(vo.getBusinessLicense());
 		dto.setCardInHand(vo.getCardInHand());
 		dto.setClimbingCertificate(vo.getClimbingCertificate());
 		dto.setCooperation1(vo.getCooperation1());
@@ -463,15 +478,13 @@ public class ExamineInfoVO  implements Serializable  {
 		dto.setPrincipleName(vo.getPrincipleName());
 		dto.setPrincipleCardUp(vo.getPrincipleCardUp());
 		dto.setPrincipleCardDown(vo.getPrincipleCardDown());
-		if (vo.getDomainId() <= 0) {
-			
-			dto.setCreateDate(new Date());
-		}
 		dto.setDomainId(Constant.DOMAIN_JIUXIU);
 		dto.setSellerId(userId);
 		dto.setType(ExamineType.TALENT.getType());
 		dto.setAccountBankProvinceCode(vo.getProvince());
 		dto.setAccountBankCityCode(vo.getCity());
+		dto.setMerchantCategoryId(vo.getMerchantCategoryId());
+		dto.setIsDirectSale(vo.getIsDirectSale());
 		return dto;
 		
 	}
