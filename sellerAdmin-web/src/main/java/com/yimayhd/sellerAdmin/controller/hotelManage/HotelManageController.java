@@ -114,7 +114,7 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
      */
-	/*@RequestMapping(value = "/addHotelMessageVOByData")
+	@RequestMapping(value = "/addHotelMessageVOByData")
 	public String addHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
 		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
 			//throw new BaseException("酒店资源信息错误,无法添加商品");
@@ -130,7 +130,7 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("hotelMessageVO", result.getValue());
 		return "";
 
-	}*/
+	}
 
 	/**
 	 * 编辑酒店资源
@@ -175,7 +175,7 @@ public class HotelManageController extends BaseController {
 	 * @param hotelMessageVO
 	 * @return
      */
-	/*public String checkAddHotelMessageVOParam(HotelMessageVO hotelMessageVO){
+	public String checkAddHotelMessageVOParam(HotelMessageVO hotelMessageVO){
 		if(StringUtils.isBlank(hotelMessageVO.getTitle())){
 			return "商品标题为空";
 		}
@@ -185,7 +185,7 @@ public class HotelManageController extends BaseController {
 		//提前预定天数
 		return null;
 
-	}*/
+	}
 
 	public static void main(String[] args) {
 

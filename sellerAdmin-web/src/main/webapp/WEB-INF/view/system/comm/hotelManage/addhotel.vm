@@ -208,11 +208,11 @@
                 </tr>
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>商品标题：</td>
-                    <td><input type="text" class="inputxt" maxlength="38" name=""><span class="mark"><label>1</label>/38字</span></td>
+                    <td><input type="text" class="inputxt" maxlength="38" name="title"><span class="mark"><label>1</label>/38字</span></td>
                 </tr>
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>商品代码：</td>
-                    <td><input type="text" class="inputxt" maxlength="20" name=""><span class="mark"><label>1</label>/20字</span></td>
+                    <td><input type="text" class="inputxt" maxlength="20" name="code"><span class="mark"><label>1</label>/20字</span></td>
                 </tr>
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>付款方式：</td>
