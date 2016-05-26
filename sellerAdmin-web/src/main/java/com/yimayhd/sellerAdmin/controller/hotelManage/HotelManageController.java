@@ -74,6 +74,8 @@ public class HotelManageController extends BaseController {
 		}else {
 			totalPage += pageResult.getTotalCount()/pageResult.getPageSize();
 		}
+
+		model.addAttribute("pageVo", pageResult);
 		model.addAttribute("hotelMessageVOList", hotelMessageVOList);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("pageNo", pageResult.getPaginator().getPage());

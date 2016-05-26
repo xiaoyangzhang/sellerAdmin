@@ -1,5 +1,7 @@
 <!-- head start-->
 #set($layout = "/layout/layout-jiuxiu.vm")
+
+
 <head>
 	#parse("layout/layout-meta.vm")
     <title>选择酒店</title>
