@@ -79,9 +79,9 @@ public class ResourceForSelectController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/selectDeparts/{id}")
-	public String selectDeparts(@PathVariable(value="id")long id) {
-		put("item", getItemLineInfo(id));
+	@RequestMapping(value = "/selectDeparts")
+	public String selectDeparts(long itmeId) {
+		put("item", getItemLineInfo(itmeId));
 		WebResult<List<CityVO>> result = commLineService.getAllLineDeparts();
 		if (result.isSuccess()) {
 			Map<String, List<CityVO>> departMap = new TreeMap<String, List<CityVO>>();
@@ -112,9 +112,9 @@ public class ResourceForSelectController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/selectDests/{id}")
-	public String selectDests(@PathVariable(value="id")long id) {
-		put("item", getItemLineInfo(id));
+	@RequestMapping(value = "/selectDests")
+	public String selectDests(long itmeId) {
+		put("item", getItemLineInfo(itmeId));
 		WebResult<List<CityVO>> result = commLineService.getAllLineDests();
 		
 		if (result.isSuccess()) {
@@ -140,7 +140,7 @@ public class ResourceForSelectController extends BaseController {
 		}
 	}
 
-	private Object getItemLineInfo(long id) {
+	private LineVO getItemLineInfo(long id) {
 		WebResult<LineVO> itemInfoResult = commLineService.getByItemId(getCurrentUserId(), id);
 		if (itemInfoResult != null && itemInfoResult.isSuccess()) {
 			return itemInfoResult.getValue();
