@@ -1,25 +1,13 @@
 package com.yimayhd.sellerAdmin.service.hotelManage.impl;
 
-import com.yimayhd.ic.client.model.domain.HotelDO;
-import com.yimayhd.ic.client.model.domain.RoomDO;
-import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
-import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
-import com.yimayhd.ic.client.model.query.HotelPageQuery;
-import com.yimayhd.ic.client.model.query.RoomQuery;
-import com.yimayhd.ic.client.model.result.ICPageResult;
-import com.yimayhd.ic.client.model.result.ICResult;
-import com.yimayhd.ic.client.model.result.item.ItemPubResult;
-import com.yimayhd.ic.client.model.result.item.ItemResult;
-import com.yimayhd.ic.client.service.item.ItemPublishService;
-import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.HotelManageDomainChecker;
 import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
+import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
 import com.yimayhd.sellerAdmin.repo.HotelManageRepo;
 import com.yimayhd.sellerAdmin.service.hotelManage.HotelManageService;
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +20,6 @@ import java.util.List;
  * Created by wangdi on 2015/11/2.
  */
 public class HotelManageServiceImpl implements HotelManageService {
-	@Autowired
-	private ItemQueryService itemQueryServiceRef;
-	@Autowired
-	private ItemPublishService itemPublishServiceRef;
 	@Autowired
 	private HotelManageRepo hotelManageRepo;
 
@@ -73,23 +57,30 @@ public class HotelManageServiceImpl implements HotelManageService {
 	 * @param hotelMessageVO
 	 * @return
      */
+	@Override
 	public WebResult<HotelMessageVO> queryHotelMessageVOyData(final HotelMessageVO hotelMessageVO){
-		HotelManageDomainChecker check = new HotelManageDomainChecker(hotelMessageVO);
+		HotelManageDomainChecker domain = new HotelManageDomainChecker(hotelMessageVO);
+		WebResult<HotelMessageVO>  result = new WebResult<HotelMessageVO>();
+		domain.setWebResult(result);
 		try{
-			WebResult chekResult = check.checkQueryHotelMessageVOyData();
+			WebResult chekResult = domain.checkQueryHotelMessageVOyData();
 			if(!chekResult.isSuccess()){
 				log.error("HotelManageServiceImpl.queryHotelMessageVOyData is fail. code={}, message={} ",
 						chekResult.getErrorCode(), chekResult.getResultMsg());
 				return chekResult;
 			}
-			// 参数?ItemOptionDTO,返回?result
-			ItemResult result= itemQueryServiceRef.getItem(hotelMessageVO.getItemId(), new ItemOptionDTO());
+			 result = hotelManageRepo.queryHotelMessageVOyData(domain);
+			if(!result.isSuccess()){
+				log.error("HotelManageServiceImpl.queryHotelMessageVOyData is fail. code={}, message={} ",
+						result.getErrorCode(), result.getResultMsg());
+				return result;
+			}
 		}catch(Exception e){
 			e.printStackTrace();
-			//log
+			log.error("queryHotelMessageVOyData 查询商品信息异常");
 		}
 
-		return null;
+		return result;
 
 	}
 
@@ -99,24 +90,22 @@ public class HotelManageServiceImpl implements HotelManageService {
 	 * @return
      */
 	@Override
-	public WebResult<List<RoomDO>> queryRoomTypeListByData(final HotelMessageVO hotelMessageVO) {
-		HotelManageDomainChecker check = new HotelManageDomainChecker(hotelMessageVO);
-		WebResult<List<RoomDO>> roomResult = new WebResult<List<RoomDO>>();
+	public WebResult<List<RoomMessageVO>> queryRoomTypeListByData(final HotelMessageVO hotelMessageVO) {
+		HotelManageDomainChecker domain = new HotelManageDomainChecker(hotelMessageVO);
+		WebResult<List<RoomMessageVO>> roomResult = new WebResult<List<RoomMessageVO>>();
+		domain.setListRoomMessageVOResult(roomResult);
+		domain.setHotelMessageVO(hotelMessageVO);
 		try{
-			WebResult chekResult = check.checkQueryHotelMessageInfo();
+			WebResult chekResult = domain.checkQueryHotelMessageInfo();
 			if(!chekResult.isSuccess()){
 				log.error("HotelManageServiceImpl.queryRoomTypeListByData is fail. code={}, message={} ",
 						chekResult.getErrorCode(), chekResult.getResultMsg());
 				return chekResult;
 			}
-			RoomQuery roomQuery = new RoomQuery();
-			roomQuery.setHotelId(hotelMessageVO.getHotelId());
-			ICResult<List<RoomDO>> result= itemQueryServiceRef.queryAllRoom( roomQuery);
-			roomResult.setValue(result.getModule());
+			roomResult = hotelManageRepo.queryRoomTypeListByData(domain);
 		}catch(Exception e){
 			e.printStackTrace();
 			log.error("queryRoomTypeListByData 查询酒店房型异常");
-
 		}
 		return roomResult;
 	}
@@ -126,11 +115,28 @@ public class HotelManageServiceImpl implements HotelManageService {
 	 * @param hotelMessageVO
 	 * @return
      */
+	@Override
 	public WebResult<HotelMessageVO> addHotelMessageVOByData(final HotelMessageVO hotelMessageVO){
 		HotelManageDomainChecker domain = new HotelManageDomainChecker(hotelMessageVO);
+		WebResult<HotelMessageVO> result = new WebResult<HotelMessageVO>();
 		domain.setHotelMessageVO(hotelMessageVO);
-		ItemPubResult result = itemPublishServiceRef.publishCommonItem(new CommonItemPublishDTO());
-		return null;
+		domain.setWebResult(result);
+		try{
+			WebResult chekResult = domain.checkAddHotelMessageVOByData();
+			if(!chekResult.isSuccess()){
+				log.error("HotelManageServiceImpl.addHotelMessageVOByData is fail. code={}, message={} ",
+						chekResult.getErrorCode(), chekResult.getResultMsg());
+				return chekResult;
+			}
+
+			result= hotelManageRepo.addHotelMessageVOByData(domain);
+
+		}catch(Exception e){
+			e.printStackTrace();
+			log.error("HotelManageServiceImpl.addHotelMessageVOByData  call interface exception ");
+			return  WebResult.failure(WebReturnCode.SYSTEM_ERROR, "添加酒店商品信息异常");
+		}
+		return result;
 
 	}
 
@@ -141,16 +147,26 @@ public class HotelManageServiceImpl implements HotelManageService {
 	 * @param hotelMessageVO
 	 * @return
      */
-	public  WebResult<Boolean> editHotelMessageVOByData(final HotelMessageVO hotelMessageVO){
-		ItemPubResult result = itemPublishServiceRef.updatePublishCommonItem(new CommonItemPublishDTO());
-		return null;
+	@Override
+	public  WebResult<Long> editHotelMessageVOByData(final HotelMessageVO hotelMessageVO){
+		HotelManageDomainChecker domain = new HotelManageDomainChecker(hotelMessageVO);
+		WebResult<Long> result = new WebResult<Long>();
+		domain.setHotelMessageVO(hotelMessageVO);
+		domain.setLongWebResult(result);
+		try{
+			WebResult chekResult = domain.checkAddHotelMessageVOByData();
+			if(!chekResult.isSuccess()){
+				log.error("HotelManageServiceImpl.editHotelMessageVOByData is fail. code={}, message={} ",
+						chekResult.getErrorCode(), chekResult.getResultMsg());
+				return chekResult;
+			}
+			result= hotelManageRepo.editHotelMessageVOByData(domain);
+		}catch(Exception e){
+			log.error("HotelManageServiceImpl.editHotelMessageVOByData  call interface exception ");
+			e.printStackTrace();
+			return  WebResult.failure(WebReturnCode.SYSTEM_ERROR, "编辑酒店商品信息异常");
+		}
+		return result;
 	}
 
-	public ItemQueryService getItemQueryServiceRef() {
-		return itemQueryServiceRef;
-	}
-
-	public void setItemQueryServiceRef(ItemQueryService itemQueryServiceRef) {
-		this.itemQueryServiceRef = itemQueryServiceRef;
-	}
 }

@@ -675,6 +675,11 @@
 				<artifactId>spread-marketing-client</artifactId>
 				<version>${spread_version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>1.6</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

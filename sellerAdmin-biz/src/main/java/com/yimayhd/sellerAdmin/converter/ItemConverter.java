@@ -113,7 +113,7 @@ public class ItemConverter {
 			// 评分（暂时普通商品用）
 			itemVO.setGrade(itemVO.getItemFeature().getGrade());
 			// 库存方式
-			itemVO.setReduceType(itemVO.getItemFeature().getReduceType().getBizType());
+			itemVO.setReduceType(itemVO.getItemFeature().getReduceType());
 			// 最晚到店时间列表(暂时只有酒店用)
 			itemVO.setOpenTimeList(itemVO.getItemFeature().getLatestArriveTime());
 		}

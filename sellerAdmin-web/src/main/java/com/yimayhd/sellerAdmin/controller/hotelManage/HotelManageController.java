@@ -8,6 +8,7 @@ import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.Paginator;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
+import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
 import com.yimayhd.sellerAdmin.service.hotelManage.HotelManageService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,13 +55,13 @@ public class HotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/queryHotelManageList")
 	public String queryHotelManageList(Model model,HotelMessageVO hotelMessageVO) throws Exception {
-		WebResult<PageVO<HotelDO>> result=null;// =  hotelManageService.queryHotelMessageVOListByData(hotelMessageVO);
+		WebResult<PageVO<HotelMessageVO>> result= hotelManageService.queryHotelMessageVOListByData(hotelMessageVO);
 		if(!result.isSuccess()){
 			logger.error("查询列表失败");
 			return "/error";
 		}
-		PageVO<HotelDO> pageResult = result.getValue();
-		List<HotelDO> hotelMessageVOList = pageResult.getResultList();
+		PageVO<HotelMessageVO> pageResult = result.getValue();
+		List<HotelMessageVO> hotelMessageVOList = pageResult.getResultList();
 		int totalPage = 0;
 		if (pageResult.getTotalCount()%pageResult.getPageSize() > 0) {
 			totalPage += pageResult.getTotalCount()/pageResult.getPageSize()+1;
@@ -89,7 +90,7 @@ public class HotelManageController extends BaseController {
 		}
 		HotelMessageVO hotelMessageVO = new HotelMessageVO();
 		hotelMessageVO.setHotelId(hotelId);
-		WebResult<List<RoomDO>> result = hotelManageService.queryRoomTypeListByData(hotelMessageVO);
+		WebResult<List<RoomMessageVO>> result = hotelManageService.queryRoomTypeListByData(hotelMessageVO);
 		if(!result.isSuccess()){
 			logger.error("查询房型信息失败");
 			return "/error";
@@ -108,13 +109,17 @@ public class HotelManageController extends BaseController {
 	@RequestMapping(value = "/addHotelMessageVOByData")
 	public String addHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
 		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
-			throw new BaseException("酒店资源信息错误,无法添加商品");
+			//throw new BaseException("酒店资源信息错误,无法添加商品");
 		}
 		String checkMsg = checkAddHotelMessageVOParam(hotelMessageVO);
 		if(StringUtils.isNotBlank(checkMsg)){
-			throw new BaseException(checkMsg);
+			//throw new BaseException(checkMsg);
 		}
-
+		WebResult<HotelMessageVO> result = hotelManageService.addHotelMessageVOByData(hotelMessageVO);
+		if(!result.isSuccess()){
+			//添加酒店商品错误
+		}
+		model.addAttribute("hotelMessageVO", result.getValue());
 		return "";
 
 	}
@@ -126,12 +131,17 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
      */
-//	public String editHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
-//		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
-//			throw new BaseException("酒店资源信息错误,无法编辑商品");
-//		}
-//		return "";
-//	}
+	public String editHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
+		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
+			//throw new BaseException("酒店资源信息错误,无法编辑商品");
+		}
+		WebResult<Long> result = hotelManageService.editHotelMessageVOByData(hotelMessageVO);
+		if(!result.isSuccess()){
+			//
+		}
+		model.addAttribute("itemId", result.getValue());
+		return "";
+	}
 
 	/**
 	 * 查询酒店商品信息详情
@@ -139,13 +149,18 @@ public class HotelManageController extends BaseController {
 	 * @param hotelMessageVO
      * @return
      */
-//	public String queryHotelMessageVOyData(Model model,HotelMessageVO hotelMessageVO){
-//		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
-//			throw new BaseException("酒店资源信息错误,无法编辑商品");
-//		}
-//		return "";
-//
-//	}
+	public String queryHotelMessageVOyData(Model model,HotelMessageVO hotelMessageVO){
+		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
+			//throw new BaseException("酒店资源信息错误,无法编辑商品");
+		}
+		WebResult<HotelMessageVO> result =hotelManageService.queryHotelMessageVOyData(hotelMessageVO);
+		if(!result.isSuccess()){
+
+		}
+		model.addAttribute("hotelMessageVO", result.getValue());
+		return "";
+
+	}
 
 	/**
 	 * 添加酒店商品信息验证
