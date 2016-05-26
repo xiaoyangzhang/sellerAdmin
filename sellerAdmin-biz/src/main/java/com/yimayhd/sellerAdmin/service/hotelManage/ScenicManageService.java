@@ -15,7 +15,7 @@ public interface ScenicManageService {
      * @param scenicManageVO
      * @return
      */
-    public WebResult<PageVO<ScenicDO>> queryScenicManageVOListByData(ScenicManageVO scenicManageVO);
+    public WebResult<PageVO<ScenicManageVO>> queryScenicManageVOListByData(ScenicManageVO scenicManageVO);
 
     /**
      * 景区商品信息
