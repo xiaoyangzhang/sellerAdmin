@@ -17,9 +17,23 @@ public class HotelMessageVO extends BaseQuery {
 	private String address;//酒店地址
 	private String phone;//酒店电话
 
-	private Long provinceId;//省id
-	private Long cityId;//市id
-	private Long townId;//区id
+//	private Long provinceId;//省id
+//	private Long cityId;//市id
+//	private Long townId;//区id
+private String locationText;
+
+	private Long locationProvinceId;
+
+	private String locationProvinceName;
+
+	private Long locationCityId;
+
+	private String locationCityName;
+
+	private Long locationTownId;
+
+	private String locationTownName;
+
 
 
 	private String title; // '标题',
@@ -111,29 +125,7 @@ public class HotelMessageVO extends BaseQuery {
 		this.itemId = itemId;
 	}
 
-	public Long getProvinceId() {
-		return provinceId;
-	}
 
-	public void setProvinceId(Long provinceId) {
-		this.provinceId = provinceId;
-	}
-
-	public Long getCityId() {
-		return cityId;
-	}
-
-	public void setCityId(Long cityId) {
-		this.cityId = cityId;
-	}
-
-	public Long getTownId() {
-		return townId;
-	}
-
-	public void setTownId(Long townId) {
-		this.townId = townId;
-	}
 
 	public String getPhone() {
 		return phone;
@@ -262,5 +254,61 @@ public class HotelMessageVO extends BaseQuery {
 
 	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public String getLocationText() {
+		return locationText;
+	}
+
+	public void setLocationText(String locationText) {
+		this.locationText = locationText;
+	}
+
+	public Long getLocationProvinceId() {
+		return locationProvinceId;
+	}
+
+	public void setLocationProvinceId(Long locationProvinceId) {
+		this.locationProvinceId = locationProvinceId;
+	}
+
+	public String getLocationProvinceName() {
+		return locationProvinceName;
+	}
+
+	public void setLocationProvinceName(String locationProvinceName) {
+		this.locationProvinceName = locationProvinceName;
+	}
+
+	public Long getLocationCityId() {
+		return locationCityId;
+	}
+
+	public void setLocationCityId(Long locationCityId) {
+		this.locationCityId = locationCityId;
+	}
+
+	public String getLocationCityName() {
+		return locationCityName;
+	}
+
+	public void setLocationCityName(String locationCityName) {
+		this.locationCityName = locationCityName;
+	}
+
+	public Long getLocationTownId() {
+		return locationTownId;
+	}
+
+	public void setLocationTownId(Long locationTownId) {
+		this.locationTownId = locationTownId;
+	}
+
+	public String getLocationTownName() {
+		return locationTownName;
+	}
+
+	public void setLocationTownName(String locationTownName) {
+		this.locationTownName = locationTownName;
 	}
 }

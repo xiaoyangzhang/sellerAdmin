@@ -1,7 +1,5 @@
 package com.yimayhd.sellerAdmin.checker;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
@@ -21,12 +19,9 @@ import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.IterableMap;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -87,15 +82,7 @@ public class HotelManageDomainChecker {
         if(StringUtils.isNotBlank(hotelMessageVO.getName())){
 
         }
-        if(hotelMessageVO.getProvinceId()!=null){
 
-        }
-        if(hotelMessageVO.getCityId()!=null){
-
-        }
-        if(hotelMessageVO.getTownId()!=null){
-
-        }
         return hotelPageQuery;
 
     }
@@ -172,9 +159,9 @@ public class HotelManageDomainChecker {
         if(CollectionUtils.isNotEmpty(phoneList)){
             model.setPhone(phoneList.get(0));
         }
-        model.setProvinceId(_do.getLocationProvinceId());
-        model.setCityId(_do.getLocationCityId());
-        model.setTownId(_do.getLocationTownId());
+        model.setLocationProvinceId(_do.getLocationProvinceId());
+        model.setLocationCityId(_do.getLocationCityId());
+        model.setLocationTownId(_do.getLocationTownId());
         return  model;
     }
 

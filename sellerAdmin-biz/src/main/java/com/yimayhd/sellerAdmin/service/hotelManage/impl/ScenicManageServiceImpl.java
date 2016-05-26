@@ -18,6 +18,7 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.ScenicManageDomainChecker;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
+import com.yimayhd.sellerAdmin.repo.ScenicManageRepo;
 import com.yimayhd.sellerAdmin.service.hotelManage.ScenicManageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +28,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Created by wangdi on 16/5/16.
  */
 public class ScenicManageServiceImpl  implements ScenicManageService {
-
-
+    @Autowired
+    private ScenicManageRepo scenicManageRepo;
     @Autowired
     private ItemQueryService itemQueryServiceRef;
     @Autowired
@@ -41,24 +42,19 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
      * @return
      */
     @Override
-    public WebResult<PageVO<ScenicDO>> queryScenicManageVOListByData(final ScenicManageVO scenicManageVO) {
-        ScenicManageDomainChecker checker = new ScenicManageDomainChecker(scenicManageVO);
-        WebResult<PageVO<ScenicDO>> result = new WebResult<PageVO<ScenicDO>>();
+    public WebResult<PageVO<ScenicManageVO>> queryScenicManageVOListByData(final ScenicManageVO scenicManageVO) {
+        ScenicManageDomainChecker domain = new ScenicManageDomainChecker(scenicManageVO);
+        WebResult<PageVO<ScenicManageVO>> result = new WebResult<PageVO<ScenicManageVO>>();
+        domain.setScenicManageVO(scenicManageVO);
+        domain.setWebPageResult(result);
         try{
-            WebResult chekResult = checker.checkQueryScenicManageVOListByData();
+            WebResult chekResult = domain.checkQueryScenicManageVOListByData();
             if(!chekResult.isSuccess()){
                 log.error("ScenicManageServiceImpl.queryScenicManageVOListByData is fail. code={}, message={} ",
                         chekResult.getErrorCode(), chekResult.getResultMsg());
                 return chekResult;
             }
-            ScenicPageQuery pageQuery = checker.getBizQueryModel();
-            ICPageResult<ScenicDO> callBack = itemQueryServiceRef.pageQueryScenic(pageQuery);
-            if(callBack==null){
-                log.error("查询pageQueryScenic接口返回参数为null");
-                throw new  Exception("查询pageQueryHotel返回结果异常");
-            }
-            PageVO<ScenicDO> pageModel = new PageVO<ScenicDO>(callBack.getPageNo(),callBack.getPageSize(),callBack.getTotalCount(),callBack.getList());
-            result.setValue(pageModel);
+            result = scenicManageRepo.queryScenicManageVOListByData(domain);
         }catch(Exception e){
             e.printStackTrace();
             log.error("查询酒店资源接口异常");
@@ -74,25 +70,16 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
      */
     @Override
     public WebResult<ScenicManageVO> queryScenicManageVOByData(final ScenicManageVO scenicManageVO) {
-        ScenicManageDomainChecker checker = new ScenicManageDomainChecker(scenicManageVO);
+        ScenicManageDomainChecker domain = new ScenicManageDomainChecker(scenicManageVO);
         WebResult<ScenicManageVO> result = new WebResult<ScenicManageVO>();
         try{
-            WebResult chekResult = checker.checkQueryScenicManageVOByData();
+            WebResult chekResult = domain.checkQueryScenicManageVOByData();
             if(!chekResult.isSuccess()){
                 log.error("ScenicManageServiceImpl.queryScenicManageVOByData is fail. code={}, message={} ",
                         chekResult.getErrorCode(), chekResult.getResultMsg());
                 return chekResult;
             }
-            ICResult<ScenicDO>  scenicResult = itemQueryServiceRef.getScenic(scenicManageVO.getId());
-            if(scenicResult==null||scenicResult.getModule()==null){
-                log.error("ScenicManageServiceImpl.queryScenicManageVOByData is fail. code={}, message={} ",
-                        chekResult.getErrorCode(), chekResult.getResultMsg());
-                return WebResult.failure(WebReturnCode.PARAM_ERROR, "景区资源信息错误");
-            }
-            ItemOptionDTO dto = new ItemOptionDTO();
-
-            SingleItemQueryResult callBack =  itemQueryServiceRef.querySingleItem(scenicManageVO.getId(), dto);
-            // 景区详情 model
+            result  = scenicManageRepo.queryScenicManageVOByData(domain);
         }catch(Exception e){
             log.error("查询景区详情异常");
             e.printStackTrace();

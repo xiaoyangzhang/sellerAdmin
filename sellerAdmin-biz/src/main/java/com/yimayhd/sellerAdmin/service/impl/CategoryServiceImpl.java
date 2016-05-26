@@ -63,8 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public CategoryDO
-			(long id)throws Exception{
+	public CategoryDO getCategoryDOById(long id)throws Exception{
 		return categoryRepo.getCategoryById(id);
 	}
 
