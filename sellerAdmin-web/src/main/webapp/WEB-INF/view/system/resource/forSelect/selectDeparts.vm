@@ -37,6 +37,17 @@
             	});
             	return result;
             }
+            $(function(){
+            	var selectedDeparts = parent.getBaseInfo().departs;
+            	console.log(selectedDeparts);
+            	$("input:checkbox").each(function(){
+            		for(var j=0;j<selectedDeparts.length;j++) {
+            			if($(this).attr("depart-id")==selectedDeparts[j].id){
+            				$(this).attr("checked","checked");
+            			}
+            		}
+            	});
+            })
         </script>
     </body>
 </html>

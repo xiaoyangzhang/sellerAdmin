@@ -80,8 +80,8 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectDeparts")
-	public String selectDeparts(long itmeId) {
-		put("item", getItemLineInfo(itmeId));
+	public String selectDeparts() {
+		//put("item", getItemLineInfo(itmeId));
 		WebResult<List<CityVO>> result = commLineService.getAllLineDeparts();
 		if (result.isSuccess()) {
 			Map<String, List<CityVO>> departMap = new TreeMap<String, List<CityVO>>();
@@ -113,8 +113,8 @@ public class ResourceForSelectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/selectDests")
-	public String selectDests(long itmeId) {
-		put("item", getItemLineInfo(itmeId));
+	public String selectDests() {
+		//put("item", getItemLineInfo(itmeId));
 		WebResult<List<CityVO>> result = commLineService.getAllLineDests();
 		
 		if (result.isSuccess()) {
@@ -140,13 +140,16 @@ public class ResourceForSelectController extends BaseController {
 		}
 	}
 
-	private LineVO getItemLineInfo(long id) {
-		WebResult<LineVO> itemInfoResult = commLineService.getByItemId(getCurrentUserId(), id);
-		if (itemInfoResult != null && itemInfoResult.isSuccess()) {
-			return itemInfoResult.getValue();
-		}
-		return null;
-	}
+//	private LineVO getItemLineInfo(Long id) {
+//		if (id == null ) {
+//			return null;
+//		}
+//		WebResult<LineVO> itemInfoResult = commLineService.getByItemId(getCurrentUserId(), id);
+//		if (itemInfoResult != null && itemInfoResult.isSuccess()) {
+//			return itemInfoResult.getValue();
+//		}
+//		return null;
+//	}
 
 	/**
 	 * 选择活动商品
