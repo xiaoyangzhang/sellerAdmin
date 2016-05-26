@@ -301,5 +301,20 @@
 	            </plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>dev</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.alibaba.citrus.tool</groupId>
+						<artifactId>autoconfig-maven-plugin</artifactId>
+						<configuration>
+							<dest>../target/sellerAdmin.war</dest>
+							<userProperties>src/main/resources/config/dev.properties</userProperties>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 </project>
