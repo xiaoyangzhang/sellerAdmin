@@ -130,7 +130,8 @@ public class HotelManageController extends BaseController {
 		if(!result.isSuccess()){
 			//添加酒店商品错误
 		}
-		List<MultiChoice> multiChoiceList = new ArrayList<MultiChoice>();
+		/**最晚到店时间**/
+		List<MultiChoice> multiChoiceList = initMultiChoiceList(hotelMessageVO);
 
 		model.addAttribute("multiChoiceList",multiChoiceList);
 		model.addAttribute("hotelMessageVO", result.getValue());
@@ -158,6 +159,7 @@ public class HotelManageController extends BaseController {
 			if(!CollectionUtils.isEmpty(choiseTime)){
 				for (int time :choiseTime){
 					if(time == i){
+						/**设置选中标识**/
 						multiChoice.setChoice(true);
 					}
 				}
@@ -165,7 +167,7 @@ public class HotelManageController extends BaseController {
 			multiChoiceList.add(multiChoice);
 
 		}
-		return null;
+		return multiChoiceList;
 	}
 
 	/**

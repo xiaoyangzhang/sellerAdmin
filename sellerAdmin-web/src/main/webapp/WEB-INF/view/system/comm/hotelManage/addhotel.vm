@@ -329,7 +329,7 @@
             </td>
         </tr>
     </table>
-
+    <img src="$!rs_js_css_path_jiuxiu/img/loading.gif" class='load_list'>
     <div class="hotelist list"></div>
 
 </div>
