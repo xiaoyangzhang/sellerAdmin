@@ -242,7 +242,6 @@
                             </label>
                         #end
 
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前23:00前</label>
                         <div class="gray9">最晚到店时间最多选择3个</div>
                     </td>
                 </tr>
