@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -49,8 +50,9 @@ public class HotelManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/initHotelManage")
 	public String queryHotelManageList(Model model) throws Exception {
+		HotelMessageVO hotelMessageVO = new  HotelMessageVO();
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(null);
-
+		model.addAttribute("hotelMessageVO", hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
 		return "/system/comm/hotelManage/addhotel";
 	}
@@ -124,19 +126,20 @@ public class HotelManageController extends BaseController {
 	public WebResult<String> addHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
 		WebResult<String> message = new WebResult<String>();
 		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
-			//throw new BaseException("酒店资源信息错误,无法添加商品");
 			message.initFailure(WebReturnCode.PARAM_ERROR,"酒店资源信息错误,无法添加商品");
 			return message;
 		}
+		/**必要参数验证**/
 		String checkMsg = checkAddHotelMessageVOParam(hotelMessageVO);
 		if(StringUtils.isNotBlank(checkMsg)){
-			//throw new BaseException(checkMsg);
 			message.initFailure(WebReturnCode.PARAM_ERROR,checkMsg);
 			return message;
 		}
+
 		WebResult<HotelMessageVO> result = hotelManageService.addHotelMessageVOByData(hotelMessageVO);
 		if(!result.isSuccess()){
-			//添加酒店商品错误
+			message.initFailure(WebReturnCode.PARAM_ERROR,"添加商品错误");
+			return message;
 		}
 		/**最晚到店时间**/
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(hotelMessageVO);
@@ -225,10 +228,25 @@ public class HotelManageController extends BaseController {
 		if(StringUtils.isBlank(hotelMessageVO.getTitle())){
 			return "商品标题为空";
 		}
-		//退订限制
-		//退订规则
-		//最晚到点时间
-		//提前预定天数
+		if(hotelMessageVO.getCode()==null){
+			return "商品代码不能为空";
+		}
+		if(hotelMessageVO.getPayType()==null){
+			return "付款方式不能为空";
+		}
+		if(hotelMessageVO.getCancelLimit()==null){
+			return "退订限制为空";
+		}
+		if(StringUtils.isBlank(hotelMessageVO.getDescription())){
+			return "退订规则不能为空";
+		}
+		if(StringUtils.isBlank(hotelMessageVO.getStoreLastTime())){
+			return "最晚到店时间不能为空";
+		}
+		if(hotelMessageVO.getStartBookTimeLimit()==null){
+			return "提前预定天数不能为空";
+		}
+
 		return null;
 
 	}
@@ -241,6 +259,9 @@ public class HotelManageController extends BaseController {
 		System.out.println("处理后:"+s);
 		String s2 = HtmlUtils.htmlUnescape(s);
 		System.out.println("不转义:"+s2);
+		String json = "{supplier_calendar：{\"seller_id\":\"2088102122524333\",\"hotel_id\":'',\"sku_flag\":$(\".sku_flag\").val(),\"biz_list\":[{\"sku_id\":10012,\"state\":\"update\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"1464364800000\"},{\"sku_id\":10014,\"state\":\"update\",\"stock_num\":228,\"price\":\"12\",\"vTxt\":\"1464105600000\"}]}}";
+
+
 	}
 
 	public HotelManageService getHotelManageService() {

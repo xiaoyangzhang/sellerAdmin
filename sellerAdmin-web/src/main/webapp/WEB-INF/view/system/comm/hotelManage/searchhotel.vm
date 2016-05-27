@@ -15,7 +15,7 @@
     <tbody>
   #foreach($hotelMessageVO in $hotelMessageVOList)
     <tr>
-        <td><input type="radio"></td>
+        <td><input type="radio" name="hotelGroup" value="$!{hotelMessageVO.hotelId}"></td>
         <td>$!{hotelMessageVO.name}</td>
         <td>$!{hotelMessageVO.area}</td>
         <td>$!{hotelMessageVO.locationText}</td>

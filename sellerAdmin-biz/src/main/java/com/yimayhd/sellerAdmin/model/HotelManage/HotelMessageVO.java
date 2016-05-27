@@ -1,7 +1,9 @@
 package com.yimayhd.sellerAdmin.model.HotelManage;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.yimayhd.sellerAdmin.base.BaseQuery;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -173,6 +175,21 @@ private String locationText;
 
 	public void setStoreLastTime(String storeLastTime) {
 		this.storeLastTime = storeLastTime;
+		if(!StringUtils.isBlank(storeLastTime)){
+			List<Integer> latestCheckin = new ArrayList<Integer>();
+			if(storeLastTime.indexOf(",")>0){
+				/**最晚到店时间不为空**/
+				String [] timeArr = storeLastTime.split(",");
+				for(int i=0;i<timeArr.length;i++){
+					latestCheckin.add(Integer.valueOf(timeArr[i]));
+				}
+			}else{
+				latestCheckin.add(Integer.valueOf(storeLastTime));
+			}
+			this.setLatestCheckin(latestCheckin);
+
+		}
+
 	}
 
 	public Integer getStartBookTimeLimit() {

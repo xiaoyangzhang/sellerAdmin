@@ -331,6 +331,9 @@
     <img src="$!rs_path_jiuxiu/img/loading.gif" class='load_list'>
     <div class="hotelist list"></div>
 
+    <input type="hidden" class="picCode baseInfo-picCode" name="hotelId" value="$!{hotelMessageVO.hotelId}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="name" value="$!{hotelMessageVO.name}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{hotelMessageVO.supplierCalendar}">
 </div>
 
 <script  type='text/temple' id='province-tpl'>
