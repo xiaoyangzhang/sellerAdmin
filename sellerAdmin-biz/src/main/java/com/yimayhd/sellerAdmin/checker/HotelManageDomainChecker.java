@@ -180,7 +180,8 @@ public class HotelManageDomainChecker {
             return null;
         }
         CommonItemPublishDTO dto =new CommonItemPublishDTO();
-        ItemDO itemDO = new  ItemDO();// 添加商品信息
+        /*****添加商品信息***/
+        ItemDO itemDO = new  ItemDO();//
         itemDO.setSellerId(hotelMessageVO.getSellerId());//商家ID
         itemDO.setOutId(hotelMessageVO.getHotelId());//酒店ID
         itemDO.setCategoryId(hotelMessageVO.getCategoryId());//商品类目ID
@@ -203,9 +204,9 @@ public class HotelManageDomainChecker {
         /****sku价格日历***/
         // 价格日历 json解析
        // CategoryPropertyValueDO + 日期 存到 ItemSkuPVPair 中,每个sku 只有 一个 pv 属性
-        List<ItemSkuDO>  addItemSkuDOList =addItemSkuDOList(hotelMessageVO.getSupplierCalendar());
-        dto.setItemDO(itemDO);
-
+        List<ItemSkuDO>  itemSkuDOList = addItemSkuDOList(hotelMessageVO.getSupplierCalendar());
+        dto.setItemDO(itemDO);//商品信息
+        dto.setItemSkuDOList(itemSkuDOList);//价格日历信息
         return dto;
     }
 

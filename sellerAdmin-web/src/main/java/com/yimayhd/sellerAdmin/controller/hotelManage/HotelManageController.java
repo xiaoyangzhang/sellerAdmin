@@ -102,7 +102,7 @@ public class HotelManageController extends BaseController {
 	 * @param hotelId
      * @return
      */
-/*	@RequestMapping(value = "/queryRoomTypeListByData")
+	@RequestMapping(value = "/queryRoomTypeListByData")
 	public String queryRoomTypeListByData(Model model,Long hotelId ){
 		if(hotelId==null){
 			logger.error("酒店pid不能为空");
@@ -117,7 +117,7 @@ public class HotelManageController extends BaseController {
 		}
 		model.addAttribute("roomList", result.getValue());
 		return "/system/comm/hotelManage/addhotel";
-	}*/
+	}
 
 
 	/**

@@ -241,7 +241,7 @@
                     <td>
                         #foreach($multiChoice in $multiChoiceList)
                             <label class="checkbox">
-                                <input type="checkbox" class="productTag" name="${multiChoice.name}" #if($multiChoice.isChoice) checked #end/>当前${multiChoice.value}前
+                                <input type="checkbox" class="productTag" name="storeLastTime" #if($multiChoice.isChoice) checked #end/>当前${multiChoice.value}前
                             </label>
                         #end
 
