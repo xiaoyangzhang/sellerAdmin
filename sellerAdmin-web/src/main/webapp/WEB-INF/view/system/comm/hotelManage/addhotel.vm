@@ -317,8 +317,8 @@
 <div class="searchbox">
     <table class="tb">
         <tr>
-            <td class="tb-txt">景区名称：</td>
-            <td><input type="text" class="inputxt"></td>
+            <td class="tb-txt">酒店名称：</td>
+            <td><input type="text" id="hotelname" class="inputxt"></td>
             <td class="tb-txt">所在城市：</td>
             <td>
                 <select id="province"><option value="">--请选择--</option></select>

@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.controller.hotelManage;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
 import com.yimayhd.sellerAdmin.base.BaseController;
@@ -261,7 +262,9 @@ public class HotelManageController extends BaseController {
 		System.out.println("不转义:"+s2);
 		String json = "{supplier_calendar：{\"seller_id\":\"2088102122524333\",\"hotel_id\":'',\"sku_flag\":$(\".sku_flag\").val(),\"biz_list\":[{\"sku_id\":10012,\"state\":\"update\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"1464364800000\"},{\"sku_id\":10014,\"state\":\"update\",\"stock_num\":228,\"price\":\"12\",\"vTxt\":\"1464105600000\"}]}}";
 
-
+		JSONObject jsonObject = JSONObject.parseObject(json) ;
+		String supplier_calendar = jsonObject.get("supplier_calendar").toString();
+		System.out.println(supplier_calendar);
 	}
 
 	public HotelManageService getHotelManageService() {

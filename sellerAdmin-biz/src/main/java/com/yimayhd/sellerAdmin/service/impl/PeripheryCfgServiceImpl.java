@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
-import com.yimayhd.resourcecenter.entity.CityInfo;
 import com.yimayhd.resourcecenter.model.query.ShowcaseQuery;
 import com.yimayhd.resourcecenter.model.resource.SnsActivePageInfo;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
@@ -195,11 +194,11 @@ public class PeripheryCfgServiceImpl implements PeripheryCfgService{
 					ShowcaseDO showcaseDO = showCaseResult.getShowcaseDO();
 					cfgResultInfo = new CfgResultInfo();
 					
-					CityInfo cityInfo = JSON.parseObject(showcaseDO.getOperationContent(), CityInfo.class);
+					/*CityInfo cityInfo = JSON.parseObject(showcaseDO.getOperationContent(), CityInfo.class);
 					
 					cfgResultInfo.setItemId(cityInfo.id);
 					cfgResultInfo.setItemTitle(cityInfo.name);
-					cfgResultInfo.setItemImg(cityInfo.url);
+					cfgResultInfo.setItemImg(cityInfo.url);*/
 					
 					cfgInfoList.add(cfgResultInfo);
 				}
