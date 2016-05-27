@@ -133,7 +133,7 @@ public class HotelManageController extends BaseController {
 		/**最晚到店时间**/
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(hotelMessageVO);
 
-		model.addAttribute("multiChoiceList",multiChoiceList);
+		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
 		model.addAttribute("hotelMessageVO", result.getValue());
 		return "";
 
