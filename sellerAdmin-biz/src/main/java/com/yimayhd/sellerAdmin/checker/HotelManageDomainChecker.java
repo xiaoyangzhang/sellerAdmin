@@ -81,7 +81,7 @@ public class HotelManageDomainChecker {
     public HotelPageQuery getBizQueryModel() {
         HotelPageQuery hotelPageQuery = new HotelPageQuery();
         hotelPageQuery.setNeedCount(true);
-        if(hotelMessageVO.getHotelId()!=null){
+        if(hotelMessageVO.getHotelId()!=0){
 
         }
         if(StringUtils.isNotBlank(hotelMessageVO.getName())){
@@ -98,7 +98,7 @@ public class HotelManageDomainChecker {
      * @return
      */
     public WebResult checkQueryHotelMessageInfo(){
-        if(hotelMessageVO.getHotelId()==null){
+        if(hotelMessageVO.getHotelId()==0){
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "酒店ID为空");
         }
 
@@ -110,10 +110,7 @@ public class HotelManageDomainChecker {
      * @return
      */
     public WebResult checkQueryHotelMessageVOyData(){
-        if(hotelMessageVO.getHotelId()==null){
-            return WebResult.failure(WebReturnCode.PARAM_ERROR, "酒店ID为空");
-        }
-        if(hotelMessageVO.getItemId()==null){
+        if(hotelMessageVO.getItemId()==0){
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "商品ID为空");
         }
         return  WebResult.success(null);
@@ -128,10 +125,10 @@ public class HotelManageDomainChecker {
         if (StringUtils.isBlank(hotelMessageVO.getTitle())) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "商品标题不能为空");
         }
-        if (hotelMessageVO.getPayType() == null) {
+        if (hotelMessageVO.getPayType() == 0) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "支付方式不能为空");
         }
-        if (hotelMessageVO.getCancelLimit() == null) {
+        if (hotelMessageVO.getCancelLimit() == 0) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "退订限制不能为空");
         }
         if (StringUtils.isBlank(hotelMessageVO.getDescription())) {
@@ -140,10 +137,10 @@ public class HotelManageDomainChecker {
         if (StringUtils.isBlank(hotelMessageVO.getStoreLastTime())) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "最晚到点时间不能为空");
         }
-        if (hotelMessageVO.getStartBookTimeLimit() == null) {
+        if (hotelMessageVO.getStartBookTimeLimit() == 0) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "提前预定天数不能为空");
         }
-        if (hotelMessageVO.getBreakfast() == null) {
+        if (hotelMessageVO.getBreakfast() == 0) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "早餐信息不能为空");
         }
 
@@ -194,9 +191,9 @@ public class HotelManageDomainChecker {
         ItemFeature itemFeature = new ItemFeature(null);
         //itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, CancelLimit.Ok.getType());
         /**房型ID**/
-        itemFeature.put(ItemFeatureKey.ROOM_ID,hotelMessageVO.getRoomId().longValue());
+        itemFeature.put(ItemFeatureKey.ROOM_ID,hotelMessageVO.getRoomId());//房型ID
 
-        itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, hotelMessageVO.getCancelLimit().intValue());//退订规则
+        itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, hotelMessageVO.getCancelLimit());//退订规则
         itemFeature.put(ItemFeatureKey.LATEST_CHECKIN,hotelMessageVO.getLatestCheckin());//前端String转list
         itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,hotelMessageVO.getStartBookTimeLimit());//提前预定天数
         itemFeature.put(ItemFeatureKey.BREAKFAST,hotelMessageVO.getBreakfast());//早餐
@@ -205,6 +202,9 @@ public class HotelManageDomainChecker {
         // 价格日历 json解析
        // CategoryPropertyValueDO + 日期 存到 ItemSkuPVPair 中,每个sku 只有 一个 pv 属性
         List<ItemSkuDO>  itemSkuDOList = addItemSkuDOList(hotelMessageVO.getSupplierCalendar());
+        if(CollectionUtils.isEmpty(itemSkuDOList)){
+            return null;
+        }
         dto.setItemDO(itemDO);//商品信息
         dto.setItemSkuDOList(itemSkuDOList);//价格日历信息
         return dto;
@@ -228,10 +228,10 @@ public class HotelManageDomainChecker {
         List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>(bizSkuInfos.length);
         for (BizSkuInfo biz :bizSkuInfos){
             ItemSkuDO sku = new ItemSkuDO();
-            sku.setSellerId(template.getSeller_id().longValue());//商家ID
+            sku.setSellerId(template.getSeller_id());//商家ID
             sku.setCategoryId(hotelMessageVO.getCategoryId());//类目ID
             sku.setPrice(biz.getvPrize());//价格
-            sku.setStockNum(biz.getStock_num().intValue());//库存
+            sku.setStockNum(biz.getStock_num());//库存
             /**销售属性**/
             List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
             ItemSkuPVPair pvPair =new ItemSkuPVPair();
@@ -317,9 +317,8 @@ public class HotelManageDomainChecker {
             vo.setArea(roomFeature.getArea());
             vo.setBed(roomFeature.getBed());
             vo.setWindow(roomFeature.getWindow());
-           // vo.getNetwork(roomFeature.getNetwork());
+            vo.setNetwork(roomFeature.getNetwork());
             vo.setPeople(roomFeature.getPeople());
-
         }
         return roomList;
 

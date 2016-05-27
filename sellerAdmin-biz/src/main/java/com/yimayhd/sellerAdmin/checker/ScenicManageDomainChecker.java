@@ -61,7 +61,7 @@ public class ScenicManageDomainChecker {
         if(scenicManageVO==null){
             return scenicPageQuery;
         }
-        if(scenicManageVO.getScenicId()!=null){
+        if(scenicManageVO.getScenicId()!=0){
 
         }
         if(StringUtils.isNotBlank(scenicManageVO.getName())){
@@ -76,10 +76,10 @@ public class ScenicManageDomainChecker {
      * @return
      */
     public WebResult checkAddScenicManageVOByDdata(){
-        if(scenicManageVO.getSellerId()==null){
+        if(scenicManageVO.getSellerId()==0){
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "商户id不能为空");
         }
-        if (scenicManageVO.getScenicId()==null){
+        if (scenicManageVO.getScenicId()==0){
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "景区资源ID不能为空");
         }
         return WebResult.success(null);
@@ -200,7 +200,7 @@ public class ScenicManageDomainChecker {
         if (scenicManageVO == null) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR);
         }
-        if (scenicManageVO.getScenicId()==null) {
+        if (scenicManageVO.getScenicId()==0) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "景区ID不能为空");
         }
 

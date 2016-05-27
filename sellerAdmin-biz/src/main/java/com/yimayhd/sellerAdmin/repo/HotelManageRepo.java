@@ -98,6 +98,10 @@ public class HotelManageRepo {
 		/**类目销售属性**/
 		domain.setCategoryPropertyValueDO(sellDO);
 		CommonItemPublishDTO commonItemPublishDTO = domain.getBizCommonItemPublishDTO();
+		if(commonItemPublishDTO==null){
+			log.error( "拼装commonItemPublishDTO商品信息错误");
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "拼装commonItemPublishDTO商品信息错误");
+		}
 		ItemPubResult result = itemPublishServiceRef.publishCommonItem(commonItemPublishDTO);
 		if(!result.isSuccess()){
 			log.error("添加酒店商品信息错误");

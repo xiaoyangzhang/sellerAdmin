@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by wangdi on 16/5/27.
  */
 public class SupplierCalendarTemplate implements Serializable {
-    private Long seller_id;//商户ID
+    private long seller_id;//商户ID
     private String hotel_id;//酒店ID
     private BizSkuInfo [] bizSkuInfos;
 
@@ -16,12 +16,11 @@ public class SupplierCalendarTemplate implements Serializable {
 
     }
 
-
-    public Long getSeller_id() {
+    public long getSeller_id() {
         return seller_id;
     }
 
-    public void setSeller_id(Long seller_id) {
+    public void setSeller_id(long seller_id) {
         this.seller_id = seller_id;
     }
 

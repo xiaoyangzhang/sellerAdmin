@@ -42,6 +42,7 @@ import java.util.List;
 public class HotelManageController extends BaseController {
 	private static final Logger logger = LoggerFactory.getLogger(HotelManageController.class);
 	private final Integer pageNo=8;
+	private static final String UPDATE="update";
 
 	@Autowired
 	private HotelManageService hotelManageService;
@@ -55,11 +56,54 @@ public class HotelManageController extends BaseController {
 	@RequestMapping(value = "/initHotelManage")
 	public String queryHotelManageList(Model model) throws Exception {
 		HotelMessageVO hotelMessageVO = new  HotelMessageVO();
+		long userId = sessionManager.getUserId() ;
+		hotelMessageVO.setSellerId(userId);
+		System.out.println(userId);
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(null);
 		model.addAttribute("hotelMessageVO", hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
 		return "/system/comm/hotelManage/addhotel";
 	}
+
+	/**
+	 * 编辑初始页面
+	 * @param model
+	 * @param
+	 * @return
+	 * @throws Exception
+     */
+	@RequestMapping(value = "/editHotelMessageView")
+	public String editHotelMessageView(Model model) throws Exception {
+		System.out.println(123);
+		HotelMessageVO hotelMessageVO = new HotelMessageVO();
+		long userId = sessionManager.getUserId() ;
+		hotelMessageVO.setSellerId(userId);
+		hotelMessageVO.setCategoryId(Long.valueOf(6));
+		hotelMessageVO.setItemId(Long.valueOf(586));
+		if(hotelMessageVO==null){
+			// "编辑商品信息错误";
+			return "/error";
+		}
+		if(hotelMessageVO.getItemId()==0){
+			// "编辑商品ID错误";
+			return "/error";
+		}
+		if(hotelMessageVO.getCategoryId()==0){
+			// "商品类目ID错误";
+			return "/error";
+		}
+
+		WebResult<HotelMessageVO> webResult = hotelManageService.queryHotelMessageVOyData(hotelMessageVO);
+		if(!webResult.isSuccess()){
+			// "商品类目ID错误";
+			return "/error";
+		}
+		List<MultiChoice> multiChoiceList = initMultiChoiceList(webResult.getValue());
+		model.addAttribute("hotelMessageVO", hotelMessageVO);
+		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
+		return "/system/comm/hotelManage/addhotel";
+	}
+
 
 	/**
 	 * 商品资源信息列表
@@ -129,7 +173,7 @@ public class HotelManageController extends BaseController {
 	@RequestMapping(value = "/addHotelMessageVOByData")
 	public WebResult<String> addHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
 		WebResult<String> message = new WebResult<String>();
-		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
+		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==0){
 			message.initFailure(WebReturnCode.PARAM_ERROR,"酒店资源信息错误,无法添加商品");
 			return message;
 		}
@@ -163,17 +207,33 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
      */
-	/*public String editHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
-		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
-			//throw new BaseException("酒店资源信息错误,无法编辑商品");
+	public WebResult<String> editHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
+		WebResult<String> message = new WebResult<String>();
+
+		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==0){
+			message.initFailure(WebReturnCode.PARAM_ERROR,"酒店资源信息错误,无法编辑商品");
+			return message;
 		}
+		/**必要参数验证**/
+		String checkMsg = checkAddHotelMessageVOParam(hotelMessageVO);
+		if(StringUtils.isNotBlank(checkMsg)){
+			message.initFailure(WebReturnCode.PARAM_ERROR,checkMsg);
+			return message;
+		}
+
 		WebResult<Long> result = hotelManageService.editHotelMessageVOByData(hotelMessageVO);
 		if(!result.isSuccess()){
-			//
+			message.initFailure(WebReturnCode.PARAM_ERROR,"添加商品错误");
+			return message;
 		}
+		/**最晚到店时间**/
+		List<MultiChoice> multiChoiceList = initMultiChoiceList(hotelMessageVO);
 		model.addAttribute("itemId", result.getValue());
-		return "";
-	}*/
+		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
+		model.addAttribute("hotelMessageVO", result.getValue());
+		return message;
+
+	}
 
 	/**
 	 * 查询酒店商品信息详情
@@ -236,10 +296,10 @@ public class HotelManageController extends BaseController {
 		if(hotelMessageVO.getCode()==null){
 			return "商品代码不能为空";
 		}
-		if(hotelMessageVO.getPayType()==null){
+		if(hotelMessageVO.getPayType()==0){
 			return "付款方式不能为空";
 		}
-		if(hotelMessageVO.getCancelLimit()==null){
+		if(hotelMessageVO.getCancelLimit()==0){
 			return "退订限制为空";
 		}
 		if(StringUtils.isBlank(hotelMessageVO.getDescription())){
@@ -248,7 +308,7 @@ public class HotelManageController extends BaseController {
 		if(StringUtils.isBlank(hotelMessageVO.getStoreLastTime())){
 			return "最晚到店时间不能为空";
 		}
-		if(hotelMessageVO.getStartBookTimeLimit()==null){
+		if(hotelMessageVO.getStartBookTimeLimit()==0){
 			return "提前预定天数不能为空";
 		}
 

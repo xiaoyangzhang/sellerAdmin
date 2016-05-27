@@ -16,11 +16,11 @@ public class RoomMessageVO implements Serializable {
     private long	    hotelId;//酒店ID
     private long        rno;//序号按创建时间升序
     private String      bed;//床型
-    private Double      area;//面积
-    private Integer     people ;//人数
-    private Integer		network;//网络
+    private double      area;//面积
+    private int     people ;//人数
+    private List<Integer> network;//网络
     private String      networkStr;//
-    private Integer     window;//窗
+    private int     window;//窗
     private String      windowStr;//
     private List<String> pics;//照片地址
 
@@ -65,27 +65,27 @@ public class RoomMessageVO implements Serializable {
         this.bed = bed;
     }
 
-    public Double getArea() {
+    public double getArea() {
         return area;
     }
 
-    public void setArea(Double area) {
+    public void setArea(double area) {
         this.area = area;
     }
 
-    public Integer getPeople() {
+    public int getPeople() {
         return people;
     }
 
-    public void setPeople(Integer people) {
+    public void setPeople(int people) {
         this.people = people;
     }
 
-    public Integer getNetwork() {
+    public List<Integer> getNetwork() {
         return network;
     }
 
-    public void setNetwork(Integer network) {
+    public void setNetwork(List<Integer> network) {
         this.network = network;
     }
 
@@ -97,11 +97,11 @@ public class RoomMessageVO implements Serializable {
         this.networkStr = networkStr;
     }
 
-    public Integer getWindow() {
+    public int getWindow() {
         return window;
     }
 
-    public void setWindow(Integer window) {
+    public void setWindow(int window) {
         this.window = window;
     }
 
