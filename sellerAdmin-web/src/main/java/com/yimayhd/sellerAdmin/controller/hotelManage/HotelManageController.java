@@ -46,9 +46,11 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/chooseHotelManage")
+	@RequestMapping(value = "/initHotelManage")
 	public String queryHotelManageList(Model model) throws Exception {
-		System.out.println("ddddd");
+		List<MultiChoice> multiChoiceList = initMultiChoiceList(null);
+
+		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
 		return "/system/comm/hotelManage/addhotel";
 	}
 
