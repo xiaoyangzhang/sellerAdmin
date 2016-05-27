@@ -33,7 +33,7 @@
                             <li>
                                 <div class="radio-bar clearfix">
                                     <label class="fl"><input type="radio" name="gp"> 房型1</label>
-                                    <img class="fr" src="http://s0.test.jiuxiulvxing.com/PC_JX/img/droptip_up.jpg">
+                                    <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
                                 </div>
                                 <div class="bar-box">
                                     <ul class="clearfix">
@@ -63,16 +63,16 @@
                                         </li>
                                     </ul>
                                     <div class="img-group">
-                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
-                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
-                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
+                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <div class="radio-bar clearfix">
                                     <label class="fl"><input type="radio" name="gp"> 房型2</label>
-                                    <img class="fr" src="http://s0.test.jiuxiulvxing.com/PC_JX/img/droptip_up.jpg">
+                                    <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
                                 </div>
                                 <div class="bar-box">
                                     <ul class="clearfix">
@@ -102,16 +102,16 @@
                                         </li>
                                     </ul>
                                     <div class="img-group">
-                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
-                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
-                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
+                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <div class="radio-bar clearfix">
                                     <label class="fl"><input type="radio" name="gp"> 房型3</label>
-                                    <img class="fr" src="http://s0.test.jiuxiulvxing.com/PC_JX/img/droptip_up.jpg">
+                                    <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
                                 </div>
                                 <div class="bar-box">
                                     <ul class="clearfix">
@@ -141,16 +141,16 @@
                                         </li>
                                     </ul>
                                     <div class="img-group">
-                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
-                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
-                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
+                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <div class="radio-bar clearfix">
                                     <label class="fl"><input type="radio" name="gp"> 房型4</label>
-                                    <img class="fr" src="http://s0.test.jiuxiulvxing.com/PC_JX/img/droptip_up.jpg">
+                                    <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
                                 </div>
                                 <div class="bar-box">
                                     <ul class="clearfix">
@@ -180,9 +180,9 @@
                                         </li>
                                     </ul>
                                     <div class="img-group">
-                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
-                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
-                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
+                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
                                     </div>
                                 </div>
                             </li>
@@ -328,7 +328,7 @@
             </td>
         </tr>
     </table>
-    <img src="$!rs_js_css_path_jiuxiu/img/loading.gif" class='load_list'>
+    <img src="$!rs_path_jiuxiu/img/loading.gif" class='load_list'>
     <div class="hotelist list"></div>
 
 </div>
