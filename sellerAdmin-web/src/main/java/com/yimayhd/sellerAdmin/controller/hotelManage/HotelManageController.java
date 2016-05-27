@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.controller.hotelManage;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
@@ -12,7 +13,9 @@ import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.MultiChoice;
 import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
+import com.yimayhd.sellerAdmin.model.HotelManage.SupplierCalendarTemplate;
 import com.yimayhd.sellerAdmin.service.hotelManage.HotelManageService;
+import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,36 +154,7 @@ public class HotelManageController extends BaseController {
 
 	}
 
-	/**
-	 * 初始化最晚到店时间
-	 * @return
-     */
-	public List<MultiChoice> initMultiChoiceList(HotelMessageVO hotelMessageVO){
-		List<Integer> choiseTime = new ArrayList<Integer>();
-		if(hotelMessageVO!=null&&hotelMessageVO.getLatestCheckin().size()>0){
-			choiseTime = hotelMessageVO.getLatestCheckin();
-		}
-		List<MultiChoice> multiChoiceList = new ArrayList<MultiChoice>();
-		for(int i=0;i<24;i++){
-			MultiChoice multiChoice = new MultiChoice();
-			multiChoice.setId(i);//id
-			multiChoice.setTitle("时间");
-			multiChoice.settValue(i);
-			multiChoice.setValue(i+":00");
-			multiChoice.setChoice(false);
-			if(!CollectionUtils.isEmpty(choiseTime)){
-				for (int time :choiseTime){
-					if(time == i){
-						/**设置选中标识**/
-						multiChoice.setChoice(true);
-					}
-				}
-			}
-			multiChoiceList.add(multiChoice);
 
-		}
-		return multiChoiceList;
-	}
 
 	/**
 	 * 编辑酒店资源
@@ -219,6 +193,36 @@ public class HotelManageController extends BaseController {
 		return "";
 
 	}*/
+	/**
+	 * 初始化最晚到店时间
+	 * @return
+	 */
+	public List<MultiChoice> initMultiChoiceList(HotelMessageVO hotelMessageVO){
+		List<Integer> choiseTime = new ArrayList<Integer>();
+		if(hotelMessageVO!=null&&hotelMessageVO.getLatestCheckin().size()>0){
+			choiseTime = hotelMessageVO.getLatestCheckin();
+		}
+		List<MultiChoice> multiChoiceList = new ArrayList<MultiChoice>();
+		for(int i=0;i<24;i++){
+			MultiChoice multiChoice = new MultiChoice();
+			multiChoice.setId(i);//id
+			multiChoice.setTitle("时间");
+			multiChoice.settValue(i);
+			multiChoice.setValue(i+":00");
+			multiChoice.setChoice(false);
+			if(!CollectionUtils.isEmpty(choiseTime)){
+				for (int time :choiseTime){
+					if(time == i){
+						/**设置选中标识**/
+						multiChoice.setChoice(true);
+					}
+				}
+			}
+			multiChoiceList.add(multiChoice);
+
+		}
+		return multiChoiceList;
+	}
 
 	/**
 	 * 添加酒店商品信息验证
@@ -252,6 +256,7 @@ public class HotelManageController extends BaseController {
 
 	}
 
+
 	public static void main(String[] args) {
 
 		String str = "hello world <br>";//数据库
@@ -260,11 +265,16 @@ public class HotelManageController extends BaseController {
 		System.out.println("处理后:"+s);
 		String s2 = HtmlUtils.htmlUnescape(s);
 		System.out.println("不转义:"+s2);
-		String json = "{supplier_calendar：{\"seller_id\":\"2088102122524333\",\"hotel_id\":'',\"sku_flag\":$(\".sku_flag\").val(),\"biz_list\":[{\"sku_id\":10012,\"state\":\"update\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"1464364800000\"},{\"sku_id\":10014,\"state\":\"update\",\"stock_num\":228,\"price\":\"12\",\"vTxt\":\"1464105600000\"}]}}";
-
+		String json = "{\"supplier_calendar\":{\"seller_id\":\"2088102122524333\",\"hotel_id\":\"123\",\"biz_list\":[{\"sku_id\":10012,\"state\":\"update\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"2088101117955611\"},{\"sku_id\":10012,\"state\":\"update\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"2088101117955611\"}]}}";
+		String json2="{\"seller_id\":\"2088102122524333\",\"hotel_id\":\"123\",\"biz_list\":[{\"sku_id\":10012,\"state\":\"update\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"2088101117955611\"},{\"sku_id\":10012,\"state\":\"update\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"2088101117955611\"}]}";
 		JSONObject jsonObject = JSONObject.parseObject(json) ;
+		JSONArray jsonArray = jsonObject.getJSONArray("biz_list");
 		String supplier_calendar = jsonObject.get("supplier_calendar").toString();
 		System.out.println(supplier_calendar);
+
+		SupplierCalendarTemplate template = (SupplierCalendarTemplate)CommonJsonUtil.jsonToObject(json2, SupplierCalendarTemplate.class);
+		System.out.println(template.getHotel_id());
+
 	}
 
 	public HotelManageService getHotelManageService() {

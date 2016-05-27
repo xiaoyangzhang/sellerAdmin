@@ -18,6 +18,8 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
+import com.yimayhd.sellerAdmin.model.HotelManage.SupplierCalendarTemplate;
+import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -201,6 +203,23 @@ public class HotelManageDomainChecker {
         dto.setItemDO(itemDO);
 
         return dto;
+    }
+
+    /**
+     * 添加商品信息配置价格日历sku
+     * @param supplierCalendar
+     * @return
+     */
+    public  List<ItemSkuDO> addItemSkuDOList(String supplierCalendar){
+        if (StringUtils.isBlank(supplierCalendar)){
+            return null;
+        }
+        SupplierCalendarTemplate template = (SupplierCalendarTemplate) CommonJsonUtil.jsonToObject(supplierCalendar, SupplierCalendarTemplate.class);
+        ItemSkuDO sku = new ItemSkuDO();
+        sku.setSellerId(template.getSeller_id().longValue());
+
+        return null;
+
     }
 
     /**

@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/addhotelproduct.css">
 </head>
 <!-- head end-->
+<input type="hidden" class="picCode baseInfo-picCode" name="hotelId" value="$!{hotelMessageVO.hotelId}">
+<input type="hidden" class="picCode baseInfo-picCode" name="name" value="$!{hotelMessageVO.name}">
+<input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{hotelMessageVO.supplierCalendar}">
 <div class = "eredar-info clearfix">
     <ul>
         <li class = "first on">选择酒店</li>
@@ -331,9 +334,7 @@
     <img src="$!rs_path_jiuxiu/img/loading.gif" class='load_list'>
     <div class="hotelist list"></div>
 
-    <input type="hidden" class="picCode baseInfo-picCode" name="hotelId" value="$!{hotelMessageVO.hotelId}">
-    <input type="hidden" class="picCode baseInfo-picCode" name="name" value="$!{hotelMessageVO.name}">
-    <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{hotelMessageVO.supplierCalendar}">
+
 </div>
 
 <script  type='text/temple' id='province-tpl'>

@@ -1,7 +1,7 @@
 package com.yimayhd.sellerAdmin.model.HotelManage;
 
-import com.alibaba.dubbo.common.utils.StringUtils;
 import com.yimayhd.sellerAdmin.base.BaseQuery;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -230,6 +230,9 @@ private String locationText;
 
 	public void setSupplierCalendar(String supplierCalendar) {
 		this.supplierCalendar = supplierCalendar;
+		if(StringUtils.isNotBlank(supplierCalendar)){
+
+		}
 	}
 
 	public RoomMessageVO getRoomMessageVO() {
