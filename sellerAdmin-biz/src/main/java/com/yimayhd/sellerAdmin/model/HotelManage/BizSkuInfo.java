@@ -12,9 +12,10 @@ public class BizSkuInfo implements Serializable{
 
     private Long sku_id;//
     private String state;//当前状态 更新 删除 添加
-    private Long stock_num;//库存
+    private Integer stock_num;//库存
     private BigDecimal price;//价格
-    private Integer vTxt;// 日期
+    private String vTxt;// 日期
+    private Long vPrize;
 
     public BizSkuInfo(){
 
@@ -37,13 +38,6 @@ public class BizSkuInfo implements Serializable{
         this.state = state;
     }
 
-    public Long getStock_num() {
-        return stock_num;
-    }
-
-    public void setStock_num(Long stock_num) {
-        this.stock_num = stock_num;
-    }
 
     public BigDecimal getPrice() {
         return price;
@@ -51,13 +45,36 @@ public class BizSkuInfo implements Serializable{
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+        if(price!=null){
+           this.setvPrize(price.longValue()*10);
+        }
     }
 
-    public Integer getvTxt() {
+
+    public String getvTxt() {
         return vTxt;
     }
 
-    public void setvTxt(Integer vTxt) {
+    public void setvTxt(String vTxt) {
         this.vTxt = vTxt;
+    }
+
+    public long getvPrize() {
+        return vPrize;
+    }
+
+    public void setvPrize(Long vPrize) {
+        this.vPrize = vPrize;
+        if(vPrize!=0){
+            this.setPrice(new BigDecimal(vPrize/10));
+        }
+    }
+
+    public Integer getStock_num() {
+        return stock_num;
+    }
+
+    public void setStock_num(Integer stock_num) {
+        this.stock_num = stock_num;
     }
 }

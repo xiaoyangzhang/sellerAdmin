@@ -199,7 +199,7 @@
 </div>
 <div class="panel">
     <div class="baseinfo">
-        <form>
+        <form id="hotelfm">
             <table>
                 <tr>
                     <td class="coltxt">商品类型：</td>

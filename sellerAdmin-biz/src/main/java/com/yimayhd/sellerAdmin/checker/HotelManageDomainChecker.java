@@ -16,13 +16,16 @@ import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.model.HotelManage.BizSkuInfo;
 import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.SupplierCalendarTemplate;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
+import com.yimayhd.sellerAdmin.util.DateUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -215,12 +218,29 @@ public class HotelManageDomainChecker {
         if (StringUtils.isBlank(supplierCalendar)){
             return null;
         }
-        if(this.getCategoryPropertyValueDO()==null){
+        if(categoryPropertyValueDO==null){
             return null;
         }
         SupplierCalendarTemplate template = (SupplierCalendarTemplate) CommonJsonUtil.jsonToObject(supplierCalendar, SupplierCalendarTemplate.class);
-        ItemSkuDO sku = new ItemSkuDO();
-        sku.setSellerId(template.getSeller_id().longValue());
+
+        BizSkuInfo[] bizSkuInfos = template.getBizSkuInfos();
+        List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>(bizSkuInfos.length);
+        for (BizSkuInfo biz :bizSkuInfos){
+            ItemSkuDO sku = new ItemSkuDO();
+            sku.setSellerId(template.getSeller_id().longValue());//商家ID
+            sku.setCategoryId(hotelMessageVO.getCategoryId());//类目ID
+            sku.setPrice(biz.getvPrize());//价格
+            sku.setStockNum(biz.getStock_num().intValue());//库存
+            /**销售属性**/
+            List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
+            ItemSkuPVPair pvPair =new ItemSkuPVPair();
+            pvPair.setPId(categoryPropertyValueDO.getId());//销售属性ID
+            pvPair.setPTxt("2016-1-1");//日期格式化
+            pvPair.setVTxt(biz.getvTxt());//价格日期
+            pvPair.setPType(categoryPropertyValueDO.getType());
+            pvPair.setVId(-Integer.valueOf(biz.getvTxt()).intValue());
+            addItemSkuDOList.add(sku);
+        }
 
         return null;
 
