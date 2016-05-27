@@ -180,6 +180,7 @@ public class HotelManageDomainChecker {
         ItemDO itemDO = new  ItemDO();// 添加商品信息
         itemDO.setSellerId(hotelMessageVO.getSellerId());//商家ID
         itemDO.setOutId(hotelMessageVO.getHotelId());//酒店ID
+        itemDO.setCategoryId(hotelMessageVO.getCategoryId());//商品类目ID
         itemDO.setOutType(ResourceType.HOTEL.getType());// 酒店类型:酒店景区 都outType
         itemDO.setTitle(hotelMessageVO.getTitle());//商品标题
         itemDO.setCode(hotelMessageVO.getCode());//商品代码
@@ -212,6 +213,9 @@ public class HotelManageDomainChecker {
      */
     public  List<ItemSkuDO> addItemSkuDOList(String supplierCalendar){
         if (StringUtils.isBlank(supplierCalendar)){
+            return null;
+        }
+        if(this.getCategoryPropertyValueDO()==null){
             return null;
         }
         SupplierCalendarTemplate template = (SupplierCalendarTemplate) CommonJsonUtil.jsonToObject(supplierCalendar, SupplierCalendarTemplate.class);
