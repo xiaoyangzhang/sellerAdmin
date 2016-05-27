@@ -202,8 +202,8 @@ public class HotelManageDomainChecker {
         itemDO.setItemFeature(itemFeature);
         /****sku价格日历***/
         // 价格日历 json解析
-        List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>();
        // CategoryPropertyValueDO + 日期 存到 ItemSkuPVPair 中,每个sku 只有 一个 pv 属性
+        List<ItemSkuDO>  addItemSkuDOList =addItemSkuDOList(hotelMessageVO.getSupplierCalendar());
         dto.setItemDO(itemDO);
 
         return dto;
@@ -239,10 +239,12 @@ public class HotelManageDomainChecker {
             pvPair.setVTxt(biz.getvTxt());//价格日期
             pvPair.setPType(categoryPropertyValueDO.getType());
             pvPair.setVId(-Integer.valueOf(biz.getvTxt()).intValue());
+            itemSkuPVPairList.add(pvPair);
+            sku.setItemSkuPVPairList(itemSkuPVPairList);
             addItemSkuDOList.add(sku);
         }
 
-        return null;
+        return addItemSkuDOList;
 
     }
 
