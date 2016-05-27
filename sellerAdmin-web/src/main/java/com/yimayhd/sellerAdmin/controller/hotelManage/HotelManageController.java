@@ -65,44 +65,7 @@ public class HotelManageController extends BaseController {
 		return "/system/comm/hotelManage/addhotel";
 	}
 
-	/**
-	 * 编辑初始页面
-	 * @param model
-	 * @param
-	 * @return
-	 * @throws Exception
-     */
-	@RequestMapping(value = "/editHotelMessageView")
-	public String editHotelMessageView(Model model) throws Exception {
-		System.out.println(123);
-		HotelMessageVO hotelMessageVO = new HotelMessageVO();
-		long userId = sessionManager.getUserId() ;
-		hotelMessageVO.setSellerId(userId);
-		hotelMessageVO.setCategoryId(Long.valueOf(6));
-		hotelMessageVO.setItemId(Long.valueOf(586));
-		if(hotelMessageVO==null){
-			// "编辑商品信息错误";
-			return "/error";
-		}
-		if(hotelMessageVO.getItemId()==0){
-			// "编辑商品ID错误";
-			return "/error";
-		}
-		if(hotelMessageVO.getCategoryId()==0){
-			// "商品类目ID错误";
-			return "/error";
-		}
 
-		WebResult<HotelMessageVO> webResult = hotelManageService.queryHotelMessageVOyData(hotelMessageVO);
-		if(!webResult.isSuccess()){
-			// "商品类目ID错误";
-			return "/error";
-		}
-		List<MultiChoice> multiChoiceList = initMultiChoiceList(webResult.getValue());
-		model.addAttribute("hotelMessageVO", hotelMessageVO);
-		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
-		return "/system/comm/hotelManage/addhotel";
-	}
 
 
 	/**
@@ -199,7 +162,43 @@ public class HotelManageController extends BaseController {
 	}
 
 
+	/**
+	 * 编辑初始页面
+	 * @param model
+	 * @param
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/editHotelMessageView")
+	public String editHotelMessageView(Model model) throws Exception {
+		HotelMessageVO hotelMessageVO = new HotelMessageVO();
+		long userId = sessionManager.getUserId() ;
+		hotelMessageVO.setSellerId(userId);
+		hotelMessageVO.setCategoryId(Long.valueOf(6));
+		hotelMessageVO.setItemId(Long.valueOf(586));
+		if(hotelMessageVO==null){
+			// "编辑商品信息错误";
+			return "/error";
+		}
+		if(hotelMessageVO.getItemId()==0){
+			// "编辑商品ID错误";
+			return "/error";
+		}
+		if(hotelMessageVO.getCategoryId()==0){
+			// "商品类目ID错误";
+			return "/error";
+		}
 
+		WebResult<HotelMessageVO> webResult = hotelManageService.queryHotelMessageVOyData(hotelMessageVO);
+		if(!webResult.isSuccess()){
+			// "商品类目ID错误";
+			return "/error";
+		}
+		List<MultiChoice> multiChoiceList = initMultiChoiceList(webResult.getValue());
+		model.addAttribute("hotelMessageVO", hotelMessageVO);
+		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
+		return "/system/comm/hotelManage/addhotel";
+	}
 	/**
 	 * 编辑酒店资源
 	 * @param model
@@ -207,6 +206,7 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
      */
+	@RequestMapping(value = "/editHotelMessageVOByData")
 	public WebResult<String> editHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
 		WebResult<String> message = new WebResult<String>();
 
