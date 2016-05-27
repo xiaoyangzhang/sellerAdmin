@@ -177,14 +177,14 @@ public class ScenicManageController  extends BaseController {
             return message;
         }
 
-        WebResult<Long> result = scenicManageService.editScenicManageVOByDdata(scenicManageVO)
+        WebResult<ScenicManageVO> result = scenicManageService.editScenicManageVOByDdata(scenicManageVO);
         if(!result.isSuccess()){
             message.initFailure(WebReturnCode.PARAM_ERROR,"添加商品错误");
             return message;
         }
         /**最晚到店时间**/
-        model.addAttribute("itemId", result.getValue());
-        model.addAttribute("scenicManageVO",scenicManageVO);
+        model.addAttribute("itemId", scenicManageVO.getItemId());
+        model.addAttribute("scenicManageVO",result.getValue());
         return message;
     }
 
