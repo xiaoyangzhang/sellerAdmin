@@ -8,8 +8,10 @@ import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.Paginator;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
+import com.yimayhd.sellerAdmin.model.HotelManage.MultiChoice;
 import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
 import com.yimayhd.sellerAdmin.service.hotelManage.HotelManageService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import org.springframework.web.util.HtmlUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -127,9 +130,42 @@ public class HotelManageController extends BaseController {
 		if(!result.isSuccess()){
 			//添加酒店商品错误
 		}
+		List<MultiChoice> multiChoiceList = new ArrayList<MultiChoice>();
+
+		model.addAttribute("multiChoiceList",multiChoiceList);
 		model.addAttribute("hotelMessageVO", result.getValue());
 		return "";
 
+	}
+
+	/**
+	 * 初始化最晚到店时间
+	 * @return
+     */
+	public List<MultiChoice> initMultiChoiceList(HotelMessageVO hotelMessageVO){
+		List<Integer> choiseTime = new ArrayList<Integer>();
+		if(hotelMessageVO!=null&&hotelMessageVO.getLatestCheckin().size()>0){
+			choiseTime = hotelMessageVO.getLatestCheckin();
+		}
+		List<MultiChoice> multiChoiceList = new ArrayList<MultiChoice>();
+		for(int i=0;i<24;i++){
+			MultiChoice multiChoice = new MultiChoice();
+			multiChoice.setId(i);//id
+			multiChoice.setTitle("时间");
+			multiChoice.settValue(i);
+			multiChoice.setValue(i+":00");
+			multiChoice.setChoice(false);
+			if(!CollectionUtils.isEmpty(choiseTime)){
+				for (int time :choiseTime){
+					if(time == i){
+						multiChoice.setChoice(true);
+					}
+				}
+			}
+			multiChoiceList.add(multiChoice);
+
+		}
+		return null;
 	}
 
 	/**

@@ -236,29 +236,12 @@
                 <tr>
                     <td class="coltxt vt"><span class="bred">*</span>最晚到店时间：</td>
                     <td>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前0:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前1:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前2:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前3:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前4:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前5:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前6:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前7:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前8:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前9:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前10:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前11:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前12:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前13:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前14:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前15:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前16:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前17:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前18:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前19:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前20:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前21:00前</label>
-                        <label class="checkbox"><input type="checkbox" name="tdl">当前22:00前</label>
+                        #foreach($multiChoice in $multiChoiceList)
+                            <label class="checkbox">
+                                <input type="checkbox" class="productTag" name="${multiChoice.name}" #if($product.baseInfo.containsTag($theme.id)) checked #end/>当前${multiChoice.value}前
+                            </label>
+                        #end
+
                         <label class="checkbox"><input type="checkbox" name="tdl">当前23:00前</label>
                         <div class="gray9">最晚到店时间最多选择3个</div>
                     </td>
@@ -346,125 +329,11 @@
             </td>
         </tr>
     </table>
-    <div class="hotelist list">
-        <table>
-            <thead>
-            <tr>
-                <th></th>
-                <th>酒店名称</th>
-                <th>区域</th>
-                <th>地址</th>
-                <th>电话</th>
-                <th>详情</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><input type="radio"></td>
-                <td>324233243</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td><a>查看详情</a></td>
-            </tr>
-            <tr>
-                <td><input type="radio"></td>
-                <td>324233243</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td><a>查看详情</a></td>
-            </tr>
-            <tr>
-                <td><input type="radio"></td>
-                <td>324233243</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td><a>查看详情</a></td>
-            </tr>
-            <tr>
-                <td><input type="radio"></td>
-                <td>324233243</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td><a>查看详情</a></td>
-            </tr>
-            <tr>
-                <td><input type="radio"></td>
-                <td>324233243</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td><a>查看详情</a></td>
-            </tr>
-            <tr>
-                <td><input type="radio"></td>
-                <td>324233243</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td><a>查看详情</a></td>
-            </tr>
-            <tr>
-                <td><input type="radio"></td>
-                <td>324233243</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td><a>查看详情</a></td>
-            </tr>
-            <tr>
-                <td><input type="radio"></td>
-                <td>324233243</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td><a>查看详情</a></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="pagination">
-        <ul class="pager">
-            <li class="previous disabled">
-                <a href="javascript:void(0);" id="prePage">« 上一页</a>
-            </li>
-            <li class="active">
-                <a href="javascript:void(0);">1</a>
-            </li>
-            <li>
-                <a href="javascript:void(0);" class="LinkeToPage" pageno="2">2</a>
-            </li>
-            <li>
-                <a href="javascript:void(0);" class="LinkeToPage" pageno="3">3</a>
-            </li>
-            <li>
-                <a href="javascript:void(0);" data-toggle="pager" data-placement="top">...</a>
-            </li>
-            <li>
-                <a href="javascript:void(0);" class="LinkeToPage" pageno="131">131</a>
-            </li>
-            <li>
-                <a href="javascript:void(0);" class="LinkeToPage" pageno="132">132</a>
-            </li>
-            <li class="next">
-                <a href="javascript:void(0);" class="LinkeToPage" pageno="2" id="nextPage">下一页»</a>
-            </li>
-            <li>
-                <span class="input-group-addon">每页</span>
-                <select class="form-control pageSize" id="pageSize">
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                </select>
-                <span class="input-group-addon">条</span>
-                <span class="input-group-addon">共 1316 条</span>
-            </li>
-        </ul>
-    </div>
+
+    <div class="hotelist list"></div>
+
 </div>
+
 <script  type='text/temple' id='province-tpl'>
 	    <option value="">--请选择--</option>
 	    <# for(var j=0; j<province.length; j++) { #>
