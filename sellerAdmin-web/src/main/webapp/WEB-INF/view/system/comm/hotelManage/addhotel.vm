@@ -208,30 +208,30 @@
                 </tr>
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>商品标题：</td>
-                    <td><input type="text" class="inputxt" maxlength="38" name="title"><span class="mark"><label>1</label>/38字</span></td>
+                    <td><input type="text" class="inputxt" maxlength="38" name="title"  value="$!{hotelMessageVO.title}"><span class="mark"><label>1</label>/38字</span></td>
                 </tr>
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>商品代码：</td>
-                    <td><input type="text" class="inputxt" maxlength="20" name="code"><span class="mark"><label>1</label>/20字</span></td>
+                    <td><input type="text" class="inputxt" maxlength="20" name="code" value="$!{hotelMessageVO.code}"><span class="mark"><label>1</label>/20字</span></td>
                 </tr>
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>付款方式：</td>
                     <td>
-                        <label class="radio"><input type="radio" name="pmt">在线支付</label>
-                        <label class="radio"><input type="radio" name="pmt">到店支付</label>
+                        <label class="radio"><input type="radio" name="payType" value="1" #if($!hotelMessageVO.payType == 1) checked #end  >在线支付</label>
+                        <label class="radio"><input type="radio" name="payType" value="2"  #if($!hotelMessageVO.payType == 2) checked #end >到店支付</label>
                     </td>
                 </tr>
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>退订限制：</td>
                     <td>
-                        <label class="radio"><input type="radio" name="tdl">可退</label>
-                        <label class="radio"><input type="radio" name="tdl">不可退</label>
-                        <label class="radio"><input type="radio" name="tdl">免费退</label>
+                        <label class="radio"><input type="radio" name="cancelLimit" #if($!hotelMessageVO.cancelLimit == 1) checked #end>可退</label>
+                        <label class="radio"><input type="radio" name="cancelLimit" #if($!hotelMessageVO.cancelLimit == 2) checked #end>不可退</label>
+                        <label class="radio"><input type="radio" name="cancelLimit" #if($!hotelMessageVO.cancelLimit == 3) checked #end>免费退</label>
                     </td>
                 </tr>
                 <tr>
                     <td class="coltxt vt"><span class="bred">*</span>退订规则：</td>
-                    <td><textarea></textarea><span class="mark"><label>1</label>/40字</span></td>
+                    <td><textarea name ="description">$!{hotelMessageVO.description} </textarea><span class="mark"><label>1</label>/40字</span></td>
                 </tr>
                 <tr>
                     <td class="coltxt vt"><span class="bred">*</span>最晚到店时间：</td>
@@ -265,7 +265,7 @@
                 </tr>
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
-                    <td><input type="text" maxlength="10" name=""></td>
+                    <td><input type="text" maxlength="10" name="startBookTimeLimit"  value="$!{hotelMessageVO.startBookTimeLimit}"></td>
                 </tr>
             </table>
         </form>
