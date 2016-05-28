@@ -13,13 +13,13 @@
     </tr>
     </thead>
     <tbody>
-  #foreach($hotelMessageVO in $hotelMessageVOList)
+  #foreach($scenicManageVO in $scenicManageVOList)
     <tr>
-        <td><input type="radio" name="hotelGroup" value="$!{hotelMessageVO.hotelId}"></td>
-        <td>$!{hotelMessageVO.name}</td>
-        <td>$!{hotelMessageVO.area}</td>
-        <td>$!{hotelMessageVO.locationText}</td>
-        <td>$!{hotelMessageVO.phone}</td>
+        <td><input type="radio" name="hotelGroup" value="$!{scenicManageVO.scenicId}"></td>
+        <td>$!{scenicManageVO.name}</td>
+        <td>$!{scenicManageVO.name}</td>
+        <td>$!{scenicManageVO.name}</td>
+        <td>$!{scenicManageVO.name}</td>
         <td><a>查看详情</a></td>
     </tr>
   #end

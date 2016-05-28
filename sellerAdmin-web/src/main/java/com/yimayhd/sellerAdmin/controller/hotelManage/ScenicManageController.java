@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +22,7 @@ import java.util.List;
 /**
  * Created by wangdi on 16/5/17.
  */
+@Controller
 @RequestMapping("/scenic")
 public class ScenicManageController  extends BaseController {
 
@@ -45,7 +47,7 @@ public class ScenicManageController  extends BaseController {
             return "/error";
         }
         PageVO<ScenicManageVO> pageResult = result.getValue();
-        List<ScenicManageVO> ScenicManageVOList = pageResult.getResultList();
+        List<ScenicManageVO> scenicManageVOList = pageResult.getResultList();
         int totalPage = 0;
         if (pageResult.getTotalCount()%pageResult.getPageSize() > 0) {
             totalPage += pageResult.getTotalCount()/pageResult.getPageSize()+1;
@@ -54,7 +56,7 @@ public class ScenicManageController  extends BaseController {
         }
 
         model.addAttribute("pageVo", pageResult);
-        model.addAttribute("ScenicManageVOList", ScenicManageVOList);
+        model.addAttribute("scenicManageVOList", scenicManageVOList);
         model.addAttribute("totalPage", totalPage);
         model.addAttribute("pageNo", pageResult.getPaginator().getPage());
         model.addAttribute("pageSize",8);
@@ -62,23 +64,15 @@ public class ScenicManageController  extends BaseController {
         return "/system/comm/hotelManage/searchscenic";
     }
 
-    /**
-     * 查询景区详情
-     * @param model
-     * @param scenicManageVO
-     * @return
-     */
-    public String queryScenicManageVOByData(Model model, ScenicManageVO scenicManageVO){
-        return "";
-    }
 
     /**
      * 添加景区商品View页
      * @param model
      * @return
      */
-    @RequestMapping(value = "/addScenicManageView", method = RequestMethod.GET)
+    @RequestMapping(value = "/addScenicManageView")
     public String addScenicManageView(Model model){
+        System.out.println("123123132");
         ScenicManageVO scenicManageVO = new  ScenicManageVO();
         long userId = sessionManager.getUserId() ;
         scenicManageVO.setSellerId(userId);
