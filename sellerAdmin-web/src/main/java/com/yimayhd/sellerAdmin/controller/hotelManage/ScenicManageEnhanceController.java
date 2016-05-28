@@ -4,8 +4,6 @@ import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
-import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
-import com.yimayhd.sellerAdmin.model.HotelManage.MultiChoice;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
 import com.yimayhd.sellerAdmin.service.hotelManage.ScenicManageService;
 import org.apache.commons.lang.StringUtils;
@@ -24,9 +22,9 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/scenic")
-public class ScenicManageController  extends BaseController {
+public class ScenicManageEnhanceController extends BaseController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ScenicManageController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ScenicManageEnhanceController.class);
     @Autowired
     private ScenicManageService scenicManageService;
     /**
