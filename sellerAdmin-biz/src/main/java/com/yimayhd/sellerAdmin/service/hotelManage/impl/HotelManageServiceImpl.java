@@ -33,7 +33,6 @@ public class HotelManageServiceImpl implements HotelManageService {
 	@Override
 	public WebResult<PageVO<HotelMessageVO>> queryHotelMessageVOListByData(final HotelMessageVO hotelMessageVO) {
 		HotelManageDomainChecker domain = new HotelManageDomainChecker(hotelMessageVO);
-		System.out.println(2);
 		WebResult<PageVO<HotelMessageVO>> result= new  WebResult<PageVO<HotelMessageVO>>();
 		domain.setPageResult(result);
 		domain.setHotelMessageVO(hotelMessageVO);

@@ -16,13 +16,12 @@ public class HotelMessageVO extends BaseQuery {
 	private long hotelId;//酒店ID
 	private String name;//酒店名称
 	private String area;//酒店区域
-	private String address;//酒店地址
 	private String phone;//酒店电话
 
 //	private Long provinceId;//省id
 //	private Long cityId;//市id
 //	private Long townId;//区id
-	private String locationText;
+	private String locationText;//地址
 
 	private long locationProvinceId;
 
@@ -96,13 +95,6 @@ public class HotelMessageVO extends BaseQuery {
 		this.area = area;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
 
 	public String getPhone() {
 		return phone;

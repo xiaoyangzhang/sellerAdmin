@@ -162,8 +162,8 @@ public class HotelManageDomainChecker {
         HotelMessageVO model = new HotelMessageVO();
         model.setHotelId(_do.getId());
         model.setName(_do.getName());
-        model.setAddress(_do.getLocationText());
-        model.setArea(_do.getLocationProvinceName()+"/"+_do.getLocationCityName()+"/"+_do.getLocationCityName());
+        model.setLocationText(_do.getLocationText());
+        model.setArea(_do.getLocationProvinceName()+"/"+_do.getLocationCityName()+"/"+_do.getLocationTownName());
         List<String> phoneList = _do.getPhoneNum();
         if(CollectionUtils.isNotEmpty(phoneList)){
             model.setPhone(phoneList.get(0));
@@ -403,6 +403,7 @@ public class HotelManageDomainChecker {
             }
             vo.setNetwork(roomFeature.getNetwork());
             vo.setPeople(roomFeature.getPeople());
+            roomList.add(vo);
         }
         return roomList;
 
@@ -511,6 +512,7 @@ public class HotelManageDomainChecker {
         System.out.println(ItemFeatureKey.CANCEL_LIMIT);
         String aa = "{\\\"supplier_calendar\\\":{\\\"seller_id\\\":\\\"2088102122524333\\\",\\\"biz_list\\\":[{\\\"stock_num\\\":10,\\\"price\\\":\\\"8.8\\\",\\\"vTxt\\\":\\\"2088101117955611\\\"}]}}";
     }
+
 
 
 }
