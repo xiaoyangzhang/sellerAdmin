@@ -21,7 +21,7 @@
 							<label class="smtt">地址：</label><label class="address">北京市海淀区中关村东路1号院</label>
 							|<label class="smtt">电话：</label><label class="tel">010-83122549</label>
 						</span>
-                    <a class="choicehotel">查询景区</a>
+                    <a class="choicescenic">查询景区</a>
                 </p>
             </div>
             <div class="baseinfo ticketbaseinfo">
@@ -57,9 +57,11 @@
                         #foreach($bizCategoryInfo in $bizCategoryInfoList)
                         <tr pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pText" pType="$!bizCategoryInfo.pType">
                             #if($bizCategoryInfo.pType == 1)
-                            <td class="coltxt"><span class="bred">*</span>
+                                <td class="coltxt"><span class="bred">*</span>$!bizCategoryInfo.pText：</td>
+                            #else
+                                <td class="coltxt">$!bizCategoryInfo.pText：</td>
                             #end
-                            <td class="coltxt">$!bizCategoryInfo.pText：</td>
+
                             <td><input type="text" class="inputxt" name=""></td>
                         </tr>
                         #end
