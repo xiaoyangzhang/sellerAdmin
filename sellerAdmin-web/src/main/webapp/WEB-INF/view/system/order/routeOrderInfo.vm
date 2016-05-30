@@ -17,64 +17,222 @@
 		    <span>
                 订单状态：
             </span>
-            #if($order.mainOrder.orderShowState == 1)
-                <span>
-                    未付款；
-                </span>
-                <span>
-                    下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.createTime)
-                </span>
-            #elseif($order.mainOrder.orderShowState == 2)
-                <span>
-                    已付款；
-                </span>
-                <span>
-                    付款时间：#if($!order.mainOrder.tcMainOrder.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)#end
-                </span>
-                <span>
-                    <button type="button" class="btn btn-primary affirm"
-                            data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">发货
-                    </button>
-                </span>
-            #elseif($order.mainOrder.orderShowState == 3)
-                <span>
-                    待出行；
-                </span>
-                <span>
-                    $!order.mainOrder.tcMainOrder.deliveryTime
-                    发货时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.deliveryTime)
-                </span>
-            #elseif($order.mainOrder.orderShowState == 4)
-                <span>
-                    已完成;
-                </span>
-                <span>
-                    完成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
-                </span>
-            #elseif($order.mainOrder.orderShowState == 5)
-                <span>
-                    已取消;
-                </span>
-                <span>
-                    取消时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
-                </span>
-                <span>
-                    取消原因：$!order.mainOrder.tcMainOrder.closeReason
-                </span>
-            #elseif($order.mainOrder.orderShowState == 6)
-                <span>
-                    待处理
-                </span>
-            #elseif($order.mainOrder.orderShowState == 7)
-                已退款
-            #end
-            <span>
+       #if($order.mainOrder.orderType == 3100 || $order.mainOrder.orderType == 3200 || $order.mainOrder.orderType == 3300 || $order.mainOrder.orderType == 200)
+	            #if($order.mainOrder.orderStatus == 2)
+	                <span>
+	                   	 待付款；
+	                </span>
+	                <span>
+	                   	 下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.createTime)
+	                </span>
+	            #elseif($order.mainOrder.orderStatus == 3)
+	                <span>
+	                    	处理中；
+	                </span>
+	                <span>
+	                   	 付款时间：#if($!order.mainOrder.tcMainOrder.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)#end
+	                </span>
+	                <span>
+	                    <button type="button" class="btn btn-primary affirm"
+	                            data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">确认
+	                    </button>
+	                </span>
+	            #elseif($order.mainOrder.orderStatus == 6)
+	                <span>
+	                  	  待出行；
+	                </span>
+	                <span>
+	                    $!order.mainOrder.tcMainOrder.deliveryTime
+	                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.deliveryTime)
+	                </span>
+	            #elseif($order.mainOrder.orderStatus == 10)
+	                <span>
+	                    	已完成;
+	                </span>
+	                <span>
+	                   	 完成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
+	                </span>
+	                <span>
+	                   	 <button type="button" class="btn btn-primary assessment"
+	                        	data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">查看评价
+	                	 </button>
+	                </span>
+	            #elseif($order.mainOrder.orderStatus == 8)
+	                <span>
+	                    	已取消;
+	                </span>
+	                <span>
+	                   	 取消时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
+	                </span>
+	                <span>
+	                   	 取消原因：$!order.mainOrder.tcMainOrder.closeReason
+	                </span>
+	            #end
+	            
+	    #elseif($order.mainOrder.orderType == 1200)
+	    		 #if($order.mainOrder.orderStatus == 2)
+	                <span>
+	                   	 待付款；
+	                </span>
+	                <span>
+	                   	 下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.createTime)
+	                </span>
+	            #elseif($order.mainOrder.orderStatus == 3)
+	                <span>
+	                    	待确认；
+	                </span>
+	                <span>
+	                   	 付款时间：#if($!order.mainOrder.tcMainOrder.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)#end
+	                </span>
+	                <span>
+	                    <button type="button" class="btn btn-primary affirm"
+	                            data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">确认
+	                    </button>
+	                </span>
+	            #elseif($order.mainOrder.orderStatus == 6)
+	                <span>
+	                  	  待使用；
+	                </span>
+	                <span>
+	                    $!order.mainOrder.tcMainOrder.deliveryTime
+	                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.deliveryTime)
+	                </span>
+	            #elseif($order.mainOrder.orderStatus == 10)
+	                <span>
+	                    	已完成;
+	                </span>
+	                <span>
+	                   	 完成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
+	                </span>
+	                <span>
+	                   	 <button type="button" class="btn btn-primary assessment"
+	                        	data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">查看评价
+	                	 </button>
+	                </span>
+	            #elseif($order.mainOrder.orderStatus == 8)
+	                <span>
+	                    	已取消;
+	                </span>
+	                <span>
+	                   	 取消时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
+	                </span>
+	                <span>
+	                   	 取消原因：$!order.mainOrder.tcMainOrder.closeReason
+	                </span>
+	            #end
+	            
+	     #elseif($order.mainOrder.orderType == 1100)
+	    		 #if($order.mainOrder.orderStatus == 2)
+	                <span>
+	                   	 待付款；
+	                </span>
+	                <span>
+	                   	 下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.createTime)
+	                </span>
+	            #elseif($order.mainOrder.orderStatus == 3)
+	                <span>
+	                    	待确认；
+	                </span>
+	                <span>
+	                   	 付款时间：#if($!order.mainOrder.tcMainOrder.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)#end
+	                </span>
+	                <span>
+	                    <button type="button" class="btn btn-primary affirm"
+	                            data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">确认
+	                    </button>
+	                </span>
+	            #elseif($order.mainOrder.orderStatus == 6)
+	                <span>
+	                  	  预订成功；
+	                </span>
+	                <span>
+	                    $!order.mainOrder.tcMainOrder.deliveryTime
+	                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.deliveryTime)
+	                </span>
+	            #elseif($order.mainOrder.orderStatus == 10)
+	                <span>
+	                    	已完成;
+	                </span>
+	                <span>
+	                   	 完成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
+	                </span>
+	                <span>
+	                   	 <button type="button" class="btn btn-primary assessment"
+	                        	data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">查看评价
+	                	 </button>
+	                </span>
+	            #elseif($order.mainOrder.orderStatus == 8)
+	                <span>
+	                    	已取消;
+	                </span>
+	                <span>
+	                   	 取消时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
+	                </span>
+	                <span>
+	                   	 取消原因：$!order.mainOrder.tcMainOrder.closeReason
+	                </span>
+	            #end
+	            
+	       #elseif($order.mainOrder.orderType == 3400)
+	    		 #if($order.mainOrder.orderStatus == 3)
+	                <span>
+	                    	待确认；
+	                </span>
+	                <span>
+	                   	 付款时间：#if($!order.mainOrder.tcMainOrder.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)#end
+	                </span>
+	                <span>
+	                    <button type="button" class="btn btn-primary affirm"
+	                            data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">确认
+	                    </button>
+	                </span>
+	            #elseif($order.mainOrder.orderStatus == 6)
+	                <span>
+	                  	  预订成功；
+	                </span>
+	                <span>
+	                    $!order.mainOrder.tcMainOrder.deliveryTime
+	                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.deliveryTime)
+	                </span>
+	             #elseif($order.mainOrder.orderStatus == 11)
+	                <span>
+	                  	  未入住；
+	                </span>
+	                <span>
+	                    $!order.mainOrder.tcMainOrder.deliveryTime
+	                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.deliveryTime)
+	                </span>
+	            #elseif($order.mainOrder.orderStatus == 10)
+	                <span>
+	                    	已完成;
+	                </span>
+	                <span>
+	                   	 完成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
+	                </span>
+	                <span>
+	                   	 <button type="button" class="btn btn-primary assessment"
+	                        	data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">查看评价
+	                	 </button>
+	                </span>
+	            #elseif($order.mainOrder.orderStatus == 8)
+	                <span>
+	                    	已取消;
+	                </span>
+	                <span>
+	                   	 取消时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
+	                </span>
+	                <span>
+	                   	 取消原因：$!order.mainOrder.tcMainOrder.closeReason
+	                </span>
+	            #end
+	    #end
     </div>
     <br><br>
     <div>
         <div>买家备注：$!order.mainOrder.tcMainOrder.otherInfo</div>
-        <form  ><div>卖家备注：<textarea name="customerServiceNote" id="customerServiceNote"  rows="3" cols="50">$!order.mainOrder.tcMainOrder.customerServiceNote</textarea>
-        <button class="btn btn-primary save" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">保存</button></div>
+        <form><div>卖家备注：<textarea name="customerServiceNote" id="customerServiceNote"  rows="3" cols="50">$!order.customerServiceNote</textarea>
+        <button class="btn btn-primary save" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">保存<tton></div>
+
         </form>
     </div>
     <br><br>
@@ -107,10 +265,14 @@
             <tr>
                 <td>付款时间：</td>
                 <td>#if($!order.mainOrder.tcMainOrder.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)#end</td>
+                <td>付款方式：</td>
                 <td>
-                    付款方式：$!order.payChannel
-                </td>
-                <td></td>
+	                #if("$!order.payChannel" == "0") 支付宝条码  
+	                #elseif("$!order.payChannel" == "2") 支付宝网页 
+	                #elseif("$!order.payChannel" == "3") 支付宝手机 
+	                #elseif("$!order.payChannel" == "4") 微信支付
+	                 #end
+                 </td>
             </tr>
 
         </table>
@@ -123,12 +285,10 @@
             <tr>
                 <td>姓名</td>
                 <td>手机号</td>
-                <td>邮箱</td>
             </tr>
             <tr>
                 <td>$!order.mainOrder.tcMainOrder.contactInfo.contactName</td>
                 <td>$!order.mainOrder.tcMainOrder.contactInfo.contactPhone</td>
-                <td>$!order.mainOrder.tcMainOrder.email</td>
             </tr>
         </table>
     </div>
@@ -190,15 +350,32 @@
                                 <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!{utilImg.getImgUrl($!{subOrder.tcDetailOrder.itemPic}, 160)}">
                             </div>
                             <div class="t-msg">
-                                <div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
-                                <div class="t-name">$!subOrder.vTxt</div>
-                                #if($!subOrder.tcDetailOrder.bizOrder.orderType == 3100 ||$!subOrder.tcDetailOrder.bizOrder.orderType == 3200)
-                                    <div class="t-date">出发日期：$!date.format('yyyy-MM-dd',$!subOrder.executeTime)</div>
+                                
+                                #if($!order.mainOrder.orderType == 3100 ||$!order.mainOrder.orderType == 3200 || $!order.mainOrder.orderType == 3300 || $!order.mainOrder.orderType == 200)
+                                   	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
+                                    <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.executeTime) 出发</div>
+                                    <div class="t-userType">$!subOrder.tcDetailOrder.itemSubTitle</div>
+                                    <div class="t-userType">$!subOrder.vTxt</div>
                                 #end
-                                #if($!subOrder.tcDetailOrder.bizOrder.orderType == 3300)
-                                    <div class="t-date">活动时间：$!subOrder.activityTime</div>
+                                
+                                #if($!order.mainOrder.orderType == 1200 )
+                                	<div class="t-name">$!order.mainOrder.tcMainOrder.scenicTitle</div>
+                                	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
+                                    <div class="t-date">$!date.format('yyyy-MM-dd',$!order.mainOrder.tcMainOrder.scenicEnterTime) 入园</div>
+                                    <div class="t-userType">$!order.mainOrder.tcMainOrder.ticketTitle</div>
                                 #end
-                                <div class="t-userType">$!subOrder.tcDetailOrder.itemSubTitle</div>
+                                
+                                 #if($!order.mainOrder.orderType == 1100 || $!order.mainOrder.orderType == 3400)
+                                	<div class="t-name">$!order.mainOrder.tcMainOrder.hotelTitle</div>
+                                	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
+                                    <div class="t-date">$!date.format('yyyy-MM-dd',$!order.mainOrder.tcMainOrder.checkInTime)</div>
+                                    <div class="t-userType">$!order.mainOrder.tcMainOrder.roomTitle</div>
+                                    #if($!order.mainOrder.orderType == 1400)
+                                    	<div class="t-userType">在线付</div>
+                                    #elseif($!order.mainOrder.orderType == 3400)
+                                    	<div class="t-userType">到店付</div>
+                                    #end
+                                #end
                             </div>
                         </div>
                     </td>
@@ -214,24 +391,48 @@
                     </td>
                     <td>
                         <div class="">
-                            #if($order.mainOrder.orderShowState == 1)
-                                未付款
-                            #elseif($order.mainOrder.orderShowState == 2)
-                                已付款
-                            #elseif($order.mainOrder.orderShowState == 3)
-                                待出行
-                            #elseif($order.mainOrder.orderShowState == 4)
-                                交易成功
-                            #elseif($order.mainOrder.orderShowState == 5)
-                                交易关闭
-                            #elseif($order.mainOrder.orderShowState == 6)
-                                待处理
-                            #elseif($order.mainOrder.orderShowState == 7)
-                                已退款
+                         	#if($!order.mainOrder.orderType == 3100 || $!order.mainOrder.orderType == 3200 
+                             	|| $!order.mainOrder.orderType == 3300 || $!order.mainOrder.orderType == 200)
+                            	    #if($order.mainOrder.orderStatus == 2)
+                                  		待付款
+                                    #elseif($order.mainOrder.orderStatus == 3)
+                                       	 处理中
+                                    #elseif($order.mainOrder.orderStatus == 6)
+                                      	  待出行
+                                    #elseif($order.mainOrder.orderStatus == 10)
+                                      	  已完成
+                                    #elseif($order.mainOrder.orderStatus == 8)
+                                       	 已取消
+                                    #end
+                            #elseif($!order.mainOrder.orderType == 1200)
+                               		#if($order.mainOrder.orderStatus == 2)
+                                  		待付款
+                                    #elseif($order.mainOrder.orderStatus == 3)
+                                       	待确认
+                                    #elseif($order.mainOrder.orderStatus == 6)
+                                      	  待使用
+                                    #elseif($order.mainOrder.orderStatus == 10)
+                                      	  已完成
+                                    #elseif($order.mainOrder.orderStatus == 8)
+                                       	 已取消
+                                    #end
+                            #elseif($!order.mainOrder.orderType == 1100 || $!order.mainOrder.orderType == 3400)
+                            		#if($order.mainOrder.orderStatus == 2)
+                                  		待付款
+                                    #elseif($order.mainOrder.orderStatus == 3)
+                                       	待确认
+                                    #elseif($order.mainOrder.orderStatus == 6)
+                                      	 预订成功
+                                    #elseif($order.mainOrder.orderStatus == 10)
+                                      	  已完成
+                                    #elseif($order.mainOrder.orderStatus == 8)
+                                       	 已取消
+                                    #elseif($order.mainOrder.orderStatus == 11)
+                                       	 未入住
+                                    #end
                             #end
                         </div>
                     </td>
-                    <td>-</td>
                 </tr>
                 #end
         </table>
@@ -323,22 +524,37 @@
             });
 
             //发货、确认
-            $(".affirm").click(function(){
-                $.post('$!utilWebconfig.getActionDefaultFontPath()' + '/order/sellerSendGoods/', {'orderId': $(this).attr('orderId')}, function (data) {
-                    if(data.status == 200){
-                        var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
-                        msg.show();
-                    }else{
-                        var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
-                        msg.show();
-                    }
-                    //TODO暂时先刷新页面
-                    setTimeout(function(){
-                        window.location.href = window.location.href;
-                    },1050);
-                })
+		 $('.affirm').each(function () {
+            $(this).click(function () {
+            	var orderId = $(this).attr('orderId');
+	            layer.confirm('确认订单吗？', {icon: 3, title:'提示'}, function(index){
+	            	$.post('$!utilWebconfig.getActionDefaultFontPath()' + '/order/sellerSendGoods/', {'orderId': orderId},function(data) {
+		    			if(data.status == 200) {
+		    				layer.msg('操作成功', {
+		        				icon : 2,
+		        				time : 1000
+		        			});
+		    				window.location.reload();
+		    			} else {
+		    				layer.msg('操作失败', {
+		        				icon : 2,
+		        				time : 1000
+		        			});
+		    			}
+		    		},"json");
+					layer.close(index);
+	            
+	            });
             });
-
+        });
+        
+        //查看评价
+        $('.assessment').each(function () {
+            $(this).click(function () {
+            	var orderId = $(this).attr('orderId');
+            	window.open(actionDefaultPath + '/order/assessmentList?orderNO=' + orderId) ;
+            });
+        });
 
             //取消订单
             $(".cancel").click(function(){

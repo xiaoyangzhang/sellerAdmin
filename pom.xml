@@ -20,15 +20,15 @@
 		<itemcenter.client.version>1.0.8-SNAPSHOT</itemcenter.client.version>
 		<jackson.version>2.6.3</jackson.version>
 		<session.manager.version>1.7.1-SNAPSHOT</session.manager.version>
-		<user.client.version>1.7.1-SNAPSHOT</user.client.version>
+		<user.client.version>1.8.1-SNAPSHOT</user.client.version>
 		<spring.version>4.1.6.RELEASE</spring.version>
 		<spring.session.version>1.0.2.RELEASE</spring.session.version>
 		<snscenter.client.version>1.0.2-SNAPSHOT</snscenter.client.version>
 		<resourcecenter.client.version>0.2.2-SNAPSHOT</resourcecenter.client.version>
 		<membercenter.client.version>1.1.1-SNAPSHOT</membercenter.client.version>
 		<paycore.client.version>1.0.0-SNAPSHOT</paycore.client.version>
-		<tradecenter.client.version>1.0.7-SNAPSHOT</tradecenter.client.version>
-		<comment.version>1.0.2-SNAPSHOT</comment.version>
+		<tradecenter.client.version>1.0.8-SNAPSHOT</tradecenter.client.version>
+		<comment.version>1.0.4-SNAPSHOT</comment.version>
 		<fhtd.version>0.1.0-SNAPSHOT</fhtd.version>
 		<logback.version>1.1.1</logback.version>
 		<commons.io.version>2.4</commons.io.version>

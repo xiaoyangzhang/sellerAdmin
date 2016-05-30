@@ -22,10 +22,42 @@ public class MainOrder {
     private int orderActionStates;
 
     private int orderShowState;
+    
+    private int orderStatus;//订单状态
+    
+    private int orderType;//订单类型
 
     private UserDO user;
+    
+    private String customerServiceNote;//卖家备注
+    
 
-    public TcMainOrder getTcMainOrder() {
+
+	public int getOrderType() {
+		return orderType;
+	}
+
+	public void setOrderType(int orderType) {
+		this.orderType = orderType;
+	}
+
+	public int getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(int orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	public String getCustomerServiceNote() {
+		return customerServiceNote;
+	}
+
+	public void setCustomerServiceNote(String customerServiceNote) {
+		this.customerServiceNote = customerServiceNote;
+	}
+
+	public TcMainOrder getTcMainOrder() {
         return tcMainOrder;
     }
 

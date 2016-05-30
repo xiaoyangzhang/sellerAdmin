@@ -36,8 +36,20 @@ public class OrderDetails {
     private long sellerId;
 
     private String email;
+    
+    private String customerServiceNote;
+    
+    
 
-    public MainOrder getMainOrder() {
+    public String getCustomerServiceNote() {
+		return customerServiceNote;
+	}
+
+	public void setCustomerServiceNote(String customerServiceNote) {
+		this.customerServiceNote = customerServiceNote;
+	}
+
+	public MainOrder getMainOrder() {
         return mainOrder;
     }
 
