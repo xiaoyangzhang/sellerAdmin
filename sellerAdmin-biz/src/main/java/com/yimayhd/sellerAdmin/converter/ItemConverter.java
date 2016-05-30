@@ -5,6 +5,7 @@ import java.util.*;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.domain.item.ItemDTO;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
@@ -81,7 +82,26 @@ public class ItemConverter {
 		itemListItemVO.setPublishDate(itemDO.getGmtCreated());
 		return itemListItemVO;
 	}
-
+	public static ItemListItemVO toItemListItemVO(ItemDTO itemDO) {
+		if (itemDO == null) {
+			return null;
+		}
+		ItemListItemVO itemListItemVO = new ItemListItemVO();
+		itemListItemVO.setId(itemDO.getId());
+//		List<String> itemMainPics = PicUrlsUtil.getItemMainPics(itemDO);
+		List<String> itemMainPics =	itemDO.getItemMainPics();
+		if (CollectionUtils.isNotEmpty(itemMainPics)) {
+			itemListItemVO.setPicture(itemMainPics.get(0));
+		}
+		itemListItemVO.setName(itemDO.getTitle());
+		itemListItemVO.setCode(itemDO.getCode());
+		itemListItemVO.setPrice(itemDO.getPrice());
+		itemListItemVO.setType(itemDO.getItemType());
+		itemListItemVO.setStatus(itemDO.getStatus());
+		itemListItemVO.setOperates(ItemUtil.getItemOperates(itemDO.getItemType(), itemDO.getStatus()));
+		itemListItemVO.setPublishDate(itemDO.getGmtCreated());
+		return itemListItemVO;
+	}
 	public static ItemVO convertItemVO(ItemDO itemDO, CategoryVO categoryVO) {
 		ItemVO itemVO = new ItemVO();
 		BeanUtils.copyProperties(itemDO, itemVO);

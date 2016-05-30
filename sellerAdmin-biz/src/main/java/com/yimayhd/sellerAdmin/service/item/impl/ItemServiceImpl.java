@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.yimayhd.ic.client.model.domain.item.ItemInfo;
+import com.yimayhd.ic.client.model.result.ICPageResult;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,17 +64,18 @@ public class ItemServiceImpl implements ItemService {
 			if (itemQryDTO == null) {
 				return WebResult.success(new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(), 0));
 			}
-			ItemPageResult itemPageResult = itemRepo.getItemList(itemQryDTO);
-			if (itemPageResult == null) {
+		//	ItemPageResult itemPageResult = itemRepo.getItemList(itemQryDTO);
+			ICPageResult<ItemInfo> icPageResult = itemRepo.getItemList(itemQryDTO);
+			if (icPageResult == null) {
 				return WebResult.success(new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(), 0));
 			}
-			List<ItemDO> itemDOList = itemPageResult.getItemDOList();
+			List<ItemInfo> itemDOList = icPageResult.getList();
 			List<ItemListItemVO> resultList = new ArrayList<ItemListItemVO>();
 			if (CollectionUtils.isNotEmpty(itemDOList)) {
 				List<Long> itemIds = new ArrayList<Long>();
-				for (ItemDO itemDO : itemDOList) {
-					resultList.add(ItemConverter.toItemListItemVO(itemDO));
-					itemIds.add(itemDO.getId());
+				for (ItemInfo itemDO : itemDOList) {
+					resultList.add(ItemConverter.toItemListItemVO(itemDO.getItemDTO()));
+					itemIds.add(itemDO.getItemDTO().getId());
 				}
 				Map<Long, List<ComTagDO>> tagMap = commentRepo.getTagsByOutIds(itemIds, TagType.DESTPLACE);
 				if (!org.springframework.util.CollectionUtils.isEmpty(tagMap)) {
@@ -88,7 +91,7 @@ public class ItemServiceImpl implements ItemService {
 
 			}
 			PageVO<ItemListItemVO> pageVO = new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(),
-					itemPageResult.getRecordCount(), resultList);
+					icPageResult.getTotalCount(), resultList);
 			return WebResult.success(pageVO);
 		} catch (Exception e) {
 			log.warn("Params: sellerId=" + sellerId);
