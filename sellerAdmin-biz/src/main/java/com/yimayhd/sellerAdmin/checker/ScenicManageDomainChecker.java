@@ -21,8 +21,10 @@ import com.yimayhd.sellerAdmin.model.HotelManage.BizSkuInfo;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.SupplierCalendarTemplate;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -130,14 +132,18 @@ public class ScenicManageDomainChecker {
         scenicManageVO.setName(scenicDO.getName());
         scenicManageVO.setTitle(itemDO.getTitle());
         scenicManageVO.setCategoryId(category.getId());//类目ID
+        scenicManageVO.setPrice(itemDO.getPrice());
+        scenicManageVO.setOriginalPrice(itemDO.getOriginalPrice());
         scenicManageVO.setStartBookTimeLimit(itemDO.getItemFeature().getStartBookTimeLimit());//提前预定天数
-        // 根据listsku拼装json信息
-        scenicManageVO.setSupplierCalendar("");
         itemDO.getItemFeature().getTicketId();//门票ID
         itemDO.getItemFeature().getTicketTitle();//门票名称
+        // 根据listsku拼装json信息  价格日历
+        scenicManageVO.setSupplierCalendar(getSupplierCalendarJson());
+
         //动态添加 属性
         List<CategoryPropertyValueDO> keyCateList = category.getKeyCategoryPropertyDOs();
         List<CategoryPropertyValueDO> nonCateList =  category.getNonKeyCategoryPropertyDOs();
+        List<BizCategoryInfo> bizList = new ArrayList<BizCategoryInfo>();
         keyCateList.addAll(nonCateList);
         for (CategoryPropertyValueDO category :keyCateList){
             BizCategoryInfo bizCategory = new BizCategoryInfo();
@@ -146,7 +152,25 @@ public class ScenicManageDomainChecker {
             bizCategory.setPId(category.getPropertyId());
             bizCategory.setPTxt(propertyDO.getText());
             bizCategory.setPType(propertyDO.getType());
+            bizList.add(bizCategory);
         }
+
+/*
+        SupplierCalendarTemplate temp = new SupplierCalendarTemplate();
+        temp.setSeller_id(itemDO.getSellerId());//商家ID
+        temp.setHotel_id(itemDO.getOutId());
+        List<BizSkuInfo> bizArr = new ArrayList<>(itemSkuDOList.size());
+        for(ItemSkuDO sku: itemSkuDOList){
+            BizSkuInfo bizSkuInfo = new BizSkuInfo();
+            bizSkuInfo.setSku_id(sku.getId());
+            bizSkuInfo.setPrice(new BigDecimal(sku.getPrice()));;//价格
+            bizSkuInfo.setStock_num(sku.getStockNum());//库存
+            ItemSkuPVPair pvp = sku.getItemSkuPVPairList().get(0);
+            bizSkuInfo.setvTxt(pvp.getVTxt());//日期
+            bizArr.add(bizSkuInfo);
+        }
+
+        json = CommonJsonUtil.objectToJson(temp,SupplierCalendarTemplate.class);*/
 
         return scenicManageVO;
     }
@@ -337,6 +361,34 @@ public class ScenicManageDomainChecker {
         sukparam.put(DEL,delItemSkuDOList);
         return  sukparam;
     }
+    /**
+     * 根据itemsku 拼装json信息
+     * @return
+     */
+    public String getSupplierCalendarJson(){
+        String json ="";
+        if(CollectionUtils.isEmpty(itemSkuDOList)){
+            return null;
+        }
+        SupplierCalendarTemplate temp = new SupplierCalendarTemplate();
+        temp.setSeller_id(itemDO.getSellerId());//商家ID
+        temp.setHotel_id(itemDO.getOutId());
+        List<BizSkuInfo> bizArr = new ArrayList<>(itemSkuDOList.size());
+        for(ItemSkuDO sku: itemSkuDOList){
+            BizSkuInfo bizSkuInfo = new BizSkuInfo();
+            bizSkuInfo.setSku_id(sku.getId());
+            bizSkuInfo.setPrice(new BigDecimal(sku.getPrice()));;//价格
+            bizSkuInfo.setStock_num(sku.getStockNum());//库存
+            ItemSkuPVPair pvp = sku.getItemSkuPVPairList().get(0);
+            bizSkuInfo.setvTxt(pvp.getVTxt());//日期
+            bizArr.add(bizSkuInfo);
+        }
+        temp.setBizSkuInfo((BizSkuInfo[])bizArr.toArray());
+        json = CommonJsonUtil.objectToJson(temp,SupplierCalendarTemplate.class);
+        return json;
+
+    }
+
     /**
      * 景区详情参数校验
      * @return

@@ -2,6 +2,7 @@ package com.yimayhd.sellerAdmin.repo;
 
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.param.item.ScenicPublishAddDTO;
@@ -74,16 +75,19 @@ public class ScenicManageRepo {
      */
 	public WebResult<ScenicManageVO> queryScenicManageVOByData(ScenicManageDomainChecker domain) throws Exception{
 		WebResult<ScenicManageVO> result = domain.getWebResult();
-
+		/**类目销售属性**/
+		/**景区商品**/
 		ItemResult itemResult= itemQueryServiceRef.getItem(domain.getScenicManageVO().getItemId(), new ItemOptionDTO());
 		if(!itemResult.isSuccess()||itemResult.getItem()==null){
 			log.error("查询景区商品信息错误");
 			return WebResult.failure(WebReturnCode.PARAM_ERROR, "查询景区商品信息错误");
 		}
 		ItemDO itemDO = itemResult.getItem();
+		CategoryDO categoryDO = itemResult.getCategory();
 		domain.setItemDO(itemDO);//景区商品信息
 		domain.setItemSkuDOList(itemResult.getItemSkuDOList());
-		domain.setCategory(itemResult.getCategory());
+		domain.setCategory(categoryDO);
+		domain.setCategoryPropertyValueDO(categoryDO.getSellCategoryPropertyDOs().get(0));//价格日历销售属性
 		ICResult<ScenicDO> scenicResult = itemQueryServiceRef.getScenic(itemDO.getOutId());
 		if(scenicResult==null||scenicResult.getModule()==null){
 			log.error("查询景区资源信息错误");

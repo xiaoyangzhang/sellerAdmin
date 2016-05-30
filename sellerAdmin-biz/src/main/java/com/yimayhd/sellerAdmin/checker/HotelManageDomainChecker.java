@@ -353,15 +353,21 @@ public class HotelManageDomainChecker {
         if(CollectionUtils.isEmpty(itemSkuDOList)){
             return null;
         }
+        SupplierCalendarTemplate temp = new SupplierCalendarTemplate();
+        temp.setSeller_id(itemDO.getSellerId());//商家ID
+        temp.setHotel_id(itemDO.getOutId());
+        List<BizSkuInfo> bizArr = new ArrayList<>(itemSkuDOList.size());
         for(ItemSkuDO sku: itemSkuDOList){
-            sku.getId();
-            sku.getSellerId();//商家ID
-            sku.getPrice();//价格
-            sku.getStockNum();//库存
+            BizSkuInfo bizSkuInfo = new BizSkuInfo();
+            bizSkuInfo.setSku_id(sku.getId());
+            bizSkuInfo.setPrice(new BigDecimal(sku.getPrice()));;//价格
+            bizSkuInfo.setStock_num(sku.getStockNum());//库存
             ItemSkuPVPair pvp = sku.getItemSkuPVPairList().get(0);
-            pvp.getVTxt();//日期
+            bizSkuInfo.setvTxt(pvp.getVTxt());//日期
+            bizArr.add(bizSkuInfo);
         }
-
+        temp.setBizSkuInfo((BizSkuInfo[])bizArr.toArray());
+        json = CommonJsonUtil.objectToJson(temp,SupplierCalendarTemplate.class);
         return json;
 
     }

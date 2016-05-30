@@ -16,10 +16,10 @@
   #foreach($hotelMessageVO in $hotelMessageVOList)
     <tr>
         <td><input type="radio" name="hotelGroup" value="$!{hotelMessageVO.hotelId}"></td>
-        <td>$!{hotelMessageVO.name}</td>
+        <td  class="hotel-name">$!{hotelMessageVO.name}</td>
         <td>$!{hotelMessageVO.area}</td>
-        <td>$!{hotelMessageVO.locationText}</td>
-        <td>$!{hotelMessageVO.phone}</td>
+        <td class="hotel-address">$!{hotelMessageVO.locationText}</td>
+        <td class="hotel-tel">$!{hotelMessageVO.phone}</td>
         <td><a>查看详情</a></td>
     </tr>
   #end
