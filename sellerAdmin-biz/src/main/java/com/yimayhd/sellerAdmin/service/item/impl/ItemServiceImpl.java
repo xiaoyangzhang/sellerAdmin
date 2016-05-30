@@ -74,7 +74,7 @@ public class ItemServiceImpl implements ItemService {
 			if (CollectionUtils.isNotEmpty(itemDOList)) {
 				List<Long> itemIds = new ArrayList<Long>();
 				for (ItemInfo itemDO : itemDOList) {
-					resultList.add(ItemConverter.toItemListItemVO(itemDO.getItemDTO()));
+					resultList.add(ItemConverter.toItemListItemVO(itemDO));
 					itemIds.add(itemDO.getItemDTO().getId());
 				}
 				Map<Long, List<ComTagDO>> tagMap = commentRepo.getTagsByOutIds(itemIds, TagType.DESTPLACE);

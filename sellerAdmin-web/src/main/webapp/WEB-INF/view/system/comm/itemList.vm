@@ -86,7 +86,7 @@
         				<thead>
                             <tr>
                                 <th data-col-class="text-center" data-width="80">编号</th>
-                                <th>商品信息</th>
+                                <th colspan=2>商品信息</th>
         						<th data-width="160">目的地</th>
                                 <th data-col-class="text-center" data-width="110">类型</th>
                                 <th data-width="160">单价</th>
@@ -99,7 +99,30 @@
                             #foreach($item in $pageVo.resultList)
                             <tr id="item_$!{item.id}" item-id="$!item.id">
                                 <td>$!item.id</td>
-                                <td>$!item.name</td>
+
+                                            <td width="160px">
+                                                <img src="$!{utilWebconfig.getTfsRootPath()}/$!item.picture" width="160" height="90" />
+                                            </td>
+                                            <td>
+												#if($item.type==3)
+													$!{item.itemHotelVO.name}<br>
+													$!{item.name}<br>
+													$!{item.itemRoomVO.name}<br>
+                                                    商品代码:$!{item.code}<br>
+												#elseif($item.type==4)
+													$!{item.itemScenicVO.name}<br>
+													$!{item.name}<br>
+													$!{item.itemTicketVO.title}<br>
+													商品代码:$!{item.code}<br>
+												#else
+													$!{item.name}<br>
+													商品代码:$!{item.code}
+												#end
+
+                                            </td>
+
+
+								</td>
         						<td>$!item.destString</td>
         						<td>$!{utilItem.getItemTypeName($item.type)}</td>
         						<td>￥$!{utilMoney.centToYuanMoneyFormat($item.price)}</td>

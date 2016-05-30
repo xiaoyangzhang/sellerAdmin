@@ -63,6 +63,7 @@ public class ItemController extends BaseController {
 	@RequestMapping(value = "/list")
 	public String list(ItemListQuery query) throws Exception {
 		long sellerId = getCurrentUserId();
+		//sellerId=12800L;
 		if (sellerId <= 0) {
 			log.warn("未登录");
 			throw new BaseException("请登陆后重试");
