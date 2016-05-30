@@ -49,7 +49,6 @@ public class ScenicManageEnhanceController extends BaseController {
         long userId = sessionManager.getUserId() ;
         scenicManageVO.setSellerId(userId);
         scenicManageVO.setPageSize(8);
-        //hotelMessageVO.setPageNo(pageNo);//
         WebResult<PageVO<ScenicManageVO>> result= scenicManageService.queryScenicManageVOListByData(scenicManageVO);
         if(!result.isSuccess()){
             logger.error("查询列表失败");
