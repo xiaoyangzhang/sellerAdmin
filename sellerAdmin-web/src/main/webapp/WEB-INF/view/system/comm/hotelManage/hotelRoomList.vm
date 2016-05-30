@@ -1,5 +1,5 @@
 #set($layout = "/layout/layout_non.vm")
-<div>
+#parse("layout/layout-meta.vm")
 <span class="info-box clearfix">
     <ul class="clearfix">
         #foreach($roomMessageVO in $roomList)
@@ -45,4 +45,3 @@
         #end
     </ul>
 </span>
-</div>
