@@ -236,6 +236,8 @@ public class HotelManageDomainChecker {
         if(categoryPropertyValueDO==null){
             return null;
         }
+        String ss = supplierCalendar;
+        System.out.println("supplierCalendar:"+supplierCalendar);
         SupplierCalendarTemplate template = (SupplierCalendarTemplate) CommonJsonUtil.jsonToObject(supplierCalendar, SupplierCalendarTemplate.class);
 
         BizSkuInfo[] bizSkuInfos = template.getBizSkuInfo();
@@ -312,7 +314,8 @@ public class HotelManageDomainChecker {
         pvPair.setPTxt("2016-1-1");//日期格式化
         pvPair.setVTxt(biz.getvTxt());//价格日期
         pvPair.setPType(categoryPropertyValueDO.getType());
-        pvPair.setVId(-Integer.valueOf(biz.getvTxt()).intValue());
+        long l = Long.parseLong(biz.getvTxt());
+        pvPair.setVId(-l);
         itemSkuPVPairList.add(pvPair);
         sku.setItemSkuPVPairList(itemSkuPVPairList);
         return sku;
