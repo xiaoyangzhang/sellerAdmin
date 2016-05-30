@@ -1,47 +1,45 @@
 #set($layout = "/layout/layout_non.vm")
 #parse("layout/layout-meta.vm")
-<span class="info-box clearfix">
-    <ul class="clearfix">
-        #foreach($roomMessageVO in $roomList)
-            <li>
-                <div class="radio-bar clearfix">
-                    <label class="fl"><input type="radio" name="gp"> 房型1</label>
-                    <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
+<ul class="clearfix">
+    #foreach($roomMessageVO in $roomList)
+        <li>
+            <div class="radio-bar clearfix">
+                <label class="fl"><input type="radio" name="gp"> 房型1</label>
+                <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
+            </div>
+            <div class="bar-box">
+                <ul class="clearfix">
+                    <li>
+                        <label>房型：</label>
+                        <label>$!{roomMessageVO.name}</label>
+                    </li>
+                    <li>
+                        <label>面积：</label>
+                        <label>$!{roomMessageVO.area}</label>
+                    </li>
+                    <li>
+                        <label>床型：</label>
+                        <label>$!{roomMessageVO.bed}</label>
+                    </li>
+                    <li>
+                        <label>可住：</label>
+                        <label>$!{roomMessageVO.people}人</label>
+                    </li>
+                    <li>
+                        <label>网络：</label>
+                        <label>有wifi</label>
+                    </li>
+                    <li>
+                        <label>窗户：</label>
+                        <label>$!{roomMessageVO.window}</label>
+                    </li>
+                </ul>
+                <div class="img-group">
+                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
                 </div>
-                <div class="bar-box">
-                    <ul class="clearfix">
-                        <li>
-                            <label>房型：</label>
-                            <label>$!{roomMessageVO.name}</label>
-                        </li>
-                        <li>
-                            <label>面积：</label>
-                            <label>$!{roomMessageVO.area}</label>
-                        </li>
-                        <li>
-                            <label>床型：</label>
-                            <label>$!{roomMessageVO.bed}</label>
-                        </li>
-                        <li>
-                            <label>可住：</label>
-                            <label>$!{roomMessageVO.people}人</label>
-                        </li>
-                        <li>
-                            <label>网络：</label>
-                            <label>有wifi</label>
-                        </li>
-                        <li>
-                            <label>窗户：</label>
-                            <label>$!{roomMessageVO.window}</label>
-                        </li>
-                    </ul>
-                    <div class="img-group">
-                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                    </div>
-                </div>
-            </li>
-        #end
-    </ul>
-</span>
+            </div>
+        </li>
+    #end
+</ul>
