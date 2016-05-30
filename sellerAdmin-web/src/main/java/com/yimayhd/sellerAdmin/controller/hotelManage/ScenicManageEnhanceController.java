@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.controller.hotelManage;
 
+import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.result.item.CategoryResult;
@@ -8,6 +9,7 @@ import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.model.HotelManage.BizCategoryInfo;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
 import com.yimayhd.sellerAdmin.service.hotelManage.ScenicManageService;
 import org.apache.commons.collections.CollectionUtils;
@@ -20,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -98,10 +101,19 @@ public class ScenicManageEnhanceController extends BaseController {
             log.error("类目非必要属性信息错误");
             return "/error";
         }
+        List<CategoryPropertyValueDO> keyPro = categoryDO.getKeyCategoryPropertyDOs();
+        List<CategoryPropertyValueDO> nonPro = categoryDO.getNonKeyCategoryPropertyDOs();
+        keyPro.addAll(nonPro);
+        List<BizCategoryInfo> bizCategoryInfoList = new ArrayList<BizCategoryInfo>(keyPro.size());
+        for(CategoryPropertyValueDO prov:keyPro){
+            BizCategoryInfo bizCategoryInfo = categoryDOToBizCategoryInfo(prov);
+            bizCategoryInfoList.add(bizCategoryInfo);
+        }
        // CategoryPropertyValueDO sellDO = categoryDO.getKeyCategoryPropertyDOs().get(0);
         // 初始化属性列表
         model.addAttribute("scenicManageVO", scenicManageVO);
         model.addAttribute("categoryDO",categoryDO);// 最晚到店时间列表
+        model.addAttribute("bizCategoryInfoList",bizCategoryInfoList);// 最晚到店时间列表
         return "/system/comm/hotelManage/addticket";
     }
 
@@ -225,9 +237,28 @@ public class ScenicManageEnhanceController extends BaseController {
         return  null;
     }
 
-    public ScenicManageService getScenicManageService() {
-        return scenicManageService;
+
+    /**
+     * 页面转换 类目参数
+     * @param categoryPro
+     * @return
+     */
+    public BizCategoryInfo categoryDOToBizCategoryInfo(CategoryPropertyValueDO categoryPro){
+        BizCategoryInfo bizCategoryInfo = new  BizCategoryInfo();
+        if(categoryPro==null){
+            return null;
+        }
+        CategoryPropertyDO proDo = categoryPro.getCategoryPropertyDO();
+        bizCategoryInfo.setPId( categoryPro.getPropertyId());//propertyID
+        bizCategoryInfo.setPTxt(proDo.getText());
+        bizCategoryInfo.setVTxt("");
+        bizCategoryInfo.setPType(categoryPro.getType());
+        bizCategoryInfo.setCategoryId(categoryPro.getCategoryId());
+        return bizCategoryInfo;
     }
+
+
+
 
     public void setScenicManageService(ScenicManageService scenicManageService) {
         this.scenicManageService = scenicManageService;

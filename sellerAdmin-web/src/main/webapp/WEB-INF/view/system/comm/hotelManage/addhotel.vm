@@ -325,9 +325,9 @@
             <td><input type="text" id="hotelname" class="inputxt"></td>
             <td class="tb-txt">所在城市：</td>
             <td>
-                <select id="province"><option value="">--请选择--</option></select>
-                <select id="city" class="ml10"><option value="">--请选择--</option></select>
-                <select id="area" class="ml10"><option value="">--请选择--</option></select>
+                <select id="locationProvinceId"><option value="">--请选择--</option></select>
+                <select id="locationCityId" class="ml10"><option value="">--请选择--</option></select>
+                <select id="locationTownId" class="ml10"><option value="">--请选择--</option></select>
                 <button class="search-btn">搜索</button>
             </td>
         </tr>

@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.checker;
 
+import com.google.gson.reflect.TypeToken;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
@@ -10,6 +11,7 @@ import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.param.item.ItemPubUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
+import com.yimayhd.ic.client.model.param.item.ScenicPublishUpdateDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -22,7 +24,9 @@ import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -39,6 +43,9 @@ public class ScenicManageDomainChecker {
     private  WebResult<PageVO<ScenicManageVO>> webPageResult;
 
     private  WebResult<ScenicManageVO> webResult;
+    private final String UPDATE = "update";
+    private final String ADD = "add";
+    private final String DEL = "delete";
 
     public ScenicManageDomainChecker(ScenicManageVO scenicManageVO){
         this.scenicManageVO = scenicManageVO;
@@ -131,12 +138,14 @@ public class ScenicManageDomainChecker {
         //动态添加 属性
         List<CategoryPropertyValueDO> keyCateList = category.getKeyCategoryPropertyDOs();
         List<CategoryPropertyValueDO> nonCateList =  category.getNonKeyCategoryPropertyDOs();
+        keyCateList.addAll(nonCateList);
         for (CategoryPropertyValueDO category :keyCateList){
             BizCategoryInfo bizCategory = new BizCategoryInfo();
             CategoryPropertyDO propertyDO =  category.getCategoryPropertyDO();
-            bizCategory.setCategoryId(category.getId());
-            bizCategory.setpId(propertyDO.getId());
-            bizCategory.setpTxt(propertyDO.getText());
+            bizCategory.setCategoryId(category.getCategoryId());
+            bizCategory.setPId(category.getPropertyId());
+            bizCategory.setPTxt(propertyDO.getText());
+            bizCategory.setPType(propertyDO.getType());
         }
 
         return scenicManageVO;
@@ -157,15 +166,19 @@ public class ScenicManageDomainChecker {
         itemFeature.put(ItemFeatureKey.TICKET_TITLE,scenicManageVO.getTicketTitle());
         itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,scenicManageVO.getStartBookTimeLimit());//提前预定天数
         itemDO.setItemFeature(itemFeature);
+        itemDO.setItemPropertyList(getItemSkuPVPairList(scenicManageVO.getDynamicEntry()));// 添加动态属性信息
         return itemDO;
     }
+
 
     /**
      * 更新ItemPubUpdateDTO参数
      * @return
      */
-    public ItemPubUpdateDTO getBizScenicPublishUpdateDTO(){
+    public ScenicPublishUpdateDTO getBizScenicPublishUpdateDTO(){
+        ScenicPublishUpdateDTO scenicPublishUpdateDTO = new ScenicPublishUpdateDTO();
         ItemPubUpdateDTO itemDO = new ItemPubUpdateDTO();
+        /***基本信息**/
         //itemDO.setCategoryId(scenicManageVO.getCategoryId());
         itemDO.setOutId(scenicManageVO.getScenicId());//酒店ID
         //itemDO.setSellerId(scenicManageVO.getSellerId());//商家ID
@@ -181,10 +194,15 @@ public class ScenicManageDomainChecker {
         itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,scenicManageVO.getStartBookTimeLimit());//提前预定天数
         itemDO.setItemFeature(itemFeature);
         scenicManageVO.getDynamicEntry();//动态json列表
-         List<ItemSkuDO> addItemSkuList;
-         List<Long> delItemSkuList;
-         List<ItemSkuDO> updItemSkuList;
-        return itemDO;
+        List<ItemSkuPVPair> skuPVPairList =  getItemSkuPVPairList(scenicManageVO.getDynamicEntry());
+        itemDO.setItemPropertyList(skuPVPairList);// 动态属性列表
+        scenicPublishUpdateDTO.setItemDTO(itemDO);
+        /***编辑操作添加价格日历sku**/
+        Map<String,Object> paramUp =  getUpdateItem(scenicManageVO.getSupplierCalendar());
+        scenicPublishUpdateDTO.setAddItemSkuList( paramUp.get(ADD)==null?null:(List<ItemSkuDO>)paramUp.get(ADD));
+        scenicPublishUpdateDTO.setUpdItemSkuList( paramUp.get(UPDATE)==null?null:(List<ItemSkuDO>)paramUp.get(UPDATE));
+        scenicPublishUpdateDTO.setDelItemSkuList(paramUp.get(DEL)==null?null:(List<Long>)paramUp.get(DEL));
+        return scenicPublishUpdateDTO;
     }
 
     /**
@@ -193,10 +211,6 @@ public class ScenicManageDomainChecker {
      */
     public  List<ItemSkuDO> getAddBizItemSkuDOList(){
         List<ItemSkuDO> skuList = addItemSkuDOList(scenicManageVO.getSupplierCalendar());
-        String dyJson = scenicManageVO.getDynamicEntry();//动态json列表
-        List<CategoryPropertyValueDO> keyProList = category.getKeyCategoryPropertyDOs();
-        List<CategoryPropertyValueDO> nonProList=category.getNonKeyCategoryPropertyDOs();
-
        return skuList;
     }
 
@@ -231,6 +245,29 @@ public class ScenicManageDomainChecker {
 
         return addItemSkuDOList;
     }
+
+    /**
+     * 动态属性信息
+     * @return
+     */
+    public List<ItemSkuPVPair>  getItemSkuPVPairList(String dynamicEntry) {
+        if(StringUtils.isBlank(dynamicEntry)){
+            return null;
+        }
+        List<BizCategoryInfo> bizCategoryInfoList = (List<BizCategoryInfo>) CommonJsonUtil.jsonToListObject(dynamicEntry, new TypeToken<List<BizCategoryInfo>>(){}.getType());
+        List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>(bizCategoryInfoList.size());
+        for(BizCategoryInfo bizCategoryInfo :bizCategoryInfoList){
+            ItemSkuPVPair itemSkuPVPair = new ItemSkuPVPair();
+            itemSkuPVPair.setPId(bizCategoryInfo.getPId());//properid
+            itemSkuPVPair.setPTxt(bizCategoryInfo.getPTxt());//文本
+            itemSkuPVPair.setPType(bizCategoryInfo.getPType());//类型
+            itemSkuPVPair.setVTxt(bizCategoryInfo.getVTxt());//value值
+            itemSkuPVPairList.add(itemSkuPVPair);
+        }
+        return itemSkuPVPairList;
+    }
+
+
     /**
      * 根据价格日历信息,拼装itemsku
      * @param biz
@@ -253,6 +290,52 @@ public class ScenicManageDomainChecker {
         itemSkuPVPairList.add(pvPair);
         sku.setItemSkuPVPairList(itemSkuPVPairList);
         return sku;
+    }
+    /**
+     * 更新商品信息添加价格日历信息
+     * @param supplierCalendar
+     * @return
+     */
+    public Map<String,Object> getUpdateItem(String supplierCalendar){
+        List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>();
+        List<Long> delItemSkuDOList = new ArrayList<Long>();
+        List<ItemSkuDO> updItemSkuDOList = new ArrayList<ItemSkuDO>();
+
+        if (org.apache.commons.lang3.StringUtils.isBlank(supplierCalendar)){
+            return null;
+        }
+        if(categoryPropertyValueDO==null){
+            return null;
+        }
+        SupplierCalendarTemplate template = (SupplierCalendarTemplate) CommonJsonUtil.jsonToObject(supplierCalendar, SupplierCalendarTemplate.class);
+        BizSkuInfo[] bizSkuInfos = template.getBizSkuInfo();
+        for (BizSkuInfo biz :bizSkuInfos){
+            switch (biz.getState()) {
+                case UPDATE:
+                    ItemSkuDO upSkuDo  = getItemSkuDOByBiz(template,biz);
+                    /**更新sku需要回填对应的skuid*/
+                    upSkuDo.setId((Long)biz.getSku_id());
+                    updItemSkuDOList.add(upSkuDo);
+                    break;
+
+                case DEL:
+                    delItemSkuDOList.add((Long)biz.getSku_id());
+                    break;
+
+                case ADD:
+                    addItemSkuDOList.add(getItemSkuDOByBiz(template,biz));
+                    break;
+                default:
+                    System.out.println("default");
+            }
+
+
+        }
+        Map<String,Object>  sukparam = new HashMap<String,Object>();
+        sukparam.put(ADD,addItemSkuDOList);
+        sukparam.put(UPDATE,updItemSkuDOList);
+        sukparam.put(DEL,delItemSkuDOList);
+        return  sukparam;
     }
     /**
      * 景区详情参数校验
