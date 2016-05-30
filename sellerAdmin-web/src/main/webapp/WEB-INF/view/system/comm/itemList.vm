@@ -108,6 +108,7 @@
 													$!{item.itemHotelVO.name}<br>
 													$!{item.name}<br>
 													$!{item.itemRoomVO.name}<br>
+													$!{item.payMode}<br>
                                                     商品代码:$!{item.code}<br>
 												#elseif($item.type==4)
 													$!{item.itemScenicVO.name}<br>
