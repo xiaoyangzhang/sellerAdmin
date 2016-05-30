@@ -113,6 +113,7 @@ public class ScenicManageDomainChecker {
         scenicManageVO.setScenicId(_do.getId());
         scenicManageVO.setName(_do.getName());
         scenicManageVO.setLevel(_do.getLevel());
+        scenicManageVO.setSubjectId(_do.getSubjectId());
         scenicManageVO.setLocationCityId(_do.getLocationCityId());
         scenicManageVO.setLocationProvinceId(_do.getLocationProvinceId());
         scenicManageVO.setLocationTownId(_do.getLocationTownId());

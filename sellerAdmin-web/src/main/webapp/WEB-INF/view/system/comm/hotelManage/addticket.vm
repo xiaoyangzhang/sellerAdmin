@@ -29,30 +29,30 @@
                     <table>
                         <tr>
                             <td class="coltxt">商品名称：</td>
-                            <td><label>景区门票</label></td>
+                            <td><label id="lbscenicname">景区门票</label></td>
                         </tr>
                         <tr>
                             <td class="coltxt"><span class="bred">*</span>门票类型：</td>
                             <td>
-                                <label class="radio"><input type="radio" name="tickettype">大门票</label>
-                                <label class="radio"><input type="radio" name="tickettype">联票</label>
+                                <label class="radio"><input type="radio" name="ticketId"  #if($!scenicManageVO.ticketId == 1) checked #end>大门票</label>
+                                <label class="radio"><input type="radio" name="ticketId"  #if($!scenicManageVO.ticketId == 2) checked #end>联票</label>
                             </td>
                         </tr>
                         <tr>
                             <td class="coltxt"><span class="bred">*</span>商品标题：</td>
-                            <td><input type="text" class="inputxt" maxlength="38" name=""><span class="mark"><label>1</label>/38字</span></td>
+                            <td><input type="text" class="inputxt" maxlength="38" name="title"><span class="mark"><label>1</label>/38字</span></td>
                         </tr>
                         <tr>
                             <td class="coltxt"><span class="bred">*</span>价格：</td>
-                            <td><input type="text" class="inputxt" name=""></td>
+                            <td><input type="text" class="inputxt" name="price"></td>
                         </tr>
                         <tr>
                             <td class="coltxt"><span class="bred">*</span>门市价：</td>
-                            <td><input type="text" class="inputxt" name=""></td>
+                            <td><input type="text" class="inputxt" name="originalPrice"></td>
                         </tr>
                         <tr>
                             <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
-                            <td><input type="text" class="inputxt" maxlength="10" name=""></td>
+                            <td><input type="text" class="inputxt" maxlength="10" name="startBookTimeLimit"></td>
                         </tr>
                         #foreach($bizCategoryInfo in $bizCategoryInfoList)
                         <tr pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pText" pType="$!bizCategoryInfo.pType">
@@ -140,124 +140,7 @@
             </td>
         </tr>
     </table>
-    <div class="hotelist list">
-        <table>
-            <thead>
-            <tr>
-                <th></th>
-                <th>酒店名称</th>
-                <th>区域</th>
-                <th>地址</th>
-                <th>电话</th>
-                <th>详情</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><input type="radio"></td>
-                <td>324233243</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td><a>查看详情</a></td>
-            </tr>
-            <tr>
-                <td><input type="radio"></td>
-                <td>324233243</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td><a>查看详情</a></td>
-            </tr>
-            <tr>
-                <td><input type="radio"></td>
-                <td>324233243</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td><a>查看详情</a></td>
-            </tr>
-            <tr>
-                <td><input type="radio"></td>
-                <td>324233243</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td><a>查看详情</a></td>
-            </tr>
-            <tr>
-                <td><input type="radio"></td>
-                <td>324233243</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td><a>查看详情</a></td>
-            </tr>
-            <tr>
-                <td><input type="radio"></td>
-                <td>324233243</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td><a>查看详情</a></td>
-            </tr>
-            <tr>
-                <td><input type="radio"></td>
-                <td>324233243</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td><a>查看详情</a></td>
-            </tr>
-            <tr>
-                <td><input type="radio"></td>
-                <td>324233243</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td>32432</td>
-                <td><a>查看详情</a></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="pagination">
-        <ul class="pager">
-            <li class="previous disabled">
-                <a href="javascript:void(0);" id="prePage">« 上一页</a>
-            </li>
-            <li class="active">
-                <a href="javascript:void(0);">1</a>
-            </li>
-            <li>
-                <a href="javascript:void(0);" class="LinkeToPage" pageno="2">2</a>
-            </li>
-            <li>
-                <a href="javascript:void(0);" class="LinkeToPage" pageno="3">3</a>
-            </li>
-            <li>
-                <a href="javascript:void(0);" data-toggle="pager" data-placement="top">...</a>
-            </li>
-            <li>
-                <a href="javascript:void(0);" class="LinkeToPage" pageno="131">131</a>
-            </li>
-            <li>
-                <a href="javascript:void(0);" class="LinkeToPage" pageno="132">132</a>
-            </li>
-            <li class="next">
-                <a href="javascript:void(0);" class="LinkeToPage" pageno="2" id="nextPage">下一页»</a>
-            </li>
-            <li>
-                <span class="input-group-addon">每页</span>
-                <select class="form-control pageSize" id="pageSize">
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                </select>
-                <span class="input-group-addon">条</span>
-                <span class="input-group-addon">共 1316 条</span>
-            </li>
-        </ul>
-    </div>
+    <div class="sceniclist list"></div>
 </div>
 <script  type='text/temple' id='province-tpl'>
 	    <option value="">--请选择--</option>
