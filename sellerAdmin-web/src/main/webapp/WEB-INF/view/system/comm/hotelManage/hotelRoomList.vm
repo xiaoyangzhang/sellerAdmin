@@ -1,5 +1,5 @@
 #set($layout = "/layout/layout_non.vm")
-
+<div>
 <span class="info-box clearfix">
     <ul class="clearfix">
         #foreach($roomMessageVO in $roomList)
@@ -45,3 +45,4 @@
         #end
     </ul>
 </span>
+</div>

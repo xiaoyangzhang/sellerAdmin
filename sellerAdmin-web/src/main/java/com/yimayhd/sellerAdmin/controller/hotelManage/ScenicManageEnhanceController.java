@@ -92,7 +92,7 @@ public class ScenicManageEnhanceController extends BaseController {
             log.error("类目信息错误");
             return "/error";
         }
-                        CategoryDO categoryDO = categoryResult.getCategroyDO();
+         CategoryDO categoryDO = categoryResult.getCategroyDO();
         if(CollectionUtils.isEmpty(categoryDO.getKeyCategoryPropertyDOs())){
             log.error("类目必要属性信息错误");
             return "/error";
@@ -250,7 +250,7 @@ public class ScenicManageEnhanceController extends BaseController {
         }
         CategoryPropertyDO proDo = categoryPro.getCategoryPropertyDO();
         bizCategoryInfo.setPId( categoryPro.getPropertyId());//propertyID
-        bizCategoryInfo.setPTxt(proDo.getText());
+        bizCategoryInfo.setPText(proDo.getText());
         bizCategoryInfo.setVTxt("");
         bizCategoryInfo.setPType(categoryPro.getType());
         bizCategoryInfo.setCategoryId(categoryPro.getCategoryId());

@@ -76,6 +76,7 @@ public class HotelManageController extends BaseController {
 	public String queryHotelManageList(Model model,HotelMessageVO hotelMessageVO) throws Exception {
 		long userId = sessionManager.getUserId() ;
 		hotelMessageVO.setSellerId(userId);
+		System.out.println("userID:"+userId);
 		hotelMessageVO.setPageSize(8);
 		//hotelMessageVO.setPageNo(pageNo);//
 		WebResult<PageVO<HotelMessageVO>> result= hotelManageService.queryHotelMessageVOListByData(hotelMessageVO);
@@ -120,11 +121,12 @@ public class HotelManageController extends BaseController {
 			logger.error("查询房型信息失败");
 			return "/error";
 		}
-		List<RoomMessageVO> roomList = result.getValue();
+		System.out.println(result.getValue().size());
+		/*List<RoomMessageVO> roomList = result.getValue();
 		for(RoomMessageVO room:roomList){
 			System.out.println("roompic:"+room.getPics().toString());
 		}
-		System.out.println();
+		System.out.println();*/
 		model.addAttribute("roomList", result.getValue());
 		return "/system/comm/hotelManage/hotelRoomList";
 	}

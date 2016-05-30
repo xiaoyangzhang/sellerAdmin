@@ -10,11 +10,12 @@ public class BizCategoryInfo implements Serializable{
     private static final long serialVersionUID = 7829846377004493415L;
 
     private long pId;
-    private String pTxt;//文本
+    private String pText;//文本
     private int pType;
 
     private String vTxt;//value
     private long categoryId;
+    private boolean flag;
 
     public long getPId() {
         return pId;
@@ -24,12 +25,13 @@ public class BizCategoryInfo implements Serializable{
         this.pId = pId;
     }
 
-    public String getPTxt() {
-        return pTxt;
+
+    public String getPText() {
+        return pText;
     }
 
-    public void setPTxt(String pTxt) {
-        this.pTxt = pTxt;
+    public void setPText(String pText) {
+        this.pText = pText;
     }
 
     public int getPType() {
@@ -54,5 +56,13 @@ public class BizCategoryInfo implements Serializable{
 
     public void setCategoryId(long categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
     }
 }

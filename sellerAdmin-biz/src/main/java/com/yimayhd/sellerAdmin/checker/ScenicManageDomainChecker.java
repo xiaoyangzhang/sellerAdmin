@@ -150,7 +150,7 @@ public class ScenicManageDomainChecker {
             CategoryPropertyDO propertyDO =  category.getCategoryPropertyDO();
             bizCategory.setCategoryId(category.getCategoryId());
             bizCategory.setPId(category.getPropertyId());
-            bizCategory.setPTxt(propertyDO.getText());
+            bizCategory.setPText(propertyDO.getText());
             bizCategory.setPType(propertyDO.getType());
             bizCategory.setVTxt("");
             for (ItemSkuPVPair skuPVPair: itemDO.getItemPropertyList()){
@@ -275,7 +275,7 @@ public class ScenicManageDomainChecker {
         for(BizCategoryInfo bizCategoryInfo :bizCategoryInfoList){
             ItemSkuPVPair itemSkuPVPair = new ItemSkuPVPair();
             itemSkuPVPair.setPId(bizCategoryInfo.getPId());//properid
-            itemSkuPVPair.setPTxt(bizCategoryInfo.getPTxt());//文本
+            itemSkuPVPair.setPTxt(bizCategoryInfo.getPText());//文本
             itemSkuPVPair.setPType(bizCategoryInfo.getPType());//类型
             itemSkuPVPair.setVTxt(bizCategoryInfo.getVTxt());//value值
             itemSkuPVPairList.add(itemSkuPVPair);

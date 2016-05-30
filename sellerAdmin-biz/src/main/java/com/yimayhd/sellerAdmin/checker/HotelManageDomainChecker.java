@@ -10,6 +10,7 @@ import com.yimayhd.ic.client.model.domain.item.RoomFeature;
 import com.yimayhd.ic.client.model.enums.CancelLimit;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ResourceType;
+import com.yimayhd.ic.client.model.enums.RoomNetwork;
 import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
@@ -391,6 +392,15 @@ public class HotelManageDomainChecker {
             vo.setArea(roomFeature.getArea());
             vo.setBed(roomFeature.getBed());
             vo.setWindow(roomFeature.getWindow());
+            List<Integer> netList = roomFeature.getNetwork();
+            StringBuffer sb = new StringBuffer();
+            if(CollectionUtils.isNotEmpty(netList)){
+                for(Integer network:netList){
+                    sb.append(RoomNetwork.getByType(network.intValue()).getDesc());
+                    sb.append(" ");
+                }
+                vo.setNetworkStr(sb.toString());
+            }
             vo.setNetwork(roomFeature.getNetwork());
             vo.setPeople(roomFeature.getPeople());
         }
