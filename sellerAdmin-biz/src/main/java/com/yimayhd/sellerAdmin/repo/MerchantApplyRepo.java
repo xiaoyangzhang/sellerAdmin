@@ -25,13 +25,15 @@ import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
 import com.yimayhd.user.session.manager.SessionManager;
 
-/***
+/**
  * 
- * @author zhangxy
- *
+* @ClassName: MerchantApplyRepo
+* @Description: 管理商家入驻
+* @author zhangxy
+* @date 2016年5月30日 上午9:44:54
+*
  */
-public class TalentRepo {
-
+public class MerchantApplyRepo {
 	protected Logger log = LoggerFactory.getLogger("TalentRepo");
 	@Autowired
 	private TalentInfoDealService talentInfoDealService;
@@ -39,8 +41,6 @@ public class TalentRepo {
 	private ExamineDealService examineDealService;
 	@Autowired
 	private SessionManager sessionManager;
-//	@Autowired
-//	private ApplyService applyServiceRef;
 	public MemResult<List<CertificatesDO>> getServiceTypes() {
 		MemResult<List<CertificatesDO>> serviceTypes = talentInfoDealService.queryTalentServiceType();
 		return serviceTypes;
@@ -55,7 +55,6 @@ public class TalentRepo {
 		if (domainId <=0 || userId <= 0) {
 			log.error(" params error: domainId={},userId={}",domainId,userId);
 			return dto;
-		//	throw new BaseException("参数错误");
 		}
 		InfoQueryDTO queryDTO=new InfoQueryDTO();
 		queryDTO.setDomainId(domainId);
@@ -205,7 +204,7 @@ public class TalentRepo {
 	}
 	
 	public MemResult<TalentInfoDTO> queryTalentInfoByUserId(long userId,int domainId) {
-		MemResult<TalentInfoDTO> queryResult = null;
+		MemResult<TalentInfoDTO> queryResult = new MemResult<TalentInfoDTO>();
 		if (userId <= 0 || domainId <= 0) {
 			log.error("params error : userId={},domainId={}",userId,domainId);
 			MemberReturnCode returnCode = new MemberReturnCode(-1, "参数错误");
@@ -219,9 +218,9 @@ public class TalentRepo {
 		}
 		try {
 			queryResult = talentInfoDealService.queryTalentInfoByUserId(userId, domainId);
-			if (queryResult == null ) {
-				return null;
-			}
+//			if (queryResult == null ) {
+//				return null;
+//			}
 			return queryResult;
 		} catch (Exception e) {
 			log.error("params : userId={},domainId={}",userId,domainId,e);

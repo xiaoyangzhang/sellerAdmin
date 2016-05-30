@@ -13,9 +13,10 @@ import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
+import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
-import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
@@ -23,7 +24,7 @@ import com.yimayhd.sellerAdmin.repo.TalentRepo;
 import com.yimayhd.user.session.manager.SessionManager;
 /***
  * 
- * @author zhangxy
+ * @author zhangxiaoyang
  *
  */
 public class TalentBiz {
@@ -67,7 +68,8 @@ public class TalentBiz {
 	public MemResult<Boolean> addTalentInfo(TalentInfoVO vo)  {
 		if (vo == null ) {
 			log.error("get examineSubmitDTO params error :vo="+vo);
-			throw new BaseException("参数错误");
+			//throw new BaseException("参数错误");
+			return MemResult.buildFailResult(-1, "参数错误", false);
 		}
 		return talentRepo.addTalentInfo(vo);
 		
@@ -80,10 +82,12 @@ public class TalentBiz {
 	 * @throws Exception
 	 */
 	@MethodLogger
-	public WebResult<Boolean> addExamineInfo(ExamineInfoVO vo,int pageNo)  {
-		if (vo == null ||  pageNo <= 0) {
-			log.error("get examineSubmitDTO params error :vo="+vo+"pageNo="+pageNo);
-			throw new BaseException("参数错误");
+	public WebResult<Boolean> addExamineInfo(ExamineInfoVO vo)  {
+		if (vo == null ) {
+			log.error(" params error :vo={}",vo);
+			//throw new BaseException("参数错误");
+			return WebResult.failure(WebReturnCode.PARAM_ERROR);
+			//return WebResult.success(false, "参数错误");
 		}
 		return talentRepo.addExamineInfo(vo);
 	}
@@ -107,7 +111,14 @@ public class TalentBiz {
 	    return  new SimpleDateFormat("yyyy-MM-dd").format(date);
 	}
 	public MemResult<Boolean> updateCheckStatus(ExamineInfoVO vo) {
+		if (vo == null) {
+			log.error("param : ExamineInfoVO={}",vo);
+			return MemResult.buildFailResult(-1, "参数错误", false);
+		}
 		return  talentRepo.updateCheckStatus(vo);
 		
+	}
+	public MemResult<TalentInfoDTO> queryTalentInfoByUserId () {
+		return talentRepo.queryTalentInfoByUserId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
 	}
 }

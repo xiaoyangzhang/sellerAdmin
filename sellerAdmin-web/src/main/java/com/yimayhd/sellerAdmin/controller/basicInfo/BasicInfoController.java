@@ -69,6 +69,140 @@ public class BasicInfoController extends BaseController {
 	 * 跳转到商户基本信息页面
 	 * @param model
 	 * @return
+	 *//*
+	@RequestMapping(value = "/merchant/toAddBasicPage")
+	public String toBusinessPage(Model model){
+		try {
+			//判断权限
+			UserDO user = sessionManager.getUser();
+			model.addAttribute("nickName", user.getNickname());
+			
+			BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(user.getId(), Constant.DOMAIN_JIUXIU);
+			if(meResult.isSuccess() && null != meResult.getValue()){
+				model.addAttribute("id", meResult.getValue().getId());
+				model.addAttribute("name",meResult.getValue().getName());
+				model.addAttribute("address",meResult.getValue().getAddress());
+				if(null != meResult.getValue().getBackgroudImage()){
+					model.addAttribute("ttImage", meResult.getValue().getBackgroudImage());
+				}
+				if(null != meResult.getValue().getLogo()){
+					model.addAttribute("dbImage", meResult.getValue().getLogo());
+				}
+				model.addAttribute("merchantPrincipalTel", meResult.getValue().getMerchantPrincipalTel());
+				model.addAttribute("serviceTel", meResult.getValue().getServiceTel());
+				
+			}
+			return "/system/merchant/merchant";
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			//model.addAttribute("服务器出现错误，请稍后重新登录");
+			return "/system/error/500";
+		}
+		
+	}
+	
+	*//**
+	 * 保存商户基本信息
+	 * @param merchantDO
+	 * @return
+	 *//*
+	@RequestMapping(value = "/merchant/saveBasic",method=RequestMethod.POST)
+	@ResponseBody
+	public WebResultSupport saveBusinessBasic(MerchantInfoVo basicInfo){
+		UserDTO userDTO = new UserDTO();
+		userDTO.setId(sessionManager.getUserId());
+		userDTO.setNickname(basicInfo.getNickName());
+
+		WebResultSupport result = merchantBiz.updateUser(userDTO);
+		if (result.isSuccess()) {
+			if (basicInfo.getId() == 0) {// 新增
+				WebResultSupport merChantResult = merchantBiz
+						.saveMerchant(basicInfo);
+				return merChantResult;
+			} else {// 修改
+				WebResultSupport updateResult = merchantBiz
+						.updateMerchantInfo(basicInfo);
+				return updateResult;
+			}
+		} else {
+			return result;
+		}
+	}*/
+	/**
+	 * 编辑达人基本信息
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/talent/toAddTalentInfo",method=RequestMethod.GET)
+	public String toAddTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model) {
+		
+		model.addAttribute("talentBiz", talentBiz);
+		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
+		//try {
+			MemResult<TalentInfoDTO> dtoResult = talentBiz.queryTalentInfoByUserId();
+			if (dtoResult == null) {
+				return "/system/error/500";
+			}
+			if (dtoResult.isSuccess()) {
+				TalentInfoDTO talentInfoDTO = dtoResult.getValue();
+				if (talentInfoDTO == null || talentInfoDTO.getTalentInfoDO() == null) {
+					return "/system/error/500";
+				}
+				List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
+				if (pictures == null ) {
+					pictures = new ArrayList<String>();
+				}
+				//填充店铺头图集合
+				while (pictures.size() < Constant.TALENT_SHOP_PICNUM) {
+					pictures.add("");
+				}
+				model.addAttribute("talentInfo", talentInfoDTO);
+			}
+			
+			return "system/talent/eredar";
+//		} catch (Exception e) {
+//			log.error(e.getMessage(),e);
+//			return "system/talent/eredar";
+//		}
+		
+	}
+	/**
+	 * 保存达人基本信息
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param vo 封装的达人基本信息对象
+	 * @return
+	 */
+	@RequestMapping(value="/talent/saveTalentInfo",method=RequestMethod.POST)
+	@ResponseBody
+	public BizResult<String> addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
+			BizResult<String> bizResult = new BizResult<>();
+			MemResult<Boolean> addTalentInfoResult = talentBiz.addTalentInfo(vo);
+			if (addTalentInfoResult == null) {
+				bizResult.init(false, -1, "保存失败");
+				//bizResult = BizResult.buildFailResult(-1, "保存失败", false);
+				return bizResult;
+			}
+			if (addTalentInfoResult.isSuccess()) {
+				bizResult.setValue("/toAddTalentInfo");
+			}
+			else {
+				//BizResult.buildFailResult(addTalentInfoResult.getErrorCode(), addTalentInfoResult.getErrorMsg(), false);
+				bizResult.init(false, addTalentInfoResult.getErrorCode(),
+						addTalentInfoResult.getErrorMsg());
+			}
+			return bizResult;
+		
+		
+	}
+	//2期商户入驻
+	/**
+	 * 跳转到商户基本信息页面
+	 * @param model
+	 * @return
 	 */
 	@RequestMapping(value = "/merchant/toAddBasicPage")
 	public String toBusinessPage(Model model){
@@ -95,8 +229,8 @@ public class BasicInfoController extends BaseController {
 			return "/system/merchant/merchant";
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			model.addAttribute("服务器出现错误，请稍后重新登录");
-			return "/system/merchant/merchant";
+			//model.addAttribute("服务器出现错误，请稍后重新登录");
+			return "/system/error/500";
 		}
 		
 	}
@@ -127,69 +261,5 @@ public class BasicInfoController extends BaseController {
 		} else {
 			return result;
 		}
-	}
-	/**
-	 * 编辑达人基本信息
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value="/talent/toAddTalentInfo",method=RequestMethod.GET)
-	public String editTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model) {
-		
-		model.addAttribute("talentBiz", talentBiz);
-		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
-		try {
-			MemResult<TalentInfoDTO> queryTalentInfoResult = talentInfoDealService.queryTalentInfoByUserId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
-			TalentInfoDTO dto = null;
-			if (queryTalentInfoResult.isSuccess() && queryTalentInfoResult.getValue() != null) {
-				TalentInfoDTO talentInfoDTO = queryTalentInfoResult.getValue();
-				
-				List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
-				if (pictures == null ) {
-					pictures = new ArrayList<String>();
-				}
-				//填充店铺头图集合
-				while (pictures.size() < Constant.TALENT_SHOP_PICNUM) {
-					pictures.add("");
-				}
-				dto = talentInfoDTO;
-				model.addAttribute("talentInfo", dto);
-			}
-			return "system/talent/eredar";
-		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-			return "system/talent/eredar";
-		}
-		
-	}
-	/**
-	 * 保存达人基本信息
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @param vo 封装的达人基本信息对象
-	 * @return
-	 */
-	@RequestMapping(value="/talent/saveTalentInfo",method=RequestMethod.POST)
-	@ResponseBody
-	public BizResult<String> addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
-			BizResult<String> bizResult = new BizResult<>();
-			MemResult<Boolean> addTalentInfoResult = talentBiz.addTalentInfo(vo);
-			if (addTalentInfoResult == null) {
-				bizResult.init(false, -1, "保存失败");
-				return bizResult;
-			}
-			if (addTalentInfoResult.isSuccess()) {
-				bizResult.setValue("/toAddTalentInfo");
-			}
-			else {
-				bizResult.init(false, addTalentInfoResult.getErrorCode(),
-						addTalentInfoResult.getErrorMsg());
-			}
-			return bizResult;
-		
-		
 	}
 }

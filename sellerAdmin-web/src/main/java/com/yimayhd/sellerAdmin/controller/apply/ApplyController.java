@@ -79,7 +79,7 @@ public class ApplyController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "toChoosePage")
+	/*@RequestMapping(value = "toChoosePage")
 	public String toChoosePage(Model model,boolean reject){
 		String chooseUrl = "/system/merchant/chosetype";
 		if(reject){
@@ -94,21 +94,21 @@ public class ApplyController extends BaseController {
 		}
 		
 	}
-	/**
+	*//**
 	 * 跳转到商户入驻用户协议页面
 	 * @param model
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "/merchant/toAggrementPage")
 	public String toBusinessAggrementPage(Model model){
 		return "/system/merchant/agreement";
 	}
 	
-	/**
+	*//**
 	 * 跳转到商户入驻填写页面A
 	 * @param model
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "/merchant/toDetailPage")
 	public String toBusinessDetailPage(Model model){
 		//权限
@@ -134,11 +134,11 @@ public class ApplyController extends BaseController {
 		return "/system/merchant/userdatafill_a";
 	}
 	
-	/**
+	*//**
 	 * 跳转到商户入驻填写页面B
 	 * @param model
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "/merchant/toDetailPageB")
 	public String toDetailPageB(Model model){
 		//权限
@@ -169,11 +169,11 @@ public class ApplyController extends BaseController {
 		
 		return "/system/merchant/userdatafill_b";
 	}
-	/**
+	*//**
 	 * 新增或修改商户入驻填写信息PAGE-1
 	 * @param userDetailInfo
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value="/merchant/saveUserdata" ,method=RequestMethod.POST)
 	@ResponseBody
 	public WebResult<String> saveUserdata(UserDetailInfo userDetailInfo){
@@ -188,11 +188,11 @@ public class ApplyController extends BaseController {
 		
 	}
 	
-	/**
+	*//**
 	 * 新增或修改商户入驻填写信息PAGE-2
 	 * @param userDetailInfo
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value="/merchant/saveUserdataB" ,method=RequestMethod.POST)
 	@ResponseBody
 	public WebResult<String> saveUserdataB(UserDetailInfo userDetailInfo){
@@ -211,30 +211,31 @@ public class ApplyController extends BaseController {
 		return rest;
 	}
 	
-	/**
+	*//**
 	 * 跳转到商户入驻等待审核页面
 	 * @param model
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "/merchant/toVerifyPage")
 	public String toBusinessVerifyPage(Model model){
 		return "/system/merchant/verification";
 	}
-	
+	*/
 	
 	/**
 	 * 处理审核结果信息
 	 * @param dto
 	 * @return
 	 */
-	public void getCheckResultMsg(ExamineResultDTO dto,Model model) {
+	public String getCheckResultMsg(ExamineResultDTO dto) {
 		if (dto == null || ( dto.getDealMes() == null)) {
-			return ;
+			return null;
 		}
+		String msg = null;
 		if (ExamineStatus.EXAMIN_ERROR.getStatus() == dto.getStatus().getStatus() || ExamineStatus.EXAMIN_NOT_ABLE.getStatus() == dto.getStatus().getStatus()) {
-			model.addAttribute("checkResultInfo", Arrays.asList(dto.getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+			msg = dto.getDealMes();
 		}
-		
+		return msg;
 	}
 	/**
 	 * 跳转到达人审核协议
@@ -263,7 +264,7 @@ public class ApplyController extends BaseController {
 		if(null != judgeRest){
 			return judgeRest;
 		}
-		getCheckResultMsg(talentBiz.getCheckResult(),model);
+		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
 		return "system/talent/userdatafill_a";
 		
 	}
@@ -274,7 +275,7 @@ public class ApplyController extends BaseController {
 			return judgeRest;
 		}
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
-		getCheckResultMsg(talentBiz.getCheckResult(),model);
+		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
 		return "system/talent/userdatafill_a";
 		
 	}
@@ -290,9 +291,9 @@ public class ApplyController extends BaseController {
 			return judgeRest;
 		}
 		model.addAttribute("bankList", talentBiz.getBankList());
-		getCheckResultMsg(talentBiz.getCheckResult(),model);
+		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
 		return "system/talent/userdatafill_b";
-		
+		 
 	}
 	@RequestMapping(value="/talent/toEditUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toEditUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
@@ -302,7 +303,7 @@ public class ApplyController extends BaseController {
 		}
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
 		model.addAttribute("bankList", talentBiz.getBankList());
-		getCheckResultMsg(talentBiz.getCheckResult(),model);
+		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
 		return "system/talent/userdatafill_b";
 		
 	}
@@ -337,7 +338,8 @@ public class ApplyController extends BaseController {
 			
 			WebResult<String> result=new WebResult<String>();
 			ExamineInfoDTO examineInfoDTO = talentBiz.getExamineInfo();
-			WebResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_ONE.getPageNO());
+			
+			WebResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo);
 			if (resultSupport == null) {
 				result.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
 				return result;
@@ -349,6 +351,8 @@ public class ApplyController extends BaseController {
 					result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/toEditUserdatafill_pageTwo");
 					
 				}
+			}else{
+				result.setWebReturnCode(resultSupport.getWebReturnCode());
 			}
 
 			return result;
@@ -366,14 +370,17 @@ public class ApplyController extends BaseController {
 	@ResponseBody
 	public BizResult<String> saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
 			BizResult<String> bizResult = new BizResult<>();
-			WebResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo,ExaminePageNo.PAGE_TWO.getPageNO());
-			if (resultSupport == null || !resultSupport.isSuccess()) {
+			WebResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo);
+			if (resultSupport == null) {
 				bizResult.init(false, -1, "保存失败");
+				//BizResult.buildFailResult(-1, "保存失败", false);
 				return bizResult;
 			}
+			//更新审核状态
 			MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
-			if (resultSupport == null && updateCheckStatusResult == null) {
+			if (updateCheckStatusResult == null) {
 				bizResult.init(false, -1, "保存失败");
+				//BizResult.buildFailResult(-1, "保存失败", false);
 				return bizResult;
 			}
 			if (resultSupport.isSuccess()
@@ -403,8 +410,8 @@ public class ApplyController extends BaseController {
 	 * @param pageType
 	 * @return
 	 */
-	public  String judgeAuthority(Model model,long userId,String pageType){
-		String chooseUrl = "/system/merchant/chosetype";
+	/*public  String judgeAuthority(Model model,long userId,String pageType){
+		String chooseUrl = "/system/chooseType";
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(userId);
@@ -457,5 +464,203 @@ public class ApplyController extends BaseController {
 		}
 		return chooseUrl;
 		
+	}*/
+	//2期商家入驻
+	public  String judgeAuthority(Model model,long userId,String pageType){
+		String chooseUrl = "/system/chooseType";
+		InfoQueryDTO info = new InfoQueryDTO();
+		info.setDomainId(Constant.DOMAIN_JIUXIU);
+		info.setSellerId(userId);
+		try {
+			MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
+			if(!result.isSuccess()){
+				return chooseUrl;
+			}
+			if(null == result.getValue()){
+				return null;
+			}
+			ExamineInfoDTO dto = result.getValue() ;
+			int type = dto.getType();
+			int status = dto.getExaminStatus();
+			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
+				if(ExamineType.MERCHANT.getType()==type){
+					return "/system/seller/verification";
+				}else if(ExamineType.TALENT.getType()==type){
+					return "/system/talent/verification";
+				}
+			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
+				if(ExamineType.MERCHANT.getType()==type){
+					return "redirect:/basicInfo/seller/toAddBasicPage";
+				}else if(ExamineType.TALENT.getType()==type){
+					return "redirect:/basicInfo/talent/toAddTalentInfo";
+				}
+			}else if(ExamineStatus.EXAMIN_ERROR.getStatus() == status){//审核不通过
+				if("edit".equals(pageType)){
+					return null;
+				}
+				
+				info.setType(type);
+				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
+				if(rest.isSuccess() && (null!=rest.getValue())){
+					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+				}
+				if(ExamineType.MERCHANT.getType()==type){
+					model.addAttribute("type", Constant.MERCHANT_NAME_CN);
+				}else if(ExamineType.TALENT.getType()==type){
+					model.addAttribute("type", Constant.TALENT_NAME_CN);
+				}
+				model.addAttribute("url", "/apply/toChoosePage?reject=true");
+				return "/system/seller/nothrough";
+			}else{
+				return null;
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return chooseUrl;
+		}
+		return chooseUrl;
+		
 	}
+	@RequestMapping(value = "/toChoosePage")
+	public String toChoosePage(Model model,boolean reject){
+		String chooseUrl = "/system/chooseType";
+		if(reject){
+			return chooseUrl;
+		}
+		//权限
+		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "");
+		if(null != judgeRest){
+			return judgeRest;
+		}else{
+			return chooseUrl;
+		}
+		
+	}
+	/**
+	 * 跳转到商户入驻用户协议页面
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/seller/toAggrementPage")
+	public String toBusinessAggrementPage(Model model){
+		return "/system/seller/agreement";
+	}
+	
+	/**
+	 * 跳转到商户入驻填写页面A
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/seller/toDetailPage")
+	public String toBusinessDetailPage(Model model){
+		//权限
+		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
+		if(null != judgeRest){
+			return judgeRest;
+		}
+		
+		InfoQueryDTO info = new InfoQueryDTO();
+		info.setType(ExamineType.MERCHANT.getType());
+		info.setDomainId(Constant.DOMAIN_JIUXIU);
+		info.setSellerId(sessionManager.getUserId());
+		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
+		if(result.isSuccess()){
+			model.addAttribute("examineInfo", result.getValue());
+			if(null!=result.getValue() && (result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW || result.getValue().getExaminStatus() == Constant.MERCHANT_TYPE_HALF)){//审核不通过时
+				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
+				if(rest.isSuccess() && (null!=rest.getValue())){
+					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes()));
+				}
+			}
+		}
+		return "/system/seller/userdatafill_a";
+	}
+	
+	/**
+	 * 跳转到商户入驻填写页面B
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/seller/toDetailPageB")
+	public String toDetailPageB(Model model){
+		//权限
+		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
+		if(null != judgeRest){
+			return judgeRest;
+		}
+		
+		InfoQueryDTO info = new InfoQueryDTO();
+		info.setType(ExamineType.MERCHANT.getType());
+		info.setDomainId(Constant.DOMAIN_JIUXIU);
+		info.setSellerId(sessionManager.getUserId());
+		
+		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
+		if(result.isSuccess()){
+			model.addAttribute("examineInfo", result.getValue());
+			if(null!=result.getValue() && (result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW || result.getValue().getExaminStatus() == Constant.MERCHANT_TYPE_HALF)){//审核不通过时
+				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
+				if(rest.isSuccess() && (null!=rest.getValue())){
+					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes()));
+				}
+			}
+		}
+		MemResult<List<BankInfoDTO>> bankResult = talentInfoDealService.queryBankList();
+		if(bankResult.isSuccess()){
+			model.addAttribute("bankList", bankResult.getValue());
+		}
+		
+		return "/system/seller/userdatafill_b";
+	}
+	/**
+	 * 新增或修改商户入驻填写信息PAGE-1
+	 * @param userDetailInfo
+	 * @return
+	 */
+	@RequestMapping(value="/seller/saveUserdata" ,method=RequestMethod.POST)
+	@ResponseBody
+	public WebResult<String> saveUserdata(UserDetailInfo userDetailInfo){
+		WebResult<String> rest = new WebResult<String>();
+		WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
+		if(result.isSuccess()){
+			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/seller/toDetailPageB");
+		}else{
+			rest.setWebReturnCode(result.getWebReturnCode());
+		}
+		return rest;
+		
+	}
+	
+	/**
+	 * 新增或修改商户入驻填写信息PAGE-2
+	 * @param userDetailInfo
+	 * @return
+	 */
+	@RequestMapping(value="/seller/saveUserdataB" ,method=RequestMethod.POST)
+	@ResponseBody
+	public WebResult<String> saveUserdataB(UserDetailInfo userDetailInfo){
+		WebResult<String> rest = new WebResult<String>();
+		WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
+		if(result.isSuccess()){
+			InfoQueryDTO info = new InfoQueryDTO();
+			info.setDomainId(Constant.DOMAIN_JIUXIU);
+			info.setSellerId(sessionManager.getUserId());
+			info.setType(ExamineType.MERCHANT.getType());
+			merchantBiz.changeExamineStatusIntoIng(info);
+			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/seller/toVerifyPage");
+		}else{
+			rest.setWebReturnCode(result.getWebReturnCode());
+		}
+		return rest;
+	}
+	
+	/**
+	 * 跳转到商户入驻等待审核页面
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/seller/toVerifyPage")
+	public String toBusinessVerifyPage(Model model){
+		return "/system/seller/verification";
+	}
+	
 }
