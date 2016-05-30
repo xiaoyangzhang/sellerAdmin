@@ -152,25 +152,17 @@ public class ScenicManageDomainChecker {
             bizCategory.setPId(category.getPropertyId());
             bizCategory.setPTxt(propertyDO.getText());
             bizCategory.setPType(propertyDO.getType());
+            bizCategory.setVTxt("");
+            for (ItemSkuPVPair skuPVPair: itemDO.getItemPropertyList()){
+                if(bizCategory.getPId()==skuPVPair.getPId()){
+                    bizCategory.setVTxt(skuPVPair.getVTxt());
+                }
+            }
             bizList.add(bizCategory);
         }
-
-/*
-        SupplierCalendarTemplate temp = new SupplierCalendarTemplate();
-        temp.setSeller_id(itemDO.getSellerId());//商家ID
-        temp.setHotel_id(itemDO.getOutId());
-        List<BizSkuInfo> bizArr = new ArrayList<>(itemSkuDOList.size());
-        for(ItemSkuDO sku: itemSkuDOList){
-            BizSkuInfo bizSkuInfo = new BizSkuInfo();
-            bizSkuInfo.setSku_id(sku.getId());
-            bizSkuInfo.setPrice(new BigDecimal(sku.getPrice()));;//价格
-            bizSkuInfo.setStock_num(sku.getStockNum());//库存
-            ItemSkuPVPair pvp = sku.getItemSkuPVPairList().get(0);
-            bizSkuInfo.setvTxt(pvp.getVTxt());//日期
-            bizArr.add(bizSkuInfo);
-        }
-
-        json = CommonJsonUtil.objectToJson(temp,SupplierCalendarTemplate.class);*/
+        String bizCategoryJson =CommonJsonUtil.objectToJson(bizList,List.class);
+        scenicManageVO.setDynamicEntry(bizCategoryJson);//属性json穿
+        scenicManageVO.setBizCategoryInfoList(bizList);// json列表
 
         return scenicManageVO;
     }

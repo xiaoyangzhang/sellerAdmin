@@ -85,7 +85,7 @@ public class ScenicManageRepo {
 		ItemDO itemDO = itemResult.getItem();
 		CategoryDO categoryDO = itemResult.getCategory();
 		domain.setItemDO(itemDO);//景区商品信息
-		domain.setItemSkuDOList(itemResult.getItemSkuDOList());
+		domain.setItemSkuDOList(itemResult.getItemSkuDOList());// 价格日历
 		domain.setCategory(categoryDO);
 		domain.setCategoryPropertyValueDO(categoryDO.getSellCategoryPropertyDOs().get(0));//价格日历销售属性
 		ICResult<ScenicDO> scenicResult = itemQueryServiceRef.getScenic(itemDO.getOutId());
