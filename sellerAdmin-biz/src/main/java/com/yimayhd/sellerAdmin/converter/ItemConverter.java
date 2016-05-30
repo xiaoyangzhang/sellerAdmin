@@ -4,14 +4,20 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
+import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.RoomDO;
+import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.domain.TicketDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.domain.item.ItemDTO;
+import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.enums.PayMode;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
-import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
 import com.yimayhd.sellerAdmin.model.*;
-import com.yimayhd.sellerAdmin.model.item.ItemListItemVO;
+import com.yimayhd.sellerAdmin.model.item.*;
 import com.yimayhd.sellerAdmin.model.query.ItemListQuery;
 import com.yimayhd.sellerAdmin.util.ItemUtil;
 import com.yimayhd.sellerAdmin.util.NumUtil;
@@ -81,7 +87,55 @@ public class ItemConverter {
 		itemListItemVO.setPublishDate(itemDO.getGmtCreated());
 		return itemListItemVO;
 	}
+	public static ItemListItemVO toItemListItemVO(ItemInfo itemInfo) {
+		if (itemInfo == null) {
+			return null;
+		}
+		ItemDTO itemDO = itemInfo.getItemDTO();
+		if(itemDO==null){
+			return null;
+		}
+		ItemListItemVO itemListItemVO = new ItemListItemVO();
+		itemListItemVO.setId(itemDO.getId());
+//		List<String> itemMainPics = PicUrlsUtil.getItemMainPics(itemDO);
+		List<String> itemMainPics =	itemDO.getItemMainPics();
+		if (CollectionUtils.isNotEmpty(itemMainPics)) {
+			itemListItemVO.setPicture(itemMainPics.get(0));
+		}
+		itemListItemVO.setName(itemDO.getTitle());
+		itemListItemVO.setCode(itemDO.getCode());
+		itemListItemVO.setPrice(itemDO.getPrice());
+		itemListItemVO.setType(itemDO.getItemType());
+		itemListItemVO.setStatus(itemDO.getStatus());
+		itemListItemVO.setOperates(ItemUtil.getItemOperates(itemDO.getItemType(), itemDO.getStatus()));
+		itemListItemVO.setPublishDate(itemDO.getGmtCreated());
+		PayMode payMode = PayMode.getByType(itemDO.getPayMode());
+		if(payMode!=null) {
+			itemListItemVO.setPayMode(payMode.getDesc());//获取 在线付/到店付
+		}
+		//酒店信息
+		HotelDO hotelDO= itemInfo.getHotelDO();
+		RoomDO roomDO= itemInfo.getRoomDO();
+		TicketDO ticketDO= itemInfo.getTicketDO();
+		if(hotelDO!=null){
+			itemListItemVO.setItemHotelVO(new ItemHotelVO().setName(hotelDO.getName()));
+		}
+		//房间型号
+		if(roomDO!=null){
+			itemListItemVO.setItemRoomVO(new ItemRoomVO().setName(roomDO.getName()));
+		}
+		//景区门票信息
+		if(ticketDO!=null){
+			itemListItemVO.setItemTicketVO(new ItemTicketVO().setTitle(ticketDO.getTitle()));
+		}
+		// 景区信息
+		ScenicDO scenicDO =  itemInfo.getScenicDO();
+		if(scenicDO!=null){
+			itemListItemVO.setItemScenicVO(new ItemScenicVO().setName(scenicDO.getName()));
+		}
 
+		return itemListItemVO;
+	}
 	public static ItemVO convertItemVO(ItemDO itemDO, CategoryVO categoryVO) {
 		ItemVO itemVO = new ItemVO();
 		BeanUtils.copyProperties(itemDO, itemVO);
@@ -113,7 +167,7 @@ public class ItemConverter {
 			// 评分（暂时普通商品用）
 			itemVO.setGrade(itemVO.getItemFeature().getGrade());
 			// 库存方式
-			itemVO.setReduceType(itemVO.getItemFeature().getReduceType().getBizType());
+			itemVO.setReduceType(itemVO.getItemFeature().getReduceType());
 			// 最晚到店时间列表(暂时只有酒店用)
 			itemVO.setOpenTimeList(itemVO.getItemFeature().getLatestArriveTime());
 		}

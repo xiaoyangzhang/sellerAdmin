@@ -14,13 +14,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.ic.client.model.domain.LineDO;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
+import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 import com.yimayhd.sellerAdmin.base.BaseController;
@@ -31,6 +36,7 @@ import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.query.ActivityListQuery;
 import com.yimayhd.sellerAdmin.model.query.CommodityListQuery;
 import com.yimayhd.sellerAdmin.model.query.LiveListQuery;
@@ -38,6 +44,7 @@ import com.yimayhd.sellerAdmin.service.ActivityService;
 import com.yimayhd.sellerAdmin.service.CommodityService;
 import com.yimayhd.sellerAdmin.service.TripService;
 import com.yimayhd.sellerAdmin.service.UserRPCService;
+import com.yimayhd.sellerAdmin.service.item.ItemService;
 import com.yimayhd.sellerAdmin.service.item.LineService;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
@@ -66,7 +73,6 @@ public class ResourceForSelectController extends BaseController {
 	private LineService			commLineService;
 	@Autowired
 	private ActivityService		activityService;
-
 	/**
 	 * 选择出发地
 	 *
@@ -75,6 +81,7 @@ public class ResourceForSelectController extends BaseController {
 	 */
 	@RequestMapping(value = "/selectDeparts")
 	public String selectDeparts() {
+		//put("item", getItemLineInfo(itmeId));
 		WebResult<List<CityVO>> result = commLineService.getAllLineDeparts();
 		if (result.isSuccess()) {
 			Map<String, List<CityVO>> departMap = new TreeMap<String, List<CityVO>>();
@@ -107,7 +114,9 @@ public class ResourceForSelectController extends BaseController {
 	 */
 	@RequestMapping(value = "/selectDests")
 	public String selectDests() {
+		//put("item", getItemLineInfo(itmeId));
 		WebResult<List<CityVO>> result = commLineService.getAllLineDests();
+		
 		if (result.isSuccess()) {
 			Map<String, List<CityVO>> destMap = new TreeMap<String, List<CityVO>>();
 			List<CityVO> allLineDests = result.getValue();
@@ -130,6 +139,17 @@ public class ResourceForSelectController extends BaseController {
 			throw new BaseException("选择出发地失败");
 		}
 	}
+
+//	private LineVO getItemLineInfo(Long id) {
+//		if (id == null ) {
+//			return null;
+//		}
+//		WebResult<LineVO> itemInfoResult = commLineService.getByItemId(getCurrentUserId(), id);
+//		if (itemInfoResult != null && itemInfoResult.isSuccess()) {
+//			return itemInfoResult.getValue();
+//		}
+//		return null;
+//	}
 
 	/**
 	 * 选择活动商品

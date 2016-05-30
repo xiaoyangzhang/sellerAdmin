@@ -8,7 +8,7 @@
 		<property name="jdbc.password" defaultValue="123456" description="#" />
 	</group>-->
 	<group name="log">
-		<property name="sellerAdmin.logger.dir" defaultValue="/home/admin/logs/sellerAdmin" description="日志目录"/>
+		<property name="sellerAdmin.logger.dir" defaultValue="${sellerAdmin.logger.dir}" description="日志目录"/>
 	</group>
 	<group name="tfs">
 		<property name="tfs.nsip" defaultValue="192.168.1.209:9999" description="#" />

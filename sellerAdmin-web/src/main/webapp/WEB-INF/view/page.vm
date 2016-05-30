@@ -18,19 +18,19 @@
         #foreach($i in [1 .. $pageVo.lastPageNo])
             #if($pageVoNo == $i)
                 <li class="active">
-                    <span><a href="javascript:void(0);">$i</a></span>
+                    <a href="javascript:void(0);">$i</a>
                 </li>
             #elseif(1 >= $i - 1)
                 <li>
-                    <span><a href="javascript:void(0);" class="LinkeToPage" pageNo="$i">$i</a></span>
+                    <a href="javascript:void(0);" class="LinkeToPage" pageNo="$i">$i</a>
                 </li>
             #elseif($pageVo.lastPageNo <= $i + 1)
                 <li>
-                    <span><a href="javascript:void(0);" class="LinkeToPage" pageNo="$i">$i</a></span>
+                    <a href="javascript:void(0);" class="LinkeToPage" pageNo="$i">$i</a>
                 </li>
             #elseif($pageVoNo >= $i - 2 && $pageVoNo <= $i + 2)
                 <li>
-                    <span><a href="javascript:void(0);" class="LinkeToPage" pageNo="$i">$i</a></span>
+                    <a href="javascript:void(0);" class="LinkeToPage" pageNo="$i">$i</a>
                 </li>
             #elseif($pageVoNo > $i && $before==0)
                 <li>

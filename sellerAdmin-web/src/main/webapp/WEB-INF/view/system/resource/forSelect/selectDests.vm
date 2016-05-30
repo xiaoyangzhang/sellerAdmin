@@ -18,7 +18,7 @@
         <div id="$!{entry.key}" class="choosecity">
         	<label>$!{entry.key}:</label>
         	#foreach($dest in $entry.value)  
-        	<label><input type="checkbox" class="city ck" dest-id="$!{dest.id}" dest-code="$!{dest.city.code}" dest-name="$!{dest.city.name}">$!{dest.city.name}</label>
+        	<label><input type="checkbox" class="city ck"   dest-id="$!{dest.id}" dest-code="$!{dest.city.code}" dest-name="$!{dest.city.name}">$!{dest.city.name}</label>
         	#end
         </div>
         #end
@@ -37,6 +37,18 @@
             	});
             	return result;
             }
+            $(function(){
+            	var selectedDests = parent.getBaseInfo().dests;
+            	console.log(selectedDests);
+            	$("input:checkbox").each(function(){
+            		for(var j=0;j<selectedDests.length;j++) {
+            			if($(this).attr("dest-id")==selectedDests[j].id){
+            				$(this).attr("checked","checked");
+            			}
+            		}
+            	});
+            	
+            })
         </script>
     </body>
 </html>

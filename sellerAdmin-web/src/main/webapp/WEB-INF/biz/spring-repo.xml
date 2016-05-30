@@ -21,6 +21,8 @@
 
 
 	<bean id="userRepo" class="com.yimayhd.sellerAdmin.repo.UserRepo" />
+	<bean id="hotelManageRepo" class="com.yimayhd.sellerAdmin.repo.HotelManageRepo" />
+	<bean id="scenicManageRepo" class="com.yimayhd.sellerAdmin.repo.ScenicManageRepo" />
 
 	<bean id="merchantRepo" class="com.yimayhd.sellerAdmin.repo.MerchantRepo" />
 
@@ -28,4 +30,5 @@
 	<bean id="itemRepo" class="com.yimayhd.sellerAdmin.repo.ItemRepo" />
 	<bean id="talentRepo" class="com.yimayhd.sellerAdmin.repo.TalentRepo" />
 	<bean id="pictureTextRepo" class="com.yimayhd.sellerAdmin.repo.PictureTextRepo" />
+
 </beans>

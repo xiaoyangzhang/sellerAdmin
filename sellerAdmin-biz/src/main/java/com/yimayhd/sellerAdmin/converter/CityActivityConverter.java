@@ -22,7 +22,6 @@ import com.yimayhd.ic.client.model.param.item.line.*;
 import com.yimayhd.ic.client.model.result.item.CityActivityResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
-import com.yimayhd.resourcecenter.entity.item.SalesPropertyVO;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.*;
 import com.yimayhd.sellerAdmin.model.line.CityVO;

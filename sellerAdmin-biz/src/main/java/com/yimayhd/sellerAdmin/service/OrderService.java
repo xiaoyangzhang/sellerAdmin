@@ -7,6 +7,7 @@ import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
 import com.yimayhd.sellerAdmin.model.trade.JXComRateResult;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
+import com.yimayhd.tradecenter.client.model.param.order.UpdateBizOrderExtFeatureDTO;
 
 /**
  * 订单服务接口
@@ -40,6 +41,7 @@ public interface OrderService {
 
 	boolean closeOrder(long id);
 	/**
+<<<<<<< HEAD
 	 * 确认入住
 	 * @param id
 	 * @return
@@ -57,5 +59,12 @@ public interface OrderService {
 	 * @return
 	 */
 	PageVO<JXComRateResult> getAssessmentList(AssessmentListQuery assessmentListQuery);
+
+	/**
+	 * 更新卖家备注
+	 * @param dto
+	 * @return
+	 */
+	boolean updateOrderInfo(long id,String remark);
 
 }

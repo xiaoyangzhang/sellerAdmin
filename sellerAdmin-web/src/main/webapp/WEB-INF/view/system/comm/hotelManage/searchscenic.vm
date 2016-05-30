@@ -1,0 +1,28 @@
+#set($layout = "/layout/layout_non.vm")
+
+
+<table>
+    <thead>
+    <tr>
+        <th></th>
+        <th>酒店名称</th>
+        <th>区域</th>
+        <th>地址</th>
+        <th>电话</th>
+        <th>详情</th>
+    </tr>
+    </thead>
+    <tbody>
+  #foreach($scenicManageVO in $scenicManageVOList)
+    <tr>
+        <td><input type="radio" name="scenicGroup" value="$!{scenicManageVO.scenicId}"></td>
+        <td>$!{scenicManageVO.name}</td>
+        <td>$!{scenicManageVO.name}</td>
+        <td>$!{scenicManageVO.name}</td>
+        <td>$!{scenicManageVO.name}</td>
+        <td><a>查看详情</a></td>
+    </tr>
+  #end
+    </tbody>
+</table>
+#parse("/page_jiuniu.vm")

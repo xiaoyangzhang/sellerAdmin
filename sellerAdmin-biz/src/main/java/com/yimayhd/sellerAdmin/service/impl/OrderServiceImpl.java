@@ -20,7 +20,14 @@ import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
 import com.yimayhd.sellerAdmin.service.OrderService;
 import com.yimayhd.sellerAdmin.util.DateUtil;
+
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+
+import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
+import com.yimayhd.tradecenter.client.model.enums.BizOrderExtFeatureKey;
+import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
+
 import com.yimayhd.tradecenter.client.model.enums.CloseOrderReason;
 import com.yimayhd.tradecenter.client.model.enums.FinishOrderSourceType;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
@@ -38,7 +45,9 @@ import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
+
 import com.yimayhd.user.session.manager.SessionManager;
+
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -47,7 +56,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 订单管理实现
@@ -279,8 +294,13 @@ public class OrderServiceImpl implements OrderService {
 			ResultSupport resultSupport = tcTradeServiceRef
 					.refundOrder(refundTradeDTO);
 			return resultSupport.isSuccess();
-		} catch (Exception e) {
-			log.error("tcTradeServiceRef.refundOrder(refundTradeDTO);" + e);
+
+//		} catch (Exception e) {
+//			log.error("tcTradeServiceRef.refundOrder(refundTradeDTO);" + e);
+
+		}catch (Exception e){
+			log.error("id={}", id, e);
+
 			return false;
 		}
 	}
@@ -295,8 +315,32 @@ public class OrderServiceImpl implements OrderService {
 			ResultSupport resultSupport = tcTradeServiceRef
 					.closeOrder(closeOrderDTO);
 			return resultSupport.isSuccess();
+
+//		} catch (Exception e) {
+//			log.error("tcTradeServiceRef.closeOrder(id);" + e);
+
+		}catch (Exception e){
+			log.error("id={}" ,id, e);
+			return false;
+		}
+	}
+
+	@Override
+	public boolean updateOrderInfo(long id,String remark) {
+		if (id <= 0 || StringUtils.isBlank(remark)) {
+			return false;
+		}
+		try {
+			UpdateBizOrderExtFeatureDTO bizOrderExtFeatureDTO = new UpdateBizOrderExtFeatureDTO();
+			bizOrderExtFeatureDTO.setBizOrderId(id);
+			Map<BizOrderExtFeatureKey, Object> addOrderMap = new HashMap<BizOrderExtFeatureKey, Object>();
+			addOrderMap.put(BizOrderExtFeatureKey.SELLER_MEMO, remark);
+			bizOrderExtFeatureDTO.setAddOrUpdateBizOrderExtFeatureKeyObjectMap(addOrderMap);
+			ResultSupport updateResult = tcTradeServiceRef.updateBizOrderExtFeature(bizOrderExtFeatureDTO);
+			return updateResult.isSuccess();
 		} catch (Exception e) {
-			log.error("tcTradeServiceRef.closeOrder(id);" + e);
+			log.error("id={},remark={}",id,remark,e);
+
 			return false;
 		}
 	}

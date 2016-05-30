@@ -16,7 +16,6 @@ import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.membercenter.client.service.TravelKaService;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.ShowcaseDO;
-import com.yimayhd.resourcecenter.entity.CityInfo;
 import com.yimayhd.resourcecenter.model.enums.BoothJumpType;
 import com.yimayhd.resourcecenter.model.enums.ColumnType;
 import com.yimayhd.resourcecenter.model.enums.ErrorCode;
@@ -500,11 +499,11 @@ public class HomeCfgServiceImpl implements HomeCfgService {
 					ShowcaseDO showcaseDO = showCaseResult.getShowcaseDO();
 					homeResultInfo = new CfgResultInfo();
 
-					CityInfo cityInfo = JSON.parseObject(showcaseDO.getOperationContent(), CityInfo.class);
+					/*CityInfo cityInfo = JSON.parseObject(showcaseDO.getOperationContent(), CityInfo.class);
 
 					homeResultInfo.setItemId(cityInfo.id);
 					homeResultInfo.setItemTitle(cityInfo.name);
-					homeResultInfo.setItemImg(cityInfo.url);
+					homeResultInfo.setItemImg(cityInfo.url);*/
 
 					homeCfgInfoList.add(homeResultInfo);
 				}
