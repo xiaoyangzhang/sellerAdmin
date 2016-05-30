@@ -12,6 +12,8 @@ public enum BizItemType {
 	MUST_BUY(ItemType.NORMAL, "必买商品"),
 	TOUR_LINE(ItemType.TOUR_LINE),
 	FREE_LINE(ItemType.FREE_LINE),
+	FREE_LINE_ABOARD(ItemType.FREE_LINE_ABOARD),
+	TOUR_LINE_ABOARD(ItemType.TOUR_LINE_ABOARD),
 	CITY_ACTIVITY(ItemType.CITY_ACTIVITY);
 	private String		text;
 	private ItemType	itemType;
