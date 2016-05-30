@@ -49,7 +49,7 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 			String pathInfo = request.getPathInfo() ; 
 			String method = request.getMethod();
 //			System.err.println(pathInfo);
-//			menuBiz.cacheUserMenus2Tair(userId);
+			menuBiz.cacheUserMenus2Tair(userId);
 			
 			List<MenuVO> menus = menuCacheMananger.getUserMenus(userId);
 //			System.err.println(JSON.toJSONString(menus));
