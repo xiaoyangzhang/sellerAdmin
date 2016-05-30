@@ -56,7 +56,7 @@ public class HotelManageController extends BaseController {
 		HotelMessageVO hotelMessageVO = new  HotelMessageVO();
 		long userId = sessionManager.getUserId() ;
 		hotelMessageVO.setSellerId(userId);
-		System.out.println(userId);
+		hotelMessageVO.setCategoryId(Long.valueOf(6));
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(null);
 		model.addAttribute("hotelMessageVO", hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
@@ -120,8 +120,13 @@ public class HotelManageController extends BaseController {
 			logger.error("查询房型信息失败");
 			return "/error";
 		}
+		List<RoomMessageVO> roomList = result.getValue();
+		for(RoomMessageVO room:roomList){
+			System.out.println("roompic:"+room.getPics().toString());
+		}
+		System.out.println();
 		model.addAttribute("roomList", result.getValue());
-		return "/system/comm/hotelManage/addhotel";
+		return "/system/comm/hotelManage/hotelRoomList";
 	}
 
 

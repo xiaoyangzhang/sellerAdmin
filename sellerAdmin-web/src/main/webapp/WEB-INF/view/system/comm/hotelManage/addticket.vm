@@ -8,119 +8,146 @@
 <!-- head end-->
 
 <!-- 面包屑 -->
-<div class = "comwidth crumbs f12">您所在的位置：添加酒店商品><a class = "f12 gray6">选择酒店</a></div>
-<div class = "comwidth clearfix" id = "eredar">
-    <div class = "eredar-left">
-        <dl class = "first">
-            <dd>商品管理</dd>
-            <dt class = "one">添加商品</dt>
-            <dt>商品列表</dt>
-        </dl>
-        <dl>
-            <dd>添加酒店商品</dd>
-            <dt class = "on">选择酒店</dt>
-            <dt>基本信息</dt>
-            <dt>价格日历</dt>
-        </dl>
-        <dl>
-            <dd>添加景区门票</dd>
-            <dt>基本信息</dt>
-            <dt>价格日历</dt>
-        </dl>
-        <dl>
-            <dd>订单管理</dd>
-            <dt class = "one">订单列表</dt>
-        </dl>
-        <dl>
-            <dd>店铺管理</dd>
-            <dt class = "one">基本信息</dt>
-            <dt>账户信息</dt>
-        </dl>
-        <dl>
-            <dd>对账管理</dd>
-            <dt class = "one">月结账单</dt>
-        </dl>
+<div class = "eredar-info clearfix">
+    <ul>
+        <li class = "first on">基本信息</li>
+        <li>价格日历</li>
+    </ul>
+</div>
+<div class="panel on">
+    <div class="hotelinfo">
+        <p>
+            <span class="nm"><span class="bred">*</span><label>酒店信息：</label></span>
+                <span class="info-bar">
+                    <label class="htn">如家酒店望京店</label>
+                    <label class="smtt">地址：</label><label class="address">北京市海淀区中关村东路1号院</label>
+                    |<label class="smtt">电话：</label><label class="tel">010-83122549</label>
+                </span>
+            <a class="choicehotel">查询酒店</a>
+        </p>
+        <div>
+        </div>
+        <div class="savenext">
+            <a>保存并下一步</a>
+        </div>
     </div>
-    <div class = "eredar-right">
-        <div class = "eredar-info clearfix">
-            <ul>
-                <li class = "first on">基本信息</li>
-                <li>价格日历</li>
-            </ul>
+</div>
+<div class="panel">
+    <div class="baseinfo">
+        <form id="hotelfm">
+            <table>
+                <tr>
+                    <td class="coltxt">商品类型：</td>
+                    <td><label>酒店</label></td>
+                </tr>
+                <tr>
+                    <td class="coltxt">酒店名称：</td>
+                    <td><label id="lbhotelname">皇冠假日酒店</label></td>
+                </tr>
+                <tr>
+                    <td class="coltxt"><span class="bred">*</span>商品标题：</td>
+                    <td><input type="text" class="inputxt" maxlength="38" name="title"  value="$!{hotelMessageVO.title}"><span class="mark"><label>1</label>/38字</span></td>
+                </tr>
+                <tr>
+                    <td class="coltxt"><span class="bred">*</span>商品代码：</td>
+                    <td><input type="text" class="inputxt" maxlength="20" name="code" value="$!{hotelMessageVO.code}"><span class="mark"><label>1</label>/20字</span></td>
+                </tr>
+                <tr>
+                    <td class="coltxt"><span class="bred">*</span>付款方式：</td>
+                    <td>
+                        <label class="radio"><input type="radio" name="payType" value="1" #if($!hotelMessageVO.payType == 1) checked #end  >在线支付</label>
+                        <label class="radio"><input type="radio" name="payType" value="2"  #if($!hotelMessageVO.payType == 2) checked #end >到店支付</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="coltxt"><span class="bred">*</span>退订限制：</td>
+                    <td>
+                        <label class="radio"><input type="radio" name="cancelLimit" #if($!hotelMessageVO.cancelLimit == 1) checked #end>可退</label>
+                        <label class="radio"><input type="radio" name="cancelLimit" #if($!hotelMessageVO.cancelLimit == 2) checked #end>不可退</label>
+                        <label class="radio"><input type="radio" name="cancelLimit" #if($!hotelMessageVO.cancelLimit == 3) checked #end>免费退</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="coltxt vt"><span class="bred">*</span>退订规则：</td>
+                    <td><textarea name ="description">$!{hotelMessageVO.description} </textarea><span class="mark"><label>1</label>/40字</span></td>
+                </tr>
+                <tr>
+                    <td class="coltxt vt"><span class="bred">*</span>最晚到店时间：</td>
+                    <td>
+                        #foreach($multiChoice in $multiChoiceList)
+                            <label class="checkbox">
+                                <input type="checkbox" class="productTag" name="storeLastTime"  value="${multiChoice.tValue}" #if($multiChoice.isChoice) checked #end/>当前${multiChoice.value}前
+                            </label>
+                        #end
+
+                        <div class="gray9">最晚到店时间最多选择3个</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
+                    <td><input type="text" maxlength="10" name="startBookTimeLimit"  value="$!{hotelMessageVO.startBookTimeLimit}"></td>
+                </tr>
+            </table>
+        </form>
+        <div class="btngroup">
+            <a>返回上一页</a>
+            <a>保存并下一步</a>
         </div>
-        <div class="panel on">
-            <div class="hotelinfo">
-                <p>
-                    <span class="nm"><span class="bred">*</span><label>酒店信息：</label></span>
-						<span class="info-bar">
-							<label class="htn">如家酒店望京店</label>
-							<label class="smtt">地址：</label><label class="address">北京市海淀区中关村东路1号院</label>
-							|<label class="smtt">电话：</label><label class="tel">010-83122549</label>
-						</span>
-                    <a class="choicehotel">查询酒店</a>
-                </p>
-                <div>
-                </div>
-                <div class="savenext">
-                    <a>保存并下一步</a>
-                </div>
+    </div>
+</div>
+<div class="panel">
+    <div id="CLD" class="clearfix datepicker">
+        <table class="fl">
+            <tr>
+                <td class="tdyears clearfix" colspan="7">
+                    <i class="fl prev"></i>
+                    <!-- <select id="SY"></select> -->
+                    <i class="fr next"></i>
+                    <label id="SY"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdmonth" colspan="7">
+                    <ul>
+                        <li>1月</li>
+                        <li>2月</li>
+                        <li>3月</li>
+                        <li class="on">4月</li>
+                        <li>5月</li>
+                        <li>6月</li>
+                        <li>7月</li>
+                        <li>8月</li>
+                        <li>9月</li>
+                        <li>10月</li>
+                        <li>11月</li>
+                        <li>12月</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr class="tdweek">
+                <td>周日</td>
+                <td>周一</td>
+                <td>周二</td>
+                <td>周三</td>
+                <td>周四</td>
+                <td>周五</td>
+                <td>周六</td>
+            </tr>
+        </table>
+        <div class="setvalue fr">
+            <h2>价格设置</h2>
+            <div><label class="bred">*</label><label>价格：</label><input type="text" class="price" maxlength="9"></div>
+            <div><label class="bred">*</label><label>库存：</label><input type="text" class="stock" maxlength="9"></div>
+            <div class="btn">
+                <a class="setvl">确定</a>
+                <a class="clearvl">全部清除</a>
             </div>
         </div>
-        <div class="panel">
-            <div id="CLD" class="clearfix datepicker">
-                <table class="fl">
-                    <tr>
-                        <td class="tdyears clearfix" colspan="7">
-                            <i class="fl prev"></i>
-                            <!-- <select id="SY"></select> -->
-                            <i class="fr next"></i>
-                            <label id="SY"></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="tdmonth" colspan="7">
-                            <ul>
-                                <li>1月</li>
-                                <li>2月</li>
-                                <li>3月</li>
-                                <li class="on">4月</li>
-                                <li>5月</li>
-                                <li>6月</li>
-                                <li>7月</li>
-                                <li>8月</li>
-                                <li>9月</li>
-                                <li>10月</li>
-                                <li>11月</li>
-                                <li>12月</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr class="tdweek">
-                        <td>周日</td>
-                        <td>周一</td>
-                        <td>周二</td>
-                        <td>周三</td>
-                        <td>周四</td>
-                        <td>周五</td>
-                        <td>周六</td>
-                    </tr>
-                </table>
-                <div class="setvalue fr">
-                    <h2>价格设置</h2>
-                    <div><label class="bred">*</label><label>价格：</label><input type="text" class="price" maxlength="9"></div>
-                    <div><label class="bred">*</label><label>库存：</label><input type="text" class="stock" maxlength="9"></div>
-                    <div class="btn">
-                        <a class="setvl">确定</a>
-                        <a class="clearvl">全部清除</a>
-                    </div>
-                </div>
-            </div>
-            <label class="bred ml30">*</label><label class="gray9">按住Ctrl键，可实现多选日期。</label>
-            <div class="allsave">
-                <a>返回上一页</a>
-                <a>全部提交</a>
-            </div>
-        </div>
+    </div>
+    <label class="bred ml30">*</label><label class="gray9">按住Ctrl键，可实现多选日期。</label>
+    <div class="allsave">
+        <a>返回上一页</a>
+        <a>全部提交</a>
     </div>
 </div>
 <div class="searchbox">

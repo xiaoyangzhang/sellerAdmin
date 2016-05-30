@@ -86,13 +86,13 @@ public class ScenicManageEnhanceController extends BaseController {
         ScenicManageVO scenicManageVO = new  ScenicManageVO();
         long userId = sessionManager.getUserId() ;
         scenicManageVO.setSellerId(userId);
-        scenicManageVO.setCategoryId(6);
+        scenicManageVO.setCategoryId(233);
         CategoryResult categoryResult = categoryServiceRef.getCategory(scenicManageVO.getCategoryId());
         if(!categoryResult.isSuccess()||categoryResult.getCategroyDO()==null){
             log.error("类目信息错误");
             return "/error";
         }
-        CategoryDO categoryDO = categoryResult.getCategroyDO();
+                        CategoryDO categoryDO = categoryResult.getCategroyDO();
         if(CollectionUtils.isEmpty(categoryDO.getKeyCategoryPropertyDOs())){
             log.error("类目必要属性信息错误");
             return "/error";

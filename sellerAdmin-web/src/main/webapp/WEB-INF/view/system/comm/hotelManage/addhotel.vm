@@ -31,7 +31,7 @@
             <a class="choicehotel">查询酒店</a>
         </p>
         <div>
-            <span class="nm"><span class="bred">*</span><label>酒店信息：</label></span>
+            <span class="nm"><span class="bred">*</span><label>酒店房型：</label></span>
 					<span class="info-box clearfix">
 						<ul class="clearfix">
                             <li>
