@@ -145,6 +145,7 @@
 									#if($item.containsOperate('DELETE'))
 									<a class="btn btn-mini btn-link item-operate" href="javascript:void(0);" item-id="$!item.id" operate-type="DELETE">删除</a><br/>
         							#end
+                                    <a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/order/assessmentList?itemNo=$!{item.id}" target="_blank">查看评价</a><br/>
         						</td>
                             </tr>
         					#end
