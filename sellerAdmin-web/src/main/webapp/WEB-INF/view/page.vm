@@ -69,7 +69,6 @@
     <script type="text/javascript">
         $(function () {
             $(".LinkeToPage").click(function () {
-            alert(111);
                 pageFormSubmit($(this).attr("pageNo"), $("#pageSize").val());
             });
             $(".pageSize").val("$!pageVo.pageSize");
