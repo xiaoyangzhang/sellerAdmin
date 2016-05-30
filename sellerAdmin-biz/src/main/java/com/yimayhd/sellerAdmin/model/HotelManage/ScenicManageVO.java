@@ -48,6 +48,7 @@ public class ScenicManageVO extends BaseQuery {
     private List<TicketDO> ticketDOList;//景区门票类型
 
     private String  dynamicEntry;//列表参数  json
+    private List<BizCategoryInfo> bizCategoryInfoList;// 动态列表参数
 
     public long getSellerId() {
         return sellerId;
@@ -223,5 +224,13 @@ public class ScenicManageVO extends BaseQuery {
 
     public void setDynamicEntry(String dynamicEntry) {
         this.dynamicEntry = dynamicEntry;
+    }
+
+    public List<BizCategoryInfo> getBizCategoryInfoList() {
+        return bizCategoryInfoList;
+    }
+
+    public void setBizCategoryInfoList(List<BizCategoryInfo> bizCategoryInfoList) {
+        this.bizCategoryInfoList = bizCategoryInfoList;
     }
 }

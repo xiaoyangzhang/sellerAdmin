@@ -4,16 +4,14 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
+import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.Paginator;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
-import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
-import com.yimayhd.sellerAdmin.model.HotelManage.MultiChoice;
-import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
-import com.yimayhd.sellerAdmin.model.HotelManage.SupplierCalendarTemplate;
+import com.yimayhd.sellerAdmin.model.HotelManage.*;
 import com.yimayhd.sellerAdmin.service.hotelManage.HotelManageService;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.collections.CollectionUtils;
@@ -325,8 +323,11 @@ public class HotelManageController extends BaseController {
 		System.out.println("处理后:"+s);
 		String s2 = HtmlUtils.htmlUnescape(s);
 		System.out.println("不转义:"+s2);
-		String json = "{\"supplier_calendar\":{\"seller_id\":\"2088102122524333\",\"hotel_id\":\"123\",\"biz_list\":[{\"sku_id\":10012,\"state\":\"update\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"2088101117955611\"},{\"sku_id\":10012,\"state\":\"update\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"2088101117955611\"}]}}";
-		String json2="{\"seller_id\":\"2088102122524333\",\"hotel_id\":\"123\",\"biz_list\":[{\"sku_id\":10012,\"state\":\"update\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"2088101117955611\"},{\"sku_id\":10012,\"state\":\"update\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"2088101117955611\"}]}";
+		String json = "{\"supplier_calendar\":{\"seller_id\":\"2088102122524333\",\"hotel_id\":\"123\",\"bizSkuInfo\":[{\"sku_id\":10012,\"state\":\"update\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"2088101117955611\"},{\"sku_id\":10012,\"state\":\"update\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"2088101117955611\"}]}}";
+		String json2="{\"seller_id\":\"2088102122524333\",\"hotel_id\":\"123\",\"bizSkuInfo\":[{\"sku_id\":10012,\"state\":\"add\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"2088101117955611\"},{\"sku_id\":10012,\"state\":\"update\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"2088101117955611\"},\n" +
+				"{\"sku_id\":10012,\"state\":\"delete\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"2088101117955611\"},\n" +
+				"{\"sku_id\":10012,\"state\":\"bb\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"2088101117955611\"},\n" +
+				"{\"sku_id\":10012,\"state\":\"delete\",\"stock_num\":10,\"price\":\"8.8\",\"vTxt\":\"2088101117955611\"}]}";
 		JSONObject jsonObject = JSONObject.parseObject(json) ;
 		JSONArray jsonArray = jsonObject.getJSONArray("biz_list");
 		String supplier_calendar = jsonObject.get("supplier_calendar").toString();
@@ -334,6 +335,27 @@ public class HotelManageController extends BaseController {
 
 		SupplierCalendarTemplate template = (SupplierCalendarTemplate)CommonJsonUtil.jsonToObject(json2, SupplierCalendarTemplate.class);
 		System.out.println(template.getHotel_id());
+		BizSkuInfo[] bizSkuInfos = template.getBizSkuInfo();
+		System.out.println(bizSkuInfos.length);
+		for (BizSkuInfo biz :bizSkuInfos){
+			switch (biz.getState()) {
+				case "update":
+					System.out.println("update");
+					break;
+
+				case "delete":
+					System.out.println("delete");
+					break;
+
+				case "add":
+					System.out.println("add");
+					break;
+				default:
+					System.out.println("default");
+			}
+
+
+		}
 
 	}
 

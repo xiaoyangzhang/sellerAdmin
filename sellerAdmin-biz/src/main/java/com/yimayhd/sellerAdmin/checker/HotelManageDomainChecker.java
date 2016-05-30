@@ -27,7 +27,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 九牛-酒店信息check
@@ -46,6 +48,9 @@ public class HotelManageDomainChecker {
     private HotelDO hotelDO;
     private List<RoomDO> listRoomDO;
     private CategoryPropertyValueDO categoryPropertyValueDO;
+    private final String UPDATE = "update";
+    private final String ADD = "add";
+    private final String DEL = "delete";
 
 
     /***拼装商品信息参数end**/
@@ -201,12 +206,20 @@ public class HotelManageDomainChecker {
         /****sku价格日历***/
         // 价格日历 json解析
        // CategoryPropertyValueDO + 日期 存到 ItemSkuPVPair 中,每个sku 只有 一个 pv 属性
-        List<ItemSkuDO>  itemSkuDOList = addItemSkuDOList(hotelMessageVO.getSupplierCalendar());
-        if(CollectionUtils.isEmpty(itemSkuDOList)){
-            return null;
+        if(hotelMessageVO.getCurrentState()==UPDATE){
+           Map<String,Object> paramUp =  getUpdateItem(hotelMessageVO.getSupplierCalendar());
+            dto.setAddItemSkuDOList( paramUp.get(ADD)==null?null:(List<ItemSkuDO>)paramUp.get(ADD));
+            dto.setUpdItemSkuDOList( paramUp.get(UPDATE)==null?null:(List<ItemSkuDO>)paramUp.get(UPDATE));
+            dto.setDelItemSkuDOList(paramUp.get(DEL)==null?null:(List<Long>)paramUp.get(DEL));
+        }else{
+            List<ItemSkuDO>  itemSkuDOList = addItemSkuDOList(hotelMessageVO.getSupplierCalendar());
+            if(CollectionUtils.isEmpty(itemSkuDOList)){
+                return null;
+            }
+            dto.setItemSkuDOList(itemSkuDOList);//价格日历信息
         }
         dto.setItemDO(itemDO);//商品信息
-        dto.setItemSkuDOList(itemSkuDOList);//价格日历信息
+
         return dto;
     }
 
@@ -224,29 +237,84 @@ public class HotelManageDomainChecker {
         }
         SupplierCalendarTemplate template = (SupplierCalendarTemplate) CommonJsonUtil.jsonToObject(supplierCalendar, SupplierCalendarTemplate.class);
 
-        BizSkuInfo[] bizSkuInfos = template.getBizSkuInfos();
+        BizSkuInfo[] bizSkuInfos = template.getBizSkuInfo();
         List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>(bizSkuInfos.length);
         for (BizSkuInfo biz :bizSkuInfos){
-            ItemSkuDO sku = new ItemSkuDO();
-            sku.setSellerId(template.getSeller_id());//商家ID
-            sku.setCategoryId(hotelMessageVO.getCategoryId());//类目ID
-            sku.setPrice(biz.getvPrize());//价格
-            sku.setStockNum(biz.getStock_num());//库存
-            /**销售属性**/
-            List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
-            ItemSkuPVPair pvPair =new ItemSkuPVPair();
-            pvPair.setPId(categoryPropertyValueDO.getId());//销售属性ID
-            pvPair.setPTxt("2016-1-1");//日期格式化
-            pvPair.setVTxt(biz.getvTxt());//价格日期
-            pvPair.setPType(categoryPropertyValueDO.getType());
-            pvPair.setVId(-Integer.valueOf(biz.getvTxt()).intValue());
-            itemSkuPVPairList.add(pvPair);
-            sku.setItemSkuPVPairList(itemSkuPVPairList);
-            addItemSkuDOList.add(sku);
+            addItemSkuDOList.add(getItemSkuDOByBiz(template,biz));
         }
 
         return addItemSkuDOList;
+    }
 
+    /**
+     * 更新商品信息添加价格日历信息
+     * @param supplierCalendar
+     * @return
+     */
+    public Map<String,Object> getUpdateItem(String supplierCalendar){
+         List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>();
+         List<Long> delItemSkuDOList = new ArrayList<Long>();
+         List<ItemSkuDO> updItemSkuDOList = new ArrayList<ItemSkuDO>();
+
+        if (StringUtils.isBlank(supplierCalendar)){
+            return null;
+        }
+        if(categoryPropertyValueDO==null){
+            return null;
+        }
+        SupplierCalendarTemplate template = (SupplierCalendarTemplate) CommonJsonUtil.jsonToObject(supplierCalendar, SupplierCalendarTemplate.class);
+        BizSkuInfo[] bizSkuInfos = template.getBizSkuInfo();
+        for (BizSkuInfo biz :bizSkuInfos){
+            switch (biz.getState()) {
+                case UPDATE:
+                    ItemSkuDO upSkuDo  = getItemSkuDOByBiz(template,biz);
+                    /**更新sku需要回填对应的skuid*/
+                    upSkuDo.setId((Long)biz.getSku_id());
+                    updItemSkuDOList.add(upSkuDo);
+                    break;
+
+                case DEL:
+                    delItemSkuDOList.add((Long)biz.getSku_id());
+                    break;
+
+                case ADD:
+                    addItemSkuDOList.add(getItemSkuDOByBiz(template,biz));
+                    break;
+                default:
+                    System.out.println("default");
+            }
+
+
+        }
+        Map<String,Object>  sukparam = new HashMap<String,Object>();
+        sukparam.put(ADD,addItemSkuDOList);
+        sukparam.put(UPDATE,updItemSkuDOList);
+        sukparam.put(DEL,delItemSkuDOList);
+        return  sukparam;
+    }
+
+    /**
+     * 根据价格日历信息,拼装itemsku
+     * @param biz
+     * @return
+     */
+    public ItemSkuDO getItemSkuDOByBiz( SupplierCalendarTemplate template,BizSkuInfo biz){
+        ItemSkuDO sku = new ItemSkuDO();
+        sku.setSellerId(template.getSeller_id());//商家ID
+        sku.setCategoryId(hotelMessageVO.getCategoryId());//类目ID
+        sku.setPrice(biz.getvPrize());//价格
+        sku.setStockNum(biz.getStock_num());//库存
+        /**销售属性**/
+        List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
+        ItemSkuPVPair pvPair =new ItemSkuPVPair();
+        pvPair.setPId(categoryPropertyValueDO.getId());//销售属性ID
+        pvPair.setPTxt("2016-1-1");//日期格式化
+        pvPair.setVTxt(biz.getvTxt());//价格日期
+        pvPair.setPType(categoryPropertyValueDO.getType());
+        pvPair.setVId(-Integer.valueOf(biz.getvTxt()).intValue());
+        itemSkuPVPairList.add(pvPair);
+        sku.setItemSkuPVPairList(itemSkuPVPairList);
+        return sku;
     }
 
     /**

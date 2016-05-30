@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.repo;
 
+import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
@@ -8,6 +9,7 @@ import com.yimayhd.ic.client.model.param.item.ScenicPublishUpdateDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.model.result.item.CategoryResult;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.ic.client.model.result.item.SingleItemQueryResult;
@@ -103,6 +105,18 @@ public class ScenicManageRepo {
 	public WebResult<ScenicManageVO> addScenicManageVOByDdata(ScenicManageDomainChecker domain) throws Exception{
 		WebResult<ScenicManageVO> result = domain.getWebResult();
 		ScenicManageVO scenicManageVO = domain.getScenicManageVO();
+		CategoryResult categoryResult = categoryServiceRef.getCategory(domain.getScenicManageVO().getCategoryId());
+		if(!categoryResult.isSuccess()||categoryResult.getCategroyDO()==null){
+			log.error("类目信息错误");
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "类目信息错误");
+		}
+		if(CollectionUtils.isEmpty(categoryResult.getCategroyDO().getSellCategoryPropertyDOs())){
+			log.error("类目销售属性信息错误");
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "类目销售属性信息错误");
+		}
+		CategoryPropertyValueDO sellDO = categoryResult.getCategroyDO().getSellCategoryPropertyDOs().get(0);
+		/**类目销售属性**/
+		domain.setCategoryPropertyValueDO(sellDO);
 		ScenicPublishAddDTO scenicPublishAddDTO = new ScenicPublishAddDTO();
 		scenicPublishAddDTO.setItemDO(domain.getBizScenicPublishAddDTO());
 		scenicPublishAddDTO.setItemSkuList(domain.getAddBizItemSkuDOList());

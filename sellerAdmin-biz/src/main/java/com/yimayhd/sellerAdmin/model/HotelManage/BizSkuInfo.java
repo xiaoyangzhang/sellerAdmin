@@ -17,6 +17,8 @@ public class BizSkuInfo implements Serializable{
     private String vTxt;// 日期
     private long vPrize;
 
+
+
     public BizSkuInfo(){
 
     }

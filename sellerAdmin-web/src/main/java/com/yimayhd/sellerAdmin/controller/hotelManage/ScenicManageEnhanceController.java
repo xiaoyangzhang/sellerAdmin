@@ -1,11 +1,16 @@
 package com.yimayhd.sellerAdmin.controller.hotelManage;
 
+import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
+import com.yimayhd.ic.client.model.domain.item.CategoryDO;
+import com.yimayhd.ic.client.model.result.item.CategoryResult;
+import com.yimayhd.ic.client.service.item.CategoryService;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
 import com.yimayhd.sellerAdmin.service.hotelManage.ScenicManageService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +32,9 @@ public class ScenicManageEnhanceController extends BaseController {
     private static final Logger logger = LoggerFactory.getLogger(ScenicManageEnhanceController.class);
     @Autowired
     private ScenicManageService scenicManageService;
+    @Autowired
+    private CategoryService categoryServiceRef;
+
     /**
      * 查询景区资源列表
      * @param model
@@ -70,15 +78,30 @@ public class ScenicManageEnhanceController extends BaseController {
      */
     @RequestMapping(value = "/addScenicManageView")
     public String addScenicManageView(Model model){
+        //Long categoryId
         System.out.println("123123132");
         ScenicManageVO scenicManageVO = new  ScenicManageVO();
         long userId = sessionManager.getUserId() ;
         scenicManageVO.setSellerId(userId);
-        System.out.println(userId);
+        scenicManageVO.setCategoryId(6);
+        CategoryResult categoryResult = categoryServiceRef.getCategory(scenicManageVO.getCategoryId());
+        if(!categoryResult.isSuccess()||categoryResult.getCategroyDO()==null){
+            log.error("类目信息错误");
+            return "/error";
+        }
+        CategoryDO categoryDO = categoryResult.getCategroyDO();
+        if(CollectionUtils.isEmpty(categoryDO.getKeyCategoryPropertyDOs())){
+            log.error("类目必要属性信息错误");
+            return "/error";
+        }
+        if(CollectionUtils.isEmpty(categoryDO.getNonKeyCategoryPropertyDOs())){
+            log.error("类目非必要属性信息错误");
+            return "/error";
+        }
+       // CategoryPropertyValueDO sellDO = categoryDO.getKeyCategoryPropertyDOs().get(0);
         // 初始化属性列表
-        //List<MultiChoice> multiChoiceList = initMultiChoiceList(null);
         model.addAttribute("scenicManageVO", scenicManageVO);
-        //model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
+        model.addAttribute("categoryDO",categoryDO);// 最晚到店时间列表
         return "/system/comm/hotelManage/addticket";
     }
 
@@ -208,5 +231,13 @@ public class ScenicManageEnhanceController extends BaseController {
 
     public void setScenicManageService(ScenicManageService scenicManageService) {
         this.scenicManageService = scenicManageService;
+    }
+
+    public CategoryService getCategoryServiceRef() {
+        return categoryServiceRef;
+    }
+
+    public void setCategoryServiceRef(CategoryService categoryServiceRef) {
+        this.categoryServiceRef = categoryServiceRef;
     }
 }

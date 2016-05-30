@@ -60,6 +60,8 @@ public class HotelMessageVO extends BaseQuery {
 	private RoomMessageVO roomMessageVO;//房型
 	private List<RoomMessageVO> listRoomMessageVO;//房型信息
 
+	private String currentState;//当前操作状态,update,add,del
+
 	private long categoryId;
 
 	public long getSellerId() {
@@ -328,5 +330,13 @@ public class HotelMessageVO extends BaseQuery {
 
 	public void setItemId(long itemId) {
 		this.itemId = itemId;
+	}
+
+	public String getCurrentState() {
+		return currentState;
+	}
+
+	public void setCurrentState(String currentState) {
+		this.currentState = currentState;
 	}
 }

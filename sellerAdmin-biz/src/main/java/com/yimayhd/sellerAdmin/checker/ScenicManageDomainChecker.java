@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.checker;
 
+import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
+import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
@@ -7,11 +9,16 @@ import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.param.item.ItemPubUpdateDTO;
+import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.model.HotelManage.BizCategoryInfo;
+import com.yimayhd.sellerAdmin.model.HotelManage.BizSkuInfo;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
+import com.yimayhd.sellerAdmin.model.HotelManage.SupplierCalendarTemplate;
+import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
@@ -28,6 +35,7 @@ public class ScenicManageDomainChecker {
     private List<ItemSkuDO> itemSkuDOList;
 
     private CategoryDO category;
+    private  CategoryPropertyValueDO categoryPropertyValueDO;
     private  WebResult<PageVO<ScenicManageVO>> webPageResult;
 
     private  WebResult<ScenicManageVO> webResult;
@@ -121,10 +129,19 @@ public class ScenicManageDomainChecker {
         itemDO.getItemFeature().getTicketId();//门票ID
         itemDO.getItemFeature().getTicketTitle();//门票名称
         //动态添加 属性
+        List<CategoryPropertyValueDO> keyCateList = category.getKeyCategoryPropertyDOs();
+        List<CategoryPropertyValueDO> nonCateList =  category.getNonKeyCategoryPropertyDOs();
+        for (CategoryPropertyValueDO category :keyCateList){
+            BizCategoryInfo bizCategory = new BizCategoryInfo();
+            CategoryPropertyDO propertyDO =  category.getCategoryPropertyDO();
+            bizCategory.setCategoryId(category.getId());
+            bizCategory.setpId(propertyDO.getId());
+            bizCategory.setpTxt(propertyDO.getText());
+        }
+
         return scenicManageVO;
     }
     public ItemDO  getBizScenicPublishAddDTO() {
-
         ItemDO itemDO = new ItemDO();
         itemDO.setCategoryId(scenicManageVO.getCategoryId());
         itemDO.setOutId(scenicManageVO.getScenicId());//酒店ID
@@ -140,9 +157,6 @@ public class ScenicManageDomainChecker {
         itemFeature.put(ItemFeatureKey.TICKET_TITLE,scenicManageVO.getTicketTitle());
         itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,scenicManageVO.getStartBookTimeLimit());//提前预定天数
         itemDO.setItemFeature(itemFeature);
-        scenicManageVO.getDynamicEntry();//动态json列表
-
-
         return itemDO;
     }
 
@@ -178,11 +192,12 @@ public class ScenicManageDomainChecker {
      * @return
      */
     public  List<ItemSkuDO> getAddBizItemSkuDOList(){
-        if (StringUtils.isBlank(scenicManageVO.getSupplierCalendar())){
-            return null;
-        }
-        List<ItemSkuDO> itemSkuList = new ArrayList<ItemSkuDO>();
-        return  null;
+        List<ItemSkuDO> skuList = addItemSkuDOList(scenicManageVO.getSupplierCalendar());
+        String dyJson = scenicManageVO.getDynamicEntry();//动态json列表
+        List<CategoryPropertyValueDO> keyProList = category.getKeyCategoryPropertyDOs();
+        List<CategoryPropertyValueDO> nonProList=category.getNonKeyCategoryPropertyDOs();
+
+       return skuList;
     }
 
     public  List<ItemSkuDO> getUpdateBizItemSkuDOList(){
@@ -191,6 +206,53 @@ public class ScenicManageDomainChecker {
         }
         List<ItemSkuDO> itemSkuList = new ArrayList<ItemSkuDO>();
         return  null;
+    }
+
+    /**
+     * 拼装价格日历sku
+     * @param supplierCalendar
+     * @return
+     */
+    public  List<ItemSkuDO> addItemSkuDOList(String supplierCalendar){
+        if (StringUtils.isBlank(supplierCalendar)){
+            return null;
+        }
+        category.getSellCategoryPropertyDOs();
+        if(categoryPropertyValueDO==null){
+            return null;
+        }
+        SupplierCalendarTemplate template = (SupplierCalendarTemplate) CommonJsonUtil.jsonToObject(supplierCalendar, SupplierCalendarTemplate.class);
+
+        BizSkuInfo[] bizSkuInfos = template.getBizSkuInfo();
+        List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>(bizSkuInfos.length);
+        for (BizSkuInfo biz :bizSkuInfos){
+            addItemSkuDOList.add(getItemSkuDOByBiz(template,biz));
+        }
+
+        return addItemSkuDOList;
+    }
+    /**
+     * 根据价格日历信息,拼装itemsku
+     * @param biz
+     * @return
+     */
+    public ItemSkuDO getItemSkuDOByBiz( SupplierCalendarTemplate template,BizSkuInfo biz){
+        ItemSkuDO sku = new ItemSkuDO();
+        sku.setSellerId(template.getSeller_id());//商家ID
+        sku.setCategoryId(scenicManageVO.getCategoryId());//类目ID
+        sku.setPrice(biz.getvPrize());//价格
+        sku.setStockNum(biz.getStock_num());//库存
+        /**销售属性**/
+        List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
+        ItemSkuPVPair pvPair =new ItemSkuPVPair();
+        pvPair.setPId(categoryPropertyValueDO.getId());//销售属性ID
+        pvPair.setPTxt("2016-1-1");//日期格式化
+        pvPair.setVTxt(biz.getvTxt());//价格日期
+        pvPair.setPType(categoryPropertyValueDO.getType());
+        pvPair.setVId(-Integer.valueOf(biz.getvTxt()).intValue());
+        itemSkuPVPairList.add(pvPair);
+        sku.setItemSkuPVPairList(itemSkuPVPairList);
+        return sku;
     }
     /**
      * 景区详情参数校验
@@ -261,5 +323,13 @@ public class ScenicManageDomainChecker {
 
     public void setCategory(CategoryDO category) {
         this.category = category;
+    }
+
+    public CategoryPropertyValueDO getCategoryPropertyValueDO() {
+        return categoryPropertyValueDO;
+    }
+
+    public void setCategoryPropertyValueDO(CategoryPropertyValueDO categoryPropertyValueDO) {
+        this.categoryPropertyValueDO = categoryPropertyValueDO;
     }
 }
