@@ -135,7 +135,7 @@
     <table class="tb">
         <tr>
             <td class="tb-txt">景区名称：</td>
-            <td><input type="text" class="inputxt"></td>
+            <td><input type="text" class="inputxt" id="scenicName"></td>
             <td class="tb-txt">所在城市：</td>
             <td>
                 <select id="province"><option value="">--请选择--</option></select>
@@ -145,6 +145,8 @@
             </td>
         </tr>
     </table>
+    <img src="$!rs_path_jiuxiu/img/loading.gif" class='load_list'>
+
     <div class="sceniclist list"></div>
 </div>
 <script  type='text/temple' id='province-tpl'>
