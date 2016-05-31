@@ -3,10 +3,7 @@ package com.yimayhd.sellerAdmin.checker;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
-import com.yimayhd.ic.client.model.domain.item.ItemFeature;
-import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
-import com.yimayhd.ic.client.model.domain.item.RoomFeature;
+import com.yimayhd.ic.client.model.domain.item.*;
 import com.yimayhd.ic.client.model.enums.*;
 import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
@@ -41,6 +38,7 @@ public class HotelManageDomainChecker {
     private WebResult<Long> longWebResult;
     private WebResult<List<RoomMessageVO>> listRoomMessageVOResult;
 
+    private CategoryDO categoryDO;
     /***拼装商品信息参数start**/
     private ItemDO itemDO;
     private List<ItemSkuDO> itemSkuDOList;
@@ -192,6 +190,7 @@ public class HotelManageDomainChecker {
         itemDO.setDescription(hotelMessageVO.getDescription());//退订规则描述
         itemDO.setDomain(Constant.DOMAIN_JIUXIU);
         itemDO.setOptions(1);
+        itemDO.setItemType(categoryDO.getCategoryFeature().getItemType());
         /***feature**/
         ItemFeature itemFeature = new ItemFeature(null);
         //itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, CancelLimit.Ok.getType());
@@ -507,6 +506,14 @@ public class HotelManageDomainChecker {
 
     public void setListRoomMessageVOResult(WebResult<List<RoomMessageVO>> listRoomMessageVOResult) {
         this.listRoomMessageVOResult = listRoomMessageVOResult;
+    }
+
+    public CategoryDO getCategoryDO() {
+        return categoryDO;
+    }
+
+    public void setCategoryDO(CategoryDO categoryDO) {
+        this.categoryDO = categoryDO;
     }
 
     public static void main(String[] args) {
