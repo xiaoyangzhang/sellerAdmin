@@ -25,7 +25,7 @@
                     <label class="htn">如家酒店望京店</label>
                     <label class="smtt">地址：</label><label class="address">北京市海淀区中关村东路1号院</label>
                 </span>
-            <a class="choicescenic">查询景区</a>
+            <a class="searchScenic">查询景区</a>
         </p>
     </div>
     <div class="baseinfo ticketbaseinfo">

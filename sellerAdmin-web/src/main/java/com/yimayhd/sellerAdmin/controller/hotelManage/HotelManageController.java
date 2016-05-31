@@ -12,12 +12,14 @@ import com.yimayhd.sellerAdmin.base.Paginator;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.HotelManage.*;
 import com.yimayhd.sellerAdmin.service.hotelManage.HotelManageService;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,11 +43,14 @@ import java.util.List;
 @RequestMapping("/hotel")
 public class HotelManageController extends BaseController {
 	private static final Logger logger = LoggerFactory.getLogger(HotelManageController.class);
-	private final Integer pageNo=8;
+	private final Integer PAGESIZE=8;
 	private static final String UPDATE="update";
 
 	@Autowired
 	private HotelManageService hotelManageService;
+
+	@Value("${sellerAdmin.rootPath}")
+	private String rootPath;
 
 	/**
 	 * 选择列表
@@ -79,7 +84,7 @@ public class HotelManageController extends BaseController {
 		long userId = sessionManager.getUserId() ;
 		hotelMessageVO.setSellerId(userId);
 		System.out.println("userID:"+userId);
-		hotelMessageVO.setPageSize(8);
+		hotelMessageVO.setPageSize(PAGESIZE);
 		//hotelMessageVO.setPageNo(pageNo);//
 		WebResult<PageVO<HotelMessageVO>> result= hotelManageService.queryHotelMessageVOListByData(hotelMessageVO);
 		if(!result.isSuccess()){
@@ -100,7 +105,7 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("hotelMessageVOList", hotelMessageVOList);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("pageNo", pageResult.getPaginator().getPage());
-		model.addAttribute("pageSize",8);
+		model.addAttribute("pageSize",PAGESIZE);
 		model.addAttribute("totalCount", pageResult.getPaginator().getTotalItems());
 		return "/system/comm/hotelManage/searchhotel";
 	}
@@ -141,8 +146,8 @@ public class HotelManageController extends BaseController {
      */
 	@RequestMapping(value = "/addHotelMessageVOByData",method = RequestMethod.POST)
 	@ResponseBody
-	public WebResultSupport addHotelMessageVOByData(Model model, HotelMessageVO hotelMessageVO) throws Exception{
-		WebResultSupport message = new WebResultSupport();
+	public WebResult<String> addHotelMessageVOByData(Model model, HotelMessageVO hotelMessageVO) throws Exception{
+		WebResult<String> message = new WebResult<String>();
 		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==0){
 			message.initFailure(WebReturnCode.PARAM_ERROR,"酒店资源信息错误,无法添加商品");
 			return message;
@@ -166,7 +171,8 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("hotelMessageVO",hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
 		model.addAttribute("hotelMessageVO", result.getValue());
-		message.isSuccess();
+		String url = UrlHelper.getUrl(rootPath, "/item/list") ;
+		message.setValue(url);
 		return message;
 
 	}
@@ -184,7 +190,7 @@ public class HotelManageController extends BaseController {
 		HotelMessageVO hotelMessageVO = new HotelMessageVO();
 		long userId = sessionManager.getUserId() ;
 		hotelMessageVO.setSellerId(userId);
-		hotelMessageVO.setCategoryId(Long.valueOf(6));
+		hotelMessageVO.setCategoryId(33);
 		hotelMessageVO.setItemId(Long.valueOf(586));
 		if(hotelMessageVO==null){
 			// "编辑商品信息错误";
