@@ -9,8 +9,8 @@
 </head>
 
 	<input type="hidden" id="subpath" class="subpath" value="$!root_path/order/assessmentList">
-    <form class="reviewform" id="tradeListForm" name="tradeListForm"
-          action="$!root_path/order/assessmentList" >
+    <form class="form-signin" id="tradeListForm" name="tradeListForm"
+          action="$!root_path/order/assessmentList" role="form">
     <div class = "eredar-right">
         	<div class = "eredar-info clearfix">
 				<ul>
