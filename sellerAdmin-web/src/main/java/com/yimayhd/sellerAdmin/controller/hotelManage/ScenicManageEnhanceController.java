@@ -124,9 +124,12 @@ public class ScenicManageEnhanceController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/addScenicManageVOByDdata", method = RequestMethod.GET)
+    @RequestMapping(value = "/addScenicManageVOByDdata", method = RequestMethod.POST)
     public WebResult<String> addScenicManageVOByDdata(Model model, ScenicManageVO scenicManageVO ){
         WebResult<String> message = new WebResult<String>();
+        long userId = sessionManager.getUserId() ;
+        scenicManageVO.setSellerId(userId);
+        scenicManageVO.setCategoryId(233);
         if(scenicManageVO==null||scenicManageVO.getScenicId()==0){
             message.initFailure(WebReturnCode.PARAM_ERROR,"景区资源信息错误,无法添加商品");
             return message;

@@ -248,7 +248,6 @@ public class ScenicManageDomainChecker {
         if (StringUtils.isBlank(supplierCalendar)){
             return null;
         }
-        category.getSellCategoryPropertyDOs();
         if(categoryPropertyValueDO==null){
             return null;
         }

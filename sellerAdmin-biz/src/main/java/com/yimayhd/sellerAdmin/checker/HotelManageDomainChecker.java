@@ -7,10 +7,7 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.domain.item.RoomFeature;
-import com.yimayhd.ic.client.model.enums.CancelLimit;
-import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
-import com.yimayhd.ic.client.model.enums.ResourceType;
-import com.yimayhd.ic.client.model.enums.RoomNetwork;
+import com.yimayhd.ic.client.model.enums.*;
 import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
@@ -88,11 +85,10 @@ public class HotelManageDomainChecker {
     public HotelPageQuery getBizQueryModel() {
         HotelPageQuery hotelPageQuery = new HotelPageQuery();
         hotelPageQuery.setNeedCount(true);
-        if(hotelMessageVO.getHotelId()!=0){
-
-        }
+        hotelPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
+        hotelPageQuery.setStatus(ItemStatus.create.getValue());
         if(StringUtils.isNotBlank(hotelMessageVO.getName())){
-
+            hotelPageQuery.setName(hotelMessageVO.getName());
         }
         hotelPageQuery.setPageNo(hotelMessageVO.getPageNo());
         hotelPageQuery.setPageSize(hotelMessageVO.getPageSize());
