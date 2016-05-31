@@ -202,6 +202,7 @@ public class HotelManageDomainChecker {
         itemFeature.put(ItemFeatureKey.LATEST_ARRIVE_TIME,hotelMessageVO.getLatestArriveTime());//前端String转list
         itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,hotelMessageVO.getStartBookTimeLimit());//提前预定天数
         itemFeature.put(ItemFeatureKey.BREAKFAST,hotelMessageVO.getBreakfast());//早餐
+        itemFeature.put(ItemFeatureKey.PAY_MODE,hotelMessageVO.getPayType());//付款方式
         itemDO.setItemFeature(itemFeature);
         /****sku价格日历***/
         // 价格日历 json解析
