@@ -16,6 +16,7 @@ import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.HotelManage.*;
 import com.yimayhd.sellerAdmin.service.hotelManage.HotelManageService;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
+import com.yimayhd.sellerAdmin.util.DateCommon;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -378,6 +379,10 @@ public class HotelManageController extends BaseController {
 
 
 		}
+
+		long time =DateCommon.Date2Timestamp("2016-6-9 00:00:00");
+
+		System.out.println(time);
 
 	}
 

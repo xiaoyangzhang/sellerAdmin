@@ -17,6 +17,7 @@ import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.SupplierCalendarTemplate;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
+import com.yimayhd.sellerAdmin.util.DateCommon;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -309,8 +310,11 @@ public class HotelManageDomainChecker {
         List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
         ItemSkuPVPair pvPair =new ItemSkuPVPair();
         pvPair.setPId(categoryPropertyValueDO.getId());//销售属性ID
-        pvPair.setPTxt("2016-1-1");//日期格式化
+        long time = Long.parseLong(biz.getvTxt());
+        pvPair.setPTxt(DateCommon.timestamp2Date(time));//日期格式化
         pvPair.setVTxt(biz.getvTxt());//价格日期
+       // System.out.println("biz.getvTxt():"+biz.getvTxt()+",str:"+DateCommon.timestamp2Date(time));
+        //System.out.println("价格日期:"+biz.getvTxt());
         pvPair.setPType(categoryPropertyValueDO.getType());
         long l = Long.parseLong(biz.getvTxt());
         pvPair.setVId(-l);

@@ -22,6 +22,7 @@ import com.yimayhd.sellerAdmin.model.HotelManage.BizSkuInfo;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.SupplierCalendarTemplate;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
+import com.yimayhd.sellerAdmin.util.DateCommon;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -303,7 +304,9 @@ public class ScenicManageDomainChecker {
         List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
         ItemSkuPVPair pvPair =new ItemSkuPVPair();
         pvPair.setPId(categoryPropertyValueDO.getId());//销售属性ID
-        pvPair.setPTxt("2016-1-1");//日期格式化
+        long time = Long.parseLong(biz.getvTxt());
+        System.out.println(time);
+        pvPair.setPTxt(DateCommon.timestamp2Date(time));//日期格式化
         pvPair.setVTxt(biz.getvTxt());//价格日期
         pvPair.setPType(categoryPropertyValueDO.getType());
         long l = Long.parseLong(biz.getvTxt());
