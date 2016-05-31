@@ -3,24 +3,21 @@ package com.yimayhd.sellerAdmin.checker;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
-import com.yimayhd.ic.client.model.domain.item.ItemFeature;
-import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
-import com.yimayhd.ic.client.model.domain.item.RoomFeature;
-import com.yimayhd.ic.client.model.enums.CancelLimit;
-import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
-import com.yimayhd.ic.client.model.enums.ResourceType;
+import com.yimayhd.ic.client.model.domain.item.*;
+import com.yimayhd.ic.client.model.enums.*;
 import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.HotelManage.BizSkuInfo;
 import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.SupplierCalendarTemplate;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
+import com.yimayhd.sellerAdmin.util.DateCommon;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -42,6 +39,7 @@ public class HotelManageDomainChecker {
     private WebResult<Long> longWebResult;
     private WebResult<List<RoomMessageVO>> listRoomMessageVOResult;
 
+    private CategoryDO categoryDO;
     /***拼装商品信息参数start**/
     private ItemDO itemDO;
     private List<ItemSkuDO> itemSkuDOList;
@@ -86,11 +84,10 @@ public class HotelManageDomainChecker {
     public HotelPageQuery getBizQueryModel() {
         HotelPageQuery hotelPageQuery = new HotelPageQuery();
         hotelPageQuery.setNeedCount(true);
-        if(hotelMessageVO.getHotelId()!=0){
-
-        }
+        hotelPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
+        hotelPageQuery.setStatus(ItemStatus.valid.getValue());
         if(StringUtils.isNotBlank(hotelMessageVO.getName())){
-
+            hotelPageQuery.setName(hotelMessageVO.getName());
         }
         hotelPageQuery.setPageNo(hotelMessageVO.getPageNo());
         hotelPageQuery.setPageSize(hotelMessageVO.getPageSize());
@@ -161,8 +158,8 @@ public class HotelManageDomainChecker {
         HotelMessageVO model = new HotelMessageVO();
         model.setHotelId(_do.getId());
         model.setName(_do.getName());
-        model.setAddress(_do.getLocationText());
-        model.setArea(_do.getLocationProvinceName()+"/"+_do.getLocationCityName()+"/"+_do.getLocationCityName());
+        model.setLocationText(_do.getLocationText());
+        model.setArea(_do.getLocationProvinceName()+"/"+_do.getLocationCityName()+"/"+_do.getLocationTownName());
         List<String> phoneList = _do.getPhoneNum();
         if(CollectionUtils.isNotEmpty(phoneList)){
             model.setPhone(phoneList.get(0));
@@ -192,6 +189,9 @@ public class HotelManageDomainChecker {
         itemDO.setCode(hotelMessageVO.getCode());//商品代码
         itemDO.setPayType(hotelMessageVO.getPayType());//付款方式
         itemDO.setDescription(hotelMessageVO.getDescription());//退订规则描述
+        itemDO.setDomain(Constant.DOMAIN_JIUXIU);
+        itemDO.setOptions(1);
+        itemDO.setItemType(categoryDO.getCategoryFeature().getItemType());
         /***feature**/
         ItemFeature itemFeature = new ItemFeature(null);
         //itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, CancelLimit.Ok.getType());
@@ -199,7 +199,7 @@ public class HotelManageDomainChecker {
         itemFeature.put(ItemFeatureKey.ROOM_ID,hotelMessageVO.getRoomId());//房型ID
 
         itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, hotelMessageVO.getCancelLimit());//退订规则
-        itemFeature.put(ItemFeatureKey.LATEST_CHECKIN,hotelMessageVO.getLatestCheckin());//前端String转list
+        itemFeature.put(ItemFeatureKey.LATEST_ARRIVE_TIME,hotelMessageVO.getLatestArriveTime());//前端String转list
         itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,hotelMessageVO.getStartBookTimeLimit());//提前预定天数
         itemFeature.put(ItemFeatureKey.BREAKFAST,hotelMessageVO.getBreakfast());//早餐
         itemDO.setItemFeature(itemFeature);
@@ -235,6 +235,8 @@ public class HotelManageDomainChecker {
         if(categoryPropertyValueDO==null){
             return null;
         }
+        String ss = supplierCalendar;
+        System.out.println("supplierCalendar:"+supplierCalendar);
         SupplierCalendarTemplate template = (SupplierCalendarTemplate) CommonJsonUtil.jsonToObject(supplierCalendar, SupplierCalendarTemplate.class);
 
         BizSkuInfo[] bizSkuInfos = template.getBizSkuInfo();
@@ -308,10 +310,14 @@ public class HotelManageDomainChecker {
         List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
         ItemSkuPVPair pvPair =new ItemSkuPVPair();
         pvPair.setPId(categoryPropertyValueDO.getId());//销售属性ID
-        pvPair.setPTxt("2016-1-1");//日期格式化
-        pvPair.setVTxt(biz.getvTxt());//价格日期
+        String vTxt = biz.getvTxt();
+        long time = Long.parseLong(vTxt);
+        pvPair.setPTxt(DateCommon.timestampLongDate(time));//日期格式化
+        pvPair.setVTxt(vTxt);//价格日期
+       // System.out.println("biz.getvTxt():"+biz.getvTxt()+",str:"+DateCommon.timestamp2Date(time));
+        //System.out.println("价格日期:"+biz.getvTxt());
         pvPair.setPType(categoryPropertyValueDO.getType());
-        pvPair.setVId(-Integer.valueOf(biz.getvTxt()).intValue());
+        pvPair.setVId(-time);
         itemSkuPVPairList.add(pvPair);
         sku.setItemSkuPVPairList(itemSkuPVPairList);
         return sku;
@@ -334,8 +340,8 @@ public class HotelManageDomainChecker {
         hotelMessageVO.setRoomId(itemFeature.getRoomId());// 房型ID
         hotelMessageVO.setCancelLimit(itemFeature.getCancelLimit());//退订规则
         hotelMessageVO.setCancelLimitStr(CancelLimit.getByType(itemFeature.getCancelLimit()).getDesc());//退订规则 string
-        hotelMessageVO.setLatestCheckin(itemFeature.getLatestCheckin());//最后到点时间
-        hotelMessageVO.setStartBookTimeLimit(itemFeature.getStartBookTimeLimit());// 提前预定天数
+        hotelMessageVO.setLatestArriveTime(itemFeature.getLatestArriveTime());//最后到点时间
+        hotelMessageVO.setStartBookTimeLimit(Long.valueOf(itemFeature.getStartBookTimeLimit()));// 提前预定天数
         hotelMessageVO.setBreakfast(itemFeature.getBreakfast());//早餐
         /**价格日历**/
         hotelMessageVO.setSupplierCalendar(getSupplierCalendarJson());
@@ -353,15 +359,21 @@ public class HotelManageDomainChecker {
         if(CollectionUtils.isEmpty(itemSkuDOList)){
             return null;
         }
+        SupplierCalendarTemplate temp = new SupplierCalendarTemplate();
+        temp.setSeller_id(itemDO.getSellerId());//商家ID
+        temp.setHotel_id(itemDO.getOutId());
+        List<BizSkuInfo> bizArr = new ArrayList<>(itemSkuDOList.size());
         for(ItemSkuDO sku: itemSkuDOList){
-            sku.getId();
-            sku.getSellerId();//商家ID
-            sku.getPrice();//价格
-            sku.getStockNum();//库存
+            BizSkuInfo bizSkuInfo = new BizSkuInfo();
+            bizSkuInfo.setSku_id(sku.getId());
+            bizSkuInfo.setPrice(new BigDecimal(sku.getPrice()));;//价格
+            bizSkuInfo.setStock_num(sku.getStockNum());//库存
             ItemSkuPVPair pvp = sku.getItemSkuPVPairList().get(0);
-            pvp.getVTxt();//日期
+            bizSkuInfo.setvTxt(pvp.getVTxt());//日期
+            bizArr.add(bizSkuInfo);
         }
-
+        temp.setBizSkuInfo((BizSkuInfo[])bizArr.toArray());
+        json = CommonJsonUtil.objectToJson(temp,SupplierCalendarTemplate.class);
         return json;
 
     }
@@ -385,8 +397,18 @@ public class HotelManageDomainChecker {
             vo.setArea(roomFeature.getArea());
             vo.setBed(roomFeature.getBed());
             vo.setWindow(roomFeature.getWindow());
+            List<Integer> netList = roomFeature.getNetwork();
+            StringBuffer sb = new StringBuffer();
+            if(CollectionUtils.isNotEmpty(netList)){
+                for(Integer network:netList){
+                    sb.append(RoomNetwork.getByType(network.intValue()).getDesc());
+                    sb.append(" ");
+                }
+                vo.setNetworkStr(sb.toString());
+            }
             vo.setNetwork(roomFeature.getNetwork());
             vo.setPeople(roomFeature.getPeople());
+            roomList.add(vo);
         }
         return roomList;
 
@@ -490,11 +512,20 @@ public class HotelManageDomainChecker {
         this.listRoomMessageVOResult = listRoomMessageVOResult;
     }
 
+    public CategoryDO getCategoryDO() {
+        return categoryDO;
+    }
+
+    public void setCategoryDO(CategoryDO categoryDO) {
+        this.categoryDO = categoryDO;
+    }
+
     public static void main(String[] args) {
 
         System.out.println(ItemFeatureKey.CANCEL_LIMIT);
         String aa = "{\\\"supplier_calendar\\\":{\\\"seller_id\\\":\\\"2088102122524333\\\",\\\"biz_list\\\":[{\\\"stock_num\\\":10,\\\"price\\\":\\\"8.8\\\",\\\"vTxt\\\":\\\"2088101117955611\\\"}]}}";
     }
+
 
 
 }

@@ -19,6 +19,10 @@ public class ScenicManageVO extends BaseQuery {
     private long originalPrice;//门市价格
     private int ticketId;//票型ID
     private String ticketTitle;//票型名称
+    private String area;//区域
+    private long subjectId;// 主题ID
+    private String subjectName;//主题名称
+
 
 
 //    private Integer provinceId;//省id
@@ -232,5 +236,29 @@ public class ScenicManageVO extends BaseQuery {
 
     public void setBizCategoryInfoList(List<BizCategoryInfo> bizCategoryInfoList) {
         this.bizCategoryInfoList = bizCategoryInfoList;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public long getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(long subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
     }
 }

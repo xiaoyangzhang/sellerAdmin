@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class SupplierCalendarTemplate implements Serializable {
     private long seller_id;//商户ID
-    private String hotel_id;//酒店ID
+    private long hotel_id;//酒店ID
     private BizSkuInfo [] bizSkuInfo;
 
     private static final long serialVersionUID = -2261577874092027812L;
@@ -28,14 +28,13 @@ public class SupplierCalendarTemplate implements Serializable {
         return serialVersionUID;
     }
 
-    public String getHotel_id() {
+    public long getHotel_id() {
         return hotel_id;
     }
 
-    public void setHotel_id(String hotel_id) {
+    public void setHotel_id(long hotel_id) {
         this.hotel_id = hotel_id;
     }
-
 
     public BizSkuInfo[] getBizSkuInfo() {
         return bizSkuInfo;

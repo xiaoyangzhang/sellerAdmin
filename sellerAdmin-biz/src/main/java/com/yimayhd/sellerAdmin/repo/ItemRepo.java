@@ -2,6 +2,9 @@ package com.yimayhd.sellerAdmin.repo;
 
 import java.util.Arrays;
 
+import com.yimayhd.ic.client.model.domain.item.ItemInfo;
+import com.yimayhd.ic.client.model.result.ICPageResult;
+import com.yimayhd.ic.client.service.item.ItemBizQueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +31,10 @@ public class ItemRepo {
 	private ItemQueryService	itemQueryServiceRef;
 	@Autowired
 	private ItemPublishService	itemPublishServiceRef;
+	@Autowired
+	private ItemBizQueryService itemBizQueryServiceRef;
 
-	public ItemPageResult getItemList(ItemQryDTO itemQryDTO) {
+/*	public ItemPageResult getItemList(ItemQryDTO itemQryDTO) {
 		if (itemQryDTO == null) {
 			throw new BaseException("参数为null,查询商品列表失败 ");
 		}
@@ -38,8 +43,17 @@ public class ItemRepo {
 		ItemPageResult itemPageResult = itemQueryServiceRef.getItem(itemQryDTO);
 		RepoUtils.resultLog(log, "itemQueryServiceRef.getItem", itemPageResult);
 		return itemPageResult;
+	}*/
+	public ICPageResult<ItemInfo> getItemList(ItemQryDTO itemQryDTO) {
+		if (itemQryDTO == null) {
+			throw new BaseException("参数为null,查询商品列表失败 ");
+		}
+		itemQryDTO.setDomains(Arrays.asList(Constant.DOMAIN_JIUXIU));
+		RepoUtils.requestLog(log, "itemBizQueryServiceRef.getItem", itemQryDTO);
+		ICPageResult<ItemInfo> pageResult = itemBizQueryServiceRef.getItem(itemQryDTO);
+		RepoUtils.resultLog(log, "itemBizQueryServiceRef.getItem", pageResult);
+		return pageResult;
 	}
-
 	public ItemResult getItemDetail(long sellerId, long itemId) {
 		ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
 		// 全部设置成true

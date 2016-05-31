@@ -1,6 +1,4 @@
 #set($layout = "/layout/layout_non.vm")
-
-
 <table>
     <thead>
     <tr>
@@ -9,20 +7,25 @@
         <th>区域</th>
         <th>地址</th>
         <th>电话</th>
-        <th>详情</th>
     </tr>
     </thead>
     <tbody>
-  #foreach($hotelMessageVO in $hotelMessageVOList)
-    <tr>
-        <td><input type="radio" name="hotelGroup" value="$!{hotelMessageVO.hotelId}"></td>
-        <td>$!{hotelMessageVO.name}</td>
-        <td>$!{hotelMessageVO.area}</td>
-        <td>$!{hotelMessageVO.locationText}</td>
-        <td>$!{hotelMessageVO.phone}</td>
-        <td><a>查看详情</a></td>
-    </tr>
+  #if($errorInfo!="")
+     <tr>
+         $!{errorInfo}
+     </tr>
+  #else
+      #foreach($hotelMessageVO in $hotelMessageVOList)
+      <tr>
+          <td><input type="radio" name="hotelGroup" value="$!{hotelMessageVO.hotelId}"></td>
+          <td  class="hotel-name">$!{hotelMessageVO.name}</td>
+          <td>$!{hotelMessageVO.area}</td>
+          <td class="hotel-address">$!{hotelMessageVO.locationText}</td>
+          <td class="hotel-tel">$!{hotelMessageVO.phone}</td>
+      </tr>
+      #end
   #end
+
     </tbody>
 </table>
 #parse("/page_jiuniu.vm")

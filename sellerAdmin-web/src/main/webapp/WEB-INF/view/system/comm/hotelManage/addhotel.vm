@@ -8,10 +8,7 @@
     <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/addhotelproduct.css">
 </head>
 <!-- head end-->
-<input type="hidden" class="picCode baseInfo-picCode" name="hotelId" value="$!{hotelMessageVO.hotelId}">
-<input type="hidden" class="picCode baseInfo-picCode" name="name" value="$!{hotelMessageVO.name}">
-<input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{hotelMessageVO.supplierCalendar}">
-<input type="hidden" class="picCode baseInfo-picCode" name="roomId" value="$!{hotelMessageVO.roomId}">
+
 <div class = "eredar-info clearfix">
     <ul>
         <li class = "first on">选择酒店</li>
@@ -24,183 +21,32 @@
         <p>
             <span class="nm"><span class="bred">*</span><label>酒店信息：</label></span>
 					<span class="info-bar">
-						<label class="htn">如家酒店望京店</label>
-						<label class="smtt">地址：</label><label class="address">北京市海淀区中关村东路1号院</label>
-						|<label class="smtt">电话：</label><label class="tel">010-83122549</label>
+						<label class="htn"></label>
+						<label class="smtt">地址：</label><label class="address"></label>
+						|<label class="smtt">电话：</label><label class="tel"></label>
 					</span>
             <a class="choicehotel">查询酒店</a>
         </p>
-        <div>
-            <span class="nm"><span class="bred">*</span><label>酒店信息：</label></span>
+        <div class='load_room'><img src="$!rs_path_jiuxiu/img/loading.gif"></div>
+        <div class="hotelcol">
+            <span class="nm"><span class="bred">*</span><label>酒店房型：</label></span>
 					<span class="info-box clearfix">
-						<ul class="clearfix">
-                            <li>
-                                <div class="radio-bar clearfix">
-                                    <label class="fl"><input type="radio" name="gp"> 房型1</label>
-                                    <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
-                                </div>
-                                <div class="bar-box">
-                                    <ul class="clearfix">
-                                        <li>
-                                            <label>房型：</label>
-                                            <label>房型说明</label>
-                                        </li>
-                                        <li>
-                                            <label>面积：</label>
-                                            <label>120平方米</label>
-                                        </li>
-                                        <li>
-                                            <label>床型：</label>
-                                            <label>大床1.8m</label>
-                                        </li>
-                                        <li>
-                                            <label>可住：</label>
-                                            <label>2人</label>
-                                        </li>
-                                        <li>
-                                            <label>网络：</label>
-                                            <label>有wifi</label>
-                                        </li>
-                                        <li>
-                                            <label>窗户：</label>
-                                            <label>有窗</label>
-                                        </li>
-                                    </ul>
-                                    <div class="img-group">
-                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="radio-bar clearfix">
-                                    <label class="fl"><input type="radio" name="gp"> 房型2</label>
-                                    <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
-                                </div>
-                                <div class="bar-box">
-                                    <ul class="clearfix">
-                                        <li>
-                                            <label>房型：</label>
-                                            <label>房型说明</label>
-                                        </li>
-                                        <li>
-                                            <label>面积：</label>
-                                            <label>120平方米</label>
-                                        </li>
-                                        <li>
-                                            <label>床型：</label>
-                                            <label>大床1.8m</label>
-                                        </li>
-                                        <li>
-                                            <label>可住：</label>
-                                            <label>2人</label>
-                                        </li>
-                                        <li>
-                                            <label>网络：</label>
-                                            <label>有wifi</label>
-                                        </li>
-                                        <li>
-                                            <label>窗户：</label>
-                                            <label>有窗</label>
-                                        </li>
-                                    </ul>
-                                    <div class="img-group">
-                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="radio-bar clearfix">
-                                    <label class="fl"><input type="radio" name="gp"> 房型3</label>
-                                    <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
-                                </div>
-                                <div class="bar-box">
-                                    <ul class="clearfix">
-                                        <li>
-                                            <label>房型：</label>
-                                            <label>房型说明</label>
-                                        </li>
-                                        <li>
-                                            <label>面积：</label>
-                                            <label>120平方米</label>
-                                        </li>
-                                        <li>
-                                            <label>床型：</label>
-                                            <label>大床1.8m</label>
-                                        </li>
-                                        <li>
-                                            <label>可住：</label>
-                                            <label>2人</label>
-                                        </li>
-                                        <li>
-                                            <label>网络：</label>
-                                            <label>有wifi</label>
-                                        </li>
-                                        <li>
-                                            <label>窗户：</label>
-                                            <label>有窗</label>
-                                        </li>
-                                    </ul>
-                                    <div class="img-group">
-                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="radio-bar clearfix">
-                                    <label class="fl"><input type="radio" name="gp"> 房型4</label>
-                                    <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
-                                </div>
-                                <div class="bar-box">
-                                    <ul class="clearfix">
-                                        <li>
-                                            <label>房型：</label>
-                                            <label>房型说明</label>
-                                        </li>
-                                        <li>
-                                            <label>面积：</label>
-                                            <label>120平方米</label>
-                                        </li>
-                                        <li>
-                                            <label>床型：</label>
-                                            <label>大床1.8m</label>
-                                        </li>
-                                        <li>
-                                            <label>可住：</label>
-                                            <label>2人</label>
-                                        </li>
-                                        <li>
-                                            <label>网络：</label>
-                                            <label>有wifi</label>
-                                        </li>
-                                        <li>
-                                            <label>窗户：</label>
-                                            <label>有窗</label>
-                                        </li>
-                                    </ul>
-                                    <div class="img-group">
-                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                        <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
 					</span>
         </div>
         <div class="savenext">
-            <a>保存并下一步</a>
+            <a class="save-to-baseinfo">保存并下一步</a>
         </div>
     </div>
 </div>
 <div class="panel">
     <div class="baseinfo">
         <form id="hotelfm">
+            <input type="hidden" class="picCode baseInfo-picCode" name="hotelId" value="$!{hotelMessageVO.hotelId}">
+            <input type="hidden" class="picCode baseInfo-picCode" name="name" value="$!{hotelMessageVO.name}">
+            <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{hotelMessageVO.supplierCalendar}">
+            <input type="hidden" class="picCode baseInfo-picCode" name="roomId" value="0">
+            <input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{hotelMessageVO.sellerId}">
+            <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{hotelMessageVO.categoryId}">
             <table>
                 <tr>
                     <td class="coltxt">商品类型：</td>
@@ -228,9 +74,9 @@
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>退订限制：</td>
                     <td>
-                        <label class="radio"><input type="radio" name="cancelLimit" #if($!hotelMessageVO.cancelLimit == 1) checked #end>可退</label>
-                        <label class="radio"><input type="radio" name="cancelLimit" #if($!hotelMessageVO.cancelLimit == 2) checked #end>不可退</label>
-                        <label class="radio"><input type="radio" name="cancelLimit" #if($!hotelMessageVO.cancelLimit == 3) checked #end>免费退</label>
+                        <label class="radio"><input type="radio" name="cancelLimit" value="1"  #if($!hotelMessageVO.cancelLimit == 1) checked #end>可退</label>
+                        <label class="radio"><input type="radio" name="cancelLimit" value="2"  #if($!hotelMessageVO.cancelLimit == 2) checked #end>不可退</label>
+                        <label class="radio"><input type="radio" name="cancelLimit" value="3"  #if($!hotelMessageVO.cancelLimit == 3) checked #end>免费退</label>
                     </td>
                 </tr>
                 <tr>
@@ -256,8 +102,8 @@
             </table>
         </form>
         <div class="btngroup">
-            <a>返回上一页</a>
-            <a>保存并下一步</a>
+            <a class="backprev">返回上一页</a>
+            <a class="save-to-picker">保存并下一步</a>
         </div>
     </div>
 </div>
@@ -314,7 +160,7 @@
     </div>
     <label class="bred ml30">*</label><label class="gray9">按住Ctrl键，可实现多选日期。</label>
     <div class="allsave">
-        <a>返回上一页</a>
+        <a class="backprev">返回上一页</a>
         <a class="allsub">全部提交</a>
     </div>
 </div>
@@ -325,9 +171,9 @@
             <td><input type="text" id="hotelname" class="inputxt"></td>
             <td class="tb-txt">所在城市：</td>
             <td>
-                <select id="province"><option value="">--请选择--</option></select>
-                <select id="city" class="ml10"><option value="">--请选择--</option></select>
-                <select id="area" class="ml10"><option value="">--请选择--</option></select>
+                <select id="province"><option value="0">--请选择--</option></select>
+                <select id="city" class="ml10"><option value="0">--请选择--</option></select>
+                <select id="area" class="ml10"><option value="0">--请选择--</option></select>
                 <button class="search-btn">搜索</button>
             </td>
         </tr>
