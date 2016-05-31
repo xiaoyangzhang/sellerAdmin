@@ -27,6 +27,7 @@
 					</span>
             <a class="choicehotel">查询酒店</a>
         </p>
+        <img src="$!rs_path_jiuxiu/img/loading.gif" class='load_room'>
         <div class="hotelcol">
             <span class="nm"><span class="bred">*</span><label>酒店房型：</label></span>
 					<span class="info-box clearfix">
@@ -43,7 +44,7 @@
             <input type="hidden" class="picCode baseInfo-picCode" name="hotelId" value="$!{hotelMessageVO.hotelId}">
             <input type="hidden" class="picCode baseInfo-picCode" name="name" value="$!{hotelMessageVO.name}">
             <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{hotelMessageVO.supplierCalendar}">
-            <input type="hidden" class="picCode baseInfo-picCode" name="roomId" value="">
+            <input type="hidden" class="picCode baseInfo-picCode" name="roomId" value="0">
             <table>
                 <tr>
                     <td class="coltxt">商品类型：</td>

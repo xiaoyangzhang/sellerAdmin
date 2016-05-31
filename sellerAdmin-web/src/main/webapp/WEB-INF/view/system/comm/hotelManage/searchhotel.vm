@@ -10,15 +10,22 @@
     </tr>
     </thead>
     <tbody>
-  #foreach($hotelMessageVO in $hotelMessageVOList)
-    <tr>
-        <td><input type="radio" name="hotelGroup" value="$!{hotelMessageVO.hotelId}"></td>
-        <td  class="hotel-name">$!{hotelMessageVO.name}</td>
-        <td>$!{hotelMessageVO.area}</td>
-        <td class="hotel-address">$!{hotelMessageVO.locationText}</td>
-        <td class="hotel-tel">$!{hotelMessageVO.phone}</td>
-    </tr>
+  #if($errorInfo!="")
+     <tr>
+         $!{errorInfo}
+     </tr>
+  #else
+      #foreach($hotelMessageVO in $hotelMessageVOList)
+      <tr>
+          <td><input type="radio" name="hotelGroup" value="$!{hotelMessageVO.hotelId}"></td>
+          <td  class="hotel-name">$!{hotelMessageVO.name}</td>
+          <td>$!{hotelMessageVO.area}</td>
+          <td class="hotel-address">$!{hotelMessageVO.locationText}</td>
+          <td class="hotel-tel">$!{hotelMessageVO.phone}</td>
+      </tr>
+      #end
   #end
+
     </tbody>
 </table>
 #parse("/page_jiuniu.vm")

@@ -12,6 +12,7 @@ import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.model.HotelManage.BizCategoryInfo;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
 import com.yimayhd.sellerAdmin.service.hotelManage.ScenicManageService;
+import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -111,7 +112,9 @@ public class ScenicManageEnhanceController extends BaseController {
        // CategoryPropertyValueDO sellDO = categoryDO.getKeyCategoryPropertyDOs().get(0);
         // 初始化属性列表
         model.addAttribute("scenicManageVO", scenicManageVO);
-        model.addAttribute("categoryDO",categoryDO);// 最晚到店时间列表
+        //model.addAttribute("categoryDO",categoryDO);// 最晚到店时间列表
+        String json  = CommonJsonUtil.objectToJson(bizCategoryInfoList,List.class);
+        System.out.println("dynamicEntry:"+json);
         model.addAttribute("bizCategoryInfoList",bizCategoryInfoList);// 最晚到店时间列表
         return "/system/comm/hotelManage/addticket";
     }
