@@ -7,7 +7,6 @@
         <th>区域</th>
         <th>地址</th>
         <th>电话</th>
-        <th>详情</th>
     </tr>
     </thead>
     <tbody>
@@ -18,7 +17,6 @@
         <td>$!{hotelMessageVO.area}</td>
         <td class="hotel-address">$!{hotelMessageVO.locationText}</td>
         <td class="hotel-tel">$!{hotelMessageVO.phone}</td>
-        <td><a>查看详情</a></td>
     </tr>
   #end
     </tbody>

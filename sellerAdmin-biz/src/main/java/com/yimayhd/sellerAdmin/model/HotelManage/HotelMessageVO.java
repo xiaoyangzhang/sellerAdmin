@@ -16,13 +16,12 @@ public class HotelMessageVO extends BaseQuery {
 	private long hotelId;//酒店ID
 	private String name;//酒店名称
 	private String area;//酒店区域
-	private String address;//酒店地址
 	private String phone;//酒店电话
 
 //	private Long provinceId;//省id
 //	private Long cityId;//市id
 //	private Long townId;//区id
-	private String locationText;
+	private String locationText;//地址
 
 	private long locationProvinceId;
 
@@ -36,7 +35,7 @@ public class HotelMessageVO extends BaseQuery {
 
 	private String locationTownName;
 
-
+	private Long startBookTimeLimit;// 提前预定天数
 
 	private String title; // '标题',
 	private String code; // '商品代码',
@@ -51,8 +50,9 @@ public class HotelMessageVO extends BaseQuery {
 	private String description;// 退订规则
 	private List<Integer> latestCheckin;//最晚到店时间 中台
 	private String storeLastTime;// 最晚到店时间
-	private long startBookTimeLimit;// 提前预定天数
+
 	private long breakfast;//早餐
+	private String breakfastStr;
 	//{"supplier_calendar":{ "seller_id":"2088102122524333","biz_list":[{"stock_num":10,"price":"8.8","vTxt":"2088101117955611"}]}}
 	private String supplierCalendar;//价格日历json 信息,
 	private long roomId;//房型ID
@@ -96,13 +96,6 @@ public class HotelMessageVO extends BaseQuery {
 		this.area = area;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
 
 	public String getPhone() {
 		return phone;
@@ -245,13 +238,6 @@ public class HotelMessageVO extends BaseQuery {
 		return storeLastTime;
 	}
 
-	public long getStartBookTimeLimit() {
-		return startBookTimeLimit;
-	}
-
-	public void setStartBookTimeLimit(long startBookTimeLimit) {
-		this.startBookTimeLimit = startBookTimeLimit;
-	}
 
 	public long getBreakfast() {
 		return breakfast;
@@ -338,5 +324,21 @@ public class HotelMessageVO extends BaseQuery {
 
 	public void setCurrentState(String currentState) {
 		this.currentState = currentState;
+	}
+
+	public String getBreakfastStr() {
+		return breakfastStr;
+	}
+
+	public void setBreakfastStr(String breakfastStr) {
+		this.breakfastStr = breakfastStr;
+	}
+
+	public Long getStartBookTimeLimit() {
+		return startBookTimeLimit;
+	}
+
+	public void setStartBookTimeLimit(Long startBookTimeLimit) {
+		this.startBookTimeLimit = startBookTimeLimit;
 	}
 }

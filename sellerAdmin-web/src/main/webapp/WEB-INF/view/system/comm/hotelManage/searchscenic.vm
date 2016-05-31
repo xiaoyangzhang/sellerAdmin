@@ -1,6 +1,4 @@
 #set($layout = "/layout/layout_non.vm")
-
-
 <table>
     <thead>
     <tr>
@@ -17,9 +15,9 @@
   #foreach($scenicManageVO in $scenicManageVOList)
     <tr>
         <td><input type="radio" name="scenicGroup" value="$!{scenicManageVO.scenicId}"></td>
-        <td>$!{scenicManageVO.name}</td>
-        <td>$!{scenicManageVO.area}</td>
-        <td>$!{scenicManageVO.locationText}</td>
+        <td class="scenic-name">$!{scenicManageVO.name}</td>
+        <td class="scenic-area">$!{scenicManageVO.area}</td>
+        <td class="scenic-locationText" >$!{scenicManageVO.locationText}</td>
         <td>$!{scenicManageVO.subjectId}</td>
         <td>$!{scenicManageVO.level}</td>
         <td><a>查看详情</a></td>

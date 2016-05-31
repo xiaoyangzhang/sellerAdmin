@@ -33,7 +33,6 @@ public class HotelManageServiceImpl implements HotelManageService {
 	@Override
 	public WebResult<PageVO<HotelMessageVO>> queryHotelMessageVOListByData(final HotelMessageVO hotelMessageVO) {
 		HotelManageDomainChecker domain = new HotelManageDomainChecker(hotelMessageVO);
-		System.out.println(2);
 		WebResult<PageVO<HotelMessageVO>> result= new  WebResult<PageVO<HotelMessageVO>>();
 		domain.setPageResult(result);
 		domain.setHotelMessageVO(hotelMessageVO);
@@ -136,7 +135,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 
 		}catch(Exception e){
 			e.printStackTrace();
-			log.error("HotelManageServiceImpl.addHotelMessageVOByData  call interface exception ");
+			log.error("HotelManageServiceImpl.addHotelMessageVOByData  call interface exception ",e);
 			return  WebResult.failure(WebReturnCode.SYSTEM_ERROR, "添加酒店商品信息异常");
 		}
 		return result;
@@ -165,7 +164,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 			}
 			result= hotelManageRepo.editHotelMessageVOByData(domain);
 		}catch(Exception e){
-			log.error("HotelManageServiceImpl.editHotelMessageVOByData  call interface exception ");
+			log.error("HotelManageServiceImpl.editHotelMessageVOByData  call interface exception ",e);
 			e.printStackTrace();
 			return  WebResult.failure(WebReturnCode.SYSTEM_ERROR, "编辑酒店商品信息异常");
 		}

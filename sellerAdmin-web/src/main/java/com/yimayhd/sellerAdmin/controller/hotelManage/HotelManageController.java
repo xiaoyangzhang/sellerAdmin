@@ -138,7 +138,7 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
      */
-	@RequestMapping(value = "/addHotelMessageVOByData")
+	@RequestMapping(value = "/addHotelMessageVOByData",method = RequestMethod.POST)
 	public WebResult<String> addHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
 		WebResult<String> message = new WebResult<String>();
 		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==0){
@@ -151,6 +151,8 @@ public class HotelManageController extends BaseController {
 			message.initFailure(WebReturnCode.PARAM_ERROR,checkMsg);
 			return message;
 		}
+		hotelMessageVO.setBreakfast(1);
+		hotelMessageVO.setCategoryId(6);
 
 		WebResult<HotelMessageVO> result = hotelManageService.addHotelMessageVOByData(hotelMessageVO);
 		if(!result.isSuccess()){
@@ -159,7 +161,7 @@ public class HotelManageController extends BaseController {
 		}
 		/**最晚到店时间**/
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(hotelMessageVO);
-
+		model.addAttribute("hotelMessageVO",hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
 		model.addAttribute("hotelMessageVO", result.getValue());
 		return message;
@@ -315,6 +317,9 @@ public class HotelManageController extends BaseController {
 		}
 		if(hotelMessageVO.getStartBookTimeLimit()==0){
 			return "提前预定天数不能为空";
+		}
+		if(hotelMessageVO.getRoomId()==0){
+			return "房型信息不能为空";
 		}
 
 		return null;

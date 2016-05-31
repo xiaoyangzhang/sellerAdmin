@@ -162,8 +162,8 @@ public class HotelManageDomainChecker {
         HotelMessageVO model = new HotelMessageVO();
         model.setHotelId(_do.getId());
         model.setName(_do.getName());
-        model.setAddress(_do.getLocationText());
-        model.setArea(_do.getLocationProvinceName()+"/"+_do.getLocationCityName()+"/"+_do.getLocationCityName());
+        model.setLocationText(_do.getLocationText());
+        model.setArea(_do.getLocationProvinceName()+"/"+_do.getLocationCityName()+"/"+_do.getLocationTownName());
         List<String> phoneList = _do.getPhoneNum();
         if(CollectionUtils.isNotEmpty(phoneList)){
             model.setPhone(phoneList.get(0));
@@ -236,6 +236,8 @@ public class HotelManageDomainChecker {
         if(categoryPropertyValueDO==null){
             return null;
         }
+        String ss = supplierCalendar;
+        System.out.println("supplierCalendar:"+supplierCalendar);
         SupplierCalendarTemplate template = (SupplierCalendarTemplate) CommonJsonUtil.jsonToObject(supplierCalendar, SupplierCalendarTemplate.class);
 
         BizSkuInfo[] bizSkuInfos = template.getBizSkuInfo();
@@ -312,7 +314,8 @@ public class HotelManageDomainChecker {
         pvPair.setPTxt("2016-1-1");//日期格式化
         pvPair.setVTxt(biz.getvTxt());//价格日期
         pvPair.setPType(categoryPropertyValueDO.getType());
-        pvPair.setVId(-Integer.valueOf(biz.getvTxt()).intValue());
+        long l = Long.parseLong(biz.getvTxt());
+        pvPair.setVId(-l);
         itemSkuPVPairList.add(pvPair);
         sku.setItemSkuPVPairList(itemSkuPVPairList);
         return sku;
@@ -336,7 +339,7 @@ public class HotelManageDomainChecker {
         hotelMessageVO.setCancelLimit(itemFeature.getCancelLimit());//退订规则
         hotelMessageVO.setCancelLimitStr(CancelLimit.getByType(itemFeature.getCancelLimit()).getDesc());//退订规则 string
         hotelMessageVO.setLatestCheckin(itemFeature.getLatestCheckin());//最后到点时间
-        hotelMessageVO.setStartBookTimeLimit(itemFeature.getStartBookTimeLimit());// 提前预定天数
+        hotelMessageVO.setStartBookTimeLimit(Long.valueOf(itemFeature.getStartBookTimeLimit()));// 提前预定天数
         hotelMessageVO.setBreakfast(itemFeature.getBreakfast());//早餐
         /**价格日历**/
         hotelMessageVO.setSupplierCalendar(getSupplierCalendarJson());
@@ -403,6 +406,7 @@ public class HotelManageDomainChecker {
             }
             vo.setNetwork(roomFeature.getNetwork());
             vo.setPeople(roomFeature.getPeople());
+            roomList.add(vo);
         }
         return roomList;
 
@@ -511,6 +515,7 @@ public class HotelManageDomainChecker {
         System.out.println(ItemFeatureKey.CANCEL_LIMIT);
         String aa = "{\\\"supplier_calendar\\\":{\\\"seller_id\\\":\\\"2088102122524333\\\",\\\"biz_list\\\":[{\\\"stock_num\\\":10,\\\"price\\\":\\\"8.8\\\",\\\"vTxt\\\":\\\"2088101117955611\\\"}]}}";
     }
+
 
 
 }

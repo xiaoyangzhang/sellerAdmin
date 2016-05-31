@@ -8,10 +8,7 @@
     <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/addhotelproduct.css">
 </head>
 <!-- head end-->
-<input type="hidden" class="picCode baseInfo-picCode" name="hotelId" value="$!{hotelMessageVO.hotelId}">
-<input type="hidden" class="picCode baseInfo-picCode" name="name" value="$!{hotelMessageVO.name}">
-<input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{hotelMessageVO.supplierCalendar}">
-<input type="hidden" class="picCode baseInfo-picCode" name="roomId" value="$!{hotelMessageVO.roomId}">
+
 <div class = "eredar-info clearfix">
     <ul>
         <li class = "first on">选择酒店</li>
@@ -43,6 +40,10 @@
 <div class="panel">
     <div class="baseinfo">
         <form id="hotelfm">
+            <input type="hidden" class="picCode baseInfo-picCode" name="hotelId" value="$!{hotelMessageVO.hotelId}">
+            <input type="hidden" class="picCode baseInfo-picCode" name="name" value="$!{hotelMessageVO.name}">
+            <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{hotelMessageVO.supplierCalendar}">
+            <input type="hidden" class="picCode baseInfo-picCode" name="roomId" value="">
             <table>
                 <tr>
                     <td class="coltxt">商品类型：</td>
@@ -70,9 +71,9 @@
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>退订限制：</td>
                     <td>
-                        <label class="radio"><input type="radio" name="cancelLimit" #if($!hotelMessageVO.cancelLimit == 1) checked #end>可退</label>
-                        <label class="radio"><input type="radio" name="cancelLimit" #if($!hotelMessageVO.cancelLimit == 2) checked #end>不可退</label>
-                        <label class="radio"><input type="radio" name="cancelLimit" #if($!hotelMessageVO.cancelLimit == 3) checked #end>免费退</label>
+                        <label class="radio"><input type="radio" name="cancelLimit" value="1"  #if($!hotelMessageVO.cancelLimit == 1) checked #end>可退</label>
+                        <label class="radio"><input type="radio" name="cancelLimit" value="2"  #if($!hotelMessageVO.cancelLimit == 2) checked #end>不可退</label>
+                        <label class="radio"><input type="radio" name="cancelLimit" value="3"  #if($!hotelMessageVO.cancelLimit == 3) checked #end>免费退</label>
                     </td>
                 </tr>
                 <tr>
