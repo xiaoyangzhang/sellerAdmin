@@ -49,6 +49,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 			result = hotelManageRepo.queryHotelMessageVOListByDataRepo(domain);
 		}catch(Exception e){
 			e.printStackTrace();
+			log.error("查询酒店资源信息错误",e);
 			result.failure(WebReturnCode.SYSTEM_ERROR,"查询酒店资源列表系统异常");
 		}
 		return result;
@@ -79,7 +80,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			log.error("queryHotelMessageVOyData 查询商品信息异常");
+			log.error("queryHotelMessageVOyData 查询商品信息异常",e);
 		}
 
 		return result;
@@ -87,6 +88,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 	}
 
 	/**
+	 *
 	 * 酒店房型列表
 	 * @param hotelMessageVO
 	 * @return
@@ -107,7 +109,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 			roomResult = hotelManageRepo.queryRoomTypeListByData(domain);
 		}catch(Exception e){
 			e.printStackTrace();
-			log.error("queryRoomTypeListByData 查询酒店房型异常");
+			log.error("queryRoomTypeListByData 查询酒店房型异常",e);
 		}
 		return roomResult;
 	}
