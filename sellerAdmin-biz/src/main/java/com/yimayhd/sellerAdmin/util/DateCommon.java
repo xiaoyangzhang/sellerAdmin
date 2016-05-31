@@ -264,6 +264,16 @@ public class DateCommon {
 
     }
 
+    /**
+     * 规范化日期，规范成yyyy-MM-dd
+     * @param timestamp
+     * @return
+     */
+    public static String timestampLongDate(long timestamp){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(new Date(timestamp));
+    }
+
     public static void main(String[] args) {
         System.out.println("getCurrentTimeStamp();-----" + getCurrentTimeStamp());
     }

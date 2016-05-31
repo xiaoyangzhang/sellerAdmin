@@ -304,10 +304,10 @@ public class ScenicManageDomainChecker {
         List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
         ItemSkuPVPair pvPair =new ItemSkuPVPair();
         pvPair.setPId(categoryPropertyValueDO.getId());//销售属性ID
-        String vTxt = biz.getvTxt().substring(0,10);
+        String vTxt = biz.getvTxt();
         long time = Long.parseLong(vTxt);
         System.out.println(time);
-        pvPair.setPTxt(DateCommon.timestamp2Date(time));//日期格式化
+        pvPair.setPTxt(DateCommon.timestampLongDate(time));//日期格式化
         pvPair.setVTxt(vTxt);//价格日期
         pvPair.setPType(categoryPropertyValueDO.getType());
         pvPair.setVId(-time);
