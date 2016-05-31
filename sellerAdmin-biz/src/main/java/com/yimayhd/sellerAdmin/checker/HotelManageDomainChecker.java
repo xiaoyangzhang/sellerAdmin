@@ -200,7 +200,7 @@ public class HotelManageDomainChecker {
         itemFeature.put(ItemFeatureKey.ROOM_ID,hotelMessageVO.getRoomId());//房型ID
 
         itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, hotelMessageVO.getCancelLimit());//退订规则
-        itemFeature.put(ItemFeatureKey.LATEST_CHECKIN,hotelMessageVO.getLatestCheckin());//前端String转list
+        itemFeature.put(ItemFeatureKey.LATEST_ARRIVE_TIME,hotelMessageVO.getLatestArriveTime());//前端String转list
         itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,hotelMessageVO.getStartBookTimeLimit());//提前预定天数
         itemFeature.put(ItemFeatureKey.BREAKFAST,hotelMessageVO.getBreakfast());//早餐
         itemDO.setItemFeature(itemFeature);
@@ -338,7 +338,7 @@ public class HotelManageDomainChecker {
         hotelMessageVO.setRoomId(itemFeature.getRoomId());// 房型ID
         hotelMessageVO.setCancelLimit(itemFeature.getCancelLimit());//退订规则
         hotelMessageVO.setCancelLimitStr(CancelLimit.getByType(itemFeature.getCancelLimit()).getDesc());//退订规则 string
-        hotelMessageVO.setLatestCheckin(itemFeature.getLatestCheckin());//最后到点时间
+        hotelMessageVO.setLatestArriveTime(itemFeature.getLatestArriveTime());//最后到点时间
         hotelMessageVO.setStartBookTimeLimit(Long.valueOf(itemFeature.getStartBookTimeLimit()));// 提前预定天数
         hotelMessageVO.setBreakfast(itemFeature.getBreakfast());//早餐
         /**价格日历**/

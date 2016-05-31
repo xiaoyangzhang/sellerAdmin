@@ -265,9 +265,9 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 */
 	public List<MultiChoice> initMultiChoiceList(HotelMessageVO hotelMessageVO){
-		List<Integer> choiseTime = new ArrayList<Integer>();
-		if(hotelMessageVO!=null&&hotelMessageVO.getLatestCheckin().size()>0){
-			choiseTime = hotelMessageVO.getLatestCheckin();
+		List<String> choiseTime = new ArrayList<String>();
+		if(hotelMessageVO!=null&&hotelMessageVO.getLatestArriveTime().size()>0){
+			choiseTime = hotelMessageVO.getLatestArriveTime();
 		}
 		List<MultiChoice> multiChoiceList = new ArrayList<MultiChoice>();
 		for(int i=0;i<24;i++){
@@ -278,8 +278,8 @@ public class HotelManageController extends BaseController {
 			multiChoice.setValue(i+":00");
 			multiChoice.setChoice(false);
 			if(!CollectionUtils.isEmpty(choiseTime)){
-				for (int time :choiseTime){
-					if(time == i){
+				for (String time :choiseTime){
+					if(multiChoice.getValue().equals(time)){
 						/**设置选中标识**/
 						multiChoice.setChoice(true);
 					}

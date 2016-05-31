@@ -48,7 +48,7 @@ public class HotelMessageVO extends BaseQuery {
 	private long cancelLimit;// 退订限制:1,可退,2不可退,3免费退
 	private String cancelLimitStr;// 退订限制:1,可退,2不可退,3免费退
 	private String description;// 退订规则
-	private List<Integer> latestCheckin;//最晚到店时间 中台
+	private List<String> latestArriveTime;//最晚到店时间 中台
 	private String storeLastTime;// 最晚到店时间
 
 	private long breakfast;//早餐
@@ -226,13 +226,7 @@ public class HotelMessageVO extends BaseQuery {
 		this.description = description;
 	}
 
-	public List<Integer> getLatestCheckin() {
-		return latestCheckin;
-	}
 
-	public void setLatestCheckin(List<Integer> latestCheckin) {
-		this.latestCheckin = latestCheckin;
-	}
 
 	public String getStoreLastTime() {
 		return storeLastTime;
@@ -286,17 +280,17 @@ public class HotelMessageVO extends BaseQuery {
 	public void setStoreLastTime(String storeLastTime) {
 		this.storeLastTime = storeLastTime;
 		if(!StringUtils.isBlank(storeLastTime)){
-			List<Integer> latestCheckin = new ArrayList<Integer>();
+			List<String> latestCheckin = new ArrayList<String>();
 			if(storeLastTime.indexOf(",")>0){
 				/**最晚到店时间不为空**/
 				String [] timeArr = storeLastTime.split(",");
 				for(int i=0;i<timeArr.length;i++){
-					latestCheckin.add(Integer.valueOf(timeArr[i]));
+					latestCheckin.add(timeArr[i]+":00");
 				}
 			}else{
-				latestCheckin.add(Integer.valueOf(storeLastTime));
+				latestCheckin.add(storeLastTime+":00");
 			}
-			this.setLatestCheckin(latestCheckin);
+			this.setLatestArriveTime(latestCheckin);
 
 		}
 
@@ -340,5 +334,13 @@ public class HotelMessageVO extends BaseQuery {
 
 	public void setStartBookTimeLimit(Long startBookTimeLimit) {
 		this.startBookTimeLimit = startBookTimeLimit;
+	}
+
+	public List<String> getLatestArriveTime() {
+		return latestArriveTime;
+	}
+
+	public void setLatestArriveTime(List<String> latestArriveTime) {
+		this.latestArriveTime = latestArriveTime;
 	}
 }
