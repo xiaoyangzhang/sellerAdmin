@@ -8,6 +8,8 @@
 <input type="hidden" class="picCode baseInfo-picCode" name="scenicId" value="$!{scenicManageVO.scenicId}">
 <input type="hidden" class="picCode baseInfo-picCode" name="scenicName" value="$!{scenicManageVO.name}">
 <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{scenicManageVO.supplierCalendar}">
+<input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{scenicManageVO.sellerId}">
+<input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{scenicManageVO.categoryId}">
 <!-- 面包屑 -->
 <div class = "eredar-info clearfix">
     <ul>
@@ -57,14 +59,14 @@
                     <td><input type="text" class="inputxt" maxlength="10" name="startBookTimeLimit"></td>
                 </tr>
                 #foreach($bizCategoryInfo in $bizCategoryInfoList)
-                <tr pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pText" pType="$!bizCategoryInfo.pType">
+                <tr class="dynamicTr" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pText" pType="$!bizCategoryInfo.pType">
                     #if($bizCategoryInfo.pType == 1)
                         <td class="coltxt"><span class="bred">*</span>$!bizCategoryInfo.pText：</td>
                     #else
                         <td class="coltxt">$!bizCategoryInfo.pText：</td>
                     #end
 
-                    <td><input type="text" class="inputxt" name=""></td>
+                    <td><input type="text" class="inputxt" name="$!bizCategoryInfo.pId" value=""></td>
                 </tr>
                 #end
 

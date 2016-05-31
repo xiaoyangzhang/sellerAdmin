@@ -82,7 +82,8 @@ public class HotelManageController extends BaseController {
 		WebResult<PageVO<HotelMessageVO>> result= hotelManageService.queryHotelMessageVOListByData(hotelMessageVO);
 		if(!result.isSuccess()){
 			logger.error("查询列表失败");
-			return "/error";
+			model.addAttribute("errorInfo","查询列表失败");
+			return "/system/comm/hotelManage/searchhotel";
 		}
 		PageVO<HotelMessageVO> pageResult = result.getValue();
 		List<HotelMessageVO> hotelMessageVOList = pageResult.getResultList();
@@ -92,7 +93,7 @@ public class HotelManageController extends BaseController {
 		}else {
 			totalPage += pageResult.getTotalCount()/pageResult.getPageSize();
 		}
-
+		model.addAttribute("errorInfo","");
 		model.addAttribute("pageVo", pageResult);
 		model.addAttribute("hotelMessageVOList", hotelMessageVOList);
 		model.addAttribute("totalPage", totalPage);
@@ -110,25 +111,23 @@ public class HotelManageController extends BaseController {
      */
 	@RequestMapping(value = "/queryRoomTypeListByData")
 	public String queryRoomTypeListByData(Model model,Long hotelId ){
+		String returnUrl = "/system/comm/hotelManage/hotelRoomList";
 		if(hotelId==null){
 			logger.error("酒店pid不能为空");
-			return "/error";
+			model.addAttribute("errorInfo", "酒店pid不能为空");
+			return returnUrl;
 		}
 		HotelMessageVO hotelMessageVO = new HotelMessageVO();
 		hotelMessageVO.setHotelId(hotelId);
 		WebResult<List<RoomMessageVO>> result = hotelManageService.queryRoomTypeListByData(hotelMessageVO);
 		if(!result.isSuccess()){
 			logger.error("查询房型信息失败");
-			return "/error";
+			model.addAttribute("errorInfo", "查询房型信息失败");
+			return returnUrl;
 		}
 		System.out.println(result.getValue().size());
-		/*List<RoomMessageVO> roomList = result.getValue();
-		for(RoomMessageVO room:roomList){
-			System.out.println("roompic:"+room.getPics().toString());
-		}
-		System.out.println();*/
 		model.addAttribute("roomList", result.getValue());
-		return "/system/comm/hotelManage/hotelRoomList";
+		return returnUrl;
 	}
 
 
@@ -152,7 +151,7 @@ public class HotelManageController extends BaseController {
 			return message;
 		}
 		hotelMessageVO.setBreakfast(1);
-		hotelMessageVO.setCategoryId(6);
+		hotelMessageVO.setCategoryId(33);
 
 		WebResult<HotelMessageVO> result = hotelManageService.addHotelMessageVOByData(hotelMessageVO);
 		if(!result.isSuccess()){

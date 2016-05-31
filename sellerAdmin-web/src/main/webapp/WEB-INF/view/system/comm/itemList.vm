@@ -86,13 +86,13 @@
         				<thead>
                             <tr>
                                 <th data-col-class="text-center" data-width="80">编号</th>
-                                <th colspan=2>商品信息</th>
-        						<th data-width="160">目的地</th>
-                                <th data-col-class="text-center" data-width="110">类型</th>
-                                <th data-width="160">单价</th>
+                                <th data-col-class="text-center" data-width="310">商品信息</th>
+        						<th data-width="100">目的地</th>
+                                <th data-col-class="text-center" data-width="90">类型</th>
+                                <th data-width="80">单价</th>
         						<th data-col-class="text-center" data-width="70">状态</th>
         						<th data-type="date" data-width="100">发布时间</th>
-        						<th data-col-class="text-center" data-width="60">操作</th>
+        						<th data-col-class="text-center" data-width="70">操作</th>
                             </tr>
                         </thead>
         				<tbody >
@@ -100,31 +100,27 @@
                             <tr id="item_$!{item.id}" item-id="$!item.id">
                                 <td>$!item.id</td>
 
-                                            <td width="160px">
-                                                <img src="$!{utilWebconfig.getTfsRootPath()}/$!item.picture" width="160" height="90" />
-                                            </td>
-                                            <td>
-												#if($item.type==3)
-													$!{item.itemHotelVO.name}<br>
-													$!{item.name}<br>
-													$!{item.itemRoomVO.name}<br>
-													$!{item.payMode}<br>
-                                                    商品代码:$!{item.code}<br>
-												#elseif($item.type==4)
-													$!{item.itemScenicVO.name}<br>
-													$!{item.name}<br>
-													$!{item.itemTicketVO.title}<br>
-													商品代码:$!{item.code}<br>
-												#else
-													$!{item.name}<br>
-													商品代码:$!{item.code}
-												#end
-
-                                            </td>
-
-
-								</td>
-        						<td>$!item.destString</td>
+                                <td width="120px">
+                                    <img src="$!{utilWebconfig.getTfsRootPath()}/$!item.picture" width="120" height="90" style="float: left;"/>
+                               		<span style="float: right;text-align:left;">
+									#if($item.type==3)
+										$!{item.itemHotelVO.name}<br>
+										$!{item.name}<br>
+										$!{item.itemRoomVO.name}<br>
+										$!{item.payMode}<br>
+                                      	  商品代码:$!{item.code}
+									#elseif($item.type==4)
+										$!{item.itemScenicVO.name}<br>
+										$!{item.name}<br>
+										$!{item.itemTicketVO.title}<br>
+										商品代码:$!{item.code}
+									#else
+										$!{item.name}<br>
+										商品代码:$!{item.code}
+									#end
+								</span>
+                                </td>
+		  						<td>$!item.destString</td>
         						<td>$!{utilItem.getItemTypeName($item.type)}</td>
         						<td>￥$!{utilMoney.centToYuanMoneyFormat($item.price)}</td>
                                 <td>$!{utilItem.getItemStatusName($item.status)}</td>
@@ -161,6 +157,7 @@
 </html>
 <script>
 	$(".form-clear").click(function() {
+		
 		$(".search-item").val("");
 	});
 	$(".form-date").datetimepicker({

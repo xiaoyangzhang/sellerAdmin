@@ -256,8 +256,8 @@
                                        	#else
                                     	买家备注：
                                        	#end 
-                                       	#if($order.customerServiceNote)
-                                       	 卖家备注：<div class="txt">#if($!order.customerServiceNote.length() < 11) $!order.customerServiceNote #else $!order.customerServiceNote.substring(0,9)... #end</div>
+                                       	#if($order.tcMainOrder.sellerMemo)
+                                       	 卖家备注：<div class="txt">#if($!order.tcMainOrder.sellerMemo.length() < 11) $!order.tcMainOrder.sellerMemo #else $!order.tcMainOrder.sellerMemo.substring(0,9)... #end</div>
                                     	#else
                                     	卖家备注：
                                     	#end 

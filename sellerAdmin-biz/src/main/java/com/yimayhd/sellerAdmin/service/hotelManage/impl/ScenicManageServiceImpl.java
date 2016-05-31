@@ -1,21 +1,10 @@
 package com.yimayhd.sellerAdmin.service.hotelManage.impl;
 
 
-import com.yimayhd.ic.client.model.domain.HotelDO;
-import com.yimayhd.ic.client.model.domain.ScenicDO;
-import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
-import com.yimayhd.ic.client.model.param.item.ScenicPublishAddDTO;
-import com.yimayhd.ic.client.model.param.item.ScenicPublishUpdateDTO;
-import com.yimayhd.ic.client.model.query.ScenicPageQuery;
-import com.yimayhd.ic.client.model.result.ICPageResult;
-import com.yimayhd.ic.client.model.result.ICResult;
-import com.yimayhd.ic.client.model.result.item.ItemPubResult;
-import com.yimayhd.ic.client.model.result.item.SingleItemQueryResult;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
-import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.ScenicManageDomainChecker;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
 import com.yimayhd.sellerAdmin.repo.ScenicManageRepo;
@@ -57,7 +46,7 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
             result = scenicManageRepo.queryScenicManageVOListByData(domain);
         }catch(Exception e){
             e.printStackTrace();
-            log.error("查询酒店资源接口异常");
+            log.error("查询酒店资源接口异常",e);
         }
 
         return result;
@@ -81,7 +70,7 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
             }
             result  = scenicManageRepo.queryScenicManageVOByData(domain);
         }catch(Exception e){
-            log.error("查询景区详情异常");
+            log.error("查询景区详情异常",e);
             e.printStackTrace();
         }
 
@@ -108,7 +97,7 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
             }
             result  = scenicManageRepo.addScenicManageVOByDdata(domain);
         }catch(Exception e){
-            log.error("添加景区商品信息异常");
+            log.error("添加景区商品信息异常",e);
             e.printStackTrace();
         }
 
@@ -136,7 +125,7 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
             }
             result  = scenicManageRepo.editScenicManageVOByDdata(domain);
         }catch(Exception e){
-            log.error("编辑景区商品信息异常");
+            log.error("编辑景区商品信息异常",e);
             e.printStackTrace();
         }
         return result;
