@@ -10,6 +10,7 @@ import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.Paginator;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.model.HotelManage.*;
 import com.yimayhd.sellerAdmin.service.hotelManage.HotelManageService;
@@ -138,8 +139,8 @@ public class HotelManageController extends BaseController {
 	 * @throws Exception
      */
 	@RequestMapping(value = "/addHotelMessageVOByData",method = RequestMethod.POST)
-	public WebResult<String> addHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
-		WebResult<String> message = new WebResult<String>();
+	public WebResultSupport addHotelMessageVOByData(Model model, HotelMessageVO hotelMessageVO) throws Exception{
+		WebResultSupport message = new WebResultSupport();
 		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==0){
 			message.initFailure(WebReturnCode.PARAM_ERROR,"酒店资源信息错误,无法添加商品");
 			return message;
@@ -163,6 +164,7 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("hotelMessageVO",hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
 		model.addAttribute("hotelMessageVO", result.getValue());
+		message.isSuccess();
 		return message;
 
 	}
