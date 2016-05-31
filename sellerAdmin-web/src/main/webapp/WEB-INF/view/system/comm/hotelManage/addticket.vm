@@ -36,26 +36,26 @@
 	                    <td class="coltxt">商品名称：</td>
 	                    <td><label id="lbscenicname">景区门票</label></td>
 	                </tr>
-	                <tr>
+	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>门票类型：</td>
 	                    <td>
 	                        <label class="radio"><input type="radio" name="ticketId" value="1" #if($!scenicManageVO.ticketId == 1) checked #end>大门票</label>
 	                        <label class="radio"><input type="radio" name="ticketId" value="2" #if($!scenicManageVO.ticketId == 2) checked #end>联票</label>
 	                    </td>
 	                </tr>
-	                <tr>
+	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>商品标题：</td>
 	                    <td><input type="text" class="inputxt" maxlength="38" name="title"><span class="mark"><label>1</label>/38字</span></td>
 	                </tr>
-	                <tr>
+	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>价格：</td>
 	                    <td><input type="text" class="inputxt" name="price"></td>
 	                </tr>
-	                <tr>
+	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>门市价：</td>
 	                    <td><input type="text" class="inputxt" name="originalPrice"></td>
 	                </tr>
-	                <tr>
+	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
 	                    <td><input type="text" class="inputxt" maxlength="10" name="startBookTimeLimit"></td>
 	                </tr>
