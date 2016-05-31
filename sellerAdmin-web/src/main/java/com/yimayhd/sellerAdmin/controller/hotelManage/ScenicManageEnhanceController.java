@@ -39,8 +39,6 @@ public class ScenicManageEnhanceController extends BaseController {
     private ScenicManageService scenicManageService;
     @Autowired
     private CategoryService categoryServiceRef;
-    @Autowired
-    private ScenicPublishService scenicPublishService;
 
     /**
      * 查询景区资源列表
@@ -222,8 +220,10 @@ public class ScenicManageEnhanceController extends BaseController {
         model.addAttribute("scenicManageVO",result.getValue());
         return message;
     }
+   /* @RequestMapping(value = "/queryTicketListByScenicId", method = RequestMethod.GET)
+    public  WebResult<String> queryTicketListByScenicId (Model model, ){
 
-
+    }*/
     /**
      * 景区商品验证
      * @param scenicManageVO
@@ -281,13 +281,6 @@ public class ScenicManageEnhanceController extends BaseController {
         this.categoryServiceRef = categoryServiceRef;
     }
 
-    public ScenicPublishService getScenicPublishService() {
-        return scenicPublishService;
-    }
-
-    public void setScenicPublishService(ScenicPublishService scenicPublishService) {
-        this.scenicPublishService = scenicPublishService;
-    }
 
     public ScenicManageService getScenicManageService() {
         return scenicManageService;
