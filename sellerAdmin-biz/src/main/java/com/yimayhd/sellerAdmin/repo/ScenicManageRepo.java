@@ -24,6 +24,7 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.ScenicManageDomainChecker;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
+import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -126,9 +127,11 @@ public class ScenicManageRepo {
 		ScenicPublishAddDTO scenicPublishAddDTO = new ScenicPublishAddDTO();
 		scenicPublishAddDTO.setItemDO(domain.getBizScenicPublishAddDTO());//商品
 		scenicPublishAddDTO.setItemSkuList(domain.getAddBizItemSkuDOList());//价格日历
-		ItemPubResult itemResult = itemPublishServiceRef.addPublishScenic(new ScenicPublishAddDTO());
+		ItemPubResult itemResult = itemPublishServiceRef.addPublishScenic(scenicPublishAddDTO);
+		log.info("scenicPublishAddDTO:"+ CommonJsonUtil.objectToJson(scenicPublishAddDTO,ScenicPublishAddDTO.class));
 		if(!itemResult.isSuccess()){
 			log.error("添加景区商品错误");
+			System.out.println(itemResult.getErrorCode()+","+itemResult.getResultCode()+","+itemResult.getResultMsg());
 			return WebResult.failure(WebReturnCode.PARAM_ERROR, "添加景区商品错误");
 		}
 		scenicManageVO.setItemId(itemResult.getItemId());

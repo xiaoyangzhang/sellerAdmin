@@ -86,7 +86,7 @@ public class HotelManageDomainChecker {
         HotelPageQuery hotelPageQuery = new HotelPageQuery();
         hotelPageQuery.setNeedCount(true);
         hotelPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
-        hotelPageQuery.setStatus(ItemStatus.create.getValue());
+        hotelPageQuery.setStatus(ItemStatus.valid.getValue());
         if(StringUtils.isNotBlank(hotelMessageVO.getName())){
             hotelPageQuery.setName(hotelMessageVO.getName());
         }

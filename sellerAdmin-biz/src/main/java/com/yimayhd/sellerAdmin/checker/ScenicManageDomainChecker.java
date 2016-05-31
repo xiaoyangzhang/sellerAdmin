@@ -16,6 +16,7 @@ import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.HotelManage.BizCategoryInfo;
 import com.yimayhd.sellerAdmin.model.HotelManage.BizSkuInfo;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
@@ -175,6 +176,8 @@ public class ScenicManageDomainChecker {
         itemDO.setTitle(scenicManageVO.getTitle());
         itemDO.setPrice(scenicManageVO.getPrice());//价格
         itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice());//门市价
+        itemDO.setDomain(Constant.DOMAIN_JIUXIU);
+        itemDO.setOptions(1);
 
         //itemDO.setOutType();
         ItemFeature itemFeature = new ItemFeature(null);
@@ -302,7 +305,8 @@ public class ScenicManageDomainChecker {
         pvPair.setPTxt("2016-1-1");//日期格式化
         pvPair.setVTxt(biz.getvTxt());//价格日期
         pvPair.setPType(categoryPropertyValueDO.getType());
-        pvPair.setVId(-Integer.valueOf(biz.getvTxt()).intValue());
+        long l = Long.parseLong(biz.getvTxt());
+        pvPair.setVId(-l);
         itemSkuPVPairList.add(pvPair);
         sku.setItemSkuPVPairList(itemSkuPVPairList);
         return sku;
