@@ -244,6 +244,8 @@ public class OrderConverter {
     	RatePageListDTO ratePageListDTO = new RatePageListDTO();
     	ratePageListDTO.setDomainId(assessmentListQuery.getDomain());
 		ratePageListDTO.setSellerId(assessmentListQuery.getSellerId());
+		ratePageListDTO.setPageNo(assessmentListQuery.getPageNo());
+		ratePageListDTO.setPageSize(assessmentListQuery.getPageSize());
 		//订单编号
         if (StringUtils.isNotEmpty(assessmentListQuery.getOrderNO()) ){
             if (NumberUtils.isDigits(assessmentListQuery.getOrderNO())){
