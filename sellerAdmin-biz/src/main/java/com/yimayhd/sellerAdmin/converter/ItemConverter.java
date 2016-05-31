@@ -118,6 +118,7 @@ public class ItemConverter {
 		RoomDO roomDO= itemInfo.getRoomDO();
 		TicketDO ticketDO= itemInfo.getTicketDO();
 		if(hotelDO!=null){
+			itemListItemVO.setPicture(hotelDO.getLogoUrl());
 			itemListItemVO.setItemHotelVO(new ItemHotelVO().setName(hotelDO.getName()));
 		}
 		//房间型号
