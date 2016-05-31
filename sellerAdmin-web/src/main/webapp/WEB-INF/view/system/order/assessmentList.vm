@@ -46,10 +46,8 @@
 								<span class = "black">
 									#if($assessment.itemName)
 										#if($!assessment.itemName.length() < 9) $!assessment.itemName #else $!assessment.itemName.substring(0,9)... #end
-		                           	#else
+		                           		#end
 								</span>
-                        	买家备注：
-                           	#end 
 						</p>
 						<p>
 							<em>综合评分：</em><span>$!assessment.score</span>
