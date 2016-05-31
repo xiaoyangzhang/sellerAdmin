@@ -17,6 +17,7 @@ import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.HotelManage.BizSkuInfo;
 import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
@@ -193,6 +194,8 @@ public class HotelManageDomainChecker {
         itemDO.setCode(hotelMessageVO.getCode());//商品代码
         itemDO.setPayType(hotelMessageVO.getPayType());//付款方式
         itemDO.setDescription(hotelMessageVO.getDescription());//退订规则描述
+        itemDO.setDomain(Constant.DOMAIN_JIUXIU);
+        itemDO.setOptions(1);
         /***feature**/
         ItemFeature itemFeature = new ItemFeature(null);
         //itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, CancelLimit.Ok.getType());
