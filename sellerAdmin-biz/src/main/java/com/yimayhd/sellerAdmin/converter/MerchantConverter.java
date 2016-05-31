@@ -36,11 +36,11 @@ public class MerchantConverter {
 		dto.setBusinessLicense(vo.getBusinessLicense());
 		dto.setCardInHand(vo.getCardInHand());
 		dto.setClimbingCertificate(vo.getClimbingCertificate());
-		dto.setCooperation1(vo.getCooperation1());
-		dto.setCooperation2(vo.getCooperation2());
-		dto.setCooperation3(vo.getCooperation3());
-		dto.setCooperation4(vo.getCooperation4());
-		dto.setCooperation5(vo.getCooperation5());
+//		dto.setCooperation1(vo.getCooperation1());
+//		dto.setCooperation2(vo.getCooperation2());
+//		dto.setCooperation3(vo.getCooperation3());
+//		dto.setCooperation4(vo.getCooperation4());
+//		dto.setCooperation5(vo.getCooperation5());
 		dto.setDivingLinence(vo.getDivingLinence());
 		dto.setDrivingLinence(vo.getDrivingLinence());
 		dto.setFinanceOpenBankId(vo.getFinanceOpenBankId());
@@ -67,7 +67,7 @@ public class MerchantConverter {
 		dto.setPrincipleCardDown(vo.getPrincipleCardDown());
 		dto.setDomainId(Constant.DOMAIN_JIUXIU);
 		dto.setSellerId(userId);
-		dto.setType(ExamineType.TALENT.getType());
+		//dto.setType(ExamineType.TALENT.getType());
 		dto.setAccountBankProvinceCode(vo.getProvince());
 		dto.setAccountBankCityCode(vo.getCity());
 		dto.setMerchantCategoryId(vo.getMerchantCategoryId());

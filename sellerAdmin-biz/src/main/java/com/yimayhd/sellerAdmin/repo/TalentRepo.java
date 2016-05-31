@@ -137,6 +137,7 @@ public class TalentRepo {
 		MemResult<Boolean> ExamineInfoResult = null;
 		try {
 			ExamineInfoDTO dto = MerchantConverter.convertVO2DTO(vo, sessionManager.getUserId());
+			dto.setType(ExamineType.TALENT.getType());
 			ExamineInfoResult = examineDealService.submitMerchantExamineInfo(dto);
 //			MerchantQualificationDO mqDO = MerchantConverter.setMerchantQualification(dto,sessionManager.getUserId());
 //			MerchantScopeDO msDO = MerchantConverter.setMerchantScope(dto,sessionManager.getUserId());

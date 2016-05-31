@@ -62,6 +62,7 @@ public class MerchantApplyRepo {
 		}
 		try {
 			ExamineInfoDTO dto = MerchantConverter.convertVO2DTO(examineInfoVO, userId);
+			dto.setType(ExamineType.MERCHANT.getType());
 			result = applyService.submitExamineInfo(dto);
 			
 			return result;
