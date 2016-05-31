@@ -134,15 +134,16 @@
         							#end
         							#if($item.containsOperate('SHELVE'))
         							<a class="btn btn-mini btn-link item-operate" href="javascript:void(0);" item-id="$!item.id" operate-type="SHELVE">上架</a><br/>
-                                        <a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/order/assessmentList?itemNo=$!{item.id}" target="_blank">查看评价</a><br/>
         							#end
         							#if($item.containsOperate('UNSHELVE'))
 									<a class="btn btn-mini btn-link item-operate" href="javascript:void(0);" item-id="$!item.id" operate-type="UNSHELVE">下架</a><br/>
-                                        <a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/order/assessmentList?itemNo=$!{item.id}" target="_blank">查看评价</a><br/>
 									#end
 									#if($item.containsOperate('DELETE'))
 									<a class="btn btn-mini btn-link item-operate" href="javascript:void(0);" item-id="$!item.id" operate-type="DELETE">删除</a><br/>
         							#end
+									#if(($item.status==2||$item.status==3)&&($item.containsOperate('SHELVE')||$item.containsOperate('UNSHELVE')))
+                                        <a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/order/assessmentList?itemNo=$!{item.id}" target="_blank">查看评价</a><br/>
+									#end
         						</td>
                             </tr>
         					#end
