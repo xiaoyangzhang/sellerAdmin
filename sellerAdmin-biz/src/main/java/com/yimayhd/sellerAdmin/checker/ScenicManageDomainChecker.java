@@ -298,7 +298,9 @@ public class ScenicManageDomainChecker {
         ItemSkuDO sku = new ItemSkuDO();
         sku.setSellerId(template.getSeller_id());//商家ID
         sku.setCategoryId(scenicManageVO.getCategoryId());//类目ID
-        sku.setPrice(biz.getvPrize());//价格
+        BigDecimal prize = biz.getPrice();
+        long portionPrize =  prize.longValue()*100;
+        sku.setPrice(portionPrize);//价格
         sku.setStockNum(biz.getStock_num());//库存
         /**销售属性**/
         List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
