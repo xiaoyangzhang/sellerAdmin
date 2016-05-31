@@ -13,6 +13,7 @@
     </ul>
 </div>
 <div class="panel on">
+
 	<form class="scenicForm">
 		<input type="hidden" class="picCode baseInfo-picCode" name="scenicId" value="$!{scenicManageVO.scenicId}">
 		<input type="hidden" class="picCode baseInfo-picCode" name="scenicName" value="$!{scenicManageVO.name}">
@@ -73,6 +74,7 @@
 	            </table>
 	    </div>
     </form>
+
     <div class="savenext">
         <a class="save-to-picker">保存并下一步</a>
     </div>
