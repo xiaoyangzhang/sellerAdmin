@@ -29,7 +29,7 @@
         </p>
     </div>
     <div class="baseinfo ticketbaseinfo">
-        <form>
+        <form >
             <table>
                 <tr>
                     <td class="coltxt">商品名称：</td>
