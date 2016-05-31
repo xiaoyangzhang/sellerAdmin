@@ -24,6 +24,7 @@ public class ScenicManageVO extends BaseQuery {
     private String subjectName;//主题名称
 
 
+
 //    private Integer provinceId;//省id
 //    private Integer cityId;//市d
 //    private Integer townId;//区id
