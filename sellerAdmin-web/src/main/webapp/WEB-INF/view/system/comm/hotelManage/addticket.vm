@@ -60,15 +60,16 @@
 	                    <td><input type="text" class="inputxt" maxlength="10" name="startBookTimeLimit"></td>
 	                </tr>
 	                #foreach($bizCategoryInfo in $bizCategoryInfoList)
-	                <tr class="dynamicTr" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pText" pType="$!bizCategoryInfo.pType">
 	                    #if($bizCategoryInfo.pType == 1)
+                        <tr class="dynamicTr" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pText" pType="$!bizCategoryInfo.pType">
 	                        <td class="coltxt"><span class="bred">*</span>$!bizCategoryInfo.pText：</td>
+                        </tr>
 	                    #else
+                        <tr class="dynamicTr" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pText" pType="$!bizCategoryInfo.pType">
 	                        <td class="coltxt">$!bizCategoryInfo.pText：</td>
+                        </tr>
 	                    #end
-	
 	                    <td><input type="text" class="inputxt" name="$!bizCategoryInfo.pId" value=""></td>
-	                </tr>
 	                #end
 	
 	            </table>

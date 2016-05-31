@@ -5,6 +5,7 @@ import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.result.item.CategoryResult;
 import com.yimayhd.ic.client.service.item.CategoryService;
+import com.yimayhd.ic.client.service.item.ScenicPublishService;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -219,7 +220,10 @@ public class ScenicManageEnhanceController extends BaseController {
         model.addAttribute("scenicManageVO",result.getValue());
         return message;
     }
+   /* @RequestMapping(value = "/queryTicketListByScenicId", method = RequestMethod.GET)
+    public  WebResult<String> queryTicketListByScenicId (Model model, ){
 
+    }*/
     /**
      * 景区商品验证
      * @param scenicManageVO
@@ -275,5 +279,10 @@ public class ScenicManageEnhanceController extends BaseController {
 
     public void setCategoryServiceRef(CategoryService categoryServiceRef) {
         this.categoryServiceRef = categoryServiceRef;
+    }
+
+
+    public ScenicManageService getScenicManageService() {
+        return scenicManageService;
     }
 }
