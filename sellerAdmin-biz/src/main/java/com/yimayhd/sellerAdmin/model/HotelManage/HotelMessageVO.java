@@ -343,4 +343,6 @@ public class HotelMessageVO extends BaseQuery {
 	public void setLatestArriveTime(List<String> latestArriveTime) {
 		this.latestArriveTime = latestArriveTime;
 	}
+
+
 }
