@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -139,6 +140,7 @@ public class HotelManageController extends BaseController {
 	 * @throws Exception
      */
 	@RequestMapping(value = "/addHotelMessageVOByData",method = RequestMethod.POST)
+	@ResponseBody
 	public WebResultSupport addHotelMessageVOByData(Model model, HotelMessageVO hotelMessageVO) throws Exception{
 		WebResultSupport message = new WebResultSupport();
 		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==0){
