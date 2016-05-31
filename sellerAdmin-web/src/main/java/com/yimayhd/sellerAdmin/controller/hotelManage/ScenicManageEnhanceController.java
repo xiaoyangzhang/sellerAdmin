@@ -223,6 +223,7 @@ public class ScenicManageEnhanceController extends BaseController {
         return message;
     }
 
+
     /**
      * 景区商品验证
      * @param scenicManageVO
@@ -278,5 +279,17 @@ public class ScenicManageEnhanceController extends BaseController {
 
     public void setCategoryServiceRef(CategoryService categoryServiceRef) {
         this.categoryServiceRef = categoryServiceRef;
+    }
+
+    public ScenicPublishService getScenicPublishService() {
+        return scenicPublishService;
+    }
+
+    public void setScenicPublishService(ScenicPublishService scenicPublishService) {
+        this.scenicPublishService = scenicPublishService;
+    }
+
+    public ScenicManageService getScenicManageService() {
+        return scenicManageService;
     }
 }
