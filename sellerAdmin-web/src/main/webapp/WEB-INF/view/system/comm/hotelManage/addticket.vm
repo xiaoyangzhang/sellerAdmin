@@ -61,7 +61,7 @@
 	                </tr>
 	                #foreach($bizCategoryInfo in $bizCategoryInfoList)
 	                    #if($bizCategoryInfo.pType == 1)
-                        <tr class="dynamicTr" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pText" pType="$!bizCategoryInfo.pType">
+                        <tr class="dynamicTr notNull" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pText" pType="$!bizCategoryInfo.pType">
 	                        <td class="coltxt"><span class="bred">*</span>$!bizCategoryInfo.pText：</td>
                         </tr>
 	                    #else
