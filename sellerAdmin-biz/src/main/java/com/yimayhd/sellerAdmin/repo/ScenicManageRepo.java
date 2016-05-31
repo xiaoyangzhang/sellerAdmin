@@ -117,12 +117,14 @@ public class ScenicManageRepo {
 			log.error("类目信息错误");
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "类目信息错误");
 		}
+		domain.setCategory(categoryResult.getCategroyDO());
 		if(CollectionUtils.isEmpty(categoryResult.getCategroyDO().getSellCategoryPropertyDOs())){
 			log.error("类目销售属性信息错误");
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "类目销售属性信息错误");
 		}
 		CategoryPropertyValueDO sellDO = categoryResult.getCategroyDO().getSellCategoryPropertyDOs().get(0);
 		/**类目销售属性**/
+
 		domain.setCategoryPropertyValueDO(sellDO);
 		ScenicPublishAddDTO scenicPublishAddDTO = new ScenicPublishAddDTO();
 		scenicPublishAddDTO.setItemDO(domain.getBizScenicPublishAddDTO());//商品

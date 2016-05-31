@@ -178,6 +178,7 @@ public class ScenicManageDomainChecker {
         itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice());//门市价
         itemDO.setDomain(Constant.DOMAIN_JIUXIU);
         itemDO.setOptions(1);
+        itemDO.setItemType(category.getCategoryFeature().getItemType());
 
         //itemDO.setOutType();
         ItemFeature itemFeature = new ItemFeature(null);
