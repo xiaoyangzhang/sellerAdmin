@@ -310,14 +310,14 @@ public class HotelManageDomainChecker {
         List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
         ItemSkuPVPair pvPair =new ItemSkuPVPair();
         pvPair.setPId(categoryPropertyValueDO.getId());//销售属性ID
-        long time = Long.parseLong(biz.getvTxt());
+        String vTxt = biz.getvTxt().substring(0,10);
+        long time = Long.parseLong(vTxt);
         pvPair.setPTxt(DateCommon.timestamp2Date(time));//日期格式化
-        pvPair.setVTxt(biz.getvTxt());//价格日期
+        pvPair.setVTxt(vTxt);//价格日期
        // System.out.println("biz.getvTxt():"+biz.getvTxt()+",str:"+DateCommon.timestamp2Date(time));
         //System.out.println("价格日期:"+biz.getvTxt());
         pvPair.setPType(categoryPropertyValueDO.getType());
-        long l = Long.parseLong(biz.getvTxt());
-        pvPair.setVId(-l);
+        pvPair.setVId(-time);
         itemSkuPVPairList.add(pvPair);
         sku.setItemSkuPVPairList(itemSkuPVPairList);
         return sku;

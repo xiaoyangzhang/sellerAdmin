@@ -383,6 +383,8 @@ public class HotelManageController extends BaseController {
 		long time =DateCommon.Date2Timestamp("2016-6-9 00:00:00");
 
 		System.out.println(time);
+		String mm = "1465142400000";
+		System.out.println(mm.substring(0,10));
 
 	}
 
