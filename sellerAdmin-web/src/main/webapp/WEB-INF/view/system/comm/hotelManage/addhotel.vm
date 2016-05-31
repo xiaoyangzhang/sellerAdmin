@@ -21,19 +21,19 @@
         <p>
             <span class="nm"><span class="bred">*</span><label>酒店信息：</label></span>
 					<span class="info-bar">
-						<label class="htn">如家酒店望京店</label>
-						<label class="smtt">地址：</label><label class="address">北京市海淀区中关村东路1号院</label>
-						|<label class="smtt">电话：</label><label class="tel">010-83122549</label>
+						<label class="htn"></label>
+						<label class="smtt">地址：</label><label class="address"></label>
+						|<label class="smtt">电话：</label><label class="tel"></label>
 					</span>
             <a class="choicehotel">查询酒店</a>
         </p>
-        <div>
+        <div class="hotelcol">
             <span class="nm"><span class="bred">*</span><label>酒店房型：</label></span>
 					<span class="info-box clearfix">
 					</span>
         </div>
         <div class="savenext">
-            <a>保存并下一步</a>
+            <a class="save-to-baseinfo">保存并下一步</a>
         </div>
     </div>
 </div>
@@ -99,8 +99,8 @@
             </table>
         </form>
         <div class="btngroup">
-            <a>返回上一页</a>
-            <a>保存并下一步</a>
+            <a class="backprev">返回上一页</a>
+            <a class="save-to-picker">保存并下一步</a>
         </div>
     </div>
 </div>
@@ -157,7 +157,7 @@
     </div>
     <label class="bred ml30">*</label><label class="gray9">按住Ctrl键，可实现多选日期。</label>
     <div class="allsave">
-        <a>返回上一页</a>
+        <a class="backprev">返回上一页</a>
         <a class="allsub">全部提交</a>
     </div>
 </div>
@@ -168,9 +168,9 @@
             <td><input type="text" id="hotelname" class="inputxt"></td>
             <td class="tb-txt">所在城市：</td>
             <td>
-                <select id="province"><option value="">--请选择--</option></select>
-                <select id="city" class="ml10"><option value="">--请选择--</option></select>
-                <select id="area" class="ml10"><option value="">--请选择--</option></select>
+                <select id="province"><option value="0">--请选择--</option></select>
+                <select id="city" class="ml10"><option value="0">--请选择--</option></select>
+                <select id="area" class="ml10"><option value="0">--请选择--</option></select>
                 <button class="search-btn">搜索</button>
             </td>
         </tr>
