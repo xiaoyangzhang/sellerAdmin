@@ -45,6 +45,7 @@ public class HotelManageController extends BaseController {
 	private static final Logger logger = LoggerFactory.getLogger(HotelManageController.class);
 	private final Integer PAGESIZE=8;
 	private static final String UPDATE="update";
+	private static final long categoryId=231;
 
 	@Autowired
 	private HotelManageService hotelManageService;
@@ -63,7 +64,7 @@ public class HotelManageController extends BaseController {
 		HotelMessageVO hotelMessageVO = new  HotelMessageVO();
 		long userId = sessionManager.getUserId() ;
 		hotelMessageVO.setSellerId(userId);
-		hotelMessageVO.setCategoryId(Long.valueOf(6));
+		hotelMessageVO.setCategoryId(categoryId);
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(null);
 		model.addAttribute("hotelMessageVO", hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
@@ -159,7 +160,7 @@ public class HotelManageController extends BaseController {
 			return message;
 		}
 		hotelMessageVO.setBreakfast(1);
-		hotelMessageVO.setCategoryId(33);
+		hotelMessageVO.setCategoryId(categoryId);
 
 		WebResult<HotelMessageVO> result = hotelManageService.addHotelMessageVOByData(hotelMessageVO);
 		if(!result.isSuccess()){
@@ -190,7 +191,7 @@ public class HotelManageController extends BaseController {
 		HotelMessageVO hotelMessageVO = new HotelMessageVO();
 		long userId = sessionManager.getUserId() ;
 		hotelMessageVO.setSellerId(userId);
-		hotelMessageVO.setCategoryId(33);
+		hotelMessageVO.setCategoryId(categoryId);
 		hotelMessageVO.setItemId(Long.valueOf(586));
 		if(hotelMessageVO==null){
 			// "编辑商品信息错误";

@@ -87,11 +87,11 @@ public class HotelManageRepo {
 		WebResult<HotelMessageVO> webResult = domain.getWebResult();
 		CategoryResult categoryResult = categoryServiceRef.getCategory(domain.getHotelMessageVO().getCategoryId());
 		if(!categoryResult.isSuccess()||categoryResult.getCategroyDO()==null){
-			log.error("类目信息错误","categoryId:"+domain.getHotelMessageVO().getCategoryId());
+			log.error("类目信息错误,categoryId:"+domain.getHotelMessageVO().getCategoryId());
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "类目信息错误");
 		}
 		if(CollectionUtils.isEmpty(categoryResult.getCategroyDO().getSellCategoryPropertyDOs())){
-			log.error("类目销售属性信息错误");
+			log.error("类目销售属性信息错误,categoryId:"+domain.getHotelMessageVO().getCategoryId());
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "类目销售属性信息错误");
 		}
 		CategoryPropertyValueDO sellDO = categoryResult.getCategroyDO().getSellCategoryPropertyDOs().get(0);
