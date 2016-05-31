@@ -20,7 +20,7 @@ public class WebResourceConfigUtil {
 	private final static String ENV = "env";
 	private final static String RESOURCE_PATH_JIUXIU = "resource.path.jiuxiu";
 	private final static String RESOURCE_PATH_ADMIN = "resource.path.admin";
-	private final static String RESOURCE_PATH = "resource.path";
+//	private final static String RESOURCE_PATH = "resource.path";
 	private final static String JIUXIU_OFFICIAL_SITE = "jiuxiu.official.site";
 
 	public static String getRootPath() {
@@ -38,9 +38,9 @@ public class WebResourceConfigUtil {
 		return ResourceConfig.getInstance().getValueByKey(RESOURCE_PATH_ADMIN);
 	}
 
-	public static String getResourcePath() {
-		return ResourceConfig.getInstance().getValueByKey(RESOURCE_PATH);
-	}
+//	public static String getResourcePath() {
+//		return ResourceConfig.getInstance().getValueByKey(RESOURCE_PATH);
+//	}
 
 	public static String getTfsRootPath() {
 		return ResourceConfig.getInstance().getValueByKey(TFS_ROOT_PATH_KEY);
