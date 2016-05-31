@@ -1,0 +1,193 @@
+
+#set($layout = "/layout/layout-apply.vm")
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>申请入驻-填写资料</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/filldata.css">
+</head>
+
+	<input type="hidden" class="subpath" value="/sellerAdmin/apply/talent/saveExamineInfo_pageTwo">
+
+<!-- <form id="fm" method="post" action="" enctype=”multipart/form-data”>
+<input type="file" name="adpicfile">
+<input type="submit" value="提交">
+</form>
+<form id='uploadform' action='' method='post' enctype='multipart/form-data'><input type="file" name="adpicfile" class="adpicfile single">3333</form>
+	<div class="uploadPicture">  
+       <img id="imgHead" src="" width="106" height="122" alt="头像">   
+       <input type="file" id="basicInfoHead" name="basicInfoHead" /> 
+      </div>  -->
+	<div class="comwidth agreement-box mt30">
+		<div class="tit gray6 f16">达人开通申请</div>
+		<div class="titbox wdfill">
+			<div class="progress clearfix">
+				<div class="step start step-on step-fl">
+					<div class="step1">1</div>
+					<label class="step1">阅读协议</label>
+				</div>
+				<div class="step step-on">
+					<div class="step2">2</div>
+					<label class="step2">填写资料</label>
+				</div>
+				<div class="step step-fr">
+					<div class="step3">3</div>
+					<label class="step3">等待审核</label>
+				</div>
+			</div>
+		</div>
+		<div class="tabs">
+			<form id="forminfo" action="saveExamineInfo_b.do" method="post">
+			<div class="panel">
+				<div class="tit gray6 f16 error_tip">基本信息
+					#if ($checkResultInfo && $checkResultInfo.size()>0 )
+					<div class="error_box">
+							<div>审核不通过原因</div>
+							#foreach( $info in $checkResultInfo)<span style="color:white;">$!info</span><br/>#end
+						</div>
+					#end
+				</div>
+					<div class="fm_md_three fm_md">
+						<table>
+							<tr>
+								<td class="tbtxt w280"><label class="bred">*</label><span>商户姓名：</span></td>
+								<td colspan="3"><input class="inptxt businesname" id="principleName_"  name="principleName" value="$!examineInfo.principleName"   placeholder="合同签约人的姓名"></td>
+							</tr>
+							<tr>
+								<td class="tbtxt w280"><label class="bred">*</label><span>证件类型：</span></td>
+								<td colspan="3"><select id="card" class="selectlist" name="principleCard">
+							  <option #if ($examineInfo.principleCard == 0) selected="selected" #end value="0">身份证</option>
+							  <option #if ($examineInfo.principleCard == 1) selected="selected" #end value="1">驾驶证</option>
+							  <option #if ($examineInfo.principleCard == 2) selected="selected" #end value="2">护照</option>
+							  <option #if ($examineInfo.principleCard == 3) selected="selected" #end value="3">导游证</option>
+							</select></td>
+							</tr>
+							<tr>
+								<td class="tbtxt w280"><label class="bred">*</label><span>证件号：</span></td>
+								<td colspan="3"><input class="inptxt" id="cardtxt" value="$!examineInfo.principleCardId" name="principleCardId" datatype="s6-18" maxlength="18" placeholder="证件号码"></td>
+							</tr>
+							<tr>
+								<td class="tbtxt w280"><label class="bred">*</label><span>手机号：</span></td>
+								<td colspan="3"><input class="inptxt" value="$!examineInfo.principleTel" name="principleTel" datatype="m" maxlength="11" placeholder="手机号码"></td>
+							</tr>
+							
+							<tr>
+								<td class="tbtxt w280"><label class="bred">*</label><span>邮箱：</span></td>
+								<td colspan="3"><input class="inptxt" value="$!examineInfo.principleMail"  name="principleMail" datatype="e" maxlength="80" placeholder="请输入商户负责人邮箱"></td>
+							</tr>
+							<tr>
+								<td class="tbvt w280"><label class="bred">*</label><label>身份证正面：</label></td>
+								<td class="w380">
+									<span class="imgbox mr5">
+										<div class="canclick card_a">
+											#if ($!examineInfo.principleCardUp)
+											<img src="$!tfs/$!examineInfo.principleCardUp">
+											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+											#end
+										</div><div class="plhd"></div><div class="del">删除图片</div>
+										<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile single" ></a>
+										<input type="hidden" name="principleCardUp" value="$!examineInfo.principleCardUp" >
+									</span>
+								</td>
+								<td class="tbvt w150"><label class="bred">*</label><label>身份证反面：</label></td>
+								<td>
+									<span class="imgbox mr5">
+										<div class="canclick card_b">
+											#if ($!examineInfo.principleCardDown)
+											<img src="$!tfs/$!examineInfo.principleCardDown">
+											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+											#end
+										</div><div class="plhd"></div><div class="del">删除图片</div>
+										<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile single" ></a>
+										<input type="hidden" name="principleCardDown" value="$!examineInfo.principleCardDown">
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="tbvt w280"><label class="bred">*</label><label>手持身份证照片：</label></td>
+								<td colspan="3">
+									<div class="groupimg othimb clearfix">
+										<label class="inblock fl">
+											<span class="imgbox mr5 cnat">
+												<div class="canclick">
+													#if ($!examineInfo.cardInHand)
+													<img src="$!tfs/$!examineInfo.cardInHand">
+													#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+													#end
+												</div><div class="plhd"></div><div class="del">删除图片</div>
+												<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile mult"></a>
+												<input type="hidden" name="cardInHand" value="$!examineInfo.cardInHand">
+											</span>
+										</label>
+										<div class="clearfix tipbox">
+											<div class="fl">
+												<img src="$!rs_path_jiuxiu/img/cksl.png">
+												<label>参考示例</label>
+											</div>
+											<p class="fl">身份证上的所有信息清晰可见，必须能看清证件号。照片需免冠，建议未化妆。手持证件人的五官清晰可见。照片内容真实有效，不得做任何修改。支持jpg,jpeg,png格式的照片，大小不超过500K。</p>
+										</div>
+									</div>
+								</td>
+							</tr>
+							
+						</table>
+					</div>
+					<div class="tit gray6 f16">财务信息</div>
+					<div class="fm_md_four fm_md">
+						<table>
+							<tr>
+								<td class="tbtxt w280"><label class="bred">*</label><span>开户银行：</span></td>
+								<td><select id="bank" class="selectlist" name="financeOpenBankId">
+									  <option  value="">--请选择--</option>
+									#foreach ($bank in $bankList)
+										
+									  <option  #if ($examineInfo.financeOpenBankId == $bank.bankId) selected="selected" #end value="$!bank.bankId" >$!bank.bankName</option>
+									#end
+									  
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="tbtxt w280"><label class="bred">*</label><span>开户名称：</span></td>
+								<td><input class="inptxt" datatype="*" readOnly="readOnly"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" ></td>
+							</tr>
+							<tr>
+								<td class="tbtxt w280"><label class="bred">*</label><span>结算账号：</span></td>
+								<td><input class="inptxt finance"  name="accountNum" maxlength="25" value="$!examineInfo.accountNum" placeholder="请输入结算账号"></td>
+							</tr>
+							<tr>
+								<td class="tbtxt w280"><label class="bred">*</label><span>结算开户行：</span></td>
+								<td>
+									<input type="hidden" id="province_" value="$!examineInfo.accountBankProvinceCode">
+									<input type="hidden" id="city_" value="$!examineInfo.accountBankCityCode">
+									<select id="province"><option value="">--请选择--</option></select>
+									<select id="city" class="ml10"><option value="">--请选择--</option></select>
+									<span class="inblock"><input class="inptxt ml10 w280" value="$!examineInfo.accountBankName" name="accountBankName" datatype="*" maxlength="60" placeholder="请填写详细的开户行名称"></span>
+								</td>
+							</tr>
+							
+						</table>
+					</div>
+					
+					<div class="nextpage"><a href="#if ($examineInfo.sellerId <= 0) $!root_path/apply/talent/toAddUserdatafill_pageOne #else 
+					$!root_path/apply/talent/toEditUserdatafill_pageOne
+					#end" class="prev mr30">上一页</a><a class="allsub ml30">提交审核</a></div>
+				</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<script  type='text/temple' id='province-tpl'>
+	    <option value="">--请选择--</option>
+	    <# for(var j=0; j<province.length; j++) { #>
+	            <option value="<#= province[j].id#>"><#= province[j].name#></option>
+	    <# } #>
+	</script>
+	<script  type='text/temple' id='city-tpl'>
+	    <option value="">--请选择--</option>
+	    <# for(var j=0; j<city.length; j++) { #>
+	            <option value="<#= city[j].id#>"><#= city[j].name#></option>
+	    <# } #>
+	</script>
+	#parse("layout/layout-js.vm")
+	<script>seajs.use("userdatafill");</script>	
+

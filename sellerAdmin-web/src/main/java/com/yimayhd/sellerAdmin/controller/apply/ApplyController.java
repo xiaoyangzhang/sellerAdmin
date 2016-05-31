@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.MemberReturnCode;
+import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
+import com.yimayhd.membercenter.client.domain.merchant.BusinessScopeDO;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantQualificationDO;
+import com.yimayhd.membercenter.client.domain.merchant.QualificationDO;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
@@ -32,6 +37,7 @@ import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.biz.MerchantApplyBiz;
 import com.yimayhd.sellerAdmin.biz.MerchantBiz;
 import com.yimayhd.sellerAdmin.biz.TalentBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -72,7 +78,8 @@ public class ApplyController extends BaseController {
 	private TalentInfoDealService talentInfoDealService;
 	@Autowired
 	private TalentBiz talentBiz;
-	
+	@Autowired
+	private MerchantApplyBiz merchantApplyBiz;
 	
 	/**
 	 * 跳转到选择页面
@@ -465,7 +472,7 @@ public class ApplyController extends BaseController {
 		return chooseUrl;
 		
 	}*/
-	//2期商家入驻
+	//----------------------2期商家入驻-------------------------//
 	public  String judgeAuthority(Model model,long userId,String pageType){
 		String chooseUrl = "/system/chooseType";
 		InfoQueryDTO info = new InfoQueryDTO();
@@ -563,8 +570,9 @@ public class ApplyController extends BaseController {
 		info.setType(ExamineType.MERCHANT.getType());
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
-		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
-		if(result.isSuccess()){
+		//MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
+		MemResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
+		if(result != null && result.isSuccess()){
 			model.addAttribute("examineInfo", result.getValue());
 			if(null!=result.getValue() && (result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW || result.getValue().getExaminStatus() == Constant.MERCHANT_TYPE_HALF)){//审核不通过时
 				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
@@ -573,6 +581,18 @@ public class ApplyController extends BaseController {
 				}
 			}
 		}
+		MemResult<List<MerchantCategoryDO>> categories = merchantApplyBiz.getAllMerchantCategory();
+		if (categories != null && categories.isSuccess()) {
+			model.addAttribute("merchantCategories", categories.getValue());
+			
+		}
+		MemResult<List<BusinessScopeDO>> scopes = merchantApplyBiz.getAllBusinessScopes();
+		if (scopes != null && scopes.isSuccess()) {
+			model.addAttribute("businessScopes", scopes.getValue());
+			
+		}
+		//model.addAttribute("businessScopes", merchantApplyBiz.getAllBusinessScopes());
+		
 		return "/system/seller/userdatafill_a";
 	}
 	
@@ -594,9 +614,11 @@ public class ApplyController extends BaseController {
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
 		
-		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
+		//MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
+		MemResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
 		if(result.isSuccess()){
 			model.addAttribute("examineInfo", result.getValue());
+			
 			if(null!=result.getValue() && (result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW || result.getValue().getExaminStatus() == Constant.MERCHANT_TYPE_HALF)){//审核不通过时
 				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
 				if(rest.isSuccess() && (null!=rest.getValue())){
@@ -604,11 +626,16 @@ public class ApplyController extends BaseController {
 				}
 			}
 		}
-		MemResult<List<BankInfoDTO>> bankResult = talentInfoDealService.queryBankList();
-		if(bankResult.isSuccess()){
-			model.addAttribute("bankList", bankResult.getValue());
-		}
-		
+//		MemResult<List<BankInfoDTO>> bankResult = talentInfoDealService.queryBankList();
+//		if(bankResult.isSuccess()){
+//			model.addAttribute("bankList", bankResult.getValue());
+//		}
+//		MemResult<List<QualificationDO>> qualifications = merchantApplyBiz.getAllQualificaitons();
+//		if (qualifications != null && qualifications.isSuccess()) {
+//			model.addAttribute("qualifications", qualifications.getValue());
+//			
+//		}
+		//model.addAttribute("qualifications", merchantApplyBiz.getAllQualificaitons());
 		return "/system/seller/userdatafill_b";
 	}
 	/**
@@ -618,13 +645,16 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/seller/saveUserdata" ,method=RequestMethod.POST)
 	@ResponseBody
-	public WebResult<String> saveUserdata(UserDetailInfo userDetailInfo){
-		WebResult<String> rest = new WebResult<String>();
-		WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
+	public MemResult<String> saveUserdata(ExamineInfoVO examineInfoVO){
+		MemResult<String> rest = new MemResult<String>();
+	//	WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
+		List<MerchantScopeDO> merchantScopes = JSON.parseArray(examineInfoVO.getMerchantScopeStr(), MerchantScopeDO.class);
+		examineInfoVO.setMerchantScopes(merchantScopes);
+		MemResult<Boolean> result = merchantApplyBiz.submitExamineInfo(examineInfoVO);
 		if(result.isSuccess()){
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/seller/toDetailPageB");
 		}else{
-			rest.setWebReturnCode(result.getWebReturnCode());
+			rest.setReturnCode(result.getReturnCode());
 		}
 		return rest;
 		
@@ -637,9 +667,12 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/seller/saveUserdataB" ,method=RequestMethod.POST)
 	@ResponseBody
-	public WebResult<String> saveUserdataB(UserDetailInfo userDetailInfo){
-		WebResult<String> rest = new WebResult<String>();
-		WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
+	public MemResult<String> saveUserdataB(ExamineInfoVO examineInfoVO){
+		MemResult<String> rest = new MemResult<String>();
+		//WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
+		List<MerchantQualificationDO> merchantQualifications = JSON.parseArray(examineInfoVO.getMerchantQualificationStr(), MerchantQualificationDO.class);
+		examineInfoVO.setMerchantQualifications(merchantQualifications);
+		MemResult<Boolean> result = merchantApplyBiz.updateMerchantQualification(examineInfoVO);
 		if(result.isSuccess()){
 			InfoQueryDTO info = new InfoQueryDTO();
 			info.setDomainId(Constant.DOMAIN_JIUXIU);
@@ -648,7 +681,7 @@ public class ApplyController extends BaseController {
 			merchantBiz.changeExamineStatusIntoIng(info);
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/seller/toVerifyPage");
 		}else{
-			rest.setWebReturnCode(result.getWebReturnCode());
+			rest.setReturnCode(result.getReturnCode());
 		}
 		return rest;
 	}
@@ -662,5 +695,19 @@ public class ApplyController extends BaseController {
 	public String toBusinessVerifyPage(Model model){
 		return "/system/seller/verification";
 	}
-	
+	/**
+	 * 
+	* created by zhangxy
+	* @date 2016年5月30日
+	* @Title: checkParams 
+	* @Description: 商户入驻参数校验
+	* @param @param examineInfoVO
+	* @param @return    设定文件 
+	* @return boolean    返回类型 
+	* @throws
+	 */
+	private boolean checkParams(ExamineInfoVO examineInfoVO) {
+		
+		return false;
+	}
 }

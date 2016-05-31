@@ -2,11 +2,16 @@ package com.yimayhd.sellerAdmin.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
+import com.yimayhd.membercenter.client.domain.merchant.BusinessScopeDO;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantQualificationDO;
+import com.yimayhd.membercenter.client.domain.merchant.QualificationDO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.enums.ExamineType;
@@ -125,7 +130,16 @@ public class ExamineInfoVO  implements Serializable  {
     private Date createDate;
     //手持身份证
     private String cardInHand;
- // ********************2期资质****************************//
+    //审核状态
+    private int examinStatus;
+    public int getExaminStatus() {
+		return examinStatus;
+	}
+	public void setExaminStatus(int examinStatus) {
+		this.examinStatus = examinStatus;
+	}
+
+	// ********************2期资质****************************//
 	private byte isDirectSale;//是否直营
 	public String getInterMediaryLicense() {
 		return interMediaryLicense;
@@ -242,7 +256,52 @@ public class ExamineInfoVO  implements Serializable  {
 	private String scenicGoodsAuthorization;//景区商品授权书
 	private String scenicQualityLevel;//景区质量等级证书
 	private String relationBetweenHotelAngGroup;//酒店与集团的所属关系说明
+	private List<MerchantQualificationDO> merchantQualifications;//商家与资质关联对象集合
+	private List<MerchantScopeDO> merchantScopes;//商家与经营范围关联对象集合
 	
+	private String merchantQualificationStr;
+	private String merchantScopeStr;
+	
+	private List<QualificationDO> qualifications;
+	private List<BusinessScopeDO> businessScopes;
+	public List<QualificationDO> getQualifications() {
+		return qualifications;
+	}
+	public void setQualifications(List<QualificationDO> qualifications) {
+		this.qualifications = qualifications;
+	}
+	public List<BusinessScopeDO> getBusinessScopes() {
+		return businessScopes;
+	}
+	public void setBusinessScopes(List<BusinessScopeDO> businessScopes) {
+		this.businessScopes = businessScopes;
+	}
+	public String getMerchantQualificationStr() {
+		return merchantQualificationStr;
+	}
+	public void setMerchantQualificationStr(String merchantQualificationStr) {
+		this.merchantQualificationStr = merchantQualificationStr;
+	}
+	public String getMerchantScopeStr() {
+		return merchantScopeStr;
+	}
+	public void setMerchantScopeStr(String merchantScopeStr) {
+		this.merchantScopeStr = merchantScopeStr;
+	}
+	public List<MerchantQualificationDO> getMerchantQualifications() {
+		return merchantQualifications;
+	}
+	public void setMerchantQualifications(
+			List<MerchantQualificationDO> merchantQualifications) {
+		this.merchantQualifications = merchantQualifications;
+	}
+	public List<MerchantScopeDO> getMerchantScopes() {
+		return merchantScopes;
+	}
+	public void setMerchantScopes(List<MerchantScopeDO> merchantScopes) {
+		this.merchantScopes = merchantScopes;
+	}
+
 	public long getMerchantCategoryId() {
 		return merchantCategoryId;
 	}
@@ -543,64 +602,7 @@ public class ExamineInfoVO  implements Serializable  {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public  ExamineInfoDTO getExamineInfoDTO(ExamineInfoVO vo,long userId) throws Exception {
-		if (vo == null || userId <= 0 ) {
-			log.error("get examineSubmitDTO params error :vo="+vo+"userId="+userId);
-			throw new BaseException("参数错误");
-		}
-//		if (!vo.getPrincipleName().equals(vo.getFinanceOpenName())) {
-//			log.error("达人姓名与开户名称不相同");
-//			throw new BaseException("商户姓名与开户名称需相同");
-//		}
-		ExamineInfoDTO dto=new ExamineInfoDTO();
-		//BeanUtils.copyProperties(dto, vo);
-		dto.setAccountBankName(vo.getAccountBankName());
-		dto.setAccountNum(vo.getAccountNum());
-		dto.setAddress(vo.getAddress());
-		dto.setAffairsCard(vo.getAffairsCard());
-		dto.setArtCertificate(vo.getArtCertificate());
-		dto.setBusinessLicense(vo.getBusinessLicense());
-		dto.setCardInHand(vo.getCardInHand());
-		dto.setClimbingCertificate(vo.getClimbingCertificate());
-		dto.setCooperation1(vo.getCooperation1());
-		dto.setCooperation2(vo.getCooperation2());
-		dto.setCooperation3(vo.getCooperation3());
-		dto.setCooperation4(vo.getCooperation4());
-		dto.setCooperation5(vo.getCooperation5());
-		dto.setDivingLinence(vo.getDivingLinence());
-		dto.setDrivingLinence(vo.getDrivingLinence());
-		dto.setFinanceOpenBankId(vo.getFinanceOpenBankId());
-		dto.setFinanceOpenName(vo.getFinanceOpenName());
-		dto.setLegralCardDown(vo.getLegralCardDown());
-		dto.setLegralCardUp(vo.getLegralCardUp());
-		dto.setLegralName(vo.getLegralName());
-		dto.setOpenCard(vo.getOpenCard());
-		dto.setPhotographyCertificate(vo.getPhotographyCertificate());
-		dto.setOrgCard(vo.getOrgCard());
-		dto.setPrincipleCard(vo.getPrincipleCard());
-		dto.setSaleScope(vo.getSaleScope());
-		dto.setSellerName(vo.getSellerName());
-		dto.setTravingCard(vo.getTravingCard());
-		dto.setPrincipleCardId(vo.getPrincipleCardId());
-		dto.setPrincipleMail(vo.getPrincipleMail());
-		dto.setPrincipleTel(vo.getPrincipleTel());
-		dto.setTeacherCertificate(vo.getTeacherCertificate());
-		dto.setTouchProve(vo.getTouchProve());
-		dto.setTouristCard(vo.getTouristCard());
-		dto.setTrainingCertificate(vo.getTrainingCertificate());
-		dto.setPrincipleName(vo.getPrincipleName());
-		dto.setPrincipleCardUp(vo.getPrincipleCardUp());
-		dto.setPrincipleCardDown(vo.getPrincipleCardDown());
-		dto.setDomainId(Constant.DOMAIN_JIUXIU);
-		dto.setSellerId(userId);
-		dto.setType(ExamineType.TALENT.getType());
-		dto.setAccountBankProvinceCode(vo.getProvince());
-		dto.setAccountBankCityCode(vo.getCity());
-		//dto.setMerchantCategoryId(vo.getMerchantCategoryId());
-		//dto.setIsDirectSale(vo.getIsDirectSale());
-		return dto;
-		
-	}
+	
 
 	public InfoQueryDTO getInfoQueryDTO (long userId) {
 		if (userId <= 0  ) {

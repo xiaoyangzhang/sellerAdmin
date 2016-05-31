@@ -21,6 +21,7 @@ import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.converter.MerchantConverter;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
 import com.yimayhd.user.session.manager.SessionManager;
@@ -135,7 +136,7 @@ public class TalentRepo {
 		WebResult<Boolean> result = new WebResult<Boolean>();
 		MemResult<Boolean> ExamineInfoResult = null;
 		try {
-			ExamineInfoDTO dto = vo.getExamineInfoDTO(vo, sessionManager.getUserId());
+			ExamineInfoDTO dto = MerchantConverter.convertVO2DTO(vo, sessionManager.getUserId());
 			ExamineInfoResult = examineDealService.submitMerchantExamineInfo(dto);
 //			MerchantQualificationDO mqDO = MerchantConverter.setMerchantQualification(dto,sessionManager.getUserId());
 //			MerchantScopeDO msDO = MerchantConverter.setMerchantScope(dto,sessionManager.getUserId());

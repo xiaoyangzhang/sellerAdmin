@@ -1,0 +1,35 @@
+#set($layout = "/layout/layout-apply.vm")
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>申请入驻-等待审核</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/filldata.css">
+</head>
+	<div class="comwidth agreement-box mt30">
+		<div class="tit gray6 f16">达人开通申请</div>
+		<div class="titbox">
+			<div class="progress clearfix">
+				<div class="step start step-on step-fl">
+					<div class="step1">1</div>
+					<label class="step1">阅读协议</label>
+				</div>
+				<div class="step step-on">
+					<div class="step2">2</div>
+					<label class="step2">填写资料</label>
+				</div>
+				<div class="step step-on step-fr">
+					<div class="step3">3</div>
+					<label class="step3">等待审核</label>
+				</div>
+			</div>
+		</div>
+		<div class="waiting tc m60">
+			<i class="mb5"></i><br><label class="f16 gray6">您的达人资料我们已经收到</label>
+			<div class="message">
+				<span class="f14 gray6">请等待审核结果，审核通过后即可使用！</span><br>
+				<span class="f14 gray6">如果有任何疑问，请联系我们：4000-696-888</span>
+			</div>
+		</div>
+	</div>
+	#parse("layout/layout-js.vm")
+	<script>seajs.use("test");</script>	
+
