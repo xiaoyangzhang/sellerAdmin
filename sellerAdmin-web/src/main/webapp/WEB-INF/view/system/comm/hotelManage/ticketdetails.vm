@@ -56,11 +56,11 @@
                 </tr>
                 #foreach($bizCategoryInfo in $bizCategoryInfoList)
                     #if($bizCategoryInfo.pType == 1)
-                    <tr class="dynamicTr notNull" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pText" pType="$!bizCategoryInfo.pType">
-                        <td class="coltxt"><span class="bred">*</span>$!bizCategoryInfo.pText：</td>
+                    <tr class="dynamicTr notNull" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pTxt" pType="$!bizCategoryInfo.pType">
+                        <td class="coltxt"><span class="bred">*</span>$!bizCategoryInfo.pTxt：</td>
                     #else
-                    <tr class="dynamicTr" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pText" pType="$!bizCategoryInfo.pType">
-                        <td class="coltxt">$!bizCategoryInfo.pText：</td>
+                    <tr class="dynamicTr" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pTxt" pType="$!bizCategoryInfo.pType">
+                        <td class="coltxt">$!bizCategoryInfo.pTxt：</td>
                     #end
                     <td>这里这里改</td>
                 </tr>
