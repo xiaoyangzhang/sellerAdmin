@@ -29,6 +29,8 @@
                     <option value="3400" #if($!orderListQuery.itemType == 3400) selected #end>境外跟团游</option>
                     <option value="3500" #if($!orderListQuery.itemType == 3500) selected #end>境外自由行</option>
                     <option value="3300" #if($!orderListQuery.itemType == 3300) selected #end>同城活动</option>
+                    <option value="1200" #if($!orderListQuery.itemType == 1200) selected #end>景区门票</option>
+                    <option value="1100" #if($!orderListQuery.itemType == 1100) selected #end>酒店</option>
                     <option value="200" #if($!orderListQuery.itemType == 200) selected #end>特产商品</option>
                 </select>
             </div>
@@ -39,11 +41,12 @@
                 </span>
                 <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="orderStat">
                     <option value="">全部</option>
-                    <option value="NOT_PAY" #if($!orderListQuery.orderStat == 'NOT_PAY') selected #end>待付款</option>
-                    <option value="NO_LG_ORDER" #if($!orderListQuery.orderStat == 'NO_LG_ORDER') selected #end>已付款</option>
-                    <option value="CONSIGNED" #if($!orderListQuery.orderStat == 'CONSIGNED') selected #end>待出行</option>
-                    <option value="NOT_PAY_CLOSE" #if($!orderListQuery.orderStat == 'NOT_PAY_CLOSE') selected #end>已取消</option>
-                    <option value="SUCCESS" #if($!orderListQuery.orderStat == 'SUCCESS') selected #end>已完成</option>
+                    <option value="WAITING_PAY" #if($!orderListQuery.orderStat == 'WAITING_PAY') selected #end>待付款</option>
+                    <option value="WAITING_DELIVERY" #if($!orderListQuery.orderStat == 'WAITING_DELIVERY') selected #end>处理中/待确认</option>
+                    <option value="SHIPPING" #if($!orderListQuery.orderStat == 'SHIPPING') selected #end>待出行/待使用/预定成功</option>
+                    <option value="CONFIRMED_CLOSE" #if($!orderListQuery.orderStat == 'CONFIRMED_CLOSE') selected #end>酒店（未入住）</option>
+                    <option value="FINISH" #if($!orderListQuery.orderStat == 'FINISH') selected #end>已完成</option>
+                    <option value="CANCEL" #if($!orderListQuery.orderStat == 'CANCEL') selected #end>已取消</option>
                 </select>
             </div>
 
