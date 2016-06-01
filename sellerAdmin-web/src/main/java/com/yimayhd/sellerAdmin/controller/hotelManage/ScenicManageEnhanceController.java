@@ -94,8 +94,6 @@ public class ScenicManageEnhanceController extends BaseController {
      */
     @RequestMapping(value = "/addScenicManageView")
     public String addScenicManageView(Model model){
-        //Long categoryId
-        System.out.println("123123132");
         ScenicManageVO scenicManageVO = new  ScenicManageVO();
         long userId = sessionManager.getUserId() ;
         scenicManageVO.setSellerId(userId);
@@ -173,15 +171,15 @@ public class ScenicManageEnhanceController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/editScenicManageView", method = RequestMethod.GET)
+    @RequestMapping(value = "/editScenicManageView")
     public String editScenicManageView(Model model){
 
         System.out.println(123);
         ScenicManageVO scenicManageVO = new ScenicManageVO();
         long userId = sessionManager.getUserId() ;
         scenicManageVO.setSellerId(userId);
-        scenicManageVO.setCategoryId(6);
-        scenicManageVO.setItemId(586);
+        scenicManageVO.setCategoryId(233);
+        scenicManageVO.setItemId(108247);
         if(scenicManageVO==null){
             // "编辑商品信息错误";
             return "/error";

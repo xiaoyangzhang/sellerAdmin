@@ -43,7 +43,7 @@
         <form id="hotelfm">
             <input type="hidden" class="picCode baseInfo-picCode" name="hotelId" value="$!{hotelMessageVO.hotelId}" />
             <input type="hidden" class="picCode baseInfo-picCode" name="name" value="$!{hotelMessageVO.name}" />
-            <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{hotelMessageVO.supplierCalendar}" />
+            <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value='$!{hotelMessageVO.supplierCalendar}' />
             <input type="hidden" class="picCode baseInfo-picCode" name="roomId" value="$!{hotelMessageVO.roomId}" />
             <input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{hotelMessageVO.sellerId}" />
             <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{hotelMessageVO.categoryId}" />
@@ -88,7 +88,7 @@
                     <td>
                         #foreach($multiChoice in $multiChoiceList)
                             <label class="checkbox">
-                                <input type="checkbox" class="productTag" name="storeLastTime"  value="${multiChoice.tValue}" chose="${multiChoice.choiceNo}" #if($multiChoice.choiceNo) checked #end/>当前${multiChoice.value}前
+                                <input type="checkbox" class="productTag" name="storeLastTime"  value="${multiChoice.tValue}" #if($multiChoice.choiceNo) checked #end/>当前${multiChoice.value}前
                             </label>
                         #end
 
