@@ -54,7 +54,7 @@
                                     <div class="nav-top"><span class="icon icon4"></span></div>
                                     <div class="nav-bom">同城活动企业</div>
                                 </li>
-                                <li class="fl last la">
+                                <li class="fl last la " id="shazi">
                                     <div class="nav-top"><span class="icon icon5"></span></div>
                                     <div class="nav-bom" >旅游线路达人</div>
                                 </li>
@@ -191,7 +191,7 @@
                     </div>
                 </div>
                <div class="line-bottom"></div>
-               <div class="settled"><a href="javascript:;">立即入驻</a></div>
+               <div class="settled"><a id="Settled" href="javascript:void(0);" >立即入驻</a></div>
 	</div>
 	<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/sea.js"></script>
 	<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>

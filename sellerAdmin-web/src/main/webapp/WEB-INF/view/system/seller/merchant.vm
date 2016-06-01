@@ -1,0 +1,85 @@
+#set($layout = "/layout/layout-jiuxiu.vm")
+
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>基本信息</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/merchant.css">
+</head>
+
+<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/jquery-ui-1.10.4.custom.css">
+<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/merchant.css">
+
+	<!-- 面包屑 -->
+			<div class = "eredar-info clearfix">
+				<ul>
+					<li class = " first on">基本信息</li>
+				</ul>
+			</div>
+			<form class="registerform" method="post" autocomplete="off" action="">
+				<input type="hidden" name="id" #if("$!id" == "") value="0" #else value="$!id" #end/>
+			   <div class = "eredar-list eredar-list1 merchant-list1">
+				    <p>	
+						<em><font>*</font>昵称  :</em>
+						<span>
+							<input type="text" value="$!nickName" name="nickName" class="inputxt niname" />
+						</span>
+					</p>
+					<p>
+						<em>店铺负责人电话  :</em>
+						<span>
+							<input type="text" value="$!merchantPrincipalTel" name="merchantPrincipalTel" class="inputxt zetel"  />
+						</span>
+					</p>
+					<p>
+						<em>客服电话  :</em>
+						<span>
+							<input type="text" value="$!serviceTel" name="serviceTel" class="inputxt fixdetel"   />
+						</span>
+					</p>
+					<p>
+						<em class="mt">店铺地址  :</em>
+						<span>
+							<textarea tip="请在这里输入您的店铺地址。" value="" id="textareaInpute"  altercss="gray" class="gray" name="address"  >$!address</textarea><label><span id="isUsed" >0</span><span class="fx">/</span> <span id="unUse" >100</span></label>
+						</span>
+					</p>
+					<div class="merchant-shop">
+						<label class="mt"><font>*</font>店铺头图:</label>
+						<div class="bigbox">
+							<span class="imgbox">
+								<div class="canclick canclickL">
+									#if("$!ttImage" == "")
+									<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+									#else
+									<img src="$!tfs$!ttImage">
+									#end
+								</div><div class="plhd"></div><div class="del">删除图片</div>
+								<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
+								<input type="hidden" name="ttImage" value="$!ttImage">
+							</span>
+						<label class="lab">图片大小不超过500K,建议图片尺寸为：750*260,仅限于JPG,JPEG,PNG格式</label>
+			           </div>
+					</div>
+			    	<div class="merchant-shop">
+						<label class="mt"><font>*</font>店铺店标  :</label>
+						<div class="bigbox">
+							<span class="imgbox">
+								<div class="canclick canclickL">
+									#if("$!dbImage" == "")
+									<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+									#else
+									<img src="$!tfs$!dbImage">
+									#end
+								</div><div class="plhd"></div><div class="del">删除图片</div>
+								<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
+								<input type="hidden" name="dbImage" value="$!dbImage">
+							</span>
+						<label class="lab">图片大小不超过500K,建议图片尺寸为：80*80,仅限于JPG,JPEG,PNG格式</label>
+			           </div>
+					</div>
+				</div>
+			</form>
+			<div class = "eredar-list merchant-list2">
+				<button id="save">保存</button>
+			</div>
+	#parse("layout/layout-js.vm")
+	<script>seajs.use("merchant");</script>	

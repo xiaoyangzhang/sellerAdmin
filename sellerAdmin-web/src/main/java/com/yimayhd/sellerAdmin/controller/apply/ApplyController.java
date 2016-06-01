@@ -1,7 +1,10 @@
 package com.yimayhd.sellerAdmin.controller.apply;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +24,7 @@ import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.BusinessScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantQualificationDO;
 import com.yimayhd.membercenter.client.domain.merchant.QualificationDO;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
@@ -517,7 +521,7 @@ public class ApplyController extends BaseController {
 					model.addAttribute("type", Constant.TALENT_NAME_CN);
 				}
 				model.addAttribute("url", "/apply/toChoosePage?reject=true");
-				return "/system/seller/nothrough";
+				return "/system/merchant/nothrough";
 			}else{
 				return null;
 			}
@@ -561,10 +565,10 @@ public class ApplyController extends BaseController {
 	@RequestMapping(value = "/seller/toDetailPage")
 	public String toBusinessDetailPage(Model model){
 		//权限
-		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-		if(null != judgeRest){
-			return judgeRest;
-		}
+//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
+//		if(null != judgeRest){
+//			return judgeRest;
+//		}
 		
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setType(ExamineType.MERCHANT.getType());
@@ -581,18 +585,39 @@ public class ApplyController extends BaseController {
 				}
 			}
 		}
-		MemResult<List<MerchantCategoryDO>> categories = merchantApplyBiz.getAllMerchantCategory();
-		if (categories != null && categories.isSuccess()) {
-			model.addAttribute("merchantCategories", categories.getValue());
-			
-		}
-		MemResult<List<BusinessScopeDO>> scopes = merchantApplyBiz.getAllBusinessScopes();
-		if (scopes != null && scopes.isSuccess()) {
-			model.addAttribute("businessScopes", scopes.getValue());
-			
-		}
-		//model.addAttribute("businessScopes", merchantApplyBiz.getAllBusinessScopes());
-		
+//		MemResult<List<MerchantCategoryDO>> categoryResult = merchantApplyBiz.getAllMerchantCategory();
+//		if (categoryResult != null && categoryResult.isSuccess()) {
+//			List<MerchantCategoryDO> categories = categoryResult.getValue();
+//			Map<String, Map<Integer, String>> categoryMap = new HashMap<String, Map<Integer, String>>();
+//			Map<Integer, String> categoryMap2 = new HashMap<Integer, String>();
+//			List<Map<String, List<MerchantCategoryDO>>> mcList = new ArrayList<>();
+//			ExamineType[] merchantTypes = ExamineType.values();
+//			for (ExamineType et : merchantTypes) {
+//				if (et.getType() != ExamineType.TALENT.getType() || (et.getType() != ExamineType.MERCHANT.getType())) {
+//					
+//					Map<String, List<MerchantCategoryDO>> map = new HashMap<>();
+//					List<MerchantCategoryDO> doList = new ArrayList<>();
+//					for (MerchantCategoryDO mc : categories) {
+//						if (et.getType() == mc.getType()) {
+//							
+//							doList.add(mc);
+//							
+//						}
+//					}
+//					map.put(et.getName(), doList);
+//					mcList.add(map);
+//				}
+//			}
+//			model.addAttribute("merchantCategories", mcList);
+//			
+//		}
+//		MemResult<List<BusinessScopeDO>> scopes = merchantApplyBiz.getAllBusinessScopes();
+//		if (scopes != null && scopes.isSuccess()) {
+//			model.addAttribute("businessScopes", scopes.getValue());
+//			
+//		}
+//		//model.addAttribute("businessScopes", merchantApplyBiz.getAllBusinessScopes());
+//		model.addAttribute("merchantTypes", ExamineType.values());
 		return "/system/seller/userdatafill_a";
 	}
 	
@@ -604,10 +629,10 @@ public class ApplyController extends BaseController {
 	@RequestMapping(value = "/seller/toDetailPageB")
 	public String toDetailPageB(Model model){
 		//权限
-		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-		if(null != judgeRest){
-			return judgeRest;
-		}
+//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
+//		if(null != judgeRest){
+//			return judgeRest;
+//		}
 		
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setType(ExamineType.MERCHANT.getType());
@@ -636,6 +661,11 @@ public class ApplyController extends BaseController {
 //			
 //		}
 		//model.addAttribute("qualifications", merchantApplyBiz.getAllQualificaitons());
+		MemResult<List<Map<String, QualificationDO>>> qualificationResult = merchantApplyBiz.getQualificationByCategoryId();
+		if(qualificationResult.isSuccess() && qualificationResult.getValue() != null) {
+			List<Map<String, QualificationDO>> qualificationList = qualificationResult.getValue();
+			model.addAttribute("qualifications", qualificationList);
+		}
 		return "/system/seller/userdatafill_b";
 	}
 	/**
@@ -709,5 +739,17 @@ public class ApplyController extends BaseController {
 	private boolean checkParams(ExamineInfoVO examineInfoVO) {
 		
 		return false;
+	}
+	@RequestMapping(value="getBusinessScope",method=RequestMethod.POST)
+	@ResponseBody
+	public MemResult<String>  getCategoryScopeBy(long merchantCategoryId) {
+		MemResult<String> result = new MemResult<String>();
+		if (merchantCategoryId <= 0) {
+			result.setReturnCode(MemberReturnCode.CATEGORY_BUSINESS_SCOPE_FAILED);
+			return result;
+		}
+		MemResult<List<MerchantCategoryScopeDO>> queryResult = merchantApplyBiz.getMerchantCategoryScopeByMerchantCategoryId(merchantCategoryId);
+		result.setValue(JSON.toJSONString(queryResult.getValue()));
+		return result;
 	}
 }

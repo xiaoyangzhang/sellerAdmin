@@ -50,8 +50,8 @@
         <property name="retries" value="${dubbo.retries}"/>
         <property name="version" value="${consumer.dubbo.member.version}"/>
     </bean>
-     <bean id="applyServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
-        <property name="interface" value="com.yimayhd.membercenter.service.client.examine.ApplyServiceImpl"/>
+     <bean id="applyService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.membercenter.client.service.examine.ApplyService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
 		<property name="timeout" value="${consumer.dubbo.timeout}"/>

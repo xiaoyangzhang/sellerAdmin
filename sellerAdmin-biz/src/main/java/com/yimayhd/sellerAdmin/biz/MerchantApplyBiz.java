@@ -1,34 +1,19 @@
 package com.yimayhd.sellerAdmin.biz;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.yimayhd.fhtd.logger.annot.MethodLogger;
-import com.yimayhd.membercenter.MemberReturnCode;
-import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.domain.merchant.BusinessScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.QualificationDO;
-import com.yimayhd.membercenter.client.dto.BankInfoDTO;
-import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
-import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
-import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
-import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
-import com.yimayhd.membercenter.enums.ExamineType;
-import com.yimayhd.sellerAdmin.base.result.WebResult;
-import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
-import com.yimayhd.sellerAdmin.constant.Constant;
-import com.yimayhd.sellerAdmin.converter.MerchantConverter;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
-import com.yimayhd.sellerAdmin.model.TalentInfoVO;
 import com.yimayhd.sellerAdmin.repo.MerchantApplyRepo;
-import com.yimayhd.sellerAdmin.repo.TalentRepo;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /**
@@ -65,7 +50,15 @@ protected Logger log=LoggerFactory.getLogger(getClass());
 	public MemResult<List<BusinessScopeDO>> getAllBusinessScopes() {
 		return merchantApplyRepo.getAllBusinessScopes();
 	}
-	public MemResult<List<QualificationDO>> getAllQualificaitons() {
-		return merchantApplyRepo.getAllQualificaitons();
+//	public MemResult<List<QualificationDO>> getAllQualificaitons() {
+//		return merchantApplyRepo.
+//	}
+	
+	public MemResult<List<MerchantCategoryScopeDO>> getMerchantCategoryScopeByMerchantCategoryId(long merchantCategoryId) {
+		return merchantApplyRepo.getMerchantCategoryScope(merchantCategoryId);
+	}
+	
+	public MemResult<List<Map<String, QualificationDO>>> getQualificationByCategoryId() {
+		return merchantApplyRepo.getQualificationByCategoryId();
 	}
 }

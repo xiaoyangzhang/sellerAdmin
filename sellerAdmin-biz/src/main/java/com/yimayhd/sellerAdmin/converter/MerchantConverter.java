@@ -137,6 +137,8 @@ public class MerchantConverter {
 		vo.setCity(examineInfoDTO.getAccountBankCityCode());
 		vo.setMerchantCategoryId(examineInfoDTO.getMerchantCategoryId());
 		vo.setIsDirectSale(examineInfoDTO.getIsDirectSale());
+//		vo.setMerchantQualifications(examineInfoDTO.getMerchantQualifications());
+//		vo.setMerchantScopes(examineInfoDTO.getMerchantScopes());
 //		dto.setAmusementParkReport(vo.getAmusementParkReport());
 //		dto.setWildlifeSale(vo.getWildlifeSale());
 //		dto.setWaterWildlifeSale(vo.getWaterWildlifeSale());

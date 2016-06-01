@@ -69,7 +69,7 @@ public class BasicInfoController extends BaseController {
 	 * 跳转到商户基本信息页面
 	 * @param model
 	 * @return
-	 *//*
+	 */
 	@RequestMapping(value = "/merchant/toAddBasicPage")
 	public String toBusinessPage(Model model){
 		try {
@@ -92,7 +92,7 @@ public class BasicInfoController extends BaseController {
 				model.addAttribute("serviceTel", meResult.getValue().getServiceTel());
 				
 			}
-			return "/system/merchant/merchant";
+			return "/system/seller/merchant";
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			//model.addAttribute("服务器出现错误，请稍后重新登录");
@@ -101,11 +101,11 @@ public class BasicInfoController extends BaseController {
 		
 	}
 	
-	*//**
+	/**
 	 * 保存商户基本信息
 	 * @param merchantDO
 	 * @return
-	 *//*
+	 */
 	@RequestMapping(value = "/merchant/saveBasic",method=RequestMethod.POST)
 	@ResponseBody
 	public WebResultSupport saveBusinessBasic(MerchantInfoVo basicInfo){
@@ -127,7 +127,7 @@ public class BasicInfoController extends BaseController {
 		} else {
 			return result;
 		}
-	}*/
+	}
 	/**
 	 * 编辑达人基本信息
 	 * @param request

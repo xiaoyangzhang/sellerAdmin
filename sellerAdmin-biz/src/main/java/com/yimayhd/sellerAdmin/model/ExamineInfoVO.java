@@ -141,6 +141,46 @@ public class ExamineInfoVO  implements Serializable  {
 
 	// ********************2期资质****************************//
 	private byte isDirectSale;//是否直营
+private long merchantCategoryId;//商家身份
+	
+	private String interMediaryLicense;//因私出入境中介机构经营许可证正面
+	private String seaTransportationLicense;//水路运输许可证正面
+	private String travelAgencyBranchAgreement;//旅行社分社补充协议
+	private String scenicTicketAuthorization;//景点门票授权书或合作协议
+	private String hotelGoodsAuthorization;//酒店商品授权书
+	private String  specialSaleLicense; //特种经营许可证副本复印件
+	private String specialSaleAuthorization;//旅游局特许经营授权书
+	private String wildlifeSale;//野生动物经营利用许可证
+	private String waterWildlifeSale;//水生野生动物经营利用许可证
+	private String amusementParkReport;//游乐特种设备（备案）登记证明和游乐设备最新的定期检测报告
+	private String scenicPriceRegister;//景区门票价格在物价局的备案登记证明
+	private String scenicTicketUpScanning;//景区门票扫描件正面
+	private String scenicTicketDownScanning;//景区门票扫描件反面
+	private String scenicGoodsAuthorization;//景区商品授权书
+	private String scenicQualityLevel;//景区质量等级证书
+	private String relationBetweenHotelAngGroup;//酒店与集团的所属关系说明
+	private List<MerchantQualificationDO> merchantQualifications;//商家与资质关联对象集合
+	private List<MerchantScopeDO> merchantScopes;//商家与经营范围关联对象集合
+	
+	private String merchantQualificationStr;
+	private String merchantScopeStr;
+	
+	private List<QualificationDO> qualifications;
+	private List<BusinessScopeDO> businessScopes;
+	
+	private String lawPersonCard;//法人身份证号
+	private String saleLicenseNumber;//营业执照号
+	private String taxRegisterNumber;//税务登记号
+	
+	private String scopeIds;
+	
+	
+	public String getScopeIds() {
+		return scopeIds;
+	}
+	public void setScopeIds(String scopeIds) {
+		this.scopeIds = scopeIds;
+	}
 	public String getInterMediaryLicense() {
 		return interMediaryLicense;
 	}
@@ -238,32 +278,26 @@ public class ExamineInfoVO  implements Serializable  {
 		this.relationBetweenHotelAngGroup = relationBetweenHotelAngGroup;
 	}
 
-	private long merchantCategoryId;//商家身份
 	
-	private String interMediaryLicense;//因私出入境中介机构经营许可证正面
-	private String seaTransportationLicense;//水路运输许可证正面
-	private String travelAgencyBranchAgreement;//旅行社分社补充协议
-	private String scenicTicketAuthorization;//景点门票授权书或合作协议
-	private String hotelGoodsAuthorization;//酒店商品授权书
-	private String  specialSaleLicense; //特种经营许可证副本复印件
-	private String specialSaleAuthorization;//旅游局特许经营授权书
-	private String wildlifeSale;//野生动物经营利用许可证
-	private String waterWildlifeSale;//水生野生动物经营利用许可证
-	private String amusementParkReport;//游乐特种设备（备案）登记证明和游乐设备最新的定期检测报告
-	private String scenicPriceRegister;//景区门票价格在物价局的备案登记证明
-	private String scenicTicketUpScanning;//景区门票扫描件正面
-	private String scenicTicketDownScanning;//景区门票扫描件反面
-	private String scenicGoodsAuthorization;//景区商品授权书
-	private String scenicQualityLevel;//景区质量等级证书
-	private String relationBetweenHotelAngGroup;//酒店与集团的所属关系说明
-	private List<MerchantQualificationDO> merchantQualifications;//商家与资质关联对象集合
-	private List<MerchantScopeDO> merchantScopes;//商家与经营范围关联对象集合
 	
-	private String merchantQualificationStr;
-	private String merchantScopeStr;
-	
-	private List<QualificationDO> qualifications;
-	private List<BusinessScopeDO> businessScopes;
+	public String getLawPersonCard() {
+		return lawPersonCard;
+	}
+	public void setLawPersonCard(String lawPersonCard) {
+		this.lawPersonCard = lawPersonCard;
+	}
+	public String getSaleLicenseNumber() {
+		return saleLicenseNumber;
+	}
+	public void setSaleLicenseNumber(String saleLicenseNumber) {
+		this.saleLicenseNumber = saleLicenseNumber;
+	}
+	public String getTaxRegisterNumber() {
+		return taxRegisterNumber;
+	}
+	public void setTaxRegisterNumber(String taxRegisterNumber) {
+		this.taxRegisterNumber = taxRegisterNumber;
+	}
 	public List<QualificationDO> getQualifications() {
 		return qualifications;
 	}

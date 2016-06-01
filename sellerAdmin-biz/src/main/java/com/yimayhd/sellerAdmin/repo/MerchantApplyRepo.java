@@ -1,7 +1,9 @@
 package com.yimayhd.sellerAdmin.repo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +14,9 @@ import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.BusinessScopeDO;
+import com.yimayhd.membercenter.client.domain.merchant.CategoryQualificationDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantQualificationDO;
 import com.yimayhd.membercenter.client.domain.merchant.QualificationDO;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
@@ -100,25 +104,41 @@ public class MerchantApplyRepo {
 		MemResult<ExamineInfoVO> result = new MemResult<ExamineInfoVO>();
 		 InfoQueryDTO examineQueryDTO = new InfoQueryDTO();
 		 examineQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-		 examineQueryDTO.setType(ExamineType.TALENT.getType());
+		 examineQueryDTO.setType(ExamineType.MERCHANT.getType());
 		 long userId = sessionManager.getUserId();
 		 examineQueryDTO.setSellerId(userId);
 		 MemResult<ExamineInfoDTO> queryResult = examineDealService.queryMerchantExamineInfoBySellerId(examineQueryDTO);
-		 if (queryResult == null || !queryResult.isSuccess()) {
-			result.setReturnCode(queryResult.getReturnCode());
+		 if (queryResult == null || !queryResult.isSuccess() || queryResult.getValue() == null) {
+			//result.setReturnCode(queryResult.getReturnCode());
+			result.setErrorCode(queryResult.getErrorCode());
+			result.setErrorMsg(queryResult.getErrorMsg());
+			result.setSuccess(false);
 			return result;
 		}
 		 ExamineInfoDTO dto = queryResult.getValue();
-		MemResult<List<QualificationDO>> qualificationResult = applyService.getMerchantQualificationBySellerId(dto.getSellerId(), dto.getDomainId());
-		if (!qualificationResult.isSuccess()) {
-			result.setReturnCode(queryResult.getReturnCode());
+		 result.setValue(MerchantConverter.convertDTO2VO(dto));
+		 MerchantQualificationDO merchantQualification = new MerchantQualificationDO();
+		 merchantQualification.setDomainId(Constant.DOMAIN_JIUXIU);
+		 merchantQualification.setSellerId(sessionManager.getUserId());
+		MemResult<List<QualificationDO>> qualificationResult = applyService.getQualificationBySellerId(merchantQualification);
+		if (!qualificationResult.isSuccess() || qualificationResult.getValue() == null) {
+			//result.setReturnCode(qualificationResult.getReturnCode());
+			result.setErrorCode(qualificationResult.getErrorCode());
+			result.setErrorMsg(qualificationResult.getErrorMsg());
+			result.setSuccess(false);
 			return result;
 			
 		}
 		result.getValue().setQualifications(qualificationResult.getValue());
-		MemResult<List<BusinessScopeDO>> scopeResult = applyService.getMerchantScopeBySellerId(dto.getSellerId(), dto.getDomainId());
-		if (!scopeResult.isSuccess()) {
-			result.setReturnCode(queryResult.getReturnCode());
+		MerchantScopeDO merchantScope = new MerchantScopeDO();
+		merchantScope.setDomainId(Constant.DOMAIN_JIUXIU);
+		merchantScope.setSellerId(sessionManager.getUserId());
+		MemResult<List<BusinessScopeDO>> scopeResult = applyService.getBusinessScopesBySellerId(merchantScope);
+		if (!scopeResult.isSuccess() || scopeResult.getValue() == null) {
+			//result.setReturnCode(scopeResult.getReturnCode());
+			result.setErrorCode(scopeResult.getErrorCode());
+			result.setErrorMsg(scopeResult.getErrorMsg());
+			result.setSuccess(false);
 			return result;
 			
 		}
@@ -127,31 +147,124 @@ public class MerchantApplyRepo {
 	}
 	
 	public MemResult<List<MerchantCategoryDO>> getAllMerchantCategory() {
+		MemResult<List<MerchantCategoryDO>> result = new MemResult<List<MerchantCategoryDO>>();
+		MerchantCategoryDO merchantCategory = new MerchantCategoryDO();
+		merchantCategory.setDomainId(Constant.DOMAIN_JIUXIU);
 		//MemResult<List<MerchantCategoryDO>> result = new MemResult<List<MerchantCategoryDO>>();
-		MemResult<List<MerchantCategoryDO>> result = applyService.getAllMerchantCategory(Constant.DOMAIN_JIUXIU);
-		if (result == null || !result.isSuccess()) {
-			result.setReturnCode(MemberReturnCode.DB_READ_FAILED);
+		MemResult<List<MerchantCategoryDO>> queryResult = applyService.getMerchantCategory(merchantCategory);
+		if (queryResult == null || !queryResult.isSuccess()) {
+			//result.setReturnCode(queryResult.getReturnCode());
+			result.setErrorCode(queryResult.getErrorCode());
+			result.setErrorMsg(queryResult.getErrorMsg());
+			result.setSuccess(false);
 			return result;
 		}
+		result.setValue(queryResult.getValue());
 		return result;
 	}
 	
 	public MemResult<List<BusinessScopeDO>> getAllBusinessScopes() {
-		MemResult<List<BusinessScopeDO>> result = applyService.getAllBusinessScope(Constant.DOMAIN_JIUXIU);
-		if (result == null || !result.isSuccess()) {
-			result.setReturnCode(MemberReturnCode.DB_READ_FAILED);
+		MemResult<List<BusinessScopeDO>> result = new MemResult<List<BusinessScopeDO>>();
+		BusinessScopeDO businessScope = new BusinessScopeDO();
+		businessScope.setDomainId(Constant.DOMAIN_JIUXIU);
+		MemResult<List<BusinessScopeDO>> queryResult = applyService.getBusinessScope(businessScope,null);
+		if (queryResult == null || !queryResult.isSuccess()) {
+			result.setErrorCode(queryResult.getErrorCode());
+			result.setErrorMsg(queryResult.getErrorMsg());
+			result.setSuccess(false);
+			//result.setReturnCode(queryResult.getReturnCode());
 			return result;
 		}
-		return result;
-	}
-	public MemResult<List<QualificationDO>> getAllQualificaitons() {
-		MemResult<List<QualificationDO>> result = applyService.getAllQualification(Constant.DOMAIN_JIUXIU);
-		if (result == null || !result.isSuccess()) {
-			result.setReturnCode(MemberReturnCode.DB_READ_FAILED);
-			return result;
-		}
+		result.setValue(queryResult.getValue());
 		return result;
 	}
 	
+	public MemResult<List<MerchantCategoryScopeDO>> getMerchantCategoryScope(long merchantCategoryId) {
+		MemResult<List<MerchantCategoryScopeDO>> result = new MemResult<List<MerchantCategoryScopeDO>>();
+		MerchantCategoryScopeDO merchantCategoryScope = new MerchantCategoryScopeDO();
+		merchantCategoryScope.setDomainId(Constant.DOMAIN_JIUXIU);
+		merchantCategoryScope.setMerchantCategoryId(merchantCategoryId);
+		MemResult<List<MerchantCategoryScopeDO>> queryResult = applyService.getMerchantCategoryScope(merchantCategoryScope,null);
+		if (queryResult == null || !queryResult.isSuccess() || queryResult.getValue() == null) {
+			//result.setReturnCode(queryResult.getReturnCode());
+			result.setErrorCode(queryResult.getErrorCode());
+			result.setErrorMsg(queryResult.getErrorMsg());
+			result.setSuccess(false);
+			return result;
+		}
+		result.setValue(queryResult.getValue());
+		return result;
+	}
+
+	public MemResult<List<Map<String, QualificationDO>>> getQualificationByCategoryId() {
+		 MemResult<List<Map<String, QualificationDO>>> result = new MemResult<List<Map<String, QualificationDO>>>();
+		 InfoQueryDTO examineQueryDTO = new InfoQueryDTO();
+		 examineQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+		 examineQueryDTO.setType(ExamineType.MERCHANT.getType());
+		 long userId = sessionManager.getUserId();
+		 examineQueryDTO.setSellerId(userId);
+		 MemResult<ExamineInfoDTO> queryResult = examineDealService.queryMerchantExamineInfoBySellerId(examineQueryDTO);
+		 if (queryResult == null || !queryResult.isSuccess() || queryResult.getValue() == null) {
+			result.setErrorCode(queryResult.getErrorCode());
+			result.setErrorMsg(queryResult.getErrorMsg());
+			result.setSuccess(false);
+			return result;
+		}
+		 ExamineInfoDTO dto = queryResult.getValue();
+		CategoryQualificationDO categoryQualification = new CategoryQualificationDO();
+		categoryQualification.setDomainId(Constant.DOMAIN_JIUXIU);
+		categoryQualification.setMerchantCategoryId(dto.getMerchantCategoryId());
+		categoryQualification.setIsDirectSale(dto.getIsDirectSale());
+		MerchantCategoryScopeDO merchantCategoryScope = new MerchantCategoryScopeDO();
+		merchantCategoryScope.setDomainId(Constant.DOMAIN_JIUXIU);
+		merchantCategoryScope.setMerchantCategoryId(dto.getMerchantCategoryId());
+		MemResult<List<MerchantCategoryScopeDO>> merchantCategoryScopeResult = applyService.getMerchantCategoryScope(merchantCategoryScope, null);
+		if (merchantCategoryScopeResult == null || !merchantCategoryScopeResult.isSuccess() || merchantCategoryScopeResult.getValue() == null) {
+			result.setErrorCode(merchantCategoryScopeResult.getErrorCode());
+			result.setErrorMsg(merchantCategoryScopeResult.getErrorMsg());
+			result.setSuccess(false);
+			return result;
+		}
+		
+		List<Long> cqIdList = new ArrayList<>();
+		for (MerchantCategoryScopeDO scope : merchantCategoryScopeResult.getValue()) {
+			cqIdList.add(scope.getBusinessScopeId());
+		}
+		
+		MemResult<List<CategoryQualificationDO>> categoryQualificationResult = applyService.getCategoryQualification(categoryQualification, cqIdList);
+		if (categoryQualificationResult == null || !categoryQualificationResult.isSuccess() || categoryQualificationResult.getValue() == null) {
+			result.setErrorCode(categoryQualificationResult.getErrorCode());
+			result.setErrorMsg(categoryQualificationResult.getErrorMsg());
+			result.setSuccess(false);
+			return result;
+		}
+		
+		QualificationDO qualification = new QualificationDO();
+		qualification.setDomainId(Constant.DOMAIN_JIUXIU);
+		List<Long> qualificationIds = new ArrayList<>();
+		MemResult<List<QualificationDO>> qualificationResult = applyService.getQualification(qualification, qualificationIds);
+		if (qualificationResult == null || !qualificationResult.isSuccess() || qualificationResult.getValue() == null) {
+			result.setErrorCode(qualificationResult.getErrorCode());
+			result.setErrorMsg(qualificationResult.getErrorMsg());
+			result.setSuccess(false);
+			return result;
+		}
+		
+		List<Map<String, QualificationDO>> mapList = new ArrayList<>();
+		for (CategoryQualificationDO cq:categoryQualificationResult.getValue()) {
+			for (QualificationDO qf	 : qualificationResult.getValue()) {
+				Map<String, QualificationDO> map = new HashMap<String, QualificationDO>();
+				if (cq.getQulificationId() == qf.getId()) {
+					QualificationDO qualificationDO = new QualificationDO();
+					qualificationDO.setRequired(cq.getRequired());
+					qualificationDO.setTip(qf.getTip());
+					map.put(qf.getTitle(), qualificationDO);
+				}
+				mapList.add(map);
+			}
+		}
+		result.setValue(mapList);
+		return result;
+	}
 	
 }
