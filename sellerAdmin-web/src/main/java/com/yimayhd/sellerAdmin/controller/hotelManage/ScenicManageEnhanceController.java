@@ -305,7 +305,7 @@ public class ScenicManageEnhanceController extends BaseController {
         }
         CategoryPropertyDO proDo = categoryPro.getCategoryPropertyDO();
         bizCategoryInfo.setPId( categoryPro.getPropertyId());//propertyID
-        bizCategoryInfo.setPText(proDo.getText());
+        bizCategoryInfo.setPTxt(proDo.getText());
         bizCategoryInfo.setVTxt("");
         bizCategoryInfo.setPType(categoryPro.getType());
         bizCategoryInfo.setCategoryId(categoryPro.getCategoryId());
