@@ -12,6 +12,7 @@ import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.HotelManage.BizCategoryInfo;
 import com.yimayhd.sellerAdmin.model.HotelManage.MultiChoice;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
@@ -22,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +48,9 @@ public class ScenicManageEnhanceController extends BaseController {
     private CategoryService categoryServiceRef;
     @Resource
     private ScenicPublishService scenicPublishService;
+
+    @Value("${sellerAdmin.rootPath}")
+    private String rootPath;
 
     /**
      * 查询景区资源列表
@@ -133,6 +138,7 @@ public class ScenicManageEnhanceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/addScenicManageVOByDdata", method = RequestMethod.POST)
+    @ResponseBody
     public WebResult<String> addScenicManageVOByDdata(Model model, ScenicManageVO scenicManageVO ){
         WebResult<String> message = new WebResult<String>();
         long userId = sessionManager.getUserId() ;
@@ -156,6 +162,8 @@ public class ScenicManageEnhanceController extends BaseController {
         }
         /**属性列表 添加 **/
         model.addAttribute("hotelMessageVO", result.getValue());
+        String url = UrlHelper.getUrl(rootPath, "/item/list") ;
+        message.setValue(url);
         return message;
 
     }
