@@ -37,10 +37,12 @@
 	                    <td><label id="lbscenicname">景区门票</label></td>
 	                </tr>
 	                <tr class="notNull">
-	                    <td class="coltxt"><span class="bred">*</span>门票类型：</td>
-	                    <td>
+	                    <td class="coltxt" ><span class="bred">*</span>门票类型：</td>
+	                    <td class="ticketType">
+                            <!--
 	                        <label class="radio"><input type="radio" name="ticketId" value="1" #if($!scenicManageVO.ticketId == 1) checked #end>大门票</label>
 	                        <label class="radio"><input type="radio" name="ticketId" value="2" #if($!scenicManageVO.ticketId == 2) checked #end>联票</label>
+	                        -->
 	                     </td>
 	                </tr>
 	                <tr class="notNull">
