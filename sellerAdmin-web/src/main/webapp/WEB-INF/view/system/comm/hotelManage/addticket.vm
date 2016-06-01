@@ -5,11 +5,6 @@
     <title>添加景区</title>
     <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/addhotelproduct.css">
 </head>
-<input type="hidden" class="picCode baseInfo-picCode" name="scenicId" value="$!{scenicManageVO.scenicId}">
-<input type="hidden" class="picCode baseInfo-picCode" name="scenicName" value="$!{scenicManageVO.name}">
-<input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{scenicManageVO.supplierCalendar}">
-<input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{scenicManageVO.sellerId}">
-<input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{scenicManageVO.categoryId}">
 <!-- 面包屑 -->
 <div class = "eredar-info clearfix">
     <ul>
@@ -18,61 +13,68 @@
     </ul>
 </div>
 <div class="panel on">
-    <div class="hotelinfo ticketinfo">
-        <p>
-            <span class="nm"><span class="bred">*</span><label>景区信息：</label></span>
-                <span class="info-bar">
-                    <label class="htn">如家酒店望京店</label>
-                    <label class="smtt">地址：</label><label class="address">北京市海淀区中关村东路1号院</label>
-                </span>
-            <a class="searchScenic">查询景区</a>
-        </p>
-    </div>
-    <div class="baseinfo ticketbaseinfo">
-        <form>
-            <table>
-                <tr>
-                    <td class="coltxt">商品名称：</td>
-                    <td><label id="lbscenicname">景区门票</label></td>
-                </tr>
-                <tr>
-                    <td class="coltxt"><span class="bred">*</span>门票类型：</td>
-                    <td>
-                        <label class="radio"><input type="radio" name="ticketId"  #if($!scenicManageVO.ticketId == 1) checked #end>大门票</label>
-                        <label class="radio"><input type="radio" name="ticketId"  #if($!scenicManageVO.ticketId == 2) checked #end>联票</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="coltxt"><span class="bred">*</span>商品标题：</td>
-                    <td><input type="text" class="inputxt" maxlength="38" name="title"><span class="mark"><label>1</label>/38字</span></td>
-                </tr>
-                <tr>
-                    <td class="coltxt"><span class="bred">*</span>价格：</td>
-                    <td><input type="text" class="inputxt" name="price"></td>
-                </tr>
-                <tr>
-                    <td class="coltxt"><span class="bred">*</span>门市价：</td>
-                    <td><input type="text" class="inputxt" name="originalPrice"></td>
-                </tr>
-                <tr>
-                    <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
-                    <td><input type="text" class="inputxt" maxlength="10" name="startBookTimeLimit"></td>
-                </tr>
-                #foreach($bizCategoryInfo in $bizCategoryInfoList)
-                <tr class="dynamicTr" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pText" pType="$!bizCategoryInfo.pType">
-                    #if($bizCategoryInfo.pType == 1)
-                        <td class="coltxt"><span class="bred">*</span>$!bizCategoryInfo.pText：</td>
-                    #else
-                        <td class="coltxt">$!bizCategoryInfo.pText：</td>
-                    #end
 
-                    <td><input type="text" class="inputxt" name="$!bizCategoryInfo.pId" value=""></td>
-                </tr>
-                #end
+	<form class="scenicForm">
+		<input type="hidden" class="picCode baseInfo-picCode" name="scenicId" value="$!{scenicManageVO.scenicId}">
+		<input type="hidden" class="picCode baseInfo-picCode" name="scenicName" value="$!{scenicManageVO.name}">
+		<input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{scenicManageVO.supplierCalendar}">
+		<input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{scenicManageVO.sellerId}">
+		<input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{scenicManageVO.categoryId}">
+	    <div class="hotelinfo ticketinfo">
+	        <p>
+	            <span class="nm"><span class="bred">*</span><label>景区信息：</label></span>
+	                <span class="info-bar">
+	                    <label class="htn"></label>
+	                    <label class="smtt">地址：</label><label class="address"></label>
+	                </span>
+	            <a class="searchScenic">查询景区</a>
+	        </p>
+	    </div>
+	    <div class="baseinfo ticketbaseinfo">
+	         <table>
+	                <tr>
+	                    <td class="coltxt">商品名称：</td>
+	                    <td><label id="lbscenicname">景区门票</label></td>
+	                </tr>
+	                <tr class="notNull">
+	                    <td class="coltxt"><span class="bred">*</span>门票类型：</td>
+	                    <td>
+	                        <label class="radio"><input type="radio" name="ticketId" value="1" #if($!scenicManageVO.ticketId == 1) checked #end>大门票</label>
+	                        <label class="radio"><input type="radio" name="ticketId" value="2" #if($!scenicManageVO.ticketId == 2) checked #end>联票</label>
+	                    </td>
+	                </tr>
+	                <tr class="notNull">
+	                    <td class="coltxt"><span class="bred">*</span>商品标题：</td>
+	                    <td><input type="text" class="inputxt" maxlength="38" name="title"><span class="mark"><label>1</label>/38字</span></td>
+	                </tr>
+	                <tr class="notNull">
+	                    <td class="coltxt"><span class="bred">*</span>价格：</td>
+	                    <td><input type="text" class="inputxt" name="price"></td>
+	                </tr>
+	                <tr class="notNull">
+	                    <td class="coltxt"><span class="bred">*</span>门市价：</td>
+	                    <td><input type="text" class="inputxt" name="originalPrice"></td>
+	                </tr>
+	                <tr class="notNull">
+	                    <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
+	                    <td><input type="text" class="inputxt" maxlength="10" name="startBookTimeLimit"></td>
+	                </tr>
+	                #foreach($bizCategoryInfo in $bizCategoryInfoList)
+	                    #if($bizCategoryInfo.pType == 1)
+                        <tr class="dynamicTr notNull" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pText" pType="$!bizCategoryInfo.pType">
+	                        <td class="coltxt"><span class="bred">*</span>$!bizCategoryInfo.pText：</td>
+	                    #else
+                        <tr class="dynamicTr" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pText" pType="$!bizCategoryInfo.pType">
+	                        <td class="coltxt">$!bizCategoryInfo.pText：</td>
+	                    #end
+	                    <td><input type="text" class="inputxt" name="$!bizCategoryInfo.pId" value=""></td>
+                        </tr>
+	                #end
+	
+	            </table>
+	    </div>
+    </form>
 
-            </table>
-        </form>
-    </div>
     <div class="savenext">
         <a class="save-to-picker">保存并下一步</a>
     </div>

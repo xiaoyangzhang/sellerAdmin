@@ -16,11 +16,13 @@ import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.HotelManage.BizCategoryInfo;
 import com.yimayhd.sellerAdmin.model.HotelManage.BizSkuInfo;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.SupplierCalendarTemplate;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
+import com.yimayhd.sellerAdmin.util.DateCommon;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -175,6 +177,9 @@ public class ScenicManageDomainChecker {
         itemDO.setTitle(scenicManageVO.getTitle());
         itemDO.setPrice(scenicManageVO.getPrice());//价格
         itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice());//门市价
+        itemDO.setDomain(Constant.DOMAIN_JIUXIU);
+        itemDO.setOptions(1);
+        itemDO.setItemType(category.getCategoryFeature().getItemType());
 
         //itemDO.setOutType();
         ItemFeature itemFeature = new ItemFeature(null);
@@ -248,7 +253,6 @@ public class ScenicManageDomainChecker {
         if (StringUtils.isBlank(supplierCalendar)){
             return null;
         }
-        category.getSellCategoryPropertyDOs();
         if(categoryPropertyValueDO==null){
             return null;
         }
@@ -294,16 +298,21 @@ public class ScenicManageDomainChecker {
         ItemSkuDO sku = new ItemSkuDO();
         sku.setSellerId(template.getSeller_id());//商家ID
         sku.setCategoryId(scenicManageVO.getCategoryId());//类目ID
-        sku.setPrice(biz.getvPrize());//价格
+        BigDecimal prize = biz.getPrice();
+        long portionPrize =  prize.longValue()*100;
+        sku.setPrice(portionPrize);//价格
         sku.setStockNum(biz.getStock_num());//库存
         /**销售属性**/
         List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
         ItemSkuPVPair pvPair =new ItemSkuPVPair();
         pvPair.setPId(categoryPropertyValueDO.getId());//销售属性ID
-        pvPair.setPTxt("2016-1-1");//日期格式化
-        pvPair.setVTxt(biz.getvTxt());//价格日期
+        String vTxt = biz.getvTxt();
+        long time = Long.parseLong(vTxt);
+        System.out.println(time);
+        pvPair.setPTxt(DateCommon.timestampLongDate(time));//日期格式化
+        pvPair.setVTxt(vTxt);//价格日期
         pvPair.setPType(categoryPropertyValueDO.getType());
-        pvPair.setVId(-Integer.valueOf(biz.getvTxt()).intValue());
+        pvPair.setVId(-time);
         itemSkuPVPairList.add(pvPair);
         sku.setItemSkuPVPairList(itemSkuPVPairList);
         return sku;

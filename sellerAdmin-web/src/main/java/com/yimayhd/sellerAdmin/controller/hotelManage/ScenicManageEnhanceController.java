@@ -5,6 +5,7 @@ import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.result.item.CategoryResult;
 import com.yimayhd.ic.client.service.item.CategoryService;
+import com.yimayhd.ic.client.service.item.ScenicPublishService;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -124,9 +125,12 @@ public class ScenicManageEnhanceController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/addScenicManageVOByDdata", method = RequestMethod.GET)
+    @RequestMapping(value = "/addScenicManageVOByDdata", method = RequestMethod.POST)
     public WebResult<String> addScenicManageVOByDdata(Model model, ScenicManageVO scenicManageVO ){
         WebResult<String> message = new WebResult<String>();
+        long userId = sessionManager.getUserId() ;
+        scenicManageVO.setSellerId(userId);
+        scenicManageVO.setCategoryId(233);
         if(scenicManageVO==null||scenicManageVO.getScenicId()==0){
             message.initFailure(WebReturnCode.PARAM_ERROR,"景区资源信息错误,无法添加商品");
             return message;
@@ -216,7 +220,10 @@ public class ScenicManageEnhanceController extends BaseController {
         model.addAttribute("scenicManageVO",result.getValue());
         return message;
     }
+   /* @RequestMapping(value = "/queryTicketListByScenicId", method = RequestMethod.GET)
+    public  WebResult<String> queryTicketListByScenicId (Model model, ){
 
+    }*/
     /**
      * 景区商品验证
      * @param scenicManageVO
@@ -272,5 +279,10 @@ public class ScenicManageEnhanceController extends BaseController {
 
     public void setCategoryServiceRef(CategoryService categoryServiceRef) {
         this.categoryServiceRef = categoryServiceRef;
+    }
+
+
+    public ScenicManageService getScenicManageService() {
+        return scenicManageService;
     }
 }

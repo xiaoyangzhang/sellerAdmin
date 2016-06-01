@@ -1,21 +1,17 @@
 package com.yimayhd.sellerAdmin.repo;
 
-import com.yimayhd.commentcenter.client.domain.ComTagDO;
-import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.param.item.ScenicPublishAddDTO;
-import com.yimayhd.ic.client.model.param.item.ScenicPublishUpdateDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.item.CategoryResult;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
-import com.yimayhd.ic.client.model.result.item.SingleItemQueryResult;
 import com.yimayhd.ic.client.service.item.CategoryService;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
@@ -24,6 +20,7 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.ScenicManageDomainChecker;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
+import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,19 +113,23 @@ public class ScenicManageRepo {
 			log.error("类目信息错误");
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "类目信息错误");
 		}
+		domain.setCategory(categoryResult.getCategroyDO());
 		if(CollectionUtils.isEmpty(categoryResult.getCategroyDO().getSellCategoryPropertyDOs())){
 			log.error("类目销售属性信息错误");
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "类目销售属性信息错误");
 		}
 		CategoryPropertyValueDO sellDO = categoryResult.getCategroyDO().getSellCategoryPropertyDOs().get(0);
 		/**类目销售属性**/
+
 		domain.setCategoryPropertyValueDO(sellDO);
 		ScenicPublishAddDTO scenicPublishAddDTO = new ScenicPublishAddDTO();
 		scenicPublishAddDTO.setItemDO(domain.getBizScenicPublishAddDTO());//商品
 		scenicPublishAddDTO.setItemSkuList(domain.getAddBizItemSkuDOList());//价格日历
-		ItemPubResult itemResult = itemPublishServiceRef.addPublishScenic(new ScenicPublishAddDTO());
+		ItemPubResult itemResult = itemPublishServiceRef.addPublishScenic(scenicPublishAddDTO);
+		log.info("scenicPublishAddDTO:"+ CommonJsonUtil.objectToJson(scenicPublishAddDTO,ScenicPublishAddDTO.class));
 		if(!itemResult.isSuccess()){
 			log.error("添加景区商品错误");
+			System.out.println(itemResult.getErrorCode()+","+itemResult.getResultCode()+","+itemResult.getResultMsg());
 			return WebResult.failure(WebReturnCode.PARAM_ERROR, "添加景区商品错误");
 		}
 		scenicManageVO.setItemId(itemResult.getItemId());
