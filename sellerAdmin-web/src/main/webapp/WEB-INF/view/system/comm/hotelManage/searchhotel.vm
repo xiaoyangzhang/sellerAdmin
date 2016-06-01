@@ -1,0 +1,33 @@
+#set($layout = "/layout/layout_non.vm")
+<div class="tb-box">
+<table>
+    <thead>
+    <tr>
+        <th></th>
+        <th>酒店名称</th>
+        <th>区域</th>
+        <th>地址</th>
+        <th>电话</th>
+    </tr>
+    </thead>
+    <tbody>
+  #if($errorInfo!="")
+     <tr>
+         $!{errorInfo}
+     </tr>
+  #else
+      #foreach($hotelMessageVO in $hotelMessageVOList)
+      <tr>
+          <td><input type="radio" name="hotelGroup" value="$!{hotelMessageVO.hotelId}"></td>
+          <td  class="hotel-name">$!{hotelMessageVO.name}</td>
+          <td>$!{hotelMessageVO.area}</td>
+          <td class="hotel-address">$!{hotelMessageVO.locationText}</td>
+          <td class="hotel-tel">$!{hotelMessageVO.phone}</td>
+      </tr>
+      #end
+  #end
+
+    </tbody>
+</table>
+</div>
+#parse("/page_jiuniu.vm")

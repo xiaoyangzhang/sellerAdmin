@@ -1,13 +1,17 @@
 package com.yimayhd.sellerAdmin.repo;
 
+import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
+import com.yimayhd.ic.client.model.param.item.ScenicPublishAddDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.model.result.item.CategoryResult;
+import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
-import com.yimayhd.ic.client.model.result.item.SingleItemQueryResult;
 import com.yimayhd.ic.client.service.item.CategoryService;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
@@ -16,6 +20,7 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.ScenicManageDomainChecker;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
+import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,16 +74,21 @@ public class ScenicManageRepo {
      */
 	public WebResult<ScenicManageVO> queryScenicManageVOByData(ScenicManageDomainChecker domain) throws Exception{
 		WebResult<ScenicManageVO> result = domain.getWebResult();
-
-		ItemResult itemResult= itemQueryServiceRef.getItem(domain.getScenicManageVO().getItemId(), new ItemOptionDTO());
+		/**类目销售属性**/
+		/**景区商品**/
+		ItemOptionDTO itemOptionDTO  = new ItemOptionDTO();
+		itemOptionDTO.setNeedSku(true);
+		ItemResult itemResult= itemQueryServiceRef.getItem(domain.getScenicManageVO().getItemId(), itemOptionDTO);
 		if(!itemResult.isSuccess()||itemResult.getItem()==null){
 			log.error("查询景区商品信息错误");
 			return WebResult.failure(WebReturnCode.PARAM_ERROR, "查询景区商品信息错误");
 		}
 		ItemDO itemDO = itemResult.getItem();
+		CategoryDO categoryDO = itemResult.getCategory();
 		domain.setItemDO(itemDO);//景区商品信息
-		domain.setItemSkuDOList(itemResult.getItemSkuDOList());
-		domain.setCategory(itemResult.getCategory());
+		domain.setItemSkuDOList(itemResult.getItemSkuDOList());// 价格日历
+		domain.setCategory(categoryDO);
+		domain.setCategoryPropertyValueDO(categoryDO.getSellCategoryPropertyDOs().get(0));//价格日历销售属性
 		ICResult<ScenicDO> scenicResult = itemQueryServiceRef.getScenic(itemDO.getOutId());
 		if(scenicResult==null||scenicResult.getModule()==null){
 			log.error("查询景区资源信息错误");
@@ -97,11 +107,66 @@ public class ScenicManageRepo {
 	 * @param domain
 	 * @return
      */
-	public WebResult<ScenicManageVO> addScenicManageVOByDdata(ScenicManageDomainChecker domain){
+	public WebResult<ScenicManageVO> addScenicManageVOByDdata(ScenicManageDomainChecker domain) throws Exception{
 		WebResult<ScenicManageVO> result = domain.getWebResult();
-		return null;
+		ScenicManageVO scenicManageVO = domain.getScenicManageVO();
+		CategoryResult categoryResult = categoryServiceRef.getCategory(domain.getScenicManageVO().getCategoryId());
+		if(!categoryResult.isSuccess()||categoryResult.getCategroyDO()==null){
+			log.error("类目信息错误");
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "类目信息错误");
+		}
+		domain.setCategory(categoryResult.getCategroyDO());
+		if(CollectionUtils.isEmpty(categoryResult.getCategroyDO().getSellCategoryPropertyDOs())){
+			log.error("类目销售属性信息错误");
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "类目销售属性信息错误");
+		}
+		CategoryPropertyValueDO sellDO = categoryResult.getCategroyDO().getSellCategoryPropertyDOs().get(0);
+		/**类目销售属性**/
+
+		domain.setCategoryPropertyValueDO(sellDO);
+		ScenicPublishAddDTO scenicPublishAddDTO = new ScenicPublishAddDTO();
+		scenicPublishAddDTO.setItemDO(domain.getBizScenicPublishAddDTO());//商品
+		scenicPublishAddDTO.setItemSkuList(domain.getAddBizItemSkuDOList());//价格日历
+		ItemPubResult itemResult = itemPublishServiceRef.addPublishScenic(scenicPublishAddDTO);
+		log.info("scenicPublishAddDTO:"+ CommonJsonUtil.objectToJson(scenicPublishAddDTO,ScenicPublishAddDTO.class));
+		if(!itemResult.isSuccess()){
+			log.error("添加景区商品错误");
+			System.out.println(itemResult.getErrorCode()+","+itemResult.getResultCode()+","+itemResult.getResultMsg());
+			return WebResult.failure(WebReturnCode.PARAM_ERROR, "添加景区商品错误");
+		}
+		scenicManageVO.setItemId(itemResult.getItemId());
+		result.setValue(scenicManageVO);
+		return result;
 
 	}
+
+	/**
+	 * 编辑景区商品
+	 * @param domain
+	 * @return
+	 * @throws Exception
+     */
+	public WebResult<ScenicManageVO> editScenicManageVOByDdata(ScenicManageDomainChecker domain) throws Exception{
+		WebResult<ScenicManageVO> result = domain.getWebResult();
+		ScenicManageVO scenicManageVO = domain.getScenicManageVO();
+		CategoryResult categoryResult = categoryServiceRef.getCategory(domain.getScenicManageVO().getCategoryId());
+		if(!categoryResult.isSuccess()||categoryResult.getCategroyDO()==null){
+			log.error("类目信息错误");
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "类目信息错误");
+		}
+		if(CollectionUtils.isEmpty(categoryResult.getCategroyDO().getSellCategoryPropertyDOs())){
+			log.error("类目销售属性信息错误");
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "类目销售属性信息错误");
+		}
+		CategoryPropertyValueDO sellDO = categoryResult.getCategroyDO().getSellCategoryPropertyDOs().get(0);
+		/**类目销售属性**/
+		domain.setCategoryPropertyValueDO(sellDO);
+		ItemPubResult itemResult =itemPublishServiceRef.updatePublishScenic(domain.getBizScenicPublishUpdateDTO());
+		scenicManageVO.setItemId(itemResult.getItemId());
+		return result;
+
+	}
+
 
 
 	public ItemQueryService getItemQueryServiceRef() {

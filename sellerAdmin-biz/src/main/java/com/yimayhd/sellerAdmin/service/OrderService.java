@@ -1,7 +1,10 @@
 package com.yimayhd.sellerAdmin.service;
 
+import com.yimayhd.commentcenter.client.result.ComRateResult;
 import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.model.query.AssessmentListQuery;
 import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
+import com.yimayhd.sellerAdmin.model.trade.JXComRateResult;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
 import com.yimayhd.tradecenter.client.model.param.order.UpdateBizOrderExtFeatureDTO;
@@ -38,9 +41,30 @@ public interface OrderService {
 
 	boolean closeOrder(long id);
 	/**
+<<<<<<< HEAD
+	 * 确认入住
+	 * @param id
+	 * @return
+	 */
+	boolean confirmCheckIn(long id,long sellerId);
+	/**
+	 * 确认未入住
+	 * @param id
+	 * @return
+	 */
+	boolean confirmCheckNot(long id,long sellerId);
+	/**
+	 * 获取评论列表
+	 * @param assessmentListQuery
+	 * @return
+	 */
+	PageVO<JXComRateResult> getAssessmentList(AssessmentListQuery assessmentListQuery);
+
+	/**
 	 * 更新卖家备注
 	 * @param dto
 	 * @return
 	 */
 	boolean updateOrderInfo(long id,String remark);
+
 }

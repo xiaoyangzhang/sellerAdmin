@@ -1,13 +1,13 @@
 <configuration debug="true">
     <appender name="DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    	<file>/home/admin/logs/sellerAdmin/debug.log</file>
+    	<file>${sellerAdmin.logger.dir}/debug.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>DEBUG</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>/home/admin/logs/sellerAdmin/debug-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>${sellerAdmin.logger.dir}/debug-%d{yyyy-MM-dd}.log</FileNamePattern>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>
@@ -16,14 +16,14 @@
         </encoder>
     </appender>
     <appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    	<file>/home/admin/logs/sellerAdmin/info.log</file>
+    	<file>${sellerAdmin.logger.dir}/info.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>/home/admin/logs/sellerAdmin/info-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>${sellerAdmin.logger.dir}/info-%d{yyyy-MM-dd}.log</FileNamePattern>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>
@@ -32,14 +32,14 @@
         </encoder>
     </appender>
     <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    	<file>/home/admin/logs/sellerAdmin/error.log</file>
+    	<file>${sellerAdmin.logger.dir}/error.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>/home/admin/logs/sellerAdmin/error-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>${sellerAdmin.logger.dir}/error-%d{yyyy-MM-dd}.log</FileNamePattern>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>
@@ -73,9 +73,7 @@
     <!--<logger name="com.pajk.sims"/>-->
     <root level="TRACE">
         <appender-ref ref="STDOUT"/>
-        <!-- 
         <appender-ref ref="DEBUG"/>
-         -->
         <appender-ref ref="INFO"/>
         <appender-ref ref="ERROR"/>
     </root>

@@ -1,21 +1,10 @@
 package com.yimayhd.sellerAdmin.service.hotelManage.impl;
 
 
-import com.yimayhd.ic.client.model.domain.HotelDO;
-import com.yimayhd.ic.client.model.domain.ScenicDO;
-import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
-import com.yimayhd.ic.client.model.param.item.ScenicPublishAddDTO;
-import com.yimayhd.ic.client.model.param.item.ScenicPublishUpdateDTO;
-import com.yimayhd.ic.client.model.query.ScenicPageQuery;
-import com.yimayhd.ic.client.model.result.ICPageResult;
-import com.yimayhd.ic.client.model.result.ICResult;
-import com.yimayhd.ic.client.model.result.item.ItemPubResult;
-import com.yimayhd.ic.client.model.result.item.SingleItemQueryResult;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
-import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.ScenicManageDomainChecker;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
 import com.yimayhd.sellerAdmin.repo.ScenicManageRepo;
@@ -57,7 +46,7 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
             result = scenicManageRepo.queryScenicManageVOListByData(domain);
         }catch(Exception e){
             e.printStackTrace();
-            log.error("查询酒店资源接口异常");
+            log.error("查询酒店资源接口异常",e);
         }
 
         return result;
@@ -81,7 +70,7 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
             }
             result  = scenicManageRepo.queryScenicManageVOByData(domain);
         }catch(Exception e){
-            log.error("查询景区详情异常");
+            log.error("查询景区详情异常",e);
             e.printStackTrace();
         }
 
@@ -95,9 +84,24 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
      */
     @Override
     public WebResult<ScenicManageVO> addScenicManageVOByDdata(ScenicManageVO scenicManageVO) {
+        ScenicManageDomainChecker domain = new ScenicManageDomainChecker(scenicManageVO);
+        WebResult<ScenicManageVO> result = new WebResult<ScenicManageVO>();
+        domain.setScenicManageVO(scenicManageVO);
+        domain.setWebResult(result);
+        try{
+            WebResult chekResult = domain.checkAddScenicManageVOByDdata();
+            if(!chekResult.isSuccess()){
+                log.error("ScenicManageServiceImpl.addScenicManageVOByDdata is fail. code={}, message={} ",
+                        chekResult.getErrorCode(), chekResult.getResultMsg());
+                return chekResult;
+            }
+            result  = scenicManageRepo.addScenicManageVOByDdata(domain);
+        }catch(Exception e){
+            log.error("添加景区商品信息异常",e);
+            e.printStackTrace();
+        }
 
-        ItemPubResult result = itemPublishServiceRef.addPublishScenic(new ScenicPublishAddDTO());
-        return null;
+        return result;
     }
 
     /**
@@ -106,9 +110,25 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
      * @return
      */
     @Override
-    public WebResult<Boolean> editScenicManageVOByDdata(ScenicManageVO scenicManageVO) {
-        ItemPubResult result =itemPublishServiceRef.updatePublishScenic(new ScenicPublishUpdateDTO());
-        return null;
+    public WebResult<ScenicManageVO> editScenicManageVOByDdata(ScenicManageVO scenicManageVO) {
+
+        ScenicManageDomainChecker domain = new ScenicManageDomainChecker(scenicManageVO);
+        WebResult<ScenicManageVO> result = new WebResult<ScenicManageVO>();
+        domain.setScenicManageVO(scenicManageVO);
+        domain.setWebResult(result);
+        try{
+            WebResult chekResult = domain.checkAddScenicManageVOByDdata();
+            if(!chekResult.isSuccess()){
+                log.error("ScenicManageServiceImpl.editScenicManageVOByDdata is fail. code={}, message={} ",
+                        chekResult.getErrorCode(), chekResult.getResultMsg());
+                return chekResult;
+            }
+            result  = scenicManageRepo.editScenicManageVOByDdata(domain);
+        }catch(Exception e){
+            log.error("编辑景区商品信息异常",e);
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public ItemQueryService getItemQueryServiceRef() {

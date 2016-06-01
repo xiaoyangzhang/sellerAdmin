@@ -38,15 +38,18 @@ public class HotelManageServiceImpl implements HotelManageService {
 		domain.setHotelMessageVO(hotelMessageVO);
 		try{
 			WebResult chekResult =  domain.checkHotelMessageVO();
+			System.out.println(3);
 			if(!chekResult.isSuccess()){
 				log.error("HotelManageServiceImpl.queryHotelMessageVOListByData is fail. code={}, message={} ",
 						chekResult.getErrorCode(), chekResult.getResultMsg());
 				return chekResult;
 			}
+			System.out.println(4);
 			// 调用中台接口
 			result = hotelManageRepo.queryHotelMessageVOListByDataRepo(domain);
 		}catch(Exception e){
 			e.printStackTrace();
+			log.error("查询酒店资源信息错误",e);
 			result.failure(WebReturnCode.SYSTEM_ERROR,"查询酒店资源列表系统异常");
 		}
 		return result;
@@ -77,7 +80,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			log.error("queryHotelMessageVOyData 查询商品信息异常");
+			log.error("queryHotelMessageVOyData 查询商品信息异常",e);
 		}
 
 		return result;
@@ -85,6 +88,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 	}
 
 	/**
+	 *
 	 * 酒店房型列表
 	 * @param hotelMessageVO
 	 * @return
@@ -105,7 +109,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 			roomResult = hotelManageRepo.queryRoomTypeListByData(domain);
 		}catch(Exception e){
 			e.printStackTrace();
-			log.error("queryRoomTypeListByData 查询酒店房型异常");
+			log.error("queryRoomTypeListByData 查询酒店房型异常",e);
 		}
 		return roomResult;
 	}
@@ -133,7 +137,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 
 		}catch(Exception e){
 			e.printStackTrace();
-			log.error("HotelManageServiceImpl.addHotelMessageVOByData  call interface exception ");
+			log.error("HotelManageServiceImpl.addHotelMessageVOByData  call interface exception ",e);
 			return  WebResult.failure(WebReturnCode.SYSTEM_ERROR, "添加酒店商品信息异常");
 		}
 		return result;
@@ -162,7 +166,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 			}
 			result= hotelManageRepo.editHotelMessageVOByData(domain);
 		}catch(Exception e){
-			log.error("HotelManageServiceImpl.editHotelMessageVOByData  call interface exception ");
+			log.error("HotelManageServiceImpl.editHotelMessageVOByData  call interface exception ",e);
 			e.printStackTrace();
 			return  WebResult.failure(WebReturnCode.SYSTEM_ERROR, "编辑酒店商品信息异常");
 		}

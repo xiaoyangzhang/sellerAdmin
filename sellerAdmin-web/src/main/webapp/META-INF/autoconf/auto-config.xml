@@ -8,7 +8,7 @@
 		<property name="jdbc.password" defaultValue="123456" description="#" />
 	</group>-->
 	<group name="log">
-		<property name="sellerAdmin.logger.dir" defaultValue="/home/admin/logs/sellerAdmin" description="日志目录"/>
+		<property name="sellerAdmin.logger.dir" defaultValue="${sellerAdmin.logger.dir}" description="日志目录"/>
 	</group>
 	<group name="tfs">
 		<property name="tfs.nsip" defaultValue="192.168.1.209:9999" description="#" />
@@ -36,7 +36,7 @@
 		<property name="env" defaultValue="test" description="当前环境" />
 		<property name="resource.path.jiuxiu" defaultValue="http://s0.test.jiuxiulvxing.com/busines" description="" />
 		<property name="resource.path.admin" defaultValue="http://s0.test.jiuxiulvxing.com/admin" description="" />
-		<property name="resource.path" defaultValue="http://s0.test.yimayholiday.com/jiuxiu" description="" />
+		<!-- <property name="resource.path" defaultValue="http://s0.test.yimayholiday.com/jiuxiu" description="" /> -->
 		<property name="login.url" defaultValue="http://localhost:8080/sellerAdmin/user/login" description="" />
 		<property name="jiuxiu.official.site" defaultValue="http://www.test.jiuxiulvxing.com" description="" />
 		<property name="domain" defaultValue=".jiuxiulvxing.com" description="domain" />

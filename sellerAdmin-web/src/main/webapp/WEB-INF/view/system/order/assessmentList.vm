@@ -1,0 +1,85 @@
+#set($layout = "/layout/layout-jiuxiu-order.vm")	
+#set($selectMenu = "/order/assessmentList")
+
+	<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/jquery.js?version=20160414"></script>
+<head>
+	#parse("layout/layout-meta.vm")
+    <title>评价管理</title>
+    <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/sevice.css">
+</head>
+
+	<input type="hidden" id="subpath" class="subpath" value="$!root_path/order/assessmentList">
+    <form class="form-signin" id="tradeListForm" name="tradeListForm"
+          action="$!root_path/order/assessmentList" role="form">
+    <div class = "eredar-right">
+        	<div class = "eredar-info clearfix">
+				<ul>
+					<li class = " first on">评价管理 </li>
+					<!-- <li>账户信息</li> -->
+				</ul>
+			</div>
+			<div class = "rewiewMag reW clearfix">
+				<p class = "first">
+					<em>订单编号：</em><input type="text" name = "orderNO" value="$!assessmentListQuery.orderNO"/>
+					<em class = "right">用户昵称：</em><input type="text" name = "nickName" value = "$!assessmentListQuery.nickName"/>
+				<p>
+				<p>
+					<em>商品编号：</em><input type="text" name = "itemNo" value="$!assessmentListQuery.itemNo"/>
+					<em class = "right">评论时间：</em><input class = "time"  id = "tm"  readonly="readonly" name = "beginDate" value="$!assessmentListQuery.beginDate"/>
+					<strong>至</strong><input class = "time" id = "td"  readonly="readonly" name = "endDate" value="$!assessmentListQuery.endDate"/>
+					<button type="submit" class = "searchBtn">查询</button>
+					<button type="button" class = "delBtn">清空</button>
+				<p>
+			</div>
+       	<div class = "reviewReslut">
+			<div class ="rewiewID reW">
+				<p>查询结果</p>
+			</div>
+			#foreach($assessment in $assessmentList)
+				<div class = "rewiewInfo reW clearfix">
+					<dl class = "infoleft"><img src="$!tfs$!assessment.userPhoto"></br><strong title = "$!assessment.nickName" class = "gray6 infonick">$!assessment.nickName</strong></dl>
+					<dl class = "inforight clearfix">
+						<p>
+							<em>订单编号：</em><span class = "black">$!assessment.orderId</span>
+							<em class="emW">商品编号：</em><span class = "black">$!assessment.itemId</span>
+							<em class="emW">商品名称：</em>
+								<span class = "black">
+									#if($assessment.itemName)
+										#if($!assessment.itemName.length() < 9) $!assessment.itemName #else $!assessment.itemName.substring(0,9)... #end
+		                           		#end
+								</span>
+						</p>
+						<p>
+							<em>综合评分：</em><span>$!assessment.score</span>
+							#foreach($dimension in $assessment.dimensionInfoResultList)
+								<em class="emW">$!dimension.dimensionName：</em><span>$!dimension.dimensionScore</span>
+							#end
+						</p>
+						<span class = "infoP">
+							$!assessment.content
+						</span>
+						<div class = "upload upload$!{velocityCount} clearfix">
+							<ul>
+								#foreach($picUrl in $assessment.picUrls)
+									<li><img src = "$!tfs$!picUrl"><b></b></li>
+								#end
+							</ul>
+						</div>
+						<div class = "showImg">
+							<img>
+						</div>
+						<p class = "infotime">$!date.format('yyyy-MM-dd HH:mm:ss',$!assessment.gmtCreated)</p>
+					</dl>
+				</div>
+			#end
+        </div>
+    #*分页*#
+        #parse("/page.vm")
+        #pageStyle("tradeListForm")
+    </form>
+ </div>   
+
+ <!-- 尾部结束 -->
+#parse("layout/layout-js.vm")
+<script>seajs.use("review");</script>	
+
