@@ -305,7 +305,7 @@ public class ScenicManageDomainChecker {
         /**销售属性**/
         List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
         ItemSkuPVPair pvPair =new ItemSkuPVPair();
-        pvPair.setPId(categoryPropertyValueDO.getId());//销售属性ID
+        pvPair.setPId(categoryPropertyValueDO.getPropertyId());//销售属性ID
         String vTxt = biz.getvTxt();
         long time = Long.parseLong(vTxt);
         System.out.println(time);
