@@ -70,7 +70,7 @@ public class BizSkuInfo implements Serializable{
     public void setPrice(BigDecimal price) {
         this.price = price;
         if(price!=null){
-           this.setvPrize(price.longValue()*10);
+           this.setvPrize(price.longValue()*100);
         }
     }
 
@@ -78,7 +78,7 @@ public class BizSkuInfo implements Serializable{
     public void setvPrize(Long vPrize) {
         this.vPrize = vPrize;
         if(vPrize!=0){
-            this.setPrice(new BigDecimal(vPrize/10));
+            this.setPrice(new BigDecimal(vPrize/100));
         }
     }
 

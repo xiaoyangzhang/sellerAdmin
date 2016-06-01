@@ -153,7 +153,9 @@ public class HotelManageRepo {
 		WebResult<HotelMessageVO> hotelMessageVOWebResult = domain.getWebResult();
 		HotelMessageVO model = domain.getHotelMessageVO();
 		/**商品信息**/
-		ItemResult itemResult= itemQueryServiceRef.getItem(model.getItemId(), new ItemOptionDTO());
+		ItemOptionDTO itemOptionDTO  = new ItemOptionDTO();
+		itemOptionDTO.setNeedSku(true);
+		ItemResult itemResult= itemQueryServiceRef.getItem(model.getItemId(), itemOptionDTO);
 		if(!itemResult.isSuccess()||itemResult.getItem()==null){
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "getItem,查询商品信息错误");
 		}
@@ -171,7 +173,7 @@ public class HotelManageRepo {
 		/***酒店房型**/
 		RoomQuery roomQuery = new RoomQuery();
 		roomQuery.setHotelId(itemResult.getItem().getOutId());
-		ICResult<List<RoomDO>> roomResult= itemQueryServiceRef.queryAllRoom( roomQuery);
+		ICResult<List<RoomDO>> roomResult= itemQueryServiceRef.queryAllRoom(roomQuery);
 		if(!roomResult.isSuccess()||roomResult.getModule()==null){
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "queryAllRoom,查询酒店房型信息错误");
 		}
