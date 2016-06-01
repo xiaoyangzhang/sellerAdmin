@@ -136,6 +136,7 @@ public class HotelManageController extends BaseController {
 		}
 		System.out.println(result.getValue().size());
 		model.addAttribute("roomList", result.getValue());
+
 		return returnUrl;
 	}
 
@@ -193,7 +194,7 @@ public class HotelManageController extends BaseController {
 		long userId = sessionManager.getUserId() ;
 		hotelMessageVO.setSellerId(userId);
 		hotelMessageVO.setCategoryId(categoryId);
-		hotelMessageVO.setItemId(Long.valueOf(108184));
+		hotelMessageVO.setItemId(Long.valueOf(108266));
 		if(hotelMessageVO==null){
 			// "编辑商品信息错误";
 			return "/error";

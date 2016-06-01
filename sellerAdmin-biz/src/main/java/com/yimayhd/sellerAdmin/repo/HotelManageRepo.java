@@ -155,6 +155,7 @@ public class HotelManageRepo {
 		/**商品信息**/
 		ItemOptionDTO itemOptionDTO  = new ItemOptionDTO();
 		itemOptionDTO.setNeedSku(true);
+		itemOptionDTO.setNeedCategory(true);
 		ItemResult itemResult= itemQueryServiceRef.getItem(model.getItemId(), itemOptionDTO);
 		if(!itemResult.isSuccess()||itemResult.getItem()==null){
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "getItem,查询商品信息错误");
