@@ -179,7 +179,7 @@ public class ScenicManageEnhanceController extends BaseController {
         long userId = sessionManager.getUserId() ;
         scenicManageVO.setSellerId(userId);
         scenicManageVO.setCategoryId(233);
-        scenicManageVO.setItemId(108247);
+        scenicManageVO.setItemId(108300);
         if(scenicManageVO==null){
             // "编辑商品信息错误";
             return "/error";
@@ -212,6 +212,7 @@ public class ScenicManageEnhanceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/editScenicManageVOByDdata", method = RequestMethod.POST)
+    @ResponseBody
     public WebResult<String> editScenicManageVOByDdata(Model model, ScenicManageVO scenicManageVO){
         WebResult<String> message = new WebResult<String>();
 
@@ -234,6 +235,8 @@ public class ScenicManageEnhanceController extends BaseController {
         /**最晚到店时间**/
         model.addAttribute("itemId", scenicManageVO.getItemId());
         model.addAttribute("scenicManageVO",result.getValue());
+        String url = UrlHelper.getUrl(rootPath, "/item/list") ;
+        message.setValue(url);
         return message;
     }
 

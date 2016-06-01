@@ -142,11 +142,21 @@ public class ScenicManageDomainChecker {
         itemDO.getItemFeature().getTicketTitle();//门票名称
         // 根据listsku拼装json信息  价格日历
         scenicManageVO.setSupplierCalendar(getSupplierCalendarJson());
-
         //动态添加 属性
-        List<CategoryPropertyValueDO> keyCateList = category.getKeyCategoryPropertyDOs();
-        List<CategoryPropertyValueDO> nonCateList =  category.getNonKeyCategoryPropertyDOs();
         List<BizCategoryInfo> bizList = new ArrayList<BizCategoryInfo>();
+        for (ItemSkuPVPair skuPVPair: itemDO.getItemPropertyList()){
+            BizCategoryInfo bizCategory = new BizCategoryInfo();
+                System.out.println("销售属性:"+skuPVPair.getVTxt());
+                bizCategory.setPId(skuPVPair.getPId());
+                bizCategory.setVTxt(skuPVPair.getVTxt());
+                bizCategory.setPText(skuPVPair.getPTxt());
+                bizCategory.setPType(skuPVPair.getPType());
+                bizCategory.setCategoryId(scenicManageVO.getCategoryId());
+             bizList.add(bizCategory);
+        }
+       /* List<CategoryPropertyValueDO> keyCateList = category.getKeyCategoryPropertyDOs();
+        List<CategoryPropertyValueDO> nonCateList =  category.getNonKeyCategoryPropertyDOs();
+
         keyCateList.addAll(nonCateList);
         for (CategoryPropertyValueDO category :keyCateList){
             BizCategoryInfo bizCategory = new BizCategoryInfo();
@@ -162,8 +172,8 @@ public class ScenicManageDomainChecker {
                     bizCategory.setVTxt(skuPVPair.getVTxt());
                 }
             }
-            bizList.add(bizCategory);
-        }
+
+        }*/
         String bizCategoryJson =CommonJsonUtil.objectToJson(bizList,List.class);
         System.out.println("编辑Josn:"+bizCategoryJson);
         scenicManageVO.setDynamicEntry(bizCategoryJson);//属性json穿
@@ -283,6 +293,7 @@ public class ScenicManageDomainChecker {
             ItemSkuPVPair itemSkuPVPair = new ItemSkuPVPair();
             itemSkuPVPair.setPId(bizCategoryInfo.getPId());//properid
             itemSkuPVPair.setPTxt(bizCategoryInfo.getPText());//文本
+            System.out.println(itemSkuPVPair.getPTxt());
             itemSkuPVPair.setPType(bizCategoryInfo.getPType());//类型
             itemSkuPVPair.setVTxt(bizCategoryInfo.getVTxt());//value值
             itemSkuPVPairList.add(itemSkuPVPair);

@@ -109,6 +109,7 @@ public class ItemConverter {
 		itemListItemVO.setStatus(itemDO.getStatus());
 		itemListItemVO.setOperates(ItemUtil.getItemOperates(itemDO.getItemType(), itemDO.getStatus()));
 		itemListItemVO.setPublishDate(itemDO.getGmtCreated());
+		itemListItemVO.setCategoryId(itemDO.getCategoryId());
 		PayMode payMode = PayMode.getByType(itemDO.getPayMode());
 		if(payMode!=null) {
 			itemListItemVO.setPayMode(payMode.getDesc());//获取 在线付/到店付
