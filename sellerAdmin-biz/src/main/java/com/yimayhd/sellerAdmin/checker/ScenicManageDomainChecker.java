@@ -135,8 +135,8 @@ public class ScenicManageDomainChecker {
         scenicManageVO.setName(scenicDO.getName());
         scenicManageVO.setTitle(itemDO.getTitle());
         scenicManageVO.setCategoryId(category.getId());//类目ID
-        scenicManageVO.setPrice(new BigDecimal(itemDO.getPrice()/100));
-        scenicManageVO.setOriginalPrice(new BigDecimal(itemDO.getOriginalPrice()/100));
+        scenicManageVO.setPrice(new BigDecimal(itemDO.getPrice()).divide(new BigDecimal(100)));
+        scenicManageVO.setOriginalPrice(new BigDecimal(itemDO.getOriginalPrice()).divide(new BigDecimal(100)));
         scenicManageVO.setStartBookTimeLimit(itemDO.getItemFeature().getStartBookTimeLimit());//提前预定天数
         itemDO.getItemFeature().getTicketId();//门票ID
         itemDO.getItemFeature().getTicketTitle();//门票名称
@@ -149,7 +149,7 @@ public class ScenicManageDomainChecker {
                 System.out.println("销售属性:"+skuPVPair.getVTxt());
                 bizCategory.setPId(skuPVPair.getPId());
                 bizCategory.setVTxt(skuPVPair.getVTxt());
-                bizCategory.setPText(skuPVPair.getPTxt());
+                bizCategory.setPTxt(skuPVPair.getPTxt());
                 bizCategory.setPType(skuPVPair.getPType());
                 bizCategory.setCategoryId(scenicManageVO.getCategoryId());
              bizList.add(bizCategory);
@@ -292,7 +292,8 @@ public class ScenicManageDomainChecker {
         for(BizCategoryInfo bizCategoryInfo :bizCategoryInfoList){
             ItemSkuPVPair itemSkuPVPair = new ItemSkuPVPair();
             itemSkuPVPair.setPId(bizCategoryInfo.getPId());//properid
-            itemSkuPVPair.setPTxt(bizCategoryInfo.getPText());//文本
+            itemSkuPVPair.setPTxt(bizCategoryInfo.getPTxt());//文本
+            System.out.println("biz ptxt:"+bizCategoryInfo.getPTxt());
             System.out.println(itemSkuPVPair.getPTxt());
             itemSkuPVPair.setPType(bizCategoryInfo.getPType());//类型
             itemSkuPVPair.setVTxt(bizCategoryInfo.getVTxt());//value值
