@@ -22,11 +22,10 @@
         <div class="hotelinfo ticketinfo">
             <p>
                 <span class="nm"><span class="bred">*</span><label>景区信息：</label></span>
-	                <span class="info-bar">
-	                    <label class="htn"></label>
-	                    <label class="smtt">地址：</label><label class="address">$!{scenicManageVO.locationText}</label>
-	                </span>
-                <a class="searchScenic">查询景区</a>
+                <span class="info-bar">
+                    <label class="htn"></label>
+                    <label class="smtt">地址：</label><label class="address">$!{scenicManageVO.locationText}</label>
+                </span>
             </p>
         </div>
         <div class="baseinfo ticketbaseinfo">
@@ -37,28 +36,23 @@
                 </tr>
                 <tr class="notNull">
                     <td class="coltxt" ><span class="bred">*</span>门票类型：</td>
-                    <td class="ticketType">
-                        <!--
-	                        <label class="radio"><input type="radio" name="ticketId" value="1" #if($!scenicManageVO.ticketId == 1) checked #end>大门票</label>
-	                        <label class="radio"><input type="radio" name="ticketId" value="2" #if($!scenicManageVO.ticketId == 2) checked #end>联票</label>
-	                        -->
-                    </td>
+                    <td class="ticketType">联票这里这里</td>
                 </tr>
                 <tr class="notNull">
                     <td class="coltxt"><span class="bred">*</span>商品标题：</td>
-                    <td><input type="text" class="inputxt" maxlength="38" name="title" value="$!{scenicManageVO.title}"><span class="mark"><label>1</label>/38字</span></td>
+                    <td>$!{scenicManageVO.title}</td>
                 </tr>
                 <tr class="notNull">
                     <td class="coltxt"><span class="bred">*</span>价格：</td>
-                    <td><input type="text" class="inputxt" name="price" value="$!{scenicManageVO.price}"></td>
+                    <td>$!{scenicManageVO.price}</td>
                 </tr>
                 <tr class="notNull">
                     <td class="coltxt"><span class="bred">*</span>门市价：</td>
-                    <td><input type="text" class="inputxt" name="originalPrice" value="$!{scenicManageVO.originalPrice}" ></td>
+                    <td>$!{scenicManageVO.originalPrice}</td>
                 </tr>
                 <tr class="notNull">
                     <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
-                    <td><input type="text" class="inputxt" maxlength="10" name="startBookTimeLimit" value="$!{scenicManageVO.startBookTimeLimit}" ></td>
+                    <td>$!{scenicManageVO.startBookTimeLimit}</td>
                 </tr>
                 #foreach($bizCategoryInfo in $bizCategoryInfoList)
                     #if($bizCategoryInfo.pType == 1)
@@ -68,7 +62,7 @@
                     <tr class="dynamicTr" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pText" pType="$!bizCategoryInfo.pType">
                         <td class="coltxt">$!bizCategoryInfo.pText：</td>
                     #end
-                    <td><input type="text" class="inputxt" name="$!bizCategoryInfo.pId" value=""></td>
+                    <td>这里这里改</td>
                 </tr>
                 #end
 
