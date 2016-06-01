@@ -20,6 +20,7 @@ import com.yimayhd.sellerAdmin.service.hotelManage.ScenicManageService;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -172,14 +175,16 @@ public class ScenicManageEnhanceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/editScenicManageView")
-    public String editScenicManageView(Model model){
+    public String editScenicManageView(Model model, HttpServletRequest request, HttpServletResponse response){
 
         System.out.println(123);
+        String operationFlag = request.getParameter("operationFlag");
+        operationFlag="update";
         ScenicManageVO scenicManageVO = new ScenicManageVO();
         long userId = sessionManager.getUserId() ;
         scenicManageVO.setSellerId(userId);
         scenicManageVO.setCategoryId(233);
-        scenicManageVO.setItemId(108300);
+        scenicManageVO.setItemId(108340);
         if(scenicManageVO==null){
             // "编辑商品信息错误";
             return "/error";
@@ -201,6 +206,7 @@ public class ScenicManageEnhanceController extends BaseController {
         scenicManageVO = webResult.getValue();
         model.addAttribute("bizCategoryInfoList",scenicManageVO.getBizCategoryInfoList());// 最晚到店时间列表
         model.addAttribute("scenicManageVO", scenicManageVO);
+        model.addAttribute("scenicManageVO", operationFlag);
         /**动态属性列表***/
         return "/system/comm/hotelManage/addticket";
     }

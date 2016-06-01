@@ -194,7 +194,7 @@ public class HotelManageController extends BaseController {
 		long userId = sessionManager.getUserId() ;
 		hotelMessageVO.setSellerId(userId);
 		hotelMessageVO.setCategoryId(categoryId);
-		hotelMessageVO.setItemId(Long.valueOf(108266));
+		hotelMessageVO.setItemId(Long.valueOf(108306));
 		if(hotelMessageVO==null){
 			// "编辑商品信息错误";
 			return "/error";

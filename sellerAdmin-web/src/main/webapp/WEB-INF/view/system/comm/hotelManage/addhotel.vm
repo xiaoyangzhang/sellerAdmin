@@ -46,7 +46,7 @@
             <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value='$!{hotelMessageVO.supplierCalendar}' />
             <input type="hidden" class="picCode baseInfo-picCode" name="roomId" value="$!{hotelMessageVO.roomId}" />
             <input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{hotelMessageVO.sellerId}" />
-            <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{hotelMessageVO.categoryId}" />
+            <input type="hidden" class="picCode baseInfo-picCode" name="operationFlag" value="$!{operationFlag}">
             <table>
                 <tr>
                     <td class="coltxt">商品类型：</td>
