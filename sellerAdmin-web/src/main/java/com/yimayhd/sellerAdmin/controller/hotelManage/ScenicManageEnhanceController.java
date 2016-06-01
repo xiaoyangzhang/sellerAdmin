@@ -2,8 +2,10 @@ package com.yimayhd.sellerAdmin.controller.hotelManage;
 
 import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
+import com.yimayhd.ic.client.model.domain.TicketDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.result.item.CategoryResult;
+import com.yimayhd.ic.client.model.result.item.TicketResult;
 import com.yimayhd.ic.client.service.item.CategoryService;
 import com.yimayhd.ic.client.service.item.ScenicPublishService;
 import com.yimayhd.sellerAdmin.base.BaseController;
@@ -11,6 +13,7 @@ import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.model.HotelManage.BizCategoryInfo;
+import com.yimayhd.sellerAdmin.model.HotelManage.MultiChoice;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
 import com.yimayhd.sellerAdmin.service.hotelManage.ScenicManageService;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
@@ -24,6 +27,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +43,8 @@ public class ScenicManageEnhanceController extends BaseController {
     private ScenicManageService scenicManageService;
     @Autowired
     private CategoryService categoryServiceRef;
+    @Resource
+    private ScenicPublishService scenicPublishService;
 
     /**
      * 查询景区资源列表
@@ -54,7 +60,7 @@ public class ScenicManageEnhanceController extends BaseController {
         WebResult<PageVO<ScenicManageVO>> result= scenicManageService.queryScenicManageVOListByData(scenicManageVO);
         if(!result.isSuccess()){
             logger.error("查询列表失败");
-            return "/error";
+            return "/system/comm/hotelManage/searchscenic";
         }
         PageVO<ScenicManageVO> pageResult = result.getValue();
         List<ScenicManageVO> scenicManageVOList = pageResult.getResultList();
@@ -196,6 +202,7 @@ public class ScenicManageEnhanceController extends BaseController {
      * @param scenicManageVO
      * @return
      */
+    @RequestMapping(value = "/editScenicManageVOByDdata", method = RequestMethod.POST)
     public WebResult<String> editScenicManageVOByDdata(Model model, ScenicManageVO scenicManageVO){
         WebResult<String> message = new WebResult<String>();
 
@@ -220,10 +227,36 @@ public class ScenicManageEnhanceController extends BaseController {
         model.addAttribute("scenicManageVO",result.getValue());
         return message;
     }
-   /* @RequestMapping(value = "/queryTicketListByScenicId", method = RequestMethod.GET)
-    public  WebResult<String> queryTicketListByScenicId (Model model, ){
 
-    }*/
+    /**
+     * 查询票型信息
+     * @param model
+     * @param scenicId
+     * @return
+     */
+   @RequestMapping(value = "/queryTicketListByScenicId",method = RequestMethod.POST)
+    public  WebResult<String> queryTicketListByScenicId (Model model,long scenicId){
+       WebResult<String> result = new WebResult<String>();
+       TicketResult ticketResult =scenicPublishService.getTicketListByScenicId(scenicId);
+       if(!ticketResult.isSuccess()){
+           result.initFailure(WebReturnCode.PARAM_ERROR,"门票类型");
+           return result;
+       }
+       List<TicketDO> ticketDOList = ticketResult.getTicketDOList();
+       if(CollectionUtils.isEmpty(ticketDOList)){
+           result.initFailure(WebReturnCode.PARAM_ERROR,"没有门票类型");
+       }
+       List<MultiChoice> multiList = new ArrayList<MultiChoice>();
+       for(TicketDO ticketDO:ticketDOList){
+           MultiChoice multi = new MultiChoice();
+           multi.setId(ticketDO.getId());
+           multi.setTitle(ticketDO.getTitle());
+           multi.setChoice(false);
+           multiList.add(multi);
+       }
+       result.setValue(CommonJsonUtil.objectToJson(multiList,List.class));
+       return result;
+    }
     /**
      * 景区商品验证
      * @param scenicManageVO
@@ -284,5 +317,24 @@ public class ScenicManageEnhanceController extends BaseController {
 
     public ScenicManageService getScenicManageService() {
         return scenicManageService;
+    }
+
+    public ScenicPublishService getScenicPublishService() {
+        return scenicPublishService;
+    }
+
+    public void setScenicPublishService(ScenicPublishService scenicPublishService) {
+        this.scenicPublishService = scenicPublishService;
+    }
+    public static void main(String[] args) {
+        List<MultiChoice> multiList = new ArrayList<MultiChoice>();
+        for (int i=0;i<3;i++) {
+            MultiChoice multi = new MultiChoice();
+            multi.setId(i);
+            multi.setTitle("票型说明");
+            multi.setChoice(false);
+            multiList.add(multi);
+        }
+        System.out.println(CommonJsonUtil.objectToJson(multiList, List.class));
     }
 }

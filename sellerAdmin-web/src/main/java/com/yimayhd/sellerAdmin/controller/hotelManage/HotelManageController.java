@@ -106,8 +106,8 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("pageVo", pageResult);
 		model.addAttribute("hotelMessageVOList", hotelMessageVOList);
 		model.addAttribute("totalPage", totalPage);
-		model.addAttribute("pageNo", pageResult.getPaginator().getPage());
-		model.addAttribute("pageSize",PAGESIZE);
+		//model.addAttribute("page", pageResult.getPaginator().getPage());
+		//model.addAttribute("pageSize",PAGESIZE);
 		model.addAttribute("totalCount", pageResult.getPaginator().getTotalItems());
 		return "/system/comm/hotelManage/searchhotel";
 	}
@@ -285,7 +285,7 @@ public class HotelManageController extends BaseController {
 			MultiChoice multiChoice = new MultiChoice();
 			multiChoice.setId(i);//id
 			multiChoice.setTitle("时间");
-			multiChoice.settValue(i);
+			multiChoice.setTValue(i);
 			multiChoice.setValue(i+":00");
 			multiChoice.setChoice(false);
 			if(!CollectionUtils.isEmpty(choiseTime)){

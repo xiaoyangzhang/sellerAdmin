@@ -64,8 +64,8 @@ public class HotelMessageVO  implements Serializable {
 
 	private long categoryId;
 
-	public Integer pageNo = 8;
-	protected Integer pageSize = 1;
+	public Integer page = 1;
+	protected Integer pageSize = 8;
 
 	public long getSellerId() {
 		return sellerId;
@@ -347,12 +347,12 @@ public class HotelMessageVO  implements Serializable {
 		this.latestArriveTime = latestArriveTime;
 	}
 
-	public Integer getPageNo() {
-		return pageNo;
+	public Integer getPage() {
+		return page;
 	}
 
-	public void setPageNo(Integer pageNo) {
-		this.pageNo = pageNo;
+	public void setPage(Integer page) {
+		this.page = page;
 	}
 
 	public Integer getPageSize() {

@@ -8,21 +8,14 @@ import java.io.Serializable;
 public class MultiChoice implements Serializable {
 
     private static final long serialVersionUID = -4538006116100105040L;
-    private int id ;
+    private long id ;
     private String name;//名称
     private String title;//标题
     private String value;//显示内容
-    private int tValue;//日期等
+    private long tValue;//日期等
     private boolean isChoice;//是否选中
 
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -40,19 +33,27 @@ public class MultiChoice implements Serializable {
         this.value = value;
     }
 
-    public int gettValue() {
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getTValue() {
         return tValue;
     }
 
-    public void settValue(int tValue) {
+    public void setTValue(long tValue) {
         this.tValue = tValue;
     }
 
-    public String getName() {
+    public String geTName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void seTName(String name) {
         this.name = name;
     }
 
