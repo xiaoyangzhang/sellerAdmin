@@ -401,10 +401,6 @@ public class ScenicManageDomainChecker {
         if (scenicManageVO == null) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR);
         }
-        if (scenicManageVO.getScenicId()==0) {
-            return WebResult.failure(WebReturnCode.PARAM_ERROR, "景区ID不能为空");
-        }
-
         return WebResult.success(null);
     }
 
