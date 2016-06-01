@@ -188,7 +188,6 @@ public class HotelManageController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/editHotelMessageView")
-	@ResponseBody
 	public String editHotelMessageView(Model model) throws Exception {
 		HotelMessageVO hotelMessageVO = new HotelMessageVO();
 		long userId = sessionManager.getUserId() ;

@@ -17,7 +17,8 @@
 		    <span>
                 订单状态：
             </span>
-       #if($order.mainOrder.orderType == 3100 || $order.mainOrder.orderType == 3200 || $order.mainOrder.orderType == 3300 || $order.mainOrder.orderType == 200)
+       #if($order.mainOrder.orderType == 3100 || $order.mainOrder.orderType == 3200 || $order.mainOrder.orderType == 3300 || $order.mainOrder.orderType == 200
+        || $order.mainOrder.orderType == 3500 || $order.mainOrder.orderType == 3600)
 	            #if($order.mainOrder.orderStatus == 2)
 	                <span>
 	                   	 待付款；
@@ -256,7 +257,7 @@
                 <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.createTime)</td>
                 <td>
                     <div class="t-date">出发日期：
-                        #if($!order.mainOrder.tcMainOrder.bizOrder.orderType == 3100 ||$!order.mainOrder.tcMainOrder.bizOrder.orderType == 3200)
+                        #if($!order.mainOrder.tcMainOrder.bizOrder.orderType == 3100 ||$!order.mainOrder.tcMainOrder.bizOrder.orderType == 3200 ||$!order.mainOrder.tcMainOrder.bizOrder.orderType == 3500 ||$!order.mainOrder.tcMainOrder.bizOrder.orderType == 3600)
                             $!date.format('yyyy-MM-dd',$!order.mainOrder.tcMainOrder.departTime)
                         #end
                     </div>
@@ -351,7 +352,8 @@
                             </div>
                             <div class="t-msg">
                                 
-                                #if($!order.mainOrder.orderType == 3100 ||$!order.mainOrder.orderType == 3200 || $!order.mainOrder.orderType == 3300 || $!order.mainOrder.orderType == 200)
+                                #if($!order.mainOrder.orderType == 3100 ||$!order.mainOrder.orderType == 3200 || $!order.mainOrder.orderType == 3300 || $!order.mainOrder.orderType == 200 
+                                || $!order.mainOrder.orderType == 3500 || $!order.mainOrder.orderType == 3600)
                                    	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
                                     <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.executeTime) 出发</div>
                                     <div class="t-userType">$!subOrder.tcDetailOrder.itemSubTitle</div>
@@ -392,7 +394,8 @@
                     <td>
                         <div class="">
                          	#if($!order.mainOrder.orderType == 3100 || $!order.mainOrder.orderType == 3200 
-                             	|| $!order.mainOrder.orderType == 3300 || $!order.mainOrder.orderType == 200)
+                             	|| $!order.mainOrder.orderType == 3300 || $!order.mainOrder.orderType == 200 
+                             	|| $!order.mainOrder.orderType == 3500 || $!order.mainOrder.orderType == 3600)
                             	    #if($order.mainOrder.orderStatus == 2)
                                   		待付款
                                     #elseif($order.mainOrder.orderStatus == 3)
@@ -531,7 +534,7 @@
 	            	$.post('$!utilWebconfig.getActionDefaultFontPath()' + '/order/sellerSendGoods/', {'orderId': orderId},function(data) {
 		    			if(data.status == 200) {
 		    				layer.msg('操作成功', {
-		        				icon : 2,
+		        				icon : 1,
 		        				time : 1000
 		        			});
 		    				window.location.reload();

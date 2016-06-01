@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.checker;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
@@ -307,13 +309,13 @@ public class HotelManageDomainChecker {
         sku.setSellerId(template.getSeller_id());//商家ID
         sku.setCategoryId(hotelMessageVO.getCategoryId());//类目ID
         BigDecimal prize = biz.getPrice();
-        long portionPrize =  prize.longValue()*100;
+        long portionPrize = prize.multiply(new BigDecimal(100)).longValue();
         sku.setPrice(portionPrize);//价格
         sku.setStockNum(biz.getStock_num());//库存
         /**销售属性**/
         List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
         ItemSkuPVPair pvPair =new ItemSkuPVPair();
-        pvPair.setPId(categoryPropertyValueDO.getId());//销售属性ID
+        pvPair.setPId(categoryPropertyValueDO.getPropertyId());//销售属性ID
         String vTxt = biz.getvTxt();
         long time = Long.parseLong(vTxt);
         pvPair.setPTxt(DateCommon.timestampLongDate(time));//日期格式化
@@ -383,7 +385,7 @@ public class HotelManageDomainChecker {
             BizSkuInfo  bizSkuInfo =new BizSkuInfo();
             bizSkuInfo.setSku_id(sku.getId());
             bizSkuInfo.setState("update");
-            bizSkuInfo.setPrice(new BigDecimal(sku.getPrice()/100));;//价格
+            bizSkuInfo.setPrice(new BigDecimal(sku.getPrice()).divide(new BigDecimal(100)));;//价格
             bizSkuInfo.setStock_num(sku.getStockNum());//库存
             ItemSkuPVPair pvp = sku.getItemSkuPVPairList().get(0);
             bizSkuInfo.setvTxt(pvp.getVTxt());//日期
@@ -391,8 +393,9 @@ public class HotelManageDomainChecker {
         }
         temp.setBizSkuInfo(bizArr);
         json = CommonJsonUtil.objectToJson(temp,SupplierCalendarTemplate.class);
+        json= json.replaceAll("\"","\\\\\"");
+        System.out.println(json);
         return json;
-
     }
 
     /**

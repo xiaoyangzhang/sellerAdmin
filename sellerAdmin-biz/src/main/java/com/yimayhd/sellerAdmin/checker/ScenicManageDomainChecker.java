@@ -135,8 +135,8 @@ public class ScenicManageDomainChecker {
         scenicManageVO.setName(scenicDO.getName());
         scenicManageVO.setTitle(itemDO.getTitle());
         scenicManageVO.setCategoryId(category.getId());//类目ID
-        scenicManageVO.setPrice(itemDO.getPrice());
-        scenicManageVO.setOriginalPrice(itemDO.getOriginalPrice());
+        scenicManageVO.setPrice(new BigDecimal(itemDO.getPrice()/100));
+        scenicManageVO.setOriginalPrice(new BigDecimal(itemDO.getOriginalPrice()/100));
         scenicManageVO.setStartBookTimeLimit(itemDO.getItemFeature().getStartBookTimeLimit());//提前预定天数
         itemDO.getItemFeature().getTicketId();//门票ID
         itemDO.getItemFeature().getTicketTitle();//门票名称
@@ -158,15 +158,17 @@ public class ScenicManageDomainChecker {
             bizCategory.setVTxt("");
             for (ItemSkuPVPair skuPVPair: itemDO.getItemPropertyList()){
                 if(bizCategory.getPId()==skuPVPair.getPId()){
+                    System.out.println("销售属性:"+skuPVPair.getVTxt());
                     bizCategory.setVTxt(skuPVPair.getVTxt());
                 }
             }
             bizList.add(bizCategory);
         }
         String bizCategoryJson =CommonJsonUtil.objectToJson(bizList,List.class);
+        System.out.println("编辑Josn:"+bizCategoryJson);
         scenicManageVO.setDynamicEntry(bizCategoryJson);//属性json穿
         scenicManageVO.setBizCategoryInfoList(bizList);// json列表
-
+        System.out.println("bizCategoryJson");
         return scenicManageVO;
     }
     public ItemDO  getBizScenicPublishAddDTO() {
@@ -175,8 +177,8 @@ public class ScenicManageDomainChecker {
         itemDO.setOutId(scenicManageVO.getScenicId());//酒店ID
         itemDO.setSellerId(scenicManageVO.getSellerId());//商家ID
         itemDO.setTitle(scenicManageVO.getTitle());
-        itemDO.setPrice(scenicManageVO.getPrice());//价格
-        itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice());//门市价
+        itemDO.setPrice(scenicManageVO.getPrice().multiply(new BigDecimal(100)).longValue());//价格
+        itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice().multiply(new BigDecimal(100)).longValue());//门市价
         itemDO.setDomain(Constant.DOMAIN_JIUXIU);
         itemDO.setOptions(1);
         itemDO.setItemType(category.getCategoryFeature().getItemType());
@@ -205,8 +207,8 @@ public class ScenicManageDomainChecker {
         itemDO.setOutId(scenicManageVO.getScenicId());//酒店ID
         //itemDO.setSellerId(scenicManageVO.getSellerId());//商家ID
         itemDO.setTitle(scenicManageVO.getTitle());
-        itemDO.setPrice(scenicManageVO.getPrice());//价格
-        itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice());//门市价
+        itemDO.setPrice(scenicManageVO.getPrice().divide(new BigDecimal(100)).longValue());//价格
+        itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice().divide(new BigDecimal(100)).longValue());//门市价
 
         //itemDO.setOutType();
         ItemFeature itemFeature = new ItemFeature(null);
@@ -285,6 +287,8 @@ public class ScenicManageDomainChecker {
             itemSkuPVPair.setVTxt(bizCategoryInfo.getVTxt());//value值
             itemSkuPVPairList.add(itemSkuPVPair);
         }
+        String skuPvpJson = CommonJsonUtil.objectToJson(itemSkuPVPairList,List.class);
+        System.out.println("属性json:"+skuPvpJson);
         return itemSkuPVPairList;
     }
 
@@ -299,13 +303,13 @@ public class ScenicManageDomainChecker {
         sku.setSellerId(template.getSeller_id());//商家ID
         sku.setCategoryId(scenicManageVO.getCategoryId());//类目ID
         BigDecimal prize = biz.getPrice();
-        long portionPrize =  prize.longValue()*100;
+        long portionPrize = prize.multiply(new BigDecimal(100)).longValue();
         sku.setPrice(portionPrize);//价格
         sku.setStockNum(biz.getStock_num());//库存
         /**销售属性**/
         List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
         ItemSkuPVPair pvPair =new ItemSkuPVPair();
-        pvPair.setPId(categoryPropertyValueDO.getId());//销售属性ID
+        pvPair.setPId(categoryPropertyValueDO.getPropertyId());//销售属性ID
         String vTxt = biz.getvTxt();
         long time = Long.parseLong(vTxt);
         System.out.println(time);
@@ -381,7 +385,7 @@ public class ScenicManageDomainChecker {
             BizSkuInfo  bizSkuInfo =new BizSkuInfo();
             bizSkuInfo.setSku_id(sku.getId());
             bizSkuInfo.setState("update");
-            bizSkuInfo.setPrice(new BigDecimal(sku.getPrice()/100));;//价格
+            bizSkuInfo.setPrice(new BigDecimal(sku.getPrice()).divide(new BigDecimal(100)));;//价格
             bizSkuInfo.setStock_num(sku.getStockNum());//库存
             ItemSkuPVPair pvp = sku.getItemSkuPVPairList().get(0);
             bizSkuInfo.setvTxt(pvp.getVTxt());//日期
@@ -389,6 +393,8 @@ public class ScenicManageDomainChecker {
         }
         temp.setBizSkuInfo(bizArr);
         json = CommonJsonUtil.objectToJson(temp,SupplierCalendarTemplate.class);
+        json= json.replaceAll("\"","\\\\\"");
+        System.out.println(json);
         return json;
 
     }
@@ -401,10 +407,6 @@ public class ScenicManageDomainChecker {
         if (scenicManageVO == null) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR);
         }
-        if (scenicManageVO.getScenicId()==0) {
-            return WebResult.failure(WebReturnCode.PARAM_ERROR, "景区ID不能为空");
-        }
-
         return WebResult.success(null);
     }
 

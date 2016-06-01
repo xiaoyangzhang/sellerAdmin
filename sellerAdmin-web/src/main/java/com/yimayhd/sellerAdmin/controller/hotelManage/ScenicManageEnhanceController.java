@@ -198,6 +198,8 @@ public class ScenicManageEnhanceController extends BaseController {
             // "商品类目ID错误";
             return "/error";
         }
+        scenicManageVO = webResult.getValue();
+        model.addAttribute("bizCategoryInfoList",scenicManageVO.getBizCategoryInfoList());// 最晚到店时间列表
         model.addAttribute("scenicManageVO", scenicManageVO);
         /**动态属性列表***/
         return "/system/comm/hotelManage/addticket";
