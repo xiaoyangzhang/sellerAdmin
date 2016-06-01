@@ -86,7 +86,7 @@ public class HotelManageController extends BaseController {
 		long userId = sessionManager.getUserId() ;
 		hotelMessageVO.setSellerId(userId);
 		System.out.println("userID:"+userId);
-		hotelMessageVO.setPageSize(PAGESIZE);
+		//hotelMessageVO.setPageSize(PAGESIZE);
 		//hotelMessageVO.setPageNo(pageNo);//
 		WebResult<PageVO<HotelMessageVO>> result= hotelManageService.queryHotelMessageVOListByData(hotelMessageVO);
 		if(!result.isSuccess()){
