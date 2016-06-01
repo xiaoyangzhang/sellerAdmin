@@ -9,6 +9,7 @@ import com.yimayhd.ic.client.model.result.item.TicketResult;
 import com.yimayhd.ic.client.service.item.CategoryService;
 import com.yimayhd.ic.client.service.item.ScenicPublishService;
 import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
@@ -175,7 +176,7 @@ public class ScenicManageEnhanceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/editScenicManageView")
-    public String editScenicManageView(Model model, HttpServletRequest request, HttpServletResponse response){
+    public String editScenicManageView(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
 
         System.out.println(123);
         String operationFlag = request.getParameter("operationFlag");
@@ -183,30 +184,34 @@ public class ScenicManageEnhanceController extends BaseController {
         ScenicManageVO scenicManageVO = new ScenicManageVO();
         long userId = sessionManager.getUserId() ;
         scenicManageVO.setSellerId(userId);
-        scenicManageVO.setCategoryId(233);
-        scenicManageVO.setItemId(108340);
+       // scenicManageVO.setCategoryId(233);
+        scenicManageVO.setItemId(108276);
         if(scenicManageVO==null){
             // "编辑商品信息错误";
-            return "/error";
+            log.warn("编辑商品信息错误");
+            throw new BaseException("编辑商品信息错误");
         }
         if(scenicManageVO.getItemId()==0){
             // "编辑商品ID错误";
-            return "/error";
+            log.warn("编辑商品ID错误");
+            throw new BaseException("编辑商品ID错误");
         }
-        if(scenicManageVO.getCategoryId()==0){
+        /*if(scenicManageVO.getCategoryId()==0){
             // "商品类目ID错误";
-            return "/error";
-        }
+            log.warn("商品类目ID错误");
+            throw new BaseException("商品类目ID错误");
+        }*/
 
         WebResult<ScenicManageVO> webResult = scenicManageService.queryScenicManageVOByData(scenicManageVO);
         if(!webResult.isSuccess()){
-            // "商品类目ID错误";
-            return "/error";
+            // "查询详情错误";
+            log.warn("查询详情错误");
+            throw new BaseException("查询详情错误");
         }
         scenicManageVO = webResult.getValue();
         model.addAttribute("bizCategoryInfoList",scenicManageVO.getBizCategoryInfoList());// 最晚到店时间列表
         model.addAttribute("scenicManageVO", scenicManageVO);
-        model.addAttribute("scenicManageVO", operationFlag);
+        model.addAttribute("operationFlag", operationFlag);
         /**动态属性列表***/
         return "/system/comm/hotelManage/addticket";
     }

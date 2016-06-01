@@ -58,7 +58,7 @@
                 </tr>
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>商品标题：</td>
-                    <td><input type="text" class="inputxt" maxlength="38" name="title"  value="$!{hotelMessageVO.title}"><span class="mark"><label>1</label>/38字</span></td>
+                    <td><input type="text" class="inputxt" maxlength="38" name="title"  value="$!{hotelMessageVO.title}"><span class="mark"><label>1</label><label>/38字</label></span></td>
                 </tr>
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>商品代码：</td>
