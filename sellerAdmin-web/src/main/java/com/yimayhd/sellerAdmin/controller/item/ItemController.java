@@ -148,7 +148,8 @@ public class ItemController extends BaseController {
 			throw new BaseException("ItemType is null");
 		}
 		// TODO YEBIN 待开发
-		if (ItemType.FREE_LINE.equals(itemType) || ItemType.TOUR_LINE.equals(itemType)) {
+		if (ItemType.FREE_LINE.equals(itemType) || ItemType.TOUR_LINE.equals(itemType)
+				|| ItemType.FREE_LINE_ABOARD.equals(itemType) || ItemType.TOUR_LINE_ABOARD.equals(itemType)) {
 			return redirect("/line/category/" + categoryId + "/create/");
 		} else if (ItemType.CITY_ACTIVITY.equals(itemType)) {
 			return redirect("/cityactivity/toAdd?categoryId=" + categoryId);
@@ -350,12 +351,16 @@ public class ItemController extends BaseController {
 	@RequestMapping(value = "/{id}/type/{type}/edit")
 	public String detail(@PathVariable(value = "id") long itemId, @PathVariable(value = "type") int itemType) {
 		// TODO YEBIN 待开发
-		if (ItemType.FREE_LINE.getValue() == itemType || ItemType.TOUR_LINE.getValue() == itemType) {
+		if (ItemType.FREE_LINE.getValue() == itemType || ItemType.TOUR_LINE.getValue() == itemType
+				|| ItemType.TOUR_LINE_ABOARD.getValue() == itemType
+				|| ItemType.FREE_LINE_ABOARD.getValue() == itemType) {
 			return redirect("/line/edit/" + itemId + "/");
 		} else if (ItemType.CITY_ACTIVITY.getValue() == itemType) {
 			return redirect("/cityactivity/edit/" + itemId);
 		} else if (ItemType.NORMAL.getValue() == itemType) {
 			return redirect("/barterItem/common/edit/" + itemId);
+		}  else if (ItemType.HOTEL.getValue() == itemType) {
+			return redirect("/hotel/editHotelMessageView?itemId=" + itemId);
 		} else {
 			throw new BaseException("unsupport ItemType " + itemType);
 		}
@@ -364,7 +369,9 @@ public class ItemController extends BaseController {
 	@RequestMapping(value = "/{id}/type/{type}/view")
 	public String view(@PathVariable(value = "id") long itemId, @PathVariable(value = "type") int itemType) {
 		// TODO YEBIN 待开发
-		if (ItemType.FREE_LINE.getValue() == itemType || ItemType.TOUR_LINE.getValue() == itemType) {
+		if (ItemType.FREE_LINE.getValue() == itemType || ItemType.TOUR_LINE.getValue() == itemType
+				|| ItemType.TOUR_LINE_ABOARD.getValue() == itemType
+				|| ItemType.FREE_LINE_ABOARD.getValue() == itemType) {
 			return redirect("/line/view/" + itemId + "/");
 		} else if (ItemType.CITY_ACTIVITY.getValue() == itemType) {
 			return redirect("/cityactivity/view/" + itemId);

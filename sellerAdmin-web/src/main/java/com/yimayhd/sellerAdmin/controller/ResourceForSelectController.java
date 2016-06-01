@@ -1,7 +1,11 @@
 package com.yimayhd.sellerAdmin.controller;
 
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,12 +23,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
@@ -36,6 +42,8 @@ import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.DestinationNodeVO;
+import com.yimayhd.sellerAdmin.model.line.DestinationVO;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.query.ActivityListQuery;
 import com.yimayhd.sellerAdmin.model.query.CommodityListQuery;
@@ -139,6 +147,34 @@ public class ResourceForSelectController extends BaseController {
 			throw new BaseException("选择出发地失败");
 		}
 	}
+	
+	/**
+	 * 根据itemType确定目的地数据
+	 * @author xiemingna
+	 * 2016年5月30日上午11:14:03
+	 * @return
+	 */
+	@RequestMapping(value = "/selectDests/{itemType}")
+	public String selectDestsByItemType(@PathVariable(value = "itemType") ItemType itemType) {
+		WebResult<List<DestinationNodeVO>> result=null;
+		HashMap<String,Object> hashMap = new HashMap<String,Object>();
+		if (itemType.equals(ItemType.TOUR_LINE)||itemType.equals(ItemType.FREE_LINE)) {
+			result = commLineService.queryInlandDestinationTree();
+			hashMap.put("type", "inland");
+		}else {
+			result = commLineService.queryOverseaDestinationTree();
+			hashMap.put("type", "oversea");
+		}
+		List<DestinationNodeVO> destinationNodeVOs = result.getValue();
+		if (result.isSuccess()) {
+			orderByFirstLetter(destinationNodeVOs);
+		}else {
+			throw new BaseException("选择目的地失败");
+		}
+		hashMap.put("destinationNodeVOs", destinationNodeVOs);
+		put("destMap", hashMap);
+		return "/system/resource/forSelect/selectDests";
+	}
 
 //	private LineVO getItemLineInfo(Long id) {
 //		if (id == null ) {
@@ -150,6 +186,20 @@ public class ResourceForSelectController extends BaseController {
 //		}
 //		return null;
 //	}
+
+	private void orderByFirstLetter(List<DestinationNodeVO> destinationNodeVOs) {
+		for (DestinationNodeVO destinationNodeVO : destinationNodeVOs) {
+			if (destinationNodeVO.getChild()!=null) {
+				orderByFirstLetter(destinationNodeVO.getChild());
+			}else {
+				Collections.sort(destinationNodeVOs, new Comparator<DestinationNodeVO>() {
+					public int compare(DestinationNodeVO arg0, DestinationNodeVO arg1) {
+						return arg0.getDestinationVO().getSimpleCode().compareTo(arg1.getDestinationVO().getSimpleCode());
+					}
+				});
+			}
+		}
+	}
 
 	/**
 	 * 选择活动商品

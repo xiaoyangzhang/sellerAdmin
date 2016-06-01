@@ -4,11 +4,13 @@ import java.util.List;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
+import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.DestinationNodeVO;
 import com.yimayhd.sellerAdmin.model.line.LinePropertyConfig;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 
@@ -72,4 +74,21 @@ public interface LineService {
 	 * @return
 	 */
 	WebResult<LinePropertyConfig> getLinePropertyConfig(long categoryId);
+
+	
+	/**
+	 * 根据旅游商品类型获取国内全部目的地
+	 * @author xiemingna
+	 * 2016年5月30日下午2:19:29
+	 * @return
+	 */
+	WebResult<List<DestinationNodeVO>> queryInlandDestinationTree();
+
+	/**
+	 * 根据旅游商品类型获取境外全部目的地
+	 * @author xiemingna
+	 * 2016年5月30日下午2:19:29
+	 * @return
+	 */
+	WebResult<List<DestinationNodeVO>> queryOverseaDestinationTree();
 }
