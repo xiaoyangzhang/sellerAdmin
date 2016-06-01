@@ -25,7 +25,7 @@
 	            <span class="nm"><span class="bred">*</span><label>景区信息：</label></span>
 	                <span class="info-bar">
 	                    <label class="htn"></label>
-	                    <label class="smtt">地址：</label><label class="address"></label>
+	                    <label class="smtt">地址：</label><label class="address">$!{scenicManageVO.locationText}</label>
 	                </span>
 	            <a class="searchScenic">查询景区</a>
 	        </p>
@@ -47,19 +47,19 @@
 	                </tr>
 	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>商品标题：</td>
-	                    <td><input type="text" class="inputxt" maxlength="38" name="title"><span class="mark"><label>1</label>/38字</span></td>
+	                    <td><input type="text" class="inputxt" maxlength="38" name="title" value="$!{scenicManageVO.title}"><span class="mark"><label>1</label>/38字</span></td>
 	                </tr>
 	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>价格：</td>
-	                    <td><input type="text" class="inputxt" name="price"></td>
+	                    <td><input type="text" class="inputxt" name="price" value="$!{scenicManageVO.price}"></td>
 	                </tr>
 	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>门市价：</td>
-	                    <td><input type="text" class="inputxt" name="originalPrice"></td>
+	                    <td><input type="text" class="inputxt" name="originalPrice" value="$!{scenicManageVO.originalPrice}" ></td>
 	                </tr>
 	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
-	                    <td><input type="text" class="inputxt" maxlength="10" name="startBookTimeLimit"></td>
+	                    <td><input type="text" class="inputxt" maxlength="10" name="startBookTimeLimit" value="$!{scenicManageVO.startBookTimeLimit}" ></td>
 	                </tr>
 	                #foreach($bizCategoryInfo in $bizCategoryInfoList)
 	                    #if($bizCategoryInfo.pType == 1)

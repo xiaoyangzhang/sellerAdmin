@@ -78,6 +78,7 @@ public class ScenicManageRepo {
 		/**景区商品**/
 		ItemOptionDTO itemOptionDTO  = new ItemOptionDTO();
 		itemOptionDTO.setNeedSku(true);
+		itemOptionDTO.setNeedCategory(true);
 		ItemResult itemResult= itemQueryServiceRef.getItem(domain.getScenicManageVO().getItemId(), itemOptionDTO);
 		if(!itemResult.isSuccess()||itemResult.getItem()==null){
 			log.error("查询景区商品信息错误");
@@ -88,19 +89,18 @@ public class ScenicManageRepo {
 		domain.setItemDO(itemDO);//景区商品信息
 		domain.setItemSkuDOList(itemResult.getItemSkuDOList());// 价格日历
 		domain.setCategory(categoryDO);
-		if(CollectionUtils.isEmpty(categoryDO.getSellCategoryPropertyDOs())){
+		/*if(CollectionUtils.isEmpty(categoryDO.getSellCategoryPropertyDOs())){
 			log.error("价格日历销售属性错误");
 			return WebResult.failure(WebReturnCode.PARAM_ERROR, "价格日历销售属性错误");
 		}
-		domain.setCategoryPropertyValueDO(categoryDO.getSellCategoryPropertyDOs().get(0));//价格日历销售属性
+		domain.setCategoryPropertyValueDO(categoryDO.getSellCategoryPropertyDOs().get(0));//价格日历销售属性*/
 		ICResult<ScenicDO> scenicResult = itemQueryServiceRef.getScenic(itemDO.getOutId());
 		if(scenicResult==null||scenicResult.getModule()==null){
 			log.error("查询景区资源信息错误");
 			return WebResult.failure(WebReturnCode.PARAM_ERROR, "景区资源信息错误");
 		}
 		domain.setScenicDO(scenicResult.getModule());//酒店资源信息
-		ScenicManageVO scenicManageVO = domain.getBizScenicManageVO();
-		result.setValue(scenicManageVO);
+		result.setValue(domain.getBizScenicManageVO());
 		return  result;
 
 

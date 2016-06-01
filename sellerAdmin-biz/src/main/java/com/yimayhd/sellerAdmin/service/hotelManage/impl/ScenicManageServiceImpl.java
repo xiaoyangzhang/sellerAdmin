@@ -61,6 +61,7 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
     public WebResult<ScenicManageVO> queryScenicManageVOByData(final ScenicManageVO scenicManageVO) {
         ScenicManageDomainChecker domain = new ScenicManageDomainChecker(scenicManageVO);
         WebResult<ScenicManageVO> result = new WebResult<ScenicManageVO>();
+        domain.setWebResult(result);
         try{
             WebResult chekResult = domain.checkQueryScenicManageVOByData();
             if(!chekResult.isSuccess()){
