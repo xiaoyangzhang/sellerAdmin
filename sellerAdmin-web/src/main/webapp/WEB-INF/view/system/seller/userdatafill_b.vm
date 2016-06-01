@@ -1,0 +1,81 @@
+#set($layout = "/layout/layout-apply.vm")
+<head>
+#parse("layout/layout-meta.vm")
+<title>上传资质文件</title>
+<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/filldata.css">
+</head>
+
+	<div class="comwidth agreement-box mt30">
+		<div class="titbox wdfill">
+			<div class="progress clearfix">
+				<div class="step start step-on step-fl">
+					<div class="step1">1</div>
+					<label class="step1">阅读协议</label>
+				</div>
+				<div class="step step-on">
+					<div class="step2">2</div>
+					<label class="step2">填写资料</label>
+				</div>
+				<div class="step step-fr">
+					<div class="step3">3</div>
+					<label class="step3">等待审核</label>
+				</div>
+			</div>
+		</div>
+		<div class="tabs">
+			<form id="forminfo">
+				<div class="panel">
+					<div class="tit gray6 f16 error_tip">上传资质
+						<div class="error_box">
+							<ol>
+								<li>负责人身份证过期</li>
+								<li>地址找不到</li>
+							</ol>
+						</div>
+					</div>
+
+					<div class="fm_md_two fm_md">
+						<table>
+							#foreach($pic in $qualifications)
+								#foreach($map in $pic.entrySet())
+							<tr>
+								
+								<td class="tbtxt ">#if($map.value.required == 1)<label class="bred">*</label>#end<label>$!{map.key}：</label></td>
+								<td class="w380 w345">
+									<span class="imgbox">
+										<div class="canclick card_a">
+											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+										</div><div class="plhd"></div><div class="del">删除图片</div>
+										<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
+										<input type="hidden" name="ddccc">
+									</span>
+									#if($!map.value.tip)<div><label class="bred">*</label><label class="gray9">仅限旅行社承包部门上传</label></div>#end
+								</td>
+								<!--
+								<td class="tbtxt w150 w217"><label class="bred">*</label><label>组织机构代码证复印件正面：</label></td>
+								<td>
+									<span class="imgbox">
+										<div class="canclick card_b">
+											<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+										</div><div class="plhd"></div><div class="del">删除图片</div>
+										<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
+										<input type="hidden" name="dhj">
+									</span>
+								</td>
+								-->
+							</tr>
+							#end
+							#end
+						</table>
+					</div>
+					<div class="nextpage"><a class="nxt">上一步</a><a class="nxt last-step">下一步并保存</a></div>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/sea.js"></script>
+	<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+	<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/config.js"></script>		
+	<script>seajs.use("userdatafill");</script>	
+

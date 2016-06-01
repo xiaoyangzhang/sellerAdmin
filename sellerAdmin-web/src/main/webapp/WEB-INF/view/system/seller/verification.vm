@@ -1,0 +1,53 @@
+#set($layout = "/layout/layout-apply.vm")
+<head>
+#parse("layout/layout-meta.vm")
+<title>等待审核</title>
+<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/merchantinfor.css">
+</head>
+
+	<div class="comwidth agreement-box mt30 examine-box">
+		<div class="titbox wdfill">
+			<div class="progress clearfix">
+				<div class="step start step-on step-fl">
+					<div class="step1">1</div>
+					<label class="step1">选择身份</label>
+				</div>
+				<div class="step step-fr step-on">
+					<div class="step2">2</div>
+					<label class="step2">填写商家信息</label>
+				</div>
+				<div class="step step-fr step-on">
+					<div class="step3">3</div>
+					<label class="step3">上传资质文件</label>
+				</div>
+				<div class="step step-fr step-on">
+					<div class="step3">4</div>
+					<label class="step3">签署协议</label>
+				</div>
+				<div class="step step-fr ya step-on">
+					<div class="step3">5</div>
+					<label class="step3">等待审核</label>
+				</div>
+			</div>
+		</div>
+		  <!-- 审核反馈板块 -->
+               <div class="line-top"></div>
+               <center>
+               
+	               <div class="examine">
+	               	   <div class="waiting-exa"></div>
+	                   <div class="exa-text">您的入驻申请资料我们已经收到</div>
+	                   <div class="exa-t">
+	                   	<label class="firsttxt">请等待审核结果,审核通过后即可使用！</label><br/>
+	                   	<label>如果有任何疑问，请联系我们：4000-696-888</label>
+	                   </div>
+	               </div>
+				</center>
+	</div>
+	
+
+	<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/sea.js"></script>
+	<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+	<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/config.js"></script>		
+	<script>seajs.use("businessenter");</script>	
+
