@@ -213,6 +213,8 @@ public class HotelManageController extends BaseController {
 			return "/error";
 		}
 		hotelMessageVO = webResult.getValue();
+		//{"seller_id":17304,"hotel_id":256,"bizskuinfo":""}
+		hotelMessageVO.setSupplierCalendar(" ");
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(webResult.getValue());
 		model.addAttribute("hotelMessageVO", hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
