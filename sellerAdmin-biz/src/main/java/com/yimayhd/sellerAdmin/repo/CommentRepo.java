@@ -25,6 +25,10 @@ import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.commentcenter.client.service.ComTagCenterService;
+import com.yimayhd.resourcecenter.dto.DestinationNode;
+import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
+import com.yimayhd.resourcecenter.model.result.RcResult;
+import com.yimayhd.resourcecenter.service.DestinationService;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -45,6 +49,8 @@ public class CommentRepo {
 	private ComCenterService comCenterServiceRef;
 	@Autowired
 	private ComTagCenterService comTagCenterServiceRef;
+	@Autowired
+	private DestinationService destinationServiceRef;
 
 	/**
 	 * 保存标签
@@ -257,5 +263,22 @@ public class CommentRepo {
 		BaseResult<ComTagDO> tagByName = comTagCenterServiceRef.getTagByName(tagNameTypeDTO);
 		RepoUtils.resultLog(log, "comTagCenterServiceRef.getTagByName", tagByName);
 		return tagByName.getValue();
+	}
+
+	public List<DestinationNode> queryInlandDestinationTree() {
+		int code = DestinationOutType.LINE.getCode();
+		int domainJiuxiu = Constant.DOMAIN_JIUXIU;
+		RepoUtils.requestLog(log, "destinationServiceRef.queryInlandDestinationTree", code,domainJiuxiu);
+		RcResult<List<DestinationNode>> baseResult = destinationServiceRef.queryInlandDestinationTree(code,domainJiuxiu);
+		RepoUtils.resultLog(log, "destinationServiceRef.queryInlandDestinationTree", baseResult);
+		return baseResult.getT();
+	}
+	public List<DestinationNode> queryOverseaDestinationTree() {
+		int code = DestinationOutType.LINE.getCode();
+		int domainJiuxiu = Constant.DOMAIN_JIUXIU;
+		RepoUtils.requestLog(log, "destinationServiceRef.queryOverseaDestinationTree", code,domainJiuxiu);
+		RcResult<List<DestinationNode>> baseResult = destinationServiceRef.queryOverseaDestinationTree(code,domainJiuxiu);
+		RepoUtils.resultLog(log, "destinationServiceRef.queryOverseaDestinationTree", baseResult);
+		return baseResult.getT();
 	}
 }

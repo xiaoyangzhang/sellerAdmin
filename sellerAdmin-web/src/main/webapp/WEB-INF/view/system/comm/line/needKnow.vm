@@ -33,14 +33,30 @@
 				<span class="word-num">$!{length}/500字</span>
 			</td>
 		</tr>
+		#if($utilItem.isAboardLine($itemType))
+		<tr class="need-know-item">
+			<td>*护照签证须知：</td>
+			<td>
+				<input type="hidden" class="need-know-item-key" value="护照签证须知"/>
+				#set($length = 0)
+				#set($content = '')
+				#if($needKnowItems && $needKnowItems.size() > 2)
+					#set($content = $needKnowItems.get(2).content)
+					#set($length = $content.length())
+				#end
+				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="2000">$!content</textarea>
+				<span class="word-num">$!{length}/2000字</span>
+			</td>
+		</tr>
+		#end
 		<tr class="need-know-item">
 			<td>*预订说明：</td>
 			<td>
 				<input type="hidden" class="need-know-item-key" value="预订说明"/>
 				#set($length = 0)
 				#set($content = '')
-				#if($needKnowItems && $needKnowItems.size() > 2)
-					#set($content = $needKnowItems.get(2).content)
+				#if($needKnowItems && $needKnowItems.size() > 3)
+					#set($content = $needKnowItems.get(3).content)
 					#set($length = $content.length())
 				#end
 				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="2000">$!content</textarea>
@@ -53,8 +69,8 @@
 				<input type="hidden" class="need-know-item-key" value="退改规定"/>
 				#set($length = 0)
 				#set($content = '')
-				#if($needKnowItems && $needKnowItems.size() > 3)
-					#set($content = $needKnowItems.get(3).content)
+				#if($needKnowItems && $needKnowItems.size() > 4)
+					#set($content = $needKnowItems.get(4).content)
 					#set($length = $content.length())
 				#end
 				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="500">$!content</textarea>

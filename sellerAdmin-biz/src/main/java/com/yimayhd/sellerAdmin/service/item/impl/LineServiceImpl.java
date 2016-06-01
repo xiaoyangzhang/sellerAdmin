@@ -14,17 +14,23 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.ComentEditDTO;
 import com.yimayhd.commentcenter.client.enums.PictureText;
 import com.yimayhd.commentcenter.client.enums.TagType;
+import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.result.PicTextResult;
+import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.CategoryValueDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
+import com.yimayhd.ic.client.model.domain.item.IcDestination;
+import com.yimayhd.ic.client.model.domain.item.IcSubject;
 import com.yimayhd.ic.client.model.enums.PropertyType;
 import com.yimayhd.ic.client.model.param.item.line.LinePubAddDTO;
 import com.yimayhd.ic.client.model.param.item.line.LinePubUpdateDTO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.ic.client.model.result.item.LinePublishResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
+import com.yimayhd.resourcecenter.domain.DestinationDO;
+import com.yimayhd.resourcecenter.dto.DestinationNode;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -34,6 +40,8 @@ import com.yimayhd.sellerAdmin.converter.LineConverter;
 import com.yimayhd.sellerAdmin.converter.PictureTextConverter;
 import com.yimayhd.sellerAdmin.converter.TagConverter;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.DestinationNodeVO;
+import com.yimayhd.sellerAdmin.model.line.DestinationVO;
 import com.yimayhd.sellerAdmin.model.line.LinePropertyConfig;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.TagDTO;
@@ -47,17 +55,19 @@ import com.yimayhd.sellerAdmin.service.item.LineService;
 import com.yimayhd.user.client.dto.CityDTO;
 
 public class LineServiceImpl implements LineService {
-	private Logger			log	= LoggerFactory.getLogger(getClass());
+	private Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
-	private LineRepo		lineRepo;
+	private LineRepo lineRepo;
 	@Autowired
-	private CommentRepo		commentRepo;
+	private CommentRepo commentRepo;
 	@Autowired
-	private CategoryRepo	categoryRepo;
+	private CategoryRepo categoryRepo;
 	@Autowired
-	private CityRepo		cityRepo;
+	private CityRepo cityRepo;
 	@Autowired
-	private PictureTextRepo	pictureTextRepo;
+	private PictureTextRepo pictureTextRepo;
+	@Autowired
+	private ComCenterService comCenterServiceRef;
 
 	@Override
 	public WebResult<LineVO> getByItemId(long sellerId, long itemId) {
@@ -158,11 +168,58 @@ public class LineServiceImpl implements LineService {
 		return departs;
 	}
 
+	private List<DestinationNodeVO> toDestinationNodeVO(List<DestinationNode> destinationNodes) {
+		if (CollectionUtils.isEmpty(destinationNodes)) {
+			return new ArrayList<DestinationNodeVO>(0);
+		}
+		List<DestinationNodeVO> departs = new ArrayList<DestinationNodeVO>();
+		for (DestinationNode node : destinationNodes) {
+			DestinationNodeVO destinationNodeVO = new DestinationNodeVO();
+			if (node.isHasChild()) {
+				DestinationDO destinationDO = node.getDestinationDO();
+				DestinationVO destinationVO = new DestinationVO(destinationDO.getId(), destinationDO.getName(),
+						destinationDO.getCode(), destinationDO.getSimpleCode());
+				destinationNodeVO.setChild(toDestinationNodeVO(node.getChildList()));
+				destinationNodeVO.setDestinationVO(destinationVO);
+			} else {
+				DestinationDO destinationDO = node.getDestinationDO();
+				DestinationVO destinationVO = new DestinationVO(destinationDO.getId(), destinationDO.getName(),
+						destinationDO.getCode(), destinationDO.getSimpleCode());
+				destinationNodeVO.setDestinationVO(destinationVO);
+			}
+			departs.add(destinationNodeVO);
+		}
+		return departs;
+	}
+
 	@Override
 	public WebResult<List<CityVO>> getAllLineDests() {
 		try {
 			List<ComTagDO> comTagDOs = commentRepo.getTagsByTagType(TagType.DESTPLACE);
 			return WebResult.success(toCityVO(comTagDOs));
+		} catch (Exception e) {
+			log.error("LineService.getAllLineDeparts error", e);
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR);
+		}
+	}
+
+	@Override
+	public WebResult<List<DestinationNodeVO>> queryInlandDestinationTree() {
+		try {
+			List<DestinationNode> destinationNodes = commentRepo.queryInlandDestinationTree();
+			return WebResult.success(toDestinationNodeVO(destinationNodes));
+		} catch (Exception e) {
+			log.error("LineService.getAllLineDeparts error", e);
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR);
+		}
+	}
+
+	@Override
+	public WebResult<List<DestinationNodeVO>> queryOverseaDestinationTree() {
+		try {
+			List<DestinationNode> destinationNodes = commentRepo.queryOverseaDestinationTree();
+			List<DestinationNodeVO> cityVO = toDestinationNodeVO(destinationNodes);
+			return WebResult.success(cityVO);
 		} catch (Exception e) {
 			log.error("LineService.getAllLineDeparts error", e);
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR);
@@ -219,11 +276,13 @@ public class LineServiceImpl implements LineService {
 				return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
 			}
 			long itemId = line.getBaseInfo().getItemId();
+			convertToIcSubjcet(line);
 			LinePubUpdateDTO linePublishDTOForUpdate = LineConverter.toLinePublishDTOForUpdate(sellerId, line);
 			LinePublishResult publishLine = lineRepo.updateLine(linePublishDTOForUpdate);
 			if (publishLine.isSuccess() && itemId > 0) {
 				BaseInfoVO baseInfo = line.getBaseInfo();
 				List<Long> themeIds = baseInfo.getThemes();
+				
 				commentRepo.saveTagRelation(itemId, TagType.LINETAG, themeIds);
 				List<Long> departIds = new ArrayList<Long>();
 				if (baseInfo.isAllDeparts()) {
@@ -270,14 +329,19 @@ public class LineServiceImpl implements LineService {
 				log.warn("LineService.save param error");
 				return WebResult.failure(WebReturnCode.PARAM_ERROR);
 			}
+			
+			//查询主题标签的中文描述
+			BaseInfoVO baseInfo = line.getBaseInfo();
+			List<Long> themeIds = baseInfo.getThemes();
+			convertToIcSubjcet(line);
+			
 			LinePubAddDTO linePublishDTOForSave = LineConverter.toLinePublishDTOForSave(sellerId, line);
 			LinePublishResult publishLine = lineRepo.saveLine(linePublishDTOForSave);
 			long itemId = publishLine.getItemId();
 			if (itemId > 0) {
-				BaseInfoVO baseInfo = line.getBaseInfo();
-				List<Long> themeIds = baseInfo.getThemes();
 				commentRepo.saveTagRelation(itemId, TagType.LINETAG, themeIds);
 				List<Long> departIds = new ArrayList<Long>();
+				List<String> departNames = new ArrayList<String>();
 				if (baseInfo.isAllDeparts()) {
 					ComTagDO tagByName = commentRepo.getTagByName(TagType.DEPARTPLACE, Constant.ALL_PLACE_CODE);
 					if (tagByName != null) {
@@ -288,6 +352,7 @@ public class LineServiceImpl implements LineService {
 					List<CityVO> departs = baseInfo.getDeparts();
 					for (TagDTO tagDTO : departs) {
 						departIds.add(tagDTO.getId());
+						departNames.add(tagDTO.getName());
 					}
 					commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
 				}
@@ -311,4 +376,39 @@ public class LineServiceImpl implements LineService {
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "保存线路失败 ");
 		}
 	}
+
+	private void convertToIcSubjcet(LineVO line) {
+		BaseInfoVO baseInfo = line.getBaseInfo();
+		List<CityVO> departs = baseInfo.getDeparts();
+		List<CityVO> dests = baseInfo.getDests();
+		BaseResult<List<ComTagDO>> selectTagsIn = comCenterServiceRef.selectTagsIn(baseInfo.getThemes());
+		List<ComTagDO> comTagDOs = selectTagsIn.getValue();
+		ArrayList<IcSubject> themesIcs = new ArrayList<IcSubject>();
+		ArrayList<IcDestination> departsIcs = new ArrayList<IcDestination>();
+		ArrayList<IcDestination> destsIcs = new ArrayList<IcDestination>();
+		for (ComTagDO tag : comTagDOs) {
+			IcSubject icSubject = new IcSubject();
+			icSubject.setId(tag.getId());
+			icSubject.setTxt(tag.getName());
+			themesIcs.add(icSubject);
+		}
+		baseInfo.setThemesIcs(themesIcs);
+		
+		for (CityVO cityVO : departs) {
+			IcDestination icDestination = new IcDestination();
+			icDestination.setCode(cityVO.getCode());
+			icDestination.setTxt(cityVO.getName());
+			departsIcs.add(icDestination);
+		}
+		baseInfo.setDepartsIcs(departsIcs);
+		
+		for (CityVO cityVO : dests) {
+			IcDestination icDestination = new IcDestination();
+			icDestination.setCode(cityVO.getCode());
+			icDestination.setTxt(cityVO.getName());
+			destsIcs.add(icDestination);
+		}
+		baseInfo.setDestsIcs(destsIcs);
+	}
+
 }

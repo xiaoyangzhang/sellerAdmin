@@ -77,5 +77,14 @@
         <property name="retries" value="${dubbo.retries}"/>
         <property name="version" value="${consumer.resource.dubbo.version}"/>
     </bean>
+    <bean id="destinationServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.resourcecenter.service.DestinationService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
+        <property name="version" value="${consumer.resource.dubbo.version}"/>
+    </bean>
     
 </beans>

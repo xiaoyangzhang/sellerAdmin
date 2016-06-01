@@ -10,6 +10,7 @@ import com.yimayhd.user.client.dto.CityDTO;
  *
  */
 public class CityVO extends TagDTO {
+	private String code;
 	private CityDTO city;
 
 	public CityVO() {
@@ -27,5 +28,13 @@ public class CityVO extends TagDTO {
 
 	public void setCity(CityDTO city) {
 		this.city = city;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 }

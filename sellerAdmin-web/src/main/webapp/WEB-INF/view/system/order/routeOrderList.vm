@@ -24,8 +24,10 @@
                 </span>
                 <select data-placeholder="请选择..." class="chosen-select form-control integer-field " tabindex="2" name="itemType">
                     <option value="0">全部</option>
-                    <option value="3100" #if($!orderListQuery.itemType == 3100) selected #end>跟团游</option>
-                    <option value="3200" #if($!orderListQuery.itemType == 3200) selected #end>自由行</option>
+                    <option value="3100" #if($!orderListQuery.itemType == 3100) selected #end>国内跟团游</option>
+                    <option value="3200" #if($!orderListQuery.itemType == 3200) selected #end>国内自由行</option>
+                    <option value="3400" #if($!orderListQuery.itemType == 3400) selected #end>境外跟团游</option>
+                    <option value="3500" #if($!orderListQuery.itemType == 3500) selected #end>境外自由行</option>
                     <option value="3300" #if($!orderListQuery.itemType == 3300) selected #end>同城活动</option>
                     <option value="200" #if($!orderListQuery.itemType == 200) selected #end>特产商品</option>
                 </select>
@@ -155,10 +157,14 @@
                             <td class="middle">
                                 <div>
                                     #if($!subOrder.tcDetailOrder.bizOrder.orderType == 3100)
-                                        跟团游
+                                        国内跟团游
                                     #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3200)
-                                        自由行
-                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3300)
+                                       国内自由行
+                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3200)
+                                       境外自由行
+                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
+                                       境外跟团游
+                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3500)
                                         同城活动
                                     #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 200)
                                         特产商品
