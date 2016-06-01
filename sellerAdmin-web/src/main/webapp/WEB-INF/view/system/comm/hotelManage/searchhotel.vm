@@ -1,4 +1,5 @@
 #set($layout = "/layout/layout_non.vm")
+<div class="tb-box">
 <table>
     <thead>
     <tr>
@@ -28,4 +29,5 @@
 
     </tbody>
 </table>
+</div>
 #parse("/page_jiuniu.vm")

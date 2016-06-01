@@ -1,8 +1,8 @@
 package com.yimayhd.sellerAdmin.model.HotelManage;
 
-import com.yimayhd.sellerAdmin.base.BaseQuery;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +10,10 @@ import java.util.List;
  * 酒店信息
  * @author wangdi
  */
-public class HotelMessageVO extends BaseQuery {
+public class HotelMessageVO  implements Serializable {
+
+
+	private static final long serialVersionUID = -8634777288365225852L;
 
 	private long sellerId;// 商户Id
 	private long hotelId;//酒店ID
@@ -18,9 +21,6 @@ public class HotelMessageVO extends BaseQuery {
 	private String area;//酒店区域
 	private String phone;//酒店电话
 
-//	private Long provinceId;//省id
-//	private Long cityId;//市id
-//	private Long townId;//区id
 	private String locationText;//地址
 
 	private long locationProvinceId;
@@ -63,6 +63,9 @@ public class HotelMessageVO extends BaseQuery {
 	private String currentState;//当前操作状态,update,add,del
 
 	private long categoryId;
+
+	public Integer page = 1;
+	protected Integer pageSize = 8;
 
 	public long getSellerId() {
 		return sellerId;
@@ -342,5 +345,21 @@ public class HotelMessageVO extends BaseQuery {
 
 	public void setLatestArriveTime(List<String> latestArriveTime) {
 		this.latestArriveTime = latestArriveTime;
+	}
+
+	public Integer getPage() {
+		return page;
+	}
+
+	public void setPage(Integer page) {
+		this.page = page;
+	}
+
+	public Integer getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
 	}
 }

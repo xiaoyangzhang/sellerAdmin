@@ -5,6 +5,7 @@ import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
+import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
 import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
@@ -87,15 +88,17 @@ public class HotelManageRepo {
 		WebResult<HotelMessageVO> webResult = domain.getWebResult();
 		CategoryResult categoryResult = categoryServiceRef.getCategory(domain.getHotelMessageVO().getCategoryId());
 		if(!categoryResult.isSuccess()||categoryResult.getCategroyDO()==null){
-			log.error("类目信息错误");
+			log.error("类目信息错误,categoryId:"+domain.getHotelMessageVO().getCategoryId());
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "类目信息错误");
 		}
+		domain.setCategoryDO(categoryResult.getCategroyDO());
 		if(CollectionUtils.isEmpty(categoryResult.getCategroyDO().getSellCategoryPropertyDOs())){
-			log.error("类目销售属性信息错误");
+			log.error("类目销售属性信息错误,categoryId:"+domain.getHotelMessageVO().getCategoryId());
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "类目销售属性信息错误");
 		}
 		CategoryPropertyValueDO sellDO = categoryResult.getCategroyDO().getSellCategoryPropertyDOs().get(0);
 		/**类目销售属性**/
+
 		domain.setCategoryPropertyValueDO(sellDO);
 		CommonItemPublishDTO commonItemPublishDTO = domain.getBizCommonItemPublishDTO();
 		if(commonItemPublishDTO==null){
@@ -150,7 +153,9 @@ public class HotelManageRepo {
 		WebResult<HotelMessageVO> hotelMessageVOWebResult = domain.getWebResult();
 		HotelMessageVO model = domain.getHotelMessageVO();
 		/**商品信息**/
-		ItemResult itemResult= itemQueryServiceRef.getItem(model.getItemId(), new ItemOptionDTO());
+		ItemOptionDTO itemOptionDTO  = new ItemOptionDTO();
+		itemOptionDTO.setNeedSku(true);
+		ItemResult itemResult= itemQueryServiceRef.getItem(model.getItemId(), itemOptionDTO);
 		if(!itemResult.isSuccess()||itemResult.getItem()==null){
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "getItem,查询商品信息错误");
 		}
@@ -168,7 +173,7 @@ public class HotelManageRepo {
 		/***酒店房型**/
 		RoomQuery roomQuery = new RoomQuery();
 		roomQuery.setHotelId(itemResult.getItem().getOutId());
-		ICResult<List<RoomDO>> roomResult= itemQueryServiceRef.queryAllRoom( roomQuery);
+		ICResult<List<RoomDO>> roomResult= itemQueryServiceRef.queryAllRoom(roomQuery);
 		if(!roomResult.isSuccess()||roomResult.getModule()==null){
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "queryAllRoom,查询酒店房型信息错误");
 		}
