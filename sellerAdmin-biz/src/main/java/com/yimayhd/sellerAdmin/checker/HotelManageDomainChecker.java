@@ -46,6 +46,7 @@ public class HotelManageDomainChecker {
     private HotelDO hotelDO;
     private List<RoomDO> listRoomDO;
     private CategoryPropertyValueDO categoryPropertyValueDO;
+    private RoomDO roomDO;//房型详情
     private final String UPDATE = "update";
     private final String ADD = "add";
     private final String DEL = "delete";
@@ -331,7 +332,18 @@ public class HotelManageDomainChecker {
      * @return
      */
     public HotelMessageVO getBizQueryHotelMessageVOyData(){
-
+        /***酒店资源信息添加**/
+        hotelMessageVO.setName(hotelDO.getName());
+        hotelMessageVO.setLocationText(hotelDO.getLocationText());
+        //hotelMessageVO.setSellerId();
+        //hotelMessageVO.setCategoryId();
+        String phone="";
+        if(!CollectionUtils.isEmpty(hotelDO.getPhoneNum())){
+            phone=hotelDO.getPhoneNum().get(0);
+        }
+        hotelMessageVO.setPhone(phone);
+        /**房型信息**/
+        hotelMessageVO.setListRoomMessageVO(getRoomMessageVOList());
         ItemFeature itemFeature = itemDO.getItemFeature();
         hotelMessageVO.setHotelId(itemDO.getOutId());//酒店ID
         hotelMessageVO.setOutType(itemDO.getOutType());//酒店类型
@@ -365,17 +377,19 @@ public class HotelManageDomainChecker {
         SupplierCalendarTemplate temp = new SupplierCalendarTemplate();
         temp.setSeller_id(itemDO.getSellerId());//商家ID
         temp.setHotel_id(itemDO.getOutId());
-        List<BizSkuInfo> bizArr = new ArrayList<>(itemSkuDOList.size());
-        for(ItemSkuDO sku: itemSkuDOList){
-            BizSkuInfo bizSkuInfo = new BizSkuInfo();
+        BizSkuInfo[] bizArr = new  BizSkuInfo[itemSkuDOList.size()];
+        for(int i = 0;i<itemSkuDOList.size();i++){
+            ItemSkuDO sku =  itemSkuDOList.get(i);
+            BizSkuInfo  bizSkuInfo =new BizSkuInfo();
             bizSkuInfo.setSku_id(sku.getId());
-            bizSkuInfo.setPrice(new BigDecimal(sku.getPrice()));;//价格
+            bizSkuInfo.setState("update");
+            bizSkuInfo.setPrice(new BigDecimal(sku.getPrice()/100));;//价格
             bizSkuInfo.setStock_num(sku.getStockNum());//库存
             ItemSkuPVPair pvp = sku.getItemSkuPVPairList().get(0);
             bizSkuInfo.setvTxt(pvp.getVTxt());//日期
-            bizArr.add(bizSkuInfo);
+            bizArr[i]=bizSkuInfo;
         }
-        temp.setBizSkuInfo((BizSkuInfo[])bizArr.toArray());
+        temp.setBizSkuInfo(bizArr);
         json = CommonJsonUtil.objectToJson(temp,SupplierCalendarTemplate.class);
         return json;
 
@@ -521,6 +535,14 @@ public class HotelManageDomainChecker {
 
     public void setCategoryDO(CategoryDO categoryDO) {
         this.categoryDO = categoryDO;
+    }
+
+    public RoomDO getRoomDO() {
+        return roomDO;
+    }
+
+    public void setRoomDO(RoomDO roomDO) {
+        this.roomDO = roomDO;
     }
 
     public static void main(String[] args) {

@@ -76,7 +76,9 @@ public class ScenicManageRepo {
 		WebResult<ScenicManageVO> result = domain.getWebResult();
 		/**类目销售属性**/
 		/**景区商品**/
-		ItemResult itemResult= itemQueryServiceRef.getItem(domain.getScenicManageVO().getItemId(), new ItemOptionDTO());
+		ItemOptionDTO itemOptionDTO  = new ItemOptionDTO();
+		itemOptionDTO.setNeedSku(true);
+		ItemResult itemResult= itemQueryServiceRef.getItem(domain.getScenicManageVO().getItemId(), itemOptionDTO);
 		if(!itemResult.isSuccess()||itemResult.getItem()==null){
 			log.error("查询景区商品信息错误");
 			return WebResult.failure(WebReturnCode.PARAM_ERROR, "查询景区商品信息错误");

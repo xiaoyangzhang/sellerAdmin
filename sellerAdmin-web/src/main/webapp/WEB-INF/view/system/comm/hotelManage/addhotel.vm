@@ -21,9 +21,9 @@
         <p>
             <span class="nm"><span class="bred">*</span><label>酒店信息：</label></span>
 					<span class="info-bar">
-						<label class="htn"></label>
-						<label class="smtt">地址：</label><label class="address"></label>
-						|<label class="smtt">电话：</label><label class="tel"></label>
+						<label class="htn">$!{hotelMessageVO.name}</label>
+						<label class="smtt">地址：</label><label class="address">$!{hotelMessageVO.locationText}</label>
+						|<label class="smtt">电话：</label><label class="tel">$!{hotelMessageVO.phone}</label>
 					</span>
             <a class="choicehotel">查询酒店</a>
         </p>
@@ -41,12 +41,12 @@
 <div class="panel">
     <div class="baseinfo">
         <form id="hotelfm">
-            <input type="hidden" class="picCode baseInfo-picCode" name="hotelId" value="$!{hotelMessageVO.hotelId}">
-            <input type="hidden" class="picCode baseInfo-picCode" name="name" value="$!{hotelMessageVO.name}">
-            <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{hotelMessageVO.supplierCalendar}">
-            <input type="hidden" class="picCode baseInfo-picCode" name="roomId" value="0">
-            <input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{hotelMessageVO.sellerId}">
-            <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{hotelMessageVO.categoryId}">
+            <input type="hidden" class="picCode baseInfo-picCode" name="hotelId" value="$!{hotelMessageVO.hotelId}" />
+            <input type="hidden" class="picCode baseInfo-picCode" name="name" value="$!{hotelMessageVO.name}" />
+            <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{hotelMessageVO.supplierCalendar}" />
+            <input type="hidden" class="picCode baseInfo-picCode" name="roomId" value="$!{hotelMessageVO.roomId}" />
+            <input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{hotelMessageVO.sellerId}" />
+            <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{hotelMessageVO.categoryId}" />
             <table>
                 <tr>
                     <td class="coltxt">商品类型：</td>
@@ -88,7 +88,7 @@
                     <td>
                         #foreach($multiChoice in $multiChoiceList)
                             <label class="checkbox">
-                                <input type="checkbox" class="productTag" name="storeLastTime"  value="${multiChoice.tValue}" #if($multiChoice.isChoice) checked #end/>当前${multiChoice.value}前
+                                <input type="checkbox" class="productTag" name="storeLastTime"  value="${multiChoice.tValue}" chose="${multiChoice.choiceNo}" #if($multiChoice.choiceNo) checked #end/>当前${multiChoice.value}前
                             </label>
                         #end
 
@@ -97,7 +97,7 @@
                 </tr>
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
-                    <td><input type="text" maxlength="10" name="startBookTimeLimit"  value="$!{hotelMessageVO.startBookTimeLimit}"></td>
+                    <td><input type="text" maxlength="10" name="startBookTimeLimit"  value="$!{hotelMessageVO.startBookTimeLimit}" /></td>
                 </tr>
             </table>
         </form>

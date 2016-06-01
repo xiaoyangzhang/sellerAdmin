@@ -253,7 +253,7 @@ public class ScenicManageEnhanceController extends BaseController {
            MultiChoice multi = new MultiChoice();
            multi.setId(ticketDO.getId());
            multi.setTitle(ticketDO.getTitle());
-           multi.setChoice(false);
+           multi.setChoiceNo(false);
            multiList.add(multi);
        }
        result.setValue(CommonJsonUtil.objectToJson(multiList,List.class));
@@ -334,7 +334,7 @@ public class ScenicManageEnhanceController extends BaseController {
             MultiChoice multi = new MultiChoice();
             multi.setId(i);
             multi.setTitle("票型说明");
-            multi.setChoice(false);
+            multi.setChoiceNo(false);
             multiList.add(multi);
         }
         System.out.println(CommonJsonUtil.objectToJson(multiList, List.class));

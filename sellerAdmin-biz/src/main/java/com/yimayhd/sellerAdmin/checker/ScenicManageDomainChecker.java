@@ -375,17 +375,19 @@ public class ScenicManageDomainChecker {
         SupplierCalendarTemplate temp = new SupplierCalendarTemplate();
         temp.setSeller_id(itemDO.getSellerId());//商家ID
         temp.setHotel_id(itemDO.getOutId());
-        List<BizSkuInfo> bizArr = new ArrayList<>(itemSkuDOList.size());
-        for(ItemSkuDO sku: itemSkuDOList){
-            BizSkuInfo bizSkuInfo = new BizSkuInfo();
+        BizSkuInfo[] bizArr = new  BizSkuInfo[itemSkuDOList.size()];
+        for(int i = 0;i<itemSkuDOList.size();i++){
+            ItemSkuDO sku =  itemSkuDOList.get(i);
+            BizSkuInfo  bizSkuInfo =new BizSkuInfo();
             bizSkuInfo.setSku_id(sku.getId());
-            bizSkuInfo.setPrice(new BigDecimal(sku.getPrice()));;//价格
+            bizSkuInfo.setState("update");
+            bizSkuInfo.setPrice(new BigDecimal(sku.getPrice()/100));;//价格
             bizSkuInfo.setStock_num(sku.getStockNum());//库存
             ItemSkuPVPair pvp = sku.getItemSkuPVPairList().get(0);
             bizSkuInfo.setvTxt(pvp.getVTxt());//日期
-            bizArr.add(bizSkuInfo);
+            bizArr[i]=bizSkuInfo;
         }
-        temp.setBizSkuInfo((BizSkuInfo[])bizArr.toArray());
+        temp.setBizSkuInfo(bizArr);
         json = CommonJsonUtil.objectToJson(temp,SupplierCalendarTemplate.class);
         return json;
 

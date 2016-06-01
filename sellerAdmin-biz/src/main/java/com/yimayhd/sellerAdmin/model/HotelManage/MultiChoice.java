@@ -13,7 +13,7 @@ public class MultiChoice implements Serializable {
     private String title;//标题
     private String value;//显示内容
     private long tValue;//日期等
-    private boolean isChoice;//是否选中
+    private boolean choiceNo;//是否选中
 
 
 
@@ -49,19 +49,20 @@ public class MultiChoice implements Serializable {
         this.tValue = tValue;
     }
 
-    public String geTName() {
+    public String getName() {
         return name;
     }
 
-    public void seTName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public boolean isChoice() {
-        return isChoice;
+
+    public boolean isChoiceNo() {
+        return choiceNo;
     }
 
-    public void setChoice(boolean choice) {
-        isChoice = choice;
+    public void setChoiceNo(boolean choiceNo) {
+        this.choiceNo = choiceNo;
     }
 }

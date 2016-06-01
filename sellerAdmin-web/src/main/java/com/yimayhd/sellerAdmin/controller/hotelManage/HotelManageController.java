@@ -193,7 +193,7 @@ public class HotelManageController extends BaseController {
 		long userId = sessionManager.getUserId() ;
 		hotelMessageVO.setSellerId(userId);
 		hotelMessageVO.setCategoryId(categoryId);
-		hotelMessageVO.setItemId(Long.valueOf(586));
+		hotelMessageVO.setItemId(Long.valueOf(108184));
 		if(hotelMessageVO==null){
 			// "编辑商品信息错误";
 			return "/error";
@@ -212,6 +212,7 @@ public class HotelManageController extends BaseController {
 			// "商品类目ID错误";
 			return "/error";
 		}
+		hotelMessageVO = webResult.getValue();
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(webResult.getValue());
 		model.addAttribute("hotelMessageVO", hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
@@ -287,12 +288,12 @@ public class HotelManageController extends BaseController {
 			multiChoice.setTitle("时间");
 			multiChoice.setTValue(i);
 			multiChoice.setValue(i+":00");
-			multiChoice.setChoice(false);
+			multiChoice.setChoiceNo(false);
 			if(!CollectionUtils.isEmpty(choiseTime)){
 				for (String time :choiseTime){
 					if(multiChoice.getValue().equals(time)){
 						/**设置选中标识**/
-						multiChoice.setChoice(true);
+						multiChoice.setChoiceNo(true);
 					}
 				}
 			}
