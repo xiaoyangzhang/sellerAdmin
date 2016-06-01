@@ -11,7 +11,6 @@
 	<input type="hidden" id="subpath" class="subpath" value="$!root_path/order/assessmentList">
     <form class="form-signin" id="tradeListForm" name="tradeListForm"
           action="$!root_path/order/assessmentList" role="form">
-    <div class = "eredar-right">
         	<div class = "eredar-info clearfix">
 				<ul>
 					<li class = " first on">评价管理 </li>
@@ -77,7 +76,6 @@
         #parse("/page.vm")
         #pageStyle("tradeListForm")
     </form>
- </div>   
 
  <!-- 尾部结束 -->
 #parse("layout/layout-js.vm")
