@@ -67,10 +67,12 @@ public class HotelManageController extends BaseController {
 		HotelMessageVO hotelMessageVO = new  HotelMessageVO();
 		long userId = sessionManager.getUserId() ;
 		hotelMessageVO.setSellerId(userId);
-		hotelMessageVO.setCategoryId(categoryId);
+		//hotelMessageVO.setCategoryId(categoryId);
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(null);
 		model.addAttribute("hotelMessageVO", hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
+		model.addAttribute("categoryId",0);//
+		model.addAttribute("itemId", 0);
 		return "/system/comm/hotelManage/addhotel";
 	}
 

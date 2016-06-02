@@ -134,6 +134,8 @@ public class ScenicManageEnhanceController extends BaseController {
         String json  = CommonJsonUtil.objectToJson(bizCategoryInfoList,List.class);
         System.out.println("dynamicEntry:"+json);
         model.addAttribute("bizCategoryInfoList",bizCategoryInfoList);// 最晚到店时间列表
+        model.addAttribute("categoryId",0);//
+        model.addAttribute("itemId", 0);
         return "/system/comm/hotelManage/addticket";
     }
 
