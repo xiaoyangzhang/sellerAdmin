@@ -135,6 +135,12 @@ public class HotelManageRepo {
      */
 	public WebResult<Long> editHotelMessageVOByData(HotelManageDomainChecker domain) throws Exception{
 		WebResult<Long> webResult = domain.getLongWebResult();
+		ICResult<HotelDO> hotelResult =  itemQueryServiceRef.getHotel(domain.getHotelMessageVO().getHotelId());
+		if(!hotelResult.isSuccess()||hotelResult.getModule()==null){
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "getHotel,查询酒店资源信息错误");
+		}
+		log.info("itemQueryServiceRef.getHotel 回参: hotelDO="+CommonJsonUtil.objectToJson(hotelResult.getModule(),HotelDO.class));
+		domain.setHotelDO(hotelResult.getModule());
 		long categoryId = domain.getHotelMessageVO().getCategoryId();
 		log.info("itemQueryServiceRef.getCategory 入参: categoryId="+categoryId);
 		CategoryResult categoryResult = categoryServiceRef.getCategory(categoryId);
@@ -147,6 +153,7 @@ public class HotelManageRepo {
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "类目销售属性信息错误");
 		}
 		CategoryDO categoryDO = categoryResult.getCategroyDO();
+		domain.setCategoryDO(categoryDO);
 		log.info("itemQueryServiceRef.getCategory 回参: categoryDO="+ JSON.toJSONString(categoryDO));
 		CategoryPropertyValueDO sellDO = categoryDO.getSellCategoryPropertyDOs().get(0);
 		log.info("itemQueryServiceRef.getCategory 回参: sellDO="+ JSON.toJSONString(sellDO));

@@ -228,6 +228,7 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("hotelMessageVO", hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
 		model.addAttribute("systemLog",systemLog);//
+		model.addAttribute("categoryId",categoryId);//
 		if(operationFlag.equals(UPDATE)){
 			model.addAttribute("operationFlag",operationFlag);//操作标示
 			return "/system/comm/hotelManage/addhotel";
@@ -250,6 +251,7 @@ public class HotelManageController extends BaseController {
 	public WebResult<String> editHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
 		log.info("editHotelMessageVOByData mmmmm 开始编辑");
 		String systemLog = ItemCodeEnum.SYS_START_LOG.getDesc();
+		hotelMessageVO.setCurrentState(UPDATE);
 		WebResult<String> message = new WebResult<String>();
 		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==0){
 			message.initFailure(WebReturnCode.PARAM_ERROR,"酒店资源信息错误,无法编辑商品");
