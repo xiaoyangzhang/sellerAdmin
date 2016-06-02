@@ -153,17 +153,21 @@ public class ScenicManageEnhanceController extends BaseController {
         scenicManageVO.setCategoryId(233);
         if(scenicManageVO==null||scenicManageVO.getScenicId()==0){
             message.initFailure(WebReturnCode.PARAM_ERROR,"景区资源信息错误,无法添加商品");
+            log.error("addScenicManageVOByDdata-error 景区资源信息错误,无法添加商品");
             return message;
         }
         /**必要参数验证**/
+
         String checkMsg = checkaddScenicManageVOByDdataParam(scenicManageVO);
         if(StringUtils.isNotBlank(checkMsg)){
             message.initFailure(WebReturnCode.PARAM_ERROR,checkMsg);
+            log.error("addScenicManageVOByDdata-error"+checkMsg);
             return message;
         }
 
         WebResult<ScenicManageVO> result = scenicManageService.addScenicManageVOByDdata(scenicManageVO);
         if(!result.isSuccess()){
+            log.error("addScenicManageVOByDdata-error"+"添加商品错误");
             message.initFailure(WebReturnCode.PARAM_ERROR,"添加商品错误");
             return message;
         }
