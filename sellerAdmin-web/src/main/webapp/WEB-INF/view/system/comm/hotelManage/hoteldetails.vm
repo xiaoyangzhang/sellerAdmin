@@ -77,6 +77,10 @@
                 <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
                 <td>$!{hotelMessageVO.startBookTimeLimit}</td>
             </tr>
+            <tr>
+                <td class="coltxt"><span class="bred">*</span>早餐：</td>
+                <td>$!{hotelMessageVO.breakfastStr}</td>
+            </tr>
         </table>
     </div>
 </div>
