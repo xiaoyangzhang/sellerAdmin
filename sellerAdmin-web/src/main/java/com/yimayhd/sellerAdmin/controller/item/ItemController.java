@@ -361,6 +361,8 @@ public class ItemController extends BaseController {
 			return redirect("/barterItem/common/edit/" + itemId);
 		}  else if (ItemType.HOTEL.getValue() == itemType) {
 			return redirect("/hotel/editHotelMessageView?itemId=" + itemId);
+		}else if(ItemType.SPOTS.getValue()==itemType){
+			return redirect("/scenic/editScenicManageView?itemId=" + itemId);
 		} else {
 			throw new BaseException("unsupport ItemType " + itemType);
 		}
