@@ -37,9 +37,11 @@
 	                <tr class="notNull">
 	                    <td class="coltxt" ><span class="bred">*</span>门票类型：</td>
 	                    <td class="ticketType">
-                            <!--
-	                        <label class="radio"><input type="radio" name="ticketId" value="1" #if($!scenicManageVO.ticketId == 1) checked #end>大门票</label>
-	                        <label class="radio"><input type="radio" name="ticketId" value="2" #if($!scenicManageVO.ticketId == 2) checked #end>联票</label>
+                            #if($!scenicManageVO && $scenicManageVO.ticketId > 0)
+	                        <label class="radio"><input type="radio" name="ticketId" value="$!{scenicManageVO.ticketId}" checked >$!{scenicManageVO.ticketTitle}</label>
+                            #end 
+                                <!--
+                            <label class="radio"><input type="radio" name="ticketId" value="2" #if($!scenicManageVO.ticketId == 2) checked #end>联票</label>
 	                        -->
 	                     </td>
 	                </tr>

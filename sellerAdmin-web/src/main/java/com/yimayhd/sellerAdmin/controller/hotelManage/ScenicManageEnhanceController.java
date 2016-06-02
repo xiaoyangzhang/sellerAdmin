@@ -302,7 +302,7 @@ public class ScenicManageEnhanceController extends BaseController {
             return "商品标题为空";
         }
         if(scenicManageVO.getTicketId()==0){
-            return "付款方式不能为空";
+            return "门票类型不能为空";
         }
         if(scenicManageVO.getStartBookTimeLimit()==0){
             return "提前预定天数不能为空";
