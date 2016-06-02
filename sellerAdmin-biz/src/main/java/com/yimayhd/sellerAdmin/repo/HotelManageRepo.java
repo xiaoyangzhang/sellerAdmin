@@ -91,6 +91,14 @@ public class HotelManageRepo {
      */
 	public WebResult<HotelMessageVO>  addHotelMessageVOByData(HotelManageDomainChecker domain) throws Exception{
 		WebResult<HotelMessageVO> webResult = domain.getWebResult();
+
+		ICResult<HotelDO> hotelResult =  itemQueryServiceRef.getHotel(domain.getHotelMessageVO().getHotelId());
+		if(!hotelResult.isSuccess()||hotelResult.getModule()==null){
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "getHotel,查询酒店资源信息错误");
+		}
+		log.info("itemQueryServiceRef.getHotel 回参: hotelDO="+CommonJsonUtil.objectToJson(hotelResult.getModule(),HotelDO.class));
+		domain.setHotelDO(hotelResult.getModule());
+
 		CategoryResult categoryResult = categoryServiceRef.getCategory(domain.getHotelMessageVO().getCategoryId());
 		if(!categoryResult.isSuccess()||categoryResult.getCategroyDO()==null){
 			log.error("类目信息错误,categoryId:"+domain.getHotelMessageVO().getCategoryId());
