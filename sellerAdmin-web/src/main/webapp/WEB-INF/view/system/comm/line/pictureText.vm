@@ -27,7 +27,7 @@
 			<li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
 		</ul>
 	</div>
-	<textarea name="content" id="contentText" style="display:hidden;">$!{pictureText.pictureTextItemsJson}</textarea>
+	<textarea name="content" id="contentText" style="display:none;">$!{pictureText.pictureTextItemsJson}</textarea>
 	<input type="hidden" id="uploadAction" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file"/>
 	<input type="hidden" id="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}"/>
 </div>
