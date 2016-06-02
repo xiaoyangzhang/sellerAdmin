@@ -22,8 +22,6 @@ import com.yimayhd.sellerAdmin.service.hotelManage.ScenicManageService;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +44,7 @@ import java.util.List;
 @RequestMapping("/scenic")
 public class ScenicManageEnhanceController extends BaseController {
 
-    private static final Logger logger = LoggerFactory.getLogger("hotelManage");
+    private static final Logger logger = LoggerFactory.getLogger("hotelManage-business.log");
     @Autowired
     private ScenicManageService scenicManageService;
     @Autowired
