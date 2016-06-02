@@ -127,6 +127,14 @@ public class ScenicManageRepo {
 	public WebResult<ScenicManageVO> addScenicManageVOByDdata(ScenicManageDomainChecker domain) throws Exception{
 		WebResult<ScenicManageVO> result = domain.getWebResult();
 		ScenicManageVO scenicManageVO = domain.getScenicManageVO();
+		log.info("itemQueryServiceRef.getScenic 入参: getOutId="+scenicManageVO.getScenicId());
+		ICResult<ScenicDO> scenicResult = itemQueryServiceRef.getScenic(scenicManageVO.getScenicId());//logoUrl
+		if(scenicResult==null||scenicResult.getModule()==null){
+			log.error("getScenic,查询景区资源信息错误");
+			return WebResult.failure(WebReturnCode.PARAM_ERROR, "景区资源信息错误");
+		}
+		domain.setScenicDO(scenicResult.getModule());
+		log.info("itemQueryServiceRef.getScenic 回参: getOutId="+CommonJsonUtil.objectToJson(scenicResult.getModule(),ScenicDO.class));
 		CategoryResult categoryResult = categoryServiceRef.getCategory(domain.getScenicManageVO().getCategoryId());
 		if(!categoryResult.isSuccess()||categoryResult.getCategroyDO()==null){
 			log.error("类目信息错误");
@@ -166,6 +174,14 @@ public class ScenicManageRepo {
 	public WebResult<ScenicManageVO> editScenicManageVOByDdata(ScenicManageDomainChecker domain) throws Exception{
 		WebResult<ScenicManageVO> result = domain.getWebResult();
 		ScenicManageVO scenicManageVO = domain.getScenicManageVO();
+		log.info("itemQueryServiceRef.getScenic 入参: getOutId="+scenicManageVO.getScenicId());
+		ICResult<ScenicDO> scenicResult = itemQueryServiceRef.getScenic(scenicManageVO.getScenicId());//logoUrl
+		if(scenicResult==null||scenicResult.getModule()==null){
+			log.error("getScenic,查询景区资源信息错误");
+			return WebResult.failure(WebReturnCode.PARAM_ERROR, "景区资源信息错误");
+		}
+		domain.setScenicDO(scenicResult.getModule());
+		log.info("itemQueryServiceRef.getScenic 回参: getOutId="+CommonJsonUtil.objectToJson(scenicResult.getModule(),ScenicDO.class));
 		CategoryResult categoryResult = categoryServiceRef.getCategory(domain.getScenicManageVO().getCategoryId());
 		if(!categoryResult.isSuccess()||categoryResult.getCategroyDO()==null){
 			log.error("类目信息错误");
