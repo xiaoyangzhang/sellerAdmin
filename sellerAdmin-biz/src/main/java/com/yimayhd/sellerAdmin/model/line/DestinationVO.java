@@ -23,6 +23,7 @@ public class DestinationVO implements Serializable {
 	private String name;
 	private int code;
 	private String simpleCode;
+	private boolean selected;
 
 	public DestinationVO() {
 		super();
@@ -66,6 +67,14 @@ public class DestinationVO implements Serializable {
 
 	public void setSimpleCode(String simpleCode) {
 		this.simpleCode = simpleCode;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 }
