@@ -226,6 +226,7 @@ public class HotelManageRepo {
 		List<RoomDO> roomList = callBack.getModule();
 		domain.setListRoomDO(roomList);
 		List<RoomMessageVO> modelList = domain.getRoomMessageVOList();//domain 进行do 转model
+		log.info("roomList:"+CommonJsonUtil.objectToJson(modelList,List.class));
 		result.setValue(modelList);
 		return  result;
 

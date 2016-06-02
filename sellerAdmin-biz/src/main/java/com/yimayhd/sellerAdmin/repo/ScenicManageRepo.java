@@ -106,7 +106,7 @@ public class ScenicManageRepo {
 		}
 		domain.setCategoryPropertyValueDO(categoryDO.getSellCategoryPropertyDOs().get(0));//价格日历销售属性*/
 		log.info("itemQueryServiceRef.getScenic 入参: getOutId="+itemDO.getOutId());
-		ICResult<ScenicDO> scenicResult = itemQueryServiceRef.getScenic(itemDO.getOutId());
+		ICResult<ScenicDO> scenicResult = itemQueryServiceRef.getScenic(itemDO.getOutId());//logoUrl
 		if(scenicResult==null||scenicResult.getModule()==null){
 			log.error("getScenic,查询景区资源信息错误");
 			return WebResult.failure(WebReturnCode.PARAM_ERROR, "景区资源信息错误");

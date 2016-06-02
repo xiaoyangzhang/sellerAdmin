@@ -4,6 +4,8 @@ import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.TicketDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
+import com.yimayhd.ic.client.model.enums.BaseStatus;
+import com.yimayhd.ic.client.model.query.TicketQuery;
 import com.yimayhd.ic.client.model.result.item.CategoryResult;
 import com.yimayhd.ic.client.model.result.item.TicketResult;
 import com.yimayhd.ic.client.service.item.CategoryService;
@@ -269,7 +271,11 @@ public class ScenicManageEnhanceController extends BaseController {
    @ResponseBody
     public  WebResult<String> queryTicketListByScenicId (Model model,long scenicId){
        WebResult<String> result = new WebResult<String>();
-       TicketResult ticketResult =scenicPublishService.getTicketListByScenicId(scenicId);
+
+       TicketQuery ticketQuery = new TicketQuery();
+       ticketQuery.setScenicId(scenicId);
+       ticketQuery.setStatus(BaseStatus.AVAILABLE.getType());
+       TicketResult ticketResult =scenicPublishService.getTicketListByScenicId(ticketQuery);
        if(!ticketResult.isSuccess()){
            result.initFailure(WebReturnCode.PARAM_ERROR,"门票类型");
            return result;
