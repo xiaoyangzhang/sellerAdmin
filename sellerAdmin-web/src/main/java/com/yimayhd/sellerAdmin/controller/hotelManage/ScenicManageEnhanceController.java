@@ -44,7 +44,7 @@ import java.util.List;
 @RequestMapping("/scenic")
 public class ScenicManageEnhanceController extends BaseController {
 
-    private static final Logger logger = LoggerFactory.getLogger("hotelManage-business.log");
+    private static final Logger logger = LoggerFactory.getLogger("scenicManage-business.log");
     @Autowired
     private ScenicManageService scenicManageService;
     @Autowired

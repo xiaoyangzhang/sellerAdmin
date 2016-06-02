@@ -23,7 +23,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 	@Autowired
 	private HotelManageRepo hotelManageRepo;
 
-	private static final Logger log = LoggerFactory.getLogger(HotelManageServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger("hotelManage-business.log");
 
 	/**
 	 * 查询酒店资源信息列表
@@ -81,6 +81,7 @@ public class HotelManageServiceImpl implements HotelManageService {
 		}catch(Exception e){
 			e.printStackTrace();
 			log.error("queryHotelMessageVOyData 查询商品信息异常",e);
+			result.initFailure(WebReturnCode.PARAM_ERROR,"queryHotelMessageVOyData 查询商品信息异常");
 		}
 
 		return result;

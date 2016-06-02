@@ -37,7 +37,7 @@ import java.util.List;
  *
  */
 public class ScenicManageRepo {
-	private Logger log = LoggerFactory.getLogger("hotelManage-business.log");
+	private Logger log = LoggerFactory.getLogger("scenicManage-business.log");
 	@Autowired
 	private ItemQueryService itemQueryServiceRef;
 	@Autowired

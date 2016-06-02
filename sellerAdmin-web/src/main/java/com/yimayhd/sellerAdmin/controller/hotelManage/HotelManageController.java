@@ -45,7 +45,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/hotel")
 public class HotelManageController extends BaseController {
-	private static final Logger logger = LoggerFactory.getLogger(HotelManageController.class);
+	private static final Logger logger = LoggerFactory.getLogger("hotelManage-business.log");
 	private final Integer PAGESIZE=8;
 	private static final String UPDATE="update";
 	private static final long categoryId=231;
@@ -215,13 +215,15 @@ public class HotelManageController extends BaseController {
 			log.warn("商品类目ID错误");
 			throw new BaseException("商品类目ID错误");
 		}
-
+		logger.info("editHotelMessageView: 入参:hotelMessageVO="+CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
 		WebResult<HotelMessageVO> webResult = hotelManageService.queryHotelMessageVOyData(hotelMessageVO);
 		if(!webResult.isSuccess()){
 			// "商品类目ID错误";
-			return "/error";
+			systemLog=webResult.getResultMsg();
 		}
 		hotelMessageVO = webResult.getValue();
+		logger.info("editHotelMessageView: 回参:webResult="+webResult.isSuccess()+",\n hotelMessageVO="+CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
+
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(webResult.getValue());
 		model.addAttribute("hotelMessageVO", hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
@@ -245,24 +247,28 @@ public class HotelManageController extends BaseController {
      */
 	@RequestMapping(value = "/editHotelMessageVOByData")
 	public WebResult<String> editHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
+		String systemLog = ItemCodeEnum.SYS_START_LOG.getDesc();
 		WebResult<String> message = new WebResult<String>();
-
 		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==0){
 			message.initFailure(WebReturnCode.PARAM_ERROR,"酒店资源信息错误,无法编辑商品");
+			log.error("editHotelMessageVOByData.酒店资源信息错误,无法编辑商品");
 			return message;
 		}
 		/**必要参数验证**/
 		String checkMsg = checkAddHotelMessageVOParam(hotelMessageVO);
 		if(StringUtils.isNotBlank(checkMsg)){
 			message.initFailure(WebReturnCode.PARAM_ERROR,checkMsg);
+			log.error("editHotelMessageVOByData."+checkMsg);
 			return message;
 		}
-
+		logger.info("editHotelMessageVOByData: 入参:","hotelMessageVO="+CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
 		WebResult<Long> result = hotelManageService.editHotelMessageVOByData(hotelMessageVO);
 		if(!result.isSuccess()){
 			message.initFailure(WebReturnCode.PARAM_ERROR,"添加商品错误");
+			log.error("editHotelMessageVOByData.添加商品错误");
 			return message;
 		}
+		logger.info("editHotelMessageVOByData: 回参:webResult="+result.isSuccess()+",\n hotelMessageVO="+CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
 		/**最晚到店时间**/
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(hotelMessageVO);
 		model.addAttribute("itemId", result.getValue());
