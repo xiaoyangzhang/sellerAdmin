@@ -21,7 +21,6 @@ import com.yimayhd.sellerAdmin.service.hotelManage.ScenicManageService;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +29,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +53,8 @@ public class ScenicManageEnhanceController extends BaseController {
 
     @Value("${sellerAdmin.rootPath}")
     private String rootPath;
+
+    private static final String UPDATE="update";
 
     /**
      * 查询景区资源列表
@@ -176,16 +176,15 @@ public class ScenicManageEnhanceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/editScenicManageView")
-    public String editScenicManageView(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public String editScenicManageView(Model model, @RequestParam(required = true) long categoryId,
+                                                    @RequestParam(required = true) long itemId,
+                                                    @RequestParam(required = true) String operationFlag) throws Exception{
 
-        System.out.println(123);
-        String operationFlag = request.getParameter("operationFlag");
-        operationFlag="update";
         ScenicManageVO scenicManageVO = new ScenicManageVO();
         long userId = sessionManager.getUserId() ;
         scenicManageVO.setSellerId(userId);
-       // scenicManageVO.setCategoryId(233);
-        scenicManageVO.setItemId(108276);
+        scenicManageVO.setCategoryId(categoryId);
+        scenicManageVO.setItemId(itemId);
         if(scenicManageVO==null){
             // "编辑商品信息错误";
             log.warn("编辑商品信息错误");
@@ -213,7 +212,12 @@ public class ScenicManageEnhanceController extends BaseController {
         model.addAttribute("scenicManageVO", scenicManageVO);
         model.addAttribute("operationFlag", operationFlag);
         /**动态属性列表***/
-        return "/system/comm/hotelManage/addticket";
+        if(operationFlag.equals(UPDATE)){
+            return "/system/comm/hotelManage/addticket";
+        }else{
+            return "/system/comm/hotelManage/ticketdetails";
+        }
+
     }
 
     /**
