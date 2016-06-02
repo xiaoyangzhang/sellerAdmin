@@ -47,6 +47,7 @@
             <input type="hidden" class="picCode baseInfo-picCode" name="roomId" value="$!{hotelMessageVO.roomId}" />
             <input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{hotelMessageVO.sellerId}" />
             <input type="hidden" class="picCode baseInfo-picCode" name="operationFlag" value="$!{operationFlag}">
+            <input type="hidden" class="picCode baseInfo-picCode" name="systemLog" value="$!{systemLog}">
             <table>
                 <tr>
                     <td class="coltxt">商品类型：</td>

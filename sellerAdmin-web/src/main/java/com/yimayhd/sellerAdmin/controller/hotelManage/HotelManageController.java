@@ -189,11 +189,12 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/editHotelMessageview" )
+	@RequestMapping(value = "/editHotelMessageView" )
 	public String editHotelMessageView(Model model,@RequestParam(required = true) long categoryId,
 									               @RequestParam(required = true) long itemId,
 									               @RequestParam(required = true) String operationFlag) throws Exception {
 		HotelMessageVO hotelMessageVO = new HotelMessageVO();
+		String systemLog = "编辑页面调试开始";
 		long userId = sessionManager.getUserId() ;
 		hotelMessageVO.setSellerId(userId);
 		hotelMessageVO.setCategoryId(categoryId);
