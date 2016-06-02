@@ -245,7 +245,8 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
      */
-	@RequestMapping(value = "/editHotelMessageVOByData")
+	@RequestMapping(value = "/editHotelMessageVOByData",method = RequestMethod.POST)
+	@ResponseBody
 	public WebResult<String> editHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
 		String systemLog = ItemCodeEnum.SYS_START_LOG.getDesc();
 		WebResult<String> message = new WebResult<String>();
@@ -274,6 +275,8 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("itemId", result.getValue());
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
 		model.addAttribute("hotelMessageVO", result.getValue());
+		String url = UrlHelper.getUrl(rootPath, "/item/list") ;
+		message.setValue(url);
 		return message;
 
 	}
