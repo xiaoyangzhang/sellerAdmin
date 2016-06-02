@@ -23,7 +23,7 @@ public class TripTraffic {
 		WAYS.put(RouteItemType.TRAIN.name(), RouteItemType.TRAIN.getDesc());
 		WAYS.put(RouteItemType.BUS.name(), RouteItemType.BUS.getDesc());
 		WAYS.put(RouteItemType.BOAT.name(), RouteItemType.BOAT.getDesc());
-		WAYS.put(RouteItemType.OTHERS.name(), RouteItemType.OTHERS.getDesc());
+		//WAYS.put(RouteItemType.OTHERS.name(), RouteItemType.OTHERS.getDesc());
 	}
 
 	private String from;
