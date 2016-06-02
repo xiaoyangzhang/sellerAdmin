@@ -10,7 +10,7 @@ public class BizCategoryInfo implements Serializable{
     private static final long serialVersionUID = 7829846377004493415L;
 
     private long pId;
-    private String pText;//文本
+    private String pTxt;//文本
     private int pType;
 
     private String vTxt;//value
@@ -26,12 +26,12 @@ public class BizCategoryInfo implements Serializable{
     }
 
 
-    public String getPText() {
-        return pText;
+    public String getPTxt() {
+        return pTxt;
     }
 
-    public void setPText(String pText) {
-        this.pText = pText;
+    public void setPTxt(String pTxt) {
+        this.pTxt = pTxt;
     }
 
     public int getPType() {

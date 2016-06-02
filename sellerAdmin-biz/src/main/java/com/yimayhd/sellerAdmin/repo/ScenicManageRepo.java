@@ -89,6 +89,7 @@ public class ScenicManageRepo {
 		domain.setItemDO(itemDO);//景区商品信息
 		domain.setItemSkuDOList(itemResult.getItemSkuDOList());// 价格日历
 		domain.setCategory(categoryDO);
+
 		/*if(CollectionUtils.isEmpty(categoryDO.getSellCategoryPropertyDOs())){
 			log.error("价格日历销售属性错误");
 			return WebResult.failure(WebReturnCode.PARAM_ERROR, "价格日历销售属性错误");

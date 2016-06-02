@@ -20,6 +20,7 @@
 		<input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{scenicManageVO.supplierCalendar}">
 		<input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{scenicManageVO.sellerId}">
 		<input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{scenicManageVO.categoryId}">
+        <input type="hidden" class="picCode baseInfo-picCode" name="operationFlag" value="$!{operationFlag}">
 	    <div class="hotelinfo ticketinfo">
 	        <p>
 	            <span class="nm"><span class="bred">*</span><label>景区信息：</label></span>
@@ -63,11 +64,11 @@
 	                </tr>
 	                #foreach($bizCategoryInfo in $bizCategoryInfoList)
 	                    #if($bizCategoryInfo.pType == 1)
-                        <tr class="dynamicTr notNull" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pText" pType="$!bizCategoryInfo.pType">
-	                        <td class="coltxt"><span class="bred">*</span>$!bizCategoryInfo.pText：</td>
+                        <tr class="dynamicTr notNull" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pTxt" pType="$!bizCategoryInfo.pType">
+	                        <td class="coltxt"><span class="bred">*</span>$!bizCategoryInfo.pTxt：</td>
 	                    #else
-                        <tr class="dynamicTr" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pText" pType="$!bizCategoryInfo.pType">
-	                        <td class="coltxt">$!bizCategoryInfo.pText：</td>
+                        <tr class="dynamicTr" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pTxt" pType="$!bizCategoryInfo.pType">
+	                        <td class="coltxt">$!bizCategoryInfo.pTxt：</td>
 	                    #end
 	                    <td><input type="text" class="inputxt" name="$!bizCategoryInfo.pId" value=""></td>
                         </tr>

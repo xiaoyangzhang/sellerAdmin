@@ -9,6 +9,7 @@ import com.yimayhd.ic.client.model.result.item.TicketResult;
 import com.yimayhd.ic.client.service.item.CategoryService;
 import com.yimayhd.ic.client.service.item.ScenicPublishService;
 import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
@@ -20,6 +21,7 @@ import com.yimayhd.sellerAdmin.service.hotelManage.ScenicManageService;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -172,35 +176,42 @@ public class ScenicManageEnhanceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/editScenicManageView")
-    public String editScenicManageView(Model model){
+    public String editScenicManageView(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
 
         System.out.println(123);
+        String operationFlag = request.getParameter("operationFlag");
+        operationFlag="update";
         ScenicManageVO scenicManageVO = new ScenicManageVO();
         long userId = sessionManager.getUserId() ;
         scenicManageVO.setSellerId(userId);
-        scenicManageVO.setCategoryId(233);
-        scenicManageVO.setItemId(108247);
+       // scenicManageVO.setCategoryId(233);
+        scenicManageVO.setItemId(108276);
         if(scenicManageVO==null){
             // "编辑商品信息错误";
-            return "/error";
+            log.warn("编辑商品信息错误");
+            throw new BaseException("编辑商品信息错误");
         }
         if(scenicManageVO.getItemId()==0){
             // "编辑商品ID错误";
-            return "/error";
+            log.warn("编辑商品ID错误");
+            throw new BaseException("编辑商品ID错误");
         }
-        if(scenicManageVO.getCategoryId()==0){
+        /*if(scenicManageVO.getCategoryId()==0){
             // "商品类目ID错误";
-            return "/error";
-        }
+            log.warn("商品类目ID错误");
+            throw new BaseException("商品类目ID错误");
+        }*/
 
         WebResult<ScenicManageVO> webResult = scenicManageService.queryScenicManageVOByData(scenicManageVO);
         if(!webResult.isSuccess()){
-            // "商品类目ID错误";
-            return "/error";
+            // "查询详情错误";
+            log.warn("查询详情错误");
+            throw new BaseException("查询详情错误");
         }
         scenicManageVO = webResult.getValue();
         model.addAttribute("bizCategoryInfoList",scenicManageVO.getBizCategoryInfoList());// 最晚到店时间列表
         model.addAttribute("scenicManageVO", scenicManageVO);
+        model.addAttribute("operationFlag", operationFlag);
         /**动态属性列表***/
         return "/system/comm/hotelManage/addticket";
     }
@@ -212,6 +223,7 @@ public class ScenicManageEnhanceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/editScenicManageVOByDdata", method = RequestMethod.POST)
+    @ResponseBody
     public WebResult<String> editScenicManageVOByDdata(Model model, ScenicManageVO scenicManageVO){
         WebResult<String> message = new WebResult<String>();
 
@@ -234,6 +246,8 @@ public class ScenicManageEnhanceController extends BaseController {
         /**最晚到店时间**/
         model.addAttribute("itemId", scenicManageVO.getItemId());
         model.addAttribute("scenicManageVO",result.getValue());
+        String url = UrlHelper.getUrl(rootPath, "/item/list") ;
+        message.setValue(url);
         return message;
     }
 
@@ -302,7 +316,7 @@ public class ScenicManageEnhanceController extends BaseController {
         }
         CategoryPropertyDO proDo = categoryPro.getCategoryPropertyDO();
         bizCategoryInfo.setPId( categoryPro.getPropertyId());//propertyID
-        bizCategoryInfo.setPText(proDo.getText());
+        bizCategoryInfo.setPTxt(proDo.getText());
         bizCategoryInfo.setVTxt("");
         bizCategoryInfo.setPType(categoryPro.getType());
         bizCategoryInfo.setCategoryId(categoryPro.getCategoryId());
