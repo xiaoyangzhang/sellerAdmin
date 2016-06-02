@@ -6,8 +6,6 @@
     <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/addhotelproduct.css">
 </head>
 <!-- head end-->
-<
-<!-- 面包屑 -->
 <div class = "eredar-info clearfix">
     <ul>
         <li class = "first on">选择酒店</li>
