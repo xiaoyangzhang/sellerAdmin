@@ -215,6 +215,7 @@ public class ScenicManageDomainChecker {
         ScenicPublishUpdateDTO scenicPublishUpdateDTO = new ScenicPublishUpdateDTO();
         ItemPubUpdateDTO itemDO = new ItemPubUpdateDTO();
         /***基本信息**/
+        itemDO.setId(scenicManageVO.getItemId());
         //itemDO.setCategoryId(scenicManageVO.getCategoryId());
         itemDO.setOutId(scenicManageVO.getScenicId());//酒店ID
         //itemDO.setSellerId(scenicManageVO.getSellerId());//商家ID

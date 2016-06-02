@@ -48,6 +48,7 @@
             <input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{hotelMessageVO.sellerId}" />
             <input type="hidden" class="picCode baseInfo-picCode" name="operationFlag" value="$!{operationFlag}">
             <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{categoryId}">
+            <input type="hidden" class="picCode baseInfo-picCode" name="itemId" value="$!{itemId}">
             <input type="hidden" class="picCode baseInfo-picCode" name="systemLog" value="$!{systemLog}">
             <table>
                 <tr>
@@ -90,7 +91,7 @@
                     <td>
                         #foreach($multiChoice in $multiChoiceList)
                             <label class="checkbox">
-                                <input type="checkbox" class="productTag" name="storeLastTime"  value="${multiChoice.tValue}" #if($multiChoice.choiceNo) checked #end/>当前${multiChoice.value}前
+                                <input type="checkbox" class="productTag" name="storeLastTime"  value="${multiChoice.tValue}" #if($multiChoice.choiceNo) checked #end/>当天${multiChoice.value}前
                             </label>
                         #end
 

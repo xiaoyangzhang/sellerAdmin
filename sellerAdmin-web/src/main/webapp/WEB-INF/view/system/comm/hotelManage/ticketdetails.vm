@@ -112,9 +112,6 @@
         </table>
     </div>
 </div>
-<div class="btngroup">
-    <a href="#">返回</a>
-</div>
 
 <script  type='text/temple' id='province-tpl'>
 	    <option value="">--请选择--</option>

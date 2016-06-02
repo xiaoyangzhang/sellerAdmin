@@ -21,6 +21,7 @@
 		<input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{scenicManageVO.sellerId}">
 		<input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{scenicManageVO.categoryId}">
         <input type="hidden" class="picCode baseInfo-picCode" name="operationFlag" value="$!{operationFlag}">
+        <input type="hidden" class="picCode baseInfo-picCode" name="itemId" value="$!{itemId}">
         <input type="hidden" class="picCode baseInfo-picCode" name="systemLog" value="$!{systemLog}">
 	    <div class="hotelinfo ticketinfo">
 	        <p>

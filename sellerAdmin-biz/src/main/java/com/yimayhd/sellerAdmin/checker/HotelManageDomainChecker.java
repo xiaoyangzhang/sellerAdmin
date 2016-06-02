@@ -184,6 +184,7 @@ public class HotelManageDomainChecker {
         CommonItemPublishDTO dto =new CommonItemPublishDTO();
         /*****添加商品信息***/
         ItemDO itemDO = new  ItemDO();//
+        itemDO.setId(hotelMessageVO.getItemId());
         itemDO.setSellerId(hotelMessageVO.getSellerId());//商家ID
         itemDO.setOutId(hotelMessageVO.getHotelId());//酒店ID
         itemDO.setCategoryId(hotelMessageVO.getCategoryId());//商品类目ID

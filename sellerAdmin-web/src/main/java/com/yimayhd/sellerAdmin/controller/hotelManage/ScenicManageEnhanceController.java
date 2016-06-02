@@ -217,6 +217,8 @@ public class ScenicManageEnhanceController extends BaseController {
         model.addAttribute("scenicManageVO", scenicManageVO);
         model.addAttribute("operationFlag", operationFlag);
         model.addAttribute("systemLog", systemLog);
+        model.addAttribute("categoryId",categoryId);//
+        model.addAttribute("itemId", itemId);
         /**动态属性列表***/
         if(operationFlag.equals(UPDATE)){
             return "/system/comm/hotelManage/addticket";
@@ -239,6 +241,10 @@ public class ScenicManageEnhanceController extends BaseController {
 
         if(scenicManageVO==null||scenicManageVO.getScenicId()==0){
             message.initFailure(WebReturnCode.PARAM_ERROR,"景区资源信息错误,无法编辑商品");
+            return message;
+        }
+        if(scenicManageVO.getItemId()==0){
+            message.initFailure(WebReturnCode.PARAM_ERROR,"无效商品ID,无法编辑商品");
             return message;
         }
         /**必要参数验证**/
