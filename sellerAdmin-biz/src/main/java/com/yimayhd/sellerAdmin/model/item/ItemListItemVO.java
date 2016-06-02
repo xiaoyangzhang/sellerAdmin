@@ -32,7 +32,7 @@ public class ItemListItemVO {
 	private ItemRoomVO itemRoomVO;//酒店房间
 	private ItemTicketVO itemTicketVO;//景区门票
 	private String payMode;//支付方式
-
+	private long categoryId;
 
 	public long getId() {
 		return id;
@@ -174,6 +174,15 @@ public class ItemListItemVO {
 
 	public ItemListItemVO setPayMode(String payMode) {
 		this.payMode = payMode;
+		return this;
+	}
+
+	public long getCategoryId() {
+		return categoryId;
+	}
+
+	public ItemListItemVO setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
 		return this;
 	}
 }

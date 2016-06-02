@@ -14,14 +14,19 @@
         </style>
     </head>
     <body>
-        #foreach($entry in $destMap.entrySet())  
-        <div id="$!{entry.key}" class="choosecity">
-        	<label>$!{entry.key}:</label>
-        	#foreach($dest in $entry.value)  
-        	<label><input type="checkbox" class="city ck"   dest-id="$!{dest.id}" dest-code="$!{dest.city.code}" dest-name="$!{dest.city.name}">$!{dest.city.name}</label>
-        	#end
-        </div>
-        #end
+			#if ($!destMap.get("type")=="inland")
+	        	#foreach($dest in $!destMap.get("destinationNodeVOs"))  
+	        		#foreach($des in $!dest.child)  
+	        				<label><input type="checkbox" class="city ck"   dest-id="$!{des.desinationVO.id}" dest-code="$!{des.destinationVO.code}" dest-name="$!{des.destinationVO.name}" #if($!{des.destinationVO.selected}=="true") checked #end>$!{des.destinationVO.name}</label>
+	        		#end
+	        	#end
+			#end
+			#if ($!destMap.get("type")=="oversea")
+	        	#foreach($dest in $!destMap.get("destinationNodeVOs"))  
+	        	<label><input type="checkbox" class="city ck"   dest-id="$!{dest.destinationVO.id}" dest-code="$!{dest.destinationVO.code}" dest-name="$!{dest.destinationVO.name}">$!{dest.destinationVO.name}</label>
+	        	#end
+			#end
+
         <br><br><br>
 		#parse("layout/base-js.vm")
         <script>

@@ -39,32 +39,34 @@
 
                     <tbody>
                     <tr>
-                        <td><span class="spColor">*</span>分类</td>
+                        <td><span class="red">*</span>分类</td>
                         <td>
                             $!category.name
                         </td>
                     </tr>
                     <tr>
 
-                        <td><span class="spColor">*</span>商品名称</td>
+                        <td><span class="red">*</span>商品名称</td>
                         <td>
-                                <input class="title form-control" type="text" name="title" value="$!esc.html($!commodity.title)">
+                                <input class="title form-control" type="text" maxlength="38" name="title" value="$!esc.html($!commodity.title)">
+                                <span class="limit">38字</span>
                         </td>
                     </tr>
                     <tr>
                         <td>商品代码</td>
                         <td>
-                            <input class="code form-control" type="text" name="code" value="$!esc.html($!commodity.code)">
+                            <input class="code form-control" type="text" maxlength="20" name="code" value="$!esc.html($!commodity.code)">
+                            <span class="limit">20字</span>
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>商品价格</td>
+                        <td><span class="red">*</span>商品价格</td>
                         <td>
                             <input class="priceY form-control" type="text" name="priceY" value="$!numberHelper.formatNumber($!commodity.price)">
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>商品库存</td>
+                        <td><span class="red">*</span>商品库存</td>
                         <td>
                             <input class="stockNum form-control" type="text" name="stockNum" value="$!commodity.stockNum">
                         </td>
@@ -75,7 +77,7 @@
                     <input type="hidden" name="pictureTextVOStr" id="pictureTextVOStr" value="">
                     <input class="picUrlsVal" type="hidden" name="itemMainPics" value="$!esc.html($!commodity.ItemMainPics)">
                     #*<tr>
-                        <td><span class="spColor">*</span>减库存方式</td>
+                        <td><span class="red">*</span>减库存方式</td>
                         <td>
                             #foreach($reduceType in $reduceTypeList)
                                 <label class='radio-inline'> <input class="reduceType" type="radio" name="reduceType" value="$!reduceType.bizType" #if($!reduceType.bizType == $!commodity.reduceType)checked#end #if(!$!commodity.reduceType && $!reduceType.bizType == $!reduceTypeList.get(0).bizType)checked#end>$!reduceType.des</label>
@@ -83,25 +85,25 @@
                         </td>
                     </tr>*#
                     #*<tr>
-                        <td><span class="spColor">*</span>评分</td>
+                        <td><span class="red">*</span>评分</td>
                         <td>
                             <input class="grade" type="text" name="grade" value="$!commodity.grade">
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>副标题</td>
+                        <td><span class="red">*</span>副标题</td>
                         <td>
                             <input class="subTitle" type="text" name="subTitle" value="$!commodity.subTitle">
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>二级副标题</td>
+                        <td><span class="red">*</span>二级副标题</td>
                         <td>
                             <input class="oneWord" type="text" name="oneWord" value="$!commodity.oneWord">
                         </td>
                     </tr>*#
                     #*<tr>
-                        <td><span class="spColor">*</span>商品描述</td>
+                        <td><span class="red">*</span>商品描述</td>
                         <td>
                             <textarea class="form-control extra-info-item-text description"
                                       name="description"
@@ -109,7 +111,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>商品详细描述</td>
+                        <td><span class="red">*</span>商品详细描述</td>
                         <td>
                             <script type="text/javascript">
                                 $(function() {
@@ -121,7 +123,7 @@
                         </td>
                     </tr>*#
                     #*<tr>
-                        <td><span class="spColor">*</span>宣传图</td>
+                        <td><span class="red">*</span>宣传图</td>
                         <td class="bigListPicTd">
                             <label>选择列表图</label>
                             <input id="bigListPicUrl" type="file">
@@ -138,7 +140,7 @@
 
 
                     #*<tr>
-                        <td><span class="spColor">*</span>排序</td>
+                        <td><span class="red">*</span>排序</td>
                         <td><input type="text" name="index" value="$!commodity.index" disabled></td>
                     </tr>*#
                     <tr>
@@ -149,7 +151,7 @@
                                 #*解析关键属性*#
                                 #foreach($keyCategoryProperty in $category.keyCategoryPropertyDOs)
                                     <tr class="property keyProperty" pId="$!keyCategoryProperty.categoryPropertyDO.id" pTxt="$!keyCategoryProperty.categoryPropertyDO.text" pType="$!keyCategoryProperty.categoryPropertyDO.type">
-                                        <td><span class="spColor">*</span>$!keyCategoryProperty.categoryPropertyDO.text</td>
+                                        <td><span class="red">*</span>$!keyCategoryProperty.categoryPropertyDO.text</td>
                                         <td>
 											#*编辑的时候回填属性*#
                                             #set($propertyEditPId = 100)

@@ -1,11 +1,15 @@
 package com.yimayhd.sellerAdmin.repo;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.reflect.TypeToken;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
+import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
@@ -26,6 +30,7 @@ import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.log4j.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +44,7 @@ import java.util.List;
  *
  */
 public class HotelManageRepo {
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private Logger log = LoggerFactory.getLogger("hotelManage-business.log");
 	@Autowired
 	private ItemQueryService itemQueryServiceRef;
 	@Autowired
@@ -122,7 +127,9 @@ public class HotelManageRepo {
      */
 	public WebResult<Long> editHotelMessageVOByData(HotelManageDomainChecker domain) throws Exception{
 		WebResult<Long> webResult = domain.getLongWebResult();
-		CategoryResult categoryResult = categoryServiceRef.getCategory(domain.getHotelMessageVO().getCategoryId());
+		long categoryId = domain.getHotelMessageVO().getCategoryId();
+		log.info("itemQueryServiceRef.getCategory 入参: categoryId="+categoryId);
+		CategoryResult categoryResult = categoryServiceRef.getCategory(categoryId);
 		if(!categoryResult.isSuccess()||categoryResult.getCategroyDO()==null){
 			log.error("类目信息错误");
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "类目信息错误");
@@ -131,13 +138,18 @@ public class HotelManageRepo {
 			log.error("类目销售属性信息错误");
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "类目销售属性信息错误");
 		}
-		CategoryPropertyValueDO sellDO = categoryResult.getCategroyDO().getSellCategoryPropertyDOs().get(0);
+		CategoryDO categoryDO = categoryResult.getCategroyDO();
+		log.info("itemQueryServiceRef.getCategory 回参: categoryDO="+ JSON.toJSONString(categoryDO));
+		CategoryPropertyValueDO sellDO = categoryDO.getSellCategoryPropertyDOs().get(0);
+		log.info("itemQueryServiceRef.getCategory 回参: sellDO="+ JSON.toJSONString(sellDO));
 		domain.setCategoryPropertyValueDO(sellDO);
 		CommonItemPublishDTO commonItemPublishDTO = domain.getBizCommonItemPublishDTO();
+		log.info("itemQueryServiceRef.updatePublishCommonItem 入参: commonItemPublishDTO="+JSON.toJSONString(commonItemPublishDTO));
 		ItemPubResult result = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
 		if (!result.isSuccess()){
 			  return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "编辑酒店商品信息错误");
 		}
+		log.info("itemQueryServiceRef.updatePublishCommonItem 回参: itemId="+result.getItemId());
 		/***设置商品ID***/
 		webResult.setValue(result.getItemId());
 		return webResult;
@@ -155,28 +167,40 @@ public class HotelManageRepo {
 		/**商品信息**/
 		ItemOptionDTO itemOptionDTO  = new ItemOptionDTO();
 		itemOptionDTO.setNeedSku(true);
-		ItemResult itemResult= itemQueryServiceRef.getItem(model.getItemId(), itemOptionDTO);
+		itemOptionDTO.setNeedCategory(true);
+		long itemId = model.getItemId();
+		log.info("itemQueryServiceRef.getItem 入参: itemId="+itemId+",itemOptionDTO="+CommonJsonUtil.objectToJson(itemOptionDTO,ItemOptionDTO.class));
+		ItemResult itemResult= itemQueryServiceRef.getItem(itemId, itemOptionDTO);
 		if(!itemResult.isSuccess()||itemResult.getItem()==null){
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "getItem,查询商品信息错误");
 		}
-
+		log.info("itemQueryServiceRef.getItem 回参: itemDO="+CommonJsonUtil.objectToJson(itemResult.getItem(),ItemDO.class));
 		domain.setItemDO(itemResult.getItem());
-		domain.setItemSkuDOList(itemResult.getItemSkuDOList());
+		CategoryDO categoryDO = itemResult.getCategory();
+		domain.setCategoryDO(categoryDO);
+		log.info("itemQueryServiceRef.getItem 回参: categoryDO="+ JSON.toJSONString(categoryDO));
+		List<ItemSkuDO> itemSkuDOList =itemResult.getItemSkuDOList();
+		domain.setItemSkuDOList(itemSkuDOList);
 		//Long roomId = item.getItemFeature().getRoomId();//当前商品绑定的酒店信息
 		/***酒店资源**/
+		log.info("itemQueryServiceRef.getItem 回参: itemSkuDOList="+CommonJsonUtil.objectToJson(itemSkuDOList,List.class));
 
+		log.info("itemQueryServiceRef.getHotel 入参: outId="+itemResult.getItem().getOutId());
 		ICResult<HotelDO> hotelResult =  itemQueryServiceRef.getHotel(itemResult.getItem().getOutId());
 		if(!hotelResult.isSuccess()||hotelResult.getModule()==null){
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "getHotel,查询酒店资源信息错误");
 		}
+		log.info("itemQueryServiceRef.getHotel 回参: hotelDO="+CommonJsonUtil.objectToJson(hotelResult.getModule(),HotelDO.class));
 		domain.setHotelDO(hotelResult.getModule());
 		/***酒店房型**/
 		RoomQuery roomQuery = new RoomQuery();
 		roomQuery.setHotelId(itemResult.getItem().getOutId());
+		log.info("itemQueryServiceRef.queryAllRoom 入参: outId="+itemResult.getItem().getOutId());
 		ICResult<List<RoomDO>> roomResult= itemQueryServiceRef.queryAllRoom(roomQuery);
 		if(!roomResult.isSuccess()||roomResult.getModule()==null){
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "queryAllRoom,查询酒店房型信息错误");
 		}
+		log.info("itemQueryServiceRef.queryAllRoom 回参: roomList="+CommonJsonUtil.objectToJson(roomResult.getModule(),List.class));
 		domain.setListRoomDO(roomResult.getModule());
 		/**获取酒店/商品/sku/房型**/
 		HotelMessageVO hotelMessageVO = domain.getBizQueryHotelMessageVOyData();

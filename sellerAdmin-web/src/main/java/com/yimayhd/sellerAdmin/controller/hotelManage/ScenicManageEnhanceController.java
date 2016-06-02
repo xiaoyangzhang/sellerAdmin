@@ -9,9 +9,11 @@ import com.yimayhd.ic.client.model.result.item.TicketResult;
 import com.yimayhd.ic.client.service.item.CategoryService;
 import com.yimayhd.ic.client.service.item.ScenicPublishService;
 import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.enums.ItemCodeEnum;
 import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.HotelManage.BizCategoryInfo;
 import com.yimayhd.sellerAdmin.model.HotelManage.MultiChoice;
@@ -28,6 +30,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -41,7 +44,7 @@ import java.util.List;
 @RequestMapping("/scenic")
 public class ScenicManageEnhanceController extends BaseController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ScenicManageEnhanceController.class);
+    private static final Logger logger = LoggerFactory.getLogger("scenicManage-business.log");
     @Autowired
     private ScenicManageService scenicManageService;
     @Autowired
@@ -51,6 +54,8 @@ public class ScenicManageEnhanceController extends BaseController {
 
     @Value("${sellerAdmin.rootPath}")
     private String rootPath;
+
+    private static final String UPDATE="update";
 
     /**
      * 查询景区资源列表
@@ -172,35 +177,51 @@ public class ScenicManageEnhanceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/editScenicManageView")
-    public String editScenicManageView(Model model){
-
-        System.out.println(123);
+    public String editScenicManageView(Model model, @RequestParam(required = true) long categoryId,
+                                                    @RequestParam(required = true) long itemId,
+                                                    @RequestParam(required = true) String operationFlag) throws Exception{
+        String systemLog = ItemCodeEnum.SYS_START_LOG.getDesc();
         ScenicManageVO scenicManageVO = new ScenicManageVO();
         long userId = sessionManager.getUserId() ;
         scenicManageVO.setSellerId(userId);
-        scenicManageVO.setCategoryId(233);
-        scenicManageVO.setItemId(108247);
+        scenicManageVO.setCategoryId(categoryId);
+        scenicManageVO.setItemId(itemId);
+
         if(scenicManageVO==null){
             // "编辑商品信息错误";
-            return "/error";
+            systemLog="编辑商品信息错误";
+            //throw new BaseException("编辑商品信息错误");
         }
         if(scenicManageVO.getItemId()==0){
             // "编辑商品ID错误";
-            return "/error";
+            systemLog="编辑商品ID错误";
+           // throw new BaseException("编辑商品ID错误");
         }
-        if(scenicManageVO.getCategoryId()==0){
+        /*if(scenicManageVO.getCategoryId()==0){
             // "商品类目ID错误";
-            return "/error";
-        }
-
+            log.warn("商品类目ID错误");
+            throw new BaseException("商品类目ID错误");
+        }*/
+        logger.info("editScenicManageView: 入参:scenicManageVO="+CommonJsonUtil.objectToJson(scenicManageVO,ScenicManageVO.class));
         WebResult<ScenicManageVO> webResult = scenicManageService.queryScenicManageVOByData(scenicManageVO);
         if(!webResult.isSuccess()){
-            // "商品类目ID错误";
-            return "/error";
+            // "查询详情错误";
+            systemLog="查询详情错误";
+            //throw new BaseException("查询详情错误");
         }
+        scenicManageVO = webResult.getValue();
+        logger.info("editScenicManageView: 回参:webResult="+webResult.isSuccess()+",\n scenicManageVO="+CommonJsonUtil.objectToJson(scenicManageVO,ScenicManageVO.class));
+        model.addAttribute("bizCategoryInfoList",scenicManageVO.getBizCategoryInfoList());// 最晚到店时间列表
         model.addAttribute("scenicManageVO", scenicManageVO);
+        model.addAttribute("operationFlag", operationFlag);
+        model.addAttribute("systemLog", systemLog);
         /**动态属性列表***/
-        return "/system/comm/hotelManage/addticket";
+        if(operationFlag.equals(UPDATE)){
+            return "/system/comm/hotelManage/addticket";
+        }else{
+            return "/system/comm/hotelManage/ticketdetails";
+        }
+
     }
 
     /**
@@ -210,6 +231,7 @@ public class ScenicManageEnhanceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/editScenicManageVOByDdata", method = RequestMethod.POST)
+    @ResponseBody
     public WebResult<String> editScenicManageVOByDdata(Model model, ScenicManageVO scenicManageVO){
         WebResult<String> message = new WebResult<String>();
 
@@ -232,6 +254,8 @@ public class ScenicManageEnhanceController extends BaseController {
         /**最晚到店时间**/
         model.addAttribute("itemId", scenicManageVO.getItemId());
         model.addAttribute("scenicManageVO",result.getValue());
+        String url = UrlHelper.getUrl(rootPath, "/item/list") ;
+        message.setValue(url);
         return message;
     }
 
@@ -278,7 +302,7 @@ public class ScenicManageEnhanceController extends BaseController {
             return "商品标题为空";
         }
         if(scenicManageVO.getTicketId()==0){
-            return "付款方式不能为空";
+            return "门票类型不能为空";
         }
         if(scenicManageVO.getStartBookTimeLimit()==0){
             return "提前预定天数不能为空";
@@ -300,7 +324,7 @@ public class ScenicManageEnhanceController extends BaseController {
         }
         CategoryPropertyDO proDo = categoryPro.getCategoryPropertyDO();
         bizCategoryInfo.setPId( categoryPro.getPropertyId());//propertyID
-        bizCategoryInfo.setPText(proDo.getText());
+        bizCategoryInfo.setPTxt(proDo.getText());
         bizCategoryInfo.setVTxt("");
         bizCategoryInfo.setPType(categoryPro.getType());
         bizCategoryInfo.setCategoryId(categoryPro.getCategoryId());

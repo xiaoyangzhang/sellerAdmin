@@ -12,6 +12,7 @@ import com.yimayhd.sellerAdmin.base.Paginator;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.enums.ItemCodeEnum;
 import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.HotelManage.*;
 import com.yimayhd.sellerAdmin.service.hotelManage.HotelManageService;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 import org.slf4j.Logger;
@@ -43,7 +45,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/hotel")
 public class HotelManageController extends BaseController {
-	private static final Logger logger = LoggerFactory.getLogger(HotelManageController.class);
+	private static final Logger logger = LoggerFactory.getLogger("hotelManage-business.log");
 	private final Integer PAGESIZE=8;
 	private static final String UPDATE="update";
 	private static final long categoryId=231;
@@ -136,6 +138,7 @@ public class HotelManageController extends BaseController {
 		}
 		System.out.println(result.getValue().size());
 		model.addAttribute("roomList", result.getValue());
+
 		return returnUrl;
 	}
 
@@ -187,38 +190,53 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/editHotelMessageView")
-	public String editHotelMessageView(Model model) throws Exception {
+	@RequestMapping(value = "/editHotelMessageView" )
+	public String editHotelMessageView(Model model,@RequestParam(required = true) long categoryId,
+									               @RequestParam(required = true) long itemId,
+									               @RequestParam(required = true) String operationFlag) throws Exception {
 		HotelMessageVO hotelMessageVO = new HotelMessageVO();
+		String systemLog = ItemCodeEnum.SYS_START_LOG.getDesc();
 		long userId = sessionManager.getUserId() ;
 		hotelMessageVO.setSellerId(userId);
 		hotelMessageVO.setCategoryId(categoryId);
-		hotelMessageVO.setItemId(Long.valueOf(108184));
+		hotelMessageVO.setItemId(itemId);
 		if(hotelMessageVO==null){
 			// "编辑商品信息错误";
-			return "/error";
+			log.warn("编辑商品信息错误");
+			throw new BaseException("编辑商品信息错误");
 		}
 		if(hotelMessageVO.getItemId()==0){
 			// "编辑商品ID错误";
-			return "/error";
+			log.warn("编辑商品ID错误");
+			throw new BaseException("编辑商品ID错误");
 		}
 		if(hotelMessageVO.getCategoryId()==0){
 			// "商品类目ID错误";
-			return "/error";
+			log.warn("商品类目ID错误");
+			throw new BaseException("商品类目ID错误");
 		}
-
+		logger.info("editHotelMessageView: 入参:hotelMessageVO="+CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
 		WebResult<HotelMessageVO> webResult = hotelManageService.queryHotelMessageVOyData(hotelMessageVO);
 		if(!webResult.isSuccess()){
 			// "商品类目ID错误";
-			return "/error";
+			systemLog=webResult.getResultMsg();
 		}
 		hotelMessageVO = webResult.getValue();
-		//{"seller_id":17304,"hotel_id":256,"bizskuinfo":""}
-		hotelMessageVO.setSupplierCalendar(" ");
+		logger.info("editHotelMessageView: 回参:webResult="+webResult.isSuccess()+",\n hotelMessageVO="+CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
+
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(webResult.getValue());
 		model.addAttribute("hotelMessageVO", hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
-		return "/system/comm/hotelManage/addhotel";
+		model.addAttribute("systemLog",systemLog);//
+		if(operationFlag.equals(UPDATE)){
+			model.addAttribute("operationFlag",operationFlag);//操作标示
+			return "/system/comm/hotelManage/addhotel";
+		}else{
+			return "/system/comm/hotelManage/hoteldetails";
+		}
+
+
+
 	}
 	/**
 	 * 编辑酒店资源
@@ -227,53 +245,45 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
      */
-	@RequestMapping(value = "/editHotelMessageVOByData")
+	@RequestMapping(value = "/editHotelMessageVOByData",method = RequestMethod.POST)
+	@ResponseBody
 	public WebResult<String> editHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
+		log.info("editHotelMessageVOByData mmmmm 开始编辑");
+		String systemLog = ItemCodeEnum.SYS_START_LOG.getDesc();
 		WebResult<String> message = new WebResult<String>();
-
 		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==0){
 			message.initFailure(WebReturnCode.PARAM_ERROR,"酒店资源信息错误,无法编辑商品");
+			log.error("editHotelMessageVOByData.酒店资源信息错误,无法编辑商品");
 			return message;
 		}
 		/**必要参数验证**/
 		String checkMsg = checkAddHotelMessageVOParam(hotelMessageVO);
 		if(StringUtils.isNotBlank(checkMsg)){
 			message.initFailure(WebReturnCode.PARAM_ERROR,checkMsg);
+			log.error("editHotelMessageVOByData."+checkMsg);
 			return message;
 		}
-
+		logger.info("editHotelMessageVOByData: 入参:","hotelMessageVO="+CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
 		WebResult<Long> result = hotelManageService.editHotelMessageVOByData(hotelMessageVO);
 		if(!result.isSuccess()){
-			message.initFailure(WebReturnCode.PARAM_ERROR,"添加商品错误");
+			message.initFailure(WebReturnCode.PARAM_ERROR,"编辑商品错误");
+			log.error("editHotelMessageVOByData.添加商品错误");
 			return message;
 		}
+		logger.info("editHotelMessageVOByData: 回参:webResult="+result.isSuccess()+",\n hotelMessageVO="+CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
 		/**最晚到店时间**/
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(hotelMessageVO);
 		model.addAttribute("itemId", result.getValue());
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
 		model.addAttribute("hotelMessageVO", result.getValue());
+		String url = UrlHelper.getUrl(rootPath, "/item/list") ;
+		message.setValue(url);
 		return message;
 
 	}
 
-	/**
-	 * 查询酒店商品信息详情
-	 * @param model
-	 * @param hotelMessageVO
-     * @return
-     */
-	/*public String queryHotelMessageVOyData(Model model,HotelMessageVO hotelMessageVO){
-		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==null){
-			//throw new BaseException("酒店资源信息错误,无法编辑商品");
-		}
-		WebResult<HotelMessageVO> result =hotelManageService.queryHotelMessageVOyData(hotelMessageVO);
-		if(!result.isSuccess()){
 
-		}
-		model.addAttribute("hotelMessageVO", result.getValue());
-		return "";
 
-	}*/
 	/**
 	 * 初始化最晚到店时间
 	 * @return

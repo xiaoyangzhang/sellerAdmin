@@ -6,15 +6,21 @@
 			<td>$!{itemType.text}</td>
 		</tr>
 		<tr>
-			<td>*商品标题：</td>
-			<td><input type="text" value="$!baseInfo.name" class="form-control item-name" placeholder="请输入商品标题" maxlength="38"></td>
+			<td><span class="red">*</span>商品标题：</td>
+			<td>
+				<input type="text" value="$!baseInfo.name" class="form-control item-name" placeholder="请输入商品标题" maxlength="38">
+				<span class="limit">38字</span>
+			</td>
 		</tr>
 		<tr>
 			<td>商品代码：</td>
-			<td><input type="text" value="$!{baseInfo.code}" class="form-control item-code" placeholder="请输入商品编号" maxlength="20"/></td>
+			<td>
+				<input type="text" value="$!{baseInfo.code}" class="form-control item-code" placeholder="请输入商品编号" maxlength="20"/>
+				<span class="limit">20字</span>
+			</td>
 		</tr>
 		<tr>
-			<td>*出发地：</td>
+			<td><span class="red">*</span>出发地：</td>
 			 <td>
 				<div>
 					<label class="checkbox-inline">
@@ -32,7 +38,7 @@
 			 </td>
 		</tr>
 		<tr>
-			<td>*目的地：</td>
+			<td><span class="red">*</span>目的地：</td>
 			<td>
 				<div>
 					<button type="button" class="btn btn-success select-dests">选择目的地</button>
@@ -45,18 +51,18 @@
 			</td>
 		</tr>
 		<tr>
-			<td>*行程天数（天）：</td>
+			<td><span class="red">*</span>行程天数（天）：</td>
 			<td><input type="text" value="$!{baseInfo.days}" class="form-control days int-only" placeholder="请填写整数"/></td>
 		</tr>
 		<tr>
-			<td>*线路亮点：</td>
+			<td><span class="red">*</span>线路亮点：</td>
 			<td>
 				<textarea class="form-control textarea-count description" rows="3" placeholder="请输入亮点描述" maxlength="200">$!{baseInfo.description}</textarea>
 				<span class="word-num">0/200字</span>
 			</td>
 		</tr>
 		<tr>
-			<td>*线路主题：</td>
+			<td><span class="red">*</span>线路主题：</td>
 			<td>
 				#foreach($theme in $themes)
 				<label class="checkbox-inline">
@@ -66,7 +72,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td>*商品图：</td>
+			<td><span class="red">*</span>商品图：</td>
 			<td>
 				<div class="uploadbox clearfix">
                     <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionUploadFilePath()}" />
@@ -146,6 +152,10 @@
 							<button class="del">删除图片</button>
 						</div>
 					</div>
+					<div class="upl-tips">
+        				<p>图片大小不超过500K，格式为JPG,JPEG,PNG；建议图片尺寸为：750*420</p>
+        				<p>至少上传1张图片，第一张图片将被展示在搜索结果列表页面和订单页面</p>
+                    </div>
 				</div>
 			</td>
 		</tr>
@@ -195,13 +205,14 @@
 				if($(".departs[rId='"+depart.id+"']").length > 0) continue;
 				var btn = $("<button class='btn btn-info departs remove-self'>"+depart.name+"</button>");
 				btn.attr("rId", depart.id);
+				btn.attr("rCode", depart.code);
 				content.append("  ").append(btn);
 			}
 			return true;
 		});
 	});
 	$(".select-dests").click(function() {
-		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDests','选择目的地 ',function() {
+		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDests/$itemType','选择目的地 ',function() {
 			var dests = win.getSelected();
 			console.log(JSON.stringify(dests));
 			if(dests.length == 0) return true;
@@ -218,6 +229,7 @@
 				if($(".dests[rId='"+dest.id+"']").length > 0) continue;
 				var btn = $("<button class='btn btn-info dests remove-self'>"+dest.name+"</button>");
 				btn.attr("rId", dest.id);
+				btn.attr("rCode", dest.code);
 				content.append("  ").append(btn);
 			}
 			return true;
@@ -238,11 +250,11 @@
 		});
 		var departs = [];
 		$(".departs").each(function(){
-			departs.push({id:$(this).attr("rId")});
+			departs.push({id:$(this).attr("rId"),name:$(this).text(),code:$(this).attr("rCode")});
 		});
 		var dests = [];
 		$(".dests").each(function(){
-			dests.push({id:$(this).attr("rId")});
+			dests.push({id:$(this).attr("rId"),name:$(this).text(),code:$(this).attr("rCode")});
 		});
 		var result = {
 			#if($product)

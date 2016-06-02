@@ -6,7 +6,7 @@
 <table class="table tab-inputgroup" id="need-know">
 	<tbody>
 		<tr class="need-know-item">
-			<td>*费用包含：</td>
+			<td><span class="red">*</span>费用包含：</td>
 			<td>
 				<input type="hidden" class="need-know-item-key" value="费用包含"/>
 				#set($length = 0)
@@ -20,7 +20,7 @@
 			</td>
 		</tr>
 		<tr class="need-know-item">
-			<td>*费用不含：</td>
+			<td><span class="red">*</span>费用不含：</td>
 			<td>
 				<input type="hidden" class="need-know-item-key" value="费用不含"/>
 				#set($length = 0)
@@ -33,10 +33,11 @@
 				<span class="word-num">$!{length}/500字</span>
 			</td>
 		</tr>
+		#if($utilItem.isAboardLine($itemType))
 		<tr class="need-know-item">
-			<td>*预订说明：</td>
+			<td><span class="red">*</span>护照签证须知：</td>
 			<td>
-				<input type="hidden" class="need-know-item-key" value="预订说明"/>
+				<input type="hidden" class="need-know-item-key" value="护照签证须知"/>
 				#set($length = 0)
 				#set($content = '')
 				#if($needKnowItems && $needKnowItems.size() > 2)
@@ -47,13 +48,31 @@
 				<span class="word-num">$!{length}/2000字</span>
 			</td>
 		</tr>
+		#end
 		<tr class="need-know-item">
-			<td>*退改规定：</td>
+			<td><span class="red">*</span>预订说明：</td>
+			<td>
+				<input type="hidden" class="need-know-item-key" value="预订说明"/>
+				#set($length = 0)
+				#set($content = '')
+				#if($needKnowItems && $needKnowItems.size() > 3)
+					#set($content = $needKnowItems.get(3).content)
+					#set($length = $content.length())
+				#end
+				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="2000">$!content</textarea>
+				<span class="word-num">$!{length}/2000字</span>
+			</td>
+		</tr>
+		<tr class="need-know-item">
+			<td><span class="red">*</span>退改规定：</td>
 			<td>
 				<input type="hidden" class="need-know-item-key" value="退改规定"/>
 				#set($length = 0)
 				#set($content = '')
-				#if($needKnowItems && $needKnowItems.size() > 3)
+				#if($needKnowItems && $needKnowItems.size() > 4&&$utilItem.isAboardLine($itemType))
+					#set($content = $needKnowItems.get(4).content)
+					#set($length = $content.length())
+				#else
 					#set($content = $needKnowItems.get(3).content)
 					#set($length = $content.length())
 				#end

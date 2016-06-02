@@ -42,6 +42,8 @@ public class LineChecker {
 	static {
 		supportItemTypes.add(ItemType.FREE_LINE.getValue());
 		supportItemTypes.add(ItemType.TOUR_LINE.getValue());
+		supportItemTypes.add(ItemType.TOUR_LINE_ABOARD.getValue());
+		supportItemTypes.add(ItemType.FREE_LINE_ABOARD.getValue());
 
 		supportTrafficTypes.add(RouteItemType.PLANE.name());
 		supportTrafficTypes.add(RouteItemType.TRAIN.name());
@@ -59,7 +61,7 @@ public class LineChecker {
 			return checkPictureText;
 		}
 		int itemType = line.getBaseInfo().getType();
-		if (itemType == ItemType.FREE_LINE.getValue()) {
+		if (itemType == ItemType.FREE_LINE.getValue()||itemType == ItemType.FREE_LINE_ABOARD.getValue()) {
 			WebCheckResult checkRoutePlan = checkRoutePlan(itemType, line.getRoutePlan());
 			if (!checkRoutePlan.isSuccess()) {
 				return checkRoutePlan;
@@ -101,6 +103,10 @@ public class LineChecker {
 								return WebCheckResult.error(title + "内容不能超过500个字符");
 							}
 						} else if ("预订说明".endsWith(title)) {
+							if (content.length() > 2000) {
+								return WebCheckResult.error(title + "内容不能超过2000个字符");
+							}
+						} else if ("护照签证须知".endsWith(title)) {
 							if (content.length() > 2000) {
 								return WebCheckResult.error(title + "内容不能超过2000个字符");
 							}

@@ -393,6 +393,8 @@ public class HotelManageDomainChecker {
         }
         temp.setBizSkuInfo(bizArr);
         json = CommonJsonUtil.objectToJson(temp,SupplierCalendarTemplate.class);
+        //json= json.replaceAll("\"","\\\\\"");
+        System.out.println(json);
         return json;
     }
 

@@ -42,7 +42,7 @@
 			<div class="tab-pane in #if($tcId==1) active #end" id="tc_$!{tcId}">
 				<table class="table">
 					<tr>
-						<td><span class="spColor">*</span>套餐名称：<input type="text" id="tc_$!{tcId}_name" class="form-control tc-name" placeholder="请输入套餐名称" tc-id="$!{tcId}" value="$!{tc.name}"></td>
+						<td><span class="red">*</span>套餐名称：<input type="text" id="tc_$!{tcId}_name" class="form-control tc-name" placeholder="请输入套餐名称" tc-id="$!{tcId}" value="$!{tc.name}"></td>
 					</tr>
 					<tr>
 						<td>
@@ -238,7 +238,7 @@
 		var pane = $("<div class='tab-pane in' id='tc_"+id+"'/>");
 		var table = $("<table class='table'/>");
 		var td = $("<td/>");
-		var tcName = $("<span class='spColor'>*</span>套餐名称：<input type='text' id='tc_"+id+"_name' class='form-control' placeholder='请输入套餐名称'></p>")
+		var tcName = $("<span class='red'>*</span>套餐名称：<input type='text' id='tc_"+id+"_name' class='form-control' placeholder='请输入套餐名称'></p>")
 		td.append(tcName);
 		table.append($("<tr/>").append(td));
 		var dateJson = CalendarY.getMonthTree(startDate,endDate);

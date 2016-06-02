@@ -1,12 +1,7 @@
 package com.yimayhd.sellerAdmin.service;
 
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
-import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.model.CityActivityItemVO;
-import com.yimayhd.sellerAdmin.model.ItemVO;
-
-import java.util.List;
 
 /**
  * Created by weiwenliang on 20160406.

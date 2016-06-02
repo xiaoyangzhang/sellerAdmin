@@ -40,7 +40,8 @@ public abstract class BaseLineController extends BaseController {
 		put("categoryId", categoryId);
 		CategoryDO categoryDO = categoryService.getCategoryDOById(categoryId);
 		ItemType itemType = ItemType.get(categoryDO.getCategoryFeature().getItemType());
-		Preconditions.checkArgument(ItemType.FREE_LINE.equals(itemType) || ItemType.TOUR_LINE.equals(itemType),
+		Preconditions.checkArgument(ItemType.FREE_LINE.equals(itemType) || ItemType.TOUR_LINE.equals(itemType)||
+				ItemType.FREE_LINE_ABOARD.equals(itemType) || ItemType.TOUR_LINE_ABOARD.equals(itemType),
 				"错误的商品类型");
 		put("itemType", itemType);
 		put("category", categoryDO);
