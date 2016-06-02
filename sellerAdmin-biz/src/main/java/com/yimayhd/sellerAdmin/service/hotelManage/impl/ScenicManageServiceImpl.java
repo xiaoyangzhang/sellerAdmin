@@ -5,6 +5,7 @@ import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.ScenicManageDomainChecker;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
 import com.yimayhd.sellerAdmin.repo.ScenicManageRepo;
@@ -73,6 +74,7 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
         }catch(Exception e){
             log.error("查询景区详情异常",e);
             e.printStackTrace();
+            result.initFailure(WebReturnCode.PARAM_ERROR,"查询详情异常");
         }
 
         return result;

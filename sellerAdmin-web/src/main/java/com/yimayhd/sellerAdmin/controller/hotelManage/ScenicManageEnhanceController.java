@@ -13,6 +13,7 @@ import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.enums.ItemCodeEnum;
 import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.HotelManage.BizCategoryInfo;
 import com.yimayhd.sellerAdmin.model.HotelManage.MultiChoice;
@@ -21,6 +22,8 @@ import com.yimayhd.sellerAdmin.service.hotelManage.ScenicManageService;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +46,7 @@ import java.util.List;
 @RequestMapping("/scenic")
 public class ScenicManageEnhanceController extends BaseController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ScenicManageEnhanceController.class);
+    private static final Logger logger = LoggerFactory.getLogger("hotelManage");
     @Autowired
     private ScenicManageService scenicManageService;
     @Autowired
@@ -179,38 +182,41 @@ public class ScenicManageEnhanceController extends BaseController {
     public String editScenicManageView(Model model, @RequestParam(required = true) long categoryId,
                                                     @RequestParam(required = true) long itemId,
                                                     @RequestParam(required = true) String operationFlag) throws Exception{
-
+        String systemLog = ItemCodeEnum.SYS_START_LOG.getDesc();
         ScenicManageVO scenicManageVO = new ScenicManageVO();
         long userId = sessionManager.getUserId() ;
         scenicManageVO.setSellerId(userId);
         scenicManageVO.setCategoryId(categoryId);
         scenicManageVO.setItemId(itemId);
+
         if(scenicManageVO==null){
             // "编辑商品信息错误";
-            log.warn("编辑商品信息错误");
-            throw new BaseException("编辑商品信息错误");
+            systemLog="编辑商品信息错误";
+            //throw new BaseException("编辑商品信息错误");
         }
         if(scenicManageVO.getItemId()==0){
             // "编辑商品ID错误";
-            log.warn("编辑商品ID错误");
-            throw new BaseException("编辑商品ID错误");
+            systemLog="编辑商品ID错误";
+           // throw new BaseException("编辑商品ID错误");
         }
         /*if(scenicManageVO.getCategoryId()==0){
             // "商品类目ID错误";
             log.warn("商品类目ID错误");
             throw new BaseException("商品类目ID错误");
         }*/
-
+        logger.info("editScenicManageView: 入参:scenicManageVO="+CommonJsonUtil.objectToJson(scenicManageVO,ScenicManageVO.class));
         WebResult<ScenicManageVO> webResult = scenicManageService.queryScenicManageVOByData(scenicManageVO);
+        logger.info("editScenicManageView: 回参:webResult="+CommonJsonUtil.objectToJson(webResult,WebResult.class));
         if(!webResult.isSuccess()){
             // "查询详情错误";
-            log.warn("查询详情错误");
-            throw new BaseException("查询详情错误");
+            systemLog="查询详情错误";
+            //throw new BaseException("查询详情错误");
         }
         scenicManageVO = webResult.getValue();
         model.addAttribute("bizCategoryInfoList",scenicManageVO.getBizCategoryInfoList());// 最晚到店时间列表
         model.addAttribute("scenicManageVO", scenicManageVO);
         model.addAttribute("operationFlag", operationFlag);
+        model.addAttribute("systemLog", systemLog);
         /**动态属性列表***/
         if(operationFlag.equals(UPDATE)){
             return "/system/comm/hotelManage/addticket";

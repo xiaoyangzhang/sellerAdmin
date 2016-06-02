@@ -21,11 +21,12 @@
 		<input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{scenicManageVO.sellerId}">
 		<input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{scenicManageVO.categoryId}">
         <input type="hidden" class="picCode baseInfo-picCode" name="operationFlag" value="$!{operationFlag}">
+        <input type="hidden" class="picCode baseInfo-picCode" name="systemLog" value="$!{systemLog}">
 	    <div class="hotelinfo ticketinfo">
 	        <p>
 	            <span class="nm"><span class="bred">*</span><label>景区信息：</label></span>
 	                <span class="info-bar">
-	                    <label class="htn"></label>
+	                    <label class="htn">$!{scenicManageVO.name}</label>
 	                    <label class="smtt">地址：</label><label class="address">$!{scenicManageVO.locationText}</label>
 	                </span>
 	            <a class="searchScenic">查询景区</a>
@@ -33,10 +34,6 @@
 	    </div>
 	    <div class="baseinfo ticketbaseinfo">
 	         <table>
-	                <tr>
-	                    <td class="coltxt">商品名称：</td>
-	                    <td><label id="lbscenicname">景区门票</label></td>
-	                </tr>
 	                <tr class="notNull">
 	                    <td class="coltxt" ><span class="bred">*</span>门票类型：</td>
 	                    <td class="ticketType">

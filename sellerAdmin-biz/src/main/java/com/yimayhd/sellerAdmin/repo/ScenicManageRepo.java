@@ -79,6 +79,7 @@ public class ScenicManageRepo {
 		ItemOptionDTO itemOptionDTO  = new ItemOptionDTO();
 		itemOptionDTO.setNeedSku(true);
 		itemOptionDTO.setNeedCategory(true);
+
 		ItemResult itemResult= itemQueryServiceRef.getItem(domain.getScenicManageVO().getItemId(), itemOptionDTO);
 		if(!itemResult.isSuccess()||itemResult.getItem()==null){
 			log.error("查询景区商品信息错误");
