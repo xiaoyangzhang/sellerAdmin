@@ -54,6 +54,7 @@ import com.yimayhd.sellerAdmin.service.TripService;
 import com.yimayhd.sellerAdmin.service.UserRPCService;
 import com.yimayhd.sellerAdmin.service.item.ItemService;
 import com.yimayhd.sellerAdmin.service.item.LineService;
+import com.yimayhd.sellerAdmin.util.ItemUtil;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.snscenter.client.enums.BaseStatus;
@@ -182,7 +183,13 @@ public class ResourceForSelectController extends BaseController {
 		}
 		hashMap.put("destinationNodeVOs", destinationNodeVOs);
 		put("destMap", hashMap);
-		return "/system/resource/forSelect/selectDests";
+		if (ItemUtil.isFreeLine(itemType)) {
+			//国内游跳转页面
+			return "/system/resource/forSelect/selectDests";
+		}else {
+			//境外游跳转页面
+			return "/system/resource/forSelect/selectOverseaDests";
+		}
 	}
 
 //	private LineVO getItemLineInfo(Long id) {

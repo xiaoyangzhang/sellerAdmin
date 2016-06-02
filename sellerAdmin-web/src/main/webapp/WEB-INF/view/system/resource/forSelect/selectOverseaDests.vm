@@ -15,12 +15,10 @@
     </head>
     <body>
     		<input type="hidden" name="inland" value="$!destMap">
-	        	#foreach($dest in $!destMap.get("destinationNodeVOs"))  
-	        		#foreach($des in $!dest.child)  
-	        				<label><input type="checkbox" class="city ck"   dest-id="$!{des.desinationVO.id}" dest-code="$!{des.destinationVO.code}" dest-name="$!{des.destinationVO.name}" #if($!{des.destinationVO.selected}=="true") checked #end>$!{des.destinationVO.name}</label>
-	        		#end
-	        	#end
 
+        	#foreach($dest in $!destMap.get("destinationNodeVOs"))  
+        	<label><input type="checkbox" class="city ck"   dest-id="$!{dest.destinationVO.id}" dest-code="$!{dest.destinationVO.code}" dest-name="$!{dest.destinationVO.name}">$!{dest.destinationVO.name}</label>
+        	#end
 
         <br><br><br>
 		#parse("layout/base-js.vm")
