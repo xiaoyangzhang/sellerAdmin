@@ -9,6 +9,7 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
+import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.param.item.ItemPubUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.ic.client.model.param.item.ScenicPublishUpdateDTO;
@@ -192,6 +193,7 @@ public class ScenicManageDomainChecker {
         itemDO.setDomain(Constant.DOMAIN_JIUXIU);
         itemDO.setOptions(1);
         itemDO.setItemType(category.getCategoryFeature().getItemType());
+        itemDO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS,scenicDO.getLogoUrl());//图片
 
         //itemDO.setOutType();
         ItemFeature itemFeature = new ItemFeature(null);

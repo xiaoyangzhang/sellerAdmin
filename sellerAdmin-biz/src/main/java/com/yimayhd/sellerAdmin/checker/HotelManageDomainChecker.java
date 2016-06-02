@@ -195,6 +195,7 @@ public class HotelManageDomainChecker {
         itemDO.setDomain(Constant.DOMAIN_JIUXIU);
         itemDO.setOptions(1);
         itemDO.setItemType(categoryDO.getCategoryFeature().getItemType());
+        itemDO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS,hotelDO.getLogoUrl());
         /***feature**/
         ItemFeature itemFeature = new ItemFeature(null);
         //itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, CancelLimit.Ok.getType());
