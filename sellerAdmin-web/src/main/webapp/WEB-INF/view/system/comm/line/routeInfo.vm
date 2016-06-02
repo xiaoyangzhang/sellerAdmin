@@ -76,21 +76,21 @@
 				var page = $("<div class='tab-pane' id='day_"+dayId+"_page'></div>");
 				// 行程描述
 				var title = $("<div class='panel trip-title'></div>");
-                title.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-exclamation-sign'></i><span class='tripAddSp'>行程标题</span></div>"));
+                title.append($("<div class='panel-heading travelPanel'><span class='tripAddSp'><i class='red'>*</i>行程标题</span></div>"));
                 var title_content = $("<div class='panel-body trip-title-content'></div>");
-				title_content.append($("<input type='text' class='form-control trip-title-text' id='day_"+dayId+"_trip_title' maxlength='38'/>"));
+				title_content.append($("<input type='text' class='form-control trip-title-text' id='day_"+dayId+"_trip_title' maxlength='38'/><span class='limit'>38字</span>"));
                 title.append(title_content);	
 				page.append(title);
 				// 行程描述
 				var desc = $("<div class='panel trip-description'></div>");
-                desc.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-exclamation-sign'></i><span class='tripAddSp'>行程描述</span></div>"));
+                desc.append($("<div class='panel-heading travelPanel'><span class='tripAddSp'><i class='red'>*</i>行程描述</span></div>"));
                 var desc_content = $("<div class='panel-body trip-description-content'></div>");
-				desc_content.append($("<textarea class='form-control trip-description-textarea' rows='3' id='day_"+dayId+"_trip_description' maxlength='1000'></textarea>"));
+				desc_content.append($("<textarea class='form-control trip-description-textarea' rows='3' id='day_"+dayId+"_trip_description' maxlength='1000'></textarea><span class='word-num'>0/1000字</span>"));
                 desc.append(desc_content);	
 				page.append(desc);
 				// 行程图片
 				var images = $("<div class='panel trip-images'></div>");
-                images.append($("<div class='panel-heading travelPanel'><i class='icon icon-2x icon-exclamation-sign'></i><span class='tripAddSp'>行程图片</span></div>"));
+                images.append($("<div class='panel-heading travelPanel'><span class='tripAddSp'><i class='red'>*</i>行程图片</span></div>"));
                 var images_content = $("<div class='panel-body trip-images-content uploadbox clearfix'></div>");
 				var images_uplUrl = $("<input type='hidden' class='uplUrl' value='$!{utilWebconfig.getActionUploadFilePath()}' />");
 				var images_imgUrl = $("<input type='hidden' class='imgUrl' value='$!{utilWebconfig.getTfsRootPath()}' />");
@@ -107,6 +107,7 @@
     				images_content.append(image.append(dimg).append(upimgbtn));
                 	image_size--;
 				}
+				images_content.append("<div class='upl-tips'><p>图片大小不超过500K，格式为JPG,JPEG,PNG；建议图片尺寸为：690*330</p></div>");
 				images.append(images_content);	
 				page.append(images);
 				return page;

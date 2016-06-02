@@ -6,7 +6,7 @@
 <table class="table tab-inputgroup" id="need-know">
 	<tbody>
 		<tr class="need-know-item">
-			<td>*费用包含：</td>
+			<td><span class="red">*</span>费用包含：</td>
 			<td>
 				<input type="hidden" class="need-know-item-key" value="费用包含"/>
 				#set($length = 0)
@@ -20,7 +20,7 @@
 			</td>
 		</tr>
 		<tr class="need-know-item">
-			<td>*费用不含：</td>
+			<td><span class="red">*</span>费用不含：</td>
 			<td>
 				<input type="hidden" class="need-know-item-key" value="费用不含"/>
 				#set($length = 0)
@@ -35,7 +35,7 @@
 		</tr>
 		#if($utilItem.isAboardLine($itemType))
 		<tr class="need-know-item">
-			<td>*护照签证须知：</td>
+			<td><span class="red">*</span>护照签证须知：</td>
 			<td>
 				<input type="hidden" class="need-know-item-key" value="护照签证须知"/>
 				#set($length = 0)
@@ -50,7 +50,7 @@
 		</tr>
 		#end
 		<tr class="need-know-item">
-			<td>*预订说明：</td>
+			<td><span class="red">*</span>预订说明：</td>
 			<td>
 				<input type="hidden" class="need-know-item-key" value="预订说明"/>
 				#set($length = 0)
@@ -64,7 +64,7 @@
 			</td>
 		</tr>
 		<tr class="need-know-item">
-			<td>*退改规定：</td>
+			<td><span class="red">*</span>退改规定：</td>
 			<td>
 				<input type="hidden" class="need-know-item-key" value="退改规定"/>
 				#set($length = 0)

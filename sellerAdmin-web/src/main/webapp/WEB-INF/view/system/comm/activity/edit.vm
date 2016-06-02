@@ -31,24 +31,24 @@
 
                     <tbody>
                     <tr>
-                        <td><span class="spColor">*</span>分类</td>
+                        <td><span class="red">*</span>分类</td>
                         <td>
                             $!category.name
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="spColor">*</span>活动商品名称</td>
+                        <td><span class="red">*</span>活动商品名称</td>
                         <td>
                             <input type="text" name="title" class="title" value="$!commodity.title">
                         </td>
                     </tr>
-                     <td><span class="spColor">*</span>商品价格</td>
+                     <td><span class="red">*</span>商品价格</td>
                         <td>
                             <input type="text" name="priceY" class="priceY" value="$!commodity.priceY">
                     </td>
                   
                     <tr>
-                        <td><span class="spColor">*</span>选择订单图(建议尺寸：310*310)</td>
+                        <td><span class="red">*</span>选择订单图(建议尺寸：310*310)</td>
                         #*<td class="bigListPicTd">
                             <label>选择列表图</label>
                             <input id="bigListPicUrl" type="file">
@@ -63,7 +63,7 @@
                         </td>
                     </tr>
                   #* <tr>
-                        <td><span class="spColor">*</span>详情竖图</td>
+                        <td><span class="red">*</span>详情竖图</td>
                         <td class="picUrlsTd">
                             <input id="batchUploadBtn" type="file" multiple="multiple" >
                             #foreach($pic in $!commodity.picList)
@@ -78,7 +78,7 @@
                     #*解析关键属性*#
                     #foreach($keyCategoryProperty in $category.keyCategoryPropertyDOs)
                         <tr class="property keyProperty" pId="$!keyCategoryProperty.categoryPropertyDO.id" pTxt="$!keyCategoryProperty.categoryPropertyDO.text" pType="$!keyCategoryProperty.categoryPropertyDO.type">
-                            <td><span class="spColor">*</span>$!keyCategoryProperty.categoryPropertyDO.text</td>
+                            <td><span class="red">*</span>$!keyCategoryProperty.categoryPropertyDO.text</td>
                             <td>
                                     #*属性可选值*#
                                     <select class="form-control propertySelect">
@@ -108,7 +108,7 @@
                     #*解析普通属性*#
                         #foreach($keyCategoryProperty in $category.nonKeyCategoryPropertyDOs)
                         <tr class="property nonKeyProperty" pId="$!keyCategoryProperty.categoryPropertyDO.id" pTxt="$!keyCategoryProperty.categoryPropertyDO.text" pType="$!keyCategoryProperty.categoryPropertyDO.type">
-                            <td><span class="spColor">*</span>$!keyCategoryProperty.categoryPropertyDO.text</td>
+                            <td><span class="red">*</span>$!keyCategoryProperty.categoryPropertyDO.text</td>
                             <td>
                             #*属性可选值*#
                                 <select class="form-control propertySelect">
@@ -138,7 +138,7 @@
                     #*解析销售属性(sku属性)*#
                         #foreach($sellCategoryProperty in $category.sellCategoryPropertyVOs)
                         <tr class="sellProperty" sellPropertyType="$!sellCategoryProperty.categoryPropertyVO.type"  sellPropertyId="$!sellCategoryProperty.categoryPropertyVO.id" sellPropertyText="$!sellCategoryProperty.categoryPropertyVO.text">
-                            <td><span class="spColor">*</span>$!sellCategoryProperty.categoryPropertyVO.text</td>
+                            <td><span class="red">*</span>$!sellCategoryProperty.categoryPropertyVO.text</td>
                             <td>
                                 #foreach($categoryValue in $sellCategoryProperty.categoryPropertyVO.categoryValueVOs)
                                 #*sku可选值*#
