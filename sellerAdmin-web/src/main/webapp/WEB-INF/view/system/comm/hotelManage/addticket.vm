@@ -39,7 +39,7 @@
 	                    <td class="ticketType">
                             #if($!scenicManageVO && $scenicManageVO.ticketId > 0)
 	                        <label class="radio"><input type="radio" name="ticketId" value="$!{scenicManageVO.ticketId}" checked >$!{scenicManageVO.ticketTitle}</label>
-                            #end 
+                            #end
                                 <!--
                             <label class="radio"><input type="radio" name="ticketId" value="2" #if($!scenicManageVO.ticketId == 2) checked #end>联票</label>
 	                        -->
@@ -77,9 +77,6 @@
 	    </div>
     </form>
 
-    <div class="savenext">
-        <a class="save-to-picker">保存并下一步</a>
-    </div>
 </div>
 <div class="panel">
     <div id="CLD" class="clearfix datepicker">
