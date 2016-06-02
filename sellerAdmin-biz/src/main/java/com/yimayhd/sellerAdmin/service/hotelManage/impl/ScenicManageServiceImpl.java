@@ -24,7 +24,7 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
     private ItemQueryService itemQueryServiceRef;
     @Autowired
     private ItemPublishService itemPublishServiceRef;
-    private static final Logger log = LoggerFactory.getLogger(ScenicManageServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger("hotelManage-business.log");
 
     /**
      * 查询景区列表
