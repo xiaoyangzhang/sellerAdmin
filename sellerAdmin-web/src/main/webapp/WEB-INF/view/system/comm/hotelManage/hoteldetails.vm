@@ -8,128 +8,122 @@
 <!-- head end-->
 <
 <!-- 面包屑 -->
-<div class = "comwidth crumbs f12">您所在的位置：添加酒店商品><a class = "f12 gray6">选择酒店</a></div>
-<div class = "comwidth clearfix" id = "eredar">
-    <div class = "eredar-right">
-        <div class = "eredar-info clearfix">
-            <ul>
-                <li class = "first on">选择酒店</li>
-                <li>基本信息</li>
-                <li>价格日历</li>
-            </ul>
-        </div>
-        <div class="panel on">
-            <input type="hidden" class="picCode baseInfo-picCode" name="scenicId" value="$!{scenicManageVO.scenicId}">
-            <input type="hidden" class="picCode baseInfo-picCode" name="scenicName" value="$!{scenicManageVO.name}">
-            <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{scenicManageVO.supplierCalendar}">
-            <input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{scenicManageVO.sellerId}">
-            <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{scenicManageVO.categoryId}">
-            <input type="hidden" class="picCode baseInfo-picCode" name="systemLog" value="$!{systemLog}">
-            <div class="hotelinfo">
-                <p>
-                    <span class="nm"><span class="bred">*</span><label>酒店信息：</label></span>
-						<span class="info-bar">
-							<label class="htn">$!{hotelMessageVO.name}</label>
-							<label class="smtt">地址：</label><label class="address">$!{hotelMessageVO.locationText}</label>
-							|<label class="smtt">电话：</label><label class="tel">$!{hotelMessageVO.phone}</label>
-						</span>
-                    <!-- <a class="choicehotel">查询酒店</a> -->
-                </p>
-                <!-- <div class='load_room'><img src="$!rs_path_jiuxiu/img/loading.gif"></div> -->
-                <div class="hotelcol" style="display: block;">
-                    <span class="nm"><span class="bred">*</span><label>酒店房型：</label></span>
-						<span class="info-box clearfix">
-						</span>
-                </div>
-            </div>
-        </div>
-        <div class="panel">
-            <div class="baseinfo">
-                <table>
-                    <tr>
-                        <td class="coltxt">商品类型：</td>
-                        <td><label>酒店</label></td>
-                    </tr>
-                    <tr>
-                        <td class="coltxt">酒店名称：</td>
-                        <td><label>皇冠假日酒店</label></td>
-                    </tr>
-                    <tr>
-                        <td class="coltxt"><span class="bred">*</span>商品标题：</td>
-                        <td> $!{hotelMessageVO.title}</td>
-                    </tr>
-                    <tr>
-                        <td class="coltxt"><span class="bred">*</span>商品代码：</td>
-                        <td>$!{hotelMessageVO.code}</td>
-                    </tr>
-                    <tr>
-                        <td class="coltxt"><span class="bred">*</span>付款方式：</td>
-                        <td>$!{hotelMessageVO.payType}</td>
-                    </tr>
-                    <tr>
-                        <td class="coltxt"><span class="bred">*</span>退订限制：</td>
-                        <td>$!{hotelMessageVO.cancelLimit}</td>
-                    </tr>
-                    <tr>
-                        <td class="coltxt vt"><span class="bred">*</span>退订规则：</td>
-                        <td class="dtlrule">$!{hotelMessageVO.description}</td>
-                    </tr>
-                    <tr>
-                        <td class="coltxt vt"><span class="bred">*</span>最晚到店时间：</td>
-                        <td>当前0:00前   当前0:00前   当前0:00前</td>
-                    </tr>
-                    <tr>
-                        <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
-                        <td>$!{hotelMessageVO.startBookTimeLimit}</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <div class="panel">
-            <div id="CLD" class="clearfix datepicker">
-                <table class="fl">
-                    <tr>
-                        <td class="tdyears clearfix" colspan="7">
-                            <i class="fl prev"></i>
-                            <!-- <select id="SY"></select> -->
-                            <i class="fr next"></i>
-                            <label id="SY"></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="tdmonth" colspan="7">
-                            <ul>
-                                <li>1月</li>
-                                <li>2月</li>
-                                <li>3月</li>
-                                <li class="on">4月</li>
-                                <li>5月</li>
-                                <li>6月</li>
-                                <li>7月</li>
-                                <li>8月</li>
-                                <li>9月</li>
-                                <li>10月</li>
-                                <li>11月</li>
-                                <li>12月</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr class="tdweek">
-                        <td>周日</td>
-                        <td>周一</td>
-                        <td>周二</td>
-                        <td>周三</td>
-                        <td>周四</td>
-                        <td>周五</td>
-                        <td>周六</td>
-                    </tr>
-                </table>
-            </div><br><br>
-        </div>
-        <div class="btngroup">
-            <a href="#">返回</a>
+<div class = "eredar-info clearfix">
+    <ul>
+        <li class = "first on">选择酒店</li>
+        <li>基本信息</li>
+        <li>价格日历</li>
+    </ul>
+</div>
+<div class="panel on">
+    <input type="hidden" class="picCode baseInfo-picCode" name="scenicId" value="$!{scenicManageVO.scenicId}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="scenicName" value="$!{scenicManageVO.name}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{scenicManageVO.supplierCalendar}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{scenicManageVO.sellerId}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{scenicManageVO.categoryId}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="systemLog" value="$!{systemLog}">
+    <div class="hotelinfo">
+        <p>
+            <span class="nm"><span class="bred">*</span><label>酒店信息：</label></span>
+                <span class="info-bar">
+                    <label class="htn">$!{hotelMessageVO.name}</label>
+                    <label class="smtt">地址：</label><label class="address">$!{hotelMessageVO.locationText}</label>
+                    |<label class="smtt">电话：</label><label class="tel">$!{hotelMessageVO.phone}</label>
+                </span>
+            <!-- <a class="choicehotel">查询酒店</a> -->
+        </p>
+        <!-- <div class='load_room'><img src="$!rs_path_jiuxiu/img/loading.gif"></div> -->
+        <div class="hotelcol" style="display: block;">
+            <span class="nm"><span class="bred">*</span><label>酒店房型：</label></span>
+                <span class="info-box clearfix">
+                </span>
         </div>
     </div>
+</div>
+<div class="panel">
+    <div class="baseinfo">
+        <table>
+            <tr>
+                <td class="coltxt">商品类型：</td>
+                <td><label>酒店</label></td>
+            </tr>
+            <tr>
+                <td class="coltxt">酒店名称：</td>
+                <td><label>皇冠假日酒店</label></td>
+            </tr>
+            <tr>
+                <td class="coltxt"><span class="bred">*</span>商品标题：</td>
+                <td> $!{hotelMessageVO.title}</td>
+            </tr>
+            <tr>
+                <td class="coltxt"><span class="bred">*</span>商品代码：</td>
+                <td>$!{hotelMessageVO.code}</td>
+            </tr>
+            <tr>
+                <td class="coltxt"><span class="bred">*</span>付款方式：</td>
+                <td>$!{hotelMessageVO.payType}</td>
+            </tr>
+            <tr>
+                <td class="coltxt"><span class="bred">*</span>退订限制：</td>
+                <td>$!{hotelMessageVO.cancelLimit}</td>
+            </tr>
+            <tr>
+                <td class="coltxt vt"><span class="bred">*</span>退订规则：</td>
+                <td class="dtlrule">$!{hotelMessageVO.description}</td>
+            </tr>
+            <tr>
+                <td class="coltxt vt"><span class="bred">*</span>最晚到店时间：</td>
+                <td>当前0:00前   当前0:00前   当前0:00前</td>
+            </tr>
+            <tr>
+                <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
+                <td>$!{hotelMessageVO.startBookTimeLimit}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="panel">
+    <div id="CLD" class="clearfix datepicker">
+        <table class="fl">
+            <tr>
+                <td class="tdyears clearfix" colspan="7">
+                    <i class="fl prev"></i>
+                    <!-- <select id="SY"></select> -->
+                    <i class="fr next"></i>
+                    <label id="SY"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdmonth" colspan="7">
+                    <ul>
+                        <li>1月</li>
+                        <li>2月</li>
+                        <li>3月</li>
+                        <li class="on">4月</li>
+                        <li>5月</li>
+                        <li>6月</li>
+                        <li>7月</li>
+                        <li>8月</li>
+                        <li>9月</li>
+                        <li>10月</li>
+                        <li>11月</li>
+                        <li>12月</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr class="tdweek">
+                <td>周日</td>
+                <td>周一</td>
+                <td>周二</td>
+                <td>周三</td>
+                <td>周四</td>
+                <td>周五</td>
+                <td>周六</td>
+            </tr>
+        </table>
+    </div><br><br>
+</div>
+<div class="btngroup">
 </div>
 <script  type='text/temple' id='province-tpl'>
 	    <option value="">--请选择--</option>
