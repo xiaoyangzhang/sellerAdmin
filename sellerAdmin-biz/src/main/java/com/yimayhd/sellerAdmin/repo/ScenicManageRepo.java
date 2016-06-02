@@ -81,7 +81,8 @@ public class ScenicManageRepo {
 		ItemOptionDTO itemOptionDTO  = new ItemOptionDTO();
 		itemOptionDTO.setNeedSku(true);
 		itemOptionDTO.setNeedCategory(true);
-		long itemId=domain.getScenicManageVO().getItemId();
+		ScenicManageVO scenicManageVO = domain.getScenicManageVO();
+		long itemId=scenicManageVO.getItemId();
 		log.info("itemQueryServiceRef.getItem 入参: itemId="+itemId+",itemOptionDTO="+CommonJsonUtil.objectToJson(itemOptionDTO,ItemOptionDTO.class));
 		ItemResult itemResult= itemQueryServiceRef.getItem(itemId, itemOptionDTO);
 		if(!itemResult.isSuccess()||itemResult.getItem()==null){
@@ -89,6 +90,7 @@ public class ScenicManageRepo {
 			return WebResult.failure(WebReturnCode.PARAM_ERROR, "查询景区商品信息错误");
 		}
 		ItemDO itemDO = itemResult.getItem();
+		scenicManageVO.setCategoryId(itemDO.getCategoryId());
 		log.info("itemQueryServiceRef.getItem 回参: itemDO="+CommonJsonUtil.objectToJson(itemDO,ItemDO.class));
 		CategoryDO categoryDO = itemResult.getCategory();
 		log.info("itemQueryServiceRef.getItem 回参: categoryDO="+ JSON.toJSONString(categoryDO));
