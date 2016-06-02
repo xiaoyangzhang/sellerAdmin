@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.repo;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
@@ -90,7 +91,7 @@ public class ScenicManageRepo {
 		ItemDO itemDO = itemResult.getItem();
 		log.info("itemQueryServiceRef.getItem 回参: itemDO="+CommonJsonUtil.objectToJson(itemDO,ItemDO.class));
 		CategoryDO categoryDO = itemResult.getCategory();
-		log.info("itemQueryServiceRef.getItem 回参: categoryDO="+CommonJsonUtil.objectToJson(categoryDO,CategoryDO.class));
+		log.info("itemQueryServiceRef.getItem 回参: categoryDO="+ JSON.toJSONString(categoryDO));
 		domain.setItemDO(itemDO);//景区商品信息
 		List<ItemSkuDO> itemSkuDOList =itemResult.getItemSkuDOList();
 		log.info("itemQueryServiceRef.getItem 回参: itemSkuDOList="+CommonJsonUtil.objectToJson(itemSkuDOList,List.class));
