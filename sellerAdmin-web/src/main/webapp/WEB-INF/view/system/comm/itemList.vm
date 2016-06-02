@@ -113,7 +113,6 @@
 										$!{item.itemScenicVO.name}<br>
 										$!{item.name}<br>
 										$!{item.itemTicketVO.title}<br>
-										商品代码:$!{item.code}
 									#else
 										$!{item.name}<br>
 										商品代码:$!{item.code}
@@ -127,7 +126,7 @@
         						<td>$!{utilDate.date2String($item.publishDate)}</td>
                                 <td>
         							#if($item.containsOperate('VIEW'))
-        							<a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/item/$!item.id/type/$!item.type/view/" target="_blank">查看</a><br/>
+        							<a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/item/$!item.id/type/$!item.type/view/?categoryId=$!{item.categoryId}" target="_blank">查看</a><br/>
         							#end
         							#if($item.containsOperate('EDIT'))
 									<a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/item/$!item.id/type/$!item.type/edit/?categoryId=$!{item.categoryId}" target="_blank">编辑</a><br/>
