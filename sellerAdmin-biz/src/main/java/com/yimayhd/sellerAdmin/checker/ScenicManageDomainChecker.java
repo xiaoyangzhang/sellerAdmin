@@ -132,6 +132,9 @@ public class ScenicManageDomainChecker {
      */
     public ScenicManageVO getBizScenicManageVO(){
         scenicManageVO.setScenicId(itemDO.getOutId());
+        scenicManageVO.setLocationText(scenicDO.getLocationText());
+        scenicManageVO.setTicketId(itemDO.getItemFeature().getTicketId());//门票ID
+        scenicManageVO.setTicketTitle(itemDO.getItemFeature().getTicketTitle());//门票名称
         scenicManageVO.setItemId(itemDO.getId());
         scenicManageVO.setName(scenicDO.getName());
         scenicManageVO.setTitle(itemDO.getTitle());
@@ -140,7 +143,7 @@ public class ScenicManageDomainChecker {
         scenicManageVO.setOriginalPrice(new BigDecimal(itemDO.getOriginalPrice()).divide(new BigDecimal(100)));
         scenicManageVO.setStartBookTimeLimit(itemDO.getItemFeature().getStartBookTimeLimit());//提前预定天数
         itemDO.getItemFeature().getTicketId();//门票ID
-        itemDO.getItemFeature().getTicketTitle();//门票名称
+       // itemDO.getItemFeature().getTicketTitle();//门票名称
         // 根据listsku拼装json信息  价格日历
         scenicManageVO.setSupplierCalendar(getSupplierCalendarJson());
         //动态添加 属性

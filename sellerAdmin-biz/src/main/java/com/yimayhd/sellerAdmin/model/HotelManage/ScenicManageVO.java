@@ -17,7 +17,7 @@ public class ScenicManageVO extends BaseQuery {
     private String title;//标题
     private BigDecimal price;//价格
     private BigDecimal originalPrice;//门市价格
-    private int ticketId;//票型ID
+    private long ticketId;//票型ID
     private String ticketTitle;//票型名称
     private String area;//区域
     private long subjectId;// 主题ID
@@ -110,11 +110,11 @@ public class ScenicManageVO extends BaseQuery {
         this.originalPrice = originalPrice;
     }
 
-    public int getTicketId() {
+    public long getTicketId() {
         return ticketId;
     }
 
-    public void setTicketId(int ticketId) {
+    public void setTicketId(long ticketId) {
         this.ticketId = ticketId;
     }
 
