@@ -80,10 +80,12 @@
 
     <logger name="hotelManage-business.log" additivity="false">
         <level value="INFO"/>
+        <level>ERROR</level>
         <appender-ref ref="hotelManage"/>
     </logger>
     <logger name="scenicManage-business.log" additivity="false">
         <level value="INFO"/>
+        <level>ERROR</level>
         <appender-ref ref="hotelManage"/>
     </logger>
     <!--myibatis log configure -->
