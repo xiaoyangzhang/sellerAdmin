@@ -67,7 +67,7 @@
                         <tr class="dynamicTr" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pTxt" pType="$!bizCategoryInfo.pType">
 	                        <td class="coltxt">$!bizCategoryInfo.pTxt：</td>
 	                    #end
-	                    <td><input type="text" class="inputxt" name="$!bizCategoryInfo.pId" value=""></td>
+	                    <td><input type="text" class="inputxt" name="$!bizCategoryInfo.pId" value="$!bizCategoryInfo.vTxt"></td>
                         </tr>
 	                #end
 	

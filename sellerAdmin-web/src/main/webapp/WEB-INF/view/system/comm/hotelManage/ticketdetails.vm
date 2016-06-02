@@ -24,7 +24,7 @@
             <p>
                 <span class="nm"><span class="bred">*</span><label>景区信息：</label></span>
                 <span class="info-bar">
-                    <label class="htn"></label>
+                    <label class="htn">$!{scenicManageVO.name}</label>
                     <label class="smtt">地址：</label><label class="address">$!{scenicManageVO.locationText}</label>
                 </span>
             </p>
@@ -37,7 +37,7 @@
                 </tr>
                 <tr class="notNull">
                     <td class="coltxt" ><span class="bred">*</span>门票类型：</td>
-                    <td class="ticketType">联票这里这里</td>
+                    <td class="ticketType">$!{scenicManageVO.ticketTitle}</td>
                 </tr>
                 <tr class="notNull">
                     <td class="coltxt"><span class="bred">*</span>商品标题：</td>
@@ -63,7 +63,7 @@
                     <tr class="dynamicTr" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pTxt" pType="$!bizCategoryInfo.pType">
                         <td class="coltxt">$!bizCategoryInfo.pTxt：</td>
                     #end
-                    <td>这里这里改</td>
+                    <td>$!bizCategoryInfo.vTxt</td>
                 </tr>
                 #end
 

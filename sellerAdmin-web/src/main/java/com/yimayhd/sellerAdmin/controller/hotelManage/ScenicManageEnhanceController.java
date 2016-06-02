@@ -210,7 +210,7 @@ public class ScenicManageEnhanceController extends BaseController {
             //throw new BaseException("查询详情错误");
         }
         scenicManageVO = webResult.getValue();
-        logger.info("editScenicManageView: 回参:webResult="+webResult.isSuccess()+"scenicManageVO="+CommonJsonUtil.objectToJson(scenicManageVO,ScenicManageVO.class));
+        logger.info("editScenicManageView: 回参:webResult="+webResult.isSuccess()+",\n scenicManageVO="+CommonJsonUtil.objectToJson(scenicManageVO,ScenicManageVO.class));
         model.addAttribute("bizCategoryInfoList",scenicManageVO.getBizCategoryInfoList());// 最晚到店时间列表
         model.addAttribute("scenicManageVO", scenicManageVO);
         model.addAttribute("operationFlag", operationFlag);
