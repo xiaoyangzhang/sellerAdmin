@@ -155,7 +155,7 @@ public class ResourceForSelectController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/selectDests/{itemType}")
-	public String selectDestsByItemType(@PathVariable(value = "itemType") ItemType itemType) {
+	public String selectDestsByItemType(@PathVariable(value = "itemType") ItemType itemType,@RequestParam(value="selectedIds[]", required=false) List<String> selectedIds) {
 		WebResult<List<DestinationNodeVO>> result=null;
 		HashMap<String,Object> hashMap = new HashMap<String,Object>();
 		if (itemType.equals(ItemType.TOUR_LINE)||itemType.equals(ItemType.FREE_LINE)) {
@@ -166,6 +166,15 @@ public class ResourceForSelectController extends BaseController {
 			hashMap.put("type", "oversea");
 		}
 		List<DestinationNodeVO> destinationNodeVOs = result.getValue();
+		if (CollectionUtils.isNotEmpty(selectedIds)) {
+			for (DestinationNodeVO destinationNodeVO : destinationNodeVOs) {
+				for (String id : selectedIds) {
+					if (destinationNodeVO.getDestinationVO().getId().equals(id)) {
+						destinationNodeVO.getDestinationVO().setSelected(true);
+					}
+				}
+			}
+		}
 		if (result.isSuccess()) {
 			orderByFirstLetter(destinationNodeVOs);
 		}else {
