@@ -45,7 +45,7 @@
 								<span class = "black">
 									#if($assessment.itemName)
 										#if($!assessment.itemName.length() < 9) $!assessment.itemName #else $!assessment.itemName.substring(0,9)... #end
-		                           		#end
+	                           		#end
 								</span>
 						</p>
 						<p>

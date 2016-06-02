@@ -80,6 +80,16 @@
                     </span>
                 <input type="text" class="form-control" name="itemName" value="$!orderListQuery.itemName">
             </div>
+            <div class="input-group inpSingle ">
+	            <span class="input-group-btn">
+	                <button class="btn btn-default" type="button">评价状态</button>
+	            </span>
+	            <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="assesmentType">
+	                <option value="">全部</option>
+	                <option value="1" #if($!orderListQuery.assesmentType == '1') selected #end>待评价</option>
+	                <option value="2" #if($!orderListQuery.assesmentType == '2') selected #end>已评价</option>
+	            </select>
+            </div>
         #*
             <div class="input-group inpSingle">
                 <button class="btn btn-default" type="button">附属要求</button>

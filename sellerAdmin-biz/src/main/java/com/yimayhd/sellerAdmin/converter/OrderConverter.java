@@ -35,6 +35,7 @@ import com.yimayhd.tradecenter.client.model.enums.LogisticsStatus;
 import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 import com.yimayhd.tradecenter.client.model.enums.PayStatus;
+import com.yimayhd.tradecenter.client.model.enums.RateStatus;
 import com.yimayhd.tradecenter.client.model.enums.RefundStatus;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
@@ -162,6 +163,21 @@ public class OrderConverter {
         }else{
             orderQueryDTO.setIsMain(MainDetailStatus.YES.getType());
             orderQueryDTO.setNeedDetailOrders(true);
+        }
+        //评价状态
+        if (StringUtils.isNotEmpty(orderListQuery.getAssesmentType())){
+        	if(orderListQuery.getAssesmentType().equals("1")){
+        		int [] rateStatuses = {RateStatus.NOT_RATE.getStatus()};
+            	orderQueryDTO.setRateStatuses(rateStatuses);
+            	//如果没有选择订单状态，则给订单一个已完成状态，方便查询已完成的未评价订单
+            	if(orderQueryDTO.getBizOrderStatus()==0){
+            		int payStatus = BizOrderStatus.FINISH.getCode();
+                    orderQueryDTO.setBizOrderStatus(payStatus);
+            	}
+        	}else if(orderListQuery.getAssesmentType().equals("2")){
+        		int [] rateStatuses = {RateStatus.RATED.getStatus()};
+            	orderQueryDTO.setRateStatuses(rateStatuses);
+        	}
         }
         return orderQueryDTO;
     }

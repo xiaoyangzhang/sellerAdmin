@@ -94,7 +94,12 @@ public class OrderServiceImpl implements OrderService {
 					OrderBizType.TOUR_LINE.getBizType(),
 					OrderBizType.FREE_LINE.getBizType(),
 					OrderBizType.CITY_ACTIVITY.getBizType(),
-					OrderBizType.NORMAL.getBizType() };
+					OrderBizType.NORMAL.getBizType() ,
+					OrderBizType.HOTEL.getBizType() ,
+					OrderBizType.SPOTS.getBizType() ,
+					OrderBizType.HOTEL_OFFLINE.getBizType() ,
+					OrderBizType.TOUR_LINE_ABORD.getBizType() ,
+					OrderBizType.FREE_LINE_ABORD.getBizType()};
 			orderListQuery.setOrderTypes(orderBizTypes);
 		} else if (orderListQuery.getItemType() == 3100) {
 			int[] orderBizTypes = new int[] { OrderBizType.TOUR_LINE
