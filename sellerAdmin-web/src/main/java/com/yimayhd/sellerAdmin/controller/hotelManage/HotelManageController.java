@@ -248,6 +248,7 @@ public class HotelManageController extends BaseController {
 	@RequestMapping(value = "/editHotelMessageVOByData",method = RequestMethod.POST)
 	@ResponseBody
 	public WebResult<String> editHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
+		log.info("editHotelMessageVOByData mmmmm 开始编辑");
 		String systemLog = ItemCodeEnum.SYS_START_LOG.getDesc();
 		WebResult<String> message = new WebResult<String>();
 		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==0){
@@ -265,7 +266,7 @@ public class HotelManageController extends BaseController {
 		logger.info("editHotelMessageVOByData: 入参:","hotelMessageVO="+CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
 		WebResult<Long> result = hotelManageService.editHotelMessageVOByData(hotelMessageVO);
 		if(!result.isSuccess()){
-			message.initFailure(WebReturnCode.PARAM_ERROR,"添加商品错误");
+			message.initFailure(WebReturnCode.PARAM_ERROR,"编辑商品错误");
 			log.error("editHotelMessageVOByData.添加商品错误");
 			return message;
 		}
