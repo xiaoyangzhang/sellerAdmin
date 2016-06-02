@@ -69,8 +69,11 @@
 				<input type="hidden" class="need-know-item-key" value="退改规定"/>
 				#set($length = 0)
 				#set($content = '')
-				#if($needKnowItems && $needKnowItems.size() > 4)
+				#if($needKnowItems && $needKnowItems.size() > 4&&$utilItem.isAboardLine($itemType))
 					#set($content = $needKnowItems.get(4).content)
+					#set($length = $content.length())
+				#else
+					#set($content = $needKnowItems.get(3).content)
 					#set($length = $content.length())
 				#end
 				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="500">$!content</textarea>
