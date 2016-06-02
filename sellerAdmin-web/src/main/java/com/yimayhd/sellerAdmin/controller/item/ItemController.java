@@ -360,16 +360,16 @@ public class ItemController extends BaseController {
 		} else if (ItemType.NORMAL.getValue() == itemType) {
 			return redirect("/barterItem/common/edit/" + itemId);
 		}  else if (ItemType.HOTEL.getValue() == itemType) {
-			return redirect("/hotel/editHotelMessageView?itemId=" + itemId+"&categoryId="+categoryId);
+			return redirect("/hotel/editHotelMessageView?operationFlag=update&itemId=" + itemId+"&categoryId="+categoryId);
 		}else if(ItemType.SPOTS.getValue()==itemType){
-			return redirect("/scenic/editScenicManageView?itemId=" + itemId+"&categoryId="+categoryId);
+			return redirect("/scenic/editScenicManageView?operationFlag=update&itemId=" + itemId+"&categoryId="+categoryId);
 		} else {
 			throw new BaseException("unsupport ItemType " + itemType);
 		}
 	}
 
 	@RequestMapping(value = "/{id}/type/{type}/view")
-	public String view(@PathVariable(value = "id") long itemId, @PathVariable(value = "type") int itemType) {
+	public String view(@PathVariable(value = "id") long itemId, @PathVariable(value = "type") int itemType,@RequestParam(required = false) int categoryId) {
 		// TODO YEBIN 待开发
 		if (ItemType.FREE_LINE.getValue() == itemType || ItemType.TOUR_LINE.getValue() == itemType
 				|| ItemType.TOUR_LINE_ABOARD.getValue() == itemType
@@ -379,6 +379,10 @@ public class ItemController extends BaseController {
 			return redirect("/cityactivity/view/" + itemId);
 		} else if (ItemType.NORMAL.getValue() == itemType) {
 			return redirect("/barterItem/common/view/" + itemId);
+		}  else if (ItemType.HOTEL.getValue() == itemType) {
+			return redirect("/hotel/editHotelMessageView?operationFlag=detail&itemId=" + itemId+"&categoryId="+categoryId);
+		}else if(ItemType.SPOTS.getValue()==itemType){
+			return redirect("/scenic/editScenicManageView?operationFlag=detail&itemId=" + itemId+"&categoryId="+categoryId);
 		} else {
 			throw new BaseException("unsupport ItemType " + itemType);
 		}

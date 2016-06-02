@@ -12,6 +12,7 @@ import com.yimayhd.sellerAdmin.base.Paginator;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.enums.ItemCodeEnum;
 import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.HotelManage.*;
 import com.yimayhd.sellerAdmin.service.hotelManage.HotelManageService;
@@ -189,11 +190,12 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/editHotelMessageview" )
+	@RequestMapping(value = "/editHotelMessageView" )
 	public String editHotelMessageView(Model model,@RequestParam(required = true) long categoryId,
 									               @RequestParam(required = true) long itemId,
 									               @RequestParam(required = true) String operationFlag) throws Exception {
 		HotelMessageVO hotelMessageVO = new HotelMessageVO();
+		String systemLog = ItemCodeEnum.SYS_START_LOG.getDesc();
 		long userId = sessionManager.getUserId() ;
 		hotelMessageVO.setSellerId(userId);
 		hotelMessageVO.setCategoryId(categoryId);
@@ -223,6 +225,7 @@ public class HotelManageController extends BaseController {
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(webResult.getValue());
 		model.addAttribute("hotelMessageVO", hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
+		model.addAttribute("systemLog",systemLog);//
 		if(operationFlag.equals(UPDATE)){
 			model.addAttribute("operationFlag",operationFlag);//操作标示
 			return "/system/comm/hotelManage/addhotel";
