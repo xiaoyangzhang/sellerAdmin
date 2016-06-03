@@ -164,7 +164,7 @@ public class HotelManageController extends BaseController {
 			message.initFailure(WebReturnCode.PARAM_ERROR,checkMsg);
 			return message;
 		}
-		hotelMessageVO.setBreakfast(1);
+		//hotelMessageVO.setBreakfast(1);
 		hotelMessageVO.setCategoryId(categoryId);
 
 		WebResult<HotelMessageVO> result = hotelManageService.addHotelMessageVOByData(hotelMessageVO);
