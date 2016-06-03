@@ -14,11 +14,14 @@
     </ul>
 </div>
 <div class="panel on">
-    <input type="hidden" class="picCode baseInfo-picCode" name="scenicId" value="$!{scenicManageVO.scenicId}">
-    <input type="hidden" class="picCode baseInfo-picCode" name="scenicName" value="$!{scenicManageVO.name}">
-    <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{scenicManageVO.supplierCalendar}">
-    <input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{scenicManageVO.sellerId}">
-    <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{scenicManageVO.categoryId}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="hotelId" value="$!{hotelMessageVO.hotelId}" />
+    <input type="hidden" class="picCode baseInfo-picCode" name="name" value="$!{hotelMessageVO.name}" />
+    <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value='$!{hotelMessageVO.supplierCalendar}' />
+    <input type="hidden" class="picCode baseInfo-picCode" name="roomId" value="$!{hotelMessageVO.roomId}" />
+    <input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{hotelMessageVO.sellerId}" />
+    <input type="hidden" class="picCode baseInfo-picCode" name="operationFlag" value="$!{operationFlag}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{categoryId}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="itemId" value="$!{itemId}">
     <input type="hidden" class="picCode baseInfo-picCode" name="systemLog" value="$!{systemLog}">
     <div class="hotelinfo">
         <p>
@@ -112,11 +115,15 @@
             </tr>
             <tr>
                 <td class="coltxt vt"><span class="bred">*</span>最晚到店时间：</td>
-                <td>当前0:00前   当前0:00前   当前0:00前</td>
+                <td>
+                    #foreach($o in $hotelMessageVO.latestArriveTime)
+                    当天$!{o}前
+                    #end
+                </td>
             </tr>
             <tr>
                 <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
-                <td>$!{hotelMessageVO.startBookTimeLimit}</td>
+                <td>$!{hotelMessageVO.startBookTimeLimit} /天</td>
             </tr>
             <tr>
                 <td class="coltxt"><span class="bred">*</span>早餐：</td>

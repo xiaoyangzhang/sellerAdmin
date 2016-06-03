@@ -65,7 +65,7 @@ public class ScenicManageDomainChecker {
         if (scenicManageVO == null) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR);
         }
-        if (scenicManageVO.getPageNo() == null || scenicManageVO.getPageSize() == null) {
+        if (scenicManageVO.getPage() == null || scenicManageVO.getPageSize() == null) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "分页数据错误");
         }
 

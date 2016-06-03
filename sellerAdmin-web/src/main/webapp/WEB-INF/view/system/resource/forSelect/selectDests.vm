@@ -6,23 +6,31 @@
         <meta name="keywords" content=""></meta>
         <meta name="description" content=""></meta>
 		#parse("layout/base-link.vm")
-        <style>
-            .choosecity{padding-top:20px;}
+		<style>
+            .choosecity{padding-top:10px;}
             .choosecity label,.choosecity input,.choosecity span{vertical-align:middle;margin:0;padding:0;outline:none;}
             .choosecity label{font-size:14px;line-height:14px;color:#666;display:inline-block;margin-right:10px;cursor:pointer;}
             .choosecity input.ck{height:14px;margin-bottom:2px;margin-right:5px;cursor:pointer;}
+            
+            .destlistbox{padding: 20px 25px;font-size: 16px; overflow: hidden;}
+            .destlistbox .destbox{float: left; position:relative;width:235px;margin-right: 20px; border: 1px solid #e5e5e5;border-top: 3px solid #ffab00;}
+            .destlistbox .destbox ul li{position: relative;height: 40px;line-height: 40px;padding: 0 15px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; border-bottom: 1px solid #e5e5e5;}
+            .destlistbox .destbox ul li:first-child{background: #fff9ec;color:#ffaf00;}
+            .destlistbox .destbox ul li:first-child:hover{background: #fff9ec;color:#ffaf00;}
+            .destlistbox .destbox ul li.sel{background: #ffaf00;}
+            .destlistbox .destbox ul li.sel:hover{background: #ffaf00;}
+            .destlistbox .destbox ul li:hover{background: #f5f5ee;}           
+            .destlistbox .destbox .jiantou{display: block;position: absolute;top:15px;right:15px;width: 10px;height: 10px;
+            					border-top: 1px solid #666;border-right: 1px solid #666;
+            				 	transform:rotate(45deg);-ms-transform:rotate(45deg);}
         </style>
     </head>
     <body>
-    		<input type="hidden" name="inland" value="$!destMap">
-	        	#foreach($dest in $!destMap.get("destinationNodeVOs"))  
-	        		#foreach($des in $!dest.child)  
-	        				<label><input type="checkbox" class="city ck"   dest-id="$!{des.desinationVO.id}" dest-code="$!{des.destinationVO.code}" dest-name="$!{des.destinationVO.name}" #if($!{des.destinationVO.selected}=="true") checked #end>$!{des.destinationVO.name}</label>
-	        		#end
-	        	#end
-
-
-        <br><br><br>
+    	<div class="destlistbox">
+			<input type="hidden" name="destData" value="$!destMap" />		
+		</div>	
+       
+        <br>
 		#parse("layout/base-js.vm")
         <script>
             function getSelected() {
@@ -35,10 +43,104 @@
             			code:$(this).attr("dest-code")
             		});
             	});
+            	 //境外目的地列表提交数据
+            	$('li.sel').each(function () {
+            		result.push({
+            			id:$(this).attr("dest-id"),
+            			name:$(this).attr("dest-name"),
+            			code:$(this).attr("dest-code")
+            		});
+            	});
+            	
             	return result;
-            }
+            };
             $(function(){
-            console.log($('input[name="inland"]').val());
+            	var destDataObj = $('input[name="destData"]').val();
+            	//国内
+          		if (destDataObj.type=='inland') {
+ 					var inlandCityArr = destDataObj.destinationNodeVOs[0].child;
+					for (var i=65;i<91;i++ ) {
+						var myLetter = String.fromCharCode(i);
+						var $html = [];
+						var flagNum = false;
+						$html.push('<div id='+ myLetter +' class="choosecity">');
+						$html.push('<label>'+ myLetter +':</label>');
+										
+						for (var j=0;j<inlandCityArr.length;j++) {
+							var singleCity = inlandCityArr[j].destinationVO;
+							if (myLetter == singleCity.simpleCode) {
+								$html.push('<label><input type="checkbox" class="city ck"  depart-id='+ singleCity.id +' depart-code='+ singleCity.code +' depart-name='+ singleCity.name +'>'+ singleCity.name +'</label>');						
+								flagNum = true;
+							};
+						};
+						if (flagNum) {
+							$html.push('</div>');
+							$('.destlistbox').append($html.join('\n'));					
+						};
+					};         			
+          		};
+          		//境外
+          		if (destDataObj.type=='oversea') {
+ 					var countryArr = destDataObj.destinationNodeVOs;
+					
+					var $html = [];
+					$html.push('<div class="destbox countrybox"><ul>');
+					$html.push('<li>国家</li>');
+					for (var i=65;i<91;i++ ) {
+						var myLetter = String.fromCharCode(i);
+										
+						for (var j=0;j<countryArr.length;j++) {
+							var singleCountry = countryArr[j].destinationVO;
+							if (myLetter == singleCountry.simpleCode) {
+								if (countryArr[j].child) {
+									$html.push('<li class="destlist childlist" dest-index='+j+' dest-id='+singleCountry.id+' dest-code='+singleCountry.code+' dest-name='+singleCountry.name+'>'+singleCountry.name+'<span class="jiantou"></span></li>');						
+									
+								}else{
+									$html.push('<li class="destlist nolist"  dest-id='+singleCountry.id+' dest-code='+singleCountry.code+' dest-name='+singleCountry.name+'>'+singleCountry.name+'</li>');						
+								}
+							};
+						};
+					};            		
+					$html.push('</ul></div>');
+					$('.destlistbox').append($html.join('\n'));
+					//点击变色
+					$(document).on('click','.destlist',function () {
+	            		$(this).addClass('sel').siblings('.destlist').removeClass('sel');
+	            	});
+	            	$(document).on('click','.countrybox .destlist',function () {
+	            		$('.citybox').remove();
+	            	});
+					//二级菜单
+					$(document).on('click','.childlist',function () {
+						var $index = $(this).attr('dest-index');					
+						var cityArr = destDataObj.destinationNodeVOs[$index].child;
+						
+						var $html = [];					
+						$html.push('<div class="destbox citybox"><ul>');
+						$html.push('<li>城市（非必选项）</li>');
+						for (var i=65;i<91;i++) {
+							var myLetter = String.fromCharCode(i);
+							for (var j=0;j<cityArr.length;j++) {
+								var singleCity = cityArr[j].destinationVO;
+								if (myLetter == singleCity.simpleCode) {
+									if (cityArr[j].child) {
+										$html.push('<li class="destlist childlist" dest-index='+j+' dest-id='+singleCity.id+' dest-code='+singleCity.code+' dest-name='+singleCity.name+'>'+singleCity.name+'<span class="jiantou"></span></li>');						
+									}else{
+										$html.push('<li class="destlist nolist"  dest-id='+singleCity.id+' dest-code='+singleCity.code+' dest-name='+singleCity.name+'>'+singleCity.name+'</li>');						
+									}
+								};	
+							};
+						};
+						$html.push('</ul></div>');
+						
+						//$('.citybox').remove();
+						$('.destlistbox').append($html.join('\n'));
+	            		
+	            	});         			
+          		};
+          		
+            	
+            	//---------------------------选中项回填-----------------------------------
             	var selectedDests = parent.getBaseInfo().dests;
             	console.log(selectedDests);
             	$("input:checkbox").each(function(){
