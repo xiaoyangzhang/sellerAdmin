@@ -15,6 +15,7 @@ import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.cache.CacheManager;
 import com.yimayhd.sellerAdmin.enums.ItemCodeEnum;
 import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.HotelManage.BizCategoryInfo;
@@ -53,6 +54,8 @@ public class ScenicManageEnhanceController extends BaseController {
     private CategoryService categoryServiceRef;
     @Resource
     private ScenicPublishService scenicPublishService;
+    @Autowired
+    private CacheManager cacheManager ;
 
     @Value("${sellerAdmin.rootPath}")
     private String rootPath;
@@ -376,6 +379,15 @@ public class ScenicManageEnhanceController extends BaseController {
     public void setScenicPublishService(ScenicPublishService scenicPublishService) {
         this.scenicPublishService = scenicPublishService;
     }
+
+    public CacheManager getCacheManager() {
+        return cacheManager;
+    }
+
+    public void setCacheManager(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+    }
+
     public static void main(String[] args) {
         List<MultiChoice> multiList = new ArrayList<MultiChoice>();
         for (int i=0;i<3;i++) {

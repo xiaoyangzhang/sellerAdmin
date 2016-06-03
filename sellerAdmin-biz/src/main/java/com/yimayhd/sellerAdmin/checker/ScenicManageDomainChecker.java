@@ -140,7 +140,7 @@ public class ScenicManageDomainChecker {
         scenicManageVO.setName(scenicDO.getName());
         scenicManageVO.setTitle(itemDO.getTitle());
         scenicManageVO.setCategoryId(itemDO.getCategoryId());//类目ID
-        scenicManageVO.setPrice(new BigDecimal(itemDO.getPrice()).divide(new BigDecimal(100)));
+        //scenicManageVO.setPrice(new BigDecimal(itemDO.getPrice()).divide(new BigDecimal(100)));
         scenicManageVO.setOriginalPrice(new BigDecimal(itemDO.getOriginalPrice()).divide(new BigDecimal(100)));
         scenicManageVO.setStartBookTimeLimit(itemDO.getItemFeature().getStartBookTimeLimit()/dayTime);//提前预定天数
         itemDO.getItemFeature().getTicketId();//门票ID
@@ -159,26 +159,7 @@ public class ScenicManageDomainChecker {
                 bizCategory.setCategoryId(scenicManageVO.getCategoryId());
              bizList.add(bizCategory);
         }
-       /* List<CategoryPropertyValueDO> keyCateList = category.getKeyCategoryPropertyDOs();
-        List<CategoryPropertyValueDO> nonCateList =  category.getNonKeyCategoryPropertyDOs();
 
-        keyCateList.addAll(nonCateList);
-        for (CategoryPropertyValueDO category :keyCateList){
-            BizCategoryInfo bizCategory = new BizCategoryInfo();
-            CategoryPropertyDO propertyDO =  category.getCategoryPropertyDO();
-            bizCategory.setCategoryId(category.getCategoryId());
-            bizCategory.setPId(category.getPropertyId());
-            bizCategory.setPText(propertyDO.getText());
-            bizCategory.setPType(propertyDO.getType());
-            bizCategory.setVTxt("");
-            for (ItemSkuPVPair skuPVPair: itemDO.getItemPropertyList()){
-                if(bizCategory.getPId()==skuPVPair.getPId()){
-                    System.out.println("销售属性:"+skuPVPair.getVTxt());
-                    bizCategory.setVTxt(skuPVPair.getVTxt());
-                }
-            }
-
-        }*/
         String bizCategoryJson =CommonJsonUtil.objectToJson(bizList,List.class);
         System.out.println("编辑Josn:"+bizCategoryJson);
         scenicManageVO.setDynamicEntry(bizCategoryJson);//属性json穿
@@ -192,7 +173,7 @@ public class ScenicManageDomainChecker {
         itemDO.setOutId(scenicManageVO.getScenicId());//酒店ID
         itemDO.setSellerId(scenicManageVO.getSellerId());//商家ID
         itemDO.setTitle(scenicManageVO.getTitle());
-        itemDO.setPrice(scenicManageVO.getPrice().multiply(new BigDecimal(100)).longValue());//价格
+        //itemDO.setPrice(scenicManageVO.getPrice().multiply(new BigDecimal(100)).longValue());//价格
         itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice().multiply(new BigDecimal(100)).longValue());//门市价
         itemDO.setDomain(Constant.DOMAIN_JIUXIU);
         itemDO.setOptions(1);
@@ -224,7 +205,7 @@ public class ScenicManageDomainChecker {
         itemDO.setOutId(scenicManageVO.getScenicId());//酒店ID
         //itemDO.setSellerId(scenicManageVO.getSellerId());//商家ID
         itemDO.setTitle(scenicManageVO.getTitle());
-        itemDO.setPrice(scenicManageVO.getPrice().multiply(new BigDecimal(100)).longValue());//价格
+        //itemDO.setPrice(scenicManageVO.getPrice().multiply(new BigDecimal(100)).longValue());//价格
         itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice().multiply(new BigDecimal(100)).longValue());//门市价
 
         //itemDO.setOutType();
