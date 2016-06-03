@@ -28,54 +28,56 @@
             <a class="choicehotel">查询酒店</a>
         </p>
         <div class='load_room'><img src="$!rs_path_jiuxiu/img/loading.gif"></div>
-        <div class="hotelcol">
+        <div class="hotelcol"  #if($hotelMessageVO.hotelId>0)  style="display: block" #end >
             <span class="nm"><span class="bred">*</span><label>酒店房型：</label></span>
                     <span class="info-box clearfix">
-                        #if($!roomMessageVO)
+                        #if($!roomList)
                             <ul class="clearfix">
-                                <li>
-                                    <div class="radio-bar clearfix">
-                                        <label class="fl"><input type="radio" name="gp"> 房型</label>
-                                        <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
-                                    </div>
-                                    <div class="bar-box" style="height:243px">
-                                        <ul class="clearfix">
-                                            <li>
-                                                <label>房型：</label>
-                                                <label>$!{roomMessageVO.name}</label>
-                                            </li>
-                                            <li>
-                                                <label>面积：</label>
-                                                <label>$!{roomMessageVO.area} 平米</label>
-                                            </li>
-                                            <li>
-                                                <label>床型：</label>
-                                                <label>$!{roomMessageVO.bed}</label>
-                                            </li>
-                                            <li>
-                                                <label>可住：</label>
-                                                <label>$!{roomMessageVO.people}人</label>
-                                            </li>
-                                            <li>
-                                                <label>网络：</label>
-                                                <label>有wifi</label>
-                                            </li>
-                                            <li>
-                                                <label>窗户：</label>
-                                                <label>有窗</label>
-                                            </li>
-                                        </ul>
-                                        <div class="img-group">
-                                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                #foreach($roomMessageVO in $roomList)
+                                    <li>
+                                        <div class="radio-bar clearfix">
+                                            <label class="fl"><input type="radio" name="gp" value="$!{roomMessageVO.roomId}" #if($hotelMessageVO.roomId == $roomMessageVO.roomId) checked #end  > 房型$!{velocityCount}</label>
+                                            <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
                                         </div>
-                                    </div>
-                                </li>
+                                        <div class="bar-box">
+                                            <ul class="clearfix">
+                                                <li>
+                                                    <label>房型：</label>
+                                                    <label>$!{roomMessageVO.name}</label>
+                                                </li>
+                                                <li>
+                                                    <label>面积：</label>
+                                                    <label>$!{roomMessageVO.area}</label>
+                                                </li>
+                                                <li>
+                                                    <label>床型：</label>
+                                                    <label>$!{roomMessageVO.bed}</label>
+                                                </li>
+                                                <li>
+                                                    <label>可住：</label>
+                                                    <label>$!{roomMessageVO.people}人</label>
+                                                </li>
+                                                <li>
+                                                    <label>网络：</label>
+                                                    <label>有wifi</label>
+                                                </li>
+                                                <li>
+                                                    <label>窗户：</label>
+                                                    <label>有窗</label>
+                                                </li>
+                                            </ul>
+                                            <div class="img-group">
+                                                <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                                <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                                <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                            </div>
+                                        </div>
+                                    </li>
+                                #end
                             </ul>
                         #end
 
-                        </span>
+                    </span>
         </div>
         <div class="savenext">
             <a class="save-to-baseinfo">保存并下一步</a>
@@ -105,11 +107,11 @@
                 </tr>
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>商品标题：</td>
-                    <td><input type="text" class="inputxt" maxlength="38" name="title"  value="$!{hotelMessageVO.title}"><span class="mark"><label>1</label><label>/38字</label></span></td>
+                    <td><input type="text" class="inputxt" maxlength="38" name="title"  value="$!{hotelMessageVO.title}"><span class="mark"><label class="cv">0</label><label>/38字</label></span></td>
                 </tr>
                 <tr>
                     <td class="coltxt">商品代码：</td>
-                    <td><input type="text" class="inputxt allownull" maxlength="20" name="code" value="$!{hotelMessageVO.code}"><span class="mark"><label>1</label>/20字</span></td>
+                    <td><input type="text" class="inputxt allownull" maxlength="20" name="code" value="$!{hotelMessageVO.code}"><span class="mark"><label class="cv">0</label><label>/20字</label></span></td>
                 </tr>
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>付款方式：</td>
@@ -128,7 +130,7 @@
                 </tr>
                 <tr>
                     <td class="coltxt vt"><span class="bred">*</span>退订规则：</td>
-                    <td><textarea name ="description">$!{hotelMessageVO.description} </textarea><span class="mark"><label>1</label>/40字</span></td>
+                    <td><textarea name ="description">$!{hotelMessageVO.description} </textarea><span class="mark"><label class="cv">0</label><label>/40字</label></span></td>
                 </tr>
                 <tr>
                     <td class="coltxt vt"><span class="bred">*</span>最晚到店时间：</td>

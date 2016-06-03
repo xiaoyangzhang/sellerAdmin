@@ -37,7 +37,7 @@
                             <ul class="clearfix">
                                 <li>
                                     <div class="radio-bar clearfix">
-                                        <label class="fl"><input type="radio" name="gp"> 房型</label>
+                                        <label class="fl"><input type="radio" name="gp" checked> 房型</label>
                                         <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
                                     </div>
                                     <div class="bar-box" style="height:243px">

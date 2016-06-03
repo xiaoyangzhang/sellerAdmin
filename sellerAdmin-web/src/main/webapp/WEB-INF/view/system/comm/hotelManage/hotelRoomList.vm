@@ -4,7 +4,7 @@
     #foreach($roomMessageVO in $roomList)
         <li>
             <div class="radio-bar clearfix">
-                <label class="fl"><input type="radio" name="gp" value="$!{roomMessageVO.roomId}"> 房型$!{velocityCount}</label>
+                <label class="fl"><input type="radio" name="gp" value="$!{roomMessageVO.roomId}" #if($hotelMessageVO.roomId == $roomMessageVO.roomId) checked #end  > 房型$!{velocityCount}</label>
                 <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
             </div>
             <div class="bar-box">
