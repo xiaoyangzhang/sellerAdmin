@@ -61,21 +61,25 @@
  					var inlandCityArr = destDataObj.destinationNodeVOs[0].child;
 					for (var i=65;i<91;i++ ) {
 						var myLetter = String.fromCharCode(i);
-						var $html = [];
+						var $html = '';
 						var flagNum = false;
-						$html.push('<div id='+ myLetter +' class="choosecity">');
-						$html.push('<label>'+ myLetter +':</label>');
+						$html += '<div id='+ myLetter +' class="choosecity">';
+						$html += '<label>'+ myLetter +':</label>';
+						//$html.push('<div id='+ myLetter +' class="choosecity">');
+						//$html.push('<label>'+ myLetter +':</label>');
 										
 						for (var j=0;j<inlandCityArr.length;j++) {
 							var singleCity = inlandCityArr[j].destinationVO;
 							if (myLetter == singleCity.simpleCode) {
-								$html.push('<label><input type="checkbox" class="city ck"  depart-id='+ singleCity.id +' depart-code='+ singleCity.code +' depart-name='+ singleCity.name +'>'+ singleCity.name +'</label>');						
+								$html += '<label><input type="checkbox" class="city ck"  depart-id='+ singleCity.id +' depart-code='+ singleCity.code +' depart-name='+ singleCity.name +'>'+ singleCity.name +'</label>';
+								//$html.push('<label><input type="checkbox" class="city ck"  depart-id='+ singleCity.id +' depart-code='+ singleCity.code +' depart-name='+ singleCity.name +'>'+ singleCity.name +'</label>');						
 								flagNum = true;
 							};
 						};
 						if (flagNum) {
-							$html.push('</div>');
-							$('.destlistbox').append($html.join('\n'));					
+							$html += '</div>';
+							//$html.push('</div>');
+							$('.destlistbox').append($html);					
 						};
 					};         			
           		};
@@ -83,9 +87,11 @@
           		if (destDataObj.type=='oversea') {
  					var countryArr = destDataObj.destinationNodeVOs;
 					
-					var $html = [];
-					$html.push('<div class="destbox countrybox"><ul>');
-					$html.push('<li>国家</li>');
+					var $html = '';
+					$html += '<div class="destbox countrybox"><ul>';
+					$html += '<li>国家</li>';
+					//$html.push('<div class="destbox countrybox"><ul>');
+					//$html.push('<li>国家</li>');
 					for (var i=65;i<91;i++ ) {
 						var myLetter = String.fromCharCode(i);
 										
@@ -93,16 +99,18 @@
 							var singleCountry = countryArr[j].destinationVO;
 							if (myLetter == singleCountry.simpleCode) {
 								if (countryArr[j].child) {
-									$html.push('<li class="destlist childlist" dest-index='+j+' dest-id='+singleCountry.id+' dest-code='+singleCountry.code+' dest-name='+singleCountry.name+'>'+singleCountry.name+'<span class="jiantou"></span></li>');						
-									
+									$html += '<li class="destlist childlist" dest-index='+j+' dest-id='+singleCountry.id+' dest-code='+singleCountry.code+' dest-name='+singleCountry.name+'>'+singleCountry.name+'<span class="jiantou"></span></li>';
+									//$html.push('<li class="destlist childlist" dest-index='+j+' dest-id='+singleCountry.id+' dest-code='+singleCountry.code+' dest-name='+singleCountry.name+'>'+singleCountry.name+'<span class="jiantou"></span></li>');															
 								}else{
-									$html.push('<li class="destlist nolist"  dest-id='+singleCountry.id+' dest-code='+singleCountry.code+' dest-name='+singleCountry.name+'>'+singleCountry.name+'</li>');						
+									$html += '<li class="destlist nolist"  dest-id='+singleCountry.id+' dest-code='+singleCountry.code+' dest-name='+singleCountry.name+'>'+singleCountry.name+'</li>';
+									//$html.push('<li class="destlist nolist"  dest-id='+singleCountry.id+' dest-code='+singleCountry.code+' dest-name='+singleCountry.name+'>'+singleCountry.name+'</li>');						
 								}
 							};
 						};
-					};            		
-					$html.push('</ul></div>');
-					$('.destlistbox').append($html.join('\n'));
+					};  
+					$html += '</ul></div>';
+					//$html.push('</ul></div>');
+					$('.destlistbox').append($html);
 					//点击变色
 					$(document).on('click','.destlist',function () {
 	            		$(this).addClass('sel').siblings('.destlist').removeClass('sel');
@@ -115,26 +123,31 @@
 						var $index = $(this).attr('dest-index');					
 						var cityArr = destDataObj.destinationNodeVOs[$index].child;
 						
-						var $html = [];					
-						$html.push('<div class="destbox citybox"><ul>');
-						$html.push('<li>城市（非必选项）</li>');
+						var $html = '';	
+						$html += '<div class="destbox citybox"><ul>';
+						$html += '<li>城市（非必选项）</li>';
+						//$html.push('<div class="destbox citybox"><ul>');
+						//$html.push('<li>城市（非必选项）</li>');
 						for (var i=65;i<91;i++) {
 							var myLetter = String.fromCharCode(i);
 							for (var j=0;j<cityArr.length;j++) {
 								var singleCity = cityArr[j].destinationVO;
 								if (myLetter == singleCity.simpleCode) {
 									if (cityArr[j].child) {
-										$html.push('<li class="destlist childlist" dest-index='+j+' dest-id='+singleCity.id+' dest-code='+singleCity.code+' dest-name='+singleCity.name+'>'+singleCity.name+'<span class="jiantou"></span></li>');						
+										$html += '<li class="destlist childlist" dest-index='+j+' dest-id='+singleCity.id+' dest-code='+singleCity.code+' dest-name='+singleCity.name+'>'+singleCity.name+'<span class="jiantou"></span></li>';
+										//$html.push('<li class="destlist childlist" dest-index='+j+' dest-id='+singleCity.id+' dest-code='+singleCity.code+' dest-name='+singleCity.name+'>'+singleCity.name+'<span class="jiantou"></span></li>');						
 									}else{
-										$html.push('<li class="destlist nolist"  dest-id='+singleCity.id+' dest-code='+singleCity.code+' dest-name='+singleCity.name+'>'+singleCity.name+'</li>');						
+										$html += '<li class="destlist nolist"  dest-id='+singleCity.id+' dest-code='+singleCity.code+' dest-name='+singleCity.name+'>'+singleCity.name+'</li>';
+										//$html.push('<li class="destlist nolist"  dest-id='+singleCity.id+' dest-code='+singleCity.code+' dest-name='+singleCity.name+'>'+singleCity.name+'</li>');						
 									}
 								};	
 							};
 						};
-						$html.push('</ul></div>');
+						$html += '</ul></div>';
+						//$html.push('</ul></div>');
 						
 						//$('.citybox').remove();
-						$('.destlistbox').append($html.join('\n'));
+						$('.destlistbox').append($html);
 	            		
 	            	});         			
           		};
