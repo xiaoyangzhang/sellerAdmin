@@ -28,7 +28,7 @@
             <a class="choicehotel">查询酒店</a>
         </p>
         <div class='load_room'><img src="$!rs_path_jiuxiu/img/loading.gif"></div>
-        <div class="hotelcol" style="display: block">
+        <div class="hotelcol"  #if($hotelMessageVO.hotelId>0)  style="display: block" #end >
             <span class="nm"><span class="bred">*</span><label>酒店房型：</label></span>
                     <span class="info-box clearfix">
                         #if($!roomList)
