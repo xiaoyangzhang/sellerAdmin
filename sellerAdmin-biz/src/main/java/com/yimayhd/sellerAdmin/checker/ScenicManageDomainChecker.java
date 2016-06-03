@@ -51,6 +51,7 @@ public class ScenicManageDomainChecker {
     private final String UPDATE = "update";
     private final String ADD = "add";
     private final String DEL = "delete";
+    private int dayTime=24*60*60;
 
     public ScenicManageDomainChecker(ScenicManageVO scenicManageVO){
         this.scenicManageVO = scenicManageVO;
@@ -141,7 +142,7 @@ public class ScenicManageDomainChecker {
         scenicManageVO.setCategoryId(itemDO.getCategoryId());//类目ID
         scenicManageVO.setPrice(new BigDecimal(itemDO.getPrice()).divide(new BigDecimal(100)));
         scenicManageVO.setOriginalPrice(new BigDecimal(itemDO.getOriginalPrice()).divide(new BigDecimal(100)));
-        scenicManageVO.setStartBookTimeLimit(itemDO.getItemFeature().getStartBookTimeLimit());//提前预定天数
+        scenicManageVO.setStartBookTimeLimit(itemDO.getItemFeature().getStartBookTimeLimit()/dayTime);//提前预定天数
         itemDO.getItemFeature().getTicketId();//门票ID
        // itemDO.getItemFeature().getTicketTitle();//门票名称
         // 根据listsku拼装json信息  价格日历
@@ -223,15 +224,15 @@ public class ScenicManageDomainChecker {
         itemDO.setOutId(scenicManageVO.getScenicId());//酒店ID
         //itemDO.setSellerId(scenicManageVO.getSellerId());//商家ID
         itemDO.setTitle(scenicManageVO.getTitle());
-        itemDO.setPrice(scenicManageVO.getPrice().divide(new BigDecimal(100)).longValue());//价格
-        itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice().divide(new BigDecimal(100)).longValue());//门市价
+        itemDO.setPrice(scenicManageVO.getPrice().multiply(new BigDecimal(100)).longValue());//价格
+        itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice().multiply(new BigDecimal(100)).longValue());//门市价
 
         //itemDO.setOutType();
         ItemFeature itemFeature = new ItemFeature(null);
         /**票型资源信息**/
         itemFeature.put(ItemFeatureKey.TICKET_ID,scenicManageVO.getTicketId());
         itemFeature.put(ItemFeatureKey.TICKET_TITLE,scenicManageVO.getTicketTitle());
-        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,scenicManageVO.getStartBookTimeLimit());//提前预定天数
+        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,scenicManageVO.getStartBookTimeLimit()*dayTime);//提前预定天数
         itemDO.setItemFeature(itemFeature);
         scenicManageVO.getDynamicEntry();//动态json列表
         List<ItemSkuPVPair> skuPVPairList =  getItemSkuPVPairList(scenicManageVO.getDynamicEntry());

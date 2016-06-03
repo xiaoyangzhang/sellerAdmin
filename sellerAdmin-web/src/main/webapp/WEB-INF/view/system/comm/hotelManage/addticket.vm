@@ -17,7 +17,7 @@
 	<form class="scenicForm">
 		<input type="hidden" class="picCode baseInfo-picCode" name="scenicId" value="$!{scenicManageVO.scenicId}">
 		<input type="hidden" class="picCode baseInfo-picCode" name="scenicName" value="$!{scenicManageVO.name}">
-		<input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{scenicManageVO.supplierCalendar}">
+		<input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value='$!{scenicManageVO.supplierCalendar}'>
 		<input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{scenicManageVO.sellerId}">
 		<input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{scenicManageVO.categoryId}">
         <input type="hidden" class="picCode baseInfo-picCode" name="operationFlag" value="$!{operationFlag}">
@@ -49,10 +49,6 @@
 	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>商品标题：</td>
 	                    <td><input type="text" class="inputxt" maxlength="38" name="title" value="$!{scenicManageVO.title}"><span class="mark"><label class="cv">1</label><label>/38字</label></span></td>
-	                </tr>
-	                <tr class="notNull">
-	                    <td class="coltxt"><span class="bred">*</span>价格：</td>
-	                    <td><input type="text" class="inputxt" name="price" value="$!{scenicManageVO.price}"></td>
 	                </tr>
 	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>门市价：</td>
