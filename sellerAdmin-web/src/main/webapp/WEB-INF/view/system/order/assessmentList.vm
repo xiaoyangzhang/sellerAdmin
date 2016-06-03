@@ -11,12 +11,6 @@
 	<input type="hidden" id="subpath" class="subpath" value="$!root_path/order/assessmentList">
     <form class="form-signin" id="tradeListForm" name="tradeListForm"
           action="" role="form">
-        	<div class = "eredar-info clearfix">
-				<ul>
-					<li class = " first on">评价管理 </li>
-					<!-- <li>账户信息</li> -->
-				</ul>
-			</div>
 			<div class = "rewiewMag reW clearfix">
 				<p class = "first">
 					<em>订单编号：</em><input type="text" name = "orderNO" value="$!assessmentListQuery.orderNO"/>
