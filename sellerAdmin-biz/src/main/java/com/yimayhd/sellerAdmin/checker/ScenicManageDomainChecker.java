@@ -213,7 +213,7 @@ public class ScenicManageDomainChecker {
         /**票型资源信息**/
         itemFeature.put(ItemFeatureKey.TICKET_ID,scenicManageVO.getTicketId());
         itemFeature.put(ItemFeatureKey.TICKET_TITLE,scenicManageVO.getTicketTitle());
-        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,scenicManageVO.getStartBookTimeLimit()*dayTime);//提前预定天数
+        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,scenicManageVO.getStartBookTimeLimit().intValue()*dayTime);//提前预定天数
         itemDO.setItemFeature(itemFeature);
         scenicManageVO.getDynamicEntry();//动态json列表
         List<ItemSkuPVPair> skuPVPairList =  getItemSkuPVPairList(scenicManageVO.getDynamicEntry());
