@@ -15,7 +15,18 @@
 					#set($content = $needKnowItems.get(0).content)
 					#set($length = $content.length())
 				#end
-				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="2000">$!content</textarea>
+				#if(!$product)
+					<textarea class="form-control textarea-count need-know-item-value red" rows="5" placeholder="" maxlength="2000">
+1、大交通：  *****—*****  往返经济舱机票（含税）；省内往返旅游巴士；
+2、住宿：行程所列酒店标准2人间，如单人拼不上房间，需自补单房差；
+3、餐食：行程内所列餐食，酒店内含早餐，正餐标准*元；
+4、导服：当地中文导游服务、持全国导游资格证上岗；
+5、门票：景点首道大门票；
+6、保险：已含旅行社责任险，不含旅游人身意外保险（建议您积极购买旅游意外保险/航空保险、如出现意外将多一份保障）；
+7、儿童： 2-12周岁的儿童只含往返机票、车位、餐位，不含门票以及酒店住宿。</textarea>
+				#else
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="2000">$!content</textarea>
+				#end
 				<span class="word-num">$!{length}/2000字</span>
 			</td>
 		</tr>
