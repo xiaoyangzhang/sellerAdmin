@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.controller.drafts;
+package com.yimayhd.sellerAdmin.controller.draft;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +13,8 @@ import com.yimayhd.sellerAdmin.model.query.DraftListQuery;
  *
  */
 @Controller
-@RequestMapping("/drafts")
-public class DraftsController extends BaseController {
+@RequestMapping("/draft")
+public class DraftController extends BaseController {
 
 	@RequestMapping(value = "/list")
 	public String list(DraftListQuery query) throws Exception {
@@ -32,6 +32,6 @@ public class DraftsController extends BaseController {
 		// put("itemTypeList", BizItemType.values());
 		// put("itemStatusList", BizItemStatus.values());
 		// put("query", query);
-		return "/system/drafts/draftsList";
+		return "/system/draft/draftList";
 	}
 }
