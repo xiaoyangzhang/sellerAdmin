@@ -248,11 +248,11 @@ public class HotelManageDomainChecker {
       //  itemDO.setItemType(categoryDO.getCategoryFeature().getItemType());
         itemDO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS,hotelDO.getLogoUrl());
         /***feature**/
-        ItemFeature itemFeature = new ItemFeature(null);
+       // ItemFeature itemFeature = new ItemFeature(null);
         //itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, CancelLimit.Ok.getType());
         /**房型ID**/
-        itemFeature.put(ItemFeatureKey.ROOM_ID,hotelMessageVO.getRoomId());//房型ID
-
+        //itemFeature.put(ItemFeatureKey.ROOM_ID,hotelMessageVO.getRoomId());//房型ID
+        itemDO.setRoomId(hotelMessageVO.getRoomId());//房型ID
         //itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, hotelMessageVO.getCancelLimit());//退订规则
         itemDO.setCancelLimit(hotelMessageVO.getCancelLimit());//退订规则
 
@@ -264,7 +264,7 @@ public class HotelManageDomainChecker {
         itemDO.setBreakfast(hotelMessageVO.getBreakfast());//早餐
         //itemFeature.put(ItemFeatureKey.PAY_MODE,hotelMessageVO.getPayType());//付款方式
         itemDO.setPayMode(hotelMessageVO.getPayType());//付款方式
-        itemDO.setItemFeature(itemFeature);
+        //itemDO.setItemFeature(itemFeature);// 更新不添加itemFeature
         /****sku价格日历***/
         // 价格日历 json解析
         // CategoryPropertyValueDO + 日期 存到 ItemSkuPVPair 中,每个sku 只有 一个 pv 属性
