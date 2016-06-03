@@ -64,8 +64,8 @@
                     <td><input type="text" class="inputxt" maxlength="38" name="title"  value="$!{hotelMessageVO.title}"><span class="mark"><label>1</label><label>/38字</label></span></td>
                 </tr>
                 <tr>
-                    <td class="coltxt"><span class="bred">*</span>商品代码：</td>
-                    <td><input type="text" class="inputxt" maxlength="20" name="code" value="$!{hotelMessageVO.code}"><span class="mark"><label>1</label>/20字</span></td>
+                    <td class="coltxt">商品代码：</td>
+                    <td><input class="inputxt" maxlength="20" name="code" value="$!{hotelMessageVO.code}"><span class="mark"><label>1</label>/20字</span></td>
                 </tr>
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>付款方式：</td>
