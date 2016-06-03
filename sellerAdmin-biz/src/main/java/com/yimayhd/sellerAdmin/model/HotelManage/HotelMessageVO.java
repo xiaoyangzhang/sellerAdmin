@@ -64,8 +64,8 @@ public class HotelMessageVO  implements Serializable {
 
 	private long categoryId;
 
-	public Integer page = 1;
-	protected Integer pageSize = 8;
+	public Integer page =1;
+	protected Integer pageSize =8 ;
 
 	public long getSellerId() {
 		return sellerId;

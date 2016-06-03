@@ -30,8 +30,52 @@
         <div class='load_room'><img src="$!rs_path_jiuxiu/img/loading.gif"></div>
         <div class="hotelcol">
             <span class="nm"><span class="bred">*</span><label>酒店房型：</label></span>
-					<span class="info-box clearfix">
-					</span>
+                    <span class="info-box clearfix">
+                        #if($!roomMessageVO)
+                            <ul class="clearfix">
+                                <li>
+                                    <div class="radio-bar clearfix">
+                                        <label class="fl"><input type="radio" name="gp"> 房型</label>
+                                        <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
+                                    </div>
+                                    <div class="bar-box" style="height:243px">
+                                        <ul class="clearfix">
+                                            <li>
+                                                <label>房型：</label>
+                                                <label>$!{roomMessageVO.name}</label>
+                                            </li>
+                                            <li>
+                                                <label>面积：</label>
+                                                <label>$!{roomMessageVO.area} 平米</label>
+                                            </li>
+                                            <li>
+                                                <label>床型：</label>
+                                                <label>$!{roomMessageVO.bed}</label>
+                                            </li>
+                                            <li>
+                                                <label>可住：</label>
+                                                <label>$!{roomMessageVO.people}人</label>
+                                            </li>
+                                            <li>
+                                                <label>网络：</label>
+                                                <label>有wifi</label>
+                                            </li>
+                                            <li>
+                                                <label>窗户：</label>
+                                                <label>有窗</label>
+                                            </li>
+                                        </ul>
+                                        <div class="img-group">
+                                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        #end
+
+                        </span>
         </div>
         <div class="savenext">
             <a class="save-to-baseinfo">保存并下一步</a>
@@ -47,6 +91,8 @@
             <input type="hidden" class="picCode baseInfo-picCode" name="roomId" value="$!{hotelMessageVO.roomId}" />
             <input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{hotelMessageVO.sellerId}" />
             <input type="hidden" class="picCode baseInfo-picCode" name="operationFlag" value="$!{operationFlag}">
+            <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{categoryId}">
+            <input type="hidden" class="picCode baseInfo-picCode" name="itemId" value="$!{itemId}">
             <input type="hidden" class="picCode baseInfo-picCode" name="systemLog" value="$!{systemLog}">
             <table>
                 <tr>
@@ -62,8 +108,8 @@
                     <td><input type="text" class="inputxt" maxlength="38" name="title"  value="$!{hotelMessageVO.title}"><span class="mark"><label>1</label><label>/38字</label></span></td>
                 </tr>
                 <tr>
-                    <td class="coltxt"><span class="bred">*</span>商品代码：</td>
-                    <td><input type="text" class="inputxt" maxlength="20" name="code" value="$!{hotelMessageVO.code}"><span class="mark"><label>1</label>/20字</span></td>
+                    <td class="coltxt">商品代码：</td>
+                    <td><input type="text" class="inputxt allownull" maxlength="20" name="code" value="$!{hotelMessageVO.code}"><span class="mark"><label>1</label>/20字</span></td>
                 </tr>
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>付款方式：</td>
@@ -89,7 +135,7 @@
                     <td>
                         #foreach($multiChoice in $multiChoiceList)
                             <label class="checkbox">
-                                <input type="checkbox" class="productTag" name="storeLastTime"  value="${multiChoice.tValue}" #if($multiChoice.choiceNo) checked #end/>当前${multiChoice.value}前
+                                <input type="checkbox" class="productTag" name="storeLastTime"  value="${multiChoice.tValue}" #if($multiChoice.choiceNo) checked #end/>当天${multiChoice.value}前
                             </label>
                         #end
 
@@ -99,6 +145,18 @@
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
                     <td><input type="text" maxlength="10" name="startBookTimeLimit"  value="$!{hotelMessageVO.startBookTimeLimit}" /></td>
+                </tr>
+                <tr>
+                    <td class="coltxt"><span class="bred">*</span>早餐：</td>
+                    <td colspan="3"><input type="hidden" id="breakfast_" value="$!{hotelMessageVO.breakfast}">
+                        <select id="breakfast" class="selectlist">
+                            <option value="">--请选择--</option>
+                            <option value="1">无早</option>
+                            <option value="2">单早</option>
+                            <option value="3">双早</option>
+                            <option value="4">多早</option>
+                        </select>
+                    </td>
                 </tr>
             </table>
         </form>

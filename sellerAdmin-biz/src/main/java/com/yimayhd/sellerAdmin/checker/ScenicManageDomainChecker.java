@@ -9,6 +9,7 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
+import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.param.item.ItemPubUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.ic.client.model.param.item.ScenicPublishUpdateDTO;
@@ -131,6 +132,9 @@ public class ScenicManageDomainChecker {
      */
     public ScenicManageVO getBizScenicManageVO(){
         scenicManageVO.setScenicId(itemDO.getOutId());
+        scenicManageVO.setLocationText(scenicDO.getLocationText());
+        scenicManageVO.setTicketId(itemDO.getItemFeature().getTicketId());//门票ID
+        scenicManageVO.setTicketTitle(itemDO.getItemFeature().getTicketTitle());//门票名称
         scenicManageVO.setItemId(itemDO.getId());
         scenicManageVO.setName(scenicDO.getName());
         scenicManageVO.setTitle(itemDO.getTitle());
@@ -139,7 +143,7 @@ public class ScenicManageDomainChecker {
         scenicManageVO.setOriginalPrice(new BigDecimal(itemDO.getOriginalPrice()).divide(new BigDecimal(100)));
         scenicManageVO.setStartBookTimeLimit(itemDO.getItemFeature().getStartBookTimeLimit());//提前预定天数
         itemDO.getItemFeature().getTicketId();//门票ID
-        itemDO.getItemFeature().getTicketTitle();//门票名称
+       // itemDO.getItemFeature().getTicketTitle();//门票名称
         // 根据listsku拼装json信息  价格日历
         scenicManageVO.setSupplierCalendar(getSupplierCalendarJson());
         //动态添加 属性
@@ -192,6 +196,7 @@ public class ScenicManageDomainChecker {
         itemDO.setDomain(Constant.DOMAIN_JIUXIU);
         itemDO.setOptions(1);
         itemDO.setItemType(category.getCategoryFeature().getItemType());
+        itemDO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS,scenicDO.getLogoUrl());//图片
 
         //itemDO.setOutType();
         ItemFeature itemFeature = new ItemFeature(null);
@@ -213,6 +218,7 @@ public class ScenicManageDomainChecker {
         ScenicPublishUpdateDTO scenicPublishUpdateDTO = new ScenicPublishUpdateDTO();
         ItemPubUpdateDTO itemDO = new ItemPubUpdateDTO();
         /***基本信息**/
+        itemDO.setId(scenicManageVO.getItemId());
         //itemDO.setCategoryId(scenicManageVO.getCategoryId());
         itemDO.setOutId(scenicManageVO.getScenicId());//酒店ID
         //itemDO.setSellerId(scenicManageVO.getSellerId());//商家ID

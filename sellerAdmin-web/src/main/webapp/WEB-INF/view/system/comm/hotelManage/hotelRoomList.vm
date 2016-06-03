@@ -4,7 +4,7 @@
     #foreach($roomMessageVO in $roomList)
         <li>
             <div class="radio-bar clearfix">
-                <label class="fl"><input type="radio" name="gp" value="$!{roomMessageVO.roomId}"> 房型1</label>
+                <label class="fl"><input type="radio" name="gp" value="$!{roomMessageVO.roomId}"> 房型$!{velocityCount}</label>
                 <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
             </div>
             <div class="bar-box">
@@ -31,7 +31,7 @@
                     </li>
                     <li>
                         <label>窗户：</label>
-                        <label>$!{roomMessageVO.window}</label>
+                        <label>有窗</label>
                     </li>
                 </ul>
                 <div class="img-group">

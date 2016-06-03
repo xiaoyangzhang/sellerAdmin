@@ -67,10 +67,12 @@ public class HotelManageController extends BaseController {
 		HotelMessageVO hotelMessageVO = new  HotelMessageVO();
 		long userId = sessionManager.getUserId() ;
 		hotelMessageVO.setSellerId(userId);
-		hotelMessageVO.setCategoryId(categoryId);
+		//hotelMessageVO.setCategoryId(categoryId);
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(null);
 		model.addAttribute("hotelMessageVO", hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
+		model.addAttribute("categoryId",0);//
+		model.addAttribute("itemId", 0);
 		return "/system/comm/hotelManage/addhotel";
 	}
 
@@ -136,7 +138,6 @@ public class HotelManageController extends BaseController {
 			model.addAttribute("errorInfo", "查询房型信息失败");
 			return returnUrl;
 		}
-		System.out.println(result.getValue().size());
 		model.addAttribute("roomList", result.getValue());
 
 		return returnUrl;
@@ -228,6 +229,9 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("hotelMessageVO", hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
 		model.addAttribute("systemLog",systemLog);//
+		model.addAttribute("categoryId",categoryId);//
+		model.addAttribute("itemId", itemId);
+		model.addAttribute("roomMessageVO", hotelMessageVO.getRoomMessageVO());
 		if(operationFlag.equals(UPDATE)){
 			model.addAttribute("operationFlag",operationFlag);//操作标示
 			return "/system/comm/hotelManage/addhotel";
@@ -248,12 +252,18 @@ public class HotelManageController extends BaseController {
 	@RequestMapping(value = "/editHotelMessageVOByData",method = RequestMethod.POST)
 	@ResponseBody
 	public WebResult<String> editHotelMessageVOByData(Model model,HotelMessageVO hotelMessageVO) throws Exception{
-		log.info("editHotelMessageVOByData mmmmm 开始编辑");
 		String systemLog = ItemCodeEnum.SYS_START_LOG.getDesc();
+		hotelMessageVO.setCurrentState(UPDATE);
+
 		WebResult<String> message = new WebResult<String>();
 		if(hotelMessageVO==null||hotelMessageVO.getHotelId()==0){
 			message.initFailure(WebReturnCode.PARAM_ERROR,"酒店资源信息错误,无法编辑商品");
 			log.error("editHotelMessageVOByData.酒店资源信息错误,无法编辑商品");
+			return message;
+		}
+		if(hotelMessageVO.getItemId()==0){
+			message.initFailure(WebReturnCode.PARAM_ERROR,"无效商品ID,无法编辑商品");
+			log.error("editHotelMessageVOByData.无效商品ID,无法编辑商品");
 			return message;
 		}
 		/**必要参数验证**/
