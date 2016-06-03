@@ -168,29 +168,6 @@ public class LineServiceImpl implements LineService {
 		return departs;
 	}
 
-	private List<DestinationNodeVO> toDestinationNodeVO(List<DestinationNode> destinationNodes) {
-		if (CollectionUtils.isEmpty(destinationNodes)) {
-			return new ArrayList<DestinationNodeVO>(0);
-		}
-		List<DestinationNodeVO> departs = new ArrayList<DestinationNodeVO>();
-		for (DestinationNode node : destinationNodes) {
-			DestinationNodeVO destinationNodeVO = new DestinationNodeVO();
-			if (node.isHasChild()) {
-				DestinationDO destinationDO = node.getDestinationDO();
-				DestinationVO destinationVO = new DestinationVO(destinationDO.getId(), destinationDO.getName(),
-						destinationDO.getCode(), destinationDO.getSimpleCode());
-				destinationNodeVO.setChild(toDestinationNodeVO(node.getChildList()));
-				destinationNodeVO.setDestinationVO(destinationVO);
-			} else {
-				DestinationDO destinationDO = node.getDestinationDO();
-				DestinationVO destinationVO = new DestinationVO(destinationDO.getId(), destinationDO.getName(),
-						destinationDO.getCode(), destinationDO.getSimpleCode());
-				destinationNodeVO.setDestinationVO(destinationVO);
-			}
-			departs.add(destinationNodeVO);
-		}
-		return departs;
-	}
 
 	@Override
 	public WebResult<List<CityVO>> getAllLineDests() {
@@ -207,7 +184,7 @@ public class LineServiceImpl implements LineService {
 	public WebResult<List<DestinationNodeVO>> queryInlandDestinationTree() {
 		try {
 			List<DestinationNode> destinationNodes = commentRepo.queryInlandDestinationTree();
-			return WebResult.success(toDestinationNodeVO(destinationNodes));
+			return WebResult.success(LineConverter.toDestinationNodeVO(destinationNodes));
 		} catch (Exception e) {
 			log.error("LineService.getAllLineDeparts error", e);
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR);
@@ -218,7 +195,7 @@ public class LineServiceImpl implements LineService {
 	public WebResult<List<DestinationNodeVO>> queryOverseaDestinationTree() {
 		try {
 			List<DestinationNode> destinationNodes = commentRepo.queryOverseaDestinationTree();
-			List<DestinationNodeVO> cityVO = toDestinationNodeVO(destinationNodes);
+			List<DestinationNodeVO> cityVO = LineConverter.toDestinationNodeVO(destinationNodes);
 			return WebResult.success(cityVO);
 		} catch (Exception e) {
 			log.error("LineService.getAllLineDeparts error", e);
@@ -357,11 +334,16 @@ public class LineServiceImpl implements LineService {
 					commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
 				}
 				List<CityVO> dests = baseInfo.getDests();
-				List<Long> destIds = new ArrayList<Long>();
-				for (TagDTO tagDTO : dests) {
-					destIds.add(tagDTO.getId());
+				List<Long> destCodes = new ArrayList<Long>();
+				
+				//2016-06-03修改目的地数据改存code
+				for (CityVO cityVO : dests) {
+					destCodes.add(Long.parseLong(cityVO.getCode()));
 				}
-				commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
+//				for (TagDTO tagDTO : dests) {
+//					destIds.add(tagDTO.getId());
+//				}
+				commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destCodes);
 				ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemId, PictureText.ITEM,
 						line.getPictureText());
 				pictureTextRepo.editPictureText(comentEditDTO);
