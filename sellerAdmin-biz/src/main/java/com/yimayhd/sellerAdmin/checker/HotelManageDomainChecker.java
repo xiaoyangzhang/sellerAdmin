@@ -405,7 +405,8 @@ public class HotelManageDomainChecker {
         hotelMessageVO.setCancelLimitStr(CancelLimit.getByType(itemFeature.getCancelLimit()).getDesc());//退订规则 string
         hotelMessageVO.setLatestArriveTime(itemFeature.getLatestArriveTime());//最后到点时间
         hotelMessageVO.setStartBookTimeLimit(Long.valueOf(itemFeature.getStartBookTimeLimit()));// 提前预定天数
-        hotelMessageVO.setBreakfast(itemFeature.getBreakfast());//早餐
+        hotelMessageVO.setBreakfast(itemFeature.getBreakfast());//
+        hotelMessageVO.setBreakfastStr(HotelItemBreakfast.getByType(itemFeature.getBreakfast()).getDesc());
         /**价格日历**/
         hotelMessageVO.setSupplierCalendar(getSupplierCalendarJson());
         /***房型信息**/
