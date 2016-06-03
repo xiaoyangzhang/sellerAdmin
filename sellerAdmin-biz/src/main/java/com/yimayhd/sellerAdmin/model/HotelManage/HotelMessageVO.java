@@ -40,7 +40,7 @@ public class HotelMessageVO  implements Serializable {
 	private String title; // '标题',
 	private String code; // '商品代码',
 	private int payType  ; // COMMENT '可支持支付方式',
-
+	private String payTypeStr;//1.在线支付,2到店支付
 	private long itemId;// 商品Id
 
 	private long outType;//商品类型:1.酒店.2客栈
@@ -186,6 +186,15 @@ public class HotelMessageVO  implements Serializable {
 
 	public void setPayType(int payType) {
 		this.payType = payType;
+		if(payType>0){
+			if(payType==1){
+				this.setPayTypeStr("在线支付");
+			}
+			if(payType==2){
+				this.setPayTypeStr("到店支付");
+			}
+
+		}
 	}
 
 
@@ -361,5 +370,13 @@ public class HotelMessageVO  implements Serializable {
 
 	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
+	}
+
+	public String getPayTypeStr() {
+		return payTypeStr;
+	}
+
+	public void setPayTypeStr(String payTypeStr) {
+		this.payTypeStr = payTypeStr;
 	}
 }

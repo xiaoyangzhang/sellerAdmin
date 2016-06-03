@@ -82,13 +82,22 @@ public class ScenicManageDomainChecker {
         if(scenicManageVO==null){
             return scenicPageQuery;
         }
-        if(scenicManageVO.getScenicId()!=0){
-
-        }
         if(StringUtils.isNotBlank(scenicManageVO.getName())){
             scenicPageQuery.setName(scenicManageVO.getName());
         }
+        if(scenicManageVO.getLocationCityId()>0){
+            scenicPageQuery.setLocationCityId(Long.valueOf(scenicManageVO.getLocationCityId()));
+        }
+        if(scenicManageVO.getLocationProvinceId()>0){
+            scenicPageQuery.setLocationProvinceId(Long.valueOf(scenicManageVO.getLocationProvinceId()));
+        }
+        if(scenicManageVO.getLocationTownId()>0){
+            scenicPageQuery.setLocationTownId(Long.valueOf(scenicManageVO.getLocationTownId()));
+        }
 
+        scenicPageQuery.setLocationTownId(Long.valueOf(scenicManageVO.getLocationTownId()));
+        scenicPageQuery.setLocationProvinceId(Long.valueOf(scenicManageVO.getLocationProvinceId()));
+        scenicPageQuery.setLocationCityId(Long.valueOf(scenicManageVO.getLocationCityId()));
         return  scenicPageQuery;
     }
 

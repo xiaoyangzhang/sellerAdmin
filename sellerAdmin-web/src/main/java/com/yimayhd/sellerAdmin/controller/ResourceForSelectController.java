@@ -41,6 +41,7 @@ import com.yimayhd.sellerAdmin.base.BaseQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.converter.LineConverter;
 import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
 import com.yimayhd.sellerAdmin.model.line.DestinationNodeVO;
@@ -170,15 +171,7 @@ public class ResourceForSelectController extends BaseController {
 				hashMap.put("type", "oversea");
 			}
 			List<DestinationNodeVO> destinationNodeVOs = result.getValue();
-			if (CollectionUtils.isNotEmpty(selectedIds)) {
-				for (DestinationNodeVO destinationNodeVO : destinationNodeVOs) {
-					for (String id : selectedIds) {
-						if (destinationNodeVO.getDestinationVO().getId().toString().equals(id)) {
-							destinationNodeVO.getDestinationVO().setSelected(true);
-						}
-					}
-				}
-			}
+			destinationNodeVOs=LineConverter.updateBySelectedIds(destinationNodeVOs,selectedIds);
 			if (result.isSuccess()) {
 				ObjectMapper mapper = new ObjectMapper();
 				hashMap.put("destinationNodeVOs", destinationNodeVOs);

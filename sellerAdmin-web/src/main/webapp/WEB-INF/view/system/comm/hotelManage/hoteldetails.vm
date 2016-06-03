@@ -91,7 +91,7 @@
             </tr>
             <tr>
                 <td class="coltxt">酒店名称：</td>
-                <td><label>皇冠假日酒店</label></td>
+                <td><label>$!{hotelMessageVO.name}</label></td>
             </tr>
             <tr>
                 <td class="coltxt"><span class="bred">*</span>商品标题：</td>
@@ -103,11 +103,11 @@
             </tr>
             <tr>
                 <td class="coltxt"><span class="bred">*</span>付款方式：</td>
-                <td>$!{hotelMessageVO.payType}</td>
+                <td>$!{hotelMessageVO.payTypeStr}</td>
             </tr>
             <tr>
                 <td class="coltxt"><span class="bred">*</span>退订限制：</td>
-                <td>$!{hotelMessageVO.cancelLimit}</td>
+                <td>$!{hotelMessageVO.cancelLimitStr}</td>
             </tr>
             <tr>
                 <td class="coltxt vt"><span class="bred">*</span>退订规则：</td>
