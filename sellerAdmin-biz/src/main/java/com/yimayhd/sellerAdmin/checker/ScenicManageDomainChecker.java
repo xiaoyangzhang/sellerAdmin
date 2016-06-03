@@ -85,9 +85,9 @@ public class ScenicManageDomainChecker {
         if(StringUtils.isNotBlank(scenicManageVO.getName())){
             scenicPageQuery.setName(scenicManageVO.getName());
         }
-        scenicPageQuery.setLocationTownId(scenicManageVO.getLocationTownId());
-        scenicPageQuery.setLocationProvinceId(scenicManageVO.getLocationProvinceId());
-        scenicPageQuery.setLocationCityId(scenicManageVO.getLocationCityId());
+        scenicPageQuery.setLocationTownId(Long.valueOf(scenicManageVO.getLocationTownId()));
+        scenicPageQuery.setLocationProvinceId(Long.valueOf(scenicManageVO.getLocationProvinceId()));
+        scenicPageQuery.setLocationCityId(Long.valueOf(scenicManageVO.getLocationCityId()));
         return  scenicPageQuery;
     }
 
