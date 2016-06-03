@@ -2,6 +2,7 @@ package com.yimayhd.sellerAdmin.converter;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.yimayhd.commentcenter.client.dto.RatePageListDTO;
@@ -26,6 +27,7 @@ import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
 import com.yimayhd.sellerAdmin.model.trade.JXComRateResult;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.SubOrder;
+import com.yimayhd.sellerAdmin.util.DateFormat;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.SkuInfo;
@@ -286,7 +288,8 @@ public class OrderConverter {
 		}
 		if(StringUtils.isNotEmpty(assessmentListQuery.getEndDate())){
 			  try {
-				  ratePageListDTO.setEndTime(DateUtil.convertStringToDate(assessmentListQuery.getEndDate()).getTime());
+				  Date endDateFormat = DateUtil.formatMaxTimeForDate(DateUtil.convertStringToDate(assessmentListQuery.getEndDate()));
+				  ratePageListDTO.setEndTime(endDateFormat.getTime());
 	            } catch (ParseException e) {
 	            	LOG.error("setEndTimeError",e);
 	                e.printStackTrace();
@@ -315,6 +318,8 @@ public class OrderConverter {
     	jxresult.setOrderId(comRateResult.getOrderId());
     	jxresult.setItemId(comRateResult.getItemId());
     	jxresult.setScore(comRateResult.getScore());
+    	double score = (double)comRateResult.getScore()/100;
+    	jxresult.setScore_(score);
     	jxresult.setDimensionInfoResultList(comRateResult.getDimensionInfoResultList());
     	jxresult.setPicUrls(comRateResult.getPicUrls());
     	jxresult.setGmtCreated(comRateResult.getGmtCreated());
