@@ -138,7 +138,6 @@ public class HotelManageController extends BaseController {
 			model.addAttribute("errorInfo", "查询房型信息失败");
 			return returnUrl;
 		}
-		System.out.println(result.getValue().size());
 		model.addAttribute("roomList", result.getValue());
 
 		return returnUrl;
