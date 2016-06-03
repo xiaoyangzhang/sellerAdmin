@@ -6,6 +6,7 @@ import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
+import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.param.item.ScenicPublishAddDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
@@ -54,7 +55,7 @@ public class ScenicManageRepo {
 		WebResult<PageVO<ScenicManageVO>> result = domain.getWebPageResult();
 		ScenicManageVO scenicManageVO = domain.getScenicManageVO();
 		ScenicPageQuery pageQuery = domain.getBizQueryModel();
-
+		pageQuery.setStatus(ItemStatus.valid.getValue());
 		ICPageResult<ScenicDO> callBack = itemQueryServiceRef.pageQueryScenic(pageQuery);
 		if(!callBack.isSuccess()||callBack==null){
 			log.error("查询pageQueryScenic接口返回参数为null");
