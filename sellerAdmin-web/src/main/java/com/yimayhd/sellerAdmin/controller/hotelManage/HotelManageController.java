@@ -231,6 +231,7 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("systemLog",systemLog);//
 		model.addAttribute("categoryId",categoryId);//
 		model.addAttribute("itemId", itemId);
+		model.addAttribute("roomMessageVO", hotelMessageVO.getRoomMessageVO());
 		if(operationFlag.equals(UPDATE)){
 			model.addAttribute("operationFlag",operationFlag);//操作标示
 			return "/system/comm/hotelManage/addhotel";

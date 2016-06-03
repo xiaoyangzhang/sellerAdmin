@@ -32,7 +32,7 @@
         </p>
         <!-- <div class='load_room'><img src="$!rs_path_jiuxiu/img/loading.gif"></div> -->
         <div class="hotelcol" style="display: block;">
-                <span class="nm"><span class="bred">*</span><label>酒店信息：</label></span>
+                <span class="nm"><span class="bred">*</span><label>酒店房型：</label></span>
                         <span class="info-box clearfix">
                             <ul class="clearfix">
                                 <li>
