@@ -115,11 +115,15 @@
             </tr>
             <tr>
                 <td class="coltxt vt"><span class="bred">*</span>最晚到店时间：</td>
-                <td>当前0:00前   当前0:00前   当前0:00前</td>
+                <td>
+                    #foreach($o in $hotelMessageVO.latestArriveTime)
+                    当天$!{o}前
+                    #end
+                </td>
             </tr>
             <tr>
                 <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
-                <td>$!{hotelMessageVO.startBookTimeLimit}</td>
+                <td>$!{hotelMessageVO.startBookTimeLimit} /天</td>
             </tr>
             <tr>
                 <td class="coltxt"><span class="bred">*</span>早餐：</td>

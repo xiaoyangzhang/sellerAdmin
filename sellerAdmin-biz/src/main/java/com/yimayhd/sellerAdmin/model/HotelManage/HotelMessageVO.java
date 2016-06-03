@@ -45,13 +45,13 @@ public class HotelMessageVO  implements Serializable {
 
 	private long outType;//商品类型:1.酒店.2客栈
 	private String outTypeStr;//商品类型:1.酒店.2客栈
-	private long cancelLimit;// 退订限制:1,可退,2不可退,3免费退
+	private int cancelLimit;// 退订限制:1,可退,2不可退,3免费退
 	private String cancelLimitStr;// 退订限制:1,可退,2不可退,3免费退
 	private String description;// 退订规则
 	private List<String> latestArriveTime;//最晚到店时间 中台
 	private String storeLastTime;// 最晚到店时间
 
-	private long breakfast;//早餐
+	private int breakfast;//早餐
 	private String breakfastStr;
 	//{"supplier_calendar":{ "seller_id":"2088102122524333","biz_list":[{"stock_num":10,"price":"8.8","vTxt":"2088101117955611"}]}}
 	private String supplierCalendar;//价格日历json 信息,
@@ -205,11 +205,11 @@ public class HotelMessageVO  implements Serializable {
 		this.outTypeStr = outTypeStr;
 	}
 
-	public long getCancelLimit() {
+	public int getCancelLimit() {
 		return cancelLimit;
 	}
 
-	public void setCancelLimit(long cancelLimit) {
+	public void setCancelLimit(int cancelLimit) {
 		this.cancelLimit = cancelLimit;
 	}
 
@@ -236,11 +236,11 @@ public class HotelMessageVO  implements Serializable {
 	}
 
 
-	public long getBreakfast() {
+	public int getBreakfast() {
 		return breakfast;
 	}
 
-	public void setBreakfast(long breakfast) {
+	public void setBreakfast(int breakfast) {
 		this.breakfast = breakfast;
 	}
 

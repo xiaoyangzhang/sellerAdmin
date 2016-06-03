@@ -48,7 +48,7 @@
 	                </tr>
 	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>商品标题：</td>
-	                    <td><input type="text" class="inputxt" maxlength="38" name="title" value="$!{scenicManageVO.title}"><span class="mark"><label>1</label><label>/38字</label></span></td>
+	                    <td><input type="text" class="inputxt" maxlength="38" name="title" value="$!{scenicManageVO.title}"><span class="mark"><label class="cv">1</label><label>/38字</label></span></td>
 	                </tr>
 	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>价格：</td>

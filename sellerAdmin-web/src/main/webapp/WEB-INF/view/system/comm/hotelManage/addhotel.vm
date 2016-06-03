@@ -130,7 +130,7 @@
                 </tr>
                 <tr>
                     <td class="coltxt vt"><span class="bred">*</span>退订规则：</td>
-                    <td><textarea name ="description">$!{hotelMessageVO.description} </textarea><span class="mark"><label class="cv">0</label><label>/40字</label></span></td>
+                    <td><textarea name ="description" maxlength="40">$!{hotelMessageVO.description} </textarea><span class="mark"><label class="cv">0</label><label>/40字</label></span></td>
                 </tr>
                 <tr>
                     <td class="coltxt vt"><span class="bred">*</span>最晚到店时间：</td>
