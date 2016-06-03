@@ -7,8 +7,7 @@ import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
 import com.yimayhd.ic.client.model.domain.item.*;
 import com.yimayhd.ic.client.model.enums.*;
-import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
-import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
+import com.yimayhd.ic.client.model.param.item.*;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -174,16 +173,17 @@ public class HotelManageDomainChecker {
     }
 
     /**
-     * 添加酒店信息Model
+     * 添加酒店信息Model CommonItemPublishDTO
      * @return
      */
-    public CommonItemPublishDTO getBizCommonItemPublishDTO(){
+    public HotelPublishAddDTO getBizHotelPublishAddDTO(){
         if(hotelMessageVO==null){
             return null;
         }
-        CommonItemPublishDTO dto =new CommonItemPublishDTO();
+        HotelPublishAddDTO dto =new HotelPublishAddDTO();
         /*****添加商品信息***/
         ItemDO itemDO = new  ItemDO();//
+        itemDO.setId(hotelMessageVO.getItemId());
         itemDO.setSellerId(hotelMessageVO.getSellerId());//商家ID
         itemDO.setOutId(hotelMessageVO.getHotelId());//酒店ID
         itemDO.setCategoryId(hotelMessageVO.getCategoryId());//商品类目ID
@@ -211,19 +211,62 @@ public class HotelManageDomainChecker {
         /****sku价格日历***/
         // 价格日历 json解析
        // CategoryPropertyValueDO + 日期 存到 ItemSkuPVPair 中,每个sku 只有 一个 pv 属性
-        if(hotelMessageVO.getCurrentState()==UPDATE){
-           Map<String,Object> paramUp =  getUpdateItem(hotelMessageVO.getSupplierCalendar());
-            dto.setAddItemSkuDOList( paramUp.get(ADD)==null?null:(List<ItemSkuDO>)paramUp.get(ADD));
-            dto.setUpdItemSkuDOList( paramUp.get(UPDATE)==null?null:(List<ItemSkuDO>)paramUp.get(UPDATE));
-            dto.setDelItemSkuDOList(paramUp.get(DEL)==null?null:(List<Long>)paramUp.get(DEL));
-        }else{
-            List<ItemSkuDO>  itemSkuDOList = addItemSkuDOList(hotelMessageVO.getSupplierCalendar());
-            if(CollectionUtils.isEmpty(itemSkuDOList)){
-                return null;
-            }
-            dto.setItemSkuDOList(itemSkuDOList);//价格日历信息
+        List<ItemSkuDO>  itemSkuDOList = addItemSkuDOList(hotelMessageVO.getSupplierCalendar());
+        if(CollectionUtils.isEmpty(itemSkuDOList)){
+            return null;
         }
+//            dto.setItemSkuDOList(itemSkuDOList);//价格日历信息
+        dto.setItemSkuList(itemSkuDOList);
         dto.setItemDO(itemDO);//商品信息
+
+        return dto;
+    }
+
+    /**
+     * 添加酒店信息Model CommonItemPublishDTO
+     * @return
+     */
+    public HotelPublishUpdateDTO getBizHotelPublishUpdateDTO(){
+        if(hotelMessageVO==null){
+            return null;
+        }
+        HotelPublishUpdateDTO dto =new HotelPublishUpdateDTO();
+        /*****添加商品信息***/
+        //ItemDO itemDO = new  ItemDO();//
+        ItemPubUpdateDTO itemDO = new ItemPubUpdateDTO();
+        itemDO.setId(hotelMessageVO.getItemId());
+       // itemDO.setSellerId(hotelMessageVO.getSellerId());//商家ID
+        itemDO.setOutId(hotelMessageVO.getHotelId());//酒店ID
+       // itemDO.setCategoryId(hotelMessageVO.getCategoryId());//商品类目ID
+       // itemDO.setOutType(ResourceType.HOTEL.getType());// 酒店类型:酒店景区 都outType
+        itemDO.setTitle(hotelMessageVO.getTitle());//商品标题
+        itemDO.setCode(hotelMessageVO.getCode());//商品代码
+        itemDO.setPayType(hotelMessageVO.getPayType());//付款方式
+        itemDO.setDescription(hotelMessageVO.getDescription());//退订规则描述
+      //  itemDO.setDomain(Constant.DOMAIN_JIUXIU);
+      //  itemDO.setOptions(1);
+      //  itemDO.setItemType(categoryDO.getCategoryFeature().getItemType());
+        itemDO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS,hotelDO.getLogoUrl());
+        /***feature**/
+        ItemFeature itemFeature = new ItemFeature(null);
+        //itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, CancelLimit.Ok.getType());
+        /**房型ID**/
+        itemFeature.put(ItemFeatureKey.ROOM_ID,hotelMessageVO.getRoomId());//房型ID
+
+        itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, hotelMessageVO.getCancelLimit());//退订规则
+        itemFeature.put(ItemFeatureKey.LATEST_ARRIVE_TIME,hotelMessageVO.getLatestArriveTime());//前端String转list
+        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,hotelMessageVO.getStartBookTimeLimit());//提前预定天数
+        itemFeature.put(ItemFeatureKey.BREAKFAST,hotelMessageVO.getBreakfast());//早餐
+        itemFeature.put(ItemFeatureKey.PAY_MODE,hotelMessageVO.getPayType());//付款方式
+        itemDO.setItemFeature(itemFeature);
+        /****sku价格日历***/
+        // 价格日历 json解析
+        // CategoryPropertyValueDO + 日期 存到 ItemSkuPVPair 中,每个sku 只有 一个 pv 属性
+        Map<String,Object> paramUp =  getUpdateItem(hotelMessageVO.getSupplierCalendar());
+        dto.setAddItemSkuList( paramUp.get(ADD)==null?null:(List<ItemSkuDO>)paramUp.get(ADD));
+        dto.setUpdItemSkuList( paramUp.get(UPDATE)==null?null:(List<ItemSkuDO>)paramUp.get(UPDATE));
+        dto.setDelItemSkuList(paramUp.get(DEL)==null?null:(List<Long>)paramUp.get(DEL));
+        dto.setItemDTO(itemDO);//商品信息
 
         return dto;
     }
@@ -345,8 +388,10 @@ public class HotelManageDomainChecker {
             phone=hotelDO.getPhoneNum().get(0);
         }
         hotelMessageVO.setPhone(phone);
+
         /**房型信息**/
         hotelMessageVO.setListRoomMessageVO(getRoomMessageVOList());
+
         ItemFeature itemFeature = itemDO.getItemFeature();
         hotelMessageVO.setHotelId(itemDO.getOutId());//酒店ID
         hotelMessageVO.setOutType(itemDO.getOutType());//酒店类型
@@ -360,11 +405,13 @@ public class HotelManageDomainChecker {
         hotelMessageVO.setCancelLimitStr(CancelLimit.getByType(itemFeature.getCancelLimit()).getDesc());//退订规则 string
         hotelMessageVO.setLatestArriveTime(itemFeature.getLatestArriveTime());//最后到点时间
         hotelMessageVO.setStartBookTimeLimit(Long.valueOf(itemFeature.getStartBookTimeLimit()));// 提前预定天数
-        hotelMessageVO.setBreakfast(itemFeature.getBreakfast());//早餐
+        hotelMessageVO.setBreakfast(itemFeature.getBreakfast());//
+        hotelMessageVO.setBreakfastStr(HotelItemBreakfast.getByType(itemFeature.getBreakfast()).getDesc());
         /**价格日历**/
         hotelMessageVO.setSupplierCalendar(getSupplierCalendarJson());
         /***房型信息**/
         hotelMessageVO.setListRoomMessageVO(getRoomMessageVOList());
+        hotelMessageVO.setRoomMessageVO(getBizRoomMessageVO(itemFeature.getRoomId()));
         return hotelMessageVO;
     }
 
@@ -432,6 +479,43 @@ public class HotelManageDomainChecker {
             roomList.add(vo);
         }
         return roomList;
+
+    }
+
+    /**
+     * 获取房型信息
+     * @return
+     */
+    public  RoomMessageVO getBizRoomMessageVO(long roomId){
+        if(CollectionUtils.isEmpty(listRoomDO)){
+            return  null;
+        }
+        RoomMessageVO vo = new  RoomMessageVO();
+        for(RoomDO room :listRoomDO){
+            if(room.getId()!=roomId){
+                continue;
+            }
+            vo.setRoomId(room.getId());
+            vo.setHotelId(room.getHotelId());
+            vo.setName(room.getName());
+            vo.setPics(room.getPics());
+            RoomFeature roomFeature = room.getFeature();
+            vo.setArea(roomFeature.getArea());
+            vo.setBed(roomFeature.getBed());
+            vo.setWindow(roomFeature.getWindow());
+            List<Integer> netList = roomFeature.getNetwork();
+            StringBuffer sb = new StringBuffer();
+            if(CollectionUtils.isNotEmpty(netList)){
+                for(Integer network:netList){
+                    sb.append(RoomNetwork.getByType(network.intValue()).getDesc());
+                    sb.append(" ");
+                }
+                vo.setNetworkStr(sb.toString());
+            }
+            vo.setNetwork(roomFeature.getNetwork());
+            vo.setPeople(roomFeature.getPeople());
+        }
+        return vo;
 
     }
 

@@ -372,7 +372,7 @@
                                  #if($!order.mainOrder.orderType == 1100 || $!order.mainOrder.orderType == 3400)
                                 	<div class="t-name">$!order.mainOrder.tcMainOrder.hotelTitle</div>
                                 	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
-                                    <div class="t-date">$!date.format('yyyy-MM-dd',$!order.mainOrder.tcMainOrder.checkInTime)</div>
+                                    <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.tcDetailOrder.startDate)</div>
                                     <div class="t-userType">$!order.mainOrder.tcMainOrder.roomTitle</div>
                                     #if($!order.mainOrder.orderType == 1400)
                                     	<div class="t-userType">在线付</div>

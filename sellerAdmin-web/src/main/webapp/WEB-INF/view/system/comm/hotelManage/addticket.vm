@@ -21,6 +21,7 @@
 		<input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{scenicManageVO.sellerId}">
 		<input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{scenicManageVO.categoryId}">
         <input type="hidden" class="picCode baseInfo-picCode" name="operationFlag" value="$!{operationFlag}">
+        <input type="hidden" class="picCode baseInfo-picCode" name="itemId" value="$!{itemId}">
         <input type="hidden" class="picCode baseInfo-picCode" name="systemLog" value="$!{systemLog}">
 	    <div class="hotelinfo ticketinfo">
 	        <p>
@@ -47,7 +48,7 @@
 	                </tr>
 	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>商品标题：</td>
-	                    <td><input type="text" class="inputxt" maxlength="38" name="title" value="$!{scenicManageVO.title}"><span class="mark"><label>1</label>/38字</span></td>
+	                    <td><input type="text" class="inputxt" maxlength="38" name="title" value="$!{scenicManageVO.title}"><span class="mark"><label>1</label><label>/38字</label></span></td>
 	                </tr>
 	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>价格：</td>

@@ -10,7 +10,7 @@
 
 	<input type="hidden" id="subpath" class="subpath" value="$!root_path/order/assessmentList">
     <form class="form-signin" id="tradeListForm" name="tradeListForm"
-          action="$!root_path/order/assessmentList" role="form">
+          action="" role="form">
         	<div class = "eredar-info clearfix">
 				<ul>
 					<li class = " first on">评价管理 </li>
@@ -44,12 +44,12 @@
 							<em class="emW">商品名称：</em>
 								<span class = "black">
 									#if($assessment.itemName)
-										#if($!assessment.itemName.length() < 9) $!assessment.itemName #else $!assessment.itemName.substring(0,9)... #end
+										#if($!assessment.itemName.length() < 19) $!assessment.itemName #else $!assessment.itemName.substring(0,19)... #end
 	                           		#end
 								</span>
 						</p>
 						<p>
-							<em>综合评分：</em><span>$!assessment.score</span>
+							<em>综合评分：</em><span>$!assessment.score_</span>
 							#foreach($dimension in $assessment.dimensionInfoResultList)
 								<em class="emW">$!dimension.dimensionName：</em><span>$!dimension.dimensionScore</span>
 							#end

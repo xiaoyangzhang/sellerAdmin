@@ -14,11 +14,14 @@
     </ul>
 </div>
 <div class="panel on">
-    <input type="hidden" class="picCode baseInfo-picCode" name="scenicId" value="$!{scenicManageVO.scenicId}">
-    <input type="hidden" class="picCode baseInfo-picCode" name="scenicName" value="$!{scenicManageVO.name}">
-    <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value="$!{scenicManageVO.supplierCalendar}">
-    <input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{scenicManageVO.sellerId}">
-    <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{scenicManageVO.categoryId}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="hotelId" value="$!{hotelMessageVO.hotelId}" />
+    <input type="hidden" class="picCode baseInfo-picCode" name="name" value="$!{hotelMessageVO.name}" />
+    <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value='$!{hotelMessageVO.supplierCalendar}' />
+    <input type="hidden" class="picCode baseInfo-picCode" name="roomId" value="$!{hotelMessageVO.roomId}" />
+    <input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{hotelMessageVO.sellerId}" />
+    <input type="hidden" class="picCode baseInfo-picCode" name="operationFlag" value="$!{operationFlag}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{categoryId}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="itemId" value="$!{itemId}">
     <input type="hidden" class="picCode baseInfo-picCode" name="systemLog" value="$!{systemLog}">
     <div class="hotelinfo">
         <p>
@@ -32,9 +35,50 @@
         </p>
         <!-- <div class='load_room'><img src="$!rs_path_jiuxiu/img/loading.gif"></div> -->
         <div class="hotelcol" style="display: block;">
-            <span class="nm"><span class="bred">*</span><label>酒店房型：</label></span>
-                <span class="info-box clearfix">
-                </span>
+                <span class="nm"><span class="bred">*</span><label>酒店房型：</label></span>
+                        <span class="info-box clearfix">
+                            <ul class="clearfix">
+                                <li>
+                                    <div class="radio-bar clearfix">
+                                        <label class="fl"><input type="radio" name="gp" checked> 房型</label>
+                                        <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
+                                    </div>
+                                    <div class="bar-box" style="height:243px">
+                                        <ul class="clearfix">
+                                            <li>
+                                                <label>房型：</label>
+                                                <label>$!{roomMessageVO.name}</label>
+                                            </li>
+                                            <li>
+                                                <label>面积：</label>
+                                                <label>$!{roomMessageVO.area} 平米</label>
+                                            </li>
+                                            <li>
+                                                <label>床型：</label>
+                                                <label>$!{roomMessageVO.bed}</label>
+                                            </li>
+                                            <li>
+                                                <label>可住：</label>
+                                                <label>$!{roomMessageVO.people}人</label>
+                                            </li>
+                                            <li>
+                                                <label>网络：</label>
+                                                <label>有wifi</label>
+                                            </li>
+                                            <li>
+                                                <label>窗户：</label>
+                                                <label>有窗</label>
+                                            </li>
+                                        </ul>
+                                        <div class="img-group">
+                                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </span>
         </div>
     </div>
 </div>

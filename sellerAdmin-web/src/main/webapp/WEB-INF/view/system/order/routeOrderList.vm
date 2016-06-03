@@ -148,7 +148,7 @@
                                         || $!subOrder.tcDetailOrder.bizOrder.orderType == 3500 || $!subOrder.tcDetailOrder.bizOrder.orderType == 3600)
                                            	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
                                             <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.executeTime) 出发</div>
-                                            <div class="t-userType">$!subOrder.tcDetailOrder.itemSubTitle</div>
+                                            <div class="t-userType">$!subOrder.tcDetailOrder.linePackage</div>
                                             <div class="t-userType">$!subOrder.vTxt</div>
                                         #end
                                         
@@ -162,7 +162,7 @@
                                          #if($!subOrder.tcDetailOrder.bizOrder.orderType == 1100 || $!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
                                         	<div class="t-name">$!order.tcMainOrder.hotelTitle</div>
                                         	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
-                                            <div class="t-date">$!date.format('yyyy-MM-dd',$!order.tcMainOrder.checkInTime)</div>
+                                            <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.tcDetailOrder.startDate)</div>
                                             <div class="t-userType">$!order.tcMainOrder.roomTitle</div>
                                             #if($!subOrder.tcDetailOrder.bizOrder.orderType == 1400)
                                             	<div class="t-userType">在线付</div>

@@ -3,13 +3,16 @@ package com.yimayhd.sellerAdmin.model.HotelManage;
 import com.yimayhd.ic.client.model.domain.TicketDO;
 import com.yimayhd.sellerAdmin.base.BaseQuery;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
 /**
  * Created by wangdi on 16/5/16.
  */
-public class ScenicManageVO extends BaseQuery {
+public class ScenicManageVO implements Serializable
+{
+    private static final long serialVersionUID = -1431722364275021759L;
     private long sellerId;//商家ID
     private long scenicId;//景区资源
     private long itemId ;// '自增id',
@@ -17,7 +20,7 @@ public class ScenicManageVO extends BaseQuery {
     private String title;//标题
     private BigDecimal price;//价格
     private BigDecimal originalPrice;//门市价格
-    private int ticketId;//票型ID
+    private long ticketId;//票型ID
     private String ticketTitle;//票型名称
     private String area;//区域
     private long subjectId;// 主题ID
@@ -52,7 +55,9 @@ public class ScenicManageVO extends BaseQuery {
     private List<TicketDO> ticketDOList;//景区门票类型
 
     private String  dynamicEntry;//列表参数  json
-    private List<BizCategoryInfo> bizCategoryInfoList;// 动态列表参数
+    private List<BizCategoryInfo> bizCategoryInfoList;// 动态列表参数\
+    public Integer page =1;
+    protected Integer pageSize =8 ;
 
     public long getSellerId() {
         return sellerId;
@@ -110,11 +115,11 @@ public class ScenicManageVO extends BaseQuery {
         this.originalPrice = originalPrice;
     }
 
-    public int getTicketId() {
+    public long getTicketId() {
         return ticketId;
     }
 
-    public void setTicketId(int ticketId) {
+    public void setTicketId(long ticketId) {
         this.ticketId = ticketId;
     }
 
@@ -260,5 +265,21 @@ public class ScenicManageVO extends BaseQuery {
 
     public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 }

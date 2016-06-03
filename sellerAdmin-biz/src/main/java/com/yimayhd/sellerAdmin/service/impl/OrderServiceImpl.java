@@ -425,6 +425,7 @@ public class OrderServiceImpl implements OrderService {
 				UserDO userDO = userServiceRef.getUserDOById(jxComRateResult.getUserId());
 				jxComRateResult.setNickName(userDO.getNickname());
 				jxComRateResult.setUserPhoto(userDO.getAvatar());
+				jxComRateResult.setContent(comRateResult.getContent());
 				//根据商品ids获取商品列表
 				List<Long> ids = new ArrayList<Long>();
 				ids.add(comRateResult.getItemId());
