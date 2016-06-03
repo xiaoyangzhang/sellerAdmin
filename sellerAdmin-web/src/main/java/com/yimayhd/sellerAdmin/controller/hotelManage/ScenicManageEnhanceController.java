@@ -90,9 +90,10 @@ public class ScenicManageEnhanceController extends BaseController {
         model.addAttribute("pageVo", pageResult);
         model.addAttribute("scenicManageVOList", scenicManageVOList);
         model.addAttribute("totalPage", totalPage);
-        model.addAttribute("pageNo", pageResult.getPaginator().getPage());
-        model.addAttribute("pageSize",8);
+       // model.addAttribute("pageNo", pageResult.getPaginator().getPage());
+      //  model.addAttribute("pageSize",8);
         model.addAttribute("totalCount", pageResult.getPaginator().getTotalItems());
+
         return "/system/comm/hotelManage/searchscenic";
     }
 

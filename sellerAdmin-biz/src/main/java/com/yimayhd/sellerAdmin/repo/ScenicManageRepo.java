@@ -52,7 +52,9 @@ public class ScenicManageRepo {
      */
 	public WebResult<PageVO<ScenicManageVO>> queryScenicManageVOListByData(ScenicManageDomainChecker domain) throws Exception{
 		WebResult<PageVO<ScenicManageVO>> result = domain.getWebPageResult();
+		ScenicManageVO scenicManageVO = domain.getScenicManageVO();
 		ScenicPageQuery pageQuery = domain.getBizQueryModel();
+
 		ICPageResult<ScenicDO> callBack = itemQueryServiceRef.pageQueryScenic(pageQuery);
 		if(!callBack.isSuccess()||callBack==null){
 			log.error("查询pageQueryScenic接口返回参数为null");
@@ -64,7 +66,7 @@ public class ScenicManageRepo {
 				resultList.add(domain.doToModel(_do));
 			}
 		}
-		PageVO<ScenicManageVO> pageModel = new PageVO<ScenicManageVO>(callBack.getPageNo(),callBack.getPageSize(),callBack.getTotalCount(),resultList);
+		PageVO<ScenicManageVO> pageModel = new PageVO<ScenicManageVO>(scenicManageVO.getPage(),scenicManageVO.getPageSize(),callBack.getTotalCount(),resultList);
 		result.setValue(pageModel);
 		return result;
 	}
