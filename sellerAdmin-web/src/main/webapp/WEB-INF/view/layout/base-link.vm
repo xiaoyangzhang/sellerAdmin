@@ -1,4 +1,6 @@
 #set( $resourcesPath = $!utilWebconfig.getStaticResourcesPath() )
 #set( $resourceVersion = $!utilWebconfig.getResourceVersion() )
+#set( $resourcePathJiuXiu = $!utilWebconfig.getResourcePathJiuXiu() )
 <link rel="stylesheet" href="$!{resourcesPath}/resources/zui/css/zui.min.css?version=$!{resourceVersion}" >
 <link rel="stylesheet" href="$!{resourcesPath}/resources/css/common.css?version=$!{resourceVersion}"/>
+<link rel="stylesheet" href="$!{resourcePathJiuXiu}/src/css/base.css"/>
