@@ -67,6 +67,7 @@ public class HotelManageRepo {
 		HotelMessageVO hotelMessageVO =domain.getHotelMessageVO();
 		WebResult<PageVO<HotelMessageVO>> result = domain.getPageResult();
 		HotelPageQuery hotelPageQuery = domain.getBizQueryModel();
+		log.info("queryHotelMessageVOListByDataRepo.pageQueryHotel 回参: hotelPageQuery="+CommonJsonUtil.objectToJson(hotelPageQuery,HotelPageQuery.class));
 		ICPageResult<HotelDO> callBack = itemQueryServiceRef.pageQueryHotel(hotelPageQuery);
 		if (callBack == null) {
 			log.error("查询pageQueryHotel返回结果异常");
@@ -74,7 +75,7 @@ public class HotelManageRepo {
 		}
 		List<HotelDO> callBackList = callBack.getList();
 		//System.out.println(CommonJsonUtil.objectToJson(callBackList,List.class));
-		log.info("result:"+CommonJsonUtil.objectToJson(callBackList,List.class));
+		log.info("callBackList:"+CommonJsonUtil.objectToJson(callBackList,List.class));
 		System.out.println("pageNo:"+callBack.getPageNo()+",pageSize:"+callBack.getPageSize()+",totalCount:"+callBack.getTotalCount());
 		List<HotelMessageVO> modelList = new ArrayList<>();
 		if (CollectionUtils.isNotEmpty(callBackList)) {

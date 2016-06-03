@@ -56,11 +56,13 @@ public class ScenicManageRepo {
 		ScenicManageVO scenicManageVO = domain.getScenicManageVO();
 		ScenicPageQuery pageQuery = domain.getBizQueryModel();
 		pageQuery.setStatus(ItemStatus.valid.getValue());
+		log.info("queryScenicManageVOListByData.getItem 入参: pageQuery="+CommonJsonUtil.objectToJson(pageQuery,ScenicPageQuery.class));
 		ICPageResult<ScenicDO> callBack = itemQueryServiceRef.pageQueryScenic(pageQuery);
 		if(!callBack.isSuccess()||callBack==null){
 			log.error("查询pageQueryScenic接口返回参数为null");
 		}
 		List<ScenicDO> ScenicDOList = callBack.getList();
+		log.info("ScenicDOList:"+CommonJsonUtil.objectToJson(ScenicDOList,List.class));
 		List<ScenicManageVO> resultList = new ArrayList<ScenicManageVO>();
 		if(CollectionUtils.isNotEmpty(ScenicDOList)){
 			for(ScenicDO _do:ScenicDOList){
