@@ -183,13 +183,7 @@ public class ResourceForSelectController extends BaseController {
 		}
 		hashMap.put("destinationNodeVOs", destinationNodeVOs);
 		put("destMap", hashMap);
-		if (ItemUtil.isFreeLine(itemType)) {
-			//国内游跳转页面
 			return "/system/resource/forSelect/selectDests";
-		}else {
-			//境外游跳转页面
-			return "/system/resource/forSelect/selectOverseaDests";
-		}
 	}
 
 //	private LineVO getItemLineInfo(Long id) {
