@@ -35,7 +35,7 @@ public class HotelMessageVO  implements Serializable {
 
 	private String locationTownName;
 
-	private Long startBookTimeLimit;// 提前预定天数
+	private Integer startBookTimeLimit;// 提前预定天数
 
 	private String title; // '标题',
 	private String code; // '商品代码',
@@ -331,11 +331,11 @@ public class HotelMessageVO  implements Serializable {
 		this.breakfastStr = breakfastStr;
 	}
 
-	public Long getStartBookTimeLimit() {
+	public Integer getStartBookTimeLimit() {
 		return startBookTimeLimit;
 	}
 
-	public void setStartBookTimeLimit(Long startBookTimeLimit) {
+	public void setStartBookTimeLimit(Integer startBookTimeLimit) {
 		this.startBookTimeLimit = startBookTimeLimit;
 	}
 
