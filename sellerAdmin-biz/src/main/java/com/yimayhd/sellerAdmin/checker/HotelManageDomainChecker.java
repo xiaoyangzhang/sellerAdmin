@@ -96,10 +96,10 @@ public class HotelManageDomainChecker {
             hotelPageQuery.setLocationCityId(Long.valueOf(hotelMessageVO.getLocationCityId()));
         }
         if(hotelMessageVO.getLocationProvinceId()>0){
-            hotelPageQuery.setLocationCityId(Long.valueOf(hotelMessageVO.getLocationProvinceId()));
+            hotelPageQuery.setLocationProvinceId(Long.valueOf(hotelMessageVO.getLocationProvinceId()));
         }
         if(hotelMessageVO.getLocationTownId()>0){
-            hotelPageQuery.setLocationCityId(Long.valueOf(hotelMessageVO.getLocationTownId()));
+            hotelPageQuery.setLocationTownId(Long.valueOf(hotelMessageVO.getLocationTownId()));
         }
 
         hotelPageQuery.setPageNo(hotelMessageVO.getPage());

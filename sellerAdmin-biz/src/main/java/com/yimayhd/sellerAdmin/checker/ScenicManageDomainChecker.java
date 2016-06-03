@@ -89,10 +89,10 @@ public class ScenicManageDomainChecker {
             scenicPageQuery.setLocationCityId(Long.valueOf(scenicManageVO.getLocationCityId()));
         }
         if(scenicManageVO.getLocationProvinceId()>0){
-            scenicPageQuery.setLocationCityId(Long.valueOf(scenicManageVO.getLocationProvinceId()));
+            scenicPageQuery.setLocationProvinceId(Long.valueOf(scenicManageVO.getLocationProvinceId()));
         }
         if(scenicManageVO.getLocationTownId()>0){
-            scenicPageQuery.setLocationCityId(Long.valueOf(scenicManageVO.getLocationTownId()));
+            scenicPageQuery.setLocationTownId(Long.valueOf(scenicManageVO.getLocationTownId()));
         }
 
         scenicPageQuery.setLocationTownId(Long.valueOf(scenicManageVO.getLocationTownId()));
