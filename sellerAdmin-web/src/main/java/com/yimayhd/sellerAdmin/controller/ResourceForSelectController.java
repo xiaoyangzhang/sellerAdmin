@@ -156,13 +156,14 @@ public class ResourceForSelectController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/selectDests/{itemType}")
-	public String selectDestsByItemType(@PathVariable(value = "itemType") ItemType itemType,@RequestParam(value="selectedIds[]", required=false) List<String> selectedIds) {
-		WebResult<List<DestinationNodeVO>> result=null;
-		HashMap<String,Object> hashMap = new HashMap<String,Object>();
-		if (itemType.equals(ItemType.TOUR_LINE)||itemType.equals(ItemType.FREE_LINE)) {
+	public String selectDestsByItemType(@PathVariable(value = "itemType") ItemType itemType,
+			@RequestParam(value = "selectedIds", required = false) List<String> selectedIds) {
+		WebResult<List<DestinationNodeVO>> result = null;
+		HashMap<String, Object> hashMap = new HashMap<String, Object>();
+		if (itemType.equals(ItemType.TOUR_LINE) || itemType.equals(ItemType.FREE_LINE)) {
 			result = commLineService.queryInlandDestinationTree();
 			hashMap.put("type", "inland");
-		}else {
+		} else {
 			result = commLineService.queryOverseaDestinationTree();
 			hashMap.put("type", "oversea");
 		}
@@ -170,7 +171,7 @@ public class ResourceForSelectController extends BaseController {
 		if (CollectionUtils.isNotEmpty(selectedIds)) {
 			for (DestinationNodeVO destinationNodeVO : destinationNodeVOs) {
 				for (String id : selectedIds) {
-					if (destinationNodeVO.getDestinationVO().getId().equals(id)) {
+					if (destinationNodeVO.getDestinationVO().getId().toString().equals(id)) {
 						destinationNodeVO.getDestinationVO().setSelected(true);
 					}
 				}
@@ -178,12 +179,12 @@ public class ResourceForSelectController extends BaseController {
 		}
 		if (result.isSuccess()) {
 			orderByFirstLetter(destinationNodeVOs);
-		}else {
+		} else {
 			throw new BaseException("选择目的地失败");
 		}
 		hashMap.put("destinationNodeVOs", destinationNodeVOs);
 		put("destMap", hashMap);
-			return "/system/resource/forSelect/selectDests";
+		return "/system/resource/forSelect/selectDests";
 	}
 
 //	private LineVO getItemLineInfo(Long id) {
