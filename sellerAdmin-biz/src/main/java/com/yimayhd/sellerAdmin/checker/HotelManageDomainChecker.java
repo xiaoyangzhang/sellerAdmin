@@ -388,8 +388,10 @@ public class HotelManageDomainChecker {
             phone=hotelDO.getPhoneNum().get(0);
         }
         hotelMessageVO.setPhone(phone);
+
         /**房型信息**/
         hotelMessageVO.setListRoomMessageVO(getRoomMessageVOList());
+
         ItemFeature itemFeature = itemDO.getItemFeature();
         hotelMessageVO.setHotelId(itemDO.getOutId());//酒店ID
         hotelMessageVO.setOutType(itemDO.getOutType());//酒店类型
@@ -407,8 +409,8 @@ public class HotelManageDomainChecker {
         /**价格日历**/
         hotelMessageVO.setSupplierCalendar(getSupplierCalendarJson());
         /***房型信息**/
-       // hotelMessageVO.setListRoomMessageVO(getRoomMessageVOList());
-        hotelMessageVO.setRoomMessageVO(getBizRoomMessageVO());
+        hotelMessageVO.setListRoomMessageVO(getRoomMessageVOList());
+        hotelMessageVO.setRoomMessageVO(getBizRoomMessageVO(itemFeature.getRoomId()));
         return hotelMessageVO;
     }
 
@@ -483,30 +485,35 @@ public class HotelManageDomainChecker {
      * 获取房型信息
      * @return
      */
-    public  RoomMessageVO getBizRoomMessageVO(){
-        if(roomDO==null){
+    public  RoomMessageVO getBizRoomMessageVO(long roomId){
+        if(CollectionUtils.isEmpty(listRoomDO)){
             return  null;
         }
         RoomMessageVO vo = new  RoomMessageVO();
-        vo.setRoomId(roomDO.getId());
-        vo.setHotelId(roomDO.getHotelId());
-        vo.setName(roomDO.getName());
-        vo.setPics(roomDO.getPics());
-        RoomFeature roomFeature = roomDO.getFeature();
-        vo.setArea(roomFeature.getArea());
-        vo.setBed(roomFeature.getBed());
-        vo.setWindow(roomFeature.getWindow());
-        List<Integer> netList = roomFeature.getNetwork();
-        StringBuffer sb = new StringBuffer();
-        if(CollectionUtils.isNotEmpty(netList)){
-            for(Integer network:netList){
-                sb.append(RoomNetwork.getByType(network.intValue()).getDesc());
-                sb.append(" ");
+        for(RoomDO room :listRoomDO){
+            if(room.getId()!=roomId){
+                continue;
             }
-            vo.setNetworkStr(sb.toString());
+            vo.setRoomId(room.getId());
+            vo.setHotelId(room.getHotelId());
+            vo.setName(room.getName());
+            vo.setPics(room.getPics());
+            RoomFeature roomFeature = room.getFeature();
+            vo.setArea(roomFeature.getArea());
+            vo.setBed(roomFeature.getBed());
+            vo.setWindow(roomFeature.getWindow());
+            List<Integer> netList = roomFeature.getNetwork();
+            StringBuffer sb = new StringBuffer();
+            if(CollectionUtils.isNotEmpty(netList)){
+                for(Integer network:netList){
+                    sb.append(RoomNetwork.getByType(network.intValue()).getDesc());
+                    sb.append(" ");
+                }
+                vo.setNetworkStr(sb.toString());
+            }
+            vo.setNetwork(roomFeature.getNetwork());
+            vo.setPeople(roomFeature.getPeople());
         }
-        vo.setNetwork(roomFeature.getNetwork());
-        vo.setPeople(roomFeature.getPeople());
         return vo;
 
     }
