@@ -407,7 +407,8 @@ public class HotelManageDomainChecker {
         /**价格日历**/
         hotelMessageVO.setSupplierCalendar(getSupplierCalendarJson());
         /***房型信息**/
-        hotelMessageVO.setListRoomMessageVO(getRoomMessageVOList());
+       // hotelMessageVO.setListRoomMessageVO(getRoomMessageVOList());
+        hotelMessageVO.setRoomMessageVO(getBizRoomMessageVO());
         return hotelMessageVO;
     }
 
@@ -475,6 +476,38 @@ public class HotelManageDomainChecker {
             roomList.add(vo);
         }
         return roomList;
+
+    }
+
+    /**
+     * 获取房型信息
+     * @return
+     */
+    public  RoomMessageVO getBizRoomMessageVO(){
+        if(roomDO==null){
+            return  null;
+        }
+        RoomMessageVO vo = new  RoomMessageVO();
+        vo.setRoomId(roomDO.getId());
+        vo.setHotelId(roomDO.getHotelId());
+        vo.setName(roomDO.getName());
+        vo.setPics(roomDO.getPics());
+        RoomFeature roomFeature = roomDO.getFeature();
+        vo.setArea(roomFeature.getArea());
+        vo.setBed(roomFeature.getBed());
+        vo.setWindow(roomFeature.getWindow());
+        List<Integer> netList = roomFeature.getNetwork();
+        StringBuffer sb = new StringBuffer();
+        if(CollectionUtils.isNotEmpty(netList)){
+            for(Integer network:netList){
+                sb.append(RoomNetwork.getByType(network.intValue()).getDesc());
+                sb.append(" ");
+            }
+            vo.setNetworkStr(sb.toString());
+        }
+        vo.setNetwork(roomFeature.getNetwork());
+        vo.setPeople(roomFeature.getPeople());
+        return vo;
 
     }
 
