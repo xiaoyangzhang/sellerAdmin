@@ -82,13 +82,12 @@ public class ScenicManageDomainChecker {
         if(scenicManageVO==null){
             return scenicPageQuery;
         }
-        if(scenicManageVO.getScenicId()!=0){
-
-        }
         if(StringUtils.isNotBlank(scenicManageVO.getName())){
             scenicPageQuery.setName(scenicManageVO.getName());
         }
-
+        scenicPageQuery.setLocationTownId(scenicManageVO.getLocationTownId());
+        scenicPageQuery.setLocationProvinceId(scenicManageVO.getLocationProvinceId());
+        scenicPageQuery.setLocationCityId(scenicManageVO.getLocationCityId());
         return  scenicPageQuery;
     }
 

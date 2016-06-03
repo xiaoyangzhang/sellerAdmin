@@ -92,6 +92,9 @@ public class HotelManageDomainChecker {
         if(StringUtils.isNotBlank(hotelMessageVO.getName())){
             hotelPageQuery.setName(hotelMessageVO.getName());
         }
+        hotelPageQuery.setLocationCityId(hotelMessageVO.getLocationCityId());
+        hotelPageQuery.setLocationProvinceId(hotelMessageVO.getLocationProvinceId());
+        hotelPageQuery.setLocationTownId(hotelDO.getLocationTownId());
         hotelPageQuery.setPageNo(hotelMessageVO.getPage());
         hotelPageQuery.setPageSize(hotelMessageVO.getPageSize());
         return hotelPageQuery;
