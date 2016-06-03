@@ -13,6 +13,8 @@ public class JXComRateResult extends ComRateResult {
 	private String userPhoto; // 用户头像
 
 	private String itemName;
+	
+	private double score_;
 
 	public String getNickName() {
 		return nickName;
@@ -38,4 +40,13 @@ public class JXComRateResult extends ComRateResult {
 		this.itemName = itemName;
 	}
 
+	public double getScore_() {
+		return score_;
+	}
+
+	public void setScore_(double score_) {
+		this.score_ = score_;
+	}
+
+	
 }

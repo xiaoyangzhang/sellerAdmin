@@ -148,7 +148,7 @@
                                         || $!subOrder.tcDetailOrder.bizOrder.orderType == 3500 || $!subOrder.tcDetailOrder.bizOrder.orderType == 3600)
                                            	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
                                             <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.executeTime) 出发</div>
-                                            <div class="t-userType">$!subOrder.tcDetailOrder.itemSubTitle</div>
+                                            <div class="t-userType">$!subOrder.tcDetailOrder.linePackage</div>
                                             <div class="t-userType">$!subOrder.vTxt</div>
                                         #end
                                         
