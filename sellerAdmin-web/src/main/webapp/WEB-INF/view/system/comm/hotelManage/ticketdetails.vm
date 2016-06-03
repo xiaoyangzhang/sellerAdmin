@@ -44,10 +44,6 @@
                     <td>$!{scenicManageVO.title}</td>
                 </tr>
                 <tr class="notNull">
-                    <td class="coltxt"><span class="bred">*</span>价格：</td>
-                    <td>$!{scenicManageVO.price}</td>
-                </tr>
-                <tr class="notNull">
                     <td class="coltxt"><span class="bred">*</span>门市价：</td>
                     <td>$!{scenicManageVO.originalPrice}</td>
                 </tr>
