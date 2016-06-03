@@ -20,7 +20,6 @@
         <td class="scenic-locationText" >$!{scenicManageVO.locationText}</td>
         <td>$!{scenicManageVO.subjectId}</td>
         <td>$!{scenicManageVO.level}</td>
-        <td><a>查看详情</a></td>
     </tr>
   #end
     </tbody>

@@ -86,7 +86,7 @@ public class ScenicManageEnhanceController extends BaseController {
         }else {
             totalPage += pageResult.getTotalCount()/pageResult.getPageSize();
         }
-
+        //model.addAttribute("scenicManageVO", scenicManageVO);
         model.addAttribute("pageVo", pageResult);
         model.addAttribute("scenicManageVOList", scenicManageVOList);
         model.addAttribute("totalPage", totalPage);

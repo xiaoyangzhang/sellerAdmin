@@ -123,7 +123,7 @@
             </tr>
             <tr>
                 <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
-                <td>$!{hotelMessageVO.startBookTimeLimit} /天</td>
+                <td>$!{hotelMessageVO.startBookTimeLimit} 天</td>
             </tr>
             <tr>
                 <td class="coltxt"><span class="bred">*</span>早餐：</td>
