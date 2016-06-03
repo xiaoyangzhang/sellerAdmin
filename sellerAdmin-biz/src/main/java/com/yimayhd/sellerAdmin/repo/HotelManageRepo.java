@@ -11,6 +11,8 @@ import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
+import com.yimayhd.ic.client.model.param.item.HotelPublishAddDTO;
+import com.yimayhd.ic.client.model.param.item.HotelPublishUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.query.RoomQuery;
@@ -61,6 +63,7 @@ public class HotelManageRepo {
      */
 	@MethodLogger
 	public WebResult <PageVO<HotelMessageVO>>  queryHotelMessageVOListByDataRepo(HotelManageDomainChecker domain) throws Exception {
+		HotelMessageVO hotelMessageVO =domain.getHotelMessageVO();
 		WebResult<PageVO<HotelMessageVO>> result = domain.getPageResult();
 		HotelPageQuery hotelPageQuery = domain.getBizQueryModel();
 		ICPageResult<HotelDO> callBack = itemQueryServiceRef.pageQueryHotel(hotelPageQuery);
@@ -69,7 +72,7 @@ public class HotelManageRepo {
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "查询pageQueryHotel返回结果异常");
 		}
 		List<HotelDO> callBackList = callBack.getList();
-		System.out.println(CommonJsonUtil.objectToJson(callBackList,List.class));
+		//System.out.println(CommonJsonUtil.objectToJson(callBackList,List.class));
 		log.info("result:"+CommonJsonUtil.objectToJson(callBackList,List.class));
 		System.out.println("pageNo:"+callBack.getPageNo()+",pageSize:"+callBack.getPageSize()+",totalCount:"+callBack.getTotalCount());
 		List<HotelMessageVO> modelList = new ArrayList<>();
@@ -78,7 +81,7 @@ public class HotelManageRepo {
 				modelList.add(domain.doToModel(_do));
 			}
 		}
-		PageVO<HotelMessageVO> pageModel = new PageVO<HotelMessageVO>(callBack.getPageNo(), callBack.getPageSize(), callBack.getTotalCount(), modelList);
+		PageVO<HotelMessageVO> pageModel = new PageVO<HotelMessageVO>(hotelMessageVO.getPage(), hotelMessageVO.getPageSize(), callBack.getTotalCount(), modelList);
 		result.setValue(pageModel);
 
 		return result;
@@ -113,12 +116,12 @@ public class HotelManageRepo {
 		/**类目销售属性**/
 
 		domain.setCategoryPropertyValueDO(sellDO);
-		CommonItemPublishDTO commonItemPublishDTO = domain.getBizCommonItemPublishDTO();
-		if(commonItemPublishDTO==null){
+		HotelPublishAddDTO hotelPublishAddDTO = domain.getBizHotelPublishAddDTO();
+		if(hotelPublishAddDTO==null){
 			log.error( "拼装commonItemPublishDTO商品信息错误");
-			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "拼装commonItemPublishDTO商品信息错误");
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "拼装hotelPublishAddDTO商品信息错误");
 		}
-		ItemPubResult result = itemPublishServiceRef.publishCommonItem(commonItemPublishDTO);
+		ItemPubResult result = itemPublishServiceRef.addPublishHotel(hotelPublishAddDTO);
 		if(!result.isSuccess()){
 			log.error("添加酒店商品信息错误");
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "添加酒店商品信息错误");
@@ -158,9 +161,9 @@ public class HotelManageRepo {
 		CategoryPropertyValueDO sellDO = categoryDO.getSellCategoryPropertyDOs().get(0);
 		log.info("itemQueryServiceRef.getCategory 回参: sellDO="+ JSON.toJSONString(sellDO));
 		domain.setCategoryPropertyValueDO(sellDO);
-		CommonItemPublishDTO commonItemPublishDTO = domain.getBizCommonItemPublishDTO();
-		log.info("itemQueryServiceRef.updatePublishCommonItem 入参: commonItemPublishDTO="+JSON.toJSONString(commonItemPublishDTO));
-		ItemPubResult result = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
+		HotelPublishUpdateDTO hotelPublishUpdateDTO = domain.getBizHotelPublishUpdateDTO();
+		log.info("itemQueryServiceRef.updatePublishCommonItem 入参: commonItemPublishDTO="+JSON.toJSONString(hotelPublishUpdateDTO));
+		ItemPubResult result = itemPublishServiceRef.updatePublishHotel(hotelPublishUpdateDTO);
 		if (!result.isSuccess()){
 			  return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "编辑酒店商品信息错误");
 		}
