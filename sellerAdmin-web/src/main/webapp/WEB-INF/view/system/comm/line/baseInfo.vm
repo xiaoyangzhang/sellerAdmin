@@ -212,7 +212,11 @@
 		});
 	});
 	$(".select-dests").click(function() {
-		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDests/$itemType','选择目的地 ',function() {
+		var selIdArr = [];
+		$('#dests-content button').each(function () {
+			selIdArr.push($(this).attr('rid'));
+		});
+		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDests/$itemType?selectedIds='+selIdArr,'选择目的地 ',function() {
 			var dests = win.getSelected();
 			console.log(JSON.stringify(dests));
 			if(dests.length == 0) return true;
