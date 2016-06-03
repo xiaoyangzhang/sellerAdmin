@@ -27,7 +27,7 @@
     </head>
     <body>
     	<div class="destlistbox">
-			<input type="hidden" name="destData" value="$!destMap" />		
+			<input type="hidden" name="destData" value='$!destMap' />		
 		</div>	
        
         <br>
@@ -35,7 +35,6 @@
         <script>
             function getSelected() {
                 var result = [];
-            	$("input:checkbox:checked")
             	$(".ck:checked").each(function(){
             		result.push({
             			id:$(this).attr("dest-id"),
@@ -55,7 +54,7 @@
             	return result;
             };
             $(function(){
-            	var destDataObj = $('input[name="destData"]').val();
+            	var destDataObj = JSON.parse($('input[name="destData"]').val());
             	//国内
           		if (destDataObj.type=='inland') {
  					var inlandCityArr = destDataObj.destinationNodeVOs[0].child;
@@ -65,20 +64,16 @@
 						var flagNum = false;
 						$html += '<div id='+ myLetter +' class="choosecity">';
 						$html += '<label>'+ myLetter +':</label>';
-						//$html.push('<div id='+ myLetter +' class="choosecity">');
-						//$html.push('<label>'+ myLetter +':</label>');
 										
 						for (var j=0;j<inlandCityArr.length;j++) {
 							var singleCity = inlandCityArr[j].destinationVO;
 							if (myLetter == singleCity.simpleCode) {
-								$html += '<label><input type="checkbox" class="city ck"  depart-id='+ singleCity.id +' depart-code='+ singleCity.code +' depart-name='+ singleCity.name +'>'+ singleCity.name +'</label>';
-								//$html.push('<label><input type="checkbox" class="city ck"  depart-id='+ singleCity.id +' depart-code='+ singleCity.code +' depart-name='+ singleCity.name +'>'+ singleCity.name +'</label>');						
+								$html += '<label><input type="checkbox" class="city ck"  dest-id='+ singleCity.id +' dest-code='+ singleCity.code +' dest-name='+ singleCity.name +'>'+ singleCity.name +'</label>';
 								flagNum = true;
 							};
 						};
 						if (flagNum) {
 							$html += '</div>';
-							//$html.push('</div>');
 							$('.destlistbox').append($html);					
 						};
 					};         			
@@ -90,8 +85,6 @@
 					var $html = '';
 					$html += '<div class="destbox countrybox"><ul>';
 					$html += '<li>国家</li>';
-					//$html.push('<div class="destbox countrybox"><ul>');
-					//$html.push('<li>国家</li>');
 					for (var i=65;i<91;i++ ) {
 						var myLetter = String.fromCharCode(i);
 										
@@ -100,10 +93,8 @@
 							if (myLetter == singleCountry.simpleCode) {
 								if (countryArr[j].child) {
 									$html += '<li class="destlist childlist" dest-index='+j+' dest-id='+singleCountry.id+' dest-code='+singleCountry.code+' dest-name='+singleCountry.name+'>'+singleCountry.name+'<span class="jiantou"></span></li>';
-									//$html.push('<li class="destlist childlist" dest-index='+j+' dest-id='+singleCountry.id+' dest-code='+singleCountry.code+' dest-name='+singleCountry.name+'>'+singleCountry.name+'<span class="jiantou"></span></li>');															
 								}else{
 									$html += '<li class="destlist nolist"  dest-id='+singleCountry.id+' dest-code='+singleCountry.code+' dest-name='+singleCountry.name+'>'+singleCountry.name+'</li>';
-									//$html.push('<li class="destlist nolist"  dest-id='+singleCountry.id+' dest-code='+singleCountry.code+' dest-name='+singleCountry.name+'>'+singleCountry.name+'</li>');						
 								}
 							};
 						};
@@ -126,8 +117,6 @@
 						var $html = '';	
 						$html += '<div class="destbox citybox"><ul>';
 						$html += '<li>城市（非必选项）</li>';
-						//$html.push('<div class="destbox citybox"><ul>');
-						//$html.push('<li>城市（非必选项）</li>');
 						for (var i=65;i<91;i++) {
 							var myLetter = String.fromCharCode(i);
 							for (var j=0;j<cityArr.length;j++) {
@@ -135,18 +124,14 @@
 								if (myLetter == singleCity.simpleCode) {
 									if (cityArr[j].child) {
 										$html += '<li class="destlist childlist" dest-index='+j+' dest-id='+singleCity.id+' dest-code='+singleCity.code+' dest-name='+singleCity.name+'>'+singleCity.name+'<span class="jiantou"></span></li>';
-										//$html.push('<li class="destlist childlist" dest-index='+j+' dest-id='+singleCity.id+' dest-code='+singleCity.code+' dest-name='+singleCity.name+'>'+singleCity.name+'<span class="jiantou"></span></li>');						
 									}else{
 										$html += '<li class="destlist nolist"  dest-id='+singleCity.id+' dest-code='+singleCity.code+' dest-name='+singleCity.name+'>'+singleCity.name+'</li>';
-										//$html.push('<li class="destlist nolist"  dest-id='+singleCity.id+' dest-code='+singleCity.code+' dest-name='+singleCity.name+'>'+singleCity.name+'</li>');						
 									}
 								};	
 							};
 						};
 						$html += '</ul></div>';
-						//$html.push('</ul></div>');
 						
-						//$('.citybox').remove();
 						$('.destlistbox').append($html);
 	            		
 	            	});         			
@@ -163,8 +148,9 @@
             			}
             		}
             	});
-            	
+            
             })
+        
         </script>
     </body>
 </html>
