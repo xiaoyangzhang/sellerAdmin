@@ -196,8 +196,10 @@ public class ScenicManageDomainChecker {
         itemDO.setSellerId(scenicManageVO.getSellerId());//商家ID
         itemDO.setTitle(scenicManageVO.getTitle());
         //itemDO.setPrice(scenicManageVO.getPrice().multiply(new BigDecimal(100)).longValue());//价格
+        //FIXME 缺少非空判断
         itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice().multiply(new BigDecimal(100)).longValue());//门市价
         itemDO.setDomain(Constant.DOMAIN_JIUXIU);
+        //FIXME 使用枚举或者静态变量，不要写死
         itemDO.setOptions(1);
         itemDO.setItemType(category.getCategoryFeature().getItemType());
         itemDO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS,scenicDO.getLogoUrl());//图片
