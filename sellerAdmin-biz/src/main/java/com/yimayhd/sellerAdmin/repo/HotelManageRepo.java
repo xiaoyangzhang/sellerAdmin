@@ -11,6 +11,7 @@ import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
+import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.HotelPublishAddDTO;
 import com.yimayhd.ic.client.model.param.item.HotelPublishUpdateDTO;
@@ -29,6 +30,7 @@ import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.HotelManageDomainChecker;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
@@ -67,7 +69,10 @@ public class HotelManageRepo {
 		HotelMessageVO hotelMessageVO =domain.getHotelMessageVO();
 		WebResult<PageVO<HotelMessageVO>> result = domain.getPageResult();
 		HotelPageQuery hotelPageQuery = domain.getBizQueryModel();
-		log.info("queryHotelMessageVOListByDataRepo.pageQueryHotel 回参: hotelPageQuery="+CommonJsonUtil.objectToJson(hotelPageQuery,HotelPageQuery.class));
+		hotelPageQuery.setDomain(Constant.DOMAIN_JIUXIU);
+		hotelPageQuery.setStatus(ItemStatus.valid.getValue());
+		hotelPageQuery.setNeedCount(true);
+		log.info("queryHotelMessageVOListByDataRepo.pageQueryHotel 入参: hotelPageQuery="+CommonJsonUtil.objectToJson(hotelPageQuery,HotelPageQuery.class));
 		ICPageResult<HotelDO> callBack = itemQueryServiceRef.pageQueryHotel(hotelPageQuery);
 		if (callBack == null) {
 			log.error("查询pageQueryHotel返回结果异常");

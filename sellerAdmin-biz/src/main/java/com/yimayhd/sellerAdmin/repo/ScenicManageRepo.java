@@ -22,6 +22,7 @@ import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.ScenicManageDomainChecker;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.collections.CollectionUtils;
@@ -55,7 +56,9 @@ public class ScenicManageRepo {
 		WebResult<PageVO<ScenicManageVO>> result = domain.getWebPageResult();
 		ScenicManageVO scenicManageVO = domain.getScenicManageVO();
 		ScenicPageQuery pageQuery = domain.getBizQueryModel();
+		pageQuery.setDomain(Constant.DOMAIN_JIUXIU);
 		pageQuery.setStatus(ItemStatus.valid.getValue());
+		pageQuery.setNeedCount(true);
 		log.info("queryScenicManageVOListByData.getItem 入参: pageQuery="+CommonJsonUtil.objectToJson(pageQuery,ScenicPageQuery.class));
 		ICPageResult<ScenicDO> callBack = itemQueryServiceRef.pageQueryScenic(pageQuery);
 		if(!callBack.isSuccess()||callBack==null){
