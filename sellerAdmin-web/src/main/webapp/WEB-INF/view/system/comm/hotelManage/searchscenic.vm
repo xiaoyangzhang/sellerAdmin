@@ -18,8 +18,8 @@
         <td class="scenic-name">$!{scenicManageVO.name}</td>
         <td class="scenic-area">$!{scenicManageVO.area}</td>
         <td class="scenic-locationText" >$!{scenicManageVO.locationText}</td>
-        <td>$!{scenicManageVO.subjectId}</td>
-        <td>$!{scenicManageVO.level}</td>
+        <td>$!{scenicManageVO.subjectName}</td>
+        <td>$!{scenicManageVO.levelStr}</td>
     </tr>
   #end
     </tbody>
