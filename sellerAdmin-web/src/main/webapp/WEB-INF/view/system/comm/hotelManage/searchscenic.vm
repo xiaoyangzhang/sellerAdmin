@@ -12,9 +12,9 @@
     </thead>
     <tbody>
   #if($scenicManageVOList.size()==0)
-        <tr>
-        景区资源没有数据
-        </tr>
+        <td>
+            没有您要找的景区信息，若需要请联系客服
+        </td>
   #else
       #foreach($scenicManageVO in $scenicManageVOList)
         <tr>

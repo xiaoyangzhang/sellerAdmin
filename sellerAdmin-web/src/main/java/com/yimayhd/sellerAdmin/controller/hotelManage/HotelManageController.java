@@ -143,15 +143,6 @@ public class HotelManageController extends BaseController {
 			model.addAttribute("errorInfo", "查询房型信息失败");
 			return returnUrl;
 		}
-		List<RoomMessageVO> roomList = result.getValue();
-		for(RoomMessageVO vo:roomList){
-			List<String> mm = vo.getPics();
-			if(CollectionUtils.isNotEmpty(mm)){
-			    for(String a :mm){
-					logger.info("pic"+a);
-				}
-			}
-		}
 		model.addAttribute("roomList", result.getValue());
 
 		return returnUrl;
