@@ -12,6 +12,8 @@ import com.yimayhd.sellerAdmin.base.Paginator;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.cache.CacheManager;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.enums.ItemCodeEnum;
 import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.HotelManage.*;
@@ -35,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 酒店管理
@@ -46,12 +49,13 @@ import java.util.List;
 @RequestMapping("/hotel")
 public class HotelManageController extends BaseController {
 	private static final Logger logger = LoggerFactory.getLogger("hotelManage-business.log");
-	private final Integer PAGESIZE=8;
 	private static final String UPDATE="update";
 	private static final long categoryId=231;
 
 	@Autowired
 	private HotelManageService hotelManageService;
+	@Autowired
+	private CacheManager cacheManager ;
 
 	@Value("${sellerAdmin.rootPath}")
 	private String rootPath;
@@ -73,6 +77,7 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
 		model.addAttribute("categoryId",0);//
 		model.addAttribute("itemId", 0);
+		model.addAttribute("UUID", UUID.randomUUID().toString());
 		return "/system/comm/hotelManage/addhotel";
 	}
 
@@ -164,8 +169,14 @@ public class HotelManageController extends BaseController {
 			message.initFailure(WebReturnCode.PARAM_ERROR,checkMsg);
 			return message;
 		}
+
 		//hotelMessageVO.setBreakfast(1);
 		hotelMessageVO.setCategoryId(categoryId);
+		boolean rs = cacheManager.addToTair(Constant.UUIDKEY+hotelMessageVO.getUUID(), true , 2, 10*60*60);
+		if(!rs){
+			message.initFailure(WebReturnCode.SYSTEM_ERROR,"请不要重复提交");
+			return message;
+		}
 
 		WebResult<HotelMessageVO> result = hotelManageService.addHotelMessageVOByData(hotelMessageVO);
 		if(!result.isSuccess()){
@@ -233,6 +244,7 @@ public class HotelManageController extends BaseController {
 		model.addAttribute("itemId", itemId);
 		model.addAttribute("roomMessageVO", hotelMessageVO.getRoomMessageVO());
 		model.addAttribute("roomList", hotelMessageVO.getListRoomMessageVO());
+		model.addAttribute("UUID",UUID.randomUUID().toString());
 		if(operationFlag.equals(UPDATE)){
 			model.addAttribute("operationFlag",operationFlag);//操作标示
 			return "/system/comm/hotelManage/addhotel";
@@ -272,6 +284,11 @@ public class HotelManageController extends BaseController {
 		if(StringUtils.isNotBlank(checkMsg)){
 			message.initFailure(WebReturnCode.PARAM_ERROR,checkMsg);
 			log.error("editHotelMessageVOByData."+checkMsg);
+			return message;
+		}
+		boolean rs = cacheManager.addToTair(Constant.UUIDKEY+hotelMessageVO.getUUID(), true , 2, 10*60*60);
+		if(!rs){
+			message.initFailure(WebReturnCode.SYSTEM_ERROR,"请不要重复提交");
 			return message;
 		}
 		logger.info("editHotelMessageVOByData: 入参:","hotelMessageVO="+CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
@@ -355,6 +372,9 @@ public class HotelManageController extends BaseController {
 		}
 		if(hotelMessageVO.getRoomId()==0){
 			return "房型信息不能为空";
+		}
+		if(StringUtils.isBlank(hotelMessageVO.getUUID())){
+			return "UUID不能为空 ";
 		}
 
 		return null;

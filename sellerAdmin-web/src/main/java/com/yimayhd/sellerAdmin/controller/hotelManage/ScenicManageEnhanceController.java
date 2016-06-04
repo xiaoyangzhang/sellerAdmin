@@ -16,6 +16,7 @@ import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.cache.CacheManager;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.enums.ItemCodeEnum;
 import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.HotelManage.BizCategoryInfo;
@@ -39,6 +40,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by wangdi on 16/5/17.
@@ -140,6 +142,7 @@ public class ScenicManageEnhanceController extends BaseController {
         model.addAttribute("bizCategoryInfoList",bizCategoryInfoList);// 最晚到店时间列表
         model.addAttribute("categoryId",0);//
         model.addAttribute("itemId", 0);
+        model.addAttribute("UUID", UUID.randomUUID().toString());
         return "/system/comm/hotelManage/addticket";
     }
 
@@ -161,11 +164,16 @@ public class ScenicManageEnhanceController extends BaseController {
             return message;
         }
         /**必要参数验证**/
-
         String checkMsg = checkaddScenicManageVOByDdataParam(scenicManageVO);
         if(StringUtils.isNotBlank(checkMsg)){
             message.initFailure(WebReturnCode.PARAM_ERROR,checkMsg);
             log.error("addScenicManageVOByDdata-error"+checkMsg);
+            return message;
+        }
+
+        boolean rs = cacheManager.addToTair(Constant.UUIDKEY+scenicManageVO.getUUID(), true , 2, 10*60*60);
+        if(!rs){
+            message.initFailure(WebReturnCode.SYSTEM_ERROR,"请不要重复提交");
             return message;
         }
 
@@ -202,12 +210,10 @@ public class ScenicManageEnhanceController extends BaseController {
         if(scenicManageVO==null){
             // "编辑商品信息错误";
             systemLog="编辑商品信息错误";
-            //throw new BaseException("编辑商品信息错误");
         }
         if(scenicManageVO.getItemId()==0){
             // "编辑商品ID错误";
             systemLog="编辑商品ID错误";
-           // throw new BaseException("编辑商品ID错误");
         }
         /*if(scenicManageVO.getCategoryId()==0){
             // "商品类目ID错误";
@@ -229,6 +235,7 @@ public class ScenicManageEnhanceController extends BaseController {
         model.addAttribute("systemLog", systemLog);
         model.addAttribute("categoryId",categoryId);//
         model.addAttribute("itemId", itemId);
+        model.addAttribute("UUID",UUID.randomUUID().toString());
         /**动态属性列表***/
         if(operationFlag.equals(UPDATE)){
             return "/system/comm/hotelManage/addticket";
@@ -248,19 +255,19 @@ public class ScenicManageEnhanceController extends BaseController {
     @ResponseBody
     public WebResult<String> editScenicManageVOByDdata(Model model, ScenicManageVO scenicManageVO){
         WebResult<String> message = new WebResult<String>();
-
-        if(scenicManageVO==null||scenicManageVO.getScenicId()==0){
-            message.initFailure(WebReturnCode.PARAM_ERROR,"景区资源信息错误,无法编辑商品");
-            return message;
-        }
-        if(scenicManageVO.getItemId()==0){
-            message.initFailure(WebReturnCode.PARAM_ERROR,"无效商品ID,无法编辑商品");
-            return message;
-        }
         /**必要参数验证**/
         String checkMsg = checkaddScenicManageVOByDdataParam(scenicManageVO);
         if(StringUtils.isNotBlank(checkMsg)){
             message.initFailure(WebReturnCode.PARAM_ERROR,checkMsg);
+            return message;
+        }
+        if(scenicManageVO==null||scenicManageVO.getScenicId()==0){
+            message.initFailure(WebReturnCode.PARAM_ERROR,"景区资源信息错误,无法编辑商品");
+            return message;
+        }
+        boolean rs = cacheManager.addToTair(Constant.UUIDKEY+scenicManageVO.getUUID(), true , 2, 10*60*60);
+        if(!rs){
+            message.initFailure(WebReturnCode.SYSTEM_ERROR,"请不要重复提交");
             return message;
         }
 
@@ -328,6 +335,9 @@ public class ScenicManageEnhanceController extends BaseController {
         }
         if(scenicManageVO.getStartBookTimeLimit()==0){
             return "提前预定天数不能为空";
+        }
+        if (StringUtils.isBlank(scenicManageVO.getUUID())){
+            return "UUID不能为空";
         }
 
         return  null;

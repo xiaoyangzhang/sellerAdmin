@@ -57,4 +57,6 @@ public class Constant {
 	
 	public static final String JIUXIU_NICKNAME_HEAD = "JX";
 
+	public static final String UUIDKEY="uuidkey_";//+uuid
+
 }

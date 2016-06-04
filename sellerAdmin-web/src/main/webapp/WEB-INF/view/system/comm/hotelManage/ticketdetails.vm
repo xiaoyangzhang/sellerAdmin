@@ -20,6 +20,7 @@
         <input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{scenicManageVO.sellerId}">
         <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{scenicManageVO.categoryId}">
         <input type="hidden" class="picCode baseInfo-picCode" name="systemLog" value="$!{systemLog}">
+        <input type="hidden" class="picCode baseInfo-picCode" name="UUID" value="$!{UUID}">
         <div class="hotelinfo ticketinfo">
             <p>
                 <span class="nm"><span class="bred">*</span><label>景区信息：</label></span>

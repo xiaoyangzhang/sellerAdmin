@@ -63,9 +63,9 @@ public class HotelMessageVO  implements Serializable {
 	private String currentState;//当前操作状态,update,add,del
 
 	private long categoryId;
-
-	public Integer page =1;
-	protected Integer pageSize =8 ;
+	private String UUID ;//uuid
+	private Integer page =1;
+	private Integer pageSize =8 ;
 
 	public long getSellerId() {
 		return sellerId;
@@ -378,5 +378,13 @@ public class HotelMessageVO  implements Serializable {
 
 	public void setPayTypeStr(String payTypeStr) {
 		this.payTypeStr = payTypeStr;
+	}
+
+	public String getUUID() {
+		return UUID;
+	}
+
+	public void setUUID(String UUID) {
+		this.UUID = UUID;
 	}
 }

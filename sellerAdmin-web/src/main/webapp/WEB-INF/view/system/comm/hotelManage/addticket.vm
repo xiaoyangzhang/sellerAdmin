@@ -23,6 +23,7 @@
         <input type="hidden" class="picCode baseInfo-picCode" name="operationFlag" value="$!{operationFlag}">
         <input type="hidden" class="picCode baseInfo-picCode" name="itemId" value="$!{itemId}">
         <input type="hidden" class="picCode baseInfo-picCode" name="systemLog" value="$!{systemLog}">
+        <input type="hidden" class="picCode baseInfo-picCode" name="UUID" value="$!{UUID}">
 	    <div class="hotelinfo ticketinfo">
 	        <p>
 	            <span class="nm"><span class="bred">*</span><label>景区信息：</label></span>

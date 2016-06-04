@@ -96,6 +96,7 @@
             <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{categoryId}">
             <input type="hidden" class="picCode baseInfo-picCode" name="itemId" value="$!{itemId}">
             <input type="hidden" class="picCode baseInfo-picCode" name="systemLog" value="$!{systemLog}">
+            <input type="hidden" class="picCode baseInfo-picCode" name="UUID" value="$!{UUID}">
             <table>
                 <tr>
                     <td class="coltxt">商品类型：</td>

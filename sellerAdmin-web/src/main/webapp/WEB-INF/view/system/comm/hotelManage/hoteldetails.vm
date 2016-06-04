@@ -23,6 +23,7 @@
     <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{categoryId}">
     <input type="hidden" class="picCode baseInfo-picCode" name="itemId" value="$!{itemId}">
     <input type="hidden" class="picCode baseInfo-picCode" name="systemLog" value="$!{systemLog}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="UUID" value="$!{UUID}">
     <div class="hotelinfo">
         <p>
             <span class="nm"><span class="bred">*</span><label>酒店信息：</label></span>
