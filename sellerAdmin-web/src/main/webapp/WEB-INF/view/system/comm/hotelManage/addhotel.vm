@@ -215,7 +215,7 @@
         <div class="setvalue fr">
             <h2>价格设置</h2>
             <div><label class="bred">*</label><label>价格：</label><input type="text" class="price" maxlength="9"></div>
-            <div><label class="bred">*</label><label>库存：</label><input type="text" class="stock" maxlength="9"></div>
+            <div><label class="bred">*</label><label>库存：</label><input type="text" class="stock" maxlength="6"></div>
             <div class="btn">
                 <a class="setvl">确定</a>
                 <a class="clearvl">清除</a>
