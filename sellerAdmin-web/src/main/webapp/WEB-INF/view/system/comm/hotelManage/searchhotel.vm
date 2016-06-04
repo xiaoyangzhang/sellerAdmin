@@ -18,8 +18,10 @@
                 <td class="hotel-name">$!{hotelMessageVO.name}</td>
                 <td>$!{hotelMessageVO.area}</td>
                 <td class="hotel-address">$!{hotelMessageVO.locationText}</td>
-                <td class="hotel-tel">$!{hotelMessageVO.phone}</td>
-                <td  type="hidden" class="hotel-type">$!{hotelMessageVO.hotelTypeStr}</td>
+                <td class="hotel-tel">$!{hotelMessageVO.phone}
+                <input type="hidden" value=" $!{hotelMessageVO.hotelTypeStr}">
+                </td>
+
             </tr>
             #end
         </tbody>
