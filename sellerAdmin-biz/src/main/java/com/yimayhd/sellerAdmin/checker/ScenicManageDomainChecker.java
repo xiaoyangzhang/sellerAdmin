@@ -10,6 +10,7 @@ import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
+import com.yimayhd.ic.client.model.enums.StarLevelType;
 import com.yimayhd.ic.client.model.param.item.ItemPubUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.ic.client.model.param.item.ScenicPublishUpdateDTO;
@@ -126,8 +127,18 @@ public class ScenicManageDomainChecker {
         scenicManageVO.setScenicId(_do.getId());
         scenicManageVO.setName(_do.getName());
         scenicManageVO.setLevel(_do.getLevel());
-        //scenicManageVO.setSubjectName(_do.getSubjectId());
+        scenicManageVO.setLevelStr(StarLevelType.getByLevelWithDefault(_do.getLevel()).getDesc());
         scenicManageVO.setArea(_do.getLocationProvinceName()+"/"+_do.getLocationCityName()+"/"+_do.getLocationTownName());
+        List<String> subIds = _do.getScenicFeature().getSubjectIds();
+        List<String> subNames = _do.getScenicFeature().getSubjectNames();
+        if(CollectionUtils.isNotEmpty(subNames)){
+            StringBuilder sb = new StringBuilder();
+            for(String sbname:subNames){
+                sb.append(sbname).append(" ");
+
+            }
+            scenicManageVO.setSubjectName(sb.toString());
+        }
         scenicManageVO.setSubjectId(_do.getSubjectId());
         scenicManageVO.setLocationCityId(_do.getLocationCityId());
         scenicManageVO.setLocationProvinceId(_do.getLocationProvinceId());

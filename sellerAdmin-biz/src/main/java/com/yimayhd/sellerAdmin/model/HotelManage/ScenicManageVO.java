@@ -32,6 +32,7 @@ public class ScenicManageVO implements Serializable
 //    private Integer cityId;//市d
 //    private Integer townId;//区id
     private int level;//景区等级
+    private String levelStr;
 
     private String locationText;
 
@@ -291,5 +292,13 @@ public class ScenicManageVO implements Serializable
 
     public void setUUID(String UUID) {
         this.UUID = UUID;
+    }
+
+    public String getLevelStr() {
+        return levelStr;
+    }
+
+    public void setLevelStr(String levelStr) {
+        this.levelStr = levelStr;
     }
 }
