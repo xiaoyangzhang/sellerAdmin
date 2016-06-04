@@ -67,7 +67,8 @@ public class HotelManageRepo {
 		HotelMessageVO hotelMessageVO =domain.getHotelMessageVO();
 		WebResult<PageVO<HotelMessageVO>> result = domain.getPageResult();
 		HotelPageQuery hotelPageQuery = domain.getBizQueryModel();
-		log.info("queryHotelMessageVOListByDataRepo.pageQueryHotel 回参: hotelPageQuery="+CommonJsonUtil.objectToJson(hotelPageQuery,HotelPageQuery.class));
+		hotelPageQuery.setNeedCount(true);
+		log.info("queryHotelMessageVOListByDataRepo.pageQueryHotel 入参: hotelPageQuery="+CommonJsonUtil.objectToJson(hotelPageQuery,HotelPageQuery.class));
 		ICPageResult<HotelDO> callBack = itemQueryServiceRef.pageQueryHotel(hotelPageQuery);
 		if (callBack == null) {
 			log.error("查询pageQueryHotel返回结果异常");
