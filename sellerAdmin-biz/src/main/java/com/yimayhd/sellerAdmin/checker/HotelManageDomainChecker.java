@@ -177,6 +177,7 @@ public class HotelManageDomainChecker {
         if(CollectionUtils.isNotEmpty(phoneList)){
             model.setPhone(phoneList.get(0));
         }
+        model.setHotelTypeStr(HotelType.getByType(_do.getType()).getDesc());
         model.setLocationProvinceId(_do.getLocationProvinceId());
         model.setLocationCityId(_do.getLocationCityId());
         model.setLocationTownId(_do.getLocationTownId());
