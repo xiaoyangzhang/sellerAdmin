@@ -15,7 +15,7 @@
             #foreach($hotelMessageVO in $hotelMessageVOList)
             <tr>
                 <td><input type="radio" name="hotelGroup" value="$!{hotelMessageVO.hotelId}"></td>
-                <td  class="hotel-name">$!{hotelMessageVO.name}</td>
+                <td class="hotel-name">$!{hotelMessageVO.name}</td>
                 <td>$!{hotelMessageVO.area}</td>
                 <td class="hotel-address">$!{hotelMessageVO.locationText}</td>
                 <td class="hotel-tel">$!{hotelMessageVO.phone}</td>
@@ -26,7 +26,7 @@
 </div>
     #parse("/page_jiuniu.vm")
 #else
-    <div>
-        没有您要找的酒店，若需要请联系客服
-    </div>
+<div>
+    没有您要找的酒店，若需要请联系客服
+</div>
 #end
