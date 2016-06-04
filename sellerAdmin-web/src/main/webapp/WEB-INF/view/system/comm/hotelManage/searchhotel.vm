@@ -1,33 +1,35 @@
 #set($layout = "/layout/layout_non.vm")
+#if($hotelMessageVOList.size()>0)
 <div class="tb-box">
-<table>
-    <thead>
-    <tr>
-        <th></th>
-        <th>酒店名称</th>
-        <th>区域</th>
-        <th>地址</th>
-        <th>电话</th>
-    </tr>
-    </thead>
-    <tbody>
-  #if($hotelMessageVOList.size()==0)
-     <tr>
-         没有酒店数据
-     </tr>
-  #else
-      #foreach($hotelMessageVO in $hotelMessageVOList)
-      <tr>
-          <td><input type="radio" name="hotelGroup" value="$!{hotelMessageVO.hotelId}"></td>
-          <td  class="hotel-name">$!{hotelMessageVO.name}</td>
-          <td>$!{hotelMessageVO.area}</td>
-          <td class="hotel-address">$!{hotelMessageVO.locationText}</td>
-          <td class="hotel-tel">$!{hotelMessageVO.phone}</td>
-      </tr>
-      #end
-  #end
+    <table>
+        <thead>
+        <tr>
+            <th></th>
+            <th>酒店名称</th>
+            <th>区域</th>
+            <th>地址</th>
+            <th>电话</th>
+        </tr>
+        </thead>
+        <tbody>
+            #foreach($hotelMessageVO in $hotelMessageVOList)
+            <tr>
+                <td><input type="radio" name="hotelGroup" value="$!{hotelMessageVO.hotelId}"></td>
+                <td class="hotel-name">$!{hotelMessageVO.name}</td>
+                <td>$!{hotelMessageVO.area}</td>
+                <td class="hotel-address">$!{hotelMessageVO.locationText}</td>
+                <td class="hotel-tel">$!{hotelMessageVO.phone}
+                <input type="hidden" value=" $!{hotelMessageVO.hotelTypeStr}">
+                </td>
 
-    </tbody>
-</table>
+            </tr>
+            #end
+        </tbody>
+    </table>
 </div>
-#parse("/page_jiuniu.vm")
+    #parse("/page_jiuniu.vm")
+#else
+<div>
+    没有您要找的酒店，若需要请联系客服
+</div>
+#end

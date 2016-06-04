@@ -368,9 +368,9 @@ public class HotelManageController extends BaseController {
 		if(StringUtils.isBlank(hotelMessageVO.getStoreLastTime())){
 			return "最晚到店时间不能为空";
 		}
-		if(hotelMessageVO.getStartBookTimeLimit()==0){
+		/*if(hotelMessageVO.getStartBookTimeLimit()==0){
 			return "提前预定天数不能为空";
-		}
+		}*/
 		if(hotelMessageVO.getRoomId()==0){
 			return "房型信息不能为空";
 		}

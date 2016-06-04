@@ -152,9 +152,9 @@ public class HotelManageDomainChecker {
         if (StringUtils.isBlank(hotelMessageVO.getStoreLastTime())) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "最晚到点时间不能为空");
         }
-        if (hotelMessageVO.getStartBookTimeLimit() == 0) {
+      /*  if (hotelMessageVO.getStartBookTimeLimit() == 0) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "提前预定天数不能为空");
-        }
+        }*/
         if (hotelMessageVO.getBreakfast() == 0) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "早餐信息不能为空");
         }
@@ -429,6 +429,7 @@ public class HotelManageDomainChecker {
         /***酒店资源信息添加**/
         hotelMessageVO.setName(hotelDO.getName());
         hotelMessageVO.setLocationText(hotelDO.getLocationText());
+        hotelMessageVO.setHotelTypeStr(HotelType.getByType(hotelDO.getType()).getDesc());
         //hotelMessageVO.setSellerId();
         //hotelMessageVO.setCategoryId();
         String phone="";
@@ -442,7 +443,7 @@ public class HotelManageDomainChecker {
 
         ItemFeature itemFeature = itemDO.getItemFeature();
         hotelMessageVO.setHotelId(itemDO.getOutId());//酒店ID
-        hotelMessageVO.setOutType(itemDO.getOutType());//酒店类型
+        hotelMessageVO.setOutType(itemDO.getOutType());//商品类型类型
         hotelMessageVO.setOutTypeStr(ResourceType.getByType(itemDO.getOutType()).getDesc());//酒店类型name
         hotelMessageVO.setTitle(itemDO.getTitle());
         hotelMessageVO.setCode(itemDO.getCode());

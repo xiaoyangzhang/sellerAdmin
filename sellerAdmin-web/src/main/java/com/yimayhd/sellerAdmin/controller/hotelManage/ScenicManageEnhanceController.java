@@ -330,9 +330,9 @@ public class ScenicManageEnhanceController extends BaseController {
         if(scenicManageVO.getTicketId()==0){
             return "门票类型不能为空";
         }
-        if(scenicManageVO.getStartBookTimeLimit()==0){
+        /*if(scenicManageVO.getStartBookTimeLimit()==0){
             return "提前预定天数不能为空";
-        }
+        }*/
         if (StringUtils.isBlank(scenicManageVO.getUUID())){
             return "UUID不能为空";
         }

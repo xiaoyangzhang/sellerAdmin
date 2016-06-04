@@ -19,7 +19,7 @@
 <div class="panel on">
     <div class="hotelinfo">
         <p>
-            <span class="nm"><span class="bred">*</span><label>酒店信息：</label></span>
+            <span class="nm"><span class="bred">*</span><label >酒店信息：</label></span>
 					<span class="info-bar">
 						<label class="htn">$!{hotelMessageVO.name}</label>
 						<label class="smtt">地址：</label><label class="address">$!{hotelMessageVO.locationText}</label>
@@ -71,8 +71,8 @@
                                                 </li>
                                             </ul>
                                             <div class="img-group">
-                                                #foreach($pic in $pics)
-                                                <img src="$tfs/$pic">
+                                                #foreach($pic in $roomMessageVO.pics)
+                                                <img src="$tfs$pic">
                                                 #end
                                             </div>
                                         </div>
@@ -103,8 +103,8 @@
             <input type="hidden" class="picCode baseInfo-picCode" name="UUID" value="$!{UUID}">
             <table>
                 <tr>
-                    <td class="coltxt">商品类型：</td>
-                    <td><label>酒店</label></td>
+                    <td class="coltxt">酒店类型：</td>
+                    <td><label class="hotelType">$!{hotelMessageVO.hotelTypeStr}</label></td>
                 </tr>
                 <tr>
                     <td class="coltxt">酒店名称：</td>

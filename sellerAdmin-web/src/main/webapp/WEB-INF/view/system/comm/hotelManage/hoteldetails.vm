@@ -72,9 +72,9 @@
                                             </li>
                                         </ul>
                                         <div class="img-group">
-                                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                            #foreach($pic in $roomMessageVO.pics)
+                                                <img src="$tfs$pic">
+                                            #end
                                         </div>
                                     </div>
                                 </li>
@@ -87,8 +87,8 @@
     <div class="baseinfo">
         <table>
             <tr>
-                <td class="coltxt">商品类型：</td>
-                <td><label>酒店</label></td>
+                <td class="coltxt">酒店类型类型：</td>
+                <td><label>$!{hotelMessageVO.hotelTypeStr}</label></td>
             </tr>
             <tr>
                 <td class="coltxt">酒店名称：</td>
