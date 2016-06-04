@@ -56,6 +56,7 @@ public class ScenicManageRepo {
 		ScenicManageVO scenicManageVO = domain.getScenicManageVO();
 		ScenicPageQuery pageQuery = domain.getBizQueryModel();
 		pageQuery.setStatus(ItemStatus.valid.getValue());
+		pageQuery.setNeedCount(true);
 		log.info("queryScenicManageVOListByData.getItem 入参: pageQuery="+CommonJsonUtil.objectToJson(pageQuery,ScenicPageQuery.class));
 		ICPageResult<ScenicDO> callBack = itemQueryServiceRef.pageQueryScenic(pageQuery);
 		if(!callBack.isSuccess()||callBack==null){
