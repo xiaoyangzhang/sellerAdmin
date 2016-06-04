@@ -214,7 +214,7 @@
             <div><label class="bred">*</label><label>库存：</label><input type="text" class="stock" maxlength="9"></div>
             <div class="btn">
                 <a class="setvl">确定</a>
-                <a class="clearvl">全部清除</a>
+                <a class="clearvl">清除</a>
 
             </div>
         </div>
