@@ -72,9 +72,9 @@
                                             </li>
                                         </ul>
                                         <div class="img-group">
-                                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                            <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                            #foreach($pic in $roomMessageVO.pics)
+                                                <img src="$tfs$pic">
+                                            #end
                                         </div>
                                     </div>
                                 </li>
