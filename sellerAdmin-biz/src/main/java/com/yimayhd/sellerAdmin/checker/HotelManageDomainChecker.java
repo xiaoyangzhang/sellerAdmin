@@ -482,6 +482,7 @@ public class HotelManageDomainChecker {
             vo.setArea(roomFeature.getArea());
             vo.setBed(roomFeature.getBed());
             vo.setWindow(roomFeature.getWindow());
+            vo.setWindowStr(RoomWindow.getByType(roomFeature.getWindow()).getDesc());
             List<Integer> netList = roomFeature.getNetwork();
             StringBuffer sb = new StringBuffer();
             if(CollectionUtils.isNotEmpty(netList)){
@@ -491,7 +492,6 @@ public class HotelManageDomainChecker {
                 }
                 vo.setNetworkStr(sb.toString());
             }
-            vo.setNetwork(roomFeature.getNetwork());
             vo.setPeople(roomFeature.getPeople());
             roomList.add(vo);
         }

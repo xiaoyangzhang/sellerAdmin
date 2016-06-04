@@ -361,6 +361,7 @@ public class HotelManageController extends BaseController {
 		if(hotelMessageVO.getCancelLimit()==0){
 			return "退订限制为空";
 		}
+
 		if(StringUtils.isBlank(hotelMessageVO.getDescription())){
 			return "退订规则不能为空";
 		}

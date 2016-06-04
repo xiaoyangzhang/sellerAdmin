@@ -27,11 +27,11 @@
                     </li>
                     <li>
                         <label>网络：</label>
-                        <label>有wifi</label>
+                        <label>$!{roomMessageVO.networkStr}</label>
                     </li>
                     <li>
                         <label>窗户：</label>
-                        <label>有窗</label>
+                        <label>$!{roomMessageVO.windowStr}</label>
                     </li>
                 </ul>
                 <div class="img-group">
