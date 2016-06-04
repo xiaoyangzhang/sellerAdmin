@@ -11,9 +11,9 @@
     </tr>
     </thead>
     <tbody>
-  #if($errorInfo!="")
+  #if($hotelMessageVOList.size()==0)
      <tr>
-         $!{errorInfo}
+         没有酒店数据
      </tr>
   #else
       #foreach($hotelMessageVO in $hotelMessageVOList)

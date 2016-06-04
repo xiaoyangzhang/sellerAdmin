@@ -11,15 +11,21 @@
     </tr>
     </thead>
     <tbody>
-  #foreach($scenicManageVO in $scenicManageVOList)
-    <tr>
-        <td><input type="radio" name="scenicGroup" value="$!{scenicManageVO.scenicId}"></td>
-        <td class="scenic-name">$!{scenicManageVO.name}</td>
-        <td class="scenic-area">$!{scenicManageVO.area}</td>
-        <td class="scenic-locationText" >$!{scenicManageVO.locationText}</td>
-        <td>$!{scenicManageVO.subjectName}</td>
-        <td>$!{scenicManageVO.levelStr}</td>
-    </tr>
+  #if($scenicManageVOList.size()==0)
+        <tr>
+        景区资源没有数据
+        </tr>
+  #else
+      #foreach($scenicManageVO in $scenicManageVOList)
+        <tr>
+            <td><input type="radio" name="scenicGroup" value="$!{scenicManageVO.scenicId}"></td>
+            <td class="scenic-name">$!{scenicManageVO.name}</td>
+            <td class="scenic-area">$!{scenicManageVO.area}</td>
+            <td class="scenic-locationText" >$!{scenicManageVO.locationText}</td>
+            <td>$!{scenicManageVO.subjectName}</td>
+            <td>$!{scenicManageVO.levelStr}</td>
+        </tr>
+      #end
   #end
     </tbody>
 </table>

@@ -25,7 +25,10 @@
 						<label class="smtt">地址：</label><label class="address">$!{hotelMessageVO.locationText}</label>
 						|<label class="smtt">电话：</label><label class="tel">$!{hotelMessageVO.phone}</label>
 					</span>
-            <a class="choicehotel">查询酒店</a>
+            #if($itemId==0)
+                <a class="choicehotel">查询酒店</a>
+            #end
+
         </p>
         <div class='load_room'><img src="$!rs_path_jiuxiu/img/loading.gif"></div>
         <div class="hotelcol"  #if($hotelMessageVO.hotelId>0)  style="display: block" #end >
@@ -36,10 +39,11 @@
                                 #foreach($roomMessageVO in $roomList)
                                     <li>
                                         <div class="radio-bar clearfix">
-                                            <label class="fl"><input type="radio" name="gp" value="$!{roomMessageVO.roomId}" #if($hotelMessageVO.roomId == $roomMessageVO.roomId) checked #end  > 房型$!{velocityCount}</label>
-                                            <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
+
+                                            <label class="fl"><input type="radio" name="gp" value="$!{roomMessageVO.roomId}" #if($hotelMessageVO.roomId == $roomMessageVO.roomId) checked  #else disabled #end > 房型$!{velocityCount}</label>
+                                            <img class="fr" src="#if($hotelMessageVO.roomId == $roomMessageVO.roomId)  $!rs_path_jiuxiu/img/droptip_up.jpg  #else $!rs_path_jiuxiu/img/droptip_down.jpg  #end ">
                                         </div>
-                                        <div class="bar-box">
+                                        <div class="bar-box" #if($hotelMessageVO.roomId == $roomMessageVO.roomId) style="height:243px" #end>
                                             <ul class="clearfix">
                                                 <li>
                                                     <label>房型：</label>
@@ -55,21 +59,21 @@
                                                 </li>
                                                 <li>
                                                     <label>可住：</label>
-                                                    <label>$!{roomMessageVO.people}人</label>
+                                                    <label>#if($roomMessageVO.people>0) $!{roomMessageVO.people}人 #end </label>
                                                 </li>
                                                 <li>
                                                     <label>网络：</label>
-                                                    <label>有wifi</label>
+                                                    <label>$!{roomMessageVO.networkStr}</label>
                                                 </li>
                                                 <li>
                                                     <label>窗户：</label>
-                                                    <label>有窗</label>
+                                                    <label>$!{roomMessageVO.windowStr}</label>
                                                 </li>
                                             </ul>
                                             <div class="img-group">
-                                                <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                                <img src="$!rs_path_jiuxiu/img/temp_1.png">
-                                                <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                                                #foreach($pic in $pics)
+                                                <img src="$tfs/$pic">
+                                                #end
                                             </div>
                                         </div>
                                     </li>

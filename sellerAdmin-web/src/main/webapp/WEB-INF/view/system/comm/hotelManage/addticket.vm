@@ -31,7 +31,9 @@
 	                    <label class="htn">$!{scenicManageVO.name}</label>
 	                    <label class="smtt">地址：</label><label class="address">$!{scenicManageVO.locationText}</label>
 	                </span>
-	            <a class="searchScenic">查询景区</a>
+                #if($itemId==0)
+                    <a class="searchScenic">查询景区</a>
+                #end
 	        </p>
 	    </div>
 	    <div class="baseinfo ticketbaseinfo">
