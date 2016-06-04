@@ -13,7 +13,7 @@
     <tbody>
   #if($hotelMessageVOList.size()==0)
      <tr>
-         没有酒店数据
+         没有您要找的酒店，若需要请联系客服
      </tr>
   #else
       #foreach($hotelMessageVO in $hotelMessageVOList)
