@@ -508,6 +508,10 @@ public class HotelManageDomainChecker {
             vo.setRoomId(room.getId());
             vo.setHotelId(room.getHotelId());
             vo.setName(room.getName());
+            if (CollectionUtils.isNotEmpty(room.getPics())){
+                List<String> aa = room.getPics();
+                System.out.println("pic:"+aa);
+            }
             vo.setPics(room.getPics());
             RoomFeature roomFeature = room.getFeature();
             vo.setArea(roomFeature.getArea());

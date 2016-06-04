@@ -36,9 +36,8 @@
                     </li>
                 </ul>
                 <div class="img-group">
-                    <label>$tfs/</label>
                     #foreach($pic in $pics)
-                        <img src="$tfs/$pic">
+                        <img src="$tfs$pic">
                     #end
                 </div>
             </div>
