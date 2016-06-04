@@ -8,7 +8,6 @@
         <th>地址</th>
         <th>主题</th>
         <th>等级</th>
-        <th>详情</th>
     </tr>
     </thead>
     <tbody>
@@ -18,9 +17,8 @@
         <td class="scenic-name">$!{scenicManageVO.name}</td>
         <td class="scenic-area">$!{scenicManageVO.area}</td>
         <td class="scenic-locationText" >$!{scenicManageVO.locationText}</td>
-        <td>$!{scenicManageVO.subjectId}</td>
-        <td>$!{scenicManageVO.level}</td>
-        <td><a>查看详情</a></td>
+        <td>$!{scenicManageVO.subjectName}</td>
+        <td>$!{scenicManageVO.levelStr}</td>
     </tr>
   #end
     </tbody>

@@ -51,6 +51,7 @@ public class HotelManageDomainChecker {
     private final String UPDATE = "update";
     private final String ADD = "add";
     private final String DEL = "delete";
+    private int dayTime=24*60*60;
 
 
     /***拼装商品信息参数end**/
@@ -91,6 +92,16 @@ public class HotelManageDomainChecker {
         if(StringUtils.isNotBlank(hotelMessageVO.getName())){
             hotelPageQuery.setName(hotelMessageVO.getName());
         }
+        if(hotelMessageVO.getLocationCityId()>0){
+            hotelPageQuery.setLocationCityId(Long.valueOf(hotelMessageVO.getLocationCityId()));
+        }
+        if(hotelMessageVO.getLocationProvinceId()>0){
+            hotelPageQuery.setLocationProvinceId(Long.valueOf(hotelMessageVO.getLocationProvinceId()));
+        }
+        if(hotelMessageVO.getLocationTownId()>0){
+            hotelPageQuery.setLocationTownId(Long.valueOf(hotelMessageVO.getLocationTownId()));
+        }
+
         hotelPageQuery.setPageNo(hotelMessageVO.getPage());
         hotelPageQuery.setPageSize(hotelMessageVO.getPageSize());
         return hotelPageQuery;
@@ -204,7 +215,7 @@ public class HotelManageDomainChecker {
 
         itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, hotelMessageVO.getCancelLimit());//退订规则
         itemFeature.put(ItemFeatureKey.LATEST_ARRIVE_TIME,hotelMessageVO.getLatestArriveTime());//前端String转list
-        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,hotelMessageVO.getStartBookTimeLimit());//提前预定天数
+        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,hotelMessageVO.getStartBookTimeLimit().intValue()*dayTime);//提前预定天数
         itemFeature.put(ItemFeatureKey.BREAKFAST,hotelMessageVO.getBreakfast());//早餐
         itemFeature.put(ItemFeatureKey.PAY_MODE,hotelMessageVO.getPayType());//付款方式
         itemDO.setItemFeature(itemFeature);
@@ -248,28 +259,29 @@ public class HotelManageDomainChecker {
       //  itemDO.setItemType(categoryDO.getCategoryFeature().getItemType());
         itemDO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS,hotelDO.getLogoUrl());
         /***feature**/
-        ItemFeature itemFeature = new ItemFeature(null);
+       // ItemFeature itemFeature = new ItemFeature(null);
         //itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, CancelLimit.Ok.getType());
         /**房型ID**/
-        itemFeature.put(ItemFeatureKey.ROOM_ID,hotelMessageVO.getRoomId());//房型ID
-
+        //itemFeature.put(ItemFeatureKey.ROOM_ID,hotelMessageVO.getRoomId());//房型ID
+        itemDO.setRoomId(hotelMessageVO.getRoomId());//房型ID
         //itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, hotelMessageVO.getCancelLimit());//退订规则
         itemDO.setCancelLimit(hotelMessageVO.getCancelLimit());//退订规则
 
        // itemFeature.put(ItemFeatureKey.LATEST_ARRIVE_TIME,hotelMessageVO.getLatestArriveTime());//前端String转list
         itemDO.setLatestArriveTime(hotelMessageVO.getLatestArriveTime());//最晚到店时间
-        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,hotelMessageVO.getStartBookTimeLimit());//提前预定天数
+        //itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,hotelMessageVO.getStartBookTimeLimit());//提前预定天数
+        itemDO.setStartBookTimeLimit(hotelMessageVO.getStartBookTimeLimit().intValue()*dayTime);
         //itemFeature.put(ItemFeatureKey.BREAKFAST,hotelMessageVO.getBreakfast());//早餐
         itemDO.setBreakfast(hotelMessageVO.getBreakfast());//早餐
         //itemFeature.put(ItemFeatureKey.PAY_MODE,hotelMessageVO.getPayType());//付款方式
         itemDO.setPayMode(hotelMessageVO.getPayType());//付款方式
-        itemDO.setItemFeature(itemFeature);
+        //itemDO.setItemFeature(itemFeature);// 更新不添加itemFeature
         /****sku价格日历***/
         // 价格日历 json解析
         // CategoryPropertyValueDO + 日期 存到 ItemSkuPVPair 中,每个sku 只有 一个 pv 属性
         Map<String,Object> paramUp =  getUpdateItem(hotelMessageVO.getSupplierCalendar());
         dto.setAddItemSkuList( paramUp.get(ADD)==null?null:(List<ItemSkuDO>)paramUp.get(ADD));
-        dto.setUpdItemSkuList( paramUp.get(UPDATE)==null?null:(List<ItemSkuDO>)paramUp.get(UPDATE));
+        dto.setUpdItemSkuList( paramUp.get(UPDATE)==null?null:(List<ItemSkuPubUpdateDTO>)paramUp.get(UPDATE));
         dto.setDelItemSkuList(paramUp.get(DEL)==null?null:(List<Long>)paramUp.get(DEL));
         dto.setItemDTO(itemDO);//商品信息
 
@@ -309,7 +321,7 @@ public class HotelManageDomainChecker {
     public Map<String,Object> getUpdateItem(String supplierCalendar){
          List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>();
          List<Long> delItemSkuDOList = new ArrayList<Long>();
-         List<ItemSkuDO> updItemSkuDOList = new ArrayList<ItemSkuDO>();
+         List<ItemSkuPubUpdateDTO> updItemSkuDOList = new ArrayList<ItemSkuPubUpdateDTO>();
 
         if (StringUtils.isBlank(supplierCalendar)){
             return null;
@@ -322,7 +334,7 @@ public class HotelManageDomainChecker {
         for (BizSkuInfo biz :bizSkuInfos){
             switch (biz.getState()) {
                 case UPDATE:
-                    ItemSkuDO upSkuDo  = getItemSkuDOByBiz(template,biz);
+                    ItemSkuPubUpdateDTO upSkuDo  = getBizItemSkuPubUpdateDTO(template,biz);
                     /**更新sku需要回填对应的skuid*/
                     upSkuDo.setId((Long)biz.getSku_id());
                     updItemSkuDOList.add(upSkuDo);
@@ -379,6 +391,36 @@ public class HotelManageDomainChecker {
     }
 
     /**
+     * 价格日历更新dto
+     * @param template
+     * @param biz
+     * @return
+     */
+    public ItemSkuPubUpdateDTO getBizItemSkuPubUpdateDTO(SupplierCalendarTemplate template, BizSkuInfo biz){
+        ItemSkuPubUpdateDTO sku = new ItemSkuPubUpdateDTO();
+        //sku.setSellerId(template.getSeller_id());//商家ID
+        //sku.setCategoryId(scenicManageVO.getCategoryId());//类目ID
+        BigDecimal prize = biz.getPrice();
+        long portionPrize = prize.multiply(new BigDecimal(100)).longValue();
+        sku.setPrice(portionPrize);//价格
+        sku.setStockNum(biz.getStock_num());//库存
+        /**销售属性**/
+        List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
+        ItemSkuPVPair pvPair =new ItemSkuPVPair();
+        pvPair.setPId(categoryPropertyValueDO.getPropertyId());//销售属性ID
+        String vTxt = biz.getvTxt();
+        long time = Long.parseLong(vTxt);
+        //System.out.println(time);
+        pvPair.setPTxt(DateCommon.timestampLongDate(time));//日期格式化
+        pvPair.setVTxt(vTxt);//价格日期
+        pvPair.setPType(categoryPropertyValueDO.getType());
+        pvPair.setVId(-time);
+        itemSkuPVPairList.add(pvPair);
+        sku.setItemSkuPVPairList(itemSkuPVPairList);
+        return sku;
+    }
+
+    /**
      * 拼装商品信息返回数据
      * @return
      */
@@ -409,7 +451,7 @@ public class HotelManageDomainChecker {
         hotelMessageVO.setCancelLimit(itemFeature.getCancelLimit());//退订规则
         hotelMessageVO.setCancelLimitStr(CancelLimit.getByType(itemFeature.getCancelLimit()).getDesc());//退订规则 string
         hotelMessageVO.setLatestArriveTime(itemFeature.getLatestArriveTime());//最后到点时间
-        hotelMessageVO.setStartBookTimeLimit(Long.valueOf(itemFeature.getStartBookTimeLimit()));// 提前预定天数
+        hotelMessageVO.setStartBookTimeLimit(Integer.valueOf(itemFeature.getStartBookTimeLimit()/dayTime));// 提前预定天数
         hotelMessageVO.setBreakfast(itemFeature.getBreakfast());//
         hotelMessageVO.setBreakfastStr(HotelItemBreakfast.getByType(itemFeature.getBreakfast()).getDesc());
         /**价格日历**/
@@ -469,7 +511,11 @@ public class HotelManageDomainChecker {
             RoomFeature roomFeature = room.getFeature();
             vo.setArea(roomFeature.getArea());
             vo.setBed(roomFeature.getBed());
-            vo.setWindow(roomFeature.getWindow());
+            vo.setPeople(roomFeature.getPeople()==null?0:roomFeature.getPeople());
+            if(roomFeature.getWindow()!=null){
+                vo.setWindow(roomFeature.getWindow().intValue());
+                vo.setWindowStr(RoomWindow.getByType(roomFeature.getWindow()).getDesc());
+            }
             List<Integer> netList = roomFeature.getNetwork();
             StringBuffer sb = new StringBuffer();
             if(CollectionUtils.isNotEmpty(netList)){
@@ -479,8 +525,7 @@ public class HotelManageDomainChecker {
                 }
                 vo.setNetworkStr(sb.toString());
             }
-            vo.setNetwork(roomFeature.getNetwork());
-            vo.setPeople(roomFeature.getPeople());
+
             roomList.add(vo);
         }
         return roomList;

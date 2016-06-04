@@ -6,6 +6,7 @@ import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.cache.CacheManager;
 import com.yimayhd.sellerAdmin.checker.ScenicManageDomainChecker;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
 import com.yimayhd.sellerAdmin.repo.ScenicManageRepo;
@@ -24,6 +25,9 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
     private ItemQueryService itemQueryServiceRef;
     @Autowired
     private ItemPublishService itemPublishServiceRef;
+    @Autowired
+    private CacheManager cacheManager ;
+
     private static final Logger log = LoggerFactory.getLogger("scenicManage-business.log");
 
     /**
@@ -148,5 +152,13 @@ public class ScenicManageServiceImpl  implements ScenicManageService {
 
     public void setItemPublishServiceRef(ItemPublishService itemPublishServiceRef) {
         this.itemPublishServiceRef = itemPublishServiceRef;
+    }
+
+    public CacheManager getCacheManager() {
+        return cacheManager;
+    }
+
+    public void setCacheManager(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
     }
 }

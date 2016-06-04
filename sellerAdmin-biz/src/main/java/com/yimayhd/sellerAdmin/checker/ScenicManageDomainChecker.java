@@ -10,8 +10,10 @@ import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
+import com.yimayhd.ic.client.model.enums.StarLevelType;
 import com.yimayhd.ic.client.model.param.item.ItemPubUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
+import com.yimayhd.ic.client.model.param.item.ItemSkuPubUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ScenicPublishUpdateDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
@@ -51,6 +53,7 @@ public class ScenicManageDomainChecker {
     private final String UPDATE = "update";
     private final String ADD = "add";
     private final String DEL = "delete";
+    private int dayTime=24*60*60;
 
     public ScenicManageDomainChecker(ScenicManageVO scenicManageVO){
         this.scenicManageVO = scenicManageVO;
@@ -81,13 +84,20 @@ public class ScenicManageDomainChecker {
         if(scenicManageVO==null){
             return scenicPageQuery;
         }
-        if(scenicManageVO.getScenicId()!=0){
-
-        }
         if(StringUtils.isNotBlank(scenicManageVO.getName())){
             scenicPageQuery.setName(scenicManageVO.getName());
         }
-
+        if(scenicManageVO.getLocationCityId()>0){
+            scenicPageQuery.setLocationCityId(Long.valueOf(scenicManageVO.getLocationCityId()));
+        }
+        if(scenicManageVO.getLocationProvinceId()>0){
+            scenicPageQuery.setLocationProvinceId(Long.valueOf(scenicManageVO.getLocationProvinceId()));
+        }
+        if(scenicManageVO.getLocationTownId()>0){
+            scenicPageQuery.setLocationTownId(Long.valueOf(scenicManageVO.getLocationTownId()));
+        }
+        scenicPageQuery.setPageNo(scenicManageVO.getPage());
+        scenicPageQuery.setPageSize(scenicManageVO.getPageSize());
         return  scenicPageQuery;
     }
 
@@ -116,6 +126,18 @@ public class ScenicManageDomainChecker {
         scenicManageVO.setScenicId(_do.getId());
         scenicManageVO.setName(_do.getName());
         scenicManageVO.setLevel(_do.getLevel());
+        scenicManageVO.setLevelStr(StarLevelType.getByLevelWithDefault(_do.getLevel()).getDesc());
+        scenicManageVO.setArea(_do.getLocationProvinceName()+"/"+_do.getLocationCityName()+"/"+_do.getLocationTownName());
+        List<String> subIds = _do.getScenicFeature().getSubjectIds();
+        List<String> subNames = _do.getScenicFeature().getSubjectNames();
+        if(CollectionUtils.isNotEmpty(subNames)){
+            StringBuilder sb = new StringBuilder();
+            for(String sbname:subNames){
+                sb.append(sbname).append(" ");
+
+            }
+            scenicManageVO.setSubjectName(sb.toString());
+        }
         scenicManageVO.setSubjectId(_do.getSubjectId());
         scenicManageVO.setLocationCityId(_do.getLocationCityId());
         scenicManageVO.setLocationProvinceId(_do.getLocationProvinceId());
@@ -139,9 +161,9 @@ public class ScenicManageDomainChecker {
         scenicManageVO.setName(scenicDO.getName());
         scenicManageVO.setTitle(itemDO.getTitle());
         scenicManageVO.setCategoryId(itemDO.getCategoryId());//类目ID
-        scenicManageVO.setPrice(new BigDecimal(itemDO.getPrice()).divide(new BigDecimal(100)));
+        //scenicManageVO.setPrice(new BigDecimal(itemDO.getPrice()).divide(new BigDecimal(100)));
         scenicManageVO.setOriginalPrice(new BigDecimal(itemDO.getOriginalPrice()).divide(new BigDecimal(100)));
-        scenicManageVO.setStartBookTimeLimit(itemDO.getItemFeature().getStartBookTimeLimit());//提前预定天数
+        scenicManageVO.setStartBookTimeLimit(itemDO.getItemFeature().getStartBookTimeLimit()/dayTime);//提前预定天数
         itemDO.getItemFeature().getTicketId();//门票ID
        // itemDO.getItemFeature().getTicketTitle();//门票名称
         // 根据listsku拼装json信息  价格日历
@@ -158,26 +180,7 @@ public class ScenicManageDomainChecker {
                 bizCategory.setCategoryId(scenicManageVO.getCategoryId());
              bizList.add(bizCategory);
         }
-       /* List<CategoryPropertyValueDO> keyCateList = category.getKeyCategoryPropertyDOs();
-        List<CategoryPropertyValueDO> nonCateList =  category.getNonKeyCategoryPropertyDOs();
 
-        keyCateList.addAll(nonCateList);
-        for (CategoryPropertyValueDO category :keyCateList){
-            BizCategoryInfo bizCategory = new BizCategoryInfo();
-            CategoryPropertyDO propertyDO =  category.getCategoryPropertyDO();
-            bizCategory.setCategoryId(category.getCategoryId());
-            bizCategory.setPId(category.getPropertyId());
-            bizCategory.setPText(propertyDO.getText());
-            bizCategory.setPType(propertyDO.getType());
-            bizCategory.setVTxt("");
-            for (ItemSkuPVPair skuPVPair: itemDO.getItemPropertyList()){
-                if(bizCategory.getPId()==skuPVPair.getPId()){
-                    System.out.println("销售属性:"+skuPVPair.getVTxt());
-                    bizCategory.setVTxt(skuPVPair.getVTxt());
-                }
-            }
-
-        }*/
         String bizCategoryJson =CommonJsonUtil.objectToJson(bizList,List.class);
         System.out.println("编辑Josn:"+bizCategoryJson);
         scenicManageVO.setDynamicEntry(bizCategoryJson);//属性json穿
@@ -191,7 +194,7 @@ public class ScenicManageDomainChecker {
         itemDO.setOutId(scenicManageVO.getScenicId());//酒店ID
         itemDO.setSellerId(scenicManageVO.getSellerId());//商家ID
         itemDO.setTitle(scenicManageVO.getTitle());
-        itemDO.setPrice(scenicManageVO.getPrice().multiply(new BigDecimal(100)).longValue());//价格
+        //itemDO.setPrice(scenicManageVO.getPrice().multiply(new BigDecimal(100)).longValue());//价格
         itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice().multiply(new BigDecimal(100)).longValue());//门市价
         itemDO.setDomain(Constant.DOMAIN_JIUXIU);
         itemDO.setOptions(1);
@@ -203,7 +206,7 @@ public class ScenicManageDomainChecker {
         /**票型资源信息**/
         itemFeature.put(ItemFeatureKey.TICKET_ID,scenicManageVO.getTicketId());
         itemFeature.put(ItemFeatureKey.TICKET_TITLE,scenicManageVO.getTicketTitle());
-        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,scenicManageVO.getStartBookTimeLimit());//提前预定天数
+        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,scenicManageVO.getStartBookTimeLimit()*dayTime);//提前预定天数
         itemDO.setItemFeature(itemFeature);
         itemDO.setItemPropertyList(getItemSkuPVPairList(scenicManageVO.getDynamicEntry()));// 添加动态属性信息
         return itemDO;
@@ -223,15 +226,15 @@ public class ScenicManageDomainChecker {
         itemDO.setOutId(scenicManageVO.getScenicId());//酒店ID
         //itemDO.setSellerId(scenicManageVO.getSellerId());//商家ID
         itemDO.setTitle(scenicManageVO.getTitle());
-        itemDO.setPrice(scenicManageVO.getPrice().divide(new BigDecimal(100)).longValue());//价格
-        itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice().divide(new BigDecimal(100)).longValue());//门市价
+        //itemDO.setPrice(scenicManageVO.getPrice().multiply(new BigDecimal(100)).longValue());//价格
+        itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice().multiply(new BigDecimal(100)).longValue());//门市价
 
         //itemDO.setOutType();
         ItemFeature itemFeature = new ItemFeature(null);
         /**票型资源信息**/
         itemFeature.put(ItemFeatureKey.TICKET_ID,scenicManageVO.getTicketId());
         itemFeature.put(ItemFeatureKey.TICKET_TITLE,scenicManageVO.getTicketTitle());
-        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,scenicManageVO.getStartBookTimeLimit());//提前预定天数
+        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,scenicManageVO.getStartBookTimeLimit().intValue()*dayTime);//提前预定天数
         itemDO.setItemFeature(itemFeature);
         scenicManageVO.getDynamicEntry();//动态json列表
         List<ItemSkuPVPair> skuPVPairList =  getItemSkuPVPairList(scenicManageVO.getDynamicEntry());
@@ -240,7 +243,7 @@ public class ScenicManageDomainChecker {
         /***编辑操作添加价格日历sku**/
         Map<String,Object> paramUp =  getUpdateItem(scenicManageVO.getSupplierCalendar());
         scenicPublishUpdateDTO.setAddItemSkuList( paramUp.get(ADD)==null?null:(List<ItemSkuDO>)paramUp.get(ADD));
-        scenicPublishUpdateDTO.setUpdItemSkuList( paramUp.get(UPDATE)==null?null:(List<ItemSkuDO>)paramUp.get(UPDATE));
+        scenicPublishUpdateDTO.setUpdItemSkuList( paramUp.get(UPDATE)==null?null:(List<ItemSkuPubUpdateDTO>)paramUp.get(UPDATE));
         scenicPublishUpdateDTO.setDelItemSkuList(paramUp.get(DEL)==null?null:(List<Long>)paramUp.get(DEL));
         return scenicPublishUpdateDTO;
     }
@@ -339,6 +342,37 @@ public class ScenicManageDomainChecker {
         sku.setItemSkuPVPairList(itemSkuPVPairList);
         return sku;
     }
+
+    /**
+     * 价格日历更新dto
+     * @param template
+     * @param biz
+     * @return
+     */
+    public ItemSkuPubUpdateDTO getBizItemSkuPubUpdateDTO(SupplierCalendarTemplate template, BizSkuInfo biz){
+        ItemSkuPubUpdateDTO sku = new ItemSkuPubUpdateDTO();
+        //sku.setSellerId(template.getSeller_id());//商家ID
+        //sku.setCategoryId(scenicManageVO.getCategoryId());//类目ID
+        BigDecimal prize = biz.getPrice();
+        long portionPrize = prize.multiply(new BigDecimal(100)).longValue();
+        sku.setPrice(portionPrize);//价格
+        sku.setStockNum(biz.getStock_num());//库存
+        /**销售属性**/
+        List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
+        ItemSkuPVPair pvPair =new ItemSkuPVPair();
+        pvPair.setPId(categoryPropertyValueDO.getPropertyId());//销售属性ID
+        String vTxt = biz.getvTxt();
+        long time = Long.parseLong(vTxt);
+        //System.out.println(time);
+        pvPair.setPTxt(DateCommon.timestampLongDate(time));//日期格式化
+        pvPair.setVTxt(vTxt);//价格日期
+        pvPair.setPType(categoryPropertyValueDO.getType());
+        pvPair.setVId(-time);
+        itemSkuPVPairList.add(pvPair);
+        sku.setItemSkuPVPairList(itemSkuPVPairList);
+        return sku;
+    }
+
     /**
      * 更新商品信息添加价格日历信息
      * @param supplierCalendar
@@ -347,7 +381,7 @@ public class ScenicManageDomainChecker {
     public Map<String,Object> getUpdateItem(String supplierCalendar){
         List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>();
         List<Long> delItemSkuDOList = new ArrayList<Long>();
-        List<ItemSkuDO> updItemSkuDOList = new ArrayList<ItemSkuDO>();
+        List<ItemSkuPubUpdateDTO> itemSkuPubUpdateDTOList = new ArrayList<ItemSkuPubUpdateDTO>();
 
         if (org.apache.commons.lang3.StringUtils.isBlank(supplierCalendar)){
             return null;
@@ -360,10 +394,10 @@ public class ScenicManageDomainChecker {
         for (BizSkuInfo biz :bizSkuInfos){
             switch (biz.getState()) {
                 case UPDATE:
-                    ItemSkuDO upSkuDo  = getItemSkuDOByBiz(template,biz);
+                    ItemSkuPubUpdateDTO upSkuDo  = getBizItemSkuPubUpdateDTO(template,biz);
                     /**更新sku需要回填对应的skuid*/
                     upSkuDo.setId((Long)biz.getSku_id());
-                    updItemSkuDOList.add(upSkuDo);
+                    itemSkuPubUpdateDTOList.add(upSkuDo);
                     break;
 
                 case DEL:
@@ -381,7 +415,7 @@ public class ScenicManageDomainChecker {
         }
         Map<String,Object>  sukparam = new HashMap<String,Object>();
         sukparam.put(ADD,addItemSkuDOList);
-        sukparam.put(UPDATE,updItemSkuDOList);
+        sukparam.put(UPDATE,itemSkuPubUpdateDTOList);
         sukparam.put(DEL,delItemSkuDOList);
         return  sukparam;
     }

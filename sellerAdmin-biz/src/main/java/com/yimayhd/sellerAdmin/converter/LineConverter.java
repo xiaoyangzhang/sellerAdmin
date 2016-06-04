@@ -45,7 +45,11 @@ import com.yimayhd.ic.client.model.param.item.line.RouteItemUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.line.RouteUpdateDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
+import com.yimayhd.resourcecenter.domain.DestinationDO;
+import com.yimayhd.resourcecenter.dto.DestinationNode;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.DestinationNodeVO;
+import com.yimayhd.sellerAdmin.model.line.DestinationVO;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.TagDTO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
@@ -699,5 +703,48 @@ public class LineConverter {
 		dto.setItemSkuList(toItemSkuDOList(categoryId, sellerId, priceInfo.getTcs()));
 		return dto;
 	}
+	
+	public static List<DestinationNodeVO> toDestinationNodeVO(List<DestinationNode> destinationNodes) {
+		if (CollectionUtils.isEmpty(destinationNodes)) {
+			return new ArrayList<DestinationNodeVO>(0);
+		}
+		List<DestinationNodeVO> departs = new ArrayList<DestinationNodeVO>();
+		for (DestinationNode node : destinationNodes) {
+			DestinationNodeVO destinationNodeVO = new DestinationNodeVO();
+			if (node.isHasChild()) {
+				DestinationDO destinationDO = node.getDestinationDO();
+				DestinationVO destinationVO = new DestinationVO(destinationDO.getId(), destinationDO.getName(),
+						destinationDO.getCode(), destinationDO.getSimpleCode());
+				destinationNodeVO.setChild(toDestinationNodeVO(node.getChildList()));
+				destinationNodeVO.setDestinationVO(destinationVO);
+			} else {
+				DestinationDO destinationDO = node.getDestinationDO();
+				DestinationVO destinationVO = new DestinationVO(destinationDO.getId(), destinationDO.getName(),
+						destinationDO.getCode(), destinationDO.getSimpleCode());
+				destinationNodeVO.setDestinationVO(destinationVO);
+			}
+			departs.add(destinationNodeVO);
+		}
+		return departs;
+	}
 
+	public static List<DestinationNodeVO> updateBySelectedIds(List<DestinationNodeVO> destinationNodeVOs,
+			List<String> selectedIds) {
+		if (CollectionUtils.isEmpty(destinationNodeVOs)) {
+			return new ArrayList<DestinationNodeVO>(0);
+		}
+		if (CollectionUtils.isEmpty(selectedIds)) {
+			return new ArrayList<DestinationNodeVO>(0);
+		}
+		for (DestinationNodeVO destinationNodeVO : destinationNodeVOs) {
+			if (CollectionUtils.isNotEmpty(destinationNodeVO.getChild())) {
+				updateBySelectedIds(destinationNodeVO.getChild(), selectedIds);
+			} else {
+				if (selectedIds.contains(destinationNodeVO.getDestinationVO().getId().toString())) {
+					destinationNodeVO.getDestinationVO().setSelected(true);
+				}
+			}
+		}
+		return destinationNodeVOs;
+	}
 }

@@ -23,7 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
@@ -40,6 +41,7 @@ import com.yimayhd.sellerAdmin.base.BaseQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.converter.LineConverter;
 import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
 import com.yimayhd.sellerAdmin.model.line.DestinationNodeVO;
@@ -158,32 +160,30 @@ public class ResourceForSelectController extends BaseController {
 	@RequestMapping(value = "/selectDests/{itemType}")
 	public String selectDestsByItemType(@PathVariable(value = "itemType") ItemType itemType,
 			@RequestParam(value = "selectedIds", required = false) List<String> selectedIds) {
-		WebResult<List<DestinationNodeVO>> result = null;
-		HashMap<String, Object> hashMap = new HashMap<String, Object>();
-		if (itemType.equals(ItemType.TOUR_LINE) || itemType.equals(ItemType.FREE_LINE)) {
-			result = commLineService.queryInlandDestinationTree();
-			hashMap.put("type", "inland");
-		} else {
-			result = commLineService.queryOverseaDestinationTree();
-			hashMap.put("type", "oversea");
-		}
-		List<DestinationNodeVO> destinationNodeVOs = result.getValue();
-		if (CollectionUtils.isNotEmpty(selectedIds)) {
-			for (DestinationNodeVO destinationNodeVO : destinationNodeVOs) {
-				for (String id : selectedIds) {
-					if (destinationNodeVO.getDestinationVO().getId().toString().equals(id)) {
-						destinationNodeVO.getDestinationVO().setSelected(true);
-					}
-				}
+		try {
+			WebResult<List<DestinationNodeVO>> result = null;
+			HashMap<String, Object> hashMap = new HashMap<String, Object>();
+			if (itemType.equals(ItemType.TOUR_LINE) || itemType.equals(ItemType.FREE_LINE)) {
+				result = commLineService.queryInlandDestinationTree();
+				hashMap.put("type", "inland");
+			} else {
+				result = commLineService.queryOverseaDestinationTree();
+				hashMap.put("type", "oversea");
 			}
+			List<DestinationNodeVO> destinationNodeVOs = result.getValue();
+			destinationNodeVOs=LineConverter.updateBySelectedIds(destinationNodeVOs,selectedIds);
+			if (result.isSuccess()) {
+				ObjectMapper mapper = new ObjectMapper();
+				hashMap.put("destinationNodeVOs", destinationNodeVOs);
+				orderByFirstLetter(destinationNodeVOs);
+				String valueAsString = mapper.writeValueAsString(hashMap);
+				put("destMap", valueAsString);
+			} else {
+				throw new BaseException("选择目的地失败");
+			}
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
 		}
-		if (result.isSuccess()) {
-			orderByFirstLetter(destinationNodeVOs);
-		} else {
-			throw new BaseException("选择目的地失败");
-		}
-		hashMap.put("destinationNodeVOs", destinationNodeVOs);
-		put("destMap", hashMap);
 		return "/system/resource/forSelect/selectDests";
 	}
 

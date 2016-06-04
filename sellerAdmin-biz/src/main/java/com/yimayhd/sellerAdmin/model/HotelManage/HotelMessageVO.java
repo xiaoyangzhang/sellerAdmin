@@ -35,12 +35,12 @@ public class HotelMessageVO  implements Serializable {
 
 	private String locationTownName;
 
-	private Long startBookTimeLimit;// 提前预定天数
+	private Integer startBookTimeLimit;// 提前预定天数
 
 	private String title; // '标题',
 	private String code; // '商品代码',
 	private int payType  ; // COMMENT '可支持支付方式',
-
+	private String payTypeStr;//1.在线支付,2到店支付
 	private long itemId;// 商品Id
 
 	private long outType;//商品类型:1.酒店.2客栈
@@ -63,9 +63,9 @@ public class HotelMessageVO  implements Serializable {
 	private String currentState;//当前操作状态,update,add,del
 
 	private long categoryId;
-
-	public Integer page =1;
-	protected Integer pageSize =8 ;
+	private String UUID ;//uuid
+	private Integer page =1;
+	private Integer pageSize =8 ;
 
 	public long getSellerId() {
 		return sellerId;
@@ -186,6 +186,15 @@ public class HotelMessageVO  implements Serializable {
 
 	public void setPayType(int payType) {
 		this.payType = payType;
+		if(payType>0){
+			if(payType==1){
+				this.setPayTypeStr("在线支付");
+			}
+			if(payType==2){
+				this.setPayTypeStr("到店支付");
+			}
+
+		}
 	}
 
 
@@ -331,11 +340,11 @@ public class HotelMessageVO  implements Serializable {
 		this.breakfastStr = breakfastStr;
 	}
 
-	public Long getStartBookTimeLimit() {
+	public Integer getStartBookTimeLimit() {
 		return startBookTimeLimit;
 	}
 
-	public void setStartBookTimeLimit(Long startBookTimeLimit) {
+	public void setStartBookTimeLimit(Integer startBookTimeLimit) {
 		this.startBookTimeLimit = startBookTimeLimit;
 	}
 
@@ -361,5 +370,21 @@ public class HotelMessageVO  implements Serializable {
 
 	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
+	}
+
+	public String getPayTypeStr() {
+		return payTypeStr;
+	}
+
+	public void setPayTypeStr(String payTypeStr) {
+		this.payTypeStr = payTypeStr;
+	}
+
+	public String getUUID() {
+		return UUID;
+	}
+
+	public void setUUID(String UUID) {
+		this.UUID = UUID;
 	}
 }

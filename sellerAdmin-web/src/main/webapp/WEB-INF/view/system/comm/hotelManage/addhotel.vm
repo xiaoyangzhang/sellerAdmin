@@ -96,6 +96,7 @@
             <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{categoryId}">
             <input type="hidden" class="picCode baseInfo-picCode" name="itemId" value="$!{itemId}">
             <input type="hidden" class="picCode baseInfo-picCode" name="systemLog" value="$!{systemLog}">
+            <input type="hidden" class="picCode baseInfo-picCode" name="UUID" value="$!{UUID}">
             <table>
                 <tr>
                     <td class="coltxt">商品类型：</td>
@@ -103,7 +104,7 @@
                 </tr>
                 <tr>
                     <td class="coltxt">酒店名称：</td>
-                    <td><label id="lbhotelname">皇冠假日酒店</label></td>
+                    <td><label id="lbhotelname">$!{hotelMessageVO.name}</label></td>
                 </tr>
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>商品标题：</td>

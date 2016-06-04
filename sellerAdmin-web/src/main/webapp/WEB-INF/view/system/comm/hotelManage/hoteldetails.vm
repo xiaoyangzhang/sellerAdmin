@@ -23,6 +23,7 @@
     <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{categoryId}">
     <input type="hidden" class="picCode baseInfo-picCode" name="itemId" value="$!{itemId}">
     <input type="hidden" class="picCode baseInfo-picCode" name="systemLog" value="$!{systemLog}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="UUID" value="$!{UUID}">
     <div class="hotelinfo">
         <p>
             <span class="nm"><span class="bred">*</span><label>酒店信息：</label></span>
@@ -91,7 +92,7 @@
             </tr>
             <tr>
                 <td class="coltxt">酒店名称：</td>
-                <td><label>皇冠假日酒店</label></td>
+                <td><label>$!{hotelMessageVO.name}</label></td>
             </tr>
             <tr>
                 <td class="coltxt"><span class="bred">*</span>商品标题：</td>
@@ -103,11 +104,11 @@
             </tr>
             <tr>
                 <td class="coltxt"><span class="bred">*</span>付款方式：</td>
-                <td>$!{hotelMessageVO.payType}</td>
+                <td>$!{hotelMessageVO.payTypeStr}</td>
             </tr>
             <tr>
                 <td class="coltxt"><span class="bred">*</span>退订限制：</td>
-                <td>$!{hotelMessageVO.cancelLimit}</td>
+                <td>$!{hotelMessageVO.cancelLimitStr}</td>
             </tr>
             <tr>
                 <td class="coltxt vt"><span class="bred">*</span>退订规则：</td>
@@ -123,7 +124,7 @@
             </tr>
             <tr>
                 <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
-                <td>$!{hotelMessageVO.startBookTimeLimit} /天</td>
+                <td>$!{hotelMessageVO.startBookTimeLimit} 天</td>
             </tr>
             <tr>
                 <td class="coltxt"><span class="bred">*</span>早餐：</td>
