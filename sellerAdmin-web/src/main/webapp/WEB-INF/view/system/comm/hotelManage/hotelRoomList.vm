@@ -1,6 +1,7 @@
 #set($layout = "/layout/layout_non.vm")
 #parse("layout/layout-meta.vm")
 <ul class="clearfix">
+    #if($roomList.size()>0)
     #foreach($roomMessageVO in $roomList)
         <li>
             <div class="radio-bar clearfix">
@@ -35,11 +36,18 @@
                     </li>
                 </ul>
                 <div class="img-group">
+                    #foreach($pic in $pics)
                         <img src="$!rs_path_jiuxiu/img/temp_1.png">
                         <img src="$!rs_path_jiuxiu/img/temp_1.png">
                         <img src="$!rs_path_jiuxiu/img/temp_1.png">
+                    #end
                 </div>
             </div>
         </li>
+    #end
+    #else
+        <div class="room-error">
+            该酒店尚未添加房型
+        </div>
     #end
 </ul>
