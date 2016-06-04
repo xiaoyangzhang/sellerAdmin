@@ -728,23 +728,23 @@ public class LineConverter {
 		return departs;
 	}
 
-	public static List<DestinationNodeVO> updateBySelectedIds(List<DestinationNodeVO> destinationNodeVOs,
+	public static void fillDestinationesSelectedInfo(List<DestinationNodeVO> destinationNodeVOs,
 			List<String> selectedIds) {
-		if (CollectionUtils.isEmpty(destinationNodeVOs)) {
-			return new ArrayList<DestinationNodeVO>(0);
-		}
-		if (CollectionUtils.isEmpty(selectedIds)) {
-			return new ArrayList<DestinationNodeVO>(0);
+		if (CollectionUtils.isEmpty(destinationNodeVOs) || CollectionUtils.isEmpty(selectedIds)) {
+			return ;
 		}
 		for (DestinationNodeVO destinationNodeVO : destinationNodeVOs) {
-			if (CollectionUtils.isNotEmpty(destinationNodeVO.getChild())) {
-				updateBySelectedIds(destinationNodeVO.getChild(), selectedIds);
-			} else {
-				if (selectedIds.contains(destinationNodeVO.getDestinationVO().getId().toString())) {
-					destinationNodeVO.getDestinationVO().setSelected(true);
-				}
+			List<DestinationNodeVO> children = destinationNodeVO.getChild() ;
+			if (CollectionUtils.isNotEmpty( children )) {
+				fillDestinationesSelectedInfo(children, selectedIds);
+			}
+			DestinationVO destinationVO = destinationNodeVO.getDestinationVO();
+			
+			//FIXME 非空判断
+			Long id = destinationVO.getId() ;
+			if (selectedIds.contains( id.toString() )) {
+				destinationVO.setSelected(true);
 			}
 		}
-		return destinationNodeVOs;
 	}
 }

@@ -171,7 +171,7 @@ public class ResourceForSelectController extends BaseController {
 				hashMap.put("type", "oversea");
 			}
 			List<DestinationNodeVO> destinationNodeVOs = result.getValue();
-			destinationNodeVOs=LineConverter.updateBySelectedIds(destinationNodeVOs,selectedIds);
+			LineConverter.fillDestinationesSelectedInfo(destinationNodeVOs, selectedIds);
 			if (result.isSuccess()) {
 				ObjectMapper mapper = new ObjectMapper();
 				hashMap.put("destinationNodeVOs", destinationNodeVOs);
