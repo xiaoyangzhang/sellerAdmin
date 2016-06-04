@@ -99,6 +99,7 @@ public class HotelManageRepo {
 	 * @param domain
 	 * @return
      */
+	@MethodLogger
 	public WebResult<HotelMessageVO>  addHotelMessageVOByData(HotelManageDomainChecker domain) throws Exception{
 		WebResult<HotelMessageVO> webResult = domain.getWebResult();
 
