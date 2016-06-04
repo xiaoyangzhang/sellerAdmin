@@ -152,9 +152,9 @@ public class HotelManageDomainChecker {
         if (StringUtils.isBlank(hotelMessageVO.getStoreLastTime())) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "最晚到点时间不能为空");
         }
-        if (hotelMessageVO.getStartBookTimeLimit() == 0) {
+      /*  if (hotelMessageVO.getStartBookTimeLimit() == 0) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "提前预定天数不能为空");
-        }
+        }*/
         if (hotelMessageVO.getBreakfast() == 0) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "早餐信息不能为空");
         }
