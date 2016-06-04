@@ -211,6 +211,7 @@ public class ScenicManageEnhanceController extends BaseController {
         if(scenicManageVO.getItemId()==0){
             // "编辑商品ID错误";
             systemLog="编辑商品ID错误";
+             new BaseException("编辑商品ID错误");
         }
         /*if(scenicManageVO.getCategoryId()==0){
             // "商品类目ID错误";
