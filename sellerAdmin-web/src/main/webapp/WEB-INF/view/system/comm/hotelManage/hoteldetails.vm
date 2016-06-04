@@ -26,7 +26,7 @@
     <input type="hidden" class="picCode baseInfo-picCode" name="UUID" value="$!{UUID}">
     <div class="hotelinfo">
         <p>
-            <span class="nm"><span class="bred">*</span><label>酒店信息：</label></span>
+            <span class="nm"><label>酒店信息：</label></span>
                 <span class="info-bar">
                     <label class="htn">$!{hotelMessageVO.name}</label>
                     <label class="smtt">地址：</label><label class="address">$!{hotelMessageVO.locationText}</label>
@@ -36,7 +36,7 @@
         </p>
         <!-- <div class='load_room'><img src="$!rs_path_jiuxiu/img/loading.gif"></div> -->
         <div class="hotelcol" style="display: block;">
-                <span class="nm"><span class="bred">*</span><label>酒店房型：</label></span>
+                <span class="nm"><label>酒店房型：</label></span>
                         <span class="info-box clearfix">
                             <ul class="clearfix">
                                 <li>
@@ -95,27 +95,27 @@
                 <td><label>$!{hotelMessageVO.name}</label></td>
             </tr>
             <tr>
-                <td class="coltxt"><span class="bred">*</span>商品标题：</td>
+                <td class="coltxt">商品标题：</td>
                 <td> $!{hotelMessageVO.title}</td>
             </tr>
             <tr>
-                <td class="coltxt"><span class="bred">*</span>商品代码：</td>
+                <td class="coltxt">商品代码：</td>
                 <td>$!{hotelMessageVO.code}</td>
             </tr>
             <tr>
-                <td class="coltxt"><span class="bred">*</span>付款方式：</td>
+                <td class="coltxt">付款方式：</td>
                 <td>$!{hotelMessageVO.payTypeStr}</td>
             </tr>
             <tr>
-                <td class="coltxt"><span class="bred">*</span>退订限制：</td>
+                <td class="coltxt">退订限制：</td>
                 <td>$!{hotelMessageVO.cancelLimitStr}</td>
             </tr>
             <tr>
-                <td class="coltxt vt"><span class="bred">*</span>退订规则：</td>
+                <td class="coltxt vt">退订规则：</td>
                 <td class="dtlrule">$!{hotelMessageVO.description}</td>
             </tr>
             <tr>
-                <td class="coltxt vt"><span class="bred">*</span>最晚到店时间：</td>
+                <td class="coltxt vt">最晚到店时间：</td>
                 <td>
                     #foreach($o in $hotelMessageVO.latestArriveTime)
                     当天$!{o}前
@@ -123,11 +123,11 @@
                 </td>
             </tr>
             <tr>
-                <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
+                <td class="coltxt">提前预定天数：</td>
                 <td>$!{hotelMessageVO.startBookTimeLimit} 天</td>
             </tr>
             <tr>
-                <td class="coltxt"><span class="bred">*</span>早餐：</td>
+                <td class="coltxt">早餐：</td>
                 <td>$!{hotelMessageVO.breakfastStr}</td>
             </tr>
         </table>
