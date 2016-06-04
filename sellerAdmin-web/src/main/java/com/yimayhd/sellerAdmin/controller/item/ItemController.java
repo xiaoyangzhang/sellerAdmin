@@ -6,6 +6,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
+import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -41,7 +45,7 @@ import com.yimayhd.user.client.enums.UserOptions;
 
 /**
  * 商品管理
- * 
+ *
  * @author yebin
  *
  */
@@ -54,9 +58,11 @@ public class ItemController extends BaseController {
 	private CategoryService	categoryService;
 	@Autowired
 	private ItemQueryService itemQueryService;
+	@Autowired
+	private MerchantItemCategoryService merchantItemCategoryService;
 	/**
 	 * 商品列表
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -105,6 +111,27 @@ public class ItemController extends BaseController {
 				list = categoryDoTOVo(webResult.getValue().getChildren(),false);
 			}
 		}
+		if(!isTalent) {
+			List<CategoryVO> filteredList = new ArrayList<>();
+			MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesBySellerId(Constant.DOMAIN_JIUXIU, user.getId());
+			outer : for(CategoryVO categoryVO : list) {
+				inner : for (MerchantItemCategoryDO merchantItemCategoryDO : merchantItemCategoryResult.getValue()) {
+					try {
+						CategoryDO categoryDO = categoryService.getCategoryDOById(merchantItemCategoryDO.getItemCategoryId());
+						while (categoryVO.getCategoryId() != categoryDO.getId()) {
+							categoryDO = categoryService.getCategoryDOById(categoryDO.getParentId());
+							if(null == categoryDO) {
+								continue inner;
+							}
+						}
+						filteredList.add(categoryVO);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			return filteredList;
+		}
 		return list;
 	}
 
@@ -130,7 +157,7 @@ public class ItemController extends BaseController {
 				vo.setLevel(categoryDO.getLevel());
 				vo.setCategoryName(categoryDO.getName());
 				list.add(vo);
-			} 
+			}
 		}
 		return list;
 	}
@@ -176,8 +203,8 @@ public class ItemController extends BaseController {
 //		} else {
 //			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
 //		}
-		
-		
+
+
 	}
 	@RequestMapping(value = "/{id}/unshelve")
 	public @ResponseBody WebOperateResult unshelve(@PathVariable("id") long id) {
@@ -195,8 +222,8 @@ public class ItemController extends BaseController {
 //		} else {
 //			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
 //		}
-		
-		
+
+
 	}
 	@RequestMapping(value = "/{id}/delete")
 	public @ResponseBody WebOperateResult delete(@PathVariable("id") long id) {
@@ -214,8 +241,8 @@ public class ItemController extends BaseController {
 //		} else {
 //			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
 //		}
-		
-		
+
+
 	}
 
 	private WebOperateResult checkBeforeOperate(long id,long sellerId) {
@@ -228,7 +255,7 @@ public class ItemController extends BaseController {
 		itemIds.add(id);
 		ICResult<List<ItemDO>> itemQueryResult = itemQueryService.getItemByIds(itemIds);
 		if(itemQueryResult.getModule() != null && itemQueryResult.getModule().size() > 0 && itemQueryResult.getModule().get(0).getSellerId() != sellerId) {
-			
+
 			log.warn("不支持的操作");
 			return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
 		}
