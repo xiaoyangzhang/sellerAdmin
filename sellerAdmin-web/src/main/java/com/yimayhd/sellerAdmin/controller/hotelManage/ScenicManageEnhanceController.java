@@ -74,7 +74,6 @@ public class ScenicManageEnhanceController extends BaseController {
     public  String queryScenicManageVOListByData(Model model, ScenicManageVO scenicManageVO){
         long userId = sessionManager.getUserId() ;
         scenicManageVO.setSellerId(userId);
-        scenicManageVO.setPageSize(8);
         WebResult<PageVO<ScenicManageVO>> result= scenicManageService.queryScenicManageVOListByData(scenicManageVO);
         if(!result.isSuccess()){
             logger.error("查询列表失败");
@@ -92,8 +91,6 @@ public class ScenicManageEnhanceController extends BaseController {
         model.addAttribute("pageVo", pageResult);
         model.addAttribute("scenicManageVOList", scenicManageVOList);
         model.addAttribute("totalPage", totalPage);
-       // model.addAttribute("pageNo", pageResult.getPaginator().getPage());
-      //  model.addAttribute("pageSize",8);
         model.addAttribute("totalCount", pageResult.getPaginator().getTotalItems());
 
         return "/system/comm/hotelManage/searchscenic";
