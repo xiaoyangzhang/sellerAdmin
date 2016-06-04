@@ -281,7 +281,7 @@ public class HotelManageDomainChecker {
         // CategoryPropertyValueDO + 日期 存到 ItemSkuPVPair 中,每个sku 只有 一个 pv 属性
         Map<String,Object> paramUp =  getUpdateItem(hotelMessageVO.getSupplierCalendar());
         dto.setAddItemSkuList( paramUp.get(ADD)==null?null:(List<ItemSkuDO>)paramUp.get(ADD));
-        dto.setUpdItemSkuList( paramUp.get(UPDATE)==null?null:(List<ItemSkuDO>)paramUp.get(UPDATE));
+        dto.setUpdItemSkuList( paramUp.get(UPDATE)==null?null:(List<ItemSkuPubUpdateDTO>)paramUp.get(UPDATE));
         dto.setDelItemSkuList(paramUp.get(DEL)==null?null:(List<Long>)paramUp.get(DEL));
         dto.setItemDTO(itemDO);//商品信息
 
@@ -321,7 +321,7 @@ public class HotelManageDomainChecker {
     public Map<String,Object> getUpdateItem(String supplierCalendar){
          List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>();
          List<Long> delItemSkuDOList = new ArrayList<Long>();
-         List<ItemSkuDO> updItemSkuDOList = new ArrayList<ItemSkuDO>();
+         List<ItemSkuPubUpdateDTO> updItemSkuDOList = new ArrayList<ItemSkuPubUpdateDTO>();
 
         if (StringUtils.isBlank(supplierCalendar)){
             return null;
@@ -334,7 +334,7 @@ public class HotelManageDomainChecker {
         for (BizSkuInfo biz :bizSkuInfos){
             switch (biz.getState()) {
                 case UPDATE:
-                    ItemSkuDO upSkuDo  = getItemSkuDOByBiz(template,biz);
+                    ItemSkuPubUpdateDTO upSkuDo  = getBizItemSkuPubUpdateDTO(template,biz);
                     /**更新sku需要回填对应的skuid*/
                     upSkuDo.setId((Long)biz.getSku_id());
                     updItemSkuDOList.add(upSkuDo);
@@ -383,6 +383,36 @@ public class HotelManageDomainChecker {
         pvPair.setVTxt(vTxt);//价格日期
        // System.out.println("biz.getvTxt():"+biz.getvTxt()+",str:"+DateCommon.timestamp2Date(time));
         //System.out.println("价格日期:"+biz.getvTxt());
+        pvPair.setPType(categoryPropertyValueDO.getType());
+        pvPair.setVId(-time);
+        itemSkuPVPairList.add(pvPair);
+        sku.setItemSkuPVPairList(itemSkuPVPairList);
+        return sku;
+    }
+
+    /**
+     * 价格日历更新dto
+     * @param template
+     * @param biz
+     * @return
+     */
+    public ItemSkuPubUpdateDTO getBizItemSkuPubUpdateDTO(SupplierCalendarTemplate template, BizSkuInfo biz){
+        ItemSkuPubUpdateDTO sku = new ItemSkuPubUpdateDTO();
+        //sku.setSellerId(template.getSeller_id());//商家ID
+        //sku.setCategoryId(scenicManageVO.getCategoryId());//类目ID
+        BigDecimal prize = biz.getPrice();
+        long portionPrize = prize.multiply(new BigDecimal(100)).longValue();
+        sku.setPrice(portionPrize);//价格
+        sku.setStockNum(biz.getStock_num());//库存
+        /**销售属性**/
+        List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
+        ItemSkuPVPair pvPair =new ItemSkuPVPair();
+        pvPair.setPId(categoryPropertyValueDO.getPropertyId());//销售属性ID
+        String vTxt = biz.getvTxt();
+        long time = Long.parseLong(vTxt);
+        //System.out.println(time);
+        pvPair.setPTxt(DateCommon.timestampLongDate(time));//日期格式化
+        pvPair.setVTxt(vTxt);//价格日期
         pvPair.setPType(categoryPropertyValueDO.getType());
         pvPair.setVId(-time);
         itemSkuPVPairList.add(pvPair);

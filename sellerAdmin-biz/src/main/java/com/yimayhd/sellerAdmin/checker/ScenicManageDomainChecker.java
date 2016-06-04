@@ -13,6 +13,7 @@ import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.StarLevelType;
 import com.yimayhd.ic.client.model.param.item.ItemPubUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
+import com.yimayhd.ic.client.model.param.item.ItemSkuPubUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ScenicPublishUpdateDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
@@ -242,7 +243,7 @@ public class ScenicManageDomainChecker {
         /***编辑操作添加价格日历sku**/
         Map<String,Object> paramUp =  getUpdateItem(scenicManageVO.getSupplierCalendar());
         scenicPublishUpdateDTO.setAddItemSkuList( paramUp.get(ADD)==null?null:(List<ItemSkuDO>)paramUp.get(ADD));
-        scenicPublishUpdateDTO.setUpdItemSkuList( paramUp.get(UPDATE)==null?null:(List<ItemSkuDO>)paramUp.get(UPDATE));
+        scenicPublishUpdateDTO.setUpdItemSkuList( paramUp.get(UPDATE)==null?null:(List<ItemSkuPubUpdateDTO>)paramUp.get(UPDATE));
         scenicPublishUpdateDTO.setDelItemSkuList(paramUp.get(DEL)==null?null:(List<Long>)paramUp.get(DEL));
         return scenicPublishUpdateDTO;
     }
@@ -341,6 +342,37 @@ public class ScenicManageDomainChecker {
         sku.setItemSkuPVPairList(itemSkuPVPairList);
         return sku;
     }
+
+    /**
+     * 价格日历更新dto
+     * @param template
+     * @param biz
+     * @return
+     */
+    public ItemSkuPubUpdateDTO getBizItemSkuPubUpdateDTO(SupplierCalendarTemplate template, BizSkuInfo biz){
+        ItemSkuPubUpdateDTO sku = new ItemSkuPubUpdateDTO();
+        //sku.setSellerId(template.getSeller_id());//商家ID
+        //sku.setCategoryId(scenicManageVO.getCategoryId());//类目ID
+        BigDecimal prize = biz.getPrice();
+        long portionPrize = prize.multiply(new BigDecimal(100)).longValue();
+        sku.setPrice(portionPrize);//价格
+        sku.setStockNum(biz.getStock_num());//库存
+        /**销售属性**/
+        List<ItemSkuPVPair> itemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
+        ItemSkuPVPair pvPair =new ItemSkuPVPair();
+        pvPair.setPId(categoryPropertyValueDO.getPropertyId());//销售属性ID
+        String vTxt = biz.getvTxt();
+        long time = Long.parseLong(vTxt);
+        //System.out.println(time);
+        pvPair.setPTxt(DateCommon.timestampLongDate(time));//日期格式化
+        pvPair.setVTxt(vTxt);//价格日期
+        pvPair.setPType(categoryPropertyValueDO.getType());
+        pvPair.setVId(-time);
+        itemSkuPVPairList.add(pvPair);
+        sku.setItemSkuPVPairList(itemSkuPVPairList);
+        return sku;
+    }
+
     /**
      * 更新商品信息添加价格日历信息
      * @param supplierCalendar
@@ -349,7 +381,7 @@ public class ScenicManageDomainChecker {
     public Map<String,Object> getUpdateItem(String supplierCalendar){
         List<ItemSkuDO> addItemSkuDOList = new ArrayList<ItemSkuDO>();
         List<Long> delItemSkuDOList = new ArrayList<Long>();
-        List<ItemSkuDO> updItemSkuDOList = new ArrayList<ItemSkuDO>();
+        List<ItemSkuPubUpdateDTO> itemSkuPubUpdateDTOList = new ArrayList<ItemSkuPubUpdateDTO>();
 
         if (org.apache.commons.lang3.StringUtils.isBlank(supplierCalendar)){
             return null;
@@ -362,10 +394,10 @@ public class ScenicManageDomainChecker {
         for (BizSkuInfo biz :bizSkuInfos){
             switch (biz.getState()) {
                 case UPDATE:
-                    ItemSkuDO upSkuDo  = getItemSkuDOByBiz(template,biz);
+                    ItemSkuPubUpdateDTO upSkuDo  = getBizItemSkuPubUpdateDTO(template,biz);
                     /**更新sku需要回填对应的skuid*/
                     upSkuDo.setId((Long)biz.getSku_id());
-                    updItemSkuDOList.add(upSkuDo);
+                    itemSkuPubUpdateDTOList.add(upSkuDo);
                     break;
 
                 case DEL:
@@ -383,7 +415,7 @@ public class ScenicManageDomainChecker {
         }
         Map<String,Object>  sukparam = new HashMap<String,Object>();
         sukparam.put(ADD,addItemSkuDOList);
-        sukparam.put(UPDATE,updItemSkuDOList);
+        sukparam.put(UPDATE,itemSkuPubUpdateDTOList);
         sukparam.put(DEL,delItemSkuDOList);
         return  sukparam;
     }
