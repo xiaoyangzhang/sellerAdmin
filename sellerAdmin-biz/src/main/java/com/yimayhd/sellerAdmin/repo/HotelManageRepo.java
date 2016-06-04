@@ -248,6 +248,7 @@ public class HotelManageRepo {
 		WebResult<List<RoomMessageVO>> result = domain.getListRoomMessageVOResult();
 		HotelMessageVO hotelMessageVO = domain.getHotelMessageVO();
 		RoomQuery roomQuery = new RoomQuery();
+		roomQuery.setStatus(ItemStatus.valid.getValue());
 		roomQuery.setHotelId(hotelMessageVO.getHotelId());
 		ICResult<List<RoomDO>> callBack= itemQueryServiceRef.queryAllRoom( roomQuery);
 		if(!callBack.isSuccess() || callBack.getModule()==null ){

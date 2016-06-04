@@ -20,6 +20,7 @@ public class HotelMessageVO  implements Serializable {
 	private String name;//酒店名称
 	private String area;//酒店区域
 	private String phone;//酒店电话
+	private String hotelTypeStr;//酒店类型
 
 	private String locationText;//地址
 
@@ -386,5 +387,13 @@ public class HotelMessageVO  implements Serializable {
 
 	public void setUUID(String UUID) {
 		this.UUID = UUID;
+	}
+
+	public String getHotelTypeStr() {
+		return hotelTypeStr;
+	}
+
+	public void setHotelTypeStr(String hotelTypeStr) {
+		this.hotelTypeStr = hotelTypeStr;
 	}
 }
