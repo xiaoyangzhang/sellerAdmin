@@ -36,7 +36,7 @@
                     </li>
                 </ul>
                 <div class="img-group">
-                    #foreach($pic in $pics)
+                    #foreach($pic in $roomMessageVO.pics)
                         <img src="$tfs$pic">
                     #end
                 </div>
