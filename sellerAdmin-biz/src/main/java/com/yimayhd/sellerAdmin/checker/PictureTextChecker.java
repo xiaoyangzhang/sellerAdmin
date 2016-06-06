@@ -13,7 +13,7 @@ import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextVO;
 public class PictureTextChecker {
 	public static WebCheckResult checkPictureText(PictureTextVO pictureTextVO) {
 		if (pictureTextVO == null) {
-			return WebCheckResult.error("详细描述不能为空");
+			return WebCheckResult.error("图文介绍不能为空");
 		}
 		List<PictureTextItemVo> pictureTextItems = pictureTextVO.getPictureTextItems();
 		if (CollectionUtils.isNotEmpty(pictureTextItems)) {
@@ -24,14 +24,14 @@ public class PictureTextChecker {
 				}
 			}
 		} else {
-			return WebCheckResult.error("详细描述至少需输入一段文字，或一张图片");
+			return WebCheckResult.error("图文介绍至少需输入一段文字，或一张图片");
 		}
 		return WebCheckResult.success();
 	}
 
 	public static WebCheckResult checkPictureTextItem(PictureTextItemVo pictureTextItem) {
 		if (pictureTextItem == null) {
-			WebCheckResult.error("详细描述项不能为空");
+			WebCheckResult.error("图文介绍项不能为空");
 		}
 		String type = pictureTextItem.getType();
 		PictureTextItemType pictureTextItemType = PictureTextItemType.findByName(type);
@@ -39,7 +39,7 @@ public class PictureTextChecker {
 			WebCheckResult.error("错误详细描述项类型: " + type);
 		}
 		if (StringUtils.isBlank(pictureTextItem.getValue())) {
-			WebCheckResult.error("详细描述项内容不能为空");
+			WebCheckResult.error("图文介绍项内容不能为空");
 		}
 		return WebCheckResult.success();
 	}
