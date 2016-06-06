@@ -47,7 +47,7 @@
                   <a href="#tab1" data-toggle="tab">基本信息</a>
                 </li>
                 <li>
-                  <a href="#tab2" data-toggle="tab">详细描述</a>
+                  <a href="#tab2" data-toggle="tab">图文介绍</a>
                 </li>
 				#if($utilItem.isFreeLine($itemType))
                 <li>

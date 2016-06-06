@@ -67,7 +67,7 @@
                 <td>
                     <span>经度</span>
                     <input type="text" name="item.longitude" id="longitude" class="inpControl getAddress" value="$!item.longitude">
-                    <span>维度</span>
+                    <span>纬度</span>
                     <input type="text" name="item.latitude" id="latitude" class="inpControl getAddress" value="$!item.latitude">
                     <button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button>
                 #*<code>点击查找经纬度可自动获取</code>*#
