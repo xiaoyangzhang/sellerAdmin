@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.yimayhd.membercenter.enums.MerchantType;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -308,7 +309,7 @@ public class MerchantBiz {
 		ex.setSellerId(sessionManager.getUserId());
 		ex.setSellerName(userDetailInfo.getSellerName());
 		ex.setDomainId(Constant.DOMAIN_JIUXIU);
-		ex.setType(ExamineType.MERCHANT.getType());
+		ex.setType(MerchantType.MERCHANT.getType());
 		ex.setMerchantName(userDetailInfo.getMerchantName());
 		ex.setLegralName(userDetailInfo.getLegralName());
 		ex.setAddress(userDetailInfo.getAddress());

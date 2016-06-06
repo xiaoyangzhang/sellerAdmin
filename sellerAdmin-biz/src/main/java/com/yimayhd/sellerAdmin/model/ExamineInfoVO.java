@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.yimayhd.membercenter.enums.MerchantType;
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -480,7 +481,7 @@ public class ExamineInfoVO  implements Serializable  {
 		dto.setPrincipleCardDown(vo.getPrincipleCardDown());
 		dto.setDomainId(Constant.DOMAIN_JIUXIU);
 		dto.setSellerId(userId);
-		dto.setType(ExamineType.TALENT.getType());
+		dto.setType(MerchantType.TALENT.getType());
 		dto.setAccountBankProvinceCode(vo.getProvince());
 		dto.setAccountBankCityCode(vo.getCity());
 		//dto.setMerchantCategoryId(vo.getMerchantCategoryId());
@@ -497,7 +498,7 @@ public class ExamineInfoVO  implements Serializable  {
 		InfoQueryDTO infoQueryDTO = new InfoQueryDTO();
 		infoQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		infoQueryDTO.setSellerId(userId);
-		infoQueryDTO.setType(ExamineType.TALENT.getType());
+		infoQueryDTO.setType(MerchantType.TALENT.getType());
 		return infoQueryDTO;
 		
 	}
