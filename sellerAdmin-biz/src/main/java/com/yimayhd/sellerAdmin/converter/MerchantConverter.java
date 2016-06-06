@@ -1,13 +1,19 @@
 package com.yimayhd.sellerAdmin.converter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
+import com.yimayhd.membercenter.client.domain.merchant.QualificationDO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
-import com.yimayhd.membercenter.enums.ExamineType;
+import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
+import com.yimayhd.sellerAdmin.model.QualificationVO;
 
 
 
@@ -72,6 +78,9 @@ public class MerchantConverter {
 		dto.setAccountBankCityCode(vo.getCity());
 		dto.setMerchantCategoryId(vo.getMerchantCategoryId());
 		dto.setIsDirectSale(vo.getIsDirectSale());
+		dto.setLawPersonCard(vo.getLawPersonCard());
+		dto.setSaleLicenseNumber(vo.getSaleLicenseNumber());
+		dto.setTaxRegisterNumber(vo.getTaxRegisterNumber());
 //		dto.setAmusementParkReport(vo.getAmusementParkReport());
 //		dto.setWildlifeSale(vo.getWildlifeSale());
 //		dto.setWaterWildlifeSale(vo.getWaterWildlifeSale());
@@ -86,7 +95,18 @@ public class MerchantConverter {
 //		dto.setRelationBetweenHotelAngGroup(vo.getRelationBetweenHotelAngGroup());
 //		dto.setHotelGoodsAuthorization(vo.getHotelGoodsAuthorization());
 		dto.setMerchantQualifications(vo.getMerchantQualifications());
-		dto.setMerchantScopes(vo.getMerchantScopes());
+		List<MerchantScopeDO> merchantScopes = new ArrayList<MerchantScopeDO>(); 
+		String[] scopeIdArr = vo.getScopeIds().split(",");
+		for (String id : scopeIdArr) {
+			MerchantScopeDO merchantScope = new MerchantScopeDO();
+			merchantScope.setBusinessScopeId(Long.parseLong(id));
+			merchantScope.setDomainId(Constant.DOMAIN_JIUXIU);
+			merchantScope.setSellerId(userId);
+			merchantScope.setStatus(1);
+			merchantScopes.add(merchantScope);
+		}
+		
+		dto.setMerchantScopes(merchantScopes);
 		return dto;
 		
 	}
@@ -154,6 +174,20 @@ public class MerchantConverter {
 //		dto.setHotelGoodsAuthorization(vo.getHotelGoodsAuthorization());
 //		vo.setMerchantQualifications(examineInfoDTO.getMerchantQualifications());
 //		vo.setMerchantScopes(examineInfoDTO.getMerchantScopes());
+		vo.setLawPersonCard(examineInfoDTO.getLawPersonCard());
+		vo.setSaleLicenseNumber(examineInfoDTO.getSaleLicenseNumber());
+		vo.setTaxRegisterNumber(examineInfoDTO.getTaxRegisterNumber());
+		return vo;
+	}
+	
+	public static QualificationVO converterQualificationDO2VO(QualificationDO qualificationDO) {
+		QualificationVO vo = new QualificationVO();
+		vo.setId(qualificationDO.getId());
+		vo.setNum(qualificationDO.getNum());
+		vo.setType(qualificationDO.getType());
+		vo.setOverallNote(qualificationDO.getOverallNote());
+		vo.setTip(qualificationDO.getTip());
+		vo.setTitle(qualificationDO.getTitle());
 		return vo;
 	}
 }

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
+import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
@@ -82,12 +83,13 @@ public class TalentBiz {
 	 * @throws Exception
 	 */
 	@MethodLogger
-	public WebResult<Boolean> addExamineInfo(ExamineInfoVO vo)  {
+	public MemResult<Boolean> addExamineInfo(ExamineInfoVO vo)  {
+		
 		if (vo == null ) {
 			log.error(" params error :vo={}",vo);
-			//throw new BaseException("参数错误");
-			return WebResult.failure(WebReturnCode.PARAM_ERROR);
-			//return WebResult.success(false, "参数错误");
+			MemResult<Boolean> result = new MemResult<Boolean>();
+			result.setReturnCode(MemberReturnCode.PARAMTER_ERROR);
+			return result;
 		}
 		return talentRepo.addExamineInfo(vo);
 	}

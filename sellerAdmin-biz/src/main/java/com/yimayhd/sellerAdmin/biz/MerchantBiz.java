@@ -21,7 +21,7 @@ import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.enums.ExamineStatus;
-import com.yimayhd.membercenter.enums.ExamineType;
+import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
@@ -308,7 +308,7 @@ public class MerchantBiz {
 		ex.setSellerId(sessionManager.getUserId());
 		ex.setSellerName(userDetailInfo.getSellerName());
 		ex.setDomainId(Constant.DOMAIN_JIUXIU);
-		ex.setType(ExamineType.MERCHANT.getType());
+		ex.setType(MerchantType.MERCHANT.getType());
 		ex.setMerchantName(userDetailInfo.getMerchantName());
 		ex.setLegralName(userDetailInfo.getLegralName());
 		ex.setAddress(userDetailInfo.getAddress());

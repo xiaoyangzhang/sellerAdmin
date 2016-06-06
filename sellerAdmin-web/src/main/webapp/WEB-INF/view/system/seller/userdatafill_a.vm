@@ -33,49 +33,61 @@
 				
 		  <!-- 商家信息板块 -->
        <form class="registerform" method="post"  autocomplete="off" id="forminfo">
+       <input type="hidden" class="subpath" value="$!root_path/apply/seller/saveUserdata">
+       <div class="panel">
+       <div class="tit gray6 f16 error_tip">填写商家信息
+						
+							#if ($!reason && $!reason.size()>0 )
+						<div class="error_box">
+							<div>审核不通过原因</div>
+							#foreach( $info in $reason)<span style="color:white;">$!info</span><br/>#end
+						</div>
+					#end
+						
+					</div>
                	<div class="infor-title">请选择您的身份</div>
                	<div class="one">
-               	    	   <table>
+               	    	   <table class="comtype">
                	    	   
        	    	   				<tr>
                	    	   				<td class="rigtxt ts"><label>旅游企业：</label></td>
                	    	   				<td class="rigcontent listli">
-               	    	   					<input type="radio" value="1" name="merchantCategoryId" id="travel" checked="checked" class="flm"/><label >旅行社</label>
-               	    	   					<input type="radio" value="2" name="merchantCategoryId" id="" class="lm"/><label class="">旅游商务服务公司</label>
+               	    	   					<input type="radio" value="1" name="" id="travel" checked="checked" class="flm ccc"/><label >旅行社</label>
+               	    	   					<input type="radio" value="2" name="merchantCategoryId" id="" class="lm ddd"/><label class="">旅游商务服务公司</label>
                	    	   					<div class="company">
-								               <label class="bomb-con"><input type="radio" value="12" name="merchantCategoryId" id="" class="" checked="checked"/><label>国内社总社</label></label>
-							                   <label class="bomb-con"><input type="radio" value="13" name="merchantCategoryId" id="" class=""/><label>国内社分社</label></label>
+								               <label class="bomb-con"><input type="radio" value="12"  name="merchantCategoryId" id="" class="" checked="checked"/><label>国内社总社</label></label>
+							                   <label class="bomb-con"><input type="radio" value="13" name="merchantCategoryId" id="" class="daible"/><label>国内社分社</label></label>
 								               <label class="bomb-con"><input type="radio" value="14" name="merchantCategoryId" id="" class=""/><label>出境社总社</label></label>
-								               <label class="bomb-con"><input type="radio" value="15" name="merchantCategoryId" id="" class=""/><label>出境社分社</label></label>
+								               <label class="bomb-con"><input type="radio" value="15" name="merchantCategoryId" id="" class="daible"/><label>出境社分社</label></label>
 						                    </div>
                	    	   				</td>
 
                	    	   			</tr>
                	    	   			<tr>
                	    	   				<td class="rigtxt"><label>酒店：</label></td>
-               	    	   				<td class="rigcontent">
-               	    	   					<input type="radio" value="3" name="merchantCategoryId" id="" class="flm"/><label>集团酒店/连锁酒店</label>
-               	    	   					<input type="radio" value="4" name="merchantCategoryId" id="" class="lm"/><label class="">单体酒店</label>
-               	    	   					<input type="radio" value="5" name="merchantCategoryId" id="" class="lm"/><label class="">酒店代理商</label>
+               	    	   				<td class="rigcontent ">
+               	    	   					<input type="radio" value="3" name="merchantCategoryId" id="" class="flm ddd"/><label>集团酒店/连锁酒店</label>
+               	    	   					<input type="radio" value="4" name="merchantCategoryId" id="" class="lm ddd"/><label class="">单体酒店</label>
+               	    	   					<input type="radio" value="5" name="merchantCategoryId" id="" class="lm ddd daible"/><label class="">酒店代理商</label>
                	    	   				</td>
                	    	   			</tr>
                	    	   			<tr>
                	    	   				<td class="rigtxt"><label>票务：</label></td>
                	    	   				<td class="rigcontent">
-               	    	   					<input type="radio" value="6" name="merchantCategoryId" id="" class="flm"/><label>景区</label>
-               	    	   					<input type="radio" value="7" name="merchantCategoryId" id="" class="lm"/><label class="">游乐园</label>
-               	    	   					<input type="radio" value="8" name="merchantCategoryId" id="" class="lm"/><label class="">门票代理商</label>
-               	    	   					<input type="radio" value="9" name="merchantCategoryId" id="" class="lm"/><label class="">景区集团</label>
-               	    	   					<input type="radio" value="10" name="merchantCategoryId" id="" class="lm"/><label class="">旅游局推广商家</label>
+               	    	   					<input type="radio" value="6" name="merchantCategoryId" id="" class="flm ddd"/><label>景区</label>
+               	    	   					<input type="radio" value="7" name="merchantCategoryId" id="" class="lm ddd"/><label class="">游乐园</label>
+               	    	   					<input type="radio" value="8" name="merchantCategoryId" id="" class="lm ddd"/><label class="">门票代理商</label>
+               	    	   					<input type="radio" value="9" name="merchantCategoryId" id="" class="lm ddd"/><label class="">景区集团</label>
+               	    	   					<input type="radio" value="10" name="merchantCategoryId" id="" class="lm ddd"/><label class="">旅游局推广商家</label>
                	    	   				</td>
                	    	   			</tr>
                	    	   			<tr>
                	    	   				<td class="rigtxt"><label>同城活动企业：</label></td>
                	    	   				<td class="rigcontent">
-               	    	   					<input type="radio" value="16" name="merchantCategoryId" id="" class="flm"/><label>公司</label>
-               	    	   					<input type="radio" value="17" name="merchantCategoryId" id="" class="lm"/><label class="">个体工商户</label>
-               	    	   					<input type="radio" value="18" name="merchantCategoryId" id="" class="lm"/><label class="">合伙企业</label>
-               	    	   					<input type="radio" value="19" name="merchantCategoryId" id="" class="lm"/><label class="">其他组织团体</label>
+               	    	   					<input type="radio" value="16" name="merchantCategoryId" id="" class="flm ddd"/><label>公司</label>
+               	    	   					<input type="radio" value="17" name="merchantCategoryId" id="" class="lm ddd daible"/><label class="">个体工商户</label>
+               	    	   					<input type="radio" value="18" name="merchantCategoryId" id="" class="lm ddd daible"/><label class="">合伙企业</label>
+               	    	   					<input type="radio" value="19" name="merchantCategoryId" id="" class="lm ddd daible"/><label class="">其他组织团体</label>
                	    	   				</td>
                	    	   			</tr>
        	    	   			</table>
@@ -88,17 +100,17 @@
 					   	       	<td class="rigtxt rigtit"><label>经营范围：</label></td>
 					   	       	<td class="rigcontent qdlm">
 					   	       		<ol>
-						   	       		<li><input type="checkbox" value="1" name="" id="" class="k1"/><label>度假路线</label></li>
+						   	       		<li><input type="checkbox" disabled="disabled" value="1" name="" id="" class="k1"/><label>度假路线</label></li>
 						   	       		<div class="bomb">
 										    <div class="aaa bomb-txt01">
-												<label><input type="checkbox" value="2" name="" id="" class=""/><label>国内游</label></label>
-												<label class="bomb-con"><input type="checkbox" value="3" name="" id="" class=""/><label>出境游</label></label>
-												<label class="bomb-con"><input type="checkbox" value="4" name="" id="" class=""/><label>其他(交通卡券、送关、租车、旅游服务等)</label></label>
+												<label><input type="checkbox" value="2" disabled="disabled" name="" id="" class=""/><label>国内游</label></label>
+												<label class="bomb-con"><input type="checkbox" disabled="disabled" value="3" name="" id="" class=""/><label>出境游</label></label>
+												<label class="bomb-con"><input type="checkbox" disabled="disabled" value="4" name="" id="" class=""/><label>其他(交通卡券、送关、租车、旅游服务等)</label></label>
 											</div>
 										</div>
-						   	       		<li><input type="checkbox" value="5" name="" id="" class=""/><label>酒店</label></li>
-						   	       		<li><input type="checkbox" value="6" name="" id="" class=""/><label>门票</label></li>
-						   	       		<li><input type="checkbox" value="7" name="" id="" class=""/><label>特产商品</label></li>
+						   	       		<li><input type="checkbox" value="5" name="" id=""  disabled="disabled" class=""/><label>酒店</label></li>
+						   	       		<li><input type="checkbox" value="6" name="" id="" disabled="disabled" class=""/><label>门票</label></li>
+						   	       		<li><input type="checkbox" value="7" name="" id="" disabled="disabled" class=""/><label>特产商品</label></li>
 						   	       	</ol>
 					   	       	</td>
 				   	       </tr>
@@ -112,8 +124,8 @@
 					   	       <tr>
 						   	       	<td class="rigtxt"><label>店铺性质：</label></td>
 						   	       	<td class="rigcontent">
-						   	       		<input type="radio" value="0" name="isDirectSale" id="" class="flm" checked="checked"/><label>直营店</label>
-						   	       		<input type="radio" value="1" name="isDirectSale" id="" class="lm"/><label>专营店</label>
+						   	       		<input type="radio" value="1" name="isDirectSale" id="" class="flm dised" checked="checked"/><label>直营店</label>
+						   	       		<input type="radio" value="2" name="isDirectSale" id="" class="lm disedli"/><label>专营店</label>
 						   	       	</td>
 					   	       </tr>
 						   </table>
@@ -124,52 +136,58 @@
                	    	   <table>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>商户负责人姓名：</label></td>
-       	    	   				<td class="rigcontent"><input  datatype="s" maxlength="60" type="text" value="" name="dggggggg" id="" class="txt01" placeholder="合同签约人的姓名"/></td>
+       	    	   				<td class="rigcontent"><input  datatype="s" maxlength="60" type="text" value="$!examineInfo.principleName" name="principleName" id="" class="txt01" placeholder="合同签约人的姓名"/></td>
        	    	   			</tr>
        	    	   			<tr>
 								<td class="rigtxt"><span class="">*</span><label>负责人证件类型：</label></td>
-								<td class="rigcontent" colspan="3"><input type="hidden" id="card_" value="2"><select id="card" class="selectlist">
+								<td class="rigcontent" colspan="3"><input type="hidden" id="card_" value="2"><select name="principleCard" id="card" class="selectlist">
 								  <option value="">--请选择--</option>
-								  <option value="0">身份证</option>
-								  <option value="1">驾驶证</option>
-								  <option value="2">护照</option>
-								  <option value="3">导游证</option>
+								  <option #if ($examineInfo.principleCard == 0) selected="selected" #end value="0">身份证</option>
+								  <option #if ($examineInfo.principleCard == 1) selected="selected" #end value="1">驾驶证</option>
+								  <option #if ($examineInfo.principleCard == 2) selected="selected" #end value="2">护照</option>
+								  <option #if ($examineInfo.principleCard == 3) selected="selected" #end value="3">导游证</option>
 							</select></td>
 							</tr>
 							<tr>
 								  <td class="rigtxt"><span>*</span><label>负责人证件号：</label></td>
-								  <td class="rigcontent"><input class="txt01" id="cardtxt" datatype="psport" maxlength="18" value="D-34535" placeholder="证件号码"></td>
+								  <td class="rigcontent"><input class="txt01" value="$!examineInfo.principleCardId" name="principleCardId" datatype="psport" maxlength="18"  placeholder="证件号码"></td>
 					        </tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>负责人手机号：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" value="" name="" id="" class="txt01" datatype="m" maxlength="11" placeholder="负责人手机号"/></td>
+       	    	   				<td class="rigcontent"><input type="text" value="$!examineInfo.principleTel" name="principleTel" id="" class="txt01" datatype="m" maxlength="11" placeholder="负责人手机号"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>负责人邮箱：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" value="" name="" id="" class="txt01" datatype="e" maxlength="80" placeholder="请输入商户负责人邮箱"/></td>
+       	    	   				<td class="rigcontent"><input type="text" value="$!examineInfo.principleMail"  name="principleMail" id="" class="txt01" datatype="e" maxlength="80" placeholder="请输入商户负责人邮箱"/></td>
        	    	   			</tr>
        	    	   			<tr>
-								<td class="rigtxt vertop"><span class="">*</span><label>法人身份证正面：</label></td>
+								<td class="rigtxt vertop"><span class="">*</span><label>负责人身份证正面：</label></td>
 									<td class="rigcontent imgwidth">
 									<span class="imgbox">
 									        <div class="canclick">
-										         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+										        #if ($!examineInfo.principleCardUp)
+											<img src="$!tfs/$!examineInfo.principleCardUp">
+											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+											#end
 									        </div>
 									        <div class="plhd"></div><div class="del">删除图片</div>
 									        <a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
-											<input type="hidden" name="ssssss">
+											<input type="hidden" name="principleCardUp" value="$!examineInfo.principleCardUp">
 							        </span>
 								</td>
 
-								<td class="rigtxt widthrig vertop"><span>*</span><label>法人身份证背面：</label></td>
+								<td class="rigtxt widthrig vertop"><span>*</span><label>负责人身份证背面：</label></td>
 								<td class="rigcontent imgwidth">
 									<span class="imgbox">
 									        <div class="canclick">
-										         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+										        #if ($!examineInfo.principleCardDown)
+											<img src="$!tfs/$!examineInfo.principleCardDown">
+											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+											#end
 									        </div>
 									        <div class="plhd"></div><div class="del">删除图片</div>
 									        <a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
-											<input type="hidden" name="ssssss">
+											<input type="hidden" name="principleCardDown" value="$!examineInfo.principleCardDown">
 							        </span>
 								</td>
 					       </tr>
@@ -178,13 +196,16 @@
 								<td class="rigcontent "colspan="3">
 									<span class="imgbox">
 									        <div class="canclick">
-										         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+										         #if ($!examineInfo.cardInHand)
+											<img src="$!tfs/$!examineInfo.cardInHand">
+											#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+											#end
 									        </div>
 									        <div class="plhd"></div><div class="del">删除图片</div>
 									        <a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
-											<input type="hidden" name="ssssss">
+											<input type="hidden" name="cardInHand" value="$!examineInfo.cardInHand">
 							        </span>
-                                    <span class="leftimg"><img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/Sample.jpg"/></span>
+                                    <span class="leftimg"><img src="$!rs_path_jiuxiu/img/Sample.jpg"/></span>
 								</td>
 							    
 					       </tr>
@@ -195,31 +216,31 @@
                				<table>
        						<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>商户名称：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="60" value="" name="sellerName" id="" class="txt01" placeholder="公司主体名称、营业执照上名称"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="60" value="$!examineInfo.sellerName" name="sellerName" id="" class="txt01" placeholder="公司主体名称、营业执照上名称"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>法定代表人名称：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="60" value="" name="legralName" id="" class="txt01" placeholder="营业执照上的法人名称"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="60" value="$!examineInfo.legralName" name="legralName" id="" class="txt01" placeholder="营业执照上的法人名称"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>法定代表人身法证：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="card" maxlength="60" value="" name="lawPersonCard" id="" class="txt01"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="card" maxlength="60" value="$!examineInfo.lawPersonCard" name="lawPersonCard" id="" class="txt01"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业执照号码：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="n" maxlength="60" value="" name="saleLicenseNumber" id="" class="txt01"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="n" maxlength="60" value="$!examineInfo.saleLicenseNumber" name="saleLicenseNumber" id="" class="txt01"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>税务登记号：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" maxlength="60" value="" name="saleLicenseNumber" id="" class="txt01 taxL"/></td>
+       	    	   				<td class="rigcontent"><input type="text" maxlength="60" value="$!examineInfo.taxRegisterNumber" name="taxRegisterNumber" id="" class="txt01 taxL"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业地址：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="60" value="" name="address" id="" class="txt01" placeholder="营业执照上的营业地址"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="60" value="$!examineInfo.address" name="address" id="" class="txt01" placeholder="营业执照上的营业地址"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业范围：</label></td>
-       	    	   				<td class="rigcontent"><textarea tip="" datatype="s" maxlength="60"  class="txt02" name="saleScope" value="" id="" placeholder="营业执照上的经营范围"></textarea></td>
+       	    	   				<td class="rigcontent"><textarea tip="" datatype="s" maxlength="60"  class="txt02" name="saleScope"  id="" placeholder="营业执照上的经营范围">$!examineInfo.saleScope</textarea></td>
        	    	   			</tr>
                				</table>
                	</div>
@@ -241,7 +262,7 @@
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">开户名称：</label></td>
-								<td class="rigcontent"><input type="text" datatype="*" readOnly="readOnly" value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" maxlength="60" class="txt01"  placeholder="请输入开户行名称"></td>
+								<td class="rigcontent"><input type="text" datatype="*"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" maxlength="60" class="txt01"  placeholder="请输入开户行名称"></td>
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">结算账号：</label></td>
@@ -262,11 +283,13 @@
 					</div>
 					<div class="infor-title">店铺命名</div>
 					<div class="seven">
-					     <div class="shopname"><span>*</span><label>店铺名称：</label><input type="text" datatype="s" maxlength="60" name="merchantName" value="" id="" class="rigcontent nameinput txt04"  placeholder=""></div>
+					     <div class="shopname"><span>*</span><label>店铺名称：</label><input type="text" datatype="s" maxlength="60" name="merchantName" value="$!examineInfo.merchantName" id="" class="rigcontent nameinput txt04"  placeholder=""></div>
 					     <div class="notes namelm"><span>*</span><label>店铺名称要符合店铺命名规范</label></div>
 					 </div>  
 					 <div class="identity">
-					  <div class="nextpage"><a href="javascript:history.go(-1);">上一页</a><a href="$!root_path/apply//seller/toDetailPageB">下一页</a></div>
+					  <div class="nextpage"><a href="javascript:history.go(-1);">上一页</a><a class="subt"
+					   href="$!root_path/apply/seller/saveUserdata">下一页</a></div>
+					  </div>
 					  </div>
         </form> 
 </div>

@@ -5,11 +5,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+import org.bouncycastle.crypto.tls.CertChainType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +37,12 @@ import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
+import com.yimayhd.membercenter.enums.CertificateType;
+import com.yimayhd.membercenter.enums.ExamineCharacter;
 import com.yimayhd.membercenter.enums.ExaminePageNo;
 import com.yimayhd.membercenter.enums.ExamineStatus;
-import com.yimayhd.membercenter.enums.ExamineType;
+import com.yimayhd.membercenter.enums.MerchantType;
+import com.yimayhd.membercenter.enums.MerchantCategoryType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
@@ -46,6 +52,7 @@ import com.yimayhd.sellerAdmin.biz.MerchantBiz;
 import com.yimayhd.sellerAdmin.biz.TalentBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
+import com.yimayhd.sellerAdmin.model.QualificationVO;
 import com.yimayhd.sellerAdmin.result.BizResult;
 import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 import com.yimayhd.sellerAdmin.vo.merchant.UserDetailInfo;
@@ -345,17 +352,17 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/talent/saveExamineInfo_pageOne",method=RequestMethod.POST)
 	@ResponseBody
-	public WebResult<String> saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
+	public MemResult<String> saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
 			
-			WebResult<String> result=new WebResult<String>();
+			MemResult<String> result=new MemResult<String>();
 			ExamineInfoDTO examineInfoDTO = talentBiz.getExamineInfo();
 			
-			WebResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo);
-			if (resultSupport == null) {
-				result.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
-				return result;
-			}
-			if (resultSupport.isSuccess()) {
+			MemResult<Boolean> addResult = talentBiz.addExamineInfo(vo);
+//			if (resultSupport == null) {
+//				result.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
+//				return result;
+//			}
+			if (result.isSuccess()) {
 				if (null == examineInfoDTO || examineInfoDTO.getSellerId() <= 0) {
 					result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/toAddUserdatafill_pageTwo");
 				} else {
@@ -363,7 +370,7 @@ public class ApplyController extends BaseController {
 					
 				}
 			}else{
-				result.setWebReturnCode(resultSupport.getWebReturnCode());
+				result.setReturnCode(addResult.getReturnCode());
 			}
 
 			return result;
@@ -379,37 +386,32 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/talent/saveExamineInfo_pageTwo",method=RequestMethod.POST)
 	@ResponseBody
-	public BizResult<String> saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
-			BizResult<String> bizResult = new BizResult<>();
-			WebResult<Boolean> resultSupport = talentBiz.addExamineInfo(vo);
-			if (resultSupport == null) {
-				bizResult.init(false, -1, "保存失败");
-				//BizResult.buildFailResult(-1, "保存失败", false);
-				return bizResult;
-			}
+	public MemResult<String> saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
+			MemResult<String> result = new MemResult<>();
+			MemResult<Boolean> addResult = talentBiz.addExamineInfo(vo);
 			//更新审核状态
+			vo.setType(MerchantType.TALENT.getType());
 			MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
 			if (updateCheckStatusResult == null) {
-				bizResult.init(false, -1, "保存失败");
-				//BizResult.buildFailResult(-1, "保存失败", false);
-				return bizResult;
+				result.setReturnCode(MemberReturnCode.SAVE_MERCHANT_FAILED);
+				return result;
 			}
-			if (resultSupport.isSuccess()
+			if (addResult.isSuccess()
 					&& updateCheckStatusResult.isSuccess()) {
-				bizResult.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/verification");
-			} else if (!resultSupport.isSuccess()) {
-				bizResult.setSuccess(false);
-				bizResult.setMsg(resultSupport.getResultMsg());
-				bizResult.setCode(resultSupport.getErrorCode());
+				result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/verification");
+			} else if (!addResult.isSuccess()) {
+				result.setSuccess(false);
+				result.setErrorMsg(addResult.getErrorMsg());
+				result.setErrorCode(addResult.getErrorCode());
 				
 			} else if (!updateCheckStatusResult.isSuccess()) {
 
-				bizResult.setSuccess(false);
-				bizResult.setMsg(updateCheckStatusResult.getErrorMsg());
-				bizResult.setCode(updateCheckStatusResult.getErrorCode());
+				result.setSuccess(false);
+				result.setErrorMsg(updateCheckStatusResult.getErrorMsg());
+				result.setErrorCode(updateCheckStatusResult.getErrorCode());
 				
 			}
-			return bizResult;
+			return result;
 		
 	}
 	
@@ -494,15 +496,15 @@ public class ApplyController extends BaseController {
 			int type = dto.getType();
 			int status = dto.getExaminStatus();
 			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
-				if(ExamineType.MERCHANT.getType()==type){
+				if(MerchantType.MERCHANT.getType()==type){
 					return "/system/seller/verification";
-				}else if(ExamineType.TALENT.getType()==type){
+				}else if(MerchantType.TALENT.getType()==type){
 					return "/system/talent/verification";
 				}
 			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
-				if(ExamineType.MERCHANT.getType()==type){
+				if(MerchantType.MERCHANT.getType()==type){
 					return "redirect:/basicInfo/seller/toAddBasicPage";
-				}else if(ExamineType.TALENT.getType()==type){
+				}else if(MerchantType.TALENT.getType()==type){
 					return "redirect:/basicInfo/talent/toAddTalentInfo";
 				}
 			}else if(ExamineStatus.EXAMIN_ERROR.getStatus() == status){//审核不通过
@@ -515,9 +517,9 @@ public class ApplyController extends BaseController {
 				if(rest.isSuccess() && (null!=rest.getValue())){
 					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
 				}
-				if(ExamineType.MERCHANT.getType()==type){
+				if(MerchantType.MERCHANT.getType()==type){
 					model.addAttribute("type", Constant.MERCHANT_NAME_CN);
-				}else if(ExamineType.TALENT.getType()==type){
+				}else if(MerchantType.TALENT.getType()==type){
 					model.addAttribute("type", Constant.TALENT_NAME_CN);
 				}
 				model.addAttribute("url", "/apply/toChoosePage?reject=true");
@@ -571,11 +573,11 @@ public class ApplyController extends BaseController {
 //		}
 		
 		InfoQueryDTO info = new InfoQueryDTO();
-		info.setType(ExamineType.MERCHANT.getType());
+		info.setType(MerchantType.MERCHANT.getType());
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
 		//MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
-		MemResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
+		WebResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
 		if(result != null && result.isSuccess()){
 			model.addAttribute("examineInfo", result.getValue());
 			if(null!=result.getValue() && (result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW || result.getValue().getExaminStatus() == Constant.MERCHANT_TYPE_HALF)){//审核不通过时
@@ -585,6 +587,7 @@ public class ApplyController extends BaseController {
 				}
 			}
 		}
+		model.addAttribute("bankList", talentBiz.getBankList());
 //		MemResult<List<MerchantCategoryDO>> categoryResult = merchantApplyBiz.getAllMerchantCategory();
 //		if (categoryResult != null && categoryResult.isSuccess()) {
 //			List<MerchantCategoryDO> categories = categoryResult.getValue();
@@ -633,16 +636,20 @@ public class ApplyController extends BaseController {
 //		if(null != judgeRest){
 //			return judgeRest;
 //		}
+		WebResult<List<QualificationVO>> qualificationResult = merchantApplyBiz.getQualification();
+		if(qualificationResult.isSuccess() && qualificationResult.getValue() != null) {
+			List<QualificationVO> qualificationList = qualificationResult.getValue();
+			model.addAttribute("qualifications", qualificationList);
+		}
 		
 		InfoQueryDTO info = new InfoQueryDTO();
-		info.setType(ExamineType.MERCHANT.getType());
+		info.setType(MerchantType.MERCHANT.getType());
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
-		
-		//MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
-		MemResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
-		if(result.isSuccess()){
-			model.addAttribute("examineInfo", result.getValue());
+		WebResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
+		if(result.isSuccess()) {
+			ExamineInfoVO examineInfoVO = result.getValue();
+			model.addAttribute("examineInfo", examineInfoVO);
 			
 			if(null!=result.getValue() && (result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW || result.getValue().getExaminStatus() == Constant.MERCHANT_TYPE_HALF)){//审核不通过时
 				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
@@ -650,24 +657,82 @@ public class ApplyController extends BaseController {
 					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes()));
 				}
 			}
-		}
-//		MemResult<List<BankInfoDTO>> bankResult = talentInfoDealService.queryBankList();
-//		if(bankResult.isSuccess()){
-//			model.addAttribute("bankList", bankResult.getValue());
+//			if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.BROAD_BRANCH_AGENCY.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.BROAD_HEAD_AGENCY.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOME_BRANCH_AGENCY.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOME_HEAD_AGENCY.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOTEL_GROUP.getSubType() || 
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOTEL_AGENT.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.MONOMER_HOTEL.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.TOURISM_PROMOTION.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.INDIVIDUAL_BUSINESS.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.PARTNERSHIP_BUSINESS.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.OTHER_ORG.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.COMPANY.getSubType()) {
+//				return "/system/seller/travel-agency";
+//			}else if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.SCENIC_SPOT.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.SCENIC_SPOT_GROUP.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.AMUSEMENT_PARK.getSubType()) {
+//				return "/system/seller/qualification";
+//			}else if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.TOUR_BUSINESS_SERVICE.getSubType() ||
+//				examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.TICKET_AGENT.getSubType() ) {
+//			return "/system/seller/travel-business-service";
 //		}
-//		MemResult<List<QualificationDO>> qualifications = merchantApplyBiz.getAllQualificaitons();
-//		if (qualifications != null && qualifications.isSuccess()) {
-//			model.addAttribute("qualifications", qualifications.getValue());
-//			
-//		}
-		//model.addAttribute("qualifications", merchantApplyBiz.getAllQualificaitons());
-		MemResult<List<Map<String, QualificationDO>>> qualificationResult = merchantApplyBiz.getQualificationByCategoryId();
-		if(qualificationResult.isSuccess() && qualificationResult.getValue() != null) {
-			List<Map<String, QualificationDO>> qualificationList = qualificationResult.getValue();
-			model.addAttribute("qualifications", qualificationList);
 		}
+		
 		return "/system/seller/userdatafill_b";
 	}
+	
+//	@RequestMapping(value="/seller/pageDetailB",method=RequestMethod.GET)
+//	//@ResponseBody
+//	public String getPageDetailB(Model model) {
+//		
+//		//MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
+//		WebResult<List<QualificationVO>> qualificationResult = merchantApplyBiz.getQualification();
+//		if(qualificationResult.isSuccess() && qualificationResult.getValue() != null) {
+//			List<QualificationVO> qualificationList = qualificationResult.getValue();
+//			model.addAttribute("qualifications", qualificationList);
+//		}
+//		
+//		InfoQueryDTO info = new InfoQueryDTO();
+//		info.setType(MerchantType.MERCHANT.getType());
+//		info.setDomainId(Constant.DOMAIN_JIUXIU);
+//		info.setSellerId(sessionManager.getUserId());
+//		WebResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
+//		if(result.isSuccess()) {
+//			ExamineInfoVO examineInfoVO = result.getValue();
+//			model.addAttribute("examineInfo", examineInfoVO);
+//			
+//			if(null!=result.getValue() && (result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW || result.getValue().getExaminStatus() == Constant.MERCHANT_TYPE_HALF)){//审核不通过时
+//				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
+//				if(rest.isSuccess() && (null!=rest.getValue())){
+//					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes()));
+//				}
+//			}
+//			if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.BROAD_BRANCH_AGENCY.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.BROAD_HEAD_AGENCY.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOME_BRANCH_AGENCY.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOME_HEAD_AGENCY.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOTEL_GROUP.getSubType() || 
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOTEL_AGENT.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.MONOMER_HOTEL.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.TOURISM_PROMOTION.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.INDIVIDUAL_BUSINESS.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.PARTNERSHIP_BUSINESS.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.OTHER_ORG.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.COMPANY.getSubType()) {
+//				return "/system/seller/travel-agency";
+//			}else if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.SCENIC_SPOT.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.SCENIC_SPOT_GROUP.getSubType() ||
+//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.AMUSEMENT_PARK.getSubType()) {
+//			}else if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.TOUR_BUSINESS_SERVICE.getSubType() ||
+//				examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.TICKET_AGENT.getSubType() ) {
+//			return "/system/seller/travel-business-service";
+//		}
+//		
+//	return "/system/seller/qualification";
+//		//return "";
+//	}
 	/**
 	 * 新增或修改商户入驻填写信息PAGE-1
 	 * @param userDetailInfo
@@ -676,10 +741,11 @@ public class ApplyController extends BaseController {
 	@RequestMapping(value="/seller/saveUserdata" ,method=RequestMethod.POST)
 	@ResponseBody
 	public MemResult<String> saveUserdata(ExamineInfoVO examineInfoVO){
+		MemResult<String> checkResult = checkMerchantApplyParams(examineInfoVO);
+		if (!checkResult.isSuccess()) {
+			return checkResult;
+		}
 		MemResult<String> rest = new MemResult<String>();
-	//	WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
-		List<MerchantScopeDO> merchantScopes = JSON.parseArray(examineInfoVO.getMerchantScopeStr(), MerchantScopeDO.class);
-		examineInfoVO.setMerchantScopes(merchantScopes);
 		MemResult<Boolean> result = merchantApplyBiz.submitExamineInfo(examineInfoVO);
 		if(result.isSuccess()){
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/seller/toDetailPageB");
@@ -698,16 +764,26 @@ public class ApplyController extends BaseController {
 	@RequestMapping(value="/seller/saveUserdataB" ,method=RequestMethod.POST)
 	@ResponseBody
 	public MemResult<String> saveUserdataB(ExamineInfoVO examineInfoVO){
+//		MemResult<String> checkResult = checkMerchantApplyParams(examineInfoVO);
+//		if (!checkResult.isSuccess()) {
+//			return checkResult;
+//		}
 		MemResult<String> rest = new MemResult<String>();
-		//WebResultSupport result = merchantBiz.saveUserdata(userDetailInfo);
 		List<MerchantQualificationDO> merchantQualifications = JSON.parseArray(examineInfoVO.getMerchantQualificationStr(), MerchantQualificationDO.class);
+		for (MerchantQualificationDO mqDO : merchantQualifications) {
+			mqDO.setDomainId(Constant.DOMAIN_JIUXIU);
+			mqDO.setSellerId(getCurrentUserId());
+			mqDO.setMerchantCategoryId(1);
+		}
 		examineInfoVO.setMerchantQualifications(merchantQualifications);
 		MemResult<Boolean> result = merchantApplyBiz.updateMerchantQualification(examineInfoVO);
 		if(result.isSuccess()){
+			examineInfoVO.setType(MerchantType.MERCHANT.getType());
+			MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(examineInfoVO);
 			InfoQueryDTO info = new InfoQueryDTO();
 			info.setDomainId(Constant.DOMAIN_JIUXIU);
 			info.setSellerId(sessionManager.getUserId());
-			info.setType(ExamineType.MERCHANT.getType());
+			info.setType(MerchantType.MERCHANT.getType());
 			merchantBiz.changeExamineStatusIntoIng(info);
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/seller/toVerifyPage");
 		}else{
@@ -730,25 +806,315 @@ public class ApplyController extends BaseController {
 	* created by zhangxy
 	* @date 2016年5月30日
 	* @Title: checkParams 
-	* @Description: 商户入驻参数校验
+	* @Description: 店铺入驻第一页参数校验
 	* @param @param examineInfoVO
 	* @param @return    设定文件 
 	* @return boolean    返回类型 
 	* @throws
 	 */
-	private boolean checkParams(ExamineInfoVO examineInfoVO) {
-		
-		return false;
+	private MemResult<String> checkMerchantApplyParams(ExamineInfoVO examineInfoVO) {
+		MemResult<String> checkResult = new MemResult<String>();
+		if (examineInfoVO == null) {
+			log.error("param error:examineInfoVO={}",JSON.toJSONString(examineInfoVO));
+			checkResult.setReturnCode(MemberReturnCode.PARAMTER_ERROR);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleName())) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请输入负责人姓名");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCard()) || (Constant.ID_CARD.equals(examineInfoVO.getPrincipleCard())
+				&& Constant.PASSPORT.equals(examineInfoVO.getPrincipleCard()) && Constant.GUIDE_CERTIFICATE.equals(examineInfoVO.getPrincipleCard()) 
+				&& Constant.CAR_LICENSE.equals(examineInfoVO.getPrincipleCard()) )) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请选择负责人证件类型");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardId())) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请输入负责人证件号");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleTel()) /*|| (Pattern.matches(Constant.REGEX_MOBILE, examineInfoVO.getPrincipleTel()))*/) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请输入负责人手机号");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleMail()) /*|| (Pattern.matches(Constant.REGEX_EMAIL, examineInfoVO.getPrincipleMail()))*/) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请输入负责人邮箱");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardDown())) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请上传负责人身份证反面");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardUp())) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请上传负责人身份证正面");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getCardInHand())) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请上传负责人手持身份证照片");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getSellerName())) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请输入商户名称");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getLegralName())) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请输入法定代表人姓名");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getLawPersonCard())) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请输入法定代表人身份证号");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getSaleLicenseNumber())) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请输入营业执照号");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getTaxRegisterNumber())) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请输入税务登记证号");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getAddress())) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请输入营业地址");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getSaleScope())) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请输入经营范围");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getFinanceOpenBankId())) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请选择开户银行");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getFinanceOpenName())) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请输入开户名称");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getAccountNum())) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请输入开户帐号");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getProvince()) || StringUtils.isBlank(examineInfoVO.getCity()) || StringUtils.isBlank(examineInfoVO.getAccountBankName())) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请输入结算开户行");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getMerchantName())) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请输入店铺名称");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (StringUtils.isBlank(examineInfoVO.getScopeIds())) {
+		checkResult.setErrorCode(-1);
+		checkResult.setErrorMsg("请选择经营范围");
+		checkResult.setSuccess(false);
+		return checkResult;
+		}else if (examineInfoVO.getMerchantCategoryId() <= 0) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请选择身份");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}else if (examineInfoVO.getIsDirectSale() <= 0) {
+			checkResult.setErrorCode(-1);
+			checkResult.setErrorMsg("请选择店铺性质");
+			checkResult.setSuccess(false);
+			return checkResult;
+		}
+		//
+		WebResult<List<MerchantCategoryScopeDO>> merchantCategoryScopeResult = merchantApplyBiz.getMerchantCategoryScope(examineInfoVO.getMerchantCategoryId());
+		if (merchantCategoryScopeResult != null && merchantCategoryScopeResult.isSuccess() && merchantCategoryScopeResult.getValue() != null) {
+			List<Long> idList = new ArrayList<Long>();
+			String[] scopeIds = examineInfoVO.getScopeIds().split(",");
+			for (MerchantCategoryScopeDO scopeDO : merchantCategoryScopeResult.getValue()) {
+				for (String scopeId : scopeIds) {
+					if (scopeDO.getBusinessScopeId() == Long.parseLong(scopeId)) {
+						idList.add(Long.parseLong(scopeId));
+					}
+				}
+			}
+			if (idList.size() == 0) {
+				checkResult.setErrorCode(-1);
+				checkResult.setErrorMsg("请选择正确的经营范围");
+				checkResult.setSuccess(false);
+				return checkResult;
+			}
+		}
+		//
+		if (examineInfoVO.getIsDirectSale() == ExamineCharacter.DIRECT_SALE.getType()) {
+			if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOME_BRANCH_AGENCY.getSubType() || 
+					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.BROAD_BRANCH_AGENCY.getSubType() ||
+					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOTEL_AGENT.getSubType() ||
+					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.INDIVIDUAL_BUSINESS.getSubType() ||
+					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.PARTNERSHIP_BUSINESS.getSubType() ||
+					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.OTHER_ORG.getSubType()) {
+				checkResult.setErrorCode(-1);
+				checkResult.setErrorMsg("请选择正确的店铺性质");
+				checkResult.setSuccess(false);
+				return checkResult;
+				
+			}
+		}
+		if (examineInfoVO.getIsDirectSale() == ExamineCharacter.BOUTIQUE.getType()) {
+			if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.SCENIC_SPOT.getSubType() || 
+					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.AMUSEMENT_PARK.getSubType() ||
+					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.TICKET_AGENT.getSubType() ||
+					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.SCENIC_SPOT_GROUP.getSubType() ||
+					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.TOURISM_PROMOTION.getSubType() ) {
+				checkResult.setErrorCode(-1);
+				checkResult.setErrorMsg("请选择正确的店铺性质");
+				checkResult.setSuccess(false);
+				return checkResult;
+				
+			}
+		}
+		return checkResult;
+	}
+	/**
+	 * 
+	 * created by zhangxy
+	 * @date 2016年5月30日
+	 * @Title: checkParams 
+	 * @Description: 店铺入驻第2页参数校验
+	 * @param @param examineInfoVO
+	 * @param @return    设定文件 
+	 * @return boolean    返回类型 
+	 * @throws
+	 */
+	private MemResult<String> checkMerchantApplyParamsB(ExamineInfoVO examineInfoVO) {
+		MemResult<String> checkResult = new MemResult<String>();
+		if (examineInfoVO == null) {
+			log.error("param error:examineInfoVO={}",JSON.toJSONString(examineInfoVO));
+			checkResult.setReturnCode(MemberReturnCode.PARAMTER_ERROR);
+			return checkResult;
+		}
+		WebResult<List<MerchantScopeDO>> scopeResult = merchantApplyBiz.getMerchantScope();
+		//merchantApplyBiz.getExamineInfo();
+		List<MerchantScopeDO> scopeIds = scopeResult.getValue();
+		//
+		if (examineInfoVO.getMerchantCategoryId() == 12 ||  examineInfoVO.getMerchantCategoryId() == 14 ) {
+			if (StringUtils.isBlank(examineInfoVO.getBusinessLicense())) {
+				checkResult.setErrorCode(-1);
+				checkResult.setErrorMsg("请上传营业执照副本正面");
+				checkResult.setSuccess(false);
+				return checkResult;
+			}else if (StringUtils.isBlank(examineInfoVO.getTravingCard())) {
+				checkResult.setErrorCode(-1);
+				checkResult.setErrorMsg("请上传旅行社业务经营许可证复印件正面");
+				checkResult.setSuccess(false);
+				return checkResult;
+			}else if ( StringUtils.isBlank(examineInfoVO.getTravelAgencyInsurance())) {
+				checkResult.setErrorCode(-1);
+				checkResult.setErrorMsg("请上传旅行社责任险保险单复印件正面");
+				checkResult.setSuccess(false);
+				return checkResult;
+			}
+		//
+		if (examineInfoVO.getMerchantCategoryId() == 13 || examineInfoVO.getMerchantCategoryId() == 15) {
+			if (StringUtils.isBlank(examineInfoVO.getBusinessLicense())) {
+				checkResult.setErrorCode(-1);
+				checkResult.setErrorMsg("请上传营业执照副本正面");
+				checkResult.setSuccess(false);
+				return checkResult;
+			}else if (StringUtils.isBlank(examineInfoVO.getTravingCard())) {
+				checkResult.setErrorCode(-1);
+				checkResult.setErrorMsg("请上传旅行社业务经营许可证复印件正面");
+				checkResult.setSuccess(false);
+				return checkResult;
+			}else if ( StringUtils.isBlank(examineInfoVO.getTravelAgencyInsurance())) {
+				checkResult.setErrorCode(-1);
+				checkResult.setErrorMsg("请上传旅行社责任险保险单复印件正面");
+				checkResult.setSuccess(false);
+				return checkResult;
+			}else if ( StringUtils.isBlank(examineInfoVO.getTravelAgencyBranchAgreement())) {
+				checkResult.setErrorCode(-1);
+				checkResult.setErrorMsg("请上传旅行社分社补充协议");
+				checkResult.setSuccess(false);
+				return checkResult;
+			}
+			}
+		//
+			if (examineInfoVO.getMerchantCategoryId() == 2) {
+				for (MerchantScopeDO scope : scopeIds) {
+					
+					if (scope.getBusinessScopeId() == 2 || scope.getBusinessScopeId() == 3 || scope.getBusinessScopeId() == 4 || scope.getBusinessScopeId() == 7 ) {
+						if (StringUtils.isBlank(examineInfoVO.getBusinessLicense())) {
+							checkResult.setErrorCode(-1);
+							checkResult.setErrorMsg("请上传营业执照副本正面");
+							checkResult.setSuccess(false);
+							return checkResult;
+						}else if (StringUtils.isBlank(examineInfoVO.getTravingCard())) {
+							checkResult.setErrorCode(-1);
+							checkResult.setErrorMsg("请上传旅行社业务经营许可证复印件正面");
+							checkResult.setSuccess(false);
+							return checkResult;
+						}else if ( StringUtils.isBlank(examineInfoVO.getTravelAgencyInsurance())) {
+							checkResult.setErrorCode(-1);
+							checkResult.setErrorMsg("请上传旅行社责任险保险单复印件正面");
+							checkResult.setSuccess(false);
+							return checkResult;
+						}
+					if (scope.getBusinessScopeId() == 5) {
+						if (StringUtils.isBlank(examineInfoVO.getBusinessLicense())) {
+							checkResult.setErrorCode(-1);
+							checkResult.setErrorMsg("请上传营业执照副本正面");
+							checkResult.setSuccess(false);
+							return checkResult;
+						}
+						if (examineInfoVO.getIsDirectSale() == 1 && StringUtils.isBlank(examineInfoVO.getHotelGoodsAuthorization())) {
+							checkResult.setErrorCode(-1);
+							checkResult.setErrorMsg("请上传酒店商品授权书");
+							checkResult.setSuccess(false);
+							return checkResult;
+						}
+					}
+					if (scope.getBusinessScopeId() == 6 ) {
+						if (StringUtils.isBlank(examineInfoVO.getBusinessLicense())) {
+							checkResult.setErrorCode(-1);
+							checkResult.setErrorMsg("请上传营业执照副本复印件");
+							checkResult.setSuccess(false);
+							return checkResult;
+						}else if (StringUtils.isBlank(examineInfoVO.getScenicTicketAuthorization())) {
+							checkResult.setErrorCode(-1);
+							checkResult.setErrorMsg("请上传景点门票授权书或合作协议");
+							checkResult.setSuccess(false);
+							return checkResult;
+						}
+					}
+					}
+				}
+			}
+			//
+			if (examineInfoVO.getMerchantCategoryId() == 3 ) {
+				
+			}
+		}
+		return checkResult;
 	}
 	@RequestMapping(value="getBusinessScope",method=RequestMethod.POST)
 	@ResponseBody
-	public MemResult<String>  getCategoryScopeBy(long merchantCategoryId) {
+	public MemResult<String>  getCategoryScope(long merchantCategoryId) {
 		MemResult<String> result = new MemResult<String>();
 		if (merchantCategoryId <= 0) {
 			result.setReturnCode(MemberReturnCode.CATEGORY_BUSINESS_SCOPE_FAILED);
 			return result;
 		}
-		MemResult<List<MerchantCategoryScopeDO>> queryResult = merchantApplyBiz.getMerchantCategoryScopeByMerchantCategoryId(merchantCategoryId);
+		WebResult<List<MerchantCategoryScopeDO>> queryResult = merchantApplyBiz.getMerchantCategoryScope(merchantCategoryId);
 		result.setValue(JSON.toJSONString(queryResult.getValue()));
 		return result;
 	}

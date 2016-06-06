@@ -1,0 +1,124 @@
+#set($layout = "/layout/blank.vm")
+#foreach($pic in $qualifications)
+	#if($pic.id !=27)
+		<div class="zfd">
+			#if($pic.required == 1)<label class="bred">*</label>#end<label>$!{pic.title}：</label>
+			<span class="imgbox allownull">
+				<div class="canclick">
+					
+					#if($!pic.content)
+					
+					<img src="$!tfs/$!pic.content">
+					#else
+					 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+					
+					#end
+				</div><div class="plhd"></div><div class="del">删除图片</div>
+				<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
+				<input type="hidden" name="qualificationId" value="$!{pic.id}">
+				<input type="hidden" name="content" value="$!pic.content">
+			</span>
+			#if($!pic.tip && $!pic.tip.length()>0)<div><label class="bred">*</label><label class="gray9">$!{pic.tip}</label></div>#end
+			
+			
+		</div>
+	#end
+#end
+	<div class="groupimg clearfix fl">
+				
+			<div class="updateli">
+			
+				<label class="inblock">
+					<span class="imgbox mr5 cnat">
+						<div class="canclick">
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+						</div><div class="plhd"></div><div class="del">删除图片</div>
+						<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile mult"></a>
+						<input type="hidden">
+					</span>
+				</label>
+				<label class="inblock">
+					<span class="imgbox mr5 cnat">
+						<div class="canclick">
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+						</div><div class="plhd"></div><div class="del">删除图片</div>
+						<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile mult"></a>
+						<input type="hidden">
+					</span>
+				</label>
+				<label class="inblock">
+					<span class="imgbox mr5 cnat">
+						<div class="canclick">
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+						</div><div class="plhd"></div><div class="del">删除图片</div>
+						<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile mult"></a>
+						<input type="hidden">
+					</span>
+				</label>
+				<label class="inblock">
+					<span class="imgbox mr5 cnat">
+						<div class="canclick">
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+						</div><div class="plhd"></div><div class="del">删除图片</div>
+						<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile mult"></a>
+						<input type="hidden">
+					</span>
+				</label>
+				<label class="inblock">
+					<span class="imgbox mr5 cnat">
+						<div class="canclick">
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+						</div><div class="plhd"></div><div class="del">删除图片</div>
+						<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile mult"></a>
+						<input type="hidden">
+					</span>
+				</label>
+				<label class="inblock">
+					<span class="imgbox mr5 cnat">
+						<div class="canclick">
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+						</div><div class="plhd"></div><div class="del">删除图片</div>
+						<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile mult"></a>
+						<input type="hidden">
+					</span>
+				</label>
+				<label class="inblock">
+					<span class="imgbox mr5 cnat">
+						<div class="canclick">
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+						</div><div class="plhd"></div><div class="del">删除图片</div>
+						<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile mult"></a>
+						<input type="hidden">
+					</span>
+				</label>
+				<label class="inblock">
+					<span class="imgbox mr5 cnat">
+						<div class="canclick">
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+						</div><div class="plhd"></div><div class="del">删除图片</div>
+						<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile mult"></a>
+						<input type="hidden">
+					</span>
+				</label>
+				<label class="inblock">
+					<span class="imgbox mr5 cnat">
+						<div class="canclick">
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+						</div><div class="plhd"></div><div class="del">删除图片</div>
+						<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile mult"></a>
+						<input type="hidden">
+					</span>
+				</label>
+				<label class="inblock">
+					<span class="imgbox mr5 cnat">
+						<div class="canclick">
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+						</div><div class="plhd"></div><div class="del">删除图片</div>
+						<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile mult"></a>
+						<input type="hidden">
+					</span>
+				</label>
+			
+			</div>
+		<div class='listli'><span class="bred">*</span><label>游乐特种设备（备案）登记证明和游乐设备最新的定期检测报告:</label></div>
+	<div class="fl"style="width: 665px; margin-left: 335px;><label class="bred">*</label><label class="gray9">必须上传“景区门票扫描件”、“景区门票价格在物价局的备案登记证明”、“游乐特种设备（备案）登记证明和游乐设备最新的定期检测报告”3种文件中的一种</label></div>

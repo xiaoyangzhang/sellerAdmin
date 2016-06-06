@@ -14,7 +14,7 @@ import com.yimayhd.membercenter.client.domain.merchant.MerchantQualificationDO;
 import com.yimayhd.membercenter.client.domain.merchant.QualificationDO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
-import com.yimayhd.membercenter.enums.ExamineType;
+import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.constant.Constant;
 
@@ -130,7 +130,25 @@ public class ExamineInfoVO  implements Serializable  {
     private Date createDate;
     //手持身份证
     private String cardInHand;
-    //审核状态
+    private int type;//达人或者店铺
+    
+ public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	// 店铺名称    此字段只有店铺有 达人无
+    private String merchantName;
+    public String getMerchantName() {
+		return merchantName;
+	}
+	public void setMerchantName(String merchantName) {
+		this.merchantName = merchantName;
+	}
+
+	//审核状态
     private int examinStatus;
     public int getExaminStatus() {
 		return examinStatus;
@@ -140,8 +158,8 @@ public class ExamineInfoVO  implements Serializable  {
 	}
 
 	// ********************2期资质****************************//
-	private byte isDirectSale;//是否直营
-private long merchantCategoryId;//商家身份
+	private int isDirectSale;//是否直营
+	private long merchantCategoryId;//商家身份
 	
 	private String interMediaryLicense;//因私出入境中介机构经营许可证正面
 	private String seaTransportationLicense;//水路运输许可证正面
@@ -173,8 +191,15 @@ private long merchantCategoryId;//商家身份
 	private String taxRegisterNumber;//税务登记号
 	
 	private String scopeIds;
-	
-	
+//	private List<MerchantQualificationDO> merchantQualificationList;
+//	
+//	public List<MerchantQualificationDO> getMerchantQualificationList() {
+//		return merchantQualificationList;
+//	}
+//	public void setMerchantQualificationList(
+//			List<MerchantQualificationDO> merchantQualificationList) {
+//		this.merchantQualificationList = merchantQualificationList;
+//	}
 	public String getScopeIds() {
 		return scopeIds;
 	}
@@ -342,10 +367,10 @@ private long merchantCategoryId;//商家身份
 	public void setMerchantCategoryId(long merchantCategoryId) {
 		this.merchantCategoryId = merchantCategoryId;
 	}
-	public byte getIsDirectSale() {
+	public int getIsDirectSale() {
 		return isDirectSale;
 	}
-	public void setIsDirectSale(byte isDirectSale) {
+	public void setIsDirectSale(int isDirectSale) {
 		this.isDirectSale = isDirectSale;
 	}
 	public int getDomainId() {
@@ -646,7 +671,7 @@ private long merchantCategoryId;//商家身份
 		InfoQueryDTO infoQueryDTO = new InfoQueryDTO();
 		infoQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		infoQueryDTO.setSellerId(userId);
-		infoQueryDTO.setType(ExamineType.TALENT.getType());
+		
 		return infoQueryDTO;
 		
 	}

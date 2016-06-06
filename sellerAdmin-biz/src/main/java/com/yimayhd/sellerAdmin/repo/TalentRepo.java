@@ -17,7 +17,7 @@ import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
-import com.yimayhd.membercenter.enums.ExamineType;
+import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -60,7 +60,7 @@ public class TalentRepo {
 		}
 		InfoQueryDTO queryDTO=new InfoQueryDTO();
 		queryDTO.setDomainId(domainId);
-		queryDTO.setType(ExamineType.TALENT.getType());
+		queryDTO.setType(MerchantType.TALENT.getType());
 		queryDTO.setSellerId(userId);
 		MemResult<ExamineInfoDTO> examineInfoResult = examineDealService.queryMerchantExamineInfoBySellerId(queryDTO);
 		if (examineInfoResult == null || !examineInfoResult.isSuccess() || (examineInfoResult.getValue() == null)) {
@@ -129,36 +129,43 @@ public class TalentRepo {
 	 * @throws Exception
 	 */
 	@MethodLogger
-	public WebResult<Boolean> addExamineInfo(ExamineInfoVO vo)  {
+	public MemResult<Boolean> addExamineInfo(ExamineInfoVO vo)  {
 		if (vo == null) {
 			return null;
 		}
-		WebResult<Boolean> result = new WebResult<Boolean>();
-		MemResult<Boolean> ExamineInfoResult = null;
+		//WebResult<Boolean> result = new WebResult<Boolean>();
+		MemResult<Boolean> result = new MemResult<Boolean>();
 		try {
 			ExamineInfoDTO dto = MerchantConverter.convertVO2DTO(vo, sessionManager.getUserId());
-			dto.setType(ExamineType.TALENT.getType());
-			ExamineInfoResult = examineDealService.submitMerchantExamineInfo(dto);
-//			MerchantQualificationDO mqDO = MerchantConverter.setMerchantQualification(dto,sessionManager.getUserId());
-//			MerchantScopeDO msDO = MerchantConverter.setMerchantScope(dto,sessionManager.getUserId());
-//			ExamineInfoResult = applyServiceRef.submitExamineInfo(dto, mqDO, msDO);
-			if(ExamineInfoResult == null || !ExamineInfoResult.isSuccess()) {
-				
-				int code = ExamineInfoResult.getErrorCode() ;
-				if(MemberReturnCode.DB_MERCHANTNAME_FAILED.getCode() == code ) {
-					result.setWebReturnCode( WebReturnCode.TALENT_MERCHANT_NAME_EXIST );
-				}else if( MemberReturnCode.DB_EXAMINE_FAILED.getCode() == code ){
-					result.setWebReturnCode(WebReturnCode.APPROVE_PASSED_DISABLE_MODIFY);
-				}else{
-					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
-				}
+			dto.setType(MerchantType.TALENT.getType());
+			MemResult<Boolean> ExamineInfoResult = examineDealService.submitMerchantExamineInfo(dto);
+			if (ExamineInfoResult == null) {
+				result.setReturnCode(MemberReturnCode.SYSTEM_ERROR);
+			}else {
+				result.setErrorCode(ExamineInfoResult.getErrorCode());
+				result.setErrorMsg(ExamineInfoResult.getErrorMsg());
+				result.setSuccess(false);
+				return result;
 			}
-			return result;
+//			if(ExamineInfoResult == null || !ExamineInfoResult.isSuccess()) {
+//				result2.setErrorCode(errorCode);
+//				int code = ExamineInfoResult.getErrorCode() ;
+//				if(MemberReturnCode.DB_MERCHANTNAME_FAILED.getCode() == code ) {
+//					result.setWebReturnCode( WebReturnCode.TALENT_MERCHANT_NAME_EXIST );
+//				}else if( MemberReturnCode.DB_EXAMINE_FAILED.getCode() == code ){
+//					result.setWebReturnCode(WebReturnCode.APPROVE_PASSED_DISABLE_MODIFY);
+//				}else{
+//					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+//				}
+//			}
+			//return result;
 			
 		} catch (Exception e) {
-			log.error("param :ExamineInfoVO={}",vo,e);
-			return null;
+			log.error("param :ExamineInfoVO={} error:{}",vo,e);
+			result.setReturnCode(MemberReturnCode.SYSTEM_ERROR);
+			//return null;
 		}
+		return result;
 	}
 	
 	
@@ -178,7 +185,7 @@ public class TalentRepo {
 	public ExamineResultDTO getCheckResult() {
 		InfoQueryDTO examineQueryDTO = new InfoQueryDTO();
 		examineQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-		examineQueryDTO.setType(ExamineType.TALENT.getType());
+		examineQueryDTO.setType(MerchantType.TALENT.getType());
 		examineQueryDTO.setSellerId(sessionManager.getUserId());
 		
 		try {
@@ -196,7 +203,10 @@ public class TalentRepo {
 	}
 	public MemResult<Boolean> updateCheckStatus(ExamineInfoVO vo) {
 		try {
-			MemResult<Boolean> changeExamineStatusResult = examineDealService.changeExamineStatusIntoIng(vo.getInfoQueryDTO(sessionManager.getUserId()));
+			InfoQueryDTO infoQueryDTO = vo.getInfoQueryDTO(sessionManager.getUserId());
+			infoQueryDTO.setType(vo.getType());
+			
+			MemResult<Boolean> changeExamineStatusResult = examineDealService.changeExamineStatusIntoIng(infoQueryDTO);
 			
 			return changeExamineStatusResult;
 		} catch (Exception e) {
