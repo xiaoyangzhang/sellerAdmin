@@ -345,7 +345,7 @@ public class LineChecker {
 				}
 			}
 		} else {
-			if (itemType == ItemType.TOUR_LINE.getValue()) {
+			if (itemType == ItemType.TOUR_LINE.getValue()||itemType == ItemType.TOUR_LINE_ABOARD.getValue()) {
 				return WebCheckResult.error("行程信息不能为空");
 			}
 		}
