@@ -255,7 +255,7 @@ public class HotelManageDomainChecker {
         itemDO.setDescription(hotelMessageVO.getDescription());//退订规则描述
         itemDO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS,hotelDO.getLogoUrl());
         /**房型ID**/
-       // wangdi itemDO.setRoomId(hotelMessageVO.getRoomId());//房型ID
+        //itemDO.setRoomId(hotelMessageVO.getRoomId());//房型ID
         itemDO.setCancelLimit(hotelMessageVO.getCancelLimit());//退订规则
         itemDO.setLatestArriveTime(hotelMessageVO.getLatestArriveTime());//最晚到店时间
         //itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,hotelMessageVO.getStartBookTimeLimit());//提前预定天数

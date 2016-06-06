@@ -270,7 +270,7 @@ public class ScenicManageEnhanceController extends BaseController {
             message.initFailure(WebReturnCode.SYSTEM_ERROR,"请不要重复提交");
             return message;
         }
-        log.info("editScenicManageVOByDdata start :"+CommonJsonUtil.objectToJson(scenicManageVO,ScenicManageVO.class));
+        log.info("editScenicManageVOByDdata start :scenicManageVO="+CommonJsonUtil.objectToJson(scenicManageVO,ScenicManageVO.class));
         WebResult<ScenicManageVO> result = scenicManageService.editScenicManageVOByDdata(scenicManageVO);
         if(!result.isSuccess()){
             message.initFailure(WebReturnCode.PARAM_ERROR,"添加商品错误");
