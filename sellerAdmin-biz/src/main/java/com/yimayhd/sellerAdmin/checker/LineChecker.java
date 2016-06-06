@@ -49,6 +49,7 @@ public class LineChecker {
 		supportTrafficTypes.add(RouteItemType.TRAIN.name());
 		supportTrafficTypes.add(RouteItemType.BUS.name());
 		supportTrafficTypes.add(RouteItemType.BOAT.name());
+		supportTrafficTypes.add(RouteItemType.OTHERS.name());
 	}
 
 	public static WebCheckResult checkLine(LineVO line) {
