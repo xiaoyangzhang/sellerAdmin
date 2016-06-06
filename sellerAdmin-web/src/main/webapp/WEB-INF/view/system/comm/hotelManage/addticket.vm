@@ -42,7 +42,7 @@
 	                    <td class="coltxt" ><span class="bred">*</span>门票类型：</td>
 	                    <td class="ticketType">
                             #foreach($multi in $multiList)
-                            <label class="radio"><input type="radio" name="ticketId" value="$!{multi.id}" #if($multi.choiceNo) checked #end>$!{multi.title}</label>
+                            <label class="radio"><input type="radio" name="ticketId" tTitle="$!{multi.title}" value="$!{multi.id}" #if($multi.choiceNo) checked #end>$!{multi.title}</label>
                             #end
 	                     </td>
 	                </tr>
