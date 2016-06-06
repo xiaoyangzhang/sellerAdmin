@@ -34,9 +34,7 @@
         <div class="hotelcol"  #if($hotelMessageVO.hotelId>0)  style="display: block" #end >
             <span class="nm"><span class="bred">*</span><label>酒店房型：</label></span>
                     <span class="info-box clearfix">
-                        #if($!roomList)
                             <ul class="clearfix">
-                                #foreach($roomMessageVO in $roomList)
                                     <li>
                                         <div class="radio-bar clearfix">
 
@@ -77,9 +75,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                #end
                             </ul>
-                        #end
 
                     </span>
         </div>

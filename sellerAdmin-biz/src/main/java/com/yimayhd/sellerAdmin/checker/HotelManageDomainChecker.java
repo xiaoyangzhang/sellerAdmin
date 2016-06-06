@@ -247,36 +247,20 @@ public class HotelManageDomainChecker {
         //ItemDO itemDO = new  ItemDO();//
         ItemPubUpdateDTO itemDO = new ItemPubUpdateDTO();
         itemDO.setId(hotelMessageVO.getItemId());
-       // itemDO.setSellerId(hotelMessageVO.getSellerId());//商家ID
         itemDO.setOutId(hotelMessageVO.getHotelId());//酒店ID
-       // itemDO.setCategoryId(hotelMessageVO.getCategoryId());//商品类目ID
-       // itemDO.setOutType(ResourceType.HOTEL.getType());// 酒店类型:酒店景区 都outType
         itemDO.setTitle(hotelMessageVO.getTitle());//商品标题
         itemDO.setCode(hotelMessageVO.getCode());//商品代码
         itemDO.setPayType(hotelMessageVO.getPayType());//付款方式
         itemDO.setDescription(hotelMessageVO.getDescription());//退订规则描述
-      //  itemDO.setDomain(Constant.DOMAIN_JIUXIU);
-      //  itemDO.setOptions(1);
-      //  itemDO.setItemType(categoryDO.getCategoryFeature().getItemType());
         itemDO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS,hotelDO.getLogoUrl());
-        /***feature**/
-       // ItemFeature itemFeature = new ItemFeature(null);
-        //itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, CancelLimit.Ok.getType());
         /**房型ID**/
-        //itemFeature.put(ItemFeatureKey.ROOM_ID,hotelMessageVO.getRoomId());//房型ID
         itemDO.setRoomId(hotelMessageVO.getRoomId());//房型ID
-        //itemFeature.put(ItemFeatureKey.CANCEL_LIMIT, hotelMessageVO.getCancelLimit());//退订规则
         itemDO.setCancelLimit(hotelMessageVO.getCancelLimit());//退订规则
-
-       // itemFeature.put(ItemFeatureKey.LATEST_ARRIVE_TIME,hotelMessageVO.getLatestArriveTime());//前端String转list
         itemDO.setLatestArriveTime(hotelMessageVO.getLatestArriveTime());//最晚到店时间
         //itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,hotelMessageVO.getStartBookTimeLimit());//提前预定天数
         itemDO.setStartBookTimeLimit(hotelMessageVO.getStartBookTimeLimit().intValue()*dayTime);
-        //itemFeature.put(ItemFeatureKey.BREAKFAST,hotelMessageVO.getBreakfast());//早餐
         itemDO.setBreakfast(hotelMessageVO.getBreakfast());//早餐
-        //itemFeature.put(ItemFeatureKey.PAY_MODE,hotelMessageVO.getPayType());//付款方式
         itemDO.setPayMode(hotelMessageVO.getPayType());//付款方式
-        //itemDO.setItemFeature(itemFeature);// 更新不添加itemFeature
         /****sku价格日历***/
         // 价格日历 json解析
         // CategoryPropertyValueDO + 日期 存到 ItemSkuPVPair 中,每个sku 只有 一个 pv 属性
@@ -459,8 +443,8 @@ public class HotelManageDomainChecker {
         /**价格日历**/
         hotelMessageVO.setSupplierCalendar(getSupplierCalendarJson());
         /***房型信息**/
-        hotelMessageVO.setListRoomMessageVO(getRoomMessageVOList());
-        hotelMessageVO.setRoomMessageVO(getBizRoomMessageVO(itemFeature.getRoomId()));
+        //hotelMessageVO.setListRoomMessageVO(getRoomMessageVOList());
+        hotelMessageVO.setRoomMessageVO(getBizRoomMessageVO());
         return hotelMessageVO;
     }
 
@@ -538,20 +522,16 @@ public class HotelManageDomainChecker {
      * 获取房型信息
      * @return
      */
-    public  RoomMessageVO getBizRoomMessageVO(long roomId){
-        if(CollectionUtils.isEmpty(listRoomDO)){
-            return  null;
+    public  RoomMessageVO getBizRoomMessageVO(){
+        if(roomDO==null){
+            return null;
         }
         RoomMessageVO vo = new  RoomMessageVO();
-        for(RoomDO room :listRoomDO){
-            if(room.getId()!=roomId){
-                continue;
-            }
-            vo.setRoomId(room.getId());
-            vo.setHotelId(room.getHotelId());
-            vo.setName(room.getName());
-            vo.setPics(room.getPics());
-            RoomFeature roomFeature = room.getFeature();
+            vo.setRoomId(roomDO.getId());
+            vo.setHotelId(roomDO.getHotelId());
+            vo.setName(roomDO.getName());
+            vo.setPics(roomDO.getPics());
+            RoomFeature roomFeature = roomDO.getFeature();
             vo.setArea(roomFeature.getArea());
             vo.setBed(roomFeature.getBed());
             vo.setWindow(roomFeature.getWindow());
@@ -566,7 +546,6 @@ public class HotelManageDomainChecker {
             }
             vo.setNetwork(roomFeature.getNetwork());
             vo.setPeople(roomFeature.getPeople());
-        }
         return vo;
 
     }

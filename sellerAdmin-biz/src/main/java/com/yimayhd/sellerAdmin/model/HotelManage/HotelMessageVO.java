@@ -60,7 +60,6 @@ public class HotelMessageVO  implements Serializable {
 
 	private RoomMessageVO roomMessageVO;//房型
 	private List<RoomMessageVO> listRoomMessageVO;//房型信息
-
 	private String currentState;//当前操作状态,update,add,del
 
 	private long categoryId;

@@ -220,21 +220,21 @@ public class HotelManageRepo {
 		log.info("queryHotelMessageVOyData.getHotel 回参: hotelDO="+CommonJsonUtil.objectToJson(hotelResult.getModule(),HotelDO.class));
 		domain.setHotelDO(hotelResult.getModule());
 		/***酒店房型**/
-		RoomQuery roomQuery = new RoomQuery();
-		roomQuery.setHotelId(itemResult.getItem().getOutId());
+		//RoomQuery roomQuery = new RoomQuery();
+		//roomQuery.setHotelId(itemResult.getItem().getOutId());
 		long roomId = domain.getItemDO().getItemFeature().getRoomId();
 		if(roomId==0){
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "getItem,查询酒店房型错误");
 		}
 		log.info("queryHotelMessageVOyData.queryAllRoom 入参: outId="+itemResult.getItem().getOutId());
-		ICResult<List<RoomDO>> roomResult= itemQueryServiceRef.queryAllRoom(roomQuery);
-		//ICResult<RoomDO> roomResult=   itemQueryServiceRef.getRoom(roomId);
+		//ICResult<List<RoomDO>> roomResult= itemQueryServiceRef.queryAllRoom(roomQuery);
+		ICResult<RoomDO> roomResult=   itemQueryServiceRef.getRoom(roomId);
 		if(!roomResult.isSuccess()||roomResult.getModule()==null){
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "queryAllRoom,查询酒店房型信息错误");
 		}
 		log.info("queryHotelMessageVOyData.queryAllRoom 回参: roomList="+CommonJsonUtil.objectToJson(roomResult.getModule(),List.class));
-		domain.setListRoomDO(roomResult.getModule());
-		//domain.setRoomDO(roomResult.getModule());
+		//domain.setListRoomDO(roomResult.getModule());
+		domain.setRoomDO(roomResult.getModule());
 		/**获取酒店/商品/sku/房型**/
 		HotelMessageVO hotelMessageVO = domain.getBizQueryHotelMessageVOyData();
 		hotelMessageVOWebResult.setValue(hotelMessageVO);
