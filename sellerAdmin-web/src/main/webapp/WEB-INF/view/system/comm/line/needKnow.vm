@@ -16,7 +16,7 @@
 					#set($length = $content.length())
 				#end
 				#if(!$product)
-					<textarea class="form-control textarea-count need-know-item-value red" rows="5" placeholder="" maxlength="2000">
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="2000">
 1、大交通：  *****—*****  往返经济舱机票（含税）；省内往返旅游巴士；
 2、住宿：行程所列酒店标准2人间，如单人拼不上房间，需自补单房差；
 3、餐食：行程内所列餐食，酒店内含早餐，正餐标准*元；
@@ -41,7 +41,7 @@
 					#set($length = $content.length())
 				#end
 				#if(!$product)
-					<textarea class="form-control textarea-count need-know-item-value red" rows="5" placeholder="" maxlength="500">
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="500">
 1、旅游意外伤害保险及航空意外险（建议旅游者购买）；
 2、自费选择项目，自由活动期间的餐食费和交通费；
 3、个人消费（如酒店内洗衣、电话及未提到的其它服务）；
@@ -84,7 +84,7 @@
 					#set($length = $content.length())
 				#end
 				#if(!$product)
-					<textarea class="form-control textarea-count need-know-item-value red" rows="5" placeholder="" maxlength="2000">
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="2000">
 1、本产品不接受  *****  岁以上的客人预订，不接受非大陆籍客人预订，敬请谅解！
 2、本产品适用于持中国公民二代身份证的客人预订，目的地海拔较高，有严重高血压、心脏病等疾病的客人及老年客人，请根据自身条件，遵医嘱，谨慎决定是否出行。
 3、本产品最低成团人数  *****  人，如未达到最低成团人数，将在出发前7天通知不成团，未通知的视为成团。如不成团，我们会为您推荐其他出发班期或更换其他同类产品，如您不接受上述方案，将全额退还您支付的费用。
