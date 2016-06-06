@@ -58,6 +58,10 @@
 	                    <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
 	                    <td><input type="text" class="inputxt" maxlength="10" name="startBookTimeLimit" value="$!{scenicManageVO.startBookTimeLimit}" ></td>
 	                </tr>
+	                <tr>
+	                    <td class="coltxt">票型说明</td>
+	                    <td></td>
+	                </tr>
 	                #foreach($bizCategoryInfo in $bizCategoryInfoList)
 	                    #if($bizCategoryInfo.pType == 1)
                         <tr class="dynamicTr notNull" pId="$!bizCategoryInfo.pId" pTxt="$!bizCategoryInfo.pTxt" pType="$!bizCategoryInfo.pType">
