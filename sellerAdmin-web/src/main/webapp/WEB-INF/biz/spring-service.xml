@@ -51,6 +51,8 @@
 
 	<bean class="com.yimayhd.sellerAdmin.service.item.impl.LineServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.item.impl.ItemServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.draft.impl.DraftServiceImpl"></bean>
+	
 	<!--GF商品-->
 	<bean class="com.yimayhd.gf.service.impl.CommodityServiceImpl"></bean>
 

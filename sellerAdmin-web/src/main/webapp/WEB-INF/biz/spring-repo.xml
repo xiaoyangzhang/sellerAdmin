@@ -32,4 +32,5 @@
 	<bean id="talentRepo" class="com.yimayhd.sellerAdmin.repo.TalentRepo" />
 	<bean id="pictureTextRepo" class="com.yimayhd.sellerAdmin.repo.PictureTextRepo" />
 
+
 </beans>

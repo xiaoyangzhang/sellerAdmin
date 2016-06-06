@@ -92,7 +92,7 @@ public class BasicInfoController extends BaseController {
 				model.addAttribute("serviceTel", meResult.getValue().getServiceTel());
 				
 			}
-			return "/system/merchant/merchant";
+			return "/system/seller/merchant";
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			//model.addAttribute("服务器出现错误，请稍后重新登录");
@@ -198,4 +198,5 @@ public class BasicInfoController extends BaseController {
 		
 		
 	}
+	
 }
