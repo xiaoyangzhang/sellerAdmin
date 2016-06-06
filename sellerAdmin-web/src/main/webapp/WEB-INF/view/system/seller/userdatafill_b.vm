@@ -1,6 +1,7 @@
 #set($layout = "/layout/layout-apply.vm")
 <head>
 #parse("layout/layout-meta.vm")
+#parse("layout/layout-hidden.vm")
 <title>上传资质文件</title>
 <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/filldata.css">
 </head>
