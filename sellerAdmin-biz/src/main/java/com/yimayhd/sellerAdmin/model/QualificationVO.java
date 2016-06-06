@@ -26,8 +26,14 @@ public class QualificationVO {
 	private int type ;
 	private int num ;//一种资质图片的数量
 	private String overallNote;//整体备注
+	private long qualificationId;
 	
-	
+	public long getQualificationId() {
+		return qualificationId;
+	}
+	public void setQualificationId(long qualificationId) {
+		this.qualificationId = qualificationId;
+	}
 	public String getOverallNote() {
 		return overallNote;
 	}

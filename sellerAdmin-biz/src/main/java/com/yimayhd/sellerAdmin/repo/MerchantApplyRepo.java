@@ -36,7 +36,7 @@ import com.yimayhd.membercenter.client.service.QualificationService;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.client.service.examine.MerchantApplyService;
-import com.yimayhd.membercenter.enums.MerchantType;
+import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.membercenter.enums.MerchantCategoryType;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;

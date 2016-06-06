@@ -17,7 +17,7 @@ import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
-import com.yimayhd.membercenter.enums.MerchantType;
+import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -60,7 +60,7 @@ public class TalentRepo {
 		}
 		InfoQueryDTO queryDTO=new InfoQueryDTO();
 		queryDTO.setDomainId(domainId);
-		queryDTO.setType(MerchantType.TALENT.getType());
+		queryDTO.setType(ExamineType.TALENT.getType());
 		queryDTO.setSellerId(userId);
 		MemResult<ExamineInfoDTO> examineInfoResult = examineDealService.queryMerchantExamineInfoBySellerId(queryDTO);
 		if (examineInfoResult == null || !examineInfoResult.isSuccess() || (examineInfoResult.getValue() == null)) {
@@ -137,7 +137,7 @@ public class TalentRepo {
 		MemResult<Boolean> result = new MemResult<Boolean>();
 		try {
 			ExamineInfoDTO dto = MerchantConverter.convertVO2DTO(vo, sessionManager.getUserId());
-			dto.setType(MerchantType.TALENT.getType());
+			dto.setType(ExamineType.TALENT.getType());
 			MemResult<Boolean> ExamineInfoResult = examineDealService.submitMerchantExamineInfo(dto);
 			if (ExamineInfoResult == null) {
 				result.setReturnCode(MemberReturnCode.SYSTEM_ERROR);
@@ -185,7 +185,7 @@ public class TalentRepo {
 	public ExamineResultDTO getCheckResult() {
 		InfoQueryDTO examineQueryDTO = new InfoQueryDTO();
 		examineQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-		examineQueryDTO.setType(MerchantType.TALENT.getType());
+		examineQueryDTO.setType(ExamineType.TALENT.getType());
 		examineQueryDTO.setSellerId(sessionManager.getUserId());
 		
 		try {

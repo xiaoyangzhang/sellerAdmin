@@ -53,7 +53,7 @@
 			#if($qualification.required )<label class="bred">*</label>#end<label>$!{qualification.title}：</label>
 			
 			#foreach($content in $qualification.getContentList() )
-				<span class="imgbox allownull" id="$!{qualification.id}">
+				<span class="imgbox allownull"  id="$!{qualification.qualificationId}">
 					<div class="canclick">
 						#if($!content.length()>0)
 							<img src="$!tfs/$!content">
@@ -80,7 +80,7 @@
 		#end
 	
 #end
-		<div class="groupimg clearfix fl" id="$!{qualificationContents.id}">
+		<div class="groupimg clearfix fl" id="$!{qualificationContents.qualificationId}" >
 				
 			<div class="updateli">
 			#foreach($content in $qualificationContents.getContentList() )

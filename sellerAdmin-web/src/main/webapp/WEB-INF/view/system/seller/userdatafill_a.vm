@@ -53,12 +53,12 @@
                	    	   				<td class="rigtxt ts"><label>旅游企业：</label></td>
                	    	   				<td class="rigcontent listli">
                	    	   					<input type="radio" value="1" name="" id="travel" checked="checked" class="flm ccc"/><label >旅行社</label>
-               	    	   					<input type="radio" value="2" name="merchantCategoryId" id="" class="lm ddd"/><label class="">旅游商务服务公司</label>
+               	    	   					<input type="radio" value="2" #if($!examineInfo.merchantCategoryId == 2) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd"/><label class="">旅游商务服务公司</label>
                	    	   					<div class="company">
-								               <label class="bomb-con"><input type="radio" value="12"  name="merchantCategoryId" id="" class="" checked="checked"/><label>国内社总社</label></label>
-							                   <label class="bomb-con"><input type="radio" value="13" name="merchantCategoryId" id="" class="daible"/><label>国内社分社</label></label>
-								               <label class="bomb-con"><input type="radio" value="14" name="merchantCategoryId" id="" class=""/><label>出境社总社</label></label>
-								               <label class="bomb-con"><input type="radio" value="15" name="merchantCategoryId" id="" class="daible"/><label>出境社分社</label></label>
+								               <label class="bomb-con"><input type="radio" #if($!examineInfo.merchantCategoryId == 12) checked="checked" #end value="12"  name="merchantCategoryId" id="" class="" checked="checked"/><label>国内社总社</label></label>
+							                   <label class="bomb-con"><input type="radio" value="13" #if($!examineInfo.merchantCategoryId == 13) checked="checked" #end name="merchantCategoryId" id="" class="daible"/><label>国内社分社</label></label>
+								               <label class="bomb-con"><input type="radio" value="14" #if($!examineInfo.merchantCategoryId == 14) checked="checked" #end name="merchantCategoryId" id="" class=""/><label>出境社总社</label></label>
+								               <label class="bomb-con"><input type="radio" value="15" #if($!examineInfo.merchantCategoryId == 15) checked="checked" #end name="merchantCategoryId" id="" class="daible"/><label>出境社分社</label></label>
 						                    </div>
                	    	   				</td>
 
@@ -66,28 +66,28 @@
                	    	   			<tr>
                	    	   				<td class="rigtxt"><label>酒店：</label></td>
                	    	   				<td class="rigcontent ">
-               	    	   					<input type="radio" value="3" name="merchantCategoryId" id="" class="flm ddd"/><label>集团酒店/连锁酒店</label>
-               	    	   					<input type="radio" value="4" name="merchantCategoryId" id="" class="lm ddd"/><label class="">单体酒店</label>
-               	    	   					<input type="radio" value="5" name="merchantCategoryId" id="" class="lm ddd daible"/><label class="">酒店代理商</label>
+               	    	   					<input type="radio" value="3" name="merchantCategoryId" #if($!examineInfo.merchantCategoryId == 3) checked="checked" #end id="" class="flm ddd"/><label>集团酒店/连锁酒店</label>
+               	    	   					<input type="radio" value="4" name="merchantCategoryId" #if($!examineInfo.merchantCategoryId == 4) checked="checked" #end id="" class="lm ddd"/><label class="">单体酒店</label>
+               	    	   					<input type="radio" value="5" name="merchantCategoryId" #if($!examineInfo.merchantCategoryId == 5) checked="checked" #end id="" class="lm ddd daible"/><label class="">酒店代理商</label>
                	    	   				</td>
                	    	   			</tr>
                	    	   			<tr>
                	    	   				<td class="rigtxt"><label>票务：</label></td>
                	    	   				<td class="rigcontent">
-               	    	   					<input type="radio" value="6" name="merchantCategoryId" id="" class="flm ddd"/><label>景区</label>
-               	    	   					<input type="radio" value="7" name="merchantCategoryId" id="" class="lm ddd"/><label class="">游乐园</label>
-               	    	   					<input type="radio" value="8" name="merchantCategoryId" id="" class="lm ddd"/><label class="">门票代理商</label>
-               	    	   					<input type="radio" value="9" name="merchantCategoryId" id="" class="lm ddd"/><label class="">景区集团</label>
-               	    	   					<input type="radio" value="10" name="merchantCategoryId" id="" class="lm ddd"/><label class="">旅游局推广商家</label>
+               	    	   					<input type="radio" value="6" #if($!examineInfo.merchantCategoryId == 6) checked="checked" #end name="merchantCategoryId" id="" class="flm ddd"/><label>景区</label>
+               	    	   					<input type="radio" value="7" #if($!examineInfo.merchantCategoryId == 7) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd"/><label class="">游乐园</label>
+               	    	   					<input type="radio" value="8" #if($!examineInfo.merchantCategoryId == 8) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd"/><label class="">门票代理商</label>
+               	    	   					<input type="radio" value="9" #if($!examineInfo.merchantCategoryId == 9) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd"/><label class="">景区集团</label>
+               	    	   					<input type="radio" value="10" #if($!examineInfo.merchantCategoryId == 10) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd"/><label class="">旅游局推广商家</label>
                	    	   				</td>
                	    	   			</tr>
                	    	   			<tr>
                	    	   				<td class="rigtxt"><label>同城活动企业：</label></td>
                	    	   				<td class="rigcontent">
-               	    	   					<input type="radio" value="16" name="merchantCategoryId" id="" class="flm ddd"/><label>公司</label>
-               	    	   					<input type="radio" value="17" name="merchantCategoryId" id="" class="lm ddd daible"/><label class="">个体工商户</label>
-               	    	   					<input type="radio" value="18" name="merchantCategoryId" id="" class="lm ddd daible"/><label class="">合伙企业</label>
-               	    	   					<input type="radio" value="19" name="merchantCategoryId" id="" class="lm ddd daible"/><label class="">其他组织团体</label>
+               	    	   					<input type="radio" value="16" #if($!examineInfo.merchantCategoryId == 16) checked="checked" #end name="merchantCategoryId" id="" class="flm ddd"/><label>公司</label>
+               	    	   					<input type="radio" value="17" #if($!examineInfo.merchantCategoryId == 17) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd daible"/><label class="">个体工商户</label>
+               	    	   					<input type="radio" value="18" #if($!examineInfo.merchantCategoryId == 18) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd daible"/><label class="">合伙企业</label>
+               	    	   					<input type="radio" value="19" #if($!examineInfo.merchantCategoryId == 19) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd daible"/><label class="">其他组织团体</label>
                	    	   				</td>
                	    	   			</tr>
        	    	   			</table>
@@ -103,14 +103,14 @@
 						   	       		<li><input type="checkbox" disabled="disabled" value="1" name="" id="" class="k1"/><label>度假路线</label></li>
 						   	       		<div class="bomb">
 										    <div class="aaa bomb-txt01">
-												<label><input type="checkbox" value="2" disabled="disabled" name="" id="" class=""/><label>国内游</label></label>
-												<label class="bomb-con"><input type="checkbox" disabled="disabled" value="3" name="" id="" class=""/><label>出境游</label></label>
-												<label class="bomb-con"><input type="checkbox" disabled="disabled" value="4" name="" id="" class=""/><label>其他(交通卡券、送关、租车、旅游服务等)</label></label>
+												<label><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 2) checked="checked" #end #end value="2" disabled="disabled" name="" id="" class=""/><label>国内游</label></label>
+												<label class="bomb-con"><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 3) checked="checked" #end #end disabled="disabled" value="3" name="" id="" class=""/><label>出境游</label></label>
+												<label class="bomb-con"><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 4) checked="checked" #end #end disabled="disabled" value="4" name="" id="" class=""/><label>其他(交通卡券、送关、租车、旅游服务等)</label></label>
 											</div>
 										</div>
-						   	       		<li><input type="checkbox" value="5" name="" id=""  disabled="disabled" class=""/><label>酒店</label></li>
-						   	       		<li><input type="checkbox" value="6" name="" id="" disabled="disabled" class=""/><label>门票</label></li>
-						   	       		<li><input type="checkbox" value="7" name="" id="" disabled="disabled" class=""/><label>特产商品</label></li>
+						   	       		<li><input type="checkbox" value="5" name="" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 5) checked="checked" #end #end  disabled="disabled" class=""/><label>酒店</label></li>
+						   	       		<li><input type="checkbox" value="6" name="" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 6) checked="checked" #end #end disabled="disabled" class=""/><label>门票</label></li>
+						   	       		<li><input type="checkbox" value="7" name="" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 7) checked="checked" #end #end disabled="disabled" class=""/><label>特产商品</label></li>
 						   	       	</ol>
 					   	       	</td>
 				   	       </tr>
@@ -124,8 +124,8 @@
 					   	       <tr>
 						   	       	<td class="rigtxt"><label>店铺性质：</label></td>
 						   	       	<td class="rigcontent">
-						   	       		<input type="radio" value="1" name="isDirectSale" id="" class="flm dised" checked="checked"/><label>直营店</label>
-						   	       		<input type="radio" value="2" name="isDirectSale" id="" class="lm disedli"/><label>专营店</label>
+						   	       		<input type="radio" value="1" #if($!examineInfo.isDirectSale == 1) checked="checked" #end name="isDirectSale" id="" class="flm dised" checked="checked"/><label>直营店</label>
+						   	       		<input type="radio" value="2" #if($!examineInfo.isDirectSale == 2) checked="checked" #end name="isDirectSale" id="" class="lm disedli"/><label>专营店</label>
 						   	       	</td>
 					   	       </tr>
 						   </table>
@@ -269,7 +269,7 @@
 								<td class="rigcontent"><input type="text"datatype="n10-25" name="accountNum" value="$!examineInfo.accountNum" maxlength="25" class="txt01"  placeholder="请输入结算账号"></td>
 							</tr>
 							<tr>
-								<td class="rigtxt"><span>*<span/><label>财务结算开户行：</label></td>
+								<td class="rigtxt"><span>*<span/><label>结算开户行：</label></td>
 								<td class="rigcontent">
 									 <input type="hidden" id="province_" value="$!examineInfo.accountBankProvinceCode">
 									<input type="hidden" id="city_" value="$!examineInfo.accountBankCityCode">

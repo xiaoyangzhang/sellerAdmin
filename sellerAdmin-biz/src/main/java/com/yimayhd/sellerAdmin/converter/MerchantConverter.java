@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.QualificationDO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
-import com.yimayhd.membercenter.enums.MerchantType;
+import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
@@ -81,6 +81,7 @@ public class MerchantConverter {
 		dto.setLawPersonCard(vo.getLawPersonCard());
 		dto.setSaleLicenseNumber(vo.getSaleLicenseNumber());
 		dto.setTaxRegisterNumber(vo.getTaxRegisterNumber());
+		dto.setMerchantName(vo.getMerchantName());
 //		dto.setAmusementParkReport(vo.getAmusementParkReport());
 //		dto.setWildlifeSale(vo.getWildlifeSale());
 //		dto.setWaterWildlifeSale(vo.getWaterWildlifeSale());
@@ -151,6 +152,7 @@ public class MerchantConverter {
 		vo.setPrincipleCardUp(examineInfoDTO.getPrincipleCardUp());
 		vo.setPrincipleCardDown(examineInfoDTO.getPrincipleCardDown());
 		vo.setDomainId(Constant.DOMAIN_JIUXIU);
+		vo.setMerchantName(examineInfoDTO.getMerchantName());
 		//vo.setSellerId(examineInfoDTO.getSellerId());
 		//vo.setType(ExamineType.TALENT.getType());
 		vo.setProvince(examineInfoDTO.getAccountBankProvinceCode());
@@ -182,7 +184,8 @@ public class MerchantConverter {
 	
 	public static QualificationVO converterQualificationDO2VO(QualificationDO qualificationDO) {
 		QualificationVO vo = new QualificationVO();
-		vo.setId(qualificationDO.getId());
+		vo.setQualificationId(qualificationDO.getId());
+		
 		vo.setNum(qualificationDO.getNum());
 		vo.setType(qualificationDO.getType());
 		vo.setOverallNote(qualificationDO.getOverallNote());

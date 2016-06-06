@@ -41,7 +41,7 @@ import com.yimayhd.membercenter.enums.CertificateType;
 import com.yimayhd.membercenter.enums.ExamineCharacter;
 import com.yimayhd.membercenter.enums.ExaminePageNo;
 import com.yimayhd.membercenter.enums.ExamineStatus;
-import com.yimayhd.membercenter.enums.MerchantType;
+import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.membercenter.enums.MerchantCategoryType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -390,7 +390,7 @@ public class ApplyController extends BaseController {
 			MemResult<String> result = new MemResult<>();
 			MemResult<Boolean> addResult = talentBiz.addExamineInfo(vo);
 			//更新审核状态
-			vo.setType(MerchantType.TALENT.getType());
+			vo.setType(ExamineType.TALENT.getType());
 			MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
 			if (updateCheckStatusResult == null) {
 				result.setReturnCode(MemberReturnCode.SAVE_MERCHANT_FAILED);
@@ -496,15 +496,15 @@ public class ApplyController extends BaseController {
 			int type = dto.getType();
 			int status = dto.getExaminStatus();
 			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
-				if(MerchantType.MERCHANT.getType()==type){
+				if(ExamineType.MERCHANT.getType()==type){
 					return "/system/seller/verification";
-				}else if(MerchantType.TALENT.getType()==type){
+				}else if(ExamineType.TALENT.getType()==type){
 					return "/system/talent/verification";
 				}
 			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
-				if(MerchantType.MERCHANT.getType()==type){
+				if(ExamineType.MERCHANT.getType()==type){
 					return "redirect:/basicInfo/seller/toAddBasicPage";
-				}else if(MerchantType.TALENT.getType()==type){
+				}else if(ExamineType.TALENT.getType()==type){
 					return "redirect:/basicInfo/talent/toAddTalentInfo";
 				}
 			}else if(ExamineStatus.EXAMIN_ERROR.getStatus() == status){//审核不通过
@@ -517,9 +517,9 @@ public class ApplyController extends BaseController {
 				if(rest.isSuccess() && (null!=rest.getValue())){
 					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
 				}
-				if(MerchantType.MERCHANT.getType()==type){
+				if(ExamineType.MERCHANT.getType()==type){
 					model.addAttribute("type", Constant.MERCHANT_NAME_CN);
-				}else if(MerchantType.TALENT.getType()==type){
+				}else if(ExamineType.TALENT.getType()==type){
 					model.addAttribute("type", Constant.TALENT_NAME_CN);
 				}
 				model.addAttribute("url", "/apply/toChoosePage?reject=true");
@@ -573,7 +573,7 @@ public class ApplyController extends BaseController {
 //		}
 		
 		InfoQueryDTO info = new InfoQueryDTO();
-		info.setType(MerchantType.MERCHANT.getType());
+		info.setType(ExamineType.MERCHANT.getType());
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
 		//MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
@@ -643,7 +643,7 @@ public class ApplyController extends BaseController {
 		}
 		
 		InfoQueryDTO info = new InfoQueryDTO();
-		info.setType(MerchantType.MERCHANT.getType());
+		info.setType(ExamineType.MERCHANT.getType());
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
 		WebResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
@@ -741,10 +741,10 @@ public class ApplyController extends BaseController {
 	@RequestMapping(value="/seller/saveUserdata" ,method=RequestMethod.POST)
 	@ResponseBody
 	public MemResult<String> saveUserdata(ExamineInfoVO examineInfoVO){
-		MemResult<String> checkResult = checkMerchantApplyParams(examineInfoVO);
-		if (!checkResult.isSuccess()) {
-			return checkResult;
-		}
+//		MemResult<String> checkResult = checkMerchantApplyParams(examineInfoVO);
+//		if (!checkResult.isSuccess()) {
+//			return checkResult;
+//		}
 		MemResult<String> rest = new MemResult<String>();
 		MemResult<Boolean> result = merchantApplyBiz.submitExamineInfo(examineInfoVO);
 		if(result.isSuccess()){
@@ -773,17 +773,17 @@ public class ApplyController extends BaseController {
 		for (MerchantQualificationDO mqDO : merchantQualifications) {
 			mqDO.setDomainId(Constant.DOMAIN_JIUXIU);
 			mqDO.setSellerId(getCurrentUserId());
-			mqDO.setMerchantCategoryId(1);
+			//mqDO.setMerchantCategoryId(1);
 		}
 		examineInfoVO.setMerchantQualifications(merchantQualifications);
 		MemResult<Boolean> result = merchantApplyBiz.updateMerchantQualification(examineInfoVO);
 		if(result.isSuccess()){
-			examineInfoVO.setType(MerchantType.MERCHANT.getType());
+			examineInfoVO.setType(ExamineType.MERCHANT.getType());
 			MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(examineInfoVO);
 			InfoQueryDTO info = new InfoQueryDTO();
 			info.setDomainId(Constant.DOMAIN_JIUXIU);
 			info.setSellerId(sessionManager.getUserId());
-			info.setType(MerchantType.MERCHANT.getType());
+			info.setType(ExamineType.MERCHANT.getType());
 			merchantBiz.changeExamineStatusIntoIng(info);
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/seller/toVerifyPage");
 		}else{
