@@ -545,7 +545,7 @@ public class ApplyController extends BaseController {
 	}
 	@RequestMapping(value = "/toChoosePage")
 	public String toChoosePage(Model model,boolean reject){
-		String chooseUrl = "/system/chooseType";
+		String chooseUrl = "/system/seller/chooseType";
 		if(reject){
 			return chooseUrl;
 		}
