@@ -74,11 +74,11 @@
                	    	   			<tr>
                	    	   				<td class="rigtxt"><label>票务：</label></td>
                	    	   				<td class="rigcontent">
-               	    	   					<input type="radio" value="6" #if($!examineInfo.merchantCategoryId == 6) checked="checked" #end name="merchantCategoryId" id="" class="flm ddd"/><label>景区</label>
-               	    	   					<input type="radio" value="7" #if($!examineInfo.merchantCategoryId == 7) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd"/><label class="">游乐园</label>
-               	    	   					<input type="radio" value="8" #if($!examineInfo.merchantCategoryId == 8) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd"/><label class="">门票代理商</label>
-               	    	   					<input type="radio" value="9" #if($!examineInfo.merchantCategoryId == 9) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd"/><label class="">景区集团</label>
-               	    	   					<input type="radio" value="10" #if($!examineInfo.merchantCategoryId == 10) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd"/><label class="">旅游局推广商家</label>
+               	    	   					<input type="radio" value="6" #if($!examineInfo.merchantCategoryId == 6) checked="checked" #end name="merchantCategoryId" id="" class="flm ddd ts"/><label>景区</label>
+               	    	   					<input type="radio" value="7" #if($!examineInfo.merchantCategoryId == 7) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd ts"/><label class="">游乐园</label>
+               	    	   					<input type="radio" value="8" #if($!examineInfo.merchantCategoryId == 8) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd ts"/><label class="">门票代理商</label>
+               	    	   					<input type="radio" value="9" #if($!examineInfo.merchantCategoryId == 9) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd ts"/><label class="">景区集团</label>
+               	    	   					<input type="radio" value="10" #if($!examineInfo.merchantCategoryId == 10) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd ts"/><label class="">旅游局推广商家</label>
                	    	   				</td>
                	    	   			</tr>
                	    	   			<tr>
@@ -87,7 +87,7 @@
                	    	   					<input type="radio" value="16" #if($!examineInfo.merchantCategoryId == 16) checked="checked" #end name="merchantCategoryId" id="" class="flm ddd"/><label>公司</label>
                	    	   					<input type="radio" value="17" #if($!examineInfo.merchantCategoryId == 17) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd daible"/><label class="">个体工商户</label>
                	    	   					<input type="radio" value="18" #if($!examineInfo.merchantCategoryId == 18) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd daible"/><label class="">合伙企业</label>
-               	    	   					<input type="radio" value="19" #if($!examineInfo.merchantCategoryId == 19) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd daible"/><label class="">其他组织团体</label>
+               	    	   					<input type="radio" value="19" #if($!examineInfo.merchantCategoryId == 19) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd daible" datatype="*"/><label class="">其他组织团体</label>
                	    	   				</td>
                	    	   			</tr>
        	    	   			</table>
@@ -110,7 +110,7 @@
 										</div>
 						   	       		<li><input type="checkbox" value="5" name="" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 5) checked="checked" #end #end  disabled="disabled" class=""/><label>酒店</label></li>
 						   	       		<li><input type="checkbox" value="6" name="" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 6) checked="checked" #end #end disabled="disabled" class=""/><label>门票</label></li>
-						   	       		<li><input type="checkbox" value="7" name="" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 7) checked="checked" #end #end disabled="disabled" class=""/><label>特产商品</label></li>
+						   	       		<li><input type="checkbox" value="7" name="" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 7) checked="checked" #end #end disabled="disabled" class="" datatype="*"/><label>特产商品</label></li>
 						   	       	</ol>
 					   	       	</td>
 				   	       </tr>
@@ -125,7 +125,7 @@
 						   	       	<td class="rigtxt"><label>店铺性质：</label></td>
 						   	       	<td class="rigcontent">
 						   	       		<input type="radio" value="1" #if($!examineInfo.isDirectSale == 1) checked="checked" #end name="isDirectSale" id="" class="flm dised" checked="checked"/><label>直营店</label>
-						   	       		<input type="radio" value="2" #if($!examineInfo.isDirectSale == 2) checked="checked" #end name="isDirectSale" id="" class="lm disedli"/><label>专营店</label>
+						   	       		<input type="radio" value="2" #if($!examineInfo.isDirectSale == 2) checked="checked" #end name="isDirectSale" id="" class="lm disedli" datatype="*"/><label>专营店</label>
 						   	       	</td>
 					   	       </tr>
 						   </table>

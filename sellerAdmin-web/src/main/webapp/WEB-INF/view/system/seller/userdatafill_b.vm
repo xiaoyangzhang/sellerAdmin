@@ -53,7 +53,7 @@
 			#if($qualification.required )<label class="bred">*</label>#end<label>$!{qualification.title}：</label>
 			
 			#foreach($content in $qualification.getContentList() )
-				<span class="imgbox  allownull"  id="$!{qualification.qualificationId}">
+				<span class="imgbox allownull"  id="$!{qualification.qualificationId}">
 					<div class="canclick">
 						#if($!content.length()>0)
 							<img src="$!tfs/$!content">
@@ -108,11 +108,12 @@
 			</div>
 			<div class='listli'><span class="bred">*</span><label>$!{qualificationContents.title}:</label></div>
 			
-	<div class="fl"style="width: 665px; margin-left: 335px;><label class="bred">*</label><label class="gray9">必须上传“景区门票扫描件”、“景区门票价格在物价局的备案登记证明”、“游乐特种设备（备案）登记证明和游乐设备最新的定期检测报告”3种文件中的一种</label></div>
 					
 					
 	#end
-					<div class="nextpage"><a class="nxt">上一步</a><a  class="nxt last-step allsub">下一步并保存</a></div>
+	#if($!qualificationContents.overallNote && $!qualificationContents.overallNote.length() >0 )
+	<div class="fl"style="width: 665px; margin-left: 335px;><label class="bred">*</label><label class="gray9">必须上传“景区门票扫描件”、“景区门票价格在物价局的备案登记证明”、“游乐特种设备（备案）登记证明和游乐设备最新的定期检测报告”3种文件中的一种</label></div>
+	#end			<div class="nextpage"><a class="nxt">上一步</a><a  class="nxt last-step allsub">下一步并保存</a></div>
 				</div>
 			</form>
 		</div>
