@@ -232,7 +232,7 @@ public class HotelManageRepo {
 		if(!roomResult.isSuccess()||roomResult.getModule()==null){
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "queryAllRoom,查询酒店房型信息错误");
 		}
-		log.info("queryHotelMessageVOyData.queryAllRoom 回参: roomList="+CommonJsonUtil.objectToJson(roomResult.getModule(),List.class));
+		log.info("queryHotelMessageVOyData.queryAllRoom 回参: roomList="+CommonJsonUtil.objectToJson(roomResult.getModule(),RoomDO.class));
 		//domain.setListRoomDO(roomResult.getModule());
 		domain.setRoomDO(roomResult.getModule());
 		/**获取酒店/商品/sku/房型**/
