@@ -16,6 +16,7 @@ import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.PayMode;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
+import com.yimayhd.sellerAdmin.enums.BizPayMode;
 import com.yimayhd.sellerAdmin.model.*;
 import com.yimayhd.sellerAdmin.model.item.*;
 import com.yimayhd.sellerAdmin.model.query.ItemListQuery;
@@ -110,9 +111,9 @@ public class ItemConverter {
 		itemListItemVO.setOperates(ItemUtil.getItemOperates(itemDO.getItemType(), itemDO.getStatus()));
 		itemListItemVO.setPublishDate(itemDO.getGmtCreated());
 		itemListItemVO.setCategoryId(itemDO.getCategoryId());
-		PayMode payMode = PayMode.getByType(itemDO.getPayMode());
-		if(payMode!=null) {
-			itemListItemVO.setPayMode(payMode.getDesc());//获取 在线付/到店付
+		BizPayMode bizPayMode = BizPayMode.getByType(itemDO.getPayMode());
+		if(bizPayMode!=null) {
+			itemListItemVO.setPayMode(bizPayMode.getDesc());//获取 在线付/到店付
 		}
 		//酒店信息
 		HotelDO hotelDO= itemInfo.getHotelDO();
