@@ -208,7 +208,7 @@ public class HotelManageController extends BaseController {
 									               @RequestParam(required = true) String operationFlag) throws Exception {
 		HotelMessageVO hotelMessageVO = new HotelMessageVO();
 		String systemLog = ItemCodeEnum.SYS_START_LOG.getDesc();
-		long userId = sessionManager.getUserId() ;
+		long currentUserId = sessionManager.getUserId() ;
 		hotelMessageVO.setSellerId(userId);
 		hotelMessageVO.setCategoryId(categoryId);
 		hotelMessageVO.setItemId(itemId);
@@ -235,7 +235,9 @@ public class HotelManageController extends BaseController {
 		}
 		hotelMessageVO = webResult.getValue();
 		logger.info("editHotelMessageView: 回参:webResult="+webResult.isSuccess()+",\n hotelMessageVO="+CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
-
+		if(currentUserId>0&&currentUserId!=hotelMessageVO.getSellerId()){
+			return "/system/error/lackPermission";
+		}
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(webResult.getValue());
 		model.addAttribute("hotelMessageVO", hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表

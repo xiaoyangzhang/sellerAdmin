@@ -199,8 +199,8 @@ public class ScenicManageEnhanceController extends BaseController {
                                                     @RequestParam(required = true) String operationFlag) throws Exception{
         String systemLog = ItemCodeEnum.SYS_START_LOG.getDesc();
         ScenicManageVO scenicManageVO = new ScenicManageVO();
-        long userId = sessionManager.getUserId() ;
-        scenicManageVO.setSellerId(userId);
+        long currentUserId = sessionManager.getUserId() ;
+        scenicManageVO.setSellerId(currentUserId);
         scenicManageVO.setCategoryId(categoryId);
         scenicManageVO.setItemId(itemId);
 
@@ -213,11 +213,8 @@ public class ScenicManageEnhanceController extends BaseController {
             systemLog="编辑商品ID错误";
              new BaseException("编辑商品ID错误");
         }
-        /*if(scenicManageVO.getCategoryId()==0){
-            // "商品类目ID错误";
-            log.warn("商品类目ID错误");
-            throw new BaseException("商品类目ID错误");
-        }*/
+
+
         logger.info("editScenicManageView: 入参:scenicManageVO="+CommonJsonUtil.objectToJson(scenicManageVO,ScenicManageVO.class));
         WebResult<ScenicManageVO> webResult = scenicManageService.queryScenicManageVOByData(scenicManageVO);
         if(!webResult.isSuccess()){
@@ -225,8 +222,12 @@ public class ScenicManageEnhanceController extends BaseController {
             systemLog="查询详情错误";
             //throw new BaseException("查询详情错误");
         }
+
         List<MultiChoice> multiList= queryTicketListByData(scenicManageVO.getScenicId(),scenicManageVO.getTicketId());
         scenicManageVO = webResult.getValue();
+        if(currentUserId>0&&currentUserId!=scenicManageVO.getSellerId()){
+            return "/system/error/lackPermission";
+        }
         logger.info("editScenicManageView: 回参:webResult="+webResult.isSuccess()+",\n scenicManageVO="+CommonJsonUtil.objectToJson(scenicManageVO,ScenicManageVO.class));
         model.addAttribute("bizCategoryInfoList",scenicManageVO.getBizCategoryInfoList());// 最晚到店时间列表
         model.addAttribute("scenicManageVO", scenicManageVO);
