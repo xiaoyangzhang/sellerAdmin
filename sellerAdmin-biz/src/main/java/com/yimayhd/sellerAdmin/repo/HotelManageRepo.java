@@ -194,6 +194,7 @@ public class HotelManageRepo {
 		ItemOptionDTO itemOptionDTO  = new ItemOptionDTO();
 		itemOptionDTO.setNeedSku(true);
 		itemOptionDTO.setNeedCategory(true);
+		itemOptionDTO.setUserId(model.getSellerId());
 		long itemId = model.getItemId();
 		log.info("queryHotelMessageVOyData.getItem 入参: itemId="+itemId+",itemOptionDTO="+CommonJsonUtil.objectToJson(itemOptionDTO,ItemOptionDTO.class));
 		ItemResult itemResult= itemQueryServiceRef.getItem(itemId, itemOptionDTO);

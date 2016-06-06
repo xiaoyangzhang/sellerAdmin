@@ -86,9 +86,11 @@ public class ScenicManageRepo {
 		WebResult<ScenicManageVO> result = domain.getWebResult();
 		/**类目销售属性**/
 		/**景区商品**/
+		ScenicManageVO model = domain.getScenicManageVO();
 		ItemOptionDTO itemOptionDTO  = new ItemOptionDTO();
 		itemOptionDTO.setNeedSku(true);
 		itemOptionDTO.setNeedCategory(true);
+		itemOptionDTO.setUserId(model.getSellerId());
 		ScenicManageVO scenicManageVO = domain.getScenicManageVO();
 		long itemId=scenicManageVO.getItemId();
 		log.info("queryScenicManageVOByData.getItem 入参: itemId="+itemId+",itemOptionDTO="+CommonJsonUtil.objectToJson(itemOptionDTO,ItemOptionDTO.class));
