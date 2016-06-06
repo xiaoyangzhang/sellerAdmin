@@ -1,7 +1,6 @@
 #set($layout = "/layout/layout-apply.vm")
 <head>
 #parse("layout/layout-meta.vm")
-#parse("layout/layout-hidden.vm")
 <title>填写商家信息</title>
 <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/merchantinfor.css">
 </head>
@@ -141,7 +140,7 @@
        	    	   			</tr>
        	    	   			<tr>
 								<td class="rigtxt"><span class="">*</span><label>负责人证件类型：</label></td>
-								<td class="rigcontent" colspan="3"><input type="hidden" id="card_" value="2"><select name="principleCard" id="card" class="selectlist">
+								<td class="rigcontent" colspan="3"><select name="principleCard" id="card" class="selectlist">
 								  <option value="">--请选择--</option>
 								  <option #if ($examineInfo.principleCard == 0) selected="selected" #end value="0">身份证</option>
 								  <option #if ($examineInfo.principleCard == 1) selected="selected" #end value="1">驾驶证</option>
@@ -151,7 +150,7 @@
 							</tr>
 							<tr>
 								  <td class="rigtxt"><span>*</span><label>负责人证件号：</label></td>
-								  <td class="rigcontent"><input class="txt01" value="$!examineInfo.principleCardId" name="principleCardId" datatype="psport" maxlength="18"  placeholder="证件号码"></td>
+								  <td class="rigcontent"><input class="txt01" id="cardtxt" value="$!examineInfo.principleCardId" name="principleCardId" datatype="psport" maxlength="18"  placeholder="证件号码"></td>
 					        </tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>负责人手机号：</label></td>

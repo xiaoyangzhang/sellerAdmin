@@ -1,7 +1,6 @@
 #set($layout = "/layout/layout-apply.vm")
 <head>
 #parse("layout/layout-meta.vm")
-#parse("layout/layout-hidden.vm")
 <title>上传资质文件</title>
 <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/filldata.css">
 </head>
@@ -113,8 +112,8 @@
 					
 	#end
 	#if($!qualificationContents.overallNote && $!qualificationContents.overallNote.length() >0 )
-	<div class="fl"style="width: 665px; margin-left: 335px;><label class="bred">*</label><label class="gray9">必须上传“景区门票扫描件”、“景区门票价格在物价局的备案登记证明”、“游乐特种设备（备案）登记证明和游乐设备最新的定期检测报告”3种文件中的一种</label></div>
-	#end			<div class="nextpage"><a class="nxt">上一步</a><a  class="nxt last-step allsub">下一步并保存</a></div>
+	<div class="fl zhuyi"style="width: 665px; margin-left: 335px;><label class="bred">*</label><label class="gray9">必须上传“景区门票扫描件”、“景区门票价格在物价局的备案登记证明”、“游乐特种设备（备案）登记证明和游乐设备最新的定期检测报告”3种文件中的一种</label></div>
+	#end			<div class="nextpage pagesave"><a class="nxt ">上一步</a><a  class="nxt last-step allsub">下一步并保存</a></div>
 				</div>
 			</form>
 		</div>

@@ -2,7 +2,6 @@
 
 <head>
 	#parse("layout/layout-meta.vm")
-	#parse("layout/layout-hidden.vm")
 	<title>基本信息</title>
 	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/merchant.css">
 </head>
