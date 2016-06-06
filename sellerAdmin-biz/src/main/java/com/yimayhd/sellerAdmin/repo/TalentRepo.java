@@ -98,7 +98,6 @@ public class TalentRepo {
 	/**
 	 * 新增达人基本信息
 	 * @param vo
-	 * @param url
 	 * @return
 	 * @throws Exception
 	 */
@@ -121,7 +120,7 @@ public class TalentRepo {
 	/**
 	 * 新增达人申请入驻资料信息
 	 * @param vo
-	 * @param url
+	 * @param vo
 	 * @return
 	 * @throws Exception
 	 */
