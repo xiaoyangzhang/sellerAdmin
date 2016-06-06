@@ -2,10 +2,12 @@ package com.yimayhd.sellerAdmin.biz;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
+import com.yimayhd.sellerAdmin.model.line.City;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
 import com.yimayhd.sellerAdmin.repo.CityRepo;
 import com.yimayhd.sellerAdmin.repo.CommentRepo;
 import com.yimayhd.user.client.dto.*;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +43,7 @@ public class TagBiz {
 		for (ComTagDO comTagDO : tags) {
 			if (citiesByCodes.containsKey(comTagDO.getName())) {
 				CityDTO cityDTO = citiesByCodes.get(comTagDO.getName());
-				departs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
+				departs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), new City(cityDTO.getCode(), cityDTO.getName(), cityDTO.getFirstLetter())));
 			}
 		}
 		return departs;

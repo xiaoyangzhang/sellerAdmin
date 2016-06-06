@@ -49,6 +49,7 @@ public class LineChecker {
 		supportTrafficTypes.add(RouteItemType.TRAIN.name());
 		supportTrafficTypes.add(RouteItemType.BUS.name());
 		supportTrafficTypes.add(RouteItemType.BOAT.name());
+		supportTrafficTypes.add(RouteItemType.OTHERS.name());
 	}
 
 	public static WebCheckResult checkLine(LineVO line) {
@@ -344,7 +345,7 @@ public class LineChecker {
 				}
 			}
 		} else {
-			if (itemType == ItemType.TOUR_LINE.getValue()) {
+			if (itemType == ItemType.TOUR_LINE.getValue()||itemType == ItemType.TOUR_LINE_ABOARD.getValue()) {
 				return WebCheckResult.error("行程信息不能为空");
 			}
 		}
@@ -362,8 +363,8 @@ public class LineChecker {
 		}
 		if (StringUtils.isBlank(tripDay.getDescription())) {
 			return WebCheckResult.error("行程描述不能为空");
-		} else if (tripDay.getDescription().length() > 500) {
-			return WebCheckResult.error("行程描述不能超过500个字");
+		} else if (tripDay.getDescription().length() > 1000) {
+			return WebCheckResult.error("行程描述不能超过1000个字");
 		}
 		if (CollectionUtils.isNotEmpty(tripDay.getPicUrls()) && tripDay.getPicUrls().size() > 5) {
 			return WebCheckResult.error("行程图片不能超过5张");

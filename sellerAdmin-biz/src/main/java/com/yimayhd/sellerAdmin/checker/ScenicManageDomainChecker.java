@@ -154,6 +154,7 @@ public class ScenicManageDomainChecker {
      */
     public ScenicManageVO getBizScenicManageVO(){
         scenicManageVO.setScenicId(itemDO.getOutId());
+        scenicManageVO.setSellerId(itemDO.getSellerId());
         scenicManageVO.setLocationText(scenicDO.getLocationText());
         scenicManageVO.setTicketId(itemDO.getItemFeature().getTicketId());//门票ID
         scenicManageVO.setTicketTitle(itemDO.getItemFeature().getTicketTitle());//门票名称
@@ -224,23 +225,14 @@ public class ScenicManageDomainChecker {
         ItemPubUpdateDTO itemDO = new ItemPubUpdateDTO();
         /***基本信息**/
         itemDO.setId(scenicManageVO.getItemId());
-        //itemDO.setCategoryId(scenicManageVO.getCategoryId());
         itemDO.setOutId(scenicManageVO.getScenicId());//酒店ID
-        //itemDO.setSellerId(scenicManageVO.getSellerId());//商家ID
         itemDO.setTitle(scenicManageVO.getTitle());
-        //itemDO.setPrice(scenicManageVO.getPrice().multiply(new BigDecimal(100)).longValue());//价格
         itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice().multiply(new BigDecimal(100)).longValue());//门市价
 
-        //itemDO.setOutType();
-        //ItemFeature itemFeature = new ItemFeature(null);
         /**票型资源信息**/
-       // itemFeature.put(ItemFeatureKey.TICKET_ID,scenicManageVO.getTicketId());
         itemDO.setTicketId(scenicManageVO.getTicketId());
-        //itemFeature.put(ItemFeatureKey.TICKET_TITLE,scenicManageVO.getTicketTitle());
         itemDO.setTicketTitle(scenicManageVO.getTicketTitle());
-        //itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,scenicManageVO.getStartBookTimeLimit().intValue()*dayTime);//提前预定天数
         itemDO.setStartBookTimeLimit(scenicManageVO.getStartBookTimeLimit().intValue()*dayTime);
-        //itemDO.setItemFeature(itemFeature);
         scenicManageVO.getDynamicEntry();//动态json列表
         List<ItemSkuPVPair> skuPVPairList =  getItemSkuPVPairList(scenicManageVO.getDynamicEntry());
         itemDO.setItemPropertyList(skuPVPairList);// 动态属性列表

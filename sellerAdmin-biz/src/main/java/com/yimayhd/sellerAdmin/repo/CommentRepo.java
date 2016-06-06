@@ -120,6 +120,28 @@ public class CommentRepo {
 		BaseResult<Boolean> addTagRelationInfo = comCenterServiceRef.addTagRelationInfo(tagRelationInfoDTO);
 		RepoUtils.resultLog(log, "comCenterServiceRef.addTagRelationInfo", addTagRelationInfo);
 	}
+	/**
+	 * 保存线路目的地关联关系（目的地单独只使用）
+	 * 
+	 * @param outId
+	 * @param outType
+	 * @param tagIds
+	 */
+	public void addLineTagRelationInfo(long outId, TagType outType, List<Long> tagIds) {
+		if (outId <= 0 || outType == null || CollectionUtils.isEmpty(tagIds)) {
+			log.warn("save tag relation params error");
+			throw new BaseException("参数异常");
+		}
+		TagRelationInfoDTO tagRelationInfoDTO = new TagRelationInfoDTO();
+		tagRelationInfoDTO.setOutType(outType.getType());
+		tagRelationInfoDTO.setOutId(outId);
+		tagRelationInfoDTO.setOrderTime(new Date());
+		tagRelationInfoDTO.setList(tagIds);
+		tagRelationInfoDTO.setDomain(Constant.DOMAIN_JIUXIU);
+		RepoUtils.requestLog(log, "comCenterServiceRef.addTagRelationInfo", tagRelationInfoDTO);
+		BaseResult<Boolean> addTagRelationInfo = comCenterServiceRef.addLineTagRelationInfo(tagRelationInfoDTO);
+		RepoUtils.resultLog(log, "comCenterServiceRef.addTagRelationInfo", addTagRelationInfo);
+	}
 
 	/**
 	 * 查询标签
