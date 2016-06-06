@@ -6,6 +6,7 @@
 	<bean id="gFTagRepo" class="com.yimayhd.gf.repo.GFTagRepo" />
 	<bean id="hotelRepo" class="com.yimayhd.sellerAdmin.repo.HotelRepo"></bean>
 	<bean class="com.yimayhd.sellerAdmin.repo.CommentRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.DestinationRepo"></bean>
 	<bean class="com.yimayhd.sellerAdmin.repo.CategoryRepo"></bean>
 	<bean class="com.yimayhd.sellerAdmin.repo.LineRepo"></bean>
 	<bean class="com.yimayhd.sellerAdmin.repo.RestaurantRepo"></bean>

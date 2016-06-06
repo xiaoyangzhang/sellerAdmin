@@ -7,6 +7,7 @@ import java.util.List;
 import com.yimayhd.ic.client.model.domain.item.IcDestination;
 import com.yimayhd.ic.client.model.domain.item.IcSubject;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.DestinationNodeVO;
 
 /**
  * 基本信息
@@ -28,6 +29,7 @@ public class BaseInfoVO implements Serializable {
 	private boolean allDeparts;
 	private List<CityVO> departs; // 出发地
 	private List<CityVO> dests; // 目的地
+	private List<DestinationNodeVO> destinations; // 目的地
 	private List<String> picUrls; // App详情轮播图
 	private int itemStatus; // 商品状态
 	private List<IcSubject> themesIcs;//主题标签id，name转化成IcSubject类型
@@ -181,6 +183,14 @@ public class BaseInfoVO implements Serializable {
 
 	public void setDestsIcs(List<IcDestination> destsIcs) {
 		this.destsIcs = destsIcs;
+	}
+
+	public List<DestinationNodeVO> getDestinations() {
+		return destinations;
+	}
+
+	public void setDestinations(List<DestinationNodeVO> destinations) {
+		this.destinations = destinations;
 	}
 
 

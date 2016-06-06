@@ -265,20 +265,4 @@ public class CommentRepo {
 		return tagByName.getValue();
 	}
 
-	public List<DestinationNode> queryInlandDestinationTree() {
-		int code = DestinationOutType.LINE.getCode();
-		int domainJiuxiu = Constant.DOMAIN_JIUXIU;
-		RepoUtils.requestLog(log, "destinationServiceRef.queryInlandDestinationTree", code,domainJiuxiu);
-		RcResult<List<DestinationNode>> baseResult = destinationServiceRef.queryInlandDestinationTree(code,domainJiuxiu);
-		RepoUtils.resultLog(log, "destinationServiceRef.queryInlandDestinationTree", baseResult);
-		return baseResult.getT();
-	}
-	public List<DestinationNode> queryOverseaDestinationTree() {
-		int code = DestinationOutType.LINE.getCode();
-		int domainJiuxiu = Constant.DOMAIN_JIUXIU;
-		RepoUtils.requestLog(log, "destinationServiceRef.queryOverseaDestinationTree", code,domainJiuxiu);
-		RcResult<List<DestinationNode>> baseResult = destinationServiceRef.queryOverseaDestinationTree(code,domainJiuxiu);
-		RepoUtils.resultLog(log, "destinationServiceRef.queryOverseaDestinationTree", baseResult);
-		return baseResult.getT();
-	}
 }

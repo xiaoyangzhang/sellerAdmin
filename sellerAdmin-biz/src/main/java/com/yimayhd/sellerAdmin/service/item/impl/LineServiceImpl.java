@@ -49,6 +49,7 @@ import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
 import com.yimayhd.sellerAdmin.repo.CategoryRepo;
 import com.yimayhd.sellerAdmin.repo.CityRepo;
 import com.yimayhd.sellerAdmin.repo.CommentRepo;
+import com.yimayhd.sellerAdmin.repo.DestinationRepo;
 import com.yimayhd.sellerAdmin.repo.LineRepo;
 import com.yimayhd.sellerAdmin.repo.PictureTextRepo;
 import com.yimayhd.sellerAdmin.service.item.LineService;
@@ -68,6 +69,8 @@ public class LineServiceImpl implements LineService {
 	private PictureTextRepo pictureTextRepo;
 	@Autowired
 	private ComCenterService comCenterServiceRef;
+	@Autowired
+	private DestinationRepo destinationRepo;
 
 	@Override
 	public WebResult<LineVO> getByItemId(long sellerId, long itemId) {
@@ -168,7 +171,6 @@ public class LineServiceImpl implements LineService {
 		return departs;
 	}
 
-
 	@Override
 	public WebResult<List<CityVO>> getAllLineDests() {
 		try {
@@ -183,7 +185,7 @@ public class LineServiceImpl implements LineService {
 	@Override
 	public WebResult<List<DestinationNodeVO>> queryInlandDestinationTree() {
 		try {
-			List<DestinationNode> destinationNodes = commentRepo.queryInlandDestinationTree();
+			List<DestinationNode> destinationNodes = destinationRepo.queryInlandDestinationTree();
 			return WebResult.success(LineConverter.toDestinationNodeVO(destinationNodes));
 		} catch (Exception e) {
 			log.error("LineService.getAllLineDeparts error", e);
@@ -194,7 +196,7 @@ public class LineServiceImpl implements LineService {
 	@Override
 	public WebResult<List<DestinationNodeVO>> queryOverseaDestinationTree() {
 		try {
-			List<DestinationNode> destinationNodes = commentRepo.queryOverseaDestinationTree();
+			List<DestinationNode> destinationNodes = destinationRepo.queryOverseaDestinationTree();
 			List<DestinationNodeVO> cityVO = LineConverter.toDestinationNodeVO(destinationNodes);
 			return WebResult.success(cityVO);
 		} catch (Exception e) {
@@ -334,16 +336,14 @@ public class LineServiceImpl implements LineService {
 					commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
 				}
 				List<CityVO> dests = baseInfo.getDests();
-				List<Long> destCodes = new ArrayList<Long>();
-				
-				//2016-06-03修改目的地数据改存code
-				for (CityVO cityVO : dests) {
-					destCodes.add(Long.parseLong(cityVO.getCode()));
-				}
+				List<Long> destIds = new ArrayList<Long>();
 //				for (TagDTO tagDTO : dests) {
 //					destIds.add(tagDTO.getId());
 //				}
-				commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destCodes);
+				for (CityVO cityVOs : dests) {
+					destIds.add(Long.parseLong(cityVOs.getCode()));
+				}
+				commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
 				ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemId, PictureText.ITEM,
 						line.getPictureText());
 				pictureTextRepo.editPictureText(comentEditDTO);
