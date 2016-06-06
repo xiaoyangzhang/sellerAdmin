@@ -20,16 +20,13 @@ import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
 import com.yimayhd.sellerAdmin.service.OrderService;
 import com.yimayhd.sellerAdmin.util.DateUtil;
-
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
-
 import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderExtFeatureKey;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
-
 import com.yimayhd.tradecenter.client.model.enums.CloseOrderReason;
-import com.yimayhd.tradecenter.client.model.enums.FinishOrderSourceType;
+import com.yimayhd.tradecenter.client.model.enums.FinishOrderSource;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 import com.yimayhd.tradecenter.client.model.enums.TcPayChannel;
 import com.yimayhd.tradecenter.client.model.param.order.*;
@@ -45,8 +42,8 @@ import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
-
 import com.yimayhd.user.session.manager.SessionManager;
+
 
 
 import org.apache.commons.lang3.StringUtils;
@@ -56,7 +53,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -357,7 +353,7 @@ public class OrderServiceImpl implements OrderService {
 			sellerConfirmCheckInDTO.setBizOrderId(id);
 			sellerConfirmCheckInDTO.setSellerId(sellerId);
 			//卖家确认完成
-			sellerConfirmCheckInDTO.setSource(FinishOrderSourceType.SELLER.getBizType());
+			sellerConfirmCheckInDTO.setSource(FinishOrderSource.SELLER.getBizType());
 			
 			SellerConfirmCheckInResult result = tcTradeServiceRef.sellerConfirmCheckIn(sellerConfirmCheckInDTO);
 			return result.isSuccess();
@@ -374,7 +370,7 @@ public class OrderServiceImpl implements OrderService {
 			sellerConfirmCheckInDTO.setBizOrderId(id);
 			sellerConfirmCheckInDTO.setSellerId(sellerId);
 			//卖家确认完成
-			sellerConfirmCheckInDTO.setSource(FinishOrderSourceType.SELLER.getBizType());
+			sellerConfirmCheckInDTO.setSource(FinishOrderSource.SELLER.getBizType());
 			
 			SellerConfirmCheckInResult result = tcTradeServiceRef.sellerConfirmNotCheckIn(sellerConfirmCheckInDTO);
 			return result.isSuccess();

@@ -30,8 +30,8 @@ import com.yimayhd.sellerAdmin.model.trade.JXComRateResult;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
 import com.yimayhd.sellerAdmin.service.OrderService;
-
 import com.yimayhd.tradecenter.client.model.enums.BizOrderExtFeatureKey;
+import com.yimayhd.tradecenter.client.model.enums.FinishOrderSource;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 import com.yimayhd.tradecenter.client.model.param.order.UpdateBizOrderExtFeatureDTO;
 import com.yimayhd.tradecenter.client.model.result.ResultSupport;
@@ -122,6 +122,7 @@ public class OrderController extends BaseController {
 			long sellerId = orderDetails.getSellerId();
 			if (sellerId>0 && currentUserId == sellerId){
 				model.addAttribute("order", orderDetails);
+				model.addAttribute("finishOrderSource", FinishOrderSource.values());
 				return "/system/order/routeOrderInfo";
 			}else{
 				return "/system/error/lackPermission";
