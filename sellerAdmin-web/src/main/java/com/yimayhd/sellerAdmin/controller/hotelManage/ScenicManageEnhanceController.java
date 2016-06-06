@@ -225,6 +225,7 @@ public class ScenicManageEnhanceController extends BaseController {
             systemLog="查询详情错误";
             //throw new BaseException("查询详情错误");
         }
+        List<MultiChoice> multiList= queryTicketListByData(scenicManageVO.getScenicId(),scenicManageVO.getTicketId());
         scenicManageVO = webResult.getValue();
         logger.info("editScenicManageView: 回参:webResult="+webResult.isSuccess()+",\n scenicManageVO="+CommonJsonUtil.objectToJson(scenicManageVO,ScenicManageVO.class));
         model.addAttribute("bizCategoryInfoList",scenicManageVO.getBizCategoryInfoList());// 最晚到店时间列表
@@ -233,6 +234,7 @@ public class ScenicManageEnhanceController extends BaseController {
         model.addAttribute("systemLog", systemLog);
         model.addAttribute("categoryId",categoryId);//
         model.addAttribute("itemId", itemId);
+        model.addAttribute("multiList",multiList);
         model.addAttribute("UUID",UUID.randomUUID().toString());
         /**动态属性列表***/
         if(operationFlag.equals(UPDATE)){
@@ -293,29 +295,47 @@ public class ScenicManageEnhanceController extends BaseController {
     public  WebResult<String> queryTicketListByScenicId (Model model,long scenicId){
        WebResult<String> result = new WebResult<String>();
 
-       TicketQuery ticketQuery = new TicketQuery();
-       ticketQuery.setScenicId(scenicId);
-       ticketQuery.setStatus(BaseStatus.AVAILABLE.getType());
-       TicketResult ticketResult =scenicPublishService.getTicketListByScenicId(ticketQuery);
-       if(!ticketResult.isSuccess()){
-           result.initFailure(WebReturnCode.PARAM_ERROR,"门票类型");
-           return result;
-       }
-       List<TicketDO> ticketDOList = ticketResult.getTicketDOList();
-       if(CollectionUtils.isEmpty(ticketDOList)){
-           result.initFailure(WebReturnCode.PARAM_ERROR,"没有门票类型");
-       }
-       List<MultiChoice> multiList = new ArrayList<MultiChoice>();
-       for(TicketDO ticketDO:ticketDOList){
-           MultiChoice multi = new MultiChoice();
-           multi.setId(ticketDO.getId());
-           multi.setTitle(ticketDO.getTitle());
-           multi.setChoiceNo(false);
-           multiList.add(multi);
-       }
+       List<MultiChoice> multiList= queryTicketListByData(scenicId,0);
+
        result.setValue(CommonJsonUtil.objectToJson(multiList,List.class));
        return result;
     }
+
+    /**
+     * 查询票型列表
+     * @param scenicId
+     * @param ticketId
+     * @return
+     */
+    public List<MultiChoice> queryTicketListByData(long scenicId,long ticketId){
+        TicketQuery ticketQuery = new TicketQuery();
+        ticketQuery.setScenicId(scenicId);
+        ticketQuery.setStatus(BaseStatus.AVAILABLE.getType());
+        TicketResult ticketResult =scenicPublishService.getTicketListByScenicId(ticketQuery);
+        if(!ticketResult.isSuccess()){
+            log.error("没有门票类型");
+            return null;
+        }
+        List<TicketDO> ticketDOList = ticketResult.getTicketDOList();
+        if(CollectionUtils.isEmpty(ticketDOList)){
+            log.error("没有门票类型");
+            return null;
+        }
+        List<MultiChoice> multiList = new ArrayList<MultiChoice>();
+        for(TicketDO ticketDO:ticketDOList){
+            MultiChoice multi = new MultiChoice();
+            multi.setChoiceNo(false);
+            multi.setId(ticketDO.getId());
+            multi.setTitle(ticketDO.getTitle());
+            if (ticketDO.getId()==ticketId){
+                multi.setChoiceNo(true);
+            }
+            multiList.add(multi);
+        }
+
+        return multiList;
+    }
+
     /**
      * 景区商品验证
      * @param scenicManageVO
