@@ -209,7 +209,7 @@ public class HotelManageController extends BaseController {
 		HotelMessageVO hotelMessageVO = new HotelMessageVO();
 		String systemLog = ItemCodeEnum.SYS_START_LOG.getDesc();
 		long currentUserId = sessionManager.getUserId() ;
-		hotelMessageVO.setSellerId(userId);
+		hotelMessageVO.setSellerId(currentUserId);
 		hotelMessageVO.setCategoryId(categoryId);
 		hotelMessageVO.setItemId(itemId);
 		if(hotelMessageVO==null){
