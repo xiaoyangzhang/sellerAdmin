@@ -260,10 +260,10 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/talent/agreement",method=RequestMethod.GET)
 	public String toAgreementPage(Model model) {
-		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-		if(null != judgeRest){
-			return judgeRest;
-		}
+//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
+//		if(null != judgeRest){
+//			return judgeRest;
+//		}
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
 		return "system/talent/agreement";
 		
@@ -597,39 +597,6 @@ public class ApplyController extends BaseController {
 			}
 		}
 		model.addAttribute("bankList", talentBiz.getBankList());
-//		MemResult<List<MerchantCategoryDO>> categoryResult = merchantApplyBiz.getAllMerchantCategory();
-//		if (categoryResult != null && categoryResult.isSuccess()) {
-//			List<MerchantCategoryDO> categories = categoryResult.getValue();
-//			Map<String, Map<Integer, String>> categoryMap = new HashMap<String, Map<Integer, String>>();
-//			Map<Integer, String> categoryMap2 = new HashMap<Integer, String>();
-//			List<Map<String, List<MerchantCategoryDO>>> mcList = new ArrayList<>();
-//			ExamineType[] merchantTypes = ExamineType.values();
-//			for (ExamineType et : merchantTypes) {
-//				if (et.getType() != ExamineType.TALENT.getType() || (et.getType() != ExamineType.MERCHANT.getType())) {
-//					
-//					Map<String, List<MerchantCategoryDO>> map = new HashMap<>();
-//					List<MerchantCategoryDO> doList = new ArrayList<>();
-//					for (MerchantCategoryDO mc : categories) {
-//						if (et.getType() == mc.getType()) {
-//							
-//							doList.add(mc);
-//							
-//						}
-//					}
-//					map.put(et.getName(), doList);
-//					mcList.add(map);
-//				}
-//			}
-//			model.addAttribute("merchantCategories", mcList);
-//			
-//		}
-//		MemResult<List<BusinessScopeDO>> scopes = merchantApplyBiz.getAllBusinessScopes();
-//		if (scopes != null && scopes.isSuccess()) {
-//			model.addAttribute("businessScopes", scopes.getValue());
-//			
-//		}
-//		//model.addAttribute("businessScopes", merchantApplyBiz.getAllBusinessScopes());
-//		model.addAttribute("merchantTypes", ExamineType.values());
 		return "/system/seller/userdatafill_a";
 	}
 	
@@ -666,82 +633,13 @@ public class ApplyController extends BaseController {
 					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes()));
 				}
 			}
-//			if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.BROAD_BRANCH_AGENCY.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.BROAD_HEAD_AGENCY.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOME_BRANCH_AGENCY.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOME_HEAD_AGENCY.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOTEL_GROUP.getSubType() || 
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOTEL_AGENT.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.MONOMER_HOTEL.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.TOURISM_PROMOTION.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.INDIVIDUAL_BUSINESS.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.PARTNERSHIP_BUSINESS.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.OTHER_ORG.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.COMPANY.getSubType()) {
-//				return "/system/seller/travel-agency";
-//			}else if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.SCENIC_SPOT.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.SCENIC_SPOT_GROUP.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.AMUSEMENT_PARK.getSubType()) {
-//				return "/system/seller/qualification";
-//			}else if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.TOUR_BUSINESS_SERVICE.getSubType() ||
-//				examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.TICKET_AGENT.getSubType() ) {
-//			return "/system/seller/travel-business-service";
-//		}
+
 		}
 		
 		return "/system/seller/userdatafill_b";
 	}
 	
-//	@RequestMapping(value="/seller/pageDetailB",method=RequestMethod.GET)
-//	//@ResponseBody
-//	public String getPageDetailB(Model model) {
-//		
-//		//MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
-//		WebResult<List<QualificationVO>> qualificationResult = merchantApplyBiz.getQualification();
-//		if(qualificationResult.isSuccess() && qualificationResult.getValue() != null) {
-//			List<QualificationVO> qualificationList = qualificationResult.getValue();
-//			model.addAttribute("qualifications", qualificationList);
-//		}
-//		
-//		InfoQueryDTO info = new InfoQueryDTO();
-//		info.setType(MerchantType.MERCHANT.getType());
-//		info.setDomainId(Constant.DOMAIN_JIUXIU);
-//		info.setSellerId(sessionManager.getUserId());
-//		WebResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
-//		if(result.isSuccess()) {
-//			ExamineInfoVO examineInfoVO = result.getValue();
-//			model.addAttribute("examineInfo", examineInfoVO);
-//			
-//			if(null!=result.getValue() && (result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW || result.getValue().getExaminStatus() == Constant.MERCHANT_TYPE_HALF)){//审核不通过时
-//				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
-//				if(rest.isSuccess() && (null!=rest.getValue())){
-//					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes()));
-//				}
-//			}
-//			if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.BROAD_BRANCH_AGENCY.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.BROAD_HEAD_AGENCY.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOME_BRANCH_AGENCY.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOME_HEAD_AGENCY.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOTEL_GROUP.getSubType() || 
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOTEL_AGENT.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.MONOMER_HOTEL.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.TOURISM_PROMOTION.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.INDIVIDUAL_BUSINESS.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.PARTNERSHIP_BUSINESS.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.OTHER_ORG.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.COMPANY.getSubType()) {
-//				return "/system/seller/travel-agency";
-//			}else if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.SCENIC_SPOT.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.SCENIC_SPOT_GROUP.getSubType() ||
-//					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.AMUSEMENT_PARK.getSubType()) {
-//			}else if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.TOUR_BUSINESS_SERVICE.getSubType() ||
-//				examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.TICKET_AGENT.getSubType() ) {
-//			return "/system/seller/travel-business-service";
-//		}
-//		
-//	return "/system/seller/qualification";
-//		//return "";
-//	}
+
 	/**
 	 * 新增或修改商户入驻填写信息PAGE-1
 	 * @param userDetailInfo
@@ -795,7 +693,7 @@ public class ApplyController extends BaseController {
 			info.setSellerId(sessionManager.getUserId());
 			info.setType(ExamineType.MERCHANT.getType());
 			merchantBiz.changeExamineStatusIntoIng(info);
-			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/seller/toVerifyPage");
+			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/seller/toAggrementPage");
 		}else{
 			rest.setReturnCode(result.getReturnCode());
 		}

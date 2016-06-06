@@ -52,10 +52,10 @@
        	    	   				<tr>
                	    	   				<td class="rigtxt ts"><label>旅游企业：</label></td>
                	    	   				<td class="rigcontent listli">
-               	    	   					<input type="radio" value="1" name="" id="travel" checked="checked" class="flm ccc"/><label >旅行社</label>
+               	    	   					<input type="radio" value="1" name="" id="travel"  class="flm ccc"/><label >旅行社</label>
                	    	   					<input type="radio" value="2" #if($!examineInfo.merchantCategoryId == 2) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd"/><label class="">旅游商务服务公司</label>
                	    	   					<div class="company">
-								               <label class="bomb-con"><input type="radio" #if($!examineInfo.merchantCategoryId == 12) checked="checked" #end value="12"  name="merchantCategoryId" id="" class="" checked="checked"/><label>国内社总社</label></label>
+								               <label class="bomb-con"><input type="radio" #if($!examineInfo.merchantCategoryId == 12) checked="checked" #end value="12"  name="merchantCategoryId" id="" class="" /><label>国内社总社</label></label>
 							                   <label class="bomb-con"><input type="radio" value="13" #if($!examineInfo.merchantCategoryId == 13) checked="checked" #end name="merchantCategoryId" id="" class="daible"/><label>国内社分社</label></label>
 								               <label class="bomb-con"><input type="radio" value="14" #if($!examineInfo.merchantCategoryId == 14) checked="checked" #end name="merchantCategoryId" id="" class=""/><label>出境社总社</label></label>
 								               <label class="bomb-con"><input type="radio" value="15" #if($!examineInfo.merchantCategoryId == 15) checked="checked" #end name="merchantCategoryId" id="" class="daible"/><label>出境社分社</label></label>

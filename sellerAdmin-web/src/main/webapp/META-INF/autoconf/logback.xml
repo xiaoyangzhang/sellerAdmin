@@ -59,7 +59,7 @@
     </appender>
     <appender name="hotelManage" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${sellerAdmin.logger.dir.free}/hotelManage/hotelManage-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>${sellerAdmin.logger.dir}/hotelManage/hotelManage-%d{yyyy-MM-dd}.log</FileNamePattern>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>
@@ -69,7 +69,7 @@
     </appender>
     <appender name="scenicManage" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${sellerAdmin.logger.dir.free}/hotelManage/scenicManage-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>${sellerAdmin.logger.dir}/hotelManage/scenicManage-%d{yyyy-MM-dd}.log</FileNamePattern>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>
