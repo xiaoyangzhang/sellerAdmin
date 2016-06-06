@@ -2,6 +2,7 @@ package com.yimayhd.sellerAdmin.repo;
 
 import java.util.List;
 
+import com.yimayhd.membercenter.enums.MerchantType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
-import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -57,7 +57,7 @@ public class TalentRepo {
 		}
 		InfoQueryDTO queryDTO=new InfoQueryDTO();
 		queryDTO.setDomainId(domainId);
-		queryDTO.setType(ExamineType.TALENT.getType());
+		queryDTO.setType(MerchantType.TALENT.getType());
 		queryDTO.setSellerId(userId);
 		MemResult<ExamineInfoDTO> examineInfoResult = examineDealService.queryMerchantExamineInfoBySellerId(queryDTO);
 		if (examineInfoResult == null || !examineInfoResult.isSuccess() || (examineInfoResult.getValue() == null)) {
@@ -168,7 +168,7 @@ public class TalentRepo {
 	public ExamineResultDTO getCheckResult() {
 		InfoQueryDTO examineQueryDTO = new InfoQueryDTO();
 		examineQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-		examineQueryDTO.setType(ExamineType.TALENT.getType());
+		examineQueryDTO.setType(MerchantType.TALENT.getType());
 		examineQueryDTO.setSellerId(sessionManager.getUserId());
 		
 		try {
