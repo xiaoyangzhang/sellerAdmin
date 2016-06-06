@@ -106,15 +106,8 @@ public class ScenicManageRepo {
 		//log.info("itemQueryServiceRef.getItem 回参: categoryDO="+ JSON.toJSONString(categoryDO));
 		domain.setItemDO(itemDO);//景区商品信息
 		List<ItemSkuDO> itemSkuDOList =itemResult.getItemSkuDOList();
-		//log.info("itemQueryServiceRef.getItem 回参: itemSkuDOList="+CommonJsonUtil.objectToJson(itemSkuDOList,List.class));
 		domain.setItemSkuDOList(itemSkuDOList);// 价格日历
 		domain.setCategory(categoryDO);
-
-		/*if(CollectionUtils.isEmpty(categoryDO.getSellCategoryPropertyDOs())){
-			log.error("价格日历销售属性错误");
-			return WebResult.failure(WebReturnCode.PARAM_ERROR, "价格日历销售属性错误");
-		}
-		domain.setCategoryPropertyValueDO(categoryDO.getSellCategoryPropertyDOs().get(0));//价格日历销售属性*/
 		log.info("queryScenicManageVOByData.getScenic 入参: getOutId="+itemDO.getOutId());
 		ICResult<ScenicDO> scenicResult = itemQueryServiceRef.getScenic(itemDO.getOutId());//logoUrl
 		if(scenicResult==null||scenicResult.getModule()==null){

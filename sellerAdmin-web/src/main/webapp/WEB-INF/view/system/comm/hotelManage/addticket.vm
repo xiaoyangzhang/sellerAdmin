@@ -41,12 +41,9 @@
 	                <tr class="notNull">
 	                    <td class="coltxt" ><span class="bred">*</span>门票类型：</td>
 	                    <td class="ticketType">
-                            #if($!scenicManageVO && $scenicManageVO.ticketId > 0)
-	                        <label class="radio"><input type="radio" name="ticketId" value="$!{scenicManageVO.ticketId}" checked >$!{scenicManageVO.ticketTitle}</label>
+                            #foreach($multi in $multiList)
+                            <label class="radio"><input type="radio" name="ticketId" value="$!{multi.id}" #if($multi.choiceNo) checked #end>$!{multi.title}</label>
                             #end
-                                <!--
-                            <label class="radio"><input type="radio" name="ticketId" value="2" #if($!scenicManageVO.ticketId == 2) checked #end>联票</label>
-	                        -->
 	                     </td>
 	                </tr>
 	                <tr class="notNull">
