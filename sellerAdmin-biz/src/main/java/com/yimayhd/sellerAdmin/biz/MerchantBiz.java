@@ -1,28 +1,22 @@
 package com.yimayhd.sellerAdmin.biz;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.yimayhd.membercenter.enums.MerchantType;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
-import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
-import com.yimayhd.membercenter.enums.ExamineStatus;
-import com.yimayhd.membercenter.enums.MerchantType;
+import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
@@ -35,7 +29,6 @@ import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.MerchantDTO;
 import com.yimayhd.user.client.dto.UserDTO;
 import com.yimayhd.user.client.enums.MerchantOption;
-import com.yimayhd.user.client.enums.UserOptions;
 import com.yimayhd.user.client.query.MerchantQuery;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.session.manager.SessionManager;
@@ -306,7 +299,7 @@ public class MerchantBiz {
 		ex.setSellerId(sessionManager.getUserId());
 		ex.setSellerName(userDetailInfo.getSellerName());
 		ex.setDomainId(Constant.DOMAIN_JIUXIU);
-		ex.setType(MerchantType.MERCHANT.getType());
+		ex.setType(ExamineType.MERCHANT.getType());
 		ex.setMerchantName(userDetailInfo.getMerchantName());
 		ex.setLegralName(userDetailInfo.getLegralName());
 		ex.setAddress(userDetailInfo.getAddress());

@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
@@ -25,9 +23,8 @@ import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
-import com.yimayhd.membercenter.enums.ExaminePageNo;
 import com.yimayhd.membercenter.enums.ExamineStatus;
-import com.yimayhd.membercenter.enums.MerchantType;
+import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
@@ -118,7 +115,7 @@ public class ApplyController extends BaseController {
 		}
 		
 		InfoQueryDTO info = new InfoQueryDTO();
-		info.setType(MerchantType.MERCHANT.getType());
+		info.setType(ExamineType.MERCHANT.getType());
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
 		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
@@ -148,7 +145,7 @@ public class ApplyController extends BaseController {
 		}
 		
 		InfoQueryDTO info = new InfoQueryDTO();
-		info.setType(MerchantType.MERCHANT.getType());
+		info.setType(ExamineType.MERCHANT.getType());
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
 		
@@ -202,7 +199,7 @@ public class ApplyController extends BaseController {
 			InfoQueryDTO info = new InfoQueryDTO();
 			info.setDomainId(Constant.DOMAIN_JIUXIU);
 			info.setSellerId(sessionManager.getUserId());
-			info.setType(MerchantType.MERCHANT.getType());
+			info.setType(ExamineType.MERCHANT.getType());
 			merchantBiz.changeExamineStatusIntoIng(info);
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/merchant/toVerifyPage");
 		}else{
@@ -427,15 +424,15 @@ public class ApplyController extends BaseController {
 			int type = dto.getType();
 			int status = dto.getExaminStatus();
 			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
-				if(MerchantType.MERCHANT.getType()==type){
+				if(ExamineType.MERCHANT.getType()==type){
 					return "/system/merchant/verification";
-				}else if(MerchantType.TALENT.getType()==type){
+				}else if(ExamineType.TALENT.getType()==type){
 					return "/system/talent/verification";
 				}
 			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
-				if(MerchantType.MERCHANT.getType()==type){
+				if(ExamineType.MERCHANT.getType()==type){
 					return "redirect:/basicInfo/merchant/toAddBasicPage";
-				}else if(MerchantType.TALENT.getType()==type){
+				}else if(ExamineType.TALENT.getType()==type){
 					return "redirect:/basicInfo/talent/toAddTalentInfo";
 				}
 			}else if(ExamineStatus.EXAMIN_ERROR.getStatus() == status){//审核不通过
@@ -448,9 +445,9 @@ public class ApplyController extends BaseController {
 				if(rest.isSuccess() && (null!=rest.getValue())){
 					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
 				}
-				if(MerchantType.MERCHANT.getType()==type){
+				if(ExamineType.MERCHANT.getType()==type){
 					model.addAttribute("type", Constant.MERCHANT_NAME_CN);
-				}else if(MerchantType.TALENT.getType()==type){
+				}else if(ExamineType.TALENT.getType()==type){
 					model.addAttribute("type", Constant.TALENT_NAME_CN);
 				}
 				model.addAttribute("url", "/apply/toChoosePage?reject=true");
