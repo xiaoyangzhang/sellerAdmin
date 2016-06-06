@@ -43,20 +43,43 @@
             			code:$(this).attr("dest-code")
             		});
             	});
-            	 //境外目的地列表提交数据
-            	$('li.sel').each(function () {
-            		result.push({
-            			id:$(this).attr("dest-id"),
-            			name:$(this).attr("dest-name"),
-            			code:$(this).attr("dest-code")
-            		});
-            	});
-            	
+//          	$(".sel").each(function(){
+//          		result.push({
+//          			id:$(this).attr("dest-id"),
+//          			name:$(this).attr("dest-name"),
+//          			code:$(this).attr("dest-code")
+//          		});
+//          	});
+	            	//-------境外提交数据-----------
+	            var destDataObj = JSON.parse($('input[name="destData"]').val());
+        		var countryArr = destDataObj.destinationNodeVOs;
+        		for (var i=0;i<countryArr.length;i++) {
+        			if (countryArr[i].destinationVO.selected) {
+        				result.push({
+        					id : countryArr[i].destinationVO.id,
+        					name : countryArr[i].destinationVO.name,
+        					code : countryArr[i].destinationVO.code
+        				});
+        				if (countryArr[i].child) {
+	        				for (var j=0;j<countryArr[i].child.length;j++) {
+	        					if (countryArr[i].child[j].destinationVO.selected) {
+	        						result.push({
+		            					id : countryArr[i].child[j].destinationVO.id,
+		            					name : countryArr[i].child[j].destinationVO.name,
+		            					code : countryArr[i].child[j].destinationVO.code
+		            				});
+	        					}
+	        				}     					
+        				};
+        				
+        			}
+        		};
+            	console.log(result);
             	return result;
             };
             $(function(){
             	var destDataObj = JSON.parse($('input[name="destData"]').val());
-            	console.log(destDataObj);
+            	//console.log(destDataObj);
             	//国内
           		if (destDataObj.type=='inland') {
  					var inlandCityArr = destDataObj.destinationNodeVOs[0].child;
@@ -111,15 +134,21 @@
 					};  
 					$html += '</ul></div>';
 					$('.destlistbox').append($html);
-					//点击变色
+					//点击变色 国家列
 					$(document).on('click','.countrybox .destlist',function () {
+						var $index = $(this).attr('dest-index');
+						var country = destDataObj.destinationNodeVOs[$index];
 						if ($(this).hasClass('sel')) {
+							country.destinationVO.selected = false;
 							$(this).removeClass('sel').find('.destcheckbox').prop('checked',false);
 						}else{
+							country.destinationVO.selected = true;
 		            		$(this).addClass('sel').find('.destcheckbox').prop('checked',true);							
 						};
 						$('.citybox').remove();
+						$('input[name="destData"]').val(JSON.stringify(destDataObj));
 	            	});
+	            	//点击变色 城市列
 					$(document).on('click','.citybox .destlist',function () {
 						var $pindex = $(this).attr('par-index'),$sindex = $(this).attr('dest-index');
 						var cityAr = destDataObj.destinationNodeVOs[$pindex].child[$sindex];
@@ -129,7 +158,8 @@
 						}else{
 		            		$(this).addClass('sel').find('.destcheckbox').prop('checked',true);	
 		            		cityAr.destinationVO.selected=true;
-						}
+						};
+						$('input[name="destData"]').val(JSON.stringify(destDataObj));
 	            	});
 
 					//二级菜单
@@ -165,13 +195,15 @@
 						
 						$('.destlistbox').append($html);
 	            		
-	            	});         			
+	            	});      
+	            	
+	            	
           		};
           		
             	
             	//---------------------------选中项回填-----------------------------------
             	var selectedDests = parent.getBaseInfo().dests;
-            	console.log(selectedDests);
+            	//console.log(selectedDests);
             	$("input:checkbox").each(function(){
             		for(var j=0;j<selectedDests.length;j++) {
             			if($(this).attr("dest-id")==selectedDests[j].id){
