@@ -232,12 +232,15 @@ public class ScenicManageDomainChecker {
         itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice().multiply(new BigDecimal(100)).longValue());//门市价
 
         //itemDO.setOutType();
-        ItemFeature itemFeature = new ItemFeature(null);
+        //ItemFeature itemFeature = new ItemFeature(null);
         /**票型资源信息**/
-        itemFeature.put(ItemFeatureKey.TICKET_ID,scenicManageVO.getTicketId());
-        itemFeature.put(ItemFeatureKey.TICKET_TITLE,scenicManageVO.getTicketTitle());
-        itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,scenicManageVO.getStartBookTimeLimit().intValue()*dayTime);//提前预定天数
-        itemDO.setItemFeature(itemFeature);
+       // itemFeature.put(ItemFeatureKey.TICKET_ID,scenicManageVO.getTicketId());
+        itemDO.setTicketId(scenicManageVO.getTicketId());
+        //itemFeature.put(ItemFeatureKey.TICKET_TITLE,scenicManageVO.getTicketTitle());
+        itemDO.setTicketTitle(scenicManageVO.getTicketTitle());
+        //itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT,scenicManageVO.getStartBookTimeLimit().intValue()*dayTime);//提前预定天数
+        itemDO.setStartBookTimeLimit(scenicManageVO.getStartBookTimeLimit().intValue()*dayTime);
+        //itemDO.setItemFeature(itemFeature);
         scenicManageVO.getDynamicEntry();//动态json列表
         List<ItemSkuPVPair> skuPVPairList =  getItemSkuPVPairList(scenicManageVO.getDynamicEntry());
         itemDO.setItemPropertyList(skuPVPairList);// 动态属性列表
