@@ -90,7 +90,7 @@
 				page.append(desc);
 				// 行程图片
 				var images = $("<div class='panel trip-images'></div>");
-                images.append($("<div class='panel-heading travelPanel'><span class='tripAddSp'><i class='red'>*</i>行程图片</span></div>"));
+                images.append($("<div class='panel-heading travelPanel'><span class='tripAddSp'>行程图片</span></div>"));
                 var images_content = $("<div class='panel-body trip-images-content uploadbox clearfix'></div>");
 				var images_uplUrl = $("<input type='hidden' class='uplUrl' value='$!{utilWebconfig.getActionUploadFilePath()}' />");
 				var images_imgUrl = $("<input type='hidden' class='imgUrl' value='$!{utilWebconfig.getTfsRootPath()}' />");
