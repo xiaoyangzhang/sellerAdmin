@@ -774,6 +774,7 @@ public class ApplyController extends BaseController {
 			mqDO.setDomainId(Constant.DOMAIN_JIUXIU);
 			mqDO.setSellerId(getCurrentUserId());
 			//mqDO.setMerchantCategoryId(1);
+			mqDO.setStatus(1);
 		}
 		examineInfoVO.setMerchantQualifications(merchantQualifications);
 		MemResult<Boolean> result = merchantApplyBiz.updateMerchantQualification(examineInfoVO);

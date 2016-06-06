@@ -157,6 +157,8 @@ public class MerchantConverter {
 		//vo.setType(ExamineType.TALENT.getType());
 		vo.setProvince(examineInfoDTO.getAccountBankProvinceCode());
 		vo.setCity(examineInfoDTO.getAccountBankCityCode());
+		vo.setAccountBankCityCode(examineInfoDTO.getAccountBankCityCode());
+		vo.setAccountBankProvinceCode(examineInfoDTO.getAccountBankProvinceCode());
 		vo.setMerchantCategoryId(examineInfoDTO.getMerchantCategoryId());
 		vo.setIsDirectSale(examineInfoDTO.getIsDirectSale());
 //		vo.setMerchantQualifications(examineInfoDTO.getMerchantQualifications());
