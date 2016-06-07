@@ -103,11 +103,14 @@ public class ScenicManageEnhanceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/addScenicManageView")
-    public String addScenicManageView(Model model){
+    public String addScenicManageView(Model model,@RequestParam(required = true) long categoryId){
         ScenicManageVO scenicManageVO = new  ScenicManageVO();
         long userId = sessionManager.getUserId() ;
         scenicManageVO.setSellerId(userId);
-        scenicManageVO.setCategoryId(233);
+        if(categoryId==0){
+            return "/system/error/404";
+        }
+        //scenicManageVO.setCategoryId(233);
         CategoryResult categoryResult = categoryServiceRef.getCategory(scenicManageVO.getCategoryId());
         if(!categoryResult.isSuccess()||categoryResult.getCategroyDO()==null){
             log.error("类目信息错误");
@@ -137,7 +140,7 @@ public class ScenicManageEnhanceController extends BaseController {
         String json  = CommonJsonUtil.objectToJson(bizCategoryInfoList,List.class);
         System.out.println("dynamicEntry:"+json);
         model.addAttribute("bizCategoryInfoList",bizCategoryInfoList);// 最晚到店时间列表
-        model.addAttribute("categoryId",0);//
+        model.addAttribute("categoryId",categoryId);//
         model.addAttribute("itemId", 0);
         model.addAttribute("UUID", UUID.randomUUID().toString());
         return "/system/comm/hotelManage/addticket";
