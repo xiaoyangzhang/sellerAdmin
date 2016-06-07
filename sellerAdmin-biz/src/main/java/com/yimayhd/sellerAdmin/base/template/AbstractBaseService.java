@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by wangdi on 16/6/7.
  */
-public class AbstractBaseService {
+public class AbstractBaseService extends AbstractService {
 
     protected static final Logger log = LoggerFactory.getLogger(AbstractBaseService.class);
 

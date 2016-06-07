@@ -3,6 +3,8 @@ package com.yimayhd.sellerAdmin.service.hotelManage.impl;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.base.template.AbstractBaseService;
+import com.yimayhd.sellerAdmin.base.template.TemplateAction;
 import com.yimayhd.sellerAdmin.checker.HotelManageDomainChecker;
 import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
@@ -19,7 +21,7 @@ import java.util.List;
  * 酒店信息接口
  * Created by wangdi on 2015/11/2.
  */
-public class HotelManageServiceImpl implements HotelManageService {
+public class HotelManageServiceImpl extends AbstractBaseService implements HotelManageService {
 	@Autowired
 	private HotelManageRepo hotelManageRepo;
 
@@ -38,13 +40,11 @@ public class HotelManageServiceImpl implements HotelManageService {
 		domain.setHotelMessageVO(hotelMessageVO);
 		try{
 			WebResult chekResult =  domain.checkHotelMessageVO();
-			System.out.println(3);
 			if(!chekResult.isSuccess()){
 				log.error("HotelManageServiceImpl.queryHotelMessageVOListByData is fail. code={}, message={} ",
 						chekResult.getErrorCode(), chekResult.getResultMsg());
 				return chekResult;
 			}
-			System.out.println(4);
 			// 调用中台接口
 			result = hotelManageRepo.queryHotelMessageVOListByDataRepo(domain);
 		}catch(Exception e){
