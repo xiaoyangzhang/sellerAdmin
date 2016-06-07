@@ -260,10 +260,6 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/talent/agreement",method=RequestMethod.GET)
 	public String toAgreementPage(Model model) {
-//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-//		if(null != judgeRest){
-//			return judgeRest;
-//		}
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
 		return "system/talent/agreement";
 		
@@ -670,12 +666,12 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/seller/saveUserdataB" ,method=RequestMethod.POST)
 	@ResponseBody
-	public MemResult<String> saveUserdataB(ExamineInfoVO examineInfoVO){
-//		MemResult<String> checkResult = checkMerchantApplyParams(examineInfoVO);
-//		if (!checkResult.isSuccess()) {
-//			return checkResult;
-//		}
-		MemResult<String> rest = new MemResult<String>();
+	public WebResult<String> saveUserdataB(ExamineInfoVO examineInfoVO){
+		WebResult<String> checkResult = checkMerchantApplyQualification(examineInfoVO);
+		if (!checkResult.isSuccess()) {
+			return checkResult;
+		}
+		WebResult<String> rest = new WebResult<String>();
 		List<MerchantQualificationDO> merchantQualifications = JSON.parseArray(examineInfoVO.getMerchantQualificationStr(), MerchantQualificationDO.class);
 		for (MerchantQualificationDO mqDO : merchantQualifications) {
 			mqDO.setDomainId(Constant.DOMAIN_JIUXIU);
@@ -695,7 +691,7 @@ public class ApplyController extends BaseController {
 			merchantBiz.changeExamineStatusIntoIng(info);
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/seller/toAggrementPage");
 		}else{
-			rest.setReturnCode(result.getReturnCode());
+			rest.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
 		}
 		return rest;
 	}
@@ -923,10 +919,8 @@ public class ApplyController extends BaseController {
 		List<MerchantQualificationDO> merchantQualificationList = examineInfoVO.getMerchantQualifications();
 		for (MerchantQualificationDO merchantQualificationDO : merchantQualificationList) {
 			for (QualificationVO vo : queryQualificationList) {
-				if (merchantQualificationDO.getQulificationId() == vo.getQualificationId() && StringUtils.isBlank(vo.getContent())) {
-//					checkResult.
-//					checkResult.setErrorMsg("请选择正确的店铺性质");
-//					checkResult.setSuccess(false);
+				if (merchantQualificationDO.getQulificationId() == vo.getQualificationId() && vo.isRequired() && StringUtils.isBlank(vo.getContent())) {
+					checkResult.setWebReturnCode(WebReturnCode.UPLOAD_QUALIFICATION_FAILED);
 					return checkResult;
 				}
 			}
@@ -1053,5 +1047,21 @@ public class ApplyController extends BaseController {
 		WebResult<List<MerchantCategoryScopeDO>> queryResult = merchantApplyBiz.getMerchantCategoryScope(merchantCategoryId);
 		result.setValue(JSON.toJSONString(queryResult.getValue()));
 		return result;
+	}
+	/**
+	 * 
+	* created by zhangxy
+	* @date 2016年6月7日
+	* @Title: toNamingMerchantPage 
+	* @Description: 打开店铺命名说明页面
+	* @param  model
+	* @return String    返回类型 
+	* @throws
+	 */
+	@RequestMapping(value="toNamingMerchantPage",method=RequestMethod.GET)
+	public String toNamingMerchantPage(Model model) {
+		
+		return "";
+		
 	}
 }
