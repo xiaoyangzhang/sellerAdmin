@@ -110,7 +110,7 @@ public class ScenicManageEnhanceController extends BaseController {
         if(categoryId==0){
             return "/system/error/404";
         }
-        //scenicManageVO.setCategoryId(233);
+        scenicManageVO.setCategoryId(categoryId);
         CategoryResult categoryResult = categoryServiceRef.getCategory(scenicManageVO.getCategoryId());
         if(!categoryResult.isSuccess()||categoryResult.getCategroyDO()==null){
             log.error("类目信息错误");
