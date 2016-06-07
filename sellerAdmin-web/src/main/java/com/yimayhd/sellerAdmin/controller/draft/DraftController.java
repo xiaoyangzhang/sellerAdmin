@@ -32,6 +32,6 @@ public class DraftController extends BaseController {
 		// put("itemTypeList", BizItemType.values());
 		// put("itemStatusList", BizItemStatus.values());
 		// put("query", query);
-		return "/system/draft/draftList";
+		return "/system/draft/list";
 	}
 }
