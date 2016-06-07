@@ -71,6 +71,14 @@
 					<li><a>GO</a></li>
 				</ul>
 			</div>
+		<!-- 删除弹窗 -->
+		<div class = "draftPop">
+			<p>确定删除该草稿？</p>
+			<p class = "p">
+				<button class = "del-list">删除</button>
+				<button class ="cancel">取消</button>
+			</p>
+		</div>
 	#parse("layout/layout-js.vm")
 	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
 	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
