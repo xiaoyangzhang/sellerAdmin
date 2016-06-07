@@ -10,7 +10,6 @@ import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.checker.DraftChecker;
-import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.draft.DraftDetailVO;
 import com.yimayhd.sellerAdmin.model.draft.DraftVO;
 import com.yimayhd.sellerAdmin.repo.DraftRepo;
@@ -134,8 +133,6 @@ public class DraftServiceImpl implements DraftService {
 	@Override
 	public WebResult<PageVO<DraftVO>> getDraftList(long sellerId, DraftListQuery draftListQuery) {
         draftListQuery.setAccountId(sellerId);
-        draftListQuery.setDomainId(Constant.DOMAIN_JIUXIU);
-
         if(DraftChecker.checkDraftList(draftListQuery)) {
             log.error("DraftServiceImpl.getDraftList: sellerId=" + sellerId + ", draftListQuery="+draftListQuery);
             return WebResult.failure(WebReturnCode.PARAM_ERROR);
