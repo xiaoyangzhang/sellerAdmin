@@ -31,6 +31,7 @@ public class DestinationBiz {
             try {
                 tagCode = Integer.parseInt(comTagDO.getName());
             } catch (NumberFormatException e) {
+                //数据有问题
                 LOGGER.error("comTag NumberFormatException,tagId={},tagName={}", comTagDO.getId(), comTagDO.getName());
             }
             if (tagCode > 0) {
