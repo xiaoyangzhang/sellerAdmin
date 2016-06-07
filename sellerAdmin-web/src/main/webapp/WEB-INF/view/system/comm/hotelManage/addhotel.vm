@@ -171,6 +171,7 @@
 </div>
 <div class="panel">
     <div id="CLD" class="clearfix datepicker">
+        <input type="hidden" class="rds" value="120">
         <table class="fl">
             <tr>
                 <td class="tdyears clearfix" colspan="7">
