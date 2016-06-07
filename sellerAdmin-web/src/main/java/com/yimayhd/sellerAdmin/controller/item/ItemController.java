@@ -184,6 +184,10 @@ public class ItemController extends BaseController {
 			return redirect("/cityactivity/toAdd?categoryId=" + categoryId);
 		} else if (ItemType.NORMAL.equals(itemType)) {
 			return redirect("/barterItem/common/toAdd?categoryId=" + categoryId);
+		} else if (ItemType.HOTEL.equals(itemType)) {
+			return redirect("/hotel/addHotelMessageVOByDataView?categoryId=" + categoryId);
+		} else if (ItemType.SPOTS.equals(itemType)) {
+			return redirect("/scenic/addScenicManageView?categoryId=" + categoryId);
 		} else {
 			throw new BaseException("unsupport ItemType " + itemType.name());
 		}
