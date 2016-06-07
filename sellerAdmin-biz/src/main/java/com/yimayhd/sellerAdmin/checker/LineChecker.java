@@ -199,9 +199,9 @@ public class LineChecker {
 			return WebCheckResult.error("出发地不能超过15个");
 		}
 		if (baseInfo.getDays() <= 0) {
-			return WebCheckResult.error("行程天数不能小于0");
+			return WebCheckResult.error("请输入正确的行程天数[1-100]");
 		} else if (baseInfo.getDays() > 100) {
-			return WebCheckResult.error("行程天数不能大于100");
+			return WebCheckResult.error("请输入正确的行程天数[1-100]");
 		}
 		if (StringUtils.isBlank(baseInfo.getDescription())) {
 			return WebCheckResult.error("线路亮点不能为空");
