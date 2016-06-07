@@ -297,9 +297,9 @@ public class MerchantApplyBiz {
 			//Map<String, QualificationDO> map = new HashMap<String, QualificationDO>();
 			QualificationVO qualificationVO = new QualificationVO();
 			for (QualificationVO qf	 : qualificationVOList) {
-				if (cq.getQulificationId() == qf.getId()) {
+				if (cq.getQulificationId() == qf.getQualificationId()) {
 					//QualificationDO qualificationDO = new QualificationDO();
-					qualificationVO.setRequired(cq.isRequired());
+					qf.setRequired(cq.isRequired());
 //					qualificationVO.setTip(qf.getTip());
 //					qualificationVO.setId(qf.getId());
 				//	map.put(qf.getTitle(), qualificationDO);

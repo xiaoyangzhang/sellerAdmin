@@ -53,7 +53,7 @@
 			#if($qualification.required )<label class="bred">*</label>#end<label>$!{qualification.title}：</label>
 			
 			#foreach($content in $qualification.getContentList() )
-				<span class="imgbox allownull"  id="$!{qualification.qualificationId}">
+				<span class="imgbox #if(!${qualification.required} ) allownull #end"  id="$!{qualification.qualificationId}">
 					<div class="canclick">
 						#if($!content.length()>0)
 							<img src="$!tfs/$!content">
