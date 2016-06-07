@@ -191,7 +191,7 @@
                     </div>
                 </div>
                <div class="line-bottom"></div>
-               <div class="settled"><a id="Settled" href="javascript:void(0);" >立即入驻</a></div>
+               <div class="settled"><a id="Settled" href="$!root_path/apply/seller/toDetailPage" >立即入驻</a></div>
 	</div>
 	<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/sea.js"></script>
 	<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
