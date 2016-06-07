@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by wangdi on 16/5/16.
  */
-public class ScenicManageServiceImpl  implements ScenicManageService {
+public class ScenicManageServiceImpl   implements ScenicManageService {
     @Autowired
     private ScenicManageRepo scenicManageRepo;
     @Autowired
