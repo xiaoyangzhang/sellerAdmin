@@ -69,48 +69,15 @@ public class MerchantApplyRepo {
 	@Autowired
 	private BusinessScopeService businessScopeService;
 	public MemResult<Boolean> submitExamineInfo(ExamineInfoDTO	 dto) {
-//		long userId = sessionManager.getUserId();
-//		MemResult<Boolean> result = new MemResult<Boolean>();
-//		if (examineInfoVO == null) {
-//			log.error("params error:examineInfoVO={}",JSON.toJSONString(examineInfoVO));
-//			result.setReturnCode(MemberReturnCode.PARAMTER_ERROR);
-//			return result;
-//		}
-//		try {
-//			ExamineInfoDTO dto = MerchantConverter.convertVO2DTO(examineInfoVO, userId);
-//			dto.setType(MerchantType.MERCHANT.getType());
-			//result = 
 			
 			return merchantApplyService.submitExamineInfo(dto);
-//		} catch (Exception e) {
-//			log.error("params :examineInfo={} error:{}",examineInfoVO,e);
-//			result.setReturnCode(MemberReturnCode.SAVE_MERCHANT_FAILED);
-//			return result;
-//		}
 	}
 	
 	public MemResult<Boolean> updateMerchantQualification(ExamineInfoDTO	 dto) {
-//		long userId = sessionManager.getUserId();
-//		MemResult<Boolean> result = new MemResult<Boolean>();
-//		if (examineInfoVO == null) {
-//			log.error("params error:examineInfoVO={}",examineInfoVO);
-//			result.setReturnCode(MemberReturnCode.PARAMTER_ERROR);
-//			return result;
-//		}
-//		try {
-//			ExamineInfoDTO dto = new ExamineInfoDTO();
-//			dto.setSellerId(userId);
-//			dto.setDomainId(Constant.DOMAIN_JIUXIU);
-//			dto.setMerchantQualifications(examineInfoVO.getMerchantQualifications());
-			//result =
 			
 			return  qualificationService.updateMerchantQualification(dto);
-//		} catch (Exception e) {
-//			log.error("params :examineInfo={} error:{}",examineInfoVO,e);
-//			result.setReturnCode(MemberReturnCode.SAVE_MERCHANT_FAILED);
-//			return result;
-//		}
 	}
+	
 	public MemResult<ExamineInfoDTO> getExamineInfo(InfoQueryDTO examineQueryDTO) {
 		return examineDealService.queryMerchantExamineInfoBySellerId(examineQueryDTO);
 	}
