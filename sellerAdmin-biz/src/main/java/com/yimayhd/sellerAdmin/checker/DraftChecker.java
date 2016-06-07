@@ -1,12 +1,17 @@
 package com.yimayhd.sellerAdmin.checker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.membercenter.client.domain.draft.DraftDO;
 import com.yimayhd.membercenter.client.query.DraftListQuery;
+import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.draft.DraftVO;
 import com.yimayhd.sellerAdmin.service.draft.impl.DraftServiceImpl;
