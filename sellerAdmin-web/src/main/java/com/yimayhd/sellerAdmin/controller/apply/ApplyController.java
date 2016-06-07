@@ -667,10 +667,6 @@ public class ApplyController extends BaseController {
 	@RequestMapping(value="/seller/saveUserdataB" ,method=RequestMethod.POST)
 	@ResponseBody
 	public WebResult<String> saveUserdataB(ExamineInfoVO examineInfoVO){
-		WebResult<String> checkResult = checkMerchantApplyQualification(examineInfoVO);
-		if (!checkResult.isSuccess()) {
-			return checkResult;
-		}
 		WebResult<String> rest = new WebResult<String>();
 		List<MerchantQualificationDO> merchantQualifications = JSON.parseArray(examineInfoVO.getMerchantQualificationStr(), MerchantQualificationDO.class);
 		for (MerchantQualificationDO mqDO : merchantQualifications) {
@@ -680,6 +676,10 @@ public class ApplyController extends BaseController {
 			mqDO.setStatus(1);
 		}
 		examineInfoVO.setMerchantQualifications(merchantQualifications);
+		WebResult<String> checkResult = checkMerchantApplyQualification(examineInfoVO);
+		if (!checkResult.isSuccess()) {
+			return checkResult;
+		}
 		MemResult<Boolean> result = merchantApplyBiz.updateMerchantQualification(examineInfoVO);
 		if(result.isSuccess()){
 			examineInfoVO.setType(ExamineType.MERCHANT.getType());
@@ -919,7 +919,7 @@ public class ApplyController extends BaseController {
 		List<MerchantQualificationDO> merchantQualificationList = examineInfoVO.getMerchantQualifications();
 		for (MerchantQualificationDO merchantQualificationDO : merchantQualificationList) {
 			for (QualificationVO vo : queryQualificationList) {
-				if (merchantQualificationDO.getQulificationId() == vo.getQualificationId() && vo.isRequired() && StringUtils.isBlank(vo.getContent())) {
+				if (merchantQualificationDO.getQulificationId() == vo.getQualificationId() && vo.isRequired() && StringUtils.isBlank(merchantQualificationDO.getContent())) {
 					checkResult.setWebReturnCode(WebReturnCode.UPLOAD_QUALIFICATION_FAILED);
 					return checkResult;
 				}
