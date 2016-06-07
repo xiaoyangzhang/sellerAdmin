@@ -166,7 +166,7 @@ public class MerchantApplyBiz {
 //		merchantScope.setDomainId(Constant.DOMAIN_JIUXIU);
 //		merchantScope.setSellerId(sessionManager.getUserId());
 //		MemResult<List<BusinessScopeDO>> scopeResult = businessScopeService.getBusinessScope(merchantScope);
-		WebResult<List<MerchantScopeDO>> merchantScopeResult= getMerchantScope();
+		WebResult<List<MerchantScopeDO>> merchantScopeResult= getMerchantScope(dto);
 		if (!merchantScopeResult.isSuccess() || merchantScopeResult.getValue() == null) {
 			return result;
 			
@@ -244,20 +244,24 @@ public class MerchantApplyBiz {
 		
 		
 		
-		List<Long> cqIdList = new ArrayList<>();
-		List<MerchantCategoryScopeDO> merchantCategoryScopeList = getMerchantCategoryScope(dto);
+		Set<Long> cqIdList = new HashSet<>();
+		//List<MerchantCategoryScopeDO> merchantCategoryScopeList = getMerchantCategoryScope(dto);
+		WebResult<List<MerchantScopeDO>> merchantScopeResult = getMerchantScope(dto);
 		MemResult<List<MerchantCategoryDO>> merchantCategoryResult = getMerchantCategory(dto);
 		if(merchantCategoryResult == null || !merchantCategoryResult.isSuccess() || merchantCategoryResult.getValue() == null ) {
 			result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
 			return result;
 		}
-		
+		if (merchantScopeResult == null || !merchantScopeResult.isSuccess() || merchantScopeResult.getValue() == null) {
+			result.setWebReturnCode(WebReturnCode.QUERY_MERCHANT_SCOPE_FAILED);
+			return result;
+		}
 		if (merchantCategoryResult.getValue().get(0).getType() == ExamineType.TRAVEL_AGENCY.getType()) {
 			cqIdList = null;
 			
 		}else{
 			
-			for (MerchantCategoryScopeDO scope : merchantCategoryScopeList) {
+			for (MerchantScopeDO scope : merchantScopeResult.getValue()) {
 				cqIdList.add(scope.getBusinessScopeId());
 			}
 		}
@@ -268,7 +272,7 @@ public class MerchantApplyBiz {
 //		}
 		
 		
-		
+		dto.setIdSet(cqIdList);
 		List<CategoryQualificationDO> categoryQualificationResult = getCategoryQualification(dto);
 		if (categoryQualificationResult == null || categoryQualificationResult.size() == 0) {
 			result.setWebReturnCode(WebReturnCode.QUERY_MERCHANT_CATEGORY_QUALIFICATION_FAILED);
@@ -336,11 +340,11 @@ public class MerchantApplyBiz {
 		result.setValue(qualificationVOList);
 		return result;
 	}
-	public WebResult<List<MerchantScopeDO>> getMerchantScope() {
+	public WebResult<List<MerchantScopeDO>> getMerchantScope(ExamineInfoDTO examineInfoDTO) {
 		WebResult<List<MerchantScopeDO>> result = new WebResult<List<MerchantScopeDO>>();
 		BusinessScopeQueryDTO queryDTO = new BusinessScopeQueryDTO();
-		queryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-		queryDTO.setSellerId(sessionManager.getUserId());
+		queryDTO.setDomainId(examineInfoDTO.getDomainId());
+		queryDTO.setSellerId(examineInfoDTO.getSellerId());
 		MemResult<List<MerchantScopeDO>> queryResult = merchantApplyRepo.getMerchantScope(queryDTO);
 		if (queryResult == null || !queryResult.isSuccess() || queryResult.getValue() == null) {
 			result.setWebReturnCode(WebReturnCode.QUERY_MERCHANT_SCOPE_FAILED);
@@ -369,7 +373,7 @@ public class MerchantApplyBiz {
 		 qualificationQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		 qualificationQueryDTO.setMerchantCategoryId(examineInfoDTO.getMerchantCategoryId());
 		 qualificationQueryDTO.setDirectSale(examineInfoDTO.getIsDirectSale()); 
-			
+		qualificationQueryDTO.setIdSet(examineInfoDTO.getIdSet());
 		MemResult<List<CategoryQualificationDO>> categoryQualificationResult = merchantApplyRepo.getCategoryQualification(qualificationQueryDTO);
 		if (categoryQualificationResult == null || !categoryQualificationResult.isSuccess() || categoryQualificationResult.getValue() == null) {
 			return null;
