@@ -66,16 +66,19 @@ public class HotelManageController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/initHotelManage")
-	public String queryHotelManageList(Model model) throws Exception {
+	@RequestMapping(value = "/addHotelMessageVOByDataView")
+	public String addHotelMessageVOByDataView(Model model,@RequestParam(required = true) long categoryId) throws Exception {
 		HotelMessageVO hotelMessageVO = new  HotelMessageVO();
+		if(categoryId==0){
+			return "/system/error/404";
+		}
 		long userId = sessionManager.getUserId() ;
 		hotelMessageVO.setSellerId(userId);
-		//hotelMessageVO.setCategoryId(categoryId);
+		hotelMessageVO.setCategoryId(categoryId);
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(null);
 		model.addAttribute("hotelMessageVO", hotelMessageVO);
 		model.addAttribute("multiChoiceList",multiChoiceList);// 最晚到店时间列表
-		model.addAttribute("categoryId",0);//
+		model.addAttribute("categoryId",categoryId);//
 		model.addAttribute("itemId", 0);
 		model.addAttribute("UUID", UUID.randomUUID().toString());
 		return "/system/comm/hotelManage/addhotel";
@@ -171,7 +174,7 @@ public class HotelManageController extends BaseController {
 		}
 
 		//hotelMessageVO.setBreakfast(1);
-		hotelMessageVO.setCategoryId(categoryId);
+		//hotelMessageVO.setCategoryId(categoryId);// 测试放开
 		boolean rs = cacheManager.addToTair(Constant.UUIDKEY+hotelMessageVO.getUUID(), true , 2, 10*60*60);
 		if(!rs){
 			message.initFailure(WebReturnCode.SYSTEM_ERROR,"请不要重复提交");
