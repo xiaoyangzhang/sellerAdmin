@@ -216,31 +216,31 @@
                				<table>
        						<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>商户名称：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="60" value="$!examineInfo.sellerName" name="sellerName" id="" class="txt01" placeholder="公司主体名称、营业执照上名称"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="20" value="$!examineInfo.sellerName" name="sellerName" id="" class="txt01" placeholder="公司主体名称、营业执照上名称"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>法定代表人名称：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="60" value="$!examineInfo.legralName" name="legralName" id="" class="txt01" placeholder="营业执照上的法人名称"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="5" value="$!examineInfo.legralName" name="legralName" id="" class="txt01" placeholder="营业执照上的法人名称"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>法定代表人身法证：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="card" maxlength="60" value="$!examineInfo.lawPersonCard" name="lawPersonCard" id="" class="txt01"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="card" maxlength="18" value="$!examineInfo.lawPersonCard" name="lawPersonCard" id="" class="txt01"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业执照号码：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="n" maxlength="60" value="$!examineInfo.saleLicenseNumber" name="saleLicenseNumber" id="" class="txt01"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="n" maxlength="25" value="$!examineInfo.saleLicenseNumber" name="saleLicenseNumber" id="" class="txt01"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>税务登记号：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" maxlength="60" value="$!examineInfo.taxRegisterNumber" name="taxRegisterNumber" id="" class="txt01 taxL"/></td>
+       	    	   				<td class="rigcontent"><input type="text" maxlength="25" value="$!examineInfo.taxRegisterNumber" name="taxRegisterNumber" id="" class="txt01 taxL"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业地址：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="60" value="$!examineInfo.address" name="address" id="" class="txt01" placeholder="营业执照上的营业地址"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="30" value="$!examineInfo.address" name="address" id="" class="txt01" placeholder="营业执照上的营业地址"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业范围：</label></td>
-       	    	   				<td class="rigcontent"><textarea tip="" datatype="s" maxlength="60"  class="txt02" name="saleScope"  id="" placeholder="营业执照上的经营范围">$!examineInfo.saleScope</textarea></td>
+       	    	   				<td class="rigcontent"><textarea tip="" datatype="s" maxlength="150"  class="txt02" name="saleScope"  id="" placeholder="营业执照上的经营范围">$!examineInfo.saleScope</textarea></td>
        	    	   			</tr>
                				</table>
                	</div>
@@ -251,7 +251,7 @@
 								<td class="rigtxt"><span>*</span><label class="">开户银行：</label></td>
 								<td class="rigcontent"><select id="bank" class="selectlist" name="financeOpenBankId">
 								
-									  <option  value="">--请选择--</option>
+									  
 									#foreach ($bank in $bankList)
 										
 									  <option  #if ($examineInfo.financeOpenBankId == $bank.bankId) selected="selected" #end value="$!bank.bankId" >$!bank.bankName</option>
