@@ -130,4 +130,8 @@ public class MerchantApplyRepo {
 	public MemResult<Integer> updateMerchantQualificationStatus(List<QualificationQueryDTO> queryDTOs) {
 		return qualificationService.updateStatusBatch(queryDTOs);
 	}
+	
+	public MemResult<Boolean> checkMerchantNameIsExist(ExamineInfoDTO examineInfoDTO) {
+		return examineDealService.checkMerchantNameIsExist(examineInfoDTO);
+	}
 }

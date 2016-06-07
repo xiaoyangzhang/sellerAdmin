@@ -61,6 +61,16 @@ public class MerchantApplyBiz {
 		}
 		try {
 			ExamineInfoDTO dto = MerchantConverter.convertVO2DTO(examineInfoVO, userId);
+			MemResult<Boolean> checkMerchantNameIsExist = merchantApplyRepo.checkMerchantNameIsExist(dto);
+			if (checkMerchantNameIsExist == null || !checkMerchantNameIsExist.isSuccess() || checkMerchantNameIsExist.getValue() == null) {
+				result.setReturnCode(MemberReturnCode.SYSTEM_ERROR);
+				return result;
+				
+			}else if (checkMerchantNameIsExist.getValue()) {
+				result.setReturnCode(MemberReturnCode.MERCHANT_NAME_EXIST);
+				return result;
+			}
+			
 			dto.setType(ExamineType.MERCHANT.getType());
 			result = merchantApplyRepo.submitExamineInfo(dto);
 			

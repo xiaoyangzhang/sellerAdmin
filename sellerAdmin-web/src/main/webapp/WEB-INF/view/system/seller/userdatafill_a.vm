@@ -136,7 +136,7 @@
                	    	   <table>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>商户负责人姓名：</label></td>
-       	    	   				<td class="rigcontent"><input  datatype="s" maxlength="60" type="text" value="$!examineInfo.principleName" name="principleName" id="" class="txt01" placeholder="合同签约人的姓名"/></td>
+       	    	   				<td class="rigcontent"><input  datatype="s" minlength="2" maxlength="10" type="text" value="$!examineInfo.principleName" name="principleName" id="" class="txt01" placeholder="合同签约人的姓名"/></td>
        	    	   			</tr>
        	    	   			<tr>
 								<td class="rigtxt"><span class="">*</span><label>负责人证件类型：</label></td>
@@ -223,24 +223,24 @@
        	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="5" value="$!examineInfo.legralName" name="legralName" id="" class="txt01" placeholder="营业执照上的法人名称"/></td>
        	    	   			</tr>
        	    	   			<tr>
-       	    	   				<td class="rigtxt"><span>*</span><label>法定代表人身法证：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="card" maxlength="18" value="$!examineInfo.lawPersonCard" name="lawPersonCard" id="" class="txt01"/></td>
+       	    	   				<td class="rigtxt"><span>*</span><label>法定代表人身份证：</label></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="card" maxlength="18" value="$!examineInfo.lawPersonCard" name="lawPersonCard" placeholder="营业执照上的法人身份证" id="" class="txt01"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业执照号码：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="n" maxlength="25" value="$!examineInfo.saleLicenseNumber" name="saleLicenseNumber" id="" class="txt01"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="n" maxlength="25" value="$!examineInfo.saleLicenseNumber" placeholder="营业执照号码" name="saleLicenseNumber" id="" class="txt01"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>税务登记号：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" maxlength="25" value="$!examineInfo.taxRegisterNumber" name="taxRegisterNumber" id="" class="txt01 taxL"/></td>
+       	    	   				<td class="rigcontent"><input type="text" maxlength="25" value="$!examineInfo.taxRegisterNumber" placeholder="税务登记号码" name="taxRegisterNumber" id="" class="txt01 taxL"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业地址：</label></td>
        	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="30" value="$!examineInfo.address" name="address" id="" class="txt01" placeholder="营业执照上的营业地址"/></td>
        	    	   			</tr>
        	    	   			<tr>
-       	    	   				<td class="rigtxt"><span>*</span><label>营业范围：</label></td>
-       	    	   				<td class="rigcontent"><textarea tip="" datatype="s" maxlength="150"  class="txt02" name="saleScope"  id="" placeholder="营业执照上的经营范围">$!examineInfo.saleScope</textarea></td>
+       	    	   				<td class="rigtxt"><span>*</span><label>经营范围：</label></td>
+       	    	   				<td class="rigcontent"><textarea tip="" datatype="*" maxlength="150"  class="txt02" name="saleScope"  id="" placeholder="营业执照上的经营范围">$!examineInfo.saleScope</textarea></td>
        	    	   			</tr>
                				</table>
                	</div>
@@ -262,7 +262,7 @@
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">开户名称：</label></td>
-								<td class="rigcontent"><input type="text" datatype="*"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" maxlength="60" class="txt01"  placeholder="请输入开户行名称"></td>
+								<td class="rigcontent"><input type="text" datatype="*"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" maxlength="60" class="txt01"  placeholder="请输入开户名称"></td>
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">结算账号：</label></td>
@@ -283,11 +283,11 @@
 					</div>
 					<div class="infor-title">店铺命名</div>
 					<div class="seven">
-					     <div class="shopname"><span>*</span><label>店铺名称：</label><input type="text" datatype="s" maxlength="60" name="merchantName" value="$!examineInfo.merchantName" id="" class="rigcontent nameinput txt04"  placeholder=""></div>
+					     <div class="shopname"><span>*</span><label>店铺名称：</label><input type="text" datatype="s" maxlength="30" name="merchantName" value="$!examineInfo.merchantName" id="" class="rigcontent nameinput txt04"  placeholder=""></div>
 					     <div class="notes namelm"><span>*</span><label>店铺名称要符合店铺命名规范</label></div>
 					 </div>  
 					 <div class="identity">
-					  <div class="nextpage"><a href="javascript:history.go(-1);">上一页</a><a class="subt"
+					  <div class="nextpage"><a href="href="$!root_path/apply/toChoosePage">上一页</a><a class="subt"
 					   href="$!root_path/apply/seller/saveUserdata">下一页</a></div>
 					  </div>
 					  </div>

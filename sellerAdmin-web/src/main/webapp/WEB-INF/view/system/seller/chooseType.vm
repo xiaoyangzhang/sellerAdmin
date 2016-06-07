@@ -24,11 +24,11 @@
 				</div>
 				<div class="step step-fr">
 					<div class="step3">4</div>
-					<label class="step3">等待审核</label>
+					<label class="step3">签署协议</label>
 				</div>
 				<div class="step step-fr ya">
 					<div class="step3">5</div>
-					<label class="step3">签署协议</label>
+					<label class="step3">等待审核</label>
 				</div>
 			</div>
 		</div>

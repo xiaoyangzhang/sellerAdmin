@@ -273,20 +273,20 @@ public class ApplyController extends BaseController {
 	
 	@RequestMapping(value="/talent/toAddUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toAddUserdatafill_a(Model model){
-		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-		if(null != judgeRest){
-			return judgeRest;
-		}
+//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
+//		if(null != judgeRest){
+//			return judgeRest;
+//		}
 		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
 		return "system/talent/userdatafill_a";
 		
 	}
 	@RequestMapping(value="/talent/toEditUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toEditUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model) {
-		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-		if(null != judgeRest){
-			return judgeRest;
-		}
+//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
+//		if(null != judgeRest){
+//			return judgeRest;
+//		}
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
 		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
 		return "system/talent/userdatafill_a";
@@ -299,10 +299,10 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/talent/toAddUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toAddUserdatafill_b(Model model) {
-		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-		if(null != judgeRest){
-			return judgeRest;
-		}
+//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
+//		if(null != judgeRest){
+//			return judgeRest;
+//		}
 		model.addAttribute("bankList", talentBiz.getBankList());
 		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
 		return "system/talent/userdatafill_b";
@@ -310,10 +310,10 @@ public class ApplyController extends BaseController {
 	}
 	@RequestMapping(value="/talent/toEditUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toEditUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
-		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-		if(null != judgeRest){
-			return judgeRest;
-		}
+//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
+//		if(null != judgeRest){
+//			return judgeRest;
+//		}
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
 		model.addAttribute("bankList", talentBiz.getBankList());
 		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
@@ -328,10 +328,10 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/talent/verification",method=RequestMethod.GET)
 	public String verificationPage(Model model) {
-		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-		if(null != judgeRest){
-			return judgeRest;
-		}
+//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
+//		if(null != judgeRest){
+//			return judgeRest;
+//		}
 		return "system/talent/verification";
 		
 	}
@@ -680,15 +680,15 @@ public class ApplyController extends BaseController {
 		if (!checkResult.isSuccess()) {
 			return checkResult;
 		}
+		examineInfoVO.setType(ExamineType.MERCHANT.getType());
 		MemResult<Boolean> result = merchantApplyBiz.updateMerchantQualification(examineInfoVO);
 		if(result.isSuccess()){
-			examineInfoVO.setType(ExamineType.MERCHANT.getType());
-			MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(examineInfoVO);
-			InfoQueryDTO info = new InfoQueryDTO();
-			info.setDomainId(Constant.DOMAIN_JIUXIU);
-			info.setSellerId(sessionManager.getUserId());
-			info.setType(ExamineType.MERCHANT.getType());
-			merchantBiz.changeExamineStatusIntoIng(info);
+			//MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(examineInfoVO);
+//			InfoQueryDTO info = new InfoQueryDTO();
+//			info.setDomainId(Constant.DOMAIN_JIUXIU);
+//			info.setSellerId(sessionManager.getUserId());
+//			info.setType(ExamineType.MERCHANT.getType());
+//			merchantBiz.changeExamineStatusIntoIng(info);
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/seller/toAggrementPage");
 		}else{
 			rest.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
