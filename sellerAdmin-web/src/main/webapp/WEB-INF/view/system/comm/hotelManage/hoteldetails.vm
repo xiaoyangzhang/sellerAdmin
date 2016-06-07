@@ -112,7 +112,7 @@
             </tr>
             <tr>
                 <td class="coltxt vt">退订规则：</td>
-                <td class="dtlrule">$!{hotelMessageVO.description}</td>
+                <td><textarea name ="description" maxlength="40"  readonly="readonly" >$!{hotelMessageVO.description}</textarea></td>
             </tr>
             <tr>
                 <td class="coltxt vt">最晚到店时间：</td>
