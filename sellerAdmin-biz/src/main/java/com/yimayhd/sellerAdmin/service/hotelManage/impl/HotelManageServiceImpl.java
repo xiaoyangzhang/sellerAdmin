@@ -13,6 +13,7 @@ import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
 import com.yimayhd.sellerAdmin.repo.HotelManageRepo;
 import com.yimayhd.sellerAdmin.service.hotelManage.HotelManageService;
+import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,15 +42,14 @@ public class HotelManageServiceImpl extends AbstractBaseService implements Hotel
 		WebResult<PageVO<HotelMessageVO>> result= new  WebResult<PageVO<HotelMessageVO>>();
 		domain.setPageResult(result);
 		domain.setHotelMessageVO(hotelMessageVO);
+		log.info("queryHotelMessageVOListByData:查询参数:"+ CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
 		try{
 			WebResult chekResult =  domain.checkHotelMessageVO();
-			System.out.println(3);
 			if(!chekResult.isSuccess()){
 				log.error("HotelManageServiceImpl.queryHotelMessageVOListByData is fail. code={}, message={} ",
 						chekResult.getErrorCode(), chekResult.getResultMsg());
 				return chekResult;
 			}
-			System.out.println(4);
 			// 调用中台接口
 			result = hotelManageRepo.queryHotelMessageVOListByDataRepo(domain);
 		}catch(Exception e){
