@@ -58,7 +58,7 @@
 			<td><span class="red">*</span>线路亮点：</td>
 			<td>
 				<textarea class="form-control textarea-count description" rows="3" placeholder="请输入亮点描述" maxlength="200">$!{baseInfo.description}</textarea>
-				<span class="word-num">0/200字</span>
+				<span class="word-num">$!{length}/200字</span>
 			</td>
 		</tr>
 		<tr>
