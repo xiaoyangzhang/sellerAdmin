@@ -10,8 +10,7 @@ import java.io.Serializable;
  * @param <T>
  */
 
-public class CallResult<T> extends SellerBaseDO implements Serializable {
-    private static final long serialVersionUID = 5024812234579449677L;
+public class CallResult<T> extends SellerBaseDO  {
     public static final int CODE_FAILURE = -1;
     public static final int CODE_SUCCESS = 1;
 

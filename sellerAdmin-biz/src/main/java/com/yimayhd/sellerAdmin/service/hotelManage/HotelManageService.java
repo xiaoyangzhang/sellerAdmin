@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.service.hotelManage;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
 import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.base.result.CallResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
@@ -45,6 +46,7 @@ public interface HotelManageService {
      * @return
      */
     public  WebResult<Long> editHotelMessageVOByData( HotelMessageVO hotelMessageVO);
+
 
 
 }

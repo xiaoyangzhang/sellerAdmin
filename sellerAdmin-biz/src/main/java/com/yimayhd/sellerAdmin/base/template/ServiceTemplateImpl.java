@@ -17,7 +17,7 @@ public class ServiceTemplateImpl implements ServiceTemplate{
      * @return
      */
     @Override
-    public <T> CallResult<T> exeWithoutTransaction(TemplateAction<T> action) {
+    public <T> CallResult<T> exeWithoutTransaction(final TemplateAction<T> action) {
             try{
                 //选择数据库
                 // DataSourceContextHolder.setDataSourceType(MSDataSourceType.MASTER);

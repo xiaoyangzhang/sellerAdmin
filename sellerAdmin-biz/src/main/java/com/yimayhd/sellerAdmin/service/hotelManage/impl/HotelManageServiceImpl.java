@@ -1,11 +1,14 @@
 package com.yimayhd.sellerAdmin.service.hotelManage.impl;
 
 import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.base.result.CallResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.base.template.AbstractBaseService;
 import com.yimayhd.sellerAdmin.base.template.TemplateAction;
 import com.yimayhd.sellerAdmin.checker.HotelManageDomainChecker;
+import com.yimayhd.sellerAdmin.domain.SellerHotelManageDomain;
+import com.yimayhd.sellerAdmin.enums.SellerBaseCodeEnum;
 import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
 import com.yimayhd.sellerAdmin.repo.HotelManageRepo;
@@ -40,11 +43,13 @@ public class HotelManageServiceImpl extends AbstractBaseService implements Hotel
 		domain.setHotelMessageVO(hotelMessageVO);
 		try{
 			WebResult chekResult =  domain.checkHotelMessageVO();
+			System.out.println(3);
 			if(!chekResult.isSuccess()){
 				log.error("HotelManageServiceImpl.queryHotelMessageVOListByData is fail. code={}, message={} ",
 						chekResult.getErrorCode(), chekResult.getResultMsg());
 				return chekResult;
 			}
+			System.out.println(4);
 			// 调用中台接口
 			result = hotelManageRepo.queryHotelMessageVOListByDataRepo(domain);
 		}catch(Exception e){
@@ -172,6 +177,54 @@ public class HotelManageServiceImpl extends AbstractBaseService implements Hotel
 			return  WebResult.failure(WebReturnCode.SYSTEM_ERROR, "编辑酒店商品信息异常");
 		}
 		return result;
+	}
+
+	/**
+	 * 查询景区列表加强版
+	 * @param hotelMessageVO
+	 * @return
+     */
+	public CallResult<PageVO<HotelMessageVO>> queryHotelMessageVOListByDataEnhance(final HotelMessageVO hotelMessageVO){
+		// 每个线程拥有个独立的 domain仓储对象
+		CallResult<PageVO<HotelMessageVO>> callbackResult = serviceTemplate.exeWithoutTransaction(new TemplateAction<PageVO<HotelMessageVO>>() {
+			SellerHotelManageDomain domain = new SellerHotelManageDomain(hotelMessageVO);
+			@Override
+			public CallResult<PageVO<HotelMessageVO>> checkParam() {
+				//分页参数不能为空
+				//描述信息不能为空
+				SellerBaseCodeEnum codeEnum =  domain.checkHotelMessageVO();
+				if(codeEnum==SellerBaseCodeEnum.SUCCESS){
+					return CallResult.success();
+				}
+				return CallResult.failure();
+			}
+
+			@Override
+			public CallResult<PageVO<HotelMessageVO>> checkBiz() {
+				// 类目ID 必传,并且不为0
+				// 商品ID,与数据库编辑Id必须一致
+				return null;
+			}
+
+			@Override
+			public CallResult<PageVO<HotelMessageVO>> doAction() {
+				//调用repo,拼装返回参数model 视图对象
+				try{
+
+				}catch(Exception e ){
+					//建立异常日志
+					e.printStackTrace();
+				}
+				return null;
+			}
+
+			@Override
+			public void finishUp(CallResult<PageVO<HotelMessageVO>> callResult) {
+				//业务处理完, 刷新缓存数据
+			}
+		});
+
+		return callbackResult;
 	}
 
 }
