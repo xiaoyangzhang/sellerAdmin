@@ -7,6 +7,8 @@ import java.util.Map;
 import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 
+import com.yimayhd.sellerAdmin.biz.DestinationBiz;
+import com.yimayhd.sellerAdmin.repo.DestinationRepo;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +52,8 @@ public class ItemServiceImpl implements ItemService {
 	private CommentRepo	commentRepo;
 	@Autowired
 	private CityRepo	cityRepo;
+	@Autowired
+	private DestinationBiz destinationBiz;
 
 	@Override
 	public WebResult<PageVO<ItemListItemVO>> getItemList(long sellerId, ItemListQuery query) {
@@ -85,7 +89,8 @@ public class ItemServiceImpl implements ItemService {
 						long itemId = itemListItemVO.getId();
 						if (tagMap.containsKey(itemId)) {
 							List<ComTagDO> comTagDOs = tagMap.get(itemId);
-							List<CityVO> dests = toCityVO(comTagDOs);
+							//List<CityVO> dests = toCityVO(comTagDOs);
+							List<CityVO> dests = destinationBiz .toCityVOForDest(comTagDOs);
 							itemListItemVO.setDests(dests);
 						}
 					}

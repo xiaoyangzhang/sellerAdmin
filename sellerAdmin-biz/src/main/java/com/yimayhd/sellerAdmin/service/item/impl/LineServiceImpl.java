@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.yimayhd.sellerAdmin.biz.DestinationBiz;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,6 +75,8 @@ public class LineServiceImpl implements LineService {
 	private ComCenterService comCenterServiceRef;
 	@Autowired
 	private DestinationRepo destinationRepo;
+	@Autowired
+	private DestinationBiz destinationBiz;
 
 	@Override
 	public WebResult<LineVO> getByItemId(long sellerId, long itemId) {
@@ -107,7 +110,7 @@ public class LineServiceImpl implements LineService {
 			// 图文详情
 			PicTextResult picTextResult = pictureTextRepo.getPictureText(itemId, PictureText.ITEM);
 			LineVO lineVO = LineConverter.toLineVO(lineResult, picTextResult, themes, toCityVO(departTags),
-					toCityVOForDest(destTags));
+					destinationBiz.toCityVOForDest(destTags));
 			lineVO.getBaseInfo().setAllDeparts(allDeparts);
 			return WebResult.success(lineVO);
 		} catch (Exception e) {
@@ -175,25 +178,7 @@ public class LineServiceImpl implements LineService {
 		return departs;
 	}
 	
-	private List<CityVO> toCityVOForDest(List<ComTagDO> destTags) {
-		if (CollectionUtils.isEmpty(destTags)) {
-			return new ArrayList<CityVO>(0);
-		}
-		List<Integer> codes = new ArrayList<Integer>();
-		for (ComTagDO comTagDO : destTags) {
-			codes.add(Integer.parseInt(comTagDO.getName()));
-		}
-		List<DestinationDO> destinationDOs = destinationRepo
-				.queryDestinationList(codes);
-		List<CityVO> dests = new ArrayList<CityVO>();
-		for (DestinationDO destinationDO : destinationDOs) {
-			City city = new City(String.valueOf(destinationDO.getCode()), destinationDO.getName(),	destinationDO.getSimpleCode());
-			CityVO cityVO = new CityVO(destinationDO.getId(),destinationDO.getName(), city);
-			cityVO.setCode(destinationDO.getSimpleCode());
-			dests.add(cityVO);
-		}
-		return dests;
-	}
+
 
 	@Override
 	public WebResult<List<CityVO>> getAllLineDests() {
