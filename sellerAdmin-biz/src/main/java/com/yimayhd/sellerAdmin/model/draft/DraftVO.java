@@ -2,7 +2,7 @@ package com.yimayhd.sellerAdmin.model.draft;
 
 import java.io.Serializable;
 
-public class DraftVo implements Serializable{
+public class DraftVO implements Serializable{
 
 	/**
 	 * serialVersionUID = -1798221570651670075L;

@@ -3,7 +3,7 @@ package com.yimayhd.sellerAdmin.service.draft.impl;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
-import com.yimayhd.sellerAdmin.model.draft.DraftVo;
+import com.yimayhd.sellerAdmin.model.draft.DraftVO;
 import com.yimayhd.sellerAdmin.model.query.DraftListQuery;
 import com.yimayhd.sellerAdmin.service.draft.DraftService;
 
@@ -24,7 +24,7 @@ public class DraftServiceImpl implements DraftService {
 	 * @createTime 2016年6月2日
 	 */
 	@Override
-	public WebOperateResult saveDraft(Object JsonObject, DraftVo draftVo) {
+	public WebOperateResult saveDraft(Object JsonObject, DraftVO draftVo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -38,7 +38,7 @@ public class DraftServiceImpl implements DraftService {
 	 * @createTime 2016年6月2日
 	 */
 	@Override
-	public WebOperateResult coverDraft(Object JsonObject, DraftVo draftVo) {
+	public WebOperateResult coverDraft(Object JsonObject, DraftVO draftVo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -65,7 +65,7 @@ public class DraftServiceImpl implements DraftService {
 	 * @createTime 2016年6月2日
 	 */
 	@Override
-	public WebResult<PageVO<DraftVo>> getDraftList(long sellerId, DraftListQuery draftListQuery) {
+	public WebResult<PageVO<DraftVO>> getDraftList(long sellerId, DraftListQuery draftListQuery) {
 		// TODO Auto-generated method stub
 		return null;
 	}

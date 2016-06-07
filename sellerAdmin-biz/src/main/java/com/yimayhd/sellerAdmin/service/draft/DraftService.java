@@ -3,7 +3,7 @@ package com.yimayhd.sellerAdmin.service.draft;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
-import com.yimayhd.sellerAdmin.model.draft.DraftVo;
+import com.yimayhd.sellerAdmin.model.draft.DraftVO;
 import com.yimayhd.sellerAdmin.model.query.DraftListQuery;
 
 /**
@@ -22,7 +22,7 @@ public interface DraftService {
 	 * @author yimay
 	 * @createTime 2016年6月2日
 	 */
-	WebOperateResult saveDraft(Object JsonObject, DraftVo draftVo);
+	WebOperateResult saveDraft(Object JsonObject, DraftVO draftVo);
 	
 	/**
 	 * 覆盖草稿
@@ -32,7 +32,7 @@ public interface DraftService {
 	 * @author yimay
 	 * @createTime 2016年6月2日
 	 */
-	WebOperateResult coverDraft(Object JsonObject, DraftVo draftVo);
+	WebOperateResult coverDraft(Object JsonObject, DraftVO draftVo);
 	
 	/**
 	 * 删除草稿
@@ -51,7 +51,7 @@ public interface DraftService {
 	 * @author yimay
 	 * @createTime 2016年6月2日
 	 */
-	WebResult<PageVO<DraftVo>> getDraftList(long sellerId, DraftListQuery draftListQuery);
+	WebResult<PageVO<DraftVO>> getDraftList(long sellerId, DraftListQuery draftListQuery);
 	
 	//TODO 跳转
 }
