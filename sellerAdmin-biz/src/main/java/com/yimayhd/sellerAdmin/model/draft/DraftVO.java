@@ -1,8 +1,9 @@
 package com.yimayhd.sellerAdmin.model.draft;
 
 import java.io.Serializable;
+import java.util.Date;
 
-public class DraftVo implements Serializable{
+public class DraftVO implements Serializable{
 
 	/**
 	 * serialVersionUID = -1798221570651670075L;
@@ -33,6 +34,26 @@ public class DraftVo implements Serializable{
 	 * 主类型
 	 */
 	private int mainType;
+
+	/**
+	 * 账号id
+	 */
+	private Long accountId;
+
+	/**
+	 * domainId
+	 */
+	private int domainId;
+
+	/**
+	 * 子类型显示用
+	 */
+	private String subTypeName;
+
+	/**
+	 * 创建时间
+	 */
+	private Date gmtCreated;
 
 	public Long getId() {
 		return id;
@@ -74,4 +95,35 @@ public class DraftVo implements Serializable{
 		this.mainType = mainType;
 	}
 
+	public Long getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(Long accountId) {
+		this.accountId = accountId;
+	}
+
+	public int getDomainId() {
+		return domainId;
+	}
+
+	public void setDomainId(int domainId) {
+		this.domainId = domainId;
+	}
+
+	public String getSubTypeName() {
+		return subTypeName;
+	}
+
+	public void setSubTypeName(String subTypeName) {
+		this.subTypeName = subTypeName;
+	}
+
+	public Date getGmtCreated() {
+		return gmtCreated;
+	}
+
+	public void setGmtCreated(Date gmtCreated) {
+		this.gmtCreated = gmtCreated;
+	}
 }
