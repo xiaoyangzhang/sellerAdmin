@@ -199,9 +199,9 @@ public class LineChecker {
 			return WebCheckResult.error("出发地不能超过15个");
 		}
 		if (baseInfo.getDays() <= 0) {
-			return WebCheckResult.error("行程天数不能小于0");
+			return WebCheckResult.error("请输入正确的行程天数[1-100]");
 		} else if (baseInfo.getDays() > 100) {
-			return WebCheckResult.error("行程天数不能大于100");
+			return WebCheckResult.error("请输入正确的行程天数[1-100]");
 		}
 		if (StringUtils.isBlank(baseInfo.getDescription())) {
 			return WebCheckResult.error("线路亮点不能为空");
@@ -262,8 +262,8 @@ public class LineChecker {
 		List<PackageMonth> months = tc.getMonths();
 		if (StringUtils.isBlank(tc.getName())) {
 			return WebCheckResult.error("线路套餐名称不能为空");
-		} else if (tc.getName().length() > 15) {
-			return WebCheckResult.error("线路套餐名称不能超过15个字");
+		} else if (tc.getName().length() > 20) {
+			return WebCheckResult.error("线路套餐名称不能超过20个字");
 		}
 		if (CollectionUtils.isEmpty(months)) {
 			return WebCheckResult.error("套餐月份不能为空");
