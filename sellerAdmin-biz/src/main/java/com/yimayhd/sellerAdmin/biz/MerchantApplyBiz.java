@@ -62,7 +62,7 @@ public class MerchantApplyBiz {
 		try {
 			ExamineInfoDTO dto = MerchantConverter.convertVO2DTO(examineInfoVO, userId);
 			MemResult<Boolean> checkMerchantNameIsExist = merchantApplyRepo.checkMerchantNameIsExist(dto);
-			if (checkMerchantNameIsExist == null || !checkMerchantNameIsExist.isSuccess() ) {
+			if (checkMerchantNameIsExist == null || !checkMerchantNameIsExist.isSuccess() || checkMerchantNameIsExist.getValue() == null) {
 				result.setReturnCode(MemberReturnCode.SYSTEM_ERROR);
 				return result;
 				
