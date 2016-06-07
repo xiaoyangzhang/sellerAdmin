@@ -731,9 +731,9 @@ public class ApplyController extends BaseController {
 			checkResult.setErrorMsg("请输入负责人姓名");
 			checkResult.setSuccess(false);
 			return checkResult;
-		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCard()) || (Constant.ID_CARD.equals(examineInfoVO.getPrincipleCard())
-				&& Constant.PASSPORT.equals(examineInfoVO.getPrincipleCard()) && Constant.GUIDE_CERTIFICATE.equals(examineInfoVO.getPrincipleCard()) 
-				&& Constant.CAR_LICENSE.equals(examineInfoVO.getPrincipleCard()) )) {
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCard()) || !(Constant.ID_CARD.equals(examineInfoVO.getPrincipleCard()))
+				|| !( Constant.PASSPORT.equals(examineInfoVO.getPrincipleCard())) || !( Constant.GUIDE_CERTIFICATE.equals(examineInfoVO.getPrincipleCard())) 
+				|| !( Constant.CAR_LICENSE.equals(examineInfoVO.getPrincipleCard()))) {
 			checkResult.setErrorCode(-1);
 			checkResult.setErrorMsg("请选择负责人证件类型");
 			checkResult.setSuccess(false);
@@ -845,7 +845,7 @@ public class ApplyController extends BaseController {
 			return checkResult;
 		}
 		//
-		WebResult<List<MerchantCategoryScopeDO>> merchantCategoryScopeResult = merchantApplyBiz.getMerchantCategoryScope(examineInfoVO.getMerchantCategoryId());
+		/*WebResult<List<MerchantCategoryScopeDO>> merchantCategoryScopeResult = merchantApplyBiz.getMerchantCategoryScope(examineInfoVO.getMerchantCategoryId());
 		if (merchantCategoryScopeResult != null && merchantCategoryScopeResult.isSuccess() && merchantCategoryScopeResult.getValue() != null) {
 			List<Long> idList = new ArrayList<Long>();
 			String[] scopeIds = examineInfoVO.getScopeIds().split(",");
@@ -862,9 +862,9 @@ public class ApplyController extends BaseController {
 				checkResult.setSuccess(false);
 				return checkResult;
 			}
-		}
+		}*/
 		//
-		if (examineInfoVO.getIsDirectSale() == ExamineCharacter.DIRECT_SALE.getType()) {
+		/*if (examineInfoVO.getIsDirectSale() == ExamineCharacter.DIRECT_SALE.getType()) {
 			if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOME_BRANCH_AGENCY.getSubType() || 
 					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.BROAD_BRANCH_AGENCY.getSubType() ||
 					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOTEL_AGENT.getSubType() ||
@@ -877,8 +877,8 @@ public class ApplyController extends BaseController {
 				return checkResult;
 				
 			}
-		}
-		if (examineInfoVO.getIsDirectSale() == ExamineCharacter.BOUTIQUE.getType()) {
+		}*/
+		/*if (examineInfoVO.getIsDirectSale() == ExamineCharacter.BOUTIQUE.getType()) {
 			if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.SCENIC_SPOT.getSubType() || 
 					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.AMUSEMENT_PARK.getSubType() ||
 					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.TICKET_AGENT.getSubType() ||
@@ -890,7 +890,7 @@ public class ApplyController extends BaseController {
 				return checkResult;
 				
 			}
-		}
+		}*/
 		return checkResult;
 	}
 	/**
@@ -904,18 +904,35 @@ public class ApplyController extends BaseController {
 	 * @return boolean    返回类型 
 	 * @throws
 	 */
-	private MemResult<String> checkMerchantApplyParamsB(ExamineInfoVO examineInfoVO) {
-		MemResult<String> checkResult = new MemResult<String>();
+	private WebResult<String> checkMerchantApplyQualification(ExamineInfoVO examineInfoVO) {
+		WebResult<String> checkResult = new WebResult<String>();
 		if (examineInfoVO == null) {
 			log.error("param error:examineInfoVO={}",JSON.toJSONString(examineInfoVO));
-			checkResult.setReturnCode(MemberReturnCode.PARAMTER_ERROR);
+			checkResult.setWebReturnCode(WebReturnCode.PARAM_ERROR);
 			return checkResult;
 		}
-		WebResult<List<MerchantScopeDO>> scopeResult = merchantApplyBiz.getMerchantScope();
-		//merchantApplyBiz.getExamineInfo();
-		List<MerchantScopeDO> scopeIds = scopeResult.getValue();
+//		WebResult<List<MerchantScopeDO>> scopeResult = merchantApplyBiz.getMerchantScope();
+//		List<MerchantScopeDO> scopeIds = scopeResult.getValue();
+		WebResult<List<QualificationVO>> qualificationResult = merchantApplyBiz.getQualification();
+		if (qualificationResult == null || !qualificationResult.isSuccess() || qualificationResult.getValue() == null) {
+			log.error("not found the qualification with category of this merchant, result:QualificationVO={}",JSON.toJSONString(qualificationResult));
+			checkResult.setWebReturnCode(WebReturnCode.QUERY_MERCHANT_CATEGORY_QUALIFICATION_FAILED);
+			return checkResult;
+		}
+		List<QualificationVO> queryQualificationList = qualificationResult.getValue();
+		List<MerchantQualificationDO> merchantQualificationList = examineInfoVO.getMerchantQualifications();
+		for (MerchantQualificationDO merchantQualificationDO : merchantQualificationList) {
+			for (QualificationVO vo : queryQualificationList) {
+				if (merchantQualificationDO.getQulificationId() == vo.getQualificationId() && StringUtils.isBlank(vo.getContent())) {
+//					checkResult.
+//					checkResult.setErrorMsg("请选择正确的店铺性质");
+//					checkResult.setSuccess(false);
+					return checkResult;
+				}
+			}
+		}
 		//
-		if (examineInfoVO.getMerchantCategoryId() == 12 ||  examineInfoVO.getMerchantCategoryId() == 14 ) {
+		/*if (examineInfoVO.getMerchantCategoryId() == 12 ||  examineInfoVO.getMerchantCategoryId() == 14 ) {
 			if (StringUtils.isBlank(examineInfoVO.getBusinessLicense())) {
 				checkResult.setErrorCode(-1);
 				checkResult.setErrorMsg("请上传营业执照副本正面");
@@ -931,9 +948,9 @@ public class ApplyController extends BaseController {
 				checkResult.setErrorMsg("请上传旅行社责任险保险单复印件正面");
 				checkResult.setSuccess(false);
 				return checkResult;
-			}
+			}*/
 		//
-		if (examineInfoVO.getMerchantCategoryId() == 13 || examineInfoVO.getMerchantCategoryId() == 15) {
+		/*if (examineInfoVO.getMerchantCategoryId() == 13 || examineInfoVO.getMerchantCategoryId() == 15) {
 			if (StringUtils.isBlank(examineInfoVO.getBusinessLicense())) {
 				checkResult.setErrorCode(-1);
 				checkResult.setErrorMsg("请上传营业执照副本正面");
@@ -955,9 +972,9 @@ public class ApplyController extends BaseController {
 				checkResult.setSuccess(false);
 				return checkResult;
 			}
-			}
+			}*/
 		//
-			if (examineInfoVO.getMerchantCategoryId() == 2) {
+			/*if (examineInfoVO.getMerchantCategoryId() == 2) {
 				for (MerchantScopeDO scope : scopeIds) {
 					
 					if (scope.getBusinessScopeId() == 2 || scope.getBusinessScopeId() == 3 || scope.getBusinessScopeId() == 4 || scope.getBusinessScopeId() == 7 ) {
@@ -1006,14 +1023,25 @@ public class ApplyController extends BaseController {
 					}
 					}
 				}
-			}
+			}*/
 			//
-			if (examineInfoVO.getMerchantCategoryId() == 3 ) {
+			/*if (examineInfoVO.getMerchantCategoryId() == 3 ) {
 				
 			}
-		}
+		}*/
 		return checkResult;
 	}
+	/**
+	 * 
+	* created by zhangxy
+	* @date 2016年6月7日
+	* @Title: getCategoryScope 
+	* @Description: 根据选择的身份查询可以选择的经营范围
+	* @param @param merchantCategoryId
+	* @param @return    设定文件 
+	* @return MemResult<String>    返回类型 
+	* @throws
+	 */
 	@RequestMapping(value="getBusinessScope",method=RequestMethod.POST)
 	@ResponseBody
 	public MemResult<String>  getCategoryScope(long merchantCategoryId) {
