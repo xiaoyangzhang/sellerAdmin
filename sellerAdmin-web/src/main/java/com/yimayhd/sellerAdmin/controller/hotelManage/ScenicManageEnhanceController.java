@@ -114,16 +114,16 @@ public class ScenicManageEnhanceController extends BaseController {
         CategoryResult categoryResult = categoryServiceRef.getCategory(scenicManageVO.getCategoryId());
         if(!categoryResult.isSuccess()||categoryResult.getCategroyDO()==null){
             log.error("类目信息错误");
-            return "/error";
+            return "/system/error/500";
         }
          CategoryDO categoryDO = categoryResult.getCategroyDO();
         if(CollectionUtils.isEmpty(categoryDO.getKeyCategoryPropertyDOs())){
             log.error("类目必要属性信息错误");
-            return "/error";
+            return "/system/error/500";
         }
         if(CollectionUtils.isEmpty(categoryDO.getNonKeyCategoryPropertyDOs())){
             log.error("类目非必要属性信息错误");
-            return "/error";
+            return "/system/error/500";
         }
         List<CategoryPropertyValueDO> keyPro = categoryDO.getKeyCategoryPropertyDOs();
         List<CategoryPropertyValueDO> nonPro = categoryDO.getNonKeyCategoryPropertyDOs();
