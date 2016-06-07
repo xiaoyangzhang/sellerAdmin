@@ -52,7 +52,7 @@
        	    	   				<tr>
                	    	   				<td class="rigtxt ts"><label>旅游企业：</label></td>
                	    	   				<td class="rigcontent listli">
-               	    	   					<input type="radio" value="1" name="" id="travel"  class="flm ccc"/><label >旅行社</label>
+               	    	   					<input type="radio" value="1" name="lxs" id="travel"  class="flm ccc"/><label >旅行社</label>
                	    	   					<input type="radio" value="2" #if($!examineInfo.merchantCategoryId == 2) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd"/><label class="">旅游商务服务公司</label>
                	    	   					<div class="company">
 								               <label class="bomb-con"><input type="radio" #if($!examineInfo.merchantCategoryId == 12) checked="checked" #end value="12"  name="merchantCategoryId" id="" class="" /><label>国内社总社</label></label>
@@ -100,17 +100,17 @@
 					   	       	<td class="rigtxt rigtit"><label>经营范围：</label></td>
 					   	       	<td class="rigcontent qdlm">
 					   	       		<ol>
-						   	       		<li><input type="checkbox" disabled="disabled" value="1" name="" id="" class="k1"/><label>度假路线</label></li>
+						   	       		<li><input type="checkbox" disabled="disabled" value="1"  id="" class="k1"/><label>度假路线</label></li>
 						   	       		<div class="bomb">
 										    <div class="aaa bomb-txt01">
-												<label><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 2) checked="checked" #end #end value="2" disabled="disabled" name="" id="" class=""/><label>国内游</label></label>
-												<label class="bomb-con"><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 3) checked="checked" #end #end disabled="disabled" value="3" name="" id="" class=""/><label>出境游</label></label>
-												<label class="bomb-con"><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 4) checked="checked" #end #end disabled="disabled" value="4" name="" id="" class=""/><label>其他(交通卡券、送关、租车、旅游服务等)</label></label>
+												<label><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 2) checked="checked" #end #end value="2" disabled="disabled" name="businessScopeId" id="" class=""/><label>国内游</label></label>
+												<label class="bomb-con"><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 3) checked="checked" #end #end disabled="disabled" value="3" name="businessScopeId" id="" class=""/><label>出境游</label></label>
+												<label class="bomb-con"><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 4) checked="checked" #end #end disabled="disabled" value="4" name="businessScopeId" id="" class=""/><label>其他(交通卡券、送关、租车、旅游服务等)</label></label>
 											</div>
 										</div>
-						   	       		<li><input type="checkbox" value="5" name="" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 5) checked="checked" #end #end  disabled="disabled" class=""/><label>酒店</label></li>
-						   	       		<li><input type="checkbox" value="6" name="" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 6) checked="checked" #end #end disabled="disabled" class=""/><label>门票</label></li>
-						   	       		<li><input type="checkbox" value="7" name="" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 7) checked="checked" #end #end disabled="disabled" class="" datatype="*"/><label>特产商品</label></li>
+						   	       		<li><input type="checkbox" value="5" name="businessScopeId" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 5) checked="checked" #end #end  disabled="disabled" class=""/><label>酒店</label></li>
+						   	       		<li><input type="checkbox" value="6" name="businessScopeId" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 6) checked="checked" #end #end disabled="disabled" class=""/><label>门票</label></li>
+						   	       		<li><input type="checkbox" value="7" name="businessScopeId" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 7) checked="checked" #end #end disabled="disabled" class="" datatype="*"/><label>特产商品</label></li>
 						   	       	</ol>
 					   	       	</td>
 				   	       </tr>
