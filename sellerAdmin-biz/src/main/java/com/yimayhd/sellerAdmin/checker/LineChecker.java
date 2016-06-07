@@ -262,8 +262,8 @@ public class LineChecker {
 		List<PackageMonth> months = tc.getMonths();
 		if (StringUtils.isBlank(tc.getName())) {
 			return WebCheckResult.error("线路套餐名称不能为空");
-		} else if (tc.getName().length() > 15) {
-			return WebCheckResult.error("线路套餐名称不能超过15个字");
+		} else if (tc.getName().length() > 20) {
+			return WebCheckResult.error("线路套餐名称不能超过20个字");
 		}
 		if (CollectionUtils.isEmpty(months)) {
 			return WebCheckResult.error("套餐月份不能为空");
