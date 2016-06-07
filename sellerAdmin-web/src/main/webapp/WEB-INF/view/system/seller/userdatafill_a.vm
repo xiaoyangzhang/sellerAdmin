@@ -287,7 +287,7 @@
 					     <div class="notes namelm"><span>*</span><label>店铺名称要符合店铺命名规范</label></div>
 					 </div>  
 					 <div class="identity">
-					  <div class="nextpage"><a href="href="$!root_path/apply/toChoosePage">上一页</a><a class="subt"
+					  <div class="nextpage"><a href="$!root_path/apply/toChoosePage">上一页</a><a class="subt"
 					   href="$!root_path/apply/seller/saveUserdata">下一页</a></div>
 					  </div>
 					  </div>
