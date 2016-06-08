@@ -18,7 +18,7 @@
 <body>
 	#parse("layout/layout-top.vm")
 
-	<div class = "comwidth crumbs f12">
+		<div class = "comwidth crumbs f12">
 		您所在的位置：
 			#if( $locations )
 				#set($size = $locations.size() )
@@ -33,6 +33,7 @@
 			#else
 			<a class = "f12 gray6">首页</a>
 			#end
+		</div>
 		<div class = "comwidth clearfix" id = "eredar">
 			<div class = "eredar-left">
 				#parse("layout/menu.vm")
@@ -42,7 +43,6 @@
 			</div>
 		</div>
 		#parse("layout/layout-footer.vm")
-	</div>
 </body>
 
 </html>
