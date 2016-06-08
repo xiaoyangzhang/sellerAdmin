@@ -82,14 +82,17 @@ public class MerchantApplyBiz {
 				return result;
 			}
 			List<MerchantDO> merchantDOs = queryMerchantResult.getValue()	;
-			if( CollectionUtils.isEmpty(merchantDOs) ){
+		//	if( CollectionUtils.isEmpty(merchantDOs) ){
 //				result.setValue(Boolean.FALSE);
 //				return result;
-			}
-			for( MerchantDO merchantDO : merchantDOs ){
-				if( merchantDO.getSellerId() != userId ){
-					result.setReturnCode(MemberReturnCode.MERCHANT_NAME_EXIST);
-					return result ;
+		//	}
+			
+			if (null != merchantDOs && merchantDOs.size() > 0) {
+				for (MerchantDO merchantDO : merchantDOs) {
+					if (merchantDO.getSellerId() != userId) {
+						result.setReturnCode(MemberReturnCode.MERCHANT_NAME_EXIST);
+						return result;
+					}
 				}
 			}
 			dto.setType(ExamineType.MERCHANT.getType());
