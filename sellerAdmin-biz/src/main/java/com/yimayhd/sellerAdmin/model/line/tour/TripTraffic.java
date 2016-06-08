@@ -1,9 +1,11 @@
 package com.yimayhd.sellerAdmin.model.line.tour;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 
 import com.yimayhd.ic.client.model.domain.share_json.RouteTrafficInfo;
@@ -78,7 +80,19 @@ public class TripTraffic {
 	 * @return
 	 */
 	public static List<Entry<String, String>> ways() {
-		return new ArrayList<Entry<String, String>>(WAYS.entrySet());
+		ArrayList<Entry<String, String>> arrayList = new ArrayList<Entry<String, String>>();
+		Iterator<Entry<String, String>> iterator = WAYS.entrySet().iterator();
+		Entry<String, String> temp=null;
+		while (iterator.hasNext()) {
+			Entry<String, String> next = iterator.next();
+			if (!next.getKey().equals(RouteItemType.OTHERS.name())) {
+				arrayList.add(next);
+			}else {
+				temp=next;
+			}
+		}
+		arrayList.add(temp);
+		return arrayList;
 	}
 
 	/**
