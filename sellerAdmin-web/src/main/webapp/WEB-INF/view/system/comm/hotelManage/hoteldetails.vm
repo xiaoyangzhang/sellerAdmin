@@ -87,7 +87,7 @@
     <div class="baseinfo">
         <table>
             <tr>
-                <td class="coltxt">酒店类型类型：</td>
+                <td class="coltxt">酒店类型：</td>
                 <td><label>$!{hotelMessageVO.hotelTypeStr}</label></td>
             </tr>
             <tr>
