@@ -173,7 +173,7 @@ public class ScenicManageDomainChecker {
         List<BizCategoryInfo> bizList = new ArrayList<BizCategoryInfo>();
         for (ItemSkuPVPair skuPVPair: itemDO.getItemPropertyList()){
             BizCategoryInfo bizCategory = new BizCategoryInfo();
-                System.out.println("销售属性:"+skuPVPair.getVTxt());
+                //System.out.println("销售属性:"+skuPVPair.getVTxt());
                 bizCategory.setPId(skuPVPair.getPId());
                 bizCategory.setVTxt(skuPVPair.getVTxt());
                 bizCategory.setPTxt(skuPVPair.getPTxt());
@@ -183,7 +183,6 @@ public class ScenicManageDomainChecker {
         }
 
         String bizCategoryJson =CommonJsonUtil.objectToJson(bizList,List.class);
-        System.out.println("编辑Josn:"+bizCategoryJson);
         scenicManageVO.setDynamicEntry(bizCategoryJson);//属性json穿
         scenicManageVO.setBizCategoryInfoList(bizList);// json列表
         System.out.println("bizCategoryJson");
@@ -299,8 +298,8 @@ public class ScenicManageDomainChecker {
             ItemSkuPVPair itemSkuPVPair = new ItemSkuPVPair();
             itemSkuPVPair.setPId(bizCategoryInfo.getPId());//properid
             itemSkuPVPair.setPTxt(bizCategoryInfo.getPTxt());//文本
-            System.out.println("biz ptxt:"+bizCategoryInfo.getPTxt());
-            System.out.println(itemSkuPVPair.getPTxt());
+           // System.out.println("biz ptxt:"+bizCategoryInfo.getPTxt());
+           // System.out.println(itemSkuPVPair.getPTxt());
             itemSkuPVPair.setPType(bizCategoryInfo.getPType());//类型
             itemSkuPVPair.setVTxt(bizCategoryInfo.getVTxt());//value值
             itemSkuPVPairList.add(itemSkuPVPair);
