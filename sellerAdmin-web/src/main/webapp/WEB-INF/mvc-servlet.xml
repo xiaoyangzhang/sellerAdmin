@@ -72,10 +72,10 @@
 				<property name="redirectLoginUrl" value="${login.url}"></property>
 			</bean>
 		</mvc:interceptor>
-		<!-- <mvc:interceptor>
+		 <mvc:interceptor>
 			<mvc:mapping path="/apply/**"/>
 			<bean class="com.yimayhd.sellerAdmin.interceptor.ApplyAuthorityInterceptor"></bean>
-		</mvc:interceptor> -->
+		</mvc:interceptor>
 	</mvc:interceptors>
 	<mvc:interceptors>
 		<mvc:interceptor>
