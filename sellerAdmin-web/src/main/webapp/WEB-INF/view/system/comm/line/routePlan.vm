@@ -88,12 +88,10 @@
     			description: $(".go-description").val()
     		};
 		}
-		if($(".back-type").val()) {
     		result["back"] = {
     			type: $(".back-type").val(),
     			description: $(".back-description").val()
     		};
-		}
 		result["hotelInfo"] = $(".hotelInfo").val();
 		result["scenicInfo"] = $(".scenicInfo").val();
         return result;
