@@ -475,6 +475,7 @@ public class ApplyController extends BaseController {
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(userId);
+	//	info.setType(type);
 		try {
 			MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
 			if(!result.isSuccess()){
