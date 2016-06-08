@@ -228,8 +228,8 @@ public class LineChecker {
 		List<PackageInfo> tcs = priceInfo.getTcs();
 		if (CollectionUtils.isEmpty(tcs)) {
 			return WebCheckResult.error("线路套餐不能为空");
-		} else if (tcs.size() > 10) {
-			return WebCheckResult.error("线路套餐不能超过10个");
+		} else if (tcs.size() > 20) {
+			return WebCheckResult.error("线路套餐不能超过20个");
 		} else {
 			Set<String> tcSet = new HashSet<String>();
 			for (PackageInfo tc : tcs) {
