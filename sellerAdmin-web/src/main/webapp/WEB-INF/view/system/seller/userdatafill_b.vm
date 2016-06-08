@@ -49,8 +49,8 @@
 					#foreach($qualification in $qualifications)
 	
 			#if($qualification.getContentList().size() < 2)
-		<div class="zfd lefttitle">
-			#if($qualification.required )<label class="bred">*</label>#end<label>$!{qualification.title}：</label>
+		<div class="zfd ">
+			<div class="lefttitle">#if($qualification.required )<label class="bred">*</label>#end<label>$!{qualification.title}：</label></div>
 			
 			#foreach($content in $qualification.getContentList() )
 				<span class="imgbox upload-img #if(!${qualification.required} ) allownull #end"  id="$!{qualification.qualificationId}">
