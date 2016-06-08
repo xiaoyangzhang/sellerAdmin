@@ -91,7 +91,9 @@
             #if(!${isReadonly})
             <div class="groupTravelBot">
                 <button class="btn btn-primary save">全部保存</button>
+                <button class="btn btn-primary savedraft">保存草稿</button>
             </div>
+              
 			#end
         </div>
 	</body>
@@ -133,6 +135,50 @@ $(".save").click(function(){
 					//top.freshPrevFrame();
 					//top.tabTopClose(this);
 					window.location.href = "$!{utilWebconfig.getActionDefaultFontPath()}/item/list"; 
+                }
+            });
+		} else {
+			layer.alert(data.resultMsg, {
+				icon : 2
+			});
+		}
+    },"json");
+});
+$(".savedraft").click(function(){
+    var result = {
+        baseInfo:getBaseInfo(),
+		pictureText:getPictureText(),
+		#if($utilItem.isFreeLine($itemType))
+		routePlan:getRoutePlan(),
+		#end
+        routeInfo:getRouteInfo(),
+        priceInfo:getPriceInfo(),
+		needKnow:getNeedKnow()
+    };
+	console.log(JSON.stringify(result.baseInfo));
+	console.log(JSON.stringify(result.pictureText));
+	#if($utilItem.isFreeLine($itemType))
+	console.log(JSON.stringify(result.routePlan));
+	#end
+	console.log(JSON.stringify(result.routeInfo));
+	console.log(JSON.stringify(result.priceInfo));
+	console.log(JSON.stringify(result.needKnow));
+	var params = {
+		json:JSON.stringify(result)
+	};
+	var uuid = $("#uuid").val();
+    var url = "$!{utilWebconfig.getActionDefaultFontPath()}/draft/saveLineDraft?uuid="+uuid+"&draftName=aaa";
+    $.post(url,params,function(data){
+		if(data.success) {
+			layer.alert('保存成功', {
+                time: 0 //不自动关闭
+                ,yes: function(index){
+                    
+                    //layer.close(index);
+					//// 刷新父页面
+					//top.freshPrevFrame();
+					//top.tabTopClose(this);
+					window.location.href = "$!{utilWebconfig.getActionDefaultFontPath()}/draft/list"; 
                 }
             });
 		} else {
