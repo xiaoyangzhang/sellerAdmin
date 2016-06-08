@@ -1,6 +1,14 @@
 package com.yimayhd.sellerAdmin.repo;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.yimayhd.membercenter.client.domain.draft.DraftDO;
+import com.yimayhd.membercenter.client.domain.draft.DraftDetailDO;
 import com.yimayhd.membercenter.client.dto.DraftDTO;
 import com.yimayhd.membercenter.client.query.DraftListQuery;
 import com.yimayhd.membercenter.client.result.MemPageResult;
@@ -8,12 +16,6 @@ import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.DraftManagerService;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.util.RepoUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by liuxp on 2016/6/7.
@@ -72,5 +74,17 @@ public class DraftRepo {
         MemPageResult<DraftDTO> result = draftManagerServiceRef.getDraftList(draftListQuery);
         RepoUtils.resultLog(log, "draftManagerServiceRef.getDraftList", result);
         return result;
+    }
+    
+    public MemResult<DraftDetailDO> getDraftDetailById(Long id) {
+    	
+    	if(null==id) {
+    		log.error("DraftRepo.getDraftDetailById(id) error: id is null");
+            throw new BaseException("参数为null ");
+    	}
+    	RepoUtils.requestLog(log, "draftManagerServiceRef.getDraftDetailById", id);
+    	MemResult<DraftDetailDO> result = draftManagerServiceRef.getDraftDetail(id);
+        RepoUtils.resultLog(log, "draftManagerServiceRef.getDraftDetailById", result);
+    	return result;
     }
 }

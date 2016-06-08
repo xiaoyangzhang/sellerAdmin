@@ -54,5 +54,12 @@ public interface DraftService {
 	 */
 	WebResult<PageVO<DraftVO>> getDraftList(long sellerId, DraftListQuery draftListQuery);
 
-	WebResult<DraftDetailVO> getDetailByType(Long sellerId, int mainType, int subType);
+	/**
+	 * 通过id获得草稿详细信息
+	 * @param id
+	 * @return
+	 * @author liuxp
+	 * @createTime 2016年6月8日
+	 */
+	WebResult<DraftDetailVO> getDetailById(Long id);
 }

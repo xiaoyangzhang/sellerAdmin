@@ -1,6 +1,7 @@
 package com.yimayhd.sellerAdmin.service.draft.impl;
 
 import com.yimayhd.membercenter.client.domain.draft.DraftDO;
+import com.yimayhd.membercenter.client.domain.draft.DraftDetailDO;
 import com.yimayhd.membercenter.client.dto.DraftDTO;
 import com.yimayhd.membercenter.client.query.DraftListQuery;
 import com.yimayhd.membercenter.client.result.MemPageResult;
@@ -148,6 +149,7 @@ public class DraftServiceImpl implements DraftService {
                         draftVO.setDraftName(draftDTO.getDraftName());
                         draftVO.setSubTypeName(draftDTO.getSubTypeName());
                         draftVO.setGmtCreated(draftDTO.getGmtCreated());
+                        draftVO.setMainType(draftDTO.getMainType());
                         draftVOList.add(draftVO);
                     }
                     PageVO<DraftVO> pages = new PageVO<DraftVO>(result.getPageNo(), result.getPageSize(), result.getTotalCount(), draftVOList);
@@ -166,10 +168,34 @@ public class DraftServiceImpl implements DraftService {
         }
 	}
 
+	/**
+	 * 通过id获得草稿详细信息
+	 * @param id
+	 * @return
+	 * @author liuxp
+	 * @createTime 2016年6月8日
+	 */
     @Override
-    public WebResult<DraftDetailVO> getDetailByType(Long sellerId, int mainType, int subType) {
+    public WebResult<DraftDetailVO> getDetailById(Long id) {
 
-
-        return null;
+    	if(null==id) {
+    		log.error("DraftServiceImpl.getDetailById: id=" + id );
+            return WebResult.failure(WebReturnCode.PARAM_ERROR);
+    	}
+    	try {
+    		MemResult<DraftDetailDO> draftDetailDO = draftRepo.getDraftDetailById(id);
+    		if(draftDetailDO.isSuccess()) {
+    			DraftDetailVO draftDetailVO = new DraftDetailVO();
+    			draftDetailVO.setId(draftDetailVO.getId());
+    			draftDetailVO.setJSONStr(draftDetailVO.getJSONStr());
+    			return WebResult.success(draftDetailVO);
+    		} else {
+    			return WebResult.failure(WebReturnCode.REMOTE_CALL_FAILED);
+    		}
+		} catch (Exception e) {
+			log.error("DraftServiceImpl.getDetailById: id=" + id);
+            log.error("DraftServiceImpl.getDetailById error", e);
+            return WebResult.failure(WebReturnCode.SYSTEM_ERROR);
+		}
     }
 }
