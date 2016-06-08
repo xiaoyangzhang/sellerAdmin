@@ -77,9 +77,9 @@
 												<div class="input-group">
 													<span class="input-group-addon">$!{block.name}</span>
 													#set($price = $block.price / 100.0)  
-													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item double-only tc-${tcId}-item tc-${tcId}-item-$!{block.id}-1" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_1" placeholder="请输入成人价" value="$price">
+													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item double-only tc-${tcId}-item tc-${tcId}-item-$!{block.id}-1" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_1" placeholder="请输入价格" maxlength="9" value="$price">
 													<span class="input-group-addon">库存</span>
-													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item int-only tc-${tcId}-item tc-${tcId}-item-$!{block.id}-2" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_2" placeholder="请输入库存" value="$!{block.stock}">
+													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item int-only tc-${tcId}-item tc-${tcId}-item-$!{block.id}-2" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_2" placeholder="请输入库存" maxlength="6" value="$!{block.stock}">
 												</div>
 											#end
 											</td>
@@ -287,12 +287,12 @@
 				#foreach($persionPropertyValue in $persionPropertyValues)
 				var group_$!{persionPropertyValue.id} = $("<div class='input-group block'/>")
 				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon'>$!{persionPropertyValue.text}</span>");
-				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item double-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-1' id='"+day_id+"_$!{persionPropertyValue.id}_1' placeholder='请输入成人价' value='0.0'>"); 
+				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item double-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-1' id='"+day_id+"_$!{persionPropertyValue.id}_1' placeholder='请输入价格' maxlength='9' value='0.0'>"); 
 				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon'>库存</span>");
 				#if($!{persionPropertyValue.text}=="单房差")
-					group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item int-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-2' id='"+day_id+"_$!{persionPropertyValue.id}_2' placeholder='请输入库存' value='999'>"); 
+					group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item int-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-2' id='"+day_id+"_$!{persionPropertyValue.id}_2' placeholder='请输入库存' maxlength='6' value='999'>"); 
 				#else
-					group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item int-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-2' id='"+day_id+"_$!{persionPropertyValue.id}_2' placeholder='请输入库存' value='0'>"); 
+					group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item int-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-2' id='"+day_id+"_$!{persionPropertyValue.id}_2' placeholder='请输入库存' maxlength='6' value='0'>"); 
 				#end
 				td.append(group_$!{persionPropertyValue.id});
 				#end
