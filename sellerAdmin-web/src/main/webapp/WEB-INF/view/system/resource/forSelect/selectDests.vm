@@ -59,20 +59,19 @@
         					id : countryArr[i].destinationVO.id,
         					name : countryArr[i].destinationVO.name,
         					code : countryArr[i].destinationVO.code
-        				});
-        				if (countryArr[i].child) {
-	        				for (var j=0;j<countryArr[i].child.length;j++) {
-	        					if (countryArr[i].child[j].destinationVO.selected) {
-	        						result.push({
-		            					id : countryArr[i].child[j].destinationVO.id,
-		            					name : countryArr[i].child[j].destinationVO.name,
-		            					code : countryArr[i].child[j].destinationVO.code
-		            				});
-	        					}
-	        				}     					
-        				};
-        				
-        			}
+        				});       				
+        			};
+    				if (countryArr[i].child) {
+        				for (var j=0;j<countryArr[i].child.length;j++) {
+        					if (countryArr[i].child[j].destinationVO.selected) {
+        						result.push({
+	            					id : countryArr[i].child[j].destinationVO.id,
+	            					name : countryArr[i].child[j].destinationVO.name,
+	            					code : countryArr[i].child[j].destinationVO.code
+	            				});
+        					}
+        				}     					
+    				};
         		};
             	return result;
             };

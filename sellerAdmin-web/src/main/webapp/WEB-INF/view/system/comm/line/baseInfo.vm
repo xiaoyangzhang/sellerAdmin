@@ -52,13 +52,13 @@
 		</tr>
 		<tr>
 			<td><span class="red">*</span>行程天数（天）：</td>
-			<td><input type="text" value="$!{baseInfo.days}" class="form-control days int-only" placeholder="请填写整数"/></td>
+			<td><input type="text" value="$!{baseInfo.days}" class="form-control days int-only" placeholder="请填写1-100整数" maxlength="4"/></td>
 		</tr>
 		<tr>
 			<td><span class="red">*</span>线路亮点：</td>
 			<td>
-				<textarea class="form-control textarea-count description" rows="3" placeholder="请输入亮点描述" maxlength="200">$!{baseInfo.description}</textarea>
-				<span class="word-num">0/200字</span>
+				<textarea class="form-control textarea-count description" rows="3" placeholder="请输入亮点描述">$!{baseInfo.description}</textarea>
+				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">200字</span></div>
 			</td>
 		</tr>
 		<tr>

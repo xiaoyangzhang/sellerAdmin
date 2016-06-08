@@ -85,7 +85,7 @@
 				var desc = $("<div class='panel trip-description'></div>");
                 desc.append($("<div class='panel-heading travelPanel'><span class='tripAddSp'><i class='red'>*</i>行程描述</span></div>"));
                 var desc_content = $("<div class='panel-body trip-description-content'></div>");
-				desc_content.append($("<textarea class='form-control trip-description-textarea' rows='3' id='day_"+dayId+"_trip_description' maxlength='1000'></textarea><span class='word-num'>0/1000字</span>"));
+				desc_content.append($("<textarea class='form-control textarea-count trip-description-textarea' rows='3' id='day_"+dayId+"_trip_description'></textarea><div class='word-num'><span class='num-a'>0</span>/<span class='num-b'>1000字</span></div>"));
                 desc.append(desc_content);	
 				page.append(desc);
 				// 行程图片
