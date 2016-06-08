@@ -120,19 +120,19 @@
 		#set($day = ${velocityCount})
 		<div class="tab-pane in #if(${day}==1) active #end" id="day_${velocityCount}_page">
 			<div class="panel trip-title">
-				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程标题</span></div>
+				<div class="panel-heading travelPanel"><span class="tripAddSp"><i class='red'>*</i>行程标题</span></div>
 				<div class="panel-body trip-title-content">
 					<input type="text" class="form-control trip-title-text" id="day_${velocityCount}_trip_title" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.title}" maxlength="38"/>
 				</div>
 			</div>
 			<div class="panel trip-description">
-				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程描述</span></div>
+				<div class="panel-heading travelPanel"><span class="tripAddSp"><i class='red'>*</i>行程描述</span></div>
 				<div class="panel-body trip-description-content">
 					<textarea class="form-control trip-description-textarea" rows="3" id="day_${velocityCount}_trip_description" route-item-id="$!{tripDay.routeItemId}" maxlength="1000">$!{tripDay.description}</textarea>
 				</div>
 			</div>
 			<div class="panel trip-images">
-				<div class="panel-heading travelPanel"><i class="icon icon-2x icon-exclamation-sign"></i><span class="tripAddSp">行程图片</span></div>
+				<div class="panel-heading travelPanel"><span class="tripAddSp"><i class='red'>*</i>行程图片</span></div>
 				<div class="panel-body trip-images-content uploadbox clearfix">
                     <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionUploadFilePath()}" />
                     <input type="hidden" class="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />	

@@ -44,7 +44,7 @@
 		<tr>
 			<td>详细描述：</td>
 			<td>
-				<textarea class="form-control textarea-number back-description" rows="3" placeholder="">$!{routePlan.back.description}</textarea>										
+				<textarea class="form-control textarea-count back-description" rows="3" placeholder="">$!{routePlan.back.description}</textarea>										
 				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">200字</span></div>
 			</td>
 		</tr>
@@ -58,7 +58,7 @@
 		<tr>
 			<td>酒店信息：</td>
 			<td>
-				<textarea class="form-control textarea-number hotelInfo" rows="3" placeholder="">$!{routePlan.hotelInfo}</textarea>
+				<textarea class="form-control textarea-count hotelInfo" rows="3" placeholder="">$!{routePlan.hotelInfo}</textarea>
 				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">1000字</span></div>
 			</td>
 		</tr>
@@ -72,7 +72,7 @@
 		<tr>
 			<td>景点信息：</td>
 			<td>
-				<textarea class="form-control textarea-number scenicInfo" rows="3" placeholder="">$!{routePlan.scenicInfo}</textarea>
+				<textarea class="form-control textarea-count scenicInfo" rows="3" placeholder="">$!{routePlan.scenicInfo}</textarea>
 				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">1000字</span></div>
 			</td>
 		</tr>

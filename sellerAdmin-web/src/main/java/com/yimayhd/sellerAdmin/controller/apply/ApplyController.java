@@ -475,6 +475,7 @@ public class ApplyController extends BaseController {
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(userId);
+	//	info.setType(type);
 		try {
 			MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
 			if(!result.isSuccess()){
@@ -527,18 +528,18 @@ public class ApplyController extends BaseController {
 	}
 	@RequestMapping(value = "/toChoosePage")
 	public String toChoosePage(Model model,boolean reject){
-		String chooseUrl = "/system/seller/chooseType";
-		if(reject){
-			return chooseUrl;
-		}
-		//权限
-		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "");
-		if(null != judgeRest){
-			return judgeRest;
-		}else{
-			return chooseUrl;
-		}
-		
+//		String chooseUrl = "/system/seller/chooseType";
+//		if(reject){
+//			return chooseUrl;
+//		}
+//		//权限
+//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "");
+//		if(null != judgeRest){
+//			return judgeRest;
+//		}else{
+//			return chooseUrl;
+//		}
+		return "/system/seller/chooseType";
 	}
 	/**
 	 * 跳转到商户入驻用户协议页面

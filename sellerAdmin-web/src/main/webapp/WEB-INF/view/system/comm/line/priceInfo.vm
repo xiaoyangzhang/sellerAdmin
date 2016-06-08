@@ -27,7 +27,7 @@
     </div>*#
 	<div class="tc-main" #if(!$product) style="display:none;margin: 10px 0 15px;" #end>
 		<input type="hidden" id="item_id" value="$!{product.priceInfo.itemId}"/>
-		<p>套餐设置：<button class="btn btn-primary addTC">添加新套餐</button></p>
+		<p>套餐设置：<button class="btn btn-primary addTC">添加新套餐</button><span class="red ml15">最多可添加20个套餐</span></p>
 		<ul id="tc_tab" class="nav nav-tabs navCombo">
 			#foreach($tc in $!{product.priceInfo.tcs})
 			#set($tcId = $velocityCount)
@@ -77,9 +77,9 @@
 												<div class="input-group">
 													<span class="input-group-addon">$!{block.name}</span>
 													#set($price = $block.price / 100.0)  
-													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item double-only tc-${tcId}-item tc-${tcId}-item-$!{block.id}-1" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_1" placeholder="请输入成人价" value="$price">
+													<input type="text" sku-id="$!{block.skuId}" class="tc-price form-control tc-item double-only tc-${tcId}-item tc-${tcId}-item-$!{block.id}-1" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_1" placeholder="请输入价格" maxlength="9" value="$price">
 													<span class="input-group-addon">库存</span>
-													<input type="text" sku-id="$!{block.skuId}" class="form-control tc-item int-only tc-${tcId}-item tc-${tcId}-item-$!{block.id}-2" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_2" placeholder="请输入库存" value="$!{block.stock}">
+													<input type="text" sku-id="$!{block.skuId}" class="tc-stock form-control tc-item int-only tc-${tcId}-item tc-${tcId}-item-$!{block.id}-2" id="tc_${tcId}_month_${month.time}_day_${day.time}_$!{block.id}_2" placeholder="请输入库存" maxlength="6" value="$!{block.stock}">
 												</div>
 											#end
 											</td>
@@ -107,14 +107,14 @@
 			<button class="btn btn-default" type="button">提前报名天数</button>
 		</span>
 		#if($product)
-        <input type="text" class="form-control day-limit int-only" value="$!{product.priceInfo.limit}">
+        <input type="text" class="form-control day-limit int-only" value="$!{product.priceInfo.limit}" maxlength="5">
 		#else
-		<input type="text" class="form-control day-limit int-only" value="0">
+		<input type="text" class="form-control day-limit int-only" value="0" maxlength="5">
 		#end
     </div>
     #*<div class="input-group inpSingle">
 		<span>提前报名天数：</span>
-		<input type="text" class="form-control day-limit" value="$!{product.priceInfo.limit}">
+		<input type="text" class="form-control day-limit" value="$!{product.priceInfo.limit}" maxlength="5">
     </div>*#
 </div>
 <script type="text/javascript">
@@ -213,6 +213,10 @@
 		$(".setTime").show();
 	});
 	$(".addTC").click(function(){
+		if (curTcId>=20) {
+			layer.msg('最多可添加20个套餐',{icon:2,time:1500})
+			return false;
+		};
 		curTcId = curTcId + 1;
 		var tcTab = createTcTab(curTcId);
 		$("#tc_tab").append(tcTab);
@@ -283,12 +287,12 @@
 				#foreach($persionPropertyValue in $persionPropertyValues)
 				var group_$!{persionPropertyValue.id} = $("<div class='input-group block'/>")
 				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon'>$!{persionPropertyValue.text}</span>");
-				group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item double-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-1' id='"+day_id+"_$!{persionPropertyValue.id}_1' placeholder='请输入成人价' value='0.0'>"); 
+				group_$!{persionPropertyValue.id}.append("<input type='text' class='tc-price form-control tc-item double-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-1' id='"+day_id+"_$!{persionPropertyValue.id}_1' placeholder='请输入价格' maxlength='9' value='0.0'>"); 
 				group_$!{persionPropertyValue.id}.append("<span class='input-group-addon'>库存</span>");
 				#if($!{persionPropertyValue.text}=="单房差")
-					group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item int-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-2' id='"+day_id+"_$!{persionPropertyValue.id}_2' placeholder='请输入库存' value='999'>"); 
+					group_$!{persionPropertyValue.id}.append("<input type='text' class='tc-stock form-control tc-item int-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-2' id='"+day_id+"_$!{persionPropertyValue.id}_2' placeholder='请输入库存' maxlength='6' value='999'>"); 
 				#else
-					group_$!{persionPropertyValue.id}.append("<input type='text' class='form-control tc-item int-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-2' id='"+day_id+"_$!{persionPropertyValue.id}_2' placeholder='请输入库存' value='0'>"); 
+					group_$!{persionPropertyValue.id}.append("<input type='text' class='tc-stock form-control tc-item int-only tc-"+id+"-item "+class_id+"-$!{persionPropertyValue.id}-2' id='"+day_id+"_$!{persionPropertyValue.id}_2' placeholder='请输入库存' maxlength='6' value='0'>"); 
 				#end
 				td.append(group_$!{persionPropertyValue.id});
 				#end

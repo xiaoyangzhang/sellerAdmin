@@ -81,7 +81,7 @@
 	
 #end
 #if($!{qualificationContents.qualificationId} > 0)
-		<div class="groupimg clearfix fl #if(!${qualificationContents.required} ) allownull #end" id="$!{qualificationContents.qualificationId}" >
+		<div class="groupimg clearfix fl zu-img #if(!${qualificationContents.required} ) allownull #end" id="$!{qualificationContents.qualificationId}" >
 				
 			<div class="updateli">
 			#foreach($content in $qualificationContents.getContentList() )
