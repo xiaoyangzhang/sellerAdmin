@@ -39,9 +39,9 @@
 					<div class="fm_md_one fm_md">
 						<div class="column"><label class="bred">*</label><label>商户名称：</label><input class="inptxt" name="sellerName" datatype="*" value="$!examineInfo.sellerName" maxlength="40" placeholder="公司主体名称、营业执照上名称"></div>
 						<div class="column" style="padding-left:160px;"><label class="bred" class="red">*</label><label>法定代表人名称：</label><input class="inptxt" datatype="*" name="legralName" value="$!examineInfo.legralName" maxlength="10" placeholder="营业执照上的法人名称"></div>
-						<div class="column" style="padding-left:146px;"><label class="bred">*</label><label>法定代表人身份证：</label><input class="inptxt" name="lawPersonCard" datatype="*" value="$!examineInfo.lawPersonCard" maxlength="18" placeholder=""></div>
-						<div class="column" style="padding-left:174px;"><label class="bred">*</label><label>营业执照号码：</label><input class="inptxt" name="saleLicenseNumber" datatype="*" value="$!examineInfo.saleLicenseNumber" maxlength="40" placeholder=""></div>
-						<div class="column" style="padding-left:174px;"><label class="bred">*</label><label>税务登记号码：</label><input class="inptxt" name="taxRegisterNumber" datatype="*" value="$!examineInfo.taxRegisterNumber" maxlength="40" placeholder=""></div>
+						<div class="column" style="padding-left:146px;"><label class="bred">*</label><label>法定代表人身份证：</label><input class="inptxt" name="lawPersonCard" datatype="m" value="$!examineInfo.lawPersonCard" maxlength="18" placeholder=""></div>
+						<div class="column" style="padding-left:174px;"><label class="bred">*</label><label>营业执照号码：</label><input class="inptxt" name="saleLicenseNumber" datatype="m" value="$!examineInfo.saleLicenseNumber" maxlength="25" placeholder=""></div>
+						<div class="column" style="padding-left:174px;"><label class="bred">*</label><label>税务登记号码：</label><input class="inptxt" name="taxRegisterNumber" datatype="m" value="$!examineInfo.taxRegisterNumber" maxlength="25" placeholder=""></div>
 						<div class="column"><label class="bred">*</label><label>营业地址：</label><input class="inptxt" datatype="*" maxlength="60" value="$!examineInfo.address" name="address" placeholder="营业执照上的营业地址"></div>
 						<div class="column"><label class="bred vt">*</label><label class="vt">经营范围：</label><textarea class="inptxt" datatype="*"  name="saleScope" maxlength="300" placeholder="营业执照上的经营范围">$!examineInfo.saleScope</textarea></div>
 					</div>
