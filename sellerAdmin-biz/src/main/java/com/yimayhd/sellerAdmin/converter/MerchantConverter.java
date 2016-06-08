@@ -182,6 +182,7 @@ public class MerchantConverter {
 		vo.setLawPersonCard(examineInfoDTO.getLawPersonCard());
 		vo.setSaleLicenseNumber(examineInfoDTO.getSaleLicenseNumber());
 		vo.setTaxRegisterNumber(examineInfoDTO.getTaxRegisterNumber());
+		vo.setExaminStatus(examineInfoDTO.getExaminStatus());
 		return vo;
 	}
 	

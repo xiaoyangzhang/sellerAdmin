@@ -139,7 +139,7 @@ public class TalentRepo {
 			MemResult<Boolean> ExamineInfoResult = examineDealService.submitMerchantExamineInfo(dto);
 			if (ExamineInfoResult == null) {
 				result.setReturnCode(MemberReturnCode.SYSTEM_ERROR);
-			}else {
+			}else if(!ExamineInfoResult.isSuccess() || ExamineInfoResult.getValue() == null) {
 				result.setErrorCode(ExamineInfoResult.getErrorCode());
 				result.setErrorMsg(ExamineInfoResult.getErrorMsg());
 				result.setSuccess(false);
