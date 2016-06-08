@@ -20,11 +20,19 @@
 
 	<div class = "comwidth crumbs f12">
 		您所在的位置：
-		#if( $currentMenu )
-			$!currentMenu.parentName > <a class = "f12 gray6">$!currentMenu.name</a></div>
-		#else
-			<a class = "f12 gray6">首页</a></div>
-		#end
+			#if( $locations )
+				#set($size = $locations.size() )
+				#foreach($location in $locations)
+				<a class = "f12 gray6">$!location</a>
+					#if( $velocityCount != $size )
+					>
+					#end
+				#end
+			#elseif( $currentMenu )
+				$!currentMenu.parentName > <a class = "f12 gray6">$!currentMenu.name</a>
+			#else
+			<a class = "f12 gray6">首页</a>
+			#end
 		<div class = "comwidth clearfix" id = "eredar">
 			<div class = "eredar-left">
 				#parse("layout/menu.vm")
