@@ -161,7 +161,7 @@
        	    	   				<td class="rigcontent"><input type="text" value="$!examineInfo.principleMail"  name="principleMail" id="" class="txt01" datatype="e" maxlength="80" placeholder="请输入商户负责人邮箱"/></td>
        	    	   			</tr>
        	    	   			<tr>
-								<td class="rigtxt vertop"><span class="">*</span><label>负责人身份证正面：</label></td>
+								<td class="rigtxt vertop"><span class="">*</span><label>负责人身份证正面复印件加盖公章：</label></td>
 									<td class="rigcontent imgwidth">
 									<span class="imgbox">
 									        <div class="canclick">
@@ -176,7 +176,7 @@
 							        </span>
 								</td>
 
-								<td class="rigtxt widthrig vertop"><span>*</span><label>负责人身份证背面：</label></td>
+								<td class="rigtxt widthrig vertop"><span>*</span><label>负责人身份证反面复印件加盖公章：</label></td>
 								<td class="rigcontent imgwidth">
 									<span class="imgbox">
 									        <div class="canclick">
