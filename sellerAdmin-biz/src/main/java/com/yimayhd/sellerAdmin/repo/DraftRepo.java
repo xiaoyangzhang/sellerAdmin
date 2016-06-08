@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.yimayhd.membercenter.client.domain.draft.DraftDO;
 import com.yimayhd.membercenter.client.domain.draft.DraftDetailDO;
 import com.yimayhd.membercenter.client.dto.DraftDTO;
+import com.yimayhd.membercenter.client.dto.DraftDetailDTO;
 import com.yimayhd.membercenter.client.query.DraftListQuery;
 import com.yimayhd.membercenter.client.result.MemPageResult;
 import com.yimayhd.membercenter.client.result.MemResult;
@@ -76,14 +77,14 @@ public class DraftRepo {
         return result;
     }
     
-    public MemResult<DraftDetailDO> getDraftDetailById(Long id) {
+    public MemResult<DraftDetailDTO> getDraftDetailById(Long id) {
     	
     	if(null==id) {
     		log.error("DraftRepo.getDraftDetailById(id) error: id is null");
             throw new BaseException("参数为null ");
     	}
     	RepoUtils.requestLog(log, "draftManagerServiceRef.getDraftDetailById", id);
-    	MemResult<DraftDetailDO> result = draftManagerServiceRef.getDraftDetail(id);
+    	MemResult<DraftDetailDTO> result = draftManagerServiceRef.getDraftDetail(id);
         RepoUtils.resultLog(log, "draftManagerServiceRef.getDraftDetailById", result);
     	return result;
     }

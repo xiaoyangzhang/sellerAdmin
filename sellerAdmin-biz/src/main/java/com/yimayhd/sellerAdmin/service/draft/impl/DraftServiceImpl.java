@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.service.draft.impl;
 import com.yimayhd.membercenter.client.domain.draft.DraftDO;
 import com.yimayhd.membercenter.client.domain.draft.DraftDetailDO;
 import com.yimayhd.membercenter.client.dto.DraftDTO;
+import com.yimayhd.membercenter.client.dto.DraftDetailDTO;
 import com.yimayhd.membercenter.client.query.DraftListQuery;
 import com.yimayhd.membercenter.client.result.MemPageResult;
 import com.yimayhd.membercenter.client.result.MemResult;
@@ -183,8 +184,8 @@ public class DraftServiceImpl implements DraftService {
             return WebResult.failure(WebReturnCode.PARAM_ERROR);
     	}
     	try {
-    		MemResult<DraftDetailDO> draftDetailDO = draftRepo.getDraftDetailById(id);
-    		if(draftDetailDO.isSuccess()) {
+    		MemResult<DraftDetailDTO> draftDetailDTO = draftRepo.getDraftDetailById(id);
+    		if(draftDetailDTO.isSuccess()) {
     			DraftDetailVO draftDetailVO = new DraftDetailVO();
     			draftDetailVO.setId(draftDetailVO.getId());
     			draftDetailVO.setJSONStr(draftDetailVO.getJSONStr());
