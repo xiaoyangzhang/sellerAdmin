@@ -1,18 +1,13 @@
 package com.yimayhd.sellerAdmin.controller.apply;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.bouncycastle.crypto.tls.CertChainType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,30 +16,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.MemberReturnCode;
-import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
-import com.yimayhd.membercenter.client.domain.merchant.BusinessScopeDO;
-import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantQualificationDO;
-import com.yimayhd.membercenter.client.domain.merchant.QualificationDO;
-import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
-import com.yimayhd.membercenter.enums.CertificateType;
-import com.yimayhd.membercenter.enums.ExamineCharacter;
-import com.yimayhd.membercenter.enums.ExaminePageNo;
 import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.membercenter.enums.ExamineType;
-import com.yimayhd.membercenter.enums.MerchantCategoryType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
-import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.biz.MerchantApplyBiz;
 import com.yimayhd.sellerAdmin.biz.MerchantBiz;
@@ -52,9 +38,9 @@ import com.yimayhd.sellerAdmin.biz.TalentBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.QualificationVO;
-import com.yimayhd.sellerAdmin.result.BizResult;
 import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
-import com.yimayhd.sellerAdmin.vo.merchant.UserDetailInfo;
+import com.yimayhd.user.client.domain.MerchantDO;
+import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionManager;
@@ -273,20 +259,20 @@ public class ApplyController extends BaseController {
 	
 	@RequestMapping(value="/talent/toAddUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toAddUserdatafill_a(Model model){
-		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-		if(null != judgeRest){
-			return judgeRest;
-		}
+//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
+//		if(null != judgeRest){
+//			return judgeRest;
+//		}
 		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
 		return "system/talent/userdatafill_a";
 		
 	}
 	@RequestMapping(value="/talent/toEditUserdatafill_pageOne",method=RequestMethod.GET)
 	public String toEditUserdatafill_a(HttpServletRequest request,HttpServletResponse response,Model model) {
-		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-		if(null != judgeRest){
-			return judgeRest;
-		}
+//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
+//		if(null != judgeRest){
+//			return judgeRest;
+//		}
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
 		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
 		return "system/talent/userdatafill_a";
@@ -299,10 +285,10 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/talent/toAddUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toAddUserdatafill_b(Model model) {
-		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-		if(null != judgeRest){
-			return judgeRest;
-		}
+//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
+//		if(null != judgeRest){
+//			return judgeRest;
+//		}
 		model.addAttribute("bankList", talentBiz.getBankList());
 		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
 		return "system/talent/userdatafill_b";
@@ -310,10 +296,10 @@ public class ApplyController extends BaseController {
 	}
 	@RequestMapping(value="/talent/toEditUserdatafill_pageTwo",method=RequestMethod.GET)
 	public String toEditUserdatafill_b(HttpServletRequest request,HttpServletResponse response,Model model){
-		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-		if(null != judgeRest){
-			return judgeRest;
-		}
+//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
+//		if(null != judgeRest){
+//			return judgeRest;
+//		}
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
 		model.addAttribute("bankList", talentBiz.getBankList());
 		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
@@ -328,10 +314,10 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/talent/verification",method=RequestMethod.GET)
 	public String verificationPage(Model model) {
-		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-		if(null != judgeRest){
-			return judgeRest;
-		}
+//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
+//		if(null != judgeRest){
+//			return judgeRest;
+//		}
 		return "system/talent/verification";
 		
 	}
@@ -576,7 +562,10 @@ public class ApplyController extends BaseController {
 //		if(null != judgeRest){
 //			return judgeRest;
 //		}
-		
+//		BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
+//		if (meResult != null && meResult.isSuccess() && meResult.getValue() != null) {
+//			model.addAttribute("id", meResult.getValue().getId());
+//		}
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setType(ExamineType.MERCHANT.getType());
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
@@ -680,15 +669,15 @@ public class ApplyController extends BaseController {
 		if (!checkResult.isSuccess()) {
 			return checkResult;
 		}
+		examineInfoVO.setType(ExamineType.MERCHANT.getType());
 		MemResult<Boolean> result = merchantApplyBiz.updateMerchantQualification(examineInfoVO);
 		if(result.isSuccess()){
-			examineInfoVO.setType(ExamineType.MERCHANT.getType());
-			MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(examineInfoVO);
-			InfoQueryDTO info = new InfoQueryDTO();
-			info.setDomainId(Constant.DOMAIN_JIUXIU);
-			info.setSellerId(sessionManager.getUserId());
-			info.setType(ExamineType.MERCHANT.getType());
-			merchantBiz.changeExamineStatusIntoIng(info);
+			//MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(examineInfoVO);
+//			InfoQueryDTO info = new InfoQueryDTO();
+//			info.setDomainId(Constant.DOMAIN_JIUXIU);
+//			info.setSellerId(sessionManager.getUserId());
+//			info.setType(ExamineType.MERCHANT.getType());
+//			merchantBiz.changeExamineStatusIntoIng(info);
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/seller/toAggrementPage");
 		}else{
 			rest.setWebReturnCode(WebReturnCode.UPDATE_ERROR);

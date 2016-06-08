@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,8 @@ import com.yimayhd.sellerAdmin.converter.MerchantConverter;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.QualificationVO;
 import com.yimayhd.sellerAdmin.repo.MerchantApplyRepo;
+import com.yimayhd.user.client.domain.MerchantDO;
+import com.yimayhd.user.client.query.MerchantQuery;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /**
@@ -61,6 +64,37 @@ public class MerchantApplyBiz {
 		}
 		try {
 			ExamineInfoDTO dto = MerchantConverter.convertVO2DTO(examineInfoVO, userId);
+//			MemResult<Boolean> checkMerchantNameIsExist = merchantApplyRepo.checkMerchantNameIsExist(dto);
+//			if (checkMerchantNameIsExist == null || !checkMerchantNameIsExist.isSuccess() || checkMerchantNameIsExist.getValue() == null) {
+//				result.setReturnCode(MemberReturnCode.SYSTEM_ERROR);
+//				return result;
+//				
+//			}else if (checkMerchantNameIsExist.getValue()) {
+//				result.setReturnCode(MemberReturnCode.MERCHANT_NAME_EXIST);
+//				return result;
+//			}
+			MerchantQuery merchantQuery = new MerchantQuery();
+			merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+			merchantQuery.setName(examineInfoVO.getMerchantName());
+			WebResult<List<MerchantDO>> queryMerchantResult = merchantApplyRepo.queryMerchant(merchantQuery);
+			if (queryMerchantResult == null || !queryMerchantResult.isSuccess()  ) {
+				result.setReturnCode(MemberReturnCode.SYSTEM_ERROR);
+				return result;
+			}
+			List<MerchantDO> merchantDOs = queryMerchantResult.getValue()	;
+		//	if( CollectionUtils.isEmpty(merchantDOs) ){
+//				result.setValue(Boolean.FALSE);
+//				return result;
+		//	}
+			
+			if (null != merchantDOs && merchantDOs.size() > 0) {
+				for (MerchantDO merchantDO : merchantDOs) {
+					if (merchantDO.getSellerId() != userId) {
+						result.setReturnCode(MemberReturnCode.MERCHANT_NAME_EXIST);
+						return result;
+					}
+				}
+			}
 			dto.setType(ExamineType.MERCHANT.getType());
 			result = merchantApplyRepo.submitExamineInfo(dto);
 			

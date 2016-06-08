@@ -198,6 +198,13 @@
 //        });
 
         $(".save").click(function(){
+        	//前端验证-------
+        	var errmsg = validatePro();
+	    	if (errmsg) {
+	    		layer.msg(errmsg,{icon:2,time:1500});
+	    		return false;   		
+	    	};
+	    	//前端验证end-------
             var itemVO = getItemInfo();
             itemVO.itemSkuVOStr = JSON.stringify(skuPropertyAll);
             var category = {

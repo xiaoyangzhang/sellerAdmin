@@ -97,16 +97,17 @@ public class MerchantConverter {
 //		dto.setHotelGoodsAuthorization(vo.getHotelGoodsAuthorization());
 		dto.setMerchantQualifications(vo.getMerchantQualifications());
 		List<MerchantScopeDO> merchantScopes = new ArrayList<MerchantScopeDO>(); 
-		String[] scopeIdArr = vo.getScopeIds().split(",");
-		for (String id : scopeIdArr) {
-			MerchantScopeDO merchantScope = new MerchantScopeDO();
-			merchantScope.setBusinessScopeId(Long.parseLong(id));
-			merchantScope.setDomainId(Constant.DOMAIN_JIUXIU);
-			merchantScope.setSellerId(userId);
-			merchantScope.setStatus(1);
-			merchantScopes.add(merchantScope);
+		if (vo.getScopeIds() != null && vo.getScopeIds().length() > 0 ) {
+			String[] scopeIdArr = vo.getScopeIds().split(",");
+			for (String id : scopeIdArr) {
+				MerchantScopeDO merchantScope = new MerchantScopeDO();
+				merchantScope.setBusinessScopeId(Long.parseLong(id));
+				merchantScope.setDomainId(Constant.DOMAIN_JIUXIU);
+				merchantScope.setSellerId(userId);
+				merchantScope.setStatus(1);
+				merchantScopes.add(merchantScope);
+			}
 		}
-		
 		dto.setMerchantScopes(merchantScopes);
 		return dto;
 		
@@ -181,6 +182,7 @@ public class MerchantConverter {
 		vo.setLawPersonCard(examineInfoDTO.getLawPersonCard());
 		vo.setSaleLicenseNumber(examineInfoDTO.getSaleLicenseNumber());
 		vo.setTaxRegisterNumber(examineInfoDTO.getTaxRegisterNumber());
+		vo.setExaminStatus(examineInfoDTO.getExaminStatus());
 		return vo;
 	}
 	

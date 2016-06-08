@@ -16,7 +16,7 @@
 					#set($length = $content.length())
 				#end
 				#if(!$product&&!$utilItem.isAboardLine($itemType))
-					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="2000">
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">
 1、大交通：  __________—__________  往返经济舱机票（含税）；省内往返旅游巴士；
 2、住宿：行程所列酒店标准2人间，如单人拼不上房间，需自补单房差；
 3、餐食：行程内所列餐食，酒店内含早餐，正餐标准*元；
@@ -25,7 +25,7 @@
 6、保险：已含旅行社责任险，不含旅游人身意外保险（建议您积极购买旅游意外保险/航空保险、如出现意外将多一份保障）；
 7、儿童： 2-12周岁的儿童只含往返机票、车位、餐位，不含门票以及酒店住宿。</textarea>
 				#elseif(!$product&&$utilItem.isAboardLine($itemType))
-					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="2000">
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">
 1、大交通：  __________—__________  往返经济舱机票（含税）；行程中往返旅游巴士；
 2、住宿：行程所列酒店标准2人间，如单人拼不上房间，需自补单房差；
 3、餐食：行程内所列餐食，*正*早，正餐标准*元；
@@ -34,9 +34,9 @@
 6、保险：已含旅行社责任险，不含旅游人身意外保险（建议您积极购买旅游意外保险/航空保险、如出现意外将多一份保障）；
 7、儿童： 2-12周岁的儿童只含往返机票、车位、餐位，不含门票以及酒店住宿。</textarea>
 				#else
-					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="2000">$!content</textarea>
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">$!content</textarea>
 				#end
-				<span class="word-num">$!{length}/2000字</span>
+				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">2000字</span></div>
 			</td>
 		</tr>
 		<tr class="need-know-item">
@@ -50,7 +50,7 @@
 					#set($length = $content.length())
 				#end
 				#if(!$product&&!$utilItem.isAboardLine($itemType))
-					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="500">
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">
 1、旅游意外伤害保险及航空意外险（建议旅游者购买）；
 2、自费选择项目，自由活动期间的餐食费和交通费；
 3、个人消费（如酒店内洗衣、电话及未提到的其它服务）；
@@ -61,7 +61,7 @@
 8、“费用包含”内容以外的所有费用；
 备注：未尽事宜详询业务员或带团导游。</textarea>
 				#elseif(!$product&&$utilItem.isAboardLine($itemType))
-					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="500">
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">
 1、旅游意外伤害保险及航空意外险（建议旅游者购买）；
 2、自费选择项目，自由活动期间的餐食费和交通费；
 3、个人消费（如酒店内洗衣、电话及未提到的其它服务）；
@@ -72,9 +72,9 @@
 8、“费用包含”内容以外的所有费用；
 备注：未尽事宜详询业务员或带团导游。</textarea>
 				#else
-					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="500">$!content</textarea>
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">$!content</textarea>
 				#end
-				<span class="word-num">$!{length}/500字</span>
+				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">500字</span></div>
 			</td>
 		</tr>
 		#if($utilItem.isAboardLine($itemType))
@@ -89,14 +89,14 @@
 					#set($length = $content.length())
 				#end
 				#if(!$product&&$utilItem.isAboardLine($itemType))
-					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="2000">
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">
 1、护照需出行前游客自行办理，大约5~10个工作日即可办理完成
 2、该产品下单时，支持不填写护照号，之后会有相关人员联系您关于护照事项
 3、签证事项：</textarea>
 				#else
-					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="2000">$!content</textarea>
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">$!content</textarea>
 				#end
-				<span class="word-num">$!{length}/2000字</span>
+				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">2000字</span></div>
 			</td>
 		</tr>
 		#end
@@ -111,7 +111,7 @@
 					#set($length = $content.length())
 				#end
 				#if(!$product&&!$utilItem.isAboardLine($itemType))
-					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="2000">
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">
 1、本产品不接受  __________  岁以上的客人预订，不接受非大陆籍客人预订，敬请谅解！
 2、本产品适用于持中国公民二代身份证的客人预订，目的地海拔较高，有严重高血压、心脏病等疾病的客人及老年客人，请根据自身条件，遵医嘱，谨慎决定是否出行。
 3、本产品最低成团人数  __________  人，如未达到最低成团人数，将在出发前7天通知不成团，未通知的视为成团。如不成团，我们会为您推荐其他出发班期或更换其他同类产品，如您不接受上述方案，将全额退还您支付的费用。
@@ -125,7 +125,7 @@
 11、团队行程中，非自由活动期间，不允许提前离团或中途脱团，如有不便敬请谅解。如您选择中途离团，未完成部分将被视为您自行放弃，不退任何费用。
 12、本产品门票为团队优惠联票，持老年证、军官证、学生证等优惠证件的人群均不再享受门票优惠。</textarea>
 				#elseif(!$product&&$utilItem.isAboardLine($itemType))
-					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="2000">
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">
 1、本产品不接受  __________  岁以上的客人预订，不接受非大陆籍客人预订，敬请谅解！
 2、本产品适用于持中国公民二代身份证的客人预订，有严重高血压、心脏病等疾病的客人及老年客人，请根据自身条件，遵医嘱，谨慎决定是否出行。
 3、本产品最低成团人数  __________  人，如未达到最低成团人数，将在出发前7天通知不成团，未通知的视为成团。如不成团，我们会为您推荐其他出发班期或更换其他同类产品，如您不接受上述方案，将全额退还您支付的费用。
@@ -138,9 +138,9 @@
 10、团队行程中，非自由活动期间，不允许提前离团或中途脱团，如有不便敬请谅解。如您选择中途离团，未完成部分将被视为您自行放弃，不退任何费用。
 11、本产品门票为团队优惠联票，持老年证、军官证、学生证等优惠证件的人群均不再享受门票优惠。</textarea>
 				#else
-				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="2000">$!content</textarea>
+				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">$!content</textarea>
 				#end
-				<span class="word-num">$!{length}/2000字</span>
+				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">2000字</span></div>
 			</td>
 		</tr>
 		<tr class="need-know-item">
@@ -157,19 +157,19 @@
 					#set($length = $content.length())
 				#end
 				#if(!$product&&!$utilItem.isAboardLine($itemType))
-					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="500">
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">
 1、用户支付成功后，不得做任何变更，也不予退款，敬请您阅知；
 2、如需退订或修改，出发前  __________  天提出，需支付  __________  损失费；
 3、出发前  __________  天可免费退改。	</textarea>
 				#elseif(!$product&&$utilItem.isAboardLine($itemType))
-					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="500">
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">
 1、用户支付成功后，不得做任何变更，也不予退款，敬请您阅知；
 2、如需退订或修改，出发前  __________  天提出，需支付  __________  损失费；
 3、出发前  __________  天可免费退改。</textarea>
 				#else
-				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="" maxlength="500">$!content</textarea>
+				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">$!content</textarea>
 				#end
-				<span class="word-num">$!{length}/500字</span>
+				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">500字</span></div>
 			</td>
 		</tr>
 	</tbody>
