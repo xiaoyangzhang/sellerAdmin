@@ -1,6 +1,6 @@
 <!-- head start-->
 #set($layout = "/layout/layout-jiuxiu.vm")
-#set( $locations = ["酒店商品管理", "景区商品"] )
+#set( $locations = ["景区商品管理", "景区商品"] )
 <head>
     #parse("layout/layout-meta.vm")
     <title>添加景区</title>
