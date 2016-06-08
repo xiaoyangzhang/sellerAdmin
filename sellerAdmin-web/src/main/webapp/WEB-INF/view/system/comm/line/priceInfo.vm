@@ -27,7 +27,7 @@
     </div>*#
 	<div class="tc-main" #if(!$product) style="display:none;margin: 10px 0 15px;" #end>
 		<input type="hidden" id="item_id" value="$!{product.priceInfo.itemId}"/>
-		<p>套餐设置：<button class="btn btn-primary addTC">添加新套餐</button></p>
+		<p>套餐设置：<button class="btn btn-primary addTC">添加新套餐</button><span class="red ml15">最多可添加20个套餐</span></p>
 		<ul id="tc_tab" class="nav nav-tabs navCombo">
 			#foreach($tc in $!{product.priceInfo.tcs})
 			#set($tcId = $velocityCount)
@@ -213,6 +213,10 @@
 		$(".setTime").show();
 	});
 	$(".addTC").click(function(){
+		if (curTcId>=20) {
+			layer.msg('最多可添加20个套餐',{icon:2,time:1500})
+			return false;
+		};
 		curTcId = curTcId + 1;
 		var tcTab = createTcTab(curTcId);
 		$("#tc_tab").append(tcTab);
