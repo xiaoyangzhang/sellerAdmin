@@ -49,11 +49,11 @@
 					#foreach($qualification in $qualifications)
 	
 			#if($qualification.getContentList().size() < 2)
-		<div class="zfd">
+		<div class="zfd lefttitle">
 			#if($qualification.required )<label class="bred">*</label>#end<label>$!{qualification.title}：</label>
 			
 			#foreach($content in $qualification.getContentList() )
-				<span class="imgbox #if(!${qualification.required} ) allownull #end"  id="$!{qualification.qualificationId}">
+				<span class="imgbox upload-img #if(!${qualification.required} ) allownull #end"  id="$!{qualification.qualificationId}">
 					<div class="canclick">
 						#if($!content.length()>0)
 							<img src="$!tfs/$!content">
@@ -70,7 +70,7 @@
 			
 			
 			#if( $!qualification.tip &&  $!qualification.tip.length()>0)
-				<div><label class="bred">*</label><label class="gray9">$!{qualification.tip}</label></div>
+				<div class="careful"><label class="bred">*</label><label class="gray9">$!{qualification.tip}</label></div>
 			#end
 			
 			
@@ -81,7 +81,7 @@
 	
 #end
 #if($!{qualificationContents.qualificationId} > 0)
-		<div class="groupimg clearfix fl #if(!${qualificationContents.required} ) allownull #end"" id="$!{qualificationContents.qualificationId}" >
+		<div class="groupimg clearfix fl #if(!${qualificationContents.required} ) allownull #end" id="$!{qualificationContents.qualificationId}" >
 				
 			<div class="updateli">
 			#foreach($content in $qualificationContents.getContentList() )
@@ -113,7 +113,8 @@
 	#end
 	#if($!qualificationContents.overallNote && $!qualificationContents.overallNote.length() >0 )
 	<div class="fl zhuyi"style="width: 665px; margin-left: 335px;><label class="bred">*</label><label class="gray9">必须上传“景区门票扫描件”、“景区门票价格在物价局的备案登记证明”、“游乐特种设备（备案）登记证明和游乐设备最新的定期检测报告”3种文件中的一种</label></div>
-	#end			<div class="nextpage pagesave"><a class="nxt " href="$!root_path/apply/seller/toDetailPage">上一步</a><a  class="nxt last-step allsub">下一步并保存</a></div>
+	#end			
+	<div class="nextpage pagesave"><a class="nxt " href="$!root_path/apply/seller/toDetailPage">上一步</a><a  class="nxt last-step allsub">下一步并保存</a></div>
 				</div>
 			</form>
 		</div>

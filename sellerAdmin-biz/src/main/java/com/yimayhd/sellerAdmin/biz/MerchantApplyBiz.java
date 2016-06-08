@@ -83,8 +83,8 @@ public class MerchantApplyBiz {
 			}
 			List<MerchantDO> merchantDOs = queryMerchantResult.getValue()	;
 			if( CollectionUtils.isEmpty(merchantDOs) ){
-				result.setValue(Boolean.FALSE);
-				return result;
+//				result.setValue(Boolean.FALSE);
+//				return result;
 			}
 			for( MerchantDO merchantDO : merchantDOs ){
 				if( merchantDO.getSellerId() != userId ){
