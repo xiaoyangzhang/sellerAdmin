@@ -33,6 +33,7 @@ public class ExamineInfoVO  implements Serializable  {
 	private String city;
 	 //商户名称
     private String sellerName;
+    private long merchantId;//店铺id
     private int domainId;
     // 法人姓名
     private String legralName;
@@ -202,8 +203,15 @@ public class ExamineInfoVO  implements Serializable  {
 //			List<MerchantQualificationDO> merchantQualificationList) {
 //		this.merchantQualificationList = merchantQualificationList;
 //	}
+	
 	public String getScopeIds() {
 		return scopeIds;
+	}
+	public long getMerchantId() {
+		return merchantId;
+	}
+	public void setMerchantId(long merchantId) {
+		this.merchantId = merchantId;
 	}
 	public void setScopeIds(String scopeIds) {
 		this.scopeIds = scopeIds;

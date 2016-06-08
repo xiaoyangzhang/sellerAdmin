@@ -81,7 +81,7 @@
 	
 #end
 #if($!{qualificationContents.qualificationId} > 0)
-		<div class="groupimg clearfix fl" id="$!{qualificationContents.qualificationId}" >
+		<div class="groupimg clearfix fl #if(!${qualificationContents.required} ) allownull #end"" id="$!{qualificationContents.qualificationId}" >
 				
 			<div class="updateli">
 			#foreach($content in $qualificationContents.getContentList() )
@@ -106,7 +106,7 @@
 				#end
 			</div>
 			</div>
-			<div class='listli'><span class="bred">*</span><label>$!{qualificationContents.title}:</label></div>
+			<div class='listli'>#if($qualificationContents.required )<label class="bred">*</label>#end<label>$!{qualificationContents.title}:</label></div>
 			
 					
 					
