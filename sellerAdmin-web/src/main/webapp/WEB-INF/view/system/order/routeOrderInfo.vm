@@ -116,6 +116,19 @@
 	                <span>
 	                   	 完成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
 	                </span>
+	                 <span>
+		                   	 #if($!order.mainOrder.tcMainOrder.finishOrderSource == "1")
+		                   	 	用户APP端确认收货
+		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "2")
+		                   	 	用户PC端确认收货
+		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "3")
+		                   	 	用户PC端确认收货
+		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "4")
+		                   	 	卖家确认完成
+		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "5")
+		                   	 	超时自动收货
+		                   	 #end
+	                </span>
 	                <span>
 	                   	 <button type="button" class="btn btn-primary assessment"
 	                        	data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">查看评价
@@ -167,6 +180,19 @@
 	                <span>
 	                   	 完成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
 	                </span>
+	                 <span>
+		                   	 #if($!order.mainOrder.tcMainOrder.finishOrderSource == "1")
+		                   	 	用户APP端确认收货
+		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "2")
+		                   	 	用户PC端确认收货
+		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "3")
+		                   	 	用户PC端确认收货
+		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "4")
+		                   	 	卖家确认完成
+		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "5")
+		                   	 	超时自动收货
+		                   	 #end
+	                </span>
 	                <span>
 	                   	 <button type="button" class="btn btn-primary assessment"
 	                        	data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">查看评价
@@ -217,6 +243,19 @@
 	                </span>
 	                <span>
 	                   	 完成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
+	                </span>
+	                 <span>
+		                   	 #if($!order.mainOrder.tcMainOrder.finishOrderSource == "1")
+		                   	 	用户APP端确认收货
+		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "2")
+		                   	 	用户PC端确认收货
+		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "3")
+		                   	 	用户PC端确认收货
+		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "4")
+		                   	 	卖家确认完成
+		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "5")
+		                   	 	超时自动收货
+		                   	 #end
 	                </span>
 	                <span>
 	                   	 <button type="button" class="btn btn-primary assessment"

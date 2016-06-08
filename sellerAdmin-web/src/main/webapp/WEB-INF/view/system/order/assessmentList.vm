@@ -36,16 +36,14 @@
 							<em>订单编号：</em><span class = "black">$!assessment.orderId</span>
 							<em class="emW">商品编号：</em><span class = "black">$!assessment.itemId</span>
 							<em class="emW">商品名称：</em>
-								<span class = "black">
-									#if($assessment.itemName)
-										#if($!assessment.itemName.length() < 19) $!assessment.itemName #else $!assessment.itemName.substring(0,19)... #end
-	                           		#end
+								<span class = "black sName" title = "$!assessment.itemName">
+									$!assessment.itemName
 								</span>
 						</p>
-						<p>
+						<p class = "rightGrade">
 							<em>综合评分：</em><span>$!assessment.score_</span>
 							#foreach($dimension in $assessment.dimensionInfoResultList)
-								<em class="emW">$!dimension.dimensionName：</em><span>$!dimension.dimensionScore</span>
+								<em>$!dimension.dimensionName：</em><span>$!dimension.dimensionScore</span>
 							#end
 						</p>
 						<span class = "infoP">
