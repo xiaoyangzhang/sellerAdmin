@@ -1,0 +1,46 @@
+#set($layout = "/layout/layout-apply.vm")
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>申请入驻-审核不通过</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/filldata.css">
+</head>
+
+	<div class="comwidth agreement-box mt30 examine-box">
+		<div class="titbox wdfill">
+			<div class="progress clearfix">
+				<div class="step start step-on step-fl">
+					<div class="step1">1</div>
+					<label class="step1">选择身份</label>
+				</div>
+				<div class="step step-fr step-on">
+					<div class="step2">2</div>
+					<label class="step2">填写商家信息</label>
+				</div>
+				<div class="step step-fr step-on">
+					<div class="step3">3</div>
+					<label class="step3">上传资质文件</label>
+				</div>
+				<div class="step step-fr step-on">
+					<div class="step3">4</div>
+					<label class="step3">签署协议</label>
+				</div>
+				<div class="step step-fr ya step-on">
+					<div class="step3">5</div>
+					<label class="step3">等待审核</label>
+				</div>
+			</div>
+		</div>
+		<div class="waiting nothrough tc m60">
+			<i class="mb5"></i><br><label class="f16 gray6">很遗憾，您的申请审核不通过，请填充后再次提交！</label>
+			<div class="message">
+				<span class="f14 gray6">如果有任何疑问，请联系我们：4000-696-888</span><br>
+				<span class="f14 gray6">失败原因：</span>
+				#foreach( $info in $checkResultInfo)  
+				<span class="bcs">$!info</span>
+		　　　	 #end
+			</div>
+		</div>
+	</div>
+	#parse("layout/layout-js.vm")
+	<script>seajs.use("test");</script>	
+

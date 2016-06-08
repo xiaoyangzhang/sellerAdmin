@@ -2,6 +2,7 @@
 <html lang="zh-cmn-Hans">
 <head>
 	#parse("layout/layout-meta.vm")
+	#parse("layout/layout-hidden.vm")
 
 
 	<link rel="shortcut icon" href="$!rs_path_jiuxiu/img/jiuxiu_favicon.ico" mce_href="$!rs_path_jiuxiu/img/jiuxiu_favicon.ico" type="image/x-icon" />

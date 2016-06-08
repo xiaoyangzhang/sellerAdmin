@@ -59,4 +59,45 @@ public class Constant {
 
 	public static final String UUIDKEY="uuidkey_";//+uuid
 
+	/**
+	 * 正则表达式：手机号码
+	 */
+	public static final String REGEX_MOBILE = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
+	 
+    /**
+     * 正则表达式：验证邮箱
+     */
+    public static final String REGEX_EMAIL = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+    /**
+     * 身份证
+     */
+    public static final String ID_CARD="0";
+    /**
+     * 护照
+     */
+    public static final String PASSPORT="2";
+    /**
+     * 驾驶证
+     */
+    public static final String CAR_LICENSE="1";
+    /**
+     * 导游证
+     */
+    public static final String GUIDE_CERTIFICATE="3";
+    /**
+     * 国内社总社
+     */
+    public static final int HOME_HEAD_AGENCY=12;
+    /**
+     * 国内社分社
+     */
+    public static final int HOME_BRANCH_AGENCY=13;
+    /**
+     * 出境社总社
+     */
+    public static final int BROAD_HEAD_AGENCY=14;
+    /**
+     * 出境社分社
+     */
+    public static final int BROAD_BRANCH_AGENCY=15;
 }

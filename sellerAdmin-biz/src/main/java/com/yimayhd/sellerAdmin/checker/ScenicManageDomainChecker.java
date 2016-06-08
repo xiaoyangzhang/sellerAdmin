@@ -154,6 +154,7 @@ public class ScenicManageDomainChecker {
      */
     public ScenicManageVO getBizScenicManageVO(){
         scenicManageVO.setScenicId(itemDO.getOutId());
+        scenicManageVO.setSellerId(itemDO.getSellerId());
         scenicManageVO.setLocationText(scenicDO.getLocationText());
         scenicManageVO.setTicketId(itemDO.getItemFeature().getTicketId());//门票ID
         scenicManageVO.setTicketTitle(itemDO.getItemFeature().getTicketTitle());//门票名称

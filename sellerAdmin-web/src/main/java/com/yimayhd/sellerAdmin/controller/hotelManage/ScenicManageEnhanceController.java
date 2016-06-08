@@ -103,24 +103,27 @@ public class ScenicManageEnhanceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/addScenicManageView")
-    public String addScenicManageView(Model model){
+    public String addScenicManageView(Model model,@RequestParam(required = true) long categoryId){
         ScenicManageVO scenicManageVO = new  ScenicManageVO();
         long userId = sessionManager.getUserId() ;
         scenicManageVO.setSellerId(userId);
-        scenicManageVO.setCategoryId(233);
+        if(categoryId==0){
+            return "/system/error/404";
+        }
+        scenicManageVO.setCategoryId(categoryId);
         CategoryResult categoryResult = categoryServiceRef.getCategory(scenicManageVO.getCategoryId());
         if(!categoryResult.isSuccess()||categoryResult.getCategroyDO()==null){
             log.error("类目信息错误");
-            return "/error";
+            return "/system/error/500";
         }
          CategoryDO categoryDO = categoryResult.getCategroyDO();
         if(CollectionUtils.isEmpty(categoryDO.getKeyCategoryPropertyDOs())){
             log.error("类目必要属性信息错误");
-            return "/error";
+            return "/system/error/500";
         }
         if(CollectionUtils.isEmpty(categoryDO.getNonKeyCategoryPropertyDOs())){
             log.error("类目非必要属性信息错误");
-            return "/error";
+            return "/system/error/500";
         }
         List<CategoryPropertyValueDO> keyPro = categoryDO.getKeyCategoryPropertyDOs();
         List<CategoryPropertyValueDO> nonPro = categoryDO.getNonKeyCategoryPropertyDOs();
@@ -137,7 +140,7 @@ public class ScenicManageEnhanceController extends BaseController {
         String json  = CommonJsonUtil.objectToJson(bizCategoryInfoList,List.class);
         System.out.println("dynamicEntry:"+json);
         model.addAttribute("bizCategoryInfoList",bizCategoryInfoList);// 最晚到店时间列表
-        model.addAttribute("categoryId",0);//
+        model.addAttribute("categoryId",categoryId);//
         model.addAttribute("itemId", 0);
         model.addAttribute("UUID", UUID.randomUUID().toString());
         return "/system/comm/hotelManage/addticket";
@@ -199,8 +202,8 @@ public class ScenicManageEnhanceController extends BaseController {
                                                     @RequestParam(required = true) String operationFlag) throws Exception{
         String systemLog = ItemCodeEnum.SYS_START_LOG.getDesc();
         ScenicManageVO scenicManageVO = new ScenicManageVO();
-        long userId = sessionManager.getUserId() ;
-        scenicManageVO.setSellerId(userId);
+        long currentUserId = sessionManager.getUserId() ;
+        scenicManageVO.setSellerId(currentUserId);
         scenicManageVO.setCategoryId(categoryId);
         scenicManageVO.setItemId(itemId);
 
@@ -213,11 +216,8 @@ public class ScenicManageEnhanceController extends BaseController {
             systemLog="编辑商品ID错误";
              new BaseException("编辑商品ID错误");
         }
-        /*if(scenicManageVO.getCategoryId()==0){
-            // "商品类目ID错误";
-            log.warn("商品类目ID错误");
-            throw new BaseException("商品类目ID错误");
-        }*/
+
+
         logger.info("editScenicManageView: 入参:scenicManageVO="+CommonJsonUtil.objectToJson(scenicManageVO,ScenicManageVO.class));
         WebResult<ScenicManageVO> webResult = scenicManageService.queryScenicManageVOByData(scenicManageVO);
         if(!webResult.isSuccess()){
@@ -225,8 +225,12 @@ public class ScenicManageEnhanceController extends BaseController {
             systemLog="查询详情错误";
             //throw new BaseException("查询详情错误");
         }
+
         List<MultiChoice> multiList= queryTicketListByData(scenicManageVO.getScenicId(),scenicManageVO.getTicketId());
         scenicManageVO = webResult.getValue();
+        if(currentUserId>0&&currentUserId!=scenicManageVO.getSellerId()){
+            return "/system/error/lackPermission";
+        }
         logger.info("editScenicManageView: 回参:webResult="+webResult.isSuccess()+",\n scenicManageVO="+CommonJsonUtil.objectToJson(scenicManageVO,ScenicManageVO.class));
         model.addAttribute("bizCategoryInfoList",scenicManageVO.getBizCategoryInfoList());// 最晚到店时间列表
         model.addAttribute("scenicManageVO", scenicManageVO);

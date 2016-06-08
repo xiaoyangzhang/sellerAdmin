@@ -33,7 +33,7 @@ import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.JsonResult;
 import com.yimayhd.user.session.manager.SessionManager;
 import com.yimayhd.user.session.manager.VerifyCodeManager;
-
+ 
 /**
  * Created by Administrator on 2015/10/23.
  */

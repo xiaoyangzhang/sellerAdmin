@@ -43,6 +43,7 @@ import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.converter.LineConverter;
 import com.yimayhd.sellerAdmin.model.ItemVO;
+import com.yimayhd.sellerAdmin.model.line.City;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
 import com.yimayhd.sellerAdmin.model.line.DestinationNodeVO;
 import com.yimayhd.sellerAdmin.model.line.DestinationVO;
@@ -99,7 +100,7 @@ public class ResourceForSelectController extends BaseController {
 			List<CityVO> allLineDeparts = result.getValue();
 			if (CollectionUtils.isNotEmpty(allLineDeparts)) {
 				for (CityVO cityVO : allLineDeparts) {
-					CityDTO city = cityVO.getCity();
+					City city = cityVO.getCity();
 					String firstLetter = city.getFirstLetter();
 					if (departMap.containsKey(firstLetter)) {
 						departMap.get(firstLetter).add(cityVO);
@@ -133,7 +134,7 @@ public class ResourceForSelectController extends BaseController {
 			List<CityVO> allLineDests = result.getValue();
 			if (CollectionUtils.isNotEmpty(allLineDests)) {
 				for (CityVO cityVO : allLineDests) {
-					CityDTO city = cityVO.getCity();
+					City city = cityVO.getCity();
 					String firstLetter = city.getFirstLetter();
 					if (destMap.containsKey(firstLetter)) {
 						destMap.get(firstLetter).add(cityVO);

@@ -121,7 +121,7 @@
                                 </td>
 		  						<td>$!item.destString</td>
         						<td>$!{utilItem.getItemTypeName($item.type)}</td>
-        						<td>￥$!{utilMoney.centToYuanMoneyFormat($item.price)}</td>
+        						<td>￥$!{utilMoney.centToYuanMoneyFormat($item.price)}&nbsp;起</td>
                                 <td>$!{utilItem.getItemStatusName($item.status)}</td>
         						<td>$!{utilDate.date2String($item.publishDate)}</td>
                                 <td>

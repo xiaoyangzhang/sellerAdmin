@@ -43,7 +43,6 @@
 	                  	  待出行；
 	                </span>
 	                <span>
-	                    $!order.mainOrder.tcMainOrder.deliveryTime
 	                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.deliveryTime)
 	                </span>
 	            #elseif($order.mainOrder.orderStatus == 10)
@@ -52,6 +51,19 @@
 	                </span>
 	                <span>
 	                   	 完成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
+	                </span>
+	                <span>
+		                   	 #if($!order.mainOrder.tcMainOrder.finishOrderSource == "1")
+		                   	 	用户APP端确认收货
+		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "2")
+		                   	 	用户PC端确认收货
+		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "3")
+		                   	 	用户PC端确认收货
+		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "4")
+		                   	 	卖家确认完成
+		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "5")
+		                   	 	超时自动收货
+		                   	 #end
 	                </span>
 	                <span>
 	                   	 <button type="button" class="btn btn-primary assessment"
@@ -146,7 +158,6 @@
 	                  	  预订成功；
 	                </span>
 	                <span>
-	                    $!order.mainOrder.tcMainOrder.deliveryTime
 	                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.deliveryTime)
 	                </span>
 	            #elseif($order.mainOrder.orderStatus == 10)
@@ -191,7 +202,6 @@
 	                  	  预订成功；
 	                </span>
 	                <span>
-	                    $!order.mainOrder.tcMainOrder.deliveryTime
 	                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.deliveryTime)
 	                </span>
 	             #elseif($order.mainOrder.orderStatus == 11)
@@ -229,7 +239,7 @@
     <br><br>
     <div>
         <div>买家备注：#if($!order.mainOrder.tcMainOrder.otherInfo =="") 无  #else $!order.mainOrder.tcMainOrder.otherInfo   #end</div>
-        <form><div>卖家备注：<textarea name="customerServiceNote" id="customerServiceNote"  rows="3" cols="50">$!order.mainOrder.tcMainOrder.sellerMemo</textarea>
+        <form><div>卖家备注：<textarea name="customerServiceNote" id="customerServiceNote" maxlength="100"  rows="3" cols="50">$!order.mainOrder.tcMainOrder.sellerMemo</textarea>
         <button class="btn btn-primary save" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">保存<tton></div>
 
         </form>

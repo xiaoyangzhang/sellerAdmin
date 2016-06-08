@@ -1,0 +1,126 @@
+#set($layout = "/layout/layout-apply.vm")
+<head>
+#parse("layout/layout-meta.vm")
+<title>上传资质文件</title>
+<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/filldata.css">
+</head>
+	<div class="comwidth agreement-box ">
+					<div class="titbox wdfill fill-c ">
+						<div class="progress clearfix">
+							<div class="step start step-on step-fl">
+								<div class="step1">1</div>
+								<label class="step1">选择身份</label>
+							</div>
+							<div class="step step-fr step-on">
+								<div class="step2">2</div>
+								<label class="step2">填写商家信息</label>
+							</div>
+							<div class="step step-fr step-on ">
+								<div class="step3">3</div>
+								<label class="step3">上传资质文件</label>
+							</div>
+							<div class="step step-fr ">
+								<div class="step3">4</div>
+								<label class="step3">签署协议</label>
+							</div>
+							<div class="step step-fr ya ">
+								<div class="step3">5</div>
+								<label class="step3">等待审核</label>
+							</div>
+						</div>
+					</div>
+		<div class="tabs">
+			<form id="forminfo">
+			       <input type="hidden" class="subpath" value="$!root_path/apply/seller/saveUserdataB">
+			
+				<div class="panel">
+					<div class="tit gray6 f16 error_tip">上传资质（所有文件需加盖公章）
+						
+							#if ($!reason && $!reason.size()>0 )
+						<div class="error_box">
+							<div>审核不通过原因</div>
+							#foreach( $info in $reason)<span style="color:white;">$!info</span><br/>#end
+						</div>
+					#end
+						
+					</div>
+
+					<div class="fm_md_two fm_md zh_sc clearfix">
+					#foreach($qualification in $qualifications)
+	
+			#if($qualification.getContentList().size() < 2)
+		<div class="zfd">
+			#if($qualification.required )<label class="bred">*</label>#end<label>$!{qualification.title}：</label>
+			
+			#foreach($content in $qualification.getContentList() )
+				<span class="imgbox #if(!${qualification.required} ) allownull #end"  id="$!{qualification.qualificationId}">
+					<div class="canclick">
+						#if($!content.length()>0)
+							<img src="$!tfs/$!content">
+						#else
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+						#end
+					</div>
+					<div class="plhd"></div><div class="del">删除图片</div>
+					<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile single"></a>
+			<input type="hidden" class="qualification"  value="$!qualification.content">
+				</span>
+			#end
+			
+			
+			
+			#if( $!qualification.tip &&  $!qualification.tip.length()>0)
+				<div><label class="bred">*</label><label class="gray9">$!{qualification.tip}</label></div>
+			#end
+			
+			
+		</div>
+		#elseif($qualification.getContentList().size() >1) 
+			#set($qualificationContents = $qualification)
+		#end
+	
+#end
+#if($!{qualificationContents.qualificationId} > 0)
+		<div class="groupimg clearfix fl #if(!${qualificationContents.required} ) allownull #end"" id="$!{qualificationContents.qualificationId}" >
+				
+			<div class="updateli">
+			#foreach($content in $qualificationContents.getContentList() )
+				
+				<label class="inblock" >
+					<span class="imgbox mr5 cnat">
+						<div class="canclick">
+							#if($!content.length()>0)
+								<img src="$!tfs/$!content">
+							#else
+							<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+							#end
+						</div><div class="plhd"></div><div class="del">删除图片</div>
+						<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile mult"></a>
+						<input type="hidden" class="qualification"   value="$!qualificationContents.content">
+					</span>
+				</label>
+			 
+			#end
+				#if( $!qualificationContents.tip && $!qualificationContents.tip.length()>0 )
+				<div><label class="bred">*</label><label class="gray9">$!{qualificationContents.tip}</label></div>
+				#end
+			</div>
+			</div>
+			<div class='listli'>#if($qualificationContents.required )<label class="bred">*</label>#end<label>$!{qualificationContents.title}:</label></div>
+			
+					
+					
+	#end
+	#if($!qualificationContents.overallNote && $!qualificationContents.overallNote.length() >0 )
+	<div class="fl zhuyi"style="width: 665px; margin-left: 335px;><label class="bred">*</label><label class="gray9">必须上传“景区门票扫描件”、“景区门票价格在物价局的备案登记证明”、“游乐特种设备（备案）登记证明和游乐设备最新的定期检测报告”3种文件中的一种</label></div>
+	#end			<div class="nextpage pagesave"><a class="nxt " href="$!root_path/apply/seller/toDetailPage">上一步</a><a  class="nxt last-step allsub">下一步并保存</a></div>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/sea.js"></script>
+	<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+	<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/config.js"></script>		
+	<script>seajs.use("userdataca");</script>	
+	

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.yimayhd.resourcecenter.domain.DestinationDO;
 import com.yimayhd.resourcecenter.dto.DestinationNode;
 import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
 import com.yimayhd.resourcecenter.model.query.DestinationQueryDTO;
@@ -51,6 +52,18 @@ public class DestinationRepo {
 		RepoUtils.requestLog(log, "destinationServiceRef.queryOverseaDestinationTree", code,domainJiuxiu);
 		RcResult<List<DestinationNode>> baseResult = destinationServiceRef.queryOverseaDestinationTree(code,domainJiuxiu);
 		RepoUtils.resultLog(log, "destinationServiceRef.queryOverseaDestinationTree", baseResult);
+		return baseResult.getT();
+	}
+	public List<DestinationDO> queryDestinationList(List<Integer> codeList) {
+		int code = DestinationOutType.LINE.getCode();
+		int domainJiuxiu = Constant.DOMAIN_JIUXIU;
+		DestinationQueryDTO destinationQueryDTO=new DestinationQueryDTO();
+		destinationQueryDTO.setOutType(code);
+		destinationQueryDTO.setCodeList(codeList);
+		destinationQueryDTO.setDomain(domainJiuxiu);
+		RepoUtils.requestLog(log, "destinationServiceRef.queryDestinationList", code,domainJiuxiu,codeList);
+		RcResult<List<DestinationDO>> baseResult = destinationServiceRef.queryDestinationList(destinationQueryDTO);
+		RepoUtils.resultLog(log, "destinationServiceRef.queryDestinationList", baseResult);
 		return baseResult.getT();
 	}
 }

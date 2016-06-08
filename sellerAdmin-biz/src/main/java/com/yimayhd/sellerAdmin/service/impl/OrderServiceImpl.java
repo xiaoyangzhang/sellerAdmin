@@ -1,13 +1,22 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
+
 import com.yimayhd.commentcenter.client.dto.RatePageListDTO;
 import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.ComRateResult;
 import com.yimayhd.commentcenter.client.service.ComRateService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
-import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.result.ICResult;
-import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
@@ -20,22 +29,26 @@ import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
 import com.yimayhd.sellerAdmin.service.OrderService;
 import com.yimayhd.sellerAdmin.util.DateUtil;
-
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
-
-import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
-import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderExtFeatureKey;
-import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
-
 import com.yimayhd.tradecenter.client.model.enums.CloseOrderReason;
-import com.yimayhd.tradecenter.client.model.enums.FinishOrderSourceType;
+import com.yimayhd.tradecenter.client.model.enums.FinishOrderSource;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 import com.yimayhd.tradecenter.client.model.enums.TcPayChannel;
-import com.yimayhd.tradecenter.client.model.param.order.*;
+import com.yimayhd.tradecenter.client.model.param.order.BuyerConfirmGoodsDTO;
+import com.yimayhd.tradecenter.client.model.param.order.CloseOrderDTO;
+import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
+import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
+import com.yimayhd.tradecenter.client.model.param.order.SellerConfirmCheckInDTO;
+import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
+import com.yimayhd.tradecenter.client.model.param.order.UpdateBizOrderExtFeatureDTO;
 import com.yimayhd.tradecenter.client.model.param.refund.RefundTradeDTO;
 import com.yimayhd.tradecenter.client.model.result.ResultSupport;
-import com.yimayhd.tradecenter.client.model.result.order.*;
+import com.yimayhd.tradecenter.client.model.result.order.BatchBizQueryResult;
+import com.yimayhd.tradecenter.client.model.result.order.BuyerConfirmGoodsResult;
+import com.yimayhd.tradecenter.client.model.result.order.SellerConfirmCheckInResult;
+import com.yimayhd.tradecenter.client.model.result.order.SellerSendGoodsResult;
+import com.yimayhd.tradecenter.client.model.result.order.TcSingleQueryResult;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.tradecenter.client.service.trade.TcBizQueryService;
@@ -45,24 +58,6 @@ import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
-
-import com.yimayhd.user.session.manager.SessionManager;
-
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
-
-import java.util.ArrayList;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * 订单管理实现
@@ -357,7 +352,7 @@ public class OrderServiceImpl implements OrderService {
 			sellerConfirmCheckInDTO.setBizOrderId(id);
 			sellerConfirmCheckInDTO.setSellerId(sellerId);
 			//卖家确认完成
-			sellerConfirmCheckInDTO.setSource(FinishOrderSourceType.SELLER.getBizType());
+			sellerConfirmCheckInDTO.setSource(FinishOrderSource.SELLER.getBizType());
 			
 			SellerConfirmCheckInResult result = tcTradeServiceRef.sellerConfirmCheckIn(sellerConfirmCheckInDTO);
 			return result.isSuccess();
@@ -374,7 +369,7 @@ public class OrderServiceImpl implements OrderService {
 			sellerConfirmCheckInDTO.setBizOrderId(id);
 			sellerConfirmCheckInDTO.setSellerId(sellerId);
 			//卖家确认完成
-			sellerConfirmCheckInDTO.setSource(FinishOrderSourceType.SELLER.getBizType());
+			sellerConfirmCheckInDTO.setSource(FinishOrderSource.SELLER.getBizType());
 			
 			SellerConfirmCheckInResult result = tcTradeServiceRef.sellerConfirmNotCheckIn(sellerConfirmCheckInDTO);
 			return result.isSuccess();

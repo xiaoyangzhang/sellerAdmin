@@ -53,12 +53,19 @@ public class WebReturnCode implements Serializable {
 	public final static WebReturnCode NEW_PASSWORD_EMPTY = new WebReturnCode(24001018, "新密码为空");
 	public final static WebReturnCode NEW_OLD_PASSWORD_EQUAL = new WebReturnCode(24001019, "新旧密码相同");
 	public final static WebReturnCode SYSTEM_ERROR_MERCHANT_TALENT = new WebReturnCode(24001020, "服务器出现错误，请稍后重新登录");
+	public final static WebReturnCode NOT_FOUNT_MERCHANT = new WebReturnCode(24003007, "未找到该用户");
 
 	/***************************************** 商户相关 ********************************************************/
 	public static final WebReturnCode MERCHANT_BASIC_SAVE_FAILURE = new WebReturnCode(24002001, "商户基本信息保存失败");
 	public static final WebReturnCode MERCHANT_BASIC_EDIT_FAILURE = new WebReturnCode(24002002, "商户基本信息修改失败");
 	public static final WebReturnCode MERCHANT_INFO_EDIT_FAILURE = new WebReturnCode(24002003, "商户入驻填写信息修改失败");
 	public final static WebReturnCode PASSWORD_ERROR = new WebReturnCode(24001015, "当前密码错误");
+	public final static WebReturnCode QUERY_EXAMINFO_FAILED = new WebReturnCode(24003003, "获取店铺入驻信息失败");
+	public final static WebReturnCode QUERY_MERCHANT_QUALIFICATION_FAILED = new WebReturnCode(24003004, "获取商家资质失败");
+	public final static WebReturnCode QUERY_MERCHANT_SCOPE_FAILED = new WebReturnCode(24003005, "获取商家经营范围失败");
+	public final static WebReturnCode QUERY_MERCHANT_CATEGORY_SCOPE_FAILED = new WebReturnCode(24003006, "获取商家身份对应经营范围失败");
+	public final static WebReturnCode QUERY_MERCHANT_CATEGORY_QUALIFICATION_FAILED = new WebReturnCode(24003007, "获取商家身份对应的资质失败");
+	public final static WebReturnCode UPLOAD_QUALIFICATION_FAILED = new WebReturnCode(24003008, "请上传必填的资质");
 	/***************************************** 达人相关 ********************************************************/
 	public static final WebReturnCode TALENT_BASIC_SAVE_FAILURE = new WebReturnCode(24002004, "达人基本信息保存失败");
 	public static final WebReturnCode TALENT_BASIC_EDIT_FAILURE = new WebReturnCode(24002005, "达人基本信息修改失败");

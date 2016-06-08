@@ -16,8 +16,10 @@
 	<bean id ="UserBiz" class="com.yimayhd.sellerAdmin.biz.UserBiz"/>
 	<bean id ="merchantBiz" class="com.yimayhd.sellerAdmin.biz.MerchantBiz"/>
 	<bean id ="talentBiz" class="com.yimayhd.sellerAdmin.biz.TalentBiz"/>
+	<bean id ="merchantApplyBiz" class="com.yimayhd.sellerAdmin.biz.MerchantApplyBiz"/>
 
 	<bean id ="userBiz" class="com.yimayhd.sellerAdmin.biz.UserBiz"/>
 	<bean id ="MenuBiz" class="com.yimayhd.sellerAdmin.biz.MenuBiz"/>
 	<bean id ="tagBiz" class="com.yimayhd.sellerAdmin.biz.TagBiz"/>
+	<bean id ="destinationBiz" class="com.yimayhd.sellerAdmin.biz.DestinationBiz"/>
 </beans>

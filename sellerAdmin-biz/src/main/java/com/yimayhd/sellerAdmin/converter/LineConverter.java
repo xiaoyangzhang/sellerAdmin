@@ -355,7 +355,7 @@ public class LineConverter {
 		BaseInfoVO baseInfo = toBaseInfoVO(line, item, themes, departs, dests);
 		result.setBaseInfo(baseInfo);
 		// 线路个性化部分 start
-		if (item.getItemType() == ItemType.FREE_LINE.getValue()) {
+		if (item.getItemType() == ItemType.FREE_LINE.getValue()||item.getItemType() == ItemType.FREE_LINE_ABOARD.getValue()) {
 			RouteDO routeDO = lineResult.getRouteDO();
 			if (routeDO != null) {
 				RoutePlanVo routePlan = toRoutePlanVo(routeDO.getRoutePlan());
@@ -365,6 +365,10 @@ public class LineConverter {
 		// 行程信息
 		RouteInfoVO routeInfo = toRouteInfoVO(lineResult.getRouteDO(), lineResult.getRouteItemDOList());
 		result.setRouteInfo(routeInfo);
+		
+		//查询类目的所有销售属性
+		//过滤lineResult.getItemSkuDOList()中的属性，如果销售属性已被删除，页面就不在显示了
+		
 		// 价格信息
 		result.setPriceInfo(toPriceInfoVO(lineResult.getItemSkuDOList(), item));
 		// 购买须知

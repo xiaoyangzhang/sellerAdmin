@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.yimayhd.sellerAdmin.biz.DestinationBiz;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,7 @@ import com.yimayhd.ic.client.model.result.item.LinePublishResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.resourcecenter.domain.DestinationDO;
 import com.yimayhd.resourcecenter.dto.DestinationNode;
+import com.yimayhd.resourcecenter.model.query.DestinationQueryDTO;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -39,6 +41,7 @@ import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.LineConverter;
 import com.yimayhd.sellerAdmin.converter.PictureTextConverter;
 import com.yimayhd.sellerAdmin.converter.TagConverter;
+import com.yimayhd.sellerAdmin.model.line.City;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
 import com.yimayhd.sellerAdmin.model.line.DestinationNodeVO;
 import com.yimayhd.sellerAdmin.model.line.DestinationVO;
@@ -54,6 +57,7 @@ import com.yimayhd.sellerAdmin.repo.LineRepo;
 import com.yimayhd.sellerAdmin.repo.PictureTextRepo;
 import com.yimayhd.sellerAdmin.service.item.LineService;
 import com.yimayhd.user.client.dto.CityDTO;
+import com.yimayhd.user.client.enums.CityTypeEnum;
 
 public class LineServiceImpl implements LineService {
 	private Logger log = LoggerFactory.getLogger(getClass());
@@ -71,6 +75,8 @@ public class LineServiceImpl implements LineService {
 	private ComCenterService comCenterServiceRef;
 	@Autowired
 	private DestinationRepo destinationRepo;
+	@Autowired
+	private DestinationBiz destinationBiz;
 
 	@Override
 	public WebResult<LineVO> getByItemId(long sellerId, long itemId) {
@@ -104,7 +110,7 @@ public class LineServiceImpl implements LineService {
 			// 图文详情
 			PicTextResult picTextResult = pictureTextRepo.getPictureText(itemId, PictureText.ITEM);
 			LineVO lineVO = LineConverter.toLineVO(lineResult, picTextResult, themes, toCityVO(departTags),
-					toCityVO(destTags));
+					destinationBiz.toCityVOForDest(destTags));
 			lineVO.getBaseInfo().setAllDeparts(allDeparts);
 			return WebResult.success(lineVO);
 		} catch (Exception e) {
@@ -165,11 +171,14 @@ public class LineServiceImpl implements LineService {
 		for (ComTagDO comTagDO : tags) {
 			if (citiesByCodes.containsKey(comTagDO.getName())) {
 				CityDTO cityDTO = citiesByCodes.get(comTagDO.getName());
-				departs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
+				City city = new City(cityDTO.getCode(), cityDTO.getName(), cityDTO.getFirstLetter());
+				departs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), city));
 			}
 		}
 		return departs;
 	}
+	
+
 
 	@Override
 	public WebResult<List<CityVO>> getAllLineDests() {
@@ -279,10 +288,13 @@ public class LineServiceImpl implements LineService {
 				}
 				List<CityVO> dests = baseInfo.getDests();
 				List<Long> destIds = new ArrayList<Long>();
-				for (TagDTO tagDTO : dests) {
-					destIds.add(tagDTO.getId());
+//				for (TagDTO tagDTO : dests) {
+//					destIds.add(tagDTO.getId());
+//				}
+				for (CityVO cityVOs : dests) {
+					destIds.add(Long.parseLong(cityVOs.getCode()));
 				}
-				commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
+				commentRepo.addLineTagRelationInfo(itemId, TagType.DESTPLACE, destIds);
 
 				ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemId, PictureText.ITEM,
 						line.getPictureText());
@@ -343,7 +355,7 @@ public class LineServiceImpl implements LineService {
 				for (CityVO cityVOs : dests) {
 					destIds.add(Long.parseLong(cityVOs.getCode()));
 				}
-				commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
+				commentRepo.addLineTagRelationInfo(itemId, TagType.DESTPLACE, destIds);
 				ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemId, PictureText.ITEM,
 						line.getPictureText());
 				pictureTextRepo.editPictureText(comentEditDTO);

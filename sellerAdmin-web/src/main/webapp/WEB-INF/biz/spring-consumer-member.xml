@@ -50,4 +50,31 @@
         <property name="retries" value="${dubbo.retries}"/>
         <property name="version" value="${consumer.dubbo.member.version}"/>
     </bean>
+     <bean id="merchantApplyService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.membercenter.client.service.examine.MerchantApplyService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
+        <property name="version" value="${consumer.dubbo.member.version}"/>
+    </bean>
+     <bean id="qualificationService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.membercenter.client.service.QualificationService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
+        <property name="version" value="${consumer.dubbo.member.version}"/>
+    </bean>
+     <bean id="businessScopeService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.membercenter.client.service.BusinessScopeService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
+        <property name="version" value="${consumer.dubbo.member.version}"/>
+    </bean>
 </beans>

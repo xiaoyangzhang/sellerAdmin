@@ -50,7 +50,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="tbtxt w280"><span>出生日期：</span></td>
+					<td class="tbtxt w280"><label class="bred">*</label><span>出生日期：</span></td>
 					<td><input class="field" id="tm" placeholder="1990-01-01" name="birthday" value="$!talentBiz.formatDate($!talentInfo.talentInfoDO.birthday)" title="开始时间" datatype="*" errormsg="亲选择时间呀" readonly="readonly"><span></span></td>
 				</tr>
 				<tr>
@@ -146,7 +146,7 @@
 					<td><input type ="text" class="field inputxt phone"  name="tel" value="$!{talentInfo.talentInfoDO.telNum}" ><span></span></td>
 				</tr>
 				<tr>
-					<td class="tbtxt w280"><span>服务类型：</span></td>
+					<td class="tbtxt w280"><label class="bred">*</label><span>服务类型：</span></td>
 					<td class = "spe">
 					#set ($size=$serviceTypes.value.size)
 					
@@ -174,12 +174,13 @@
 					#end
 					</td>
 				</tr>
+				
 				<tr>
-					<td class="tbtxt w280"><span>服务描述：</span></td>
-					<td><input type ="text" class="field inputxt" value="$!talentInfo.talentInfoDO.serveDesc" name="describe" datatype="*5-30" maxlength="30" errormsg="请输入5到30以内的描述"><span></span><label class = "lab">5/30</label></td>
+					<td class="tbtxt w280"><label class="bred">*</label><span>服务描述：</span></td>
+					<td><input type ="text" id = "serve" class="field inputxt" value="$!talentInfo.talentInfoDO.serveDesc" name="describe" datatype="*" maxlength="30" errormsg="请输入30以内的描述"><span></span><label class = "lab"><a class = "change">0</a>/30</label></td>
 				</tr>
 				<tr>
-					<td class="tbtxt w280 abuteMe"><span>关于我：</span></td>
+					<td class="tbtxt w280 abuteMe"><label class="bred">*</label><span>关于我：</span></td>
 					<td width='500px'>
 						<div id="editer">
 							<div class="bd">

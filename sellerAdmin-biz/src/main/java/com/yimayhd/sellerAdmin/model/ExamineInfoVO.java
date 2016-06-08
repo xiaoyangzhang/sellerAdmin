@@ -2,6 +2,7 @@ package com.yimayhd.sellerAdmin.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import com.yimayhd.membercenter.enums.ExamineType;
 
@@ -9,6 +10,10 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
+import com.yimayhd.membercenter.client.domain.merchant.BusinessScopeDO;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantQualificationDO;
+import com.yimayhd.membercenter.client.domain.merchant.QualificationDO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.sellerAdmin.base.BaseException;
@@ -28,6 +33,7 @@ public class ExamineInfoVO  implements Serializable  {
 	private String city;
 	 //商户名称
     private String sellerName;
+    private long merchantId;//店铺id
     private int domainId;
     // 法人姓名
     private String legralName;
@@ -126,21 +132,256 @@ public class ExamineInfoVO  implements Serializable  {
     private Date createDate;
     //手持身份证
     private String cardInHand;
+    private int type;//达人或者店铺
     
-	private byte isDirectSale;//是否直营
+	
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	// 店铺名称    此字段只有店铺有 达人无
+    private String merchantName;
+    public String getMerchantName() {
+		return merchantName;
+	}
+	public void setMerchantName(String merchantName) {
+		this.merchantName = merchantName;
+	}
+
+	//审核状态
+    private int examinStatus;
+    public int getExaminStatus() {
+		return examinStatus;
+	}
+	public void setExaminStatus(int examinStatus) {
+		this.examinStatus = examinStatus;
+	}
+
+	// ********************2期资质****************************//
+	private int isDirectSale;//是否直营
 	private long merchantCategoryId;//商家身份
 	
+	private String interMediaryLicense;//因私出入境中介机构经营许可证正面
+	private String seaTransportationLicense;//水路运输许可证正面
+	private String travelAgencyBranchAgreement;//旅行社分社补充协议
+	private String scenicTicketAuthorization;//景点门票授权书或合作协议
+	private String hotelGoodsAuthorization;//酒店商品授权书
+	private String  specialSaleLicense; //特种经营许可证副本复印件
+	private String specialSaleAuthorization;//旅游局特许经营授权书
+	private String wildlifeSale;//野生动物经营利用许可证
+	private String waterWildlifeSale;//水生野生动物经营利用许可证
+	private String amusementParkReport;//游乐特种设备（备案）登记证明和游乐设备最新的定期检测报告
+	private String scenicPriceRegister;//景区门票价格在物价局的备案登记证明
+	private String scenicTicketUpScanning;//景区门票扫描件正面
+	private String scenicTicketDownScanning;//景区门票扫描件反面
+	private String scenicGoodsAuthorization;//景区商品授权书
+	private String scenicQualityLevel;//景区质量等级证书
+	private String relationBetweenHotelAngGroup;//酒店与集团的所属关系说明
+	private List<MerchantQualificationDO> merchantQualifications;//商家与资质关联对象集合
+	private List<MerchantScopeDO> merchantScopes;//商家与经营范围关联对象集合
 	
+	private String merchantQualificationStr;
+	private String merchantScopeStr;
+	
+	private List<QualificationDO> qualifications;
+	private List<BusinessScopeDO> businessScopes;
+	
+	private String lawPersonCard;//法人身份证号
+	private String saleLicenseNumber;//营业执照号
+	private String taxRegisterNumber;//税务登记号
+	
+	private String scopeIds;
+//	private List<MerchantQualificationDO> merchantQualificationList;
+//	
+//	public List<MerchantQualificationDO> getMerchantQualificationList() {
+//		return merchantQualificationList;
+//	}
+//	public void setMerchantQualificationList(
+//			List<MerchantQualificationDO> merchantQualificationList) {
+//		this.merchantQualificationList = merchantQualificationList;
+//	}
+	
+	public String getScopeIds() {
+		return scopeIds;
+	}
+	public long getMerchantId() {
+		return merchantId;
+	}
+	public void setMerchantId(long merchantId) {
+		this.merchantId = merchantId;
+	}
+	public void setScopeIds(String scopeIds) {
+		this.scopeIds = scopeIds;
+	}
+	public String getInterMediaryLicense() {
+		return interMediaryLicense;
+	}
+	public void setInterMediaryLicense(String interMediaryLicense) {
+		this.interMediaryLicense = interMediaryLicense;
+	}
+	public String getSeaTransportationLicense() {
+		return seaTransportationLicense;
+	}
+	public void setSeaTransportationLicense(String seaTransportationLicense) {
+		this.seaTransportationLicense = seaTransportationLicense;
+	}
+	public String getTravelAgencyBranchAgreement() {
+		return travelAgencyBranchAgreement;
+	}
+	public void setTravelAgencyBranchAgreement(String travelAgencyBranchAgreement) {
+		this.travelAgencyBranchAgreement = travelAgencyBranchAgreement;
+	}
+	public String getScenicTicketAuthorization() {
+		return scenicTicketAuthorization;
+	}
+	public void setScenicTicketAuthorization(String scenicTicketAuthorization) {
+		this.scenicTicketAuthorization = scenicTicketAuthorization;
+	}
+	public String getHotelGoodsAuthorization() {
+		return hotelGoodsAuthorization;
+	}
+	public void setHotelGoodsAuthorization(String hotelGoodsAuthorization) {
+		this.hotelGoodsAuthorization = hotelGoodsAuthorization;
+	}
+	public String getSpecialSaleLicense() {
+		return specialSaleLicense;
+	}
+	public void setSpecialSaleLicense(String specialSaleLicense) {
+		this.specialSaleLicense = specialSaleLicense;
+	}
+	public String getSpecialSaleAuthorization() {
+		return specialSaleAuthorization;
+	}
+	public void setSpecialSaleAuthorization(String specialSaleAuthorization) {
+		this.specialSaleAuthorization = specialSaleAuthorization;
+	}
+	public String getWildlifeSale() {
+		return wildlifeSale;
+	}
+	public void setWildlifeSale(String wildlifeSale) {
+		this.wildlifeSale = wildlifeSale;
+	}
+	public String getWaterWildlifeSale() {
+		return waterWildlifeSale;
+	}
+	public void setWaterWildlifeSale(String waterWildlifeSale) {
+		this.waterWildlifeSale = waterWildlifeSale;
+	}
+	public String getAmusementParkReport() {
+		return amusementParkReport;
+	}
+	public void setAmusementParkReport(String amusementParkReport) {
+		this.amusementParkReport = amusementParkReport;
+	}
+	public String getScenicPriceRegister() {
+		return scenicPriceRegister;
+	}
+	public void setScenicPriceRegister(String scenicPriceRegister) {
+		this.scenicPriceRegister = scenicPriceRegister;
+	}
+	public String getScenicTicketUpScanning() {
+		return scenicTicketUpScanning;
+	}
+	public void setScenicTicketUpScanning(String scenicTicketUpScanning) {
+		this.scenicTicketUpScanning = scenicTicketUpScanning;
+	}
+	public String getScenicTicketDownScanning() {
+		return scenicTicketDownScanning;
+	}
+	public void setScenicTicketDownScanning(String scenicTicketDownScanning) {
+		this.scenicTicketDownScanning = scenicTicketDownScanning;
+	}
+	public String getScenicGoodsAuthorization() {
+		return scenicGoodsAuthorization;
+	}
+	public void setScenicGoodsAuthorization(String scenicGoodsAuthorization) {
+		this.scenicGoodsAuthorization = scenicGoodsAuthorization;
+	}
+	public String getScenicQualityLevel() {
+		return scenicQualityLevel;
+	}
+	public void setScenicQualityLevel(String scenicQualityLevel) {
+		this.scenicQualityLevel = scenicQualityLevel;
+	}
+	public String getRelationBetweenHotelAngGroup() {
+		return relationBetweenHotelAngGroup;
+	}
+	public void setRelationBetweenHotelAngGroup(String relationBetweenHotelAngGroup) {
+		this.relationBetweenHotelAngGroup = relationBetweenHotelAngGroup;
+	}
+
+	
+	
+	public String getLawPersonCard() {
+		return lawPersonCard;
+	}
+	public void setLawPersonCard(String lawPersonCard) {
+		this.lawPersonCard = lawPersonCard;
+	}
+	public String getSaleLicenseNumber() {
+		return saleLicenseNumber;
+	}
+	public void setSaleLicenseNumber(String saleLicenseNumber) {
+		this.saleLicenseNumber = saleLicenseNumber;
+	}
+	public String getTaxRegisterNumber() {
+		return taxRegisterNumber;
+	}
+	public void setTaxRegisterNumber(String taxRegisterNumber) {
+		this.taxRegisterNumber = taxRegisterNumber;
+	}
+	public List<QualificationDO> getQualifications() {
+		return qualifications;
+	}
+	public void setQualifications(List<QualificationDO> qualifications) {
+		this.qualifications = qualifications;
+	}
+	public List<BusinessScopeDO> getBusinessScopes() {
+		return businessScopes;
+	}
+	public void setBusinessScopes(List<BusinessScopeDO> businessScopes) {
+		this.businessScopes = businessScopes;
+	}
+	public String getMerchantQualificationStr() {
+		return merchantQualificationStr;
+	}
+	public void setMerchantQualificationStr(String merchantQualificationStr) {
+		this.merchantQualificationStr = merchantQualificationStr;
+	}
+	public String getMerchantScopeStr() {
+		return merchantScopeStr;
+	}
+	public void setMerchantScopeStr(String merchantScopeStr) {
+		this.merchantScopeStr = merchantScopeStr;
+	}
+	public List<MerchantQualificationDO> getMerchantQualifications() {
+		return merchantQualifications;
+	}
+	public void setMerchantQualifications(
+			List<MerchantQualificationDO> merchantQualifications) {
+		this.merchantQualifications = merchantQualifications;
+	}
+	public List<MerchantScopeDO> getMerchantScopes() {
+		return merchantScopes;
+	}
+	public void setMerchantScopes(List<MerchantScopeDO> merchantScopes) {
+		this.merchantScopes = merchantScopes;
+	}
+
 	public long getMerchantCategoryId() {
 		return merchantCategoryId;
 	}
 	public void setMerchantCategoryId(long merchantCategoryId) {
 		this.merchantCategoryId = merchantCategoryId;
 	}
-	public byte getIsDirectSale() {
+	
+	public int getIsDirectSale() {
 		return isDirectSale;
 	}
-	public void setIsDirectSale(byte isDirectSale) {
+	public void setIsDirectSale(int isDirectSale) {
 		this.isDirectSale = isDirectSale;
 	}
 	public int getDomainId() {
@@ -431,6 +672,7 @@ public class ExamineInfoVO  implements Serializable  {
 	public void setCity(String city) {
 		this.city = city;
 	}
+
 	public  ExamineInfoDTO getExamineInfoDTO(ExamineInfoVO vo,long userId) throws Exception {
 		if (vo == null || userId <= 0 ) {
 			log.error("get examineSubmitDTO params error :vo="+vo+"userId="+userId);
@@ -489,6 +731,7 @@ public class ExamineInfoVO  implements Serializable  {
 		return dto;
 		
 	}
+	
 
 	public InfoQueryDTO getInfoQueryDTO (long userId) {
 		if (userId <= 0  ) {
@@ -498,7 +741,7 @@ public class ExamineInfoVO  implements Serializable  {
 		InfoQueryDTO infoQueryDTO = new InfoQueryDTO();
 		infoQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		infoQueryDTO.setSellerId(userId);
-		infoQueryDTO.setType(ExamineType.TALENT.getType());
+		
 		return infoQueryDTO;
 		
 	}

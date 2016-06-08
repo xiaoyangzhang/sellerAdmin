@@ -111,29 +111,29 @@ public class ItemController extends BaseController {
 				list = categoryDoTOVo(webResult.getValue().getChildren(),false);
 			}
 		}
-//		if(!isTalent) { // 身份为商户时进行商品类目权限过滤
-//			List<CategoryVO> filteredList = new ArrayList<>();
-//			MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesBySellerId(Constant.DOMAIN_JIUXIU, user.getId());
-//			outer : for(CategoryVO categoryVO : list) {
-//				inner : for (MerchantItemCategoryDO merchantItemCategoryDO : merchantItemCategoryResult.getValue()) {
-//					try {
-//						CategoryDO categoryDO = categoryService.getCategoryDOById(merchantItemCategoryDO.getItemCategoryId());
-//						while (categoryVO.getCategoryId() != categoryDO.getId()) { // 根据商户有权限的山品类目递归查找到根节点,如果所有类目都没权限,判断list集中和的下一个类目
-//							categoryDO = categoryService.getCategoryDOById(categoryDO.getParentId());
-//							if(null == categoryDO) {
-//								continue inner;
-//							}
-//						}
-//						// 如果匹配到权限,加入新的集合中,并对list的下一个类目进行判断
-//						filteredList.add(categoryVO);
-//						continue  outer;
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//					}
-//				}
-//			}
-//			return filteredList;
-//		}
+		if(!isTalent) { // 身份为商户时进行商品类目权限过滤
+			List<CategoryVO> filteredList = new ArrayList<>();
+			MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesBySellerId(Constant.DOMAIN_JIUXIU, user.getId());
+			outer : for(CategoryVO categoryVO : list) {
+				inner : for (MerchantItemCategoryDO merchantItemCategoryDO : merchantItemCategoryResult.getValue()) {
+					try {
+						CategoryDO categoryDO = categoryService.getCategoryDOById(merchantItemCategoryDO.getItemCategoryId());
+						while (categoryVO.getCategoryId() != categoryDO.getId()) { // 根据商户有权限的山品类目递归查找到根节点,如果所有类目都没权限,判断list集中和的下一个类目
+							categoryDO = categoryService.getCategoryDOById(categoryDO.getParentId());
+							if(null == categoryDO) {
+								continue inner;
+							}
+						}
+						// 如果匹配到权限,加入新的集合中,并对list的下一个类目进行判断
+						filteredList.add(categoryVO);
+						continue  outer;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			return filteredList;
+		}
 		return list;
 	}
 
@@ -184,6 +184,10 @@ public class ItemController extends BaseController {
 			return redirect("/cityactivity/toAdd?categoryId=" + categoryId);
 		} else if (ItemType.NORMAL.equals(itemType)) {
 			return redirect("/barterItem/common/toAdd?categoryId=" + categoryId);
+		} else if (ItemType.HOTEL.equals(itemType)) {
+			return redirect("/hotel/addHotelMessageVOByDataView?categoryId=" + categoryId);
+		} else if (ItemType.SPOTS.equals(itemType)) {
+			return redirect("/scenic/addScenicManageView?categoryId=" + categoryId);
 		} else {
 			throw new BaseException("unsupport ItemType " + itemType.name());
 		}
