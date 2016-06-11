@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.yimayhd.sellerAdmin.biz.DestinationBiz;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,19 +23,19 @@ import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.IcDestination;
 import com.yimayhd.ic.client.model.domain.item.IcSubject;
+import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.PropertyType;
 import com.yimayhd.ic.client.model.param.item.line.LinePubAddDTO;
 import com.yimayhd.ic.client.model.param.item.line.LinePubUpdateDTO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.ic.client.model.result.item.LinePublishResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
-import com.yimayhd.resourcecenter.domain.DestinationDO;
 import com.yimayhd.resourcecenter.dto.DestinationNode;
-import com.yimayhd.resourcecenter.model.query.DestinationQueryDTO;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.biz.DestinationBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.LineConverter;
 import com.yimayhd.sellerAdmin.converter.PictureTextConverter;
@@ -44,7 +43,6 @@ import com.yimayhd.sellerAdmin.converter.TagConverter;
 import com.yimayhd.sellerAdmin.model.line.City;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
 import com.yimayhd.sellerAdmin.model.line.DestinationNodeVO;
-import com.yimayhd.sellerAdmin.model.line.DestinationVO;
 import com.yimayhd.sellerAdmin.model.line.LinePropertyConfig;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.TagDTO;
@@ -57,7 +55,6 @@ import com.yimayhd.sellerAdmin.repo.LineRepo;
 import com.yimayhd.sellerAdmin.repo.PictureTextRepo;
 import com.yimayhd.sellerAdmin.service.item.LineService;
 import com.yimayhd.user.client.dto.CityDTO;
-import com.yimayhd.user.client.enums.CityTypeEnum;
 
 public class LineServiceImpl implements LineService {
 	private Logger log = LoggerFactory.getLogger(getClass());
@@ -108,6 +105,11 @@ public class LineServiceImpl implements LineService {
 			// 目的地
 			List<ComTagDO> destTags = commentRepo.getTagsByOutId(itemId, TagType.DESTPLACE);
 			// 图文详情
+			
+			CategoryDO category = categoryRepo.getCategoryById(lineResult.getItemDO().getCategoryId());
+			List<ItemSkuDO> itemSkuDOList = lineResult.getItemSkuDOList();
+			LineConverter.filterItemSku2(category,itemSkuDOList);
+			lineResult.setItemSkuDOList(itemSkuDOList);
 			PicTextResult picTextResult = pictureTextRepo.getPictureText(itemId, PictureText.ITEM);
 			LineVO lineVO = LineConverter.toLineVO(lineResult, picTextResult, themes, toCityVO(departTags),
 					destinationBiz.toCityVOForDest(destTags));

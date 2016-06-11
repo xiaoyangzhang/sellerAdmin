@@ -17,9 +17,13 @@ import org.springframework.beans.BeanUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.result.PicTextResult;
+import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
+import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
+import com.yimayhd.ic.client.model.domain.CategoryValueDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.RouteDO;
 import com.yimayhd.ic.client.model.domain.RouteItemDO;
+import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
@@ -750,5 +754,145 @@ public class LineConverter {
 				destinationVO.setSelected(true);
 			}
 		}
+	}
+
+	public static void filterItemSku(CategoryDO category, List<ItemSkuDO> itemSkuDOList) {
+		if (category==null || CollectionUtils.isEmpty(itemSkuDOList)) {
+			return;
+		}
+		List<CategoryPropertyValueDO> sellCategoryPropertyDOs = category.getSellCategoryPropertyDOs();
+		if (CollectionUtils.isEmpty(sellCategoryPropertyDOs) || CollectionUtils.isEmpty(itemSkuDOList) ) {
+			return;
+		}
+		//itemSkuPVPair.getPType() == PropertyType.PERSON_TYPE.getType()
+		//计算出类目下所有销售属性
+		Map<Long, CategoryValueDO> map = new HashMap<Long, CategoryValueDO>();
+		Long mapcpvd =null;
+		for (CategoryPropertyValueDO categoryPropertyValueDO : sellCategoryPropertyDOs) {
+			List<CategoryValueDO> categoryValueDOs = categoryPropertyValueDO.getCategoryValueDOs() ;
+			if( CollectionUtils.isNotEmpty(categoryValueDOs) ){
+//				mapcpvd.put(categoryPropertyValueDO.getPropertyId(), categoryPropertyValueDO) ;
+				mapcpvd=categoryPropertyValueDO.getPropertyId();
+				for( CategoryValueDO value : categoryValueDOs ){
+					//计算出所有销售属性
+					map.put(value.getId(), value) ;
+				}
+			}
+		}
+		for (ItemSkuDO sku : itemSkuDOList) {
+			Set<Long> vIds = map.keySet();
+//			Set<Long> pIds = mapcpvd.keySet();
+			List<ItemSkuPVPair> pairs = new ArrayList<ItemSkuPVPair>() ;
+			
+			
+			Set<Long> skuPIds = new HashSet<Long>();
+			List<ItemSkuPVPair> itemSkuPVPairList = sku.getItemSkuPVPairList();
+			for (ItemSkuPVPair itemSkuPVPair : itemSkuPVPairList) {
+				long pid = itemSkuPVPair.getPId() ;
+				CategoryValueDO value = map.get(pid) ;
+				if( value != null ){
+					skuPIds.add(pid) ;
+					pairs.add(itemSkuPVPair) ;
+				}
+			}
+			vIds.removeAll(skuPIds) ;
+			
+			if( CollectionUtils.isNotEmpty(vIds)) {
+				for( Long vid : vIds) {
+					CategoryValueDO value = map.get(vid) ;
+					if( value != null ){
+						ItemSkuPVPair pair = new ItemSkuPVPair() ;
+						
+						pair.setPTxt(value.getText());
+						pair.setPType(value.getType());
+						pair.setVId(value.getId());
+						pairs.add(pair) ;
+					}
+				}
+			}
+			
+			sku.setItemSkuPVPairList(pairs);
+		}
+			
+	}
+	public static void filterItemSku2(CategoryDO category, List<ItemSkuDO> itemSkuDOList) {
+		if (category==null || CollectionUtils.isEmpty(itemSkuDOList)) {
+			return;
+		}
+		List<CategoryPropertyValueDO> sellCategoryPropertyDOs = category.getSellCategoryPropertyDOs();
+		if (CollectionUtils.isEmpty(sellCategoryPropertyDOs) || CollectionUtils.isEmpty(itemSkuDOList) ) {
+			return;
+		}
+		/*
+		 * 套餐
+		 * 出发日期
+		 * 人员类型   ---成人，儿童，单房差
+		 * */
+		//计算出类目下所有销售属性
+		Map<Long, CategoryValueDO> map = new HashMap<Long, CategoryValueDO>();
+		CategoryPropertyDO categoryPropertyValueDOForPerson=new CategoryPropertyDO();
+		Long mapcpvd =null;
+		for (CategoryPropertyValueDO categoryPropertyValueDO : sellCategoryPropertyDOs) {
+			List<CategoryValueDO> categoryValueDOs = categoryPropertyValueDO.getCategoryValueDOs() ;
+			if( CollectionUtils.isNotEmpty(categoryValueDOs) ){
+				categoryPropertyValueDOForPerson=categoryPropertyValueDO.getCategoryPropertyDO();
+//				mapcpvd.put(categoryPropertyValueDO.getPropertyId(), categoryPropertyValueDO) ;
+				mapcpvd=categoryPropertyValueDO.getPropertyId();
+				for( CategoryValueDO value : categoryValueDOs ){
+					//计算出所有销售属性
+					map.put(value.getId(), value) ;
+				}
+			}
+		}
+		Set<Long> skuPIds = new HashSet<Long>();//原来人员类型下的属性取值：1，2，3，4
+		//取出所有的人员类型  下的属性值id
+		for (ItemSkuDO sku : itemSkuDOList) {
+			// Set<Long> pIds = mapcpvd.keySet();
+			List<ItemSkuPVPair> itemSkuPVPairList = sku.getItemSkuPVPairList();
+			for (ItemSkuPVPair itemSkuPVPair : itemSkuPVPairList) {
+				long pid = itemSkuPVPair.getPId();
+				if (mapcpvd != null && mapcpvd.equals(pid)) {
+					skuPIds.add(itemSkuPVPair.getVId());
+				}
+			}
+		}
+		List<ItemSkuDO> itemSkuDOs=new ArrayList<ItemSkuDO>();
+		Set<Long> vIds = map.keySet();// 1，4，145
+		Set<Long> oVIds = new HashSet<Long>();
+		oVIds.addAll(vIds);
+		vIds.removeAll(skuPIds);
+		if (CollectionUtils.isNotEmpty(vIds)) {
+			for (Long vId : vIds) {
+				for (ItemSkuDO sku : itemSkuDOList) {
+					List<ItemSkuPVPair> itemSkuPVPairList = sku
+							.getItemSkuPVPairList();
+					List<ItemSkuPVPair> newItemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
+					for (ItemSkuPVPair itemSkuPVPair : itemSkuPVPairList) {
+						if (itemSkuPVPair.getPType() == PropertyType.PERSON_TYPE.getType()) {
+							if (oVIds.contains(itemSkuPVPair.getVId())) {
+								newItemSkuPVPairList.add(itemSkuPVPair);
+							} else{
+								ItemSkuPVPair pair = new ItemSkuPVPair();
+								CategoryValueDO value = map.get(vId);
+								pair.setPId(categoryPropertyValueDOForPerson.getId());
+								pair.setPType(categoryPropertyValueDOForPerson.getType());
+								pair.setPTxt(categoryPropertyValueDOForPerson.getText());
+								pair.setVTxt(value.getText());
+								pair.setVType(value.getType());
+								pair.setVId(value.getId());
+								newItemSkuPVPairList.add(pair);
+								sku.setPrice(0);
+								sku.setStockNum(0);
+							}
+						} else {
+							newItemSkuPVPairList.add(itemSkuPVPair);
+						}
+					}
+					sku.setItemSkuPVPairList(newItemSkuPVPairList);
+					itemSkuDOs.add(sku);
+				}
+			}
+		}
+		itemSkuDOList=itemSkuDOs;
 	}
 }
