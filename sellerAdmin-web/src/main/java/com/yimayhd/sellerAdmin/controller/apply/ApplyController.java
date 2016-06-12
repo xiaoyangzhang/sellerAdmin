@@ -489,9 +489,16 @@ public class ApplyController extends BaseController {
 			ExamineInfoDTO dto = result.getValue() ;
 			int type = dto.getType();
 			int status = dto.getExaminStatus();
-			if ( result.getValue() == null || (dto != null && ExamineStatus.EXAMIN_ERROR.getStatus() != status) ) {
+			//if ( result.getValue() == null || (dto != null && ExamineStatus.EXAMIN_ERROR.getStatus() != status) ) {
 				//url = "system/seller/choooseType";
-				return url;
+				//return url;
+			//}
+			if (ExamineStatus.EXAMIN_OK.getStatus() == status) {
+				if(ExamineType.MERCHANT.getType()==type){
+					return "redirect:/basicInfo/merchant/toAddBasicPage";
+				}else if(ExamineType.TALENT.getType()==type){
+					return "redirect:/basicInfo/talent/toAddTalentInfo";
+				}
 			}
 //			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
 //				if(ExamineType.MERCHANT.getType()==type){
