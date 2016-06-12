@@ -1,7 +1,13 @@
 package com.yimayhd.sellerAdmin.service.draft.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.yimayhd.membercenter.client.domain.draft.DraftDO;
-import com.yimayhd.membercenter.client.domain.draft.DraftDetailDO;
 import com.yimayhd.membercenter.client.dto.DraftDTO;
 import com.yimayhd.membercenter.client.dto.DraftDetailDTO;
 import com.yimayhd.membercenter.client.query.DraftListQuery;
@@ -16,12 +22,6 @@ import com.yimayhd.sellerAdmin.model.draft.DraftDetailVO;
 import com.yimayhd.sellerAdmin.model.draft.DraftVO;
 import com.yimayhd.sellerAdmin.repo.DraftRepo;
 import com.yimayhd.sellerAdmin.service.draft.DraftService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 草稿箱共同逻辑

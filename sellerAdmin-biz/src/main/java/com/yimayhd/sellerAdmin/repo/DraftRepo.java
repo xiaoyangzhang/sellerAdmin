@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.membercenter.client.domain.draft.DraftDO;
-import com.yimayhd.membercenter.client.domain.draft.DraftDetailDO;
 import com.yimayhd.membercenter.client.dto.DraftDTO;
 import com.yimayhd.membercenter.client.dto.DraftDetailDTO;
 import com.yimayhd.membercenter.client.query.DraftListQuery;
