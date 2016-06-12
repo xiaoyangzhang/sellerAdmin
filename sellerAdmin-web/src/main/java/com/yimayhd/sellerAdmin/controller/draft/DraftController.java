@@ -8,14 +8,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yimayhd.commission.client.enums.Domain;
+import com.yimayhd.membercenter.client.query.DraftListQuery;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseException;
+import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.draft.DraftVO;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
-import com.yimayhd.sellerAdmin.model.query.DraftListQuery;
 import com.yimayhd.sellerAdmin.service.draft.DraftService;
 
 /**
@@ -32,21 +36,26 @@ public class DraftController extends BaseController {
 	private DraftService draftService;
 
 	@RequestMapping(value = "/list")
-	public String list(DraftListQuery query) throws Exception {
-		long sellerId = getCurrentUserId();
-		if (sellerId <= 0) {
-			log.warn("未登录");
-			throw new BaseException("请登陆后重试");
+	public String list(DraftListQuery query) {
+		try {
+			long sellerId = getCurrentUserId();
+			if (sellerId <= 0) {
+				log.warn("未登录");
+				throw new BaseException("请登陆后重试");
+			}
+			query.setDomainId(Constant.DOMAIN_JIUXIU);
+			query.setAccountId(sellerId);
+			query.setMainType(query.getMainType());
+			query.setSubType(query.getSubType());
+			WebResult<PageVO<DraftVO>> result = draftService.getDraftList(sellerId, query);
+			if (!result.isSuccess()) {
+				throw new BaseException(result.getResultMsg());
+			}
+			put("pageVo", result.getValue());
+			put("query", query);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		// WebResult<PageVO<DraftVO>> result
-		// =draftService.getDraftList(sellerId, query);
-		// if (!result.isSuccess()) {
-		// throw new BaseException(result.getResultMsg());
-		// }
-		// put("pageVo", result.getValue());
-		// put("itemTypeList", BizItemType.values());
-		// put("itemStatusList", BizItemStatus.values());
-		// put("query", query);
 		return "/system/draft/list";
 	}
 
