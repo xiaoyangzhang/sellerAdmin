@@ -156,4 +156,8 @@ public class MerchantApplyRepo {
 //	public BaseResult<Boolean> updateMerchantInfo(MerchantDTO merchantDTO) {
 //		return merchantService.updateMerchantInfo(merchantDTO);
 //	}
+	
+	public MemResult<Boolean> changeExamineStatus(InfoQueryDTO examInfoQueryDTO) {
+		return examineDealService.changeExamineStatusIntoIng(examInfoQueryDTO);
+	}
 }

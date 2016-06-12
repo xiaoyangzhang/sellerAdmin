@@ -5,7 +5,8 @@
 	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/filldata.css">
 </head>
 
-	<div class="comwidth agreement-box mt30 examine-box">
+	<div class="comwidth agreement-box mt30">
+		<div class="tit gray6 f16">商家入驻</div>
 		<div class="titbox wdfill">
 			<div class="progress clearfix">
 				<div class="step start step-on step-fl">
@@ -24,7 +25,7 @@
 					<div class="step3">4</div>
 					<label class="step3">签署协议</label>
 				</div>
-				<div class="step step-fr ya step-on">
+				<div class="step step-fr ya step-on ">
 					<div class="step3">5</div>
 					<label class="step3">等待审核</label>
 				</div>
@@ -35,11 +36,12 @@
 			<div class="message">
 				<span class="f14 gray6">如果有任何疑问，请联系我们：4000-696-888</span><br>
 				<span class="f14 gray6">失败原因：</span>
-				#foreach( $info in $checkResultInfo)  
+				#foreach( $info in $reason)  
 				<span class="bcs">$!info</span>
 		　　　	 #end
 			</div>
 		</div>
+			<div><a class="agreebtn" href="$!root_path/$!url">重新申请</a></div>
 	</div>
 	#parse("layout/layout-js.vm")
 	<script>seajs.use("test");</script>	

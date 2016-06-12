@@ -73,28 +73,28 @@ public class MerchantApplyBiz {
 //				result.setReturnCode(MemberReturnCode.MERCHANT_NAME_EXIST);
 //				return result;
 //			}
-			MerchantQuery merchantQuery = new MerchantQuery();
-			merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
-			merchantQuery.setName(examineInfoVO.getMerchantName());
-			WebResult<List<MerchantDO>> queryMerchantResult = merchantApplyRepo.queryMerchant(merchantQuery);
-			if (queryMerchantResult == null || !queryMerchantResult.isSuccess()  ) {
-				result.setReturnCode(MemberReturnCode.SYSTEM_ERROR);
-				return result;
-			}
-			List<MerchantDO> merchantDOs = queryMerchantResult.getValue()	;
+//			MerchantQuery merchantQuery = new MerchantQuery();
+//			merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+//			merchantQuery.setName(examineInfoVO.getMerchantName());
+//			WebResult<List<MerchantDO>> queryMerchantResult = merchantApplyRepo.queryMerchant(merchantQuery);
+//			if (queryMerchantResult == null || !queryMerchantResult.isSuccess()  ) {
+//				result.setReturnCode(MemberReturnCode.SYSTEM_ERROR);
+//				return result;
+//			}
+//			List<MerchantDO> merchantDOs = queryMerchantResult.getValue()	;
 		//	if( CollectionUtils.isEmpty(merchantDOs) ){
 //				result.setValue(Boolean.FALSE);
 //				return result;
 		//	}
 			
-			if (null != merchantDOs && merchantDOs.size() > 0) {
-				for (MerchantDO merchantDO : merchantDOs) {
-					if (merchantDO.getSellerId() != userId) {
-						result.setReturnCode(MemberReturnCode.MERCHANT_NAME_EXIST);
-						return result;
-					}
-				}
-			}
+//			if (null != merchantDOs && merchantDOs.size() > 0) {
+//				for (MerchantDO merchantDO : merchantDOs) {
+//					if (merchantDO.getSellerId() != userId) {
+//						result.setReturnCode(MemberReturnCode.MERCHANT_NAME_EXIST);
+//						return result;
+//					}
+//				}
+//			}
 			dto.setType(ExamineType.MERCHANT.getType());
 			result = merchantApplyRepo.submitExamineInfo(dto);
 			
@@ -392,6 +392,23 @@ public class MerchantApplyBiz {
 			result.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
 			
 		}
+		return result;
+	}
+	
+	public WebResult<Boolean> changeExamineStatus(InfoQueryDTO examInfoQueryDTO) {
+		WebResult<Boolean> result = new WebResult<>();
+		if (examInfoQueryDTO == null || examInfoQueryDTO.getDomainId() <= 0 || examInfoQueryDTO.getSellerId() <= 0 || examInfoQueryDTO.getType() <= 0) {
+			log.error("params error:InfoQueryDTO={}",JSON.toJSONString(examInfoQueryDTO));
+			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+			return result;
+		}
+		MemResult<Boolean> changeExamineStatusResult = merchantApplyRepo.changeExamineStatus(examInfoQueryDTO);
+		if (changeExamineStatusResult == null || !changeExamineStatusResult.isSuccess()  ) {
+			log.error("params :InfoQueryDTO={} return result:{}",JSON.toJSONString(examInfoQueryDTO),JSON.toJSONString(changeExamineStatusResult));
+			result.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
+			return result;
+		}
+		result.setValue(changeExamineStatusResult.getValue());
 		return result;
 	}
 }
