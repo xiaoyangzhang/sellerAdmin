@@ -862,16 +862,15 @@ public class LineConverter {
 		oVIds.addAll(vIds);
 		vIds.removeAll(skuPIds);
 		if (CollectionUtils.isNotEmpty(vIds)) {
-			for (Long vId : vIds) {
-				for (ItemSkuDO sku : itemSkuDOList) {
-					List<ItemSkuPVPair> itemSkuPVPairList = sku
-							.getItemSkuPVPairList();
+			for (ItemSkuDO sku : itemSkuDOList) {
+				for (Long vId : vIds) {
+					List<ItemSkuPVPair> itemSkuPVPairList = sku.getItemSkuPVPairList();
 					List<ItemSkuPVPair> newItemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
 					for (ItemSkuPVPair itemSkuPVPair : itemSkuPVPairList) {
 						if (itemSkuPVPair.getPType() == PropertyType.PERSON_TYPE.getType()) {
 							if (oVIds.contains(itemSkuPVPair.getVId())) {
 								newItemSkuPVPairList.add(itemSkuPVPair);
-							} else{
+							} else {
 								ItemSkuPVPair pair = new ItemSkuPVPair();
 								CategoryValueDO value = map.get(vId);
 								pair.setPId(categoryPropertyValueDOForPerson.getId());
