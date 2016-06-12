@@ -27,6 +27,7 @@ import com.yimayhd.membercenter.client.query.QualificationQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.enums.MerchantCategoryType;
 import com.yimayhd.membercenter.enums.ExamineType;
+import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -236,7 +237,7 @@ public class MerchantApplyBiz {
 			result.setWebReturnCode(WebReturnCode.QUERY_MERCHANT_SCOPE_FAILED);
 			return result;
 		}
-		if (merchantCategoryResult.getValue().get(0).getType() == ExamineType.TRAVEL_AGENCY.getType()) {
+		if (merchantCategoryResult.getValue().get(0).getType() == MerchantType.TRAVEL_AGENCY.getType()) {
 			cqIdList = null;
 			
 		}else{
