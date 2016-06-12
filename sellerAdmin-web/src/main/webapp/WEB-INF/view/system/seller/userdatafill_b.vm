@@ -96,6 +96,7 @@
 							#end
 						</div><div class="plhd"></div><div class="del">删除图片</div>
 						<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile mult"></a>
+						<input type="hidden" class="qualification">
 					</span>
 				</label>
 			 
