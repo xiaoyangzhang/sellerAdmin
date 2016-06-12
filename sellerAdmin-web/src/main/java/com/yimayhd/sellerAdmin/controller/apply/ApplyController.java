@@ -480,7 +480,7 @@ public class ApplyController extends BaseController {
 		try {
 			MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
 			if(null == result.getValue() || !result.isSuccess()){
-				url = "system/error/500";
+				//url = "system/error/500";
 				return url;
 			}
 //			if(null == result.getValue()){
