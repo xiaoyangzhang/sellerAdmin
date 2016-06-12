@@ -94,7 +94,7 @@ public class DraftChecker {
 	 */
 	public static Boolean checkDraftList(DraftListQuery draftListQuery) {
 		
-		if(null==draftListQuery.getAccountId()||draftListQuery.getDomainId()<=0||draftListQuery.getMainType()<=0||draftListQuery.getSubType()<=0) {
+		if(null==draftListQuery.getAccountId()||draftListQuery.getDomainId()<=0) {
 			log.error("DraftChecker.checkSaveDraft error!");
 			return true;
 		}
