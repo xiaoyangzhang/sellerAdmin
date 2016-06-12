@@ -26,8 +26,11 @@
 			    <form class="form-signin" id="draftListForm" action="$!utilWebconfig.getActionDefaultFontPath()/draft/list" method="POST" role="form">
 				<p>
 					<em class ="gray6">商品类型：</em>
-					<select id="edu">
-						<option value="">全部</option>
+					<select id="edu" name="subType">
+						<option value="0" #if(!$query.subType) selected #end>全部</option>
+        					#foreach($itemType in $itemTypeList)
+        					<option value="$!{itemType.value}" #if($query.subType == $itemType.value) selected #end >$!{utilDraft.getDraftSubTypeName($itemType.value)}</option>
+        					#end
 					</select>
 					<button type="submit" class = "searchBtn">查询</button>
 				</p>

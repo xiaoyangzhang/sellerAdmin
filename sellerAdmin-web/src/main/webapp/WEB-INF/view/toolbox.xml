@@ -9,6 +9,7 @@
         <tool key="utilItem" class="com.yimayhd.sellerAdmin.util.ItemUtil"></tool>
         <tool key="utilMoney" class="com.yimayhd.sellerAdmin.util.MoneyUtil"></tool>
         <tool key="utilImg" class="com.yimayhd.sellerAdmin.util.ImageUtil"></tool>
+        <tool key="utilDraft" class="com.yimayhd.sellerAdmin.util.DraftUtil"></tool>
     </toolbox>
 
 </tools>
