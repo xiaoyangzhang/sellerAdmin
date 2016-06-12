@@ -531,6 +531,7 @@ public class ApplyController extends BaseController {
 //			}else{
 //				return null;
 //			}
+			model.addAttribute("url", "/apply/toChoosePage?reject=true");
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			url = "system/error/500";
@@ -541,12 +542,17 @@ public class ApplyController extends BaseController {
 	}
 	@RequestMapping(value = "/toChoosePage")
 	public String toChoosePage(Model model,boolean reject){
-		//String chooseUrl = "/system/seller/chooseType";
-//		if(reject){
-//			return chooseUrl;
-//		}
+		String chooseUrl = "/system/seller/chooseType";
+		if(reject){
+			return chooseUrl;
+		}
+		long userId = sessionManager.getUserId();
+//		InfoQueryDTO info = new InfoQueryDTO();
+//		info.setDomainId(Constant.DOMAIN_JIUXIU);
+//		info.setSellerId(userId);
+//		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
 		//权限
-		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "");
+		String judgeRest = judgeAuthority(model,userId, "");
 		//if(null != judgeRest){
 			return judgeRest;
 		//}else{

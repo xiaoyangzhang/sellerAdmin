@@ -34,7 +34,7 @@
 				<span class="bcs">$!info</span>
 		　　　 #end
 		</div>
-		<div><a class="agreebtn" href="$!root_path/apply/toChoosePage">重新申请</a></div>
+		<div><a class="agreebtn" href="$!root_path/$!url">重新申请</a></div>
 	</div>
 	#parse("layout/layout-js.vm")
 	<script>seajs.use("merchant");</script>	
