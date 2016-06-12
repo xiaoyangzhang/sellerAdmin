@@ -81,7 +81,7 @@
 	
 #end
 #if($!{qualificationContents.qualificationId} > 0)
-		<div class="groupimg clearfix fl zu-img #if(!${qualificationContents.required} ) allownull #end" id="$!{qualificationContents.qualificationId}" >
+		<div class="groupimg clearfix fl zu-img #if(!${qualificationContents.required} ) allownull #end" id="qualificationId" qualificationId="$!{qualificationContents.qualificationId}" >
 				
 			<div class="updateli">
 			#foreach($content in $qualificationContents.getContentList() )
@@ -96,6 +96,7 @@
 							#end
 						</div><div class="plhd"></div><div class="del">删除图片</div>
 						<a class='upldclik'><input type="file" name="adpicfile" class="adpicfile mult"></a>
+						<input type="hidden" class="qualification">
 					</span>
 				</label>
 			 
@@ -103,7 +104,7 @@
 				#if( $!qualificationContents.tip && $!qualificationContents.tip.length()>0 )
 				<div><label class="bred">*</label><label class="gray9">$!{qualificationContents.tip}</label></div>
 				#end
-			<input type="hidden" class="qualification"   value="$!qualificationContents.content">
+			<input type="hidden" id="qualification"   value="$!qualificationContents.content">
 			</div>
 			</div>
 			<div class='listli'>#if($qualificationContents.required )<label class="bred">*</label>#end<label>$!{qualificationContents.title}:</label></div>
