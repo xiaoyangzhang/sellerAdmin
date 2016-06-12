@@ -31,7 +31,6 @@
 			</div>
 		</div>
 
-		</div>
 		<div class="waiting nothrough tc m60">
 			<i class="mb5"></i><br><label class="f16 gray6">很遗憾，您的申请审核不通过，请填充后再次提交！</label>
 			<div class="message">
@@ -44,6 +43,7 @@
 		</div>
 			<div><a class="agreebtn" href="$!root_path/$!url">重新申请</a></div>
 	</div>
+		</div>
 	#parse("layout/layout-js.vm")
 	<script>seajs.use("test");</script>	
 
