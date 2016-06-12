@@ -1,6 +1,6 @@
 <!-- head start-->
 #set($layout = "/layout/layout-jiuxiu.vm")
-#set( $locations = ["酒店商品管理", "酒店商品"] )
+#set( $locations = ["商品管理", "酒店客栈"] )
 
 <head>
 	#parse("layout/layout-meta.vm")
