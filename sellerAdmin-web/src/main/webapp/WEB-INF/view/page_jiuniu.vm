@@ -1,5 +1,5 @@
 ##     totalPage 总页数   showSize-10   cpage 当前页
-<div class="pagination pagination-large pagination-right pageWrap">
+<div class="jiuniu_pagination pagination-large pagination-right pageWrap">
     #set($pageVoNo = $pageVo.thisPageNo)
     #set($before=0)
     #set($after=0)
