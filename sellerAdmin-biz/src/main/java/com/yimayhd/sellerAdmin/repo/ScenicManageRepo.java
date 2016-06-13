@@ -22,6 +22,7 @@ import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.cache.CacheManager;
 import com.yimayhd.sellerAdmin.checker.ScenicManageDomainChecker;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.HotelManage.ScenicManageVO;
@@ -47,6 +48,8 @@ public class ScenicManageRepo {
 	private ItemPublishService itemPublishServiceRef;
 	@Autowired
 	private CategoryService categoryServiceRef;
+	@Autowired
+	private CacheManager cacheManager ;
 
 	/**
 	 * 查询景区资源列表
@@ -224,5 +227,13 @@ public class ScenicManageRepo {
 
 	public void setCategoryServiceRef(CategoryService categoryServiceRef) {
 		this.categoryServiceRef = categoryServiceRef;
+	}
+
+	public CacheManager getCacheManager() {
+		return cacheManager;
+	}
+
+	public void setCacheManager(CacheManager cacheManager) {
+		this.cacheManager = cacheManager;
 	}
 }

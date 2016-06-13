@@ -16,6 +16,8 @@ public class BizCategoryInfo implements Serializable{
     private String vTxt;//value
     private long categoryId;
     private boolean flag;
+    private int maxLength;//字数最大限制
+    private String hint;//默认显示文案
 
     public long getPId() {
         return pId;
@@ -64,5 +66,21 @@ public class BizCategoryInfo implements Serializable{
 
     public void setFlag(boolean flag) {
         this.flag = flag;
+    }
+
+    public int getMaxLength() {
+        return maxLength;
+    }
+
+    public void setMaxLength(int maxLength) {
+        this.maxLength = maxLength;
+    }
+
+    public String getHint() {
+        return hint;
+    }
+
+    public void setHint(String hint) {
+        this.hint = hint;
     }
 }

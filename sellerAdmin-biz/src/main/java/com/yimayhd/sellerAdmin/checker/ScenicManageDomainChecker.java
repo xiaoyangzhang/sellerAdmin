@@ -185,7 +185,7 @@ public class ScenicManageDomainChecker {
         String bizCategoryJson =CommonJsonUtil.objectToJson(bizList,List.class);
         scenicManageVO.setDynamicEntry(bizCategoryJson);//属性json穿
         scenicManageVO.setBizCategoryInfoList(bizList);// json列表
-        System.out.println("bizCategoryJson");
+        //System.out.println("bizCategoryJson");
         return scenicManageVO;
     }
     public ItemDO  getBizScenicPublishAddDTO() {

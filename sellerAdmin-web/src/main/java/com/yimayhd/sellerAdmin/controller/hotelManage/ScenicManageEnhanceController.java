@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.controller.hotelManage;
 
+import com.google.gson.reflect.TypeToken;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.TicketDO;
@@ -111,34 +112,16 @@ public class ScenicManageEnhanceController extends BaseController {
             return "/system/error/404";
         }
         scenicManageVO.setCategoryId(categoryId);
-        CategoryResult categoryResult = categoryServiceRef.getCategory(scenicManageVO.getCategoryId());
-        if(!categoryResult.isSuccess()||categoryResult.getCategroyDO()==null){
-            log.error("类目信息错误");
+        /**初始化动态列表**/
+        List<BizCategoryInfo> bizCategoryInfoList=  getBizCategoryInfoListByCategoryBiz(scenicManageVO.getCategoryId());
+        if(CollectionUtils.isEmpty(bizCategoryInfoList)){
             return "/system/error/500";
         }
-         CategoryDO categoryDO = categoryResult.getCategroyDO();
-        if(CollectionUtils.isEmpty(categoryDO.getKeyCategoryPropertyDOs())){
-            log.error("类目必要属性信息错误");
-            return "/system/error/500";
-        }
-        if(CollectionUtils.isEmpty(categoryDO.getNonKeyCategoryPropertyDOs())){
-            log.error("类目非必要属性信息错误");
-            return "/system/error/500";
-        }
-        List<CategoryPropertyValueDO> keyPro = categoryDO.getKeyCategoryPropertyDOs();
-        List<CategoryPropertyValueDO> nonPro = categoryDO.getNonKeyCategoryPropertyDOs();
-        keyPro.addAll(nonPro);
-        List<BizCategoryInfo> bizCategoryInfoList = new ArrayList<BizCategoryInfo>(keyPro.size());
-        for(CategoryPropertyValueDO prov:keyPro){
-            BizCategoryInfo bizCategoryInfo = categoryDOToBizCategoryInfo(prov);
-            bizCategoryInfoList.add(bizCategoryInfo);
-        }
-       // CategoryPropertyValueDO sellDO = categoryDO.getKeyCategoryPropertyDOs().get(0);
         // 初始化属性列表
         model.addAttribute("scenicManageVO", scenicManageVO);
         //model.addAttribute("categoryDO",categoryDO);// 最晚到店时间列表
-        String json  = CommonJsonUtil.objectToJson(bizCategoryInfoList,List.class);
-        System.out.println("dynamicEntry:"+json);
+       // String json  = CommonJsonUtil.objectToJson(bizCategoryInfoList,List.class);
+       // System.out.println("dynamicEntry:"+json);
         model.addAttribute("bizCategoryInfoList",bizCategoryInfoList);// 最晚到店时间列表
         model.addAttribute("categoryId",categoryId);//
         model.addAttribute("itemId", 0);
@@ -157,7 +140,6 @@ public class ScenicManageEnhanceController extends BaseController {
         WebResult<String> message = new WebResult<String>();
         long userId = sessionManager.getUserId() ;
         scenicManageVO.setSellerId(userId);
-        scenicManageVO.setCategoryId(233);
         if(scenicManageVO==null||scenicManageVO.getScenicId()==0){
             message.initFailure(WebReturnCode.PARAM_ERROR,"景区资源信息错误,无法添加商品");
             log.error("addScenicManageVOByDdata-error 景区资源信息错误,无法添加商品");
@@ -183,6 +165,15 @@ public class ScenicManageEnhanceController extends BaseController {
             message.initFailure(WebReturnCode.PARAM_ERROR,"添加商品错误");
             return message;
         }
+
+        List<BizCategoryInfo> bizCategoryInfoList=  getBizCategoryInfoListByCategoryBiz(scenicManageVO.getCategoryId());
+        if(!CollectionUtils.isEmpty(bizCategoryInfoList)){
+            String bizJson  = CommonJsonUtil.objectToJson(bizCategoryInfoList,List.class);
+            String cacheKey = scenicManageVO.getSellerId()+"_"+scenicManageVO.getCategoryId();
+            cacheManager.addToTair(Constant.SELLER_CATEGORY_CHECK+cacheKey, bizJson , 0, 0);//忽略版本,永久保存
+            log.info("cacheKey:"+Constant.SELLER_CATEGORY_CHECK+cacheKey);
+        }
+
         /**属性列表 添加 **/
         model.addAttribute("hotelMessageVO", result.getValue());
         String url = UrlHelper.getUrl(rootPath, "/item/list") ;
@@ -216,9 +207,7 @@ public class ScenicManageEnhanceController extends BaseController {
             systemLog="编辑商品ID错误";
              new BaseException("编辑商品ID错误");
         }
-
-
-        logger.info("editScenicManageView: 入参:scenicManageVO="+CommonJsonUtil.objectToJson(scenicManageVO,ScenicManageVO.class));
+        //logger.info("editScenicManageView: 入参:scenicManageVO="+CommonJsonUtil.objectToJson(scenicManageVO,ScenicManageVO.class));
         WebResult<ScenicManageVO> webResult = scenicManageService.queryScenicManageVOByData(scenicManageVO);
         if(!webResult.isSuccess()){
             // "查询详情错误";
@@ -231,8 +220,27 @@ public class ScenicManageEnhanceController extends BaseController {
         if(currentUserId>0&&currentUserId!=scenicManageVO.getSellerId()){
             return "/system/error/lackPermission";
         }
-        logger.info("editScenicManageView: 回参:webResult="+webResult.isSuccess()+",\n scenicManageVO="+CommonJsonUtil.objectToJson(scenicManageVO,ScenicManageVO.class));
-        model.addAttribute("bizCategoryInfoList",scenicManageVO.getBizCategoryInfoList());// 最晚到店时间列表
+       // logger.info("editScenicManageView: 回参:webResult="+webResult.isSuccess()+",\n scenicManageVO="+CommonJsonUtil.objectToJson(scenicManageVO,ScenicManageVO.class));
+        /***编辑查看时,在类目中匹配验证信息*/
+        String cacheKey = scenicManageVO.getSellerId()+"_"+scenicManageVO.getCategoryId();
+        log.info("cacheKey:"+Constant.SELLER_CATEGORY_CHECK+cacheKey);
+        Object object= cacheManager.getFormTair(Constant.SELLER_CATEGORY_CHECK+cacheKey);
+        List<BizCategoryInfo> bizCategoryInfoList = scenicManageVO.getBizCategoryInfoList();
+        if(object!=null){
+            String bizJson = (String)object;
+            List<BizCategoryInfo> bizList = (List<BizCategoryInfo>) CommonJsonUtil.jsonToListObject(bizJson,new TypeToken<List<BizCategoryInfo>>(){}.getType());
+            if(!CollectionUtils.isEmpty(bizList)){
+                    for(BizCategoryInfo resultCate:bizCategoryInfoList){
+                        for(BizCategoryInfo categoryInfo :bizList){
+                        if (resultCate.getPId() == categoryInfo.getPId()){
+                            resultCate.setMaxLength(categoryInfo.getMaxLength());
+                            resultCate.setHint(categoryInfo.getHint());
+                        }
+                    }
+                }
+            }
+        }
+        model.addAttribute("bizCategoryInfoList",bizCategoryInfoList);//
         model.addAttribute("scenicManageVO", scenicManageVO);
         model.addAttribute("operationFlag", operationFlag);
         model.addAttribute("systemLog", systemLog);
@@ -382,10 +390,43 @@ public class ScenicManageEnhanceController extends BaseController {
         bizCategoryInfo.setVTxt("");
         bizCategoryInfo.setPType(categoryPro.getType());
         bizCategoryInfo.setCategoryId(categoryPro.getCategoryId());
+        bizCategoryInfo.setHint(categoryPro.getHint());
+        bizCategoryInfo.setMaxLength(categoryPro.getMaxLength());
         return bizCategoryInfo;
     }
 
+    /**
+     * 获取获取类目配置信息
+     * @return
+     */
+    public  List<BizCategoryInfo> getBizCategoryInfoListByCategoryBiz(long categoryId){
+        /**新增商户类目属性信息*/
+        CategoryResult categoryResult = categoryServiceRef.getCategory(categoryId);
+        if(!categoryResult.isSuccess()||categoryResult.getCategroyDO()==null){
+            log.error("类目信息错误");
+            return  null;
+        }
+        CategoryDO categoryDO = categoryResult.getCategroyDO();
+        if(CollectionUtils.isEmpty(categoryDO.getKeyCategoryPropertyDOs())){
+            log.error("类目必要属性信息错误");
+            return  null;
+        }
+        if(CollectionUtils.isEmpty(categoryDO.getNonKeyCategoryPropertyDOs())){
+            log.error("类目非必要属性信息错误");
+            return  null;
+        }
+        List<CategoryPropertyValueDO> keyPro = categoryDO.getKeyCategoryPropertyDOs();
+        List<CategoryPropertyValueDO> nonPro = categoryDO.getNonKeyCategoryPropertyDOs();
+        keyPro.addAll(nonPro);
+        List<BizCategoryInfo> bizCategoryInfoList = new ArrayList<BizCategoryInfo>(keyPro.size());
+        for(CategoryPropertyValueDO prov:keyPro){
+            BizCategoryInfo bizCategoryInfo = categoryDOToBizCategoryInfo(prov);
+            bizCategoryInfoList.add(bizCategoryInfo);
+        }
+        //String json  = CommonJsonUtil.objectToJson(bizCategoryInfoList,List.class);
 
+        return bizCategoryInfoList;
+    }
 
 
     public void setScenicManageService(ScenicManageService scenicManageService) {
