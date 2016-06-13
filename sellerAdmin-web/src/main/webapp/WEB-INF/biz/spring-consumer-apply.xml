@@ -10,7 +10,7 @@
 		<property name="timeout" value="${consumer.dubbo.timeout}"/>
 		<property name="check" value="${consumer.dubbo.check}"/>
         <property name="retries" value="${dubbo.retries}"/>
-		<property name="version" value="${consumer.dubbo.member.version}" />
+		<property name="version" value="${consumer.dubbo.user.version}" />
 	</bean>
 	
 	<bean id="userService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
