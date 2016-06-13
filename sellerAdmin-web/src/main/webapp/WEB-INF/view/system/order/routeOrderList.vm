@@ -203,9 +203,9 @@
                                     #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 1200)
                                        国内景区门票
                                     #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 1100)
-                                        酒店客栈（在线付）
+                                        酒店客栈
                                     #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
-                                        酒店客栈（到店付）
+                                        酒店客栈
                                     #end
                                 </div>
                             </td>
