@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.service.draft.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.yimayhd.membercenter.MemberReturnCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,12 @@ public class DraftServiceImpl implements DraftService {
 		try {
 			MemResult<Boolean> result = draftRepo.saveDraft(draftDO);
 			if(result.isSuccess()) {
-				return WebOperateResult.success();
+				if(result.getErrorCode()== MemberReturnCode.DRAFTNAME_EXISTS_FAILED.getCode()) {
+                    log.error("DraftServiceImpl.saveDraft: JsonObject=" + JsonObject + ", draftVO="+ draftVO);
+                    return 	WebOperateResult.failure(WebReturnCode.DRAFTNAME_REPEAT_ERROR);
+                } else {
+    				return WebOperateResult.success();
+                }
 			} else {
                 log.error("DraftServiceImpl.saveDraft: JsonObject=" + JsonObject + ", draftVO="+ draftVO);
                 return 	WebOperateResult.failure(WebReturnCode.REMOTE_CALL_FAILED);
@@ -142,7 +148,7 @@ public class DraftServiceImpl implements DraftService {
         try {
             MemPageResult<DraftDTO> result = draftRepo.getDraftList(draftListQuery);
             if(result.isSuccess()) {
-                if(result.getList().size()>0) {
+                if(result.getList().size()>0&&null!=result.getList()) {
                     List<DraftVO> draftVOList = new ArrayList<DraftVO>();
                     for (DraftDTO draftDTO : result.getList()) {
                         DraftVO draftVO = new DraftVO();
