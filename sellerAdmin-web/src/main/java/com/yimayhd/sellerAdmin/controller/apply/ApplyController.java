@@ -547,19 +547,14 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value = "/seller/toAggrementPage")
 	public String toBusinessAggrementPage(Model model){
-		//WebResult<String> result = new WebResult<String>();
 		InfoQueryDTO examInfoQueryDTO = new InfoQueryDTO();
 		examInfoQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		examInfoQueryDTO.setType(ExamineType.MERCHANT.getType());
 		examInfoQueryDTO.setSellerId(sessionManager.getUserId());
 		WebResult<Boolean> changeExamineStatusResult = merchantApplyBiz.changeExamineStatus(examInfoQueryDTO);
 		if (changeExamineStatusResult == null || !changeExamineStatusResult.isSuccess()) {
-			//result.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
-			//result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/system/error/500");
 			return "/system/error/500";
 		}
-//		result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/system/seller/agreement");
-//		return result;
 		return "/system/seller/agreement";
 	}
 	
