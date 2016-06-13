@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.yimayhd.membercenter.MemberReturnCode;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,7 +150,7 @@ public class DraftServiceImpl implements DraftService {
         try {
             MemPageResult<DraftDTO> result = draftRepo.getDraftList(draftListQuery);
             if(result.isSuccess()) {
-                if(result.getList().size()>0&&null!=result.getList()) {
+            	if(CollectionUtils.isNotEmpty(result.getList())){
                     List<DraftVO> draftVOList = new ArrayList<DraftVO>();
                     for (DraftDTO draftDTO : result.getList()) {
                         DraftVO draftVO = new DraftVO();
