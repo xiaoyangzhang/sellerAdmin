@@ -216,7 +216,7 @@
 	                    	待确认；
 	                </span>
 	                <span>
-	                   	 付款时间：#if($!order.mainOrder.tcMainOrder.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)#end
+	                   	下单时间：#if($!order.mainOrder.tcMainOrder.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)#end
 	                </span>
 	                <span>
 	                    <button type="button" class="btn btn-primary affirm"
@@ -230,6 +230,11 @@
 	                <span>
 	                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.deliveryTime)
 	                </span>
+	                <span>
+		                <button type="button" class="btn btn-primary isCheck"
+                            data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">是否入驻
+	                    </button>
+                    </span>
 	             #elseif($order.mainOrder.orderStatus == 11)
 	                <span>
 	                  	  未入住；
@@ -244,7 +249,7 @@
 	                <span>
 	                   	 完成时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
 	                </span>
-	                 <span>
+	                 #*<span>
 		                   	 #if($!order.mainOrder.tcMainOrder.finishOrderSource == "1")
 		                   	 	用户APP端确认收货
 		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "2")
@@ -256,7 +261,7 @@
 		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "5")
 		                   	 	超时自动收货
 		                   	 #end
-	                </span>
+	                </span>*#
 	                <span>
 	                   	 <button type="button" class="btn btn-primary assessment"
 	                        	data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">查看评价
@@ -423,7 +428,7 @@
                                 	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
                                     <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.tcDetailOrder.startDate)</div>
                                     <div class="t-userType">$!order.mainOrder.tcMainOrder.roomTitle</div>
-                                    #if($!order.mainOrder.orderType == 1400)
+                                    #if($!order.mainOrder.orderType == 1100)
                                     	<div class="t-userType">在线付</div>
                                     #elseif($!order.mainOrder.orderType == 3400)
                                     	<div class="t-userType">到店付</div>
@@ -608,6 +613,50 @@
             	var orderId = $(this).attr('orderId');
             	window.open(actionDefaultPath + '/order/assessmentList?orderNO=' + orderId) ;
             });
+        });
+        
+        
+        //是否入驻
+        $('.isCheck').click(function () {
+        	var orderId = $(this).attr('orderId');
+        	
+        	layer.confirm('是否已入住？',{
+			  btn: ['确认入住','确认未入住'] //按钮
+			}, function(){
+                $.post('$!utilWebconfig.getActionDefaultFontPath()' + '/order/confirmCheckIn/', {'orderId': orderId},function(data) {
+		    			if(data.status == 200) {
+		    				layer.msg('操作成功', {
+		        				icon : 1,
+		        				time : 1000
+		        			});
+		    				window.location.reload();
+		    			} else {
+		    				layer.msg('操作失败', {
+		        				icon : 2,
+		        				time : 1000
+		        			});
+		    			}
+		    		},"json");
+					layer.close(index);
+				
+			}, function(){
+                 $.post('$!utilWebconfig.getActionDefaultFontPath()' + '/order/confirmCheckNot/', {'orderId': orderId},function(data) {
+		    			if(data.status == 200) {
+		    				layer.msg('操作成功', {
+		        				icon : 1,
+		        				time : 1000
+		        			});
+		    				window.location.reload();
+		    			} else {
+		    				layer.msg('操作失败', {
+		        				icon : 2,
+		        				time : 1000
+		        			});
+		    			}
+	    		},"json");
+				layer.close(index);
+			});
+        	
         });
 
             //取消订单

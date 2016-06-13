@@ -44,7 +44,7 @@
                     <option value="WAITING_PAY" #if($!orderListQuery.orderStat == 'WAITING_PAY') selected #end>待付款</option>
                     <option value="WAITING_DELIVERY" #if($!orderListQuery.orderStat == 'WAITING_DELIVERY') selected #end>处理中/待确认</option>
                     <option value="SHIPPING" #if($!orderListQuery.orderStat == 'SHIPPING') selected #end>待出行/待使用/预定成功</option>
-                    <option value="CONFIRMED_CLOSE" #if($!orderListQuery.orderStat == 'CONFIRMED_CLOSE') selected #end>酒店（未入住）</option>
+                    <option value="CONFIRMED_CLOSE" #if($!orderListQuery.orderStat == 'CONFIRMED_CLOSE') selected #end>未入住（酒店客栈）</option>
                     <option value="FINISH" #if($!orderListQuery.orderStat == 'FINISH') selected #end>已完成</option>
                     <option value="CANCEL" #if($!orderListQuery.orderStat == 'CANCEL') selected #end>已取消</option>
                 </select>
@@ -164,7 +164,7 @@
                                         	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
                                             <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.tcDetailOrder.startDate)</div>
                                             <div class="t-userType">$!order.tcMainOrder.roomTitle</div>
-                                            #if($!subOrder.tcDetailOrder.bizOrder.orderType == 1400)
+                                            #if($!subOrder.tcDetailOrder.bizOrder.orderType == 1100)
                                             	<div class="t-userType">在线付</div>
                                             #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
                                             	<div class="t-userType">到店付</div>
