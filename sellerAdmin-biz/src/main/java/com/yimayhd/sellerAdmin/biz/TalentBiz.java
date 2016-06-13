@@ -106,12 +106,12 @@ public class TalentBiz {
 	public List<BankInfoDTO> getBankList() {
 		return talentRepo.getBankList();
 	}
-	public  String formatDate (Date date) {   
-		if (date == null) {
-			return null;
-		}
-	    return  new SimpleDateFormat("yyyy-MM-dd").format(date);
-	}
+//	public  String formatDate (Date date) {   
+//		if (date == null) {
+//			return null;
+//		}
+//	    return  new SimpleDateFormat("yyyy-MM-dd").format(date);
+//	}
 	public MemResult<Boolean> updateCheckStatus(ExamineInfoVO vo) {
 		if (vo == null) {
 			log.error("param : ExamineInfoVO={}",vo);

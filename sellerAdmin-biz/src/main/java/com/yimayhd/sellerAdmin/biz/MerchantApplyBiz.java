@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
-import com.yimayhd.membercenter.client.domain.merchant.BusinessScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.CategoryQualificationDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryScopeDO;
@@ -25,8 +23,8 @@ import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.query.MerchantCategoryQueryDTO;
 import com.yimayhd.membercenter.client.query.QualificationQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
-import com.yimayhd.membercenter.enums.MerchantCategoryType;
 import com.yimayhd.membercenter.enums.ExamineType;
+import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -34,8 +32,6 @@ import com.yimayhd.sellerAdmin.converter.MerchantConverter;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.QualificationVO;
 import com.yimayhd.sellerAdmin.repo.MerchantApplyRepo;
-import com.yimayhd.user.client.domain.MerchantDO;
-import com.yimayhd.user.client.query.MerchantQuery;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /**
@@ -54,12 +50,13 @@ public class MerchantApplyBiz {
 	private SessionManager sessionManager;
 	@Autowired
 	private MerchantApplyRepo merchantApplyRepo;
-	public MemResult<Boolean> submitExamineInfo(ExamineInfoVO examineInfoVO) {
+	public WebResult<Boolean> submitExamineInfo(ExamineInfoVO examineInfoVO) {
 		long userId = sessionManager.getUserId();
-		MemResult<Boolean> result = new MemResult<Boolean>();
+		WebResult<Boolean> result = new WebResult<Boolean>();
 		if (examineInfoVO == null) {
 			log.error("params error:examineInfoVO={}",JSON.toJSONString(examineInfoVO));
-			result.setReturnCode(MemberReturnCode.PARAMTER_ERROR);
+			//result.setReturnCode(MemberReturnCode.PARAMTER_ERROR);
+			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
 			return result;
 		}
 		try {
@@ -73,35 +70,37 @@ public class MerchantApplyBiz {
 //				result.setReturnCode(MemberReturnCode.MERCHANT_NAME_EXIST);
 //				return result;
 //			}
-			MerchantQuery merchantQuery = new MerchantQuery();
-			merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
-			merchantQuery.setName(examineInfoVO.getMerchantName());
-			WebResult<List<MerchantDO>> queryMerchantResult = merchantApplyRepo.queryMerchant(merchantQuery);
-			if (queryMerchantResult == null || !queryMerchantResult.isSuccess()  ) {
-				result.setReturnCode(MemberReturnCode.SYSTEM_ERROR);
-				return result;
-			}
-			List<MerchantDO> merchantDOs = queryMerchantResult.getValue()	;
+//			MerchantQuery merchantQuery = new MerchantQuery();
+//			merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+//			merchantQuery.setName(examineInfoVO.getMerchantName());
+//			WebResult<List<MerchantDO>> queryMerchantResult = merchantApplyRepo.queryMerchant(merchantQuery);
+//			if (queryMerchantResult == null || !queryMerchantResult.isSuccess()  ) {
+//				result.setReturnCode(MemberReturnCode.SYSTEM_ERROR);
+//				return result;
+//			}
+//			List<MerchantDO> merchantDOs = queryMerchantResult.getValue()	;
 		//	if( CollectionUtils.isEmpty(merchantDOs) ){
 //				result.setValue(Boolean.FALSE);
 //				return result;
 		//	}
 			
-			if (null != merchantDOs && merchantDOs.size() > 0) {
-				for (MerchantDO merchantDO : merchantDOs) {
-					if (merchantDO.getSellerId() != userId) {
-						result.setReturnCode(MemberReturnCode.MERCHANT_NAME_EXIST);
-						return result;
-					}
-				}
-			}
+//			if (null != merchantDOs && merchantDOs.size() > 0) {
+//				for (MerchantDO merchantDO : merchantDOs) {
+//					if (merchantDO.getSellerId() != userId) {
+//						result.setReturnCode(MemberReturnCode.MERCHANT_NAME_EXIST);
+//						return result;
+//					}
+//				}
+//			}
 			dto.setType(ExamineType.MERCHANT.getType());
-			result = merchantApplyRepo.submitExamineInfo(dto);
-			
+			MemResult<Boolean> submitExamineInfoResult = merchantApplyRepo.submitExamineInfo(dto);
+			if (submitExamineInfoResult == null || !submitExamineInfoResult.isSuccess()) {
+				result.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
+			}
 			
 		} catch (Exception e) {
 			log.error("params :examineInfo={} error:{}",examineInfoVO,e);
-			result.setReturnCode(MemberReturnCode.SAVE_MERCHANT_FAILED);
+			result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
 		}
 		return result;
 	}
@@ -236,7 +235,7 @@ public class MerchantApplyBiz {
 			result.setWebReturnCode(WebReturnCode.QUERY_MERCHANT_SCOPE_FAILED);
 			return result;
 		}
-		if (merchantCategoryResult.getValue().get(0).getType() == ExamineType.TRAVEL_AGENCY.getType()) {
+		if (merchantCategoryResult.getValue().get(0).getType() == MerchantType.TRAVEL_AGENCY.getType()) {
 			cqIdList = null;
 			
 		}else{
@@ -264,7 +263,6 @@ public class MerchantApplyBiz {
 		}
 		List<QualificationVO> qualificationVOList = qualificationVOResult.getValue();
 		for (CategoryQualificationDO cq:categoryQualificationResult) {
-			QualificationVO qualificationVO = new QualificationVO();
 			for (QualificationVO qf	 : qualificationVOList) {
 				if (cq.getQulificationId() == qf.getQualificationId()) {
 					qf.setRequired(cq.isRequired());
@@ -365,33 +363,50 @@ public class MerchantApplyBiz {
 		result.setValue(qualificationVOList);
 		return result;
 	}
-	public WebResult<Boolean> updateMerchantScopeStatus(BusinessScopeQueryDTO queryDTO) {
-		WebResult<Boolean> result = new WebResult<>();
-		if (queryDTO == null || queryDTO.getDomainId() <= 0) {
-			log.error("params error:BusinessScopeQueryDTO={}",JSON.toJSONString(queryDTO));
-			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
-			return result;
-		}
-		MemResult<Boolean> updateResult = merchantApplyRepo.updateMerchantScopeStatus(queryDTO);
-		if (updateResult == null || !updateResult.isSuccess() || !updateResult.getValue()) {
-			result.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
-			
-		}
-		return result;
-	}
+//	public WebResult<Boolean> updateMerchantScopeStatus(BusinessScopeQueryDTO queryDTO) {
+//		WebResult<Boolean> result = new WebResult<>();
+//		if (queryDTO == null || queryDTO.getDomainId() <= 0) {
+//			log.error("params error:BusinessScopeQueryDTO={}",JSON.toJSONString(queryDTO));
+//			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+//			return result;
+//		}
+//		MemResult<Boolean> updateResult = merchantApplyRepo.updateMerchantScopeStatus(queryDTO);
+//		if (updateResult == null || !updateResult.isSuccess() || !updateResult.getValue()) {
+//			result.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
+//			
+//		}
+//		return result;
+//	}
+//	
+//	public WebResult<Boolean> updateMerchantQualificationStatus(QualificationQueryDTO queryDTO) {
+//		WebResult<Boolean> result = new WebResult<>();
+//		if (queryDTO == null || queryDTO.getDomainId() <= 0) {
+//			log.error("params error:QualificationQueryDTO={}",JSON.toJSONString(queryDTO));
+//			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+//			return result;
+//		}
+//		MemResult<Boolean> updateResult = merchantApplyRepo.updateMerchantQualificationStatus(queryDTO);
+//		if (updateResult == null || !updateResult.isSuccess() || !updateResult.getValue()) {
+//			result.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
+//			
+//		}
+//		return result;
+//	}
 	
-	public WebResult<Boolean> updateMerchantQualificationStatus(QualificationQueryDTO queryDTO) {
+	public WebResult<Boolean> changeExamineStatus(InfoQueryDTO examInfoQueryDTO) {
 		WebResult<Boolean> result = new WebResult<>();
-		if (queryDTO == null || queryDTO.getDomainId() <= 0) {
-			log.error("params error:QualificationQueryDTO={}",JSON.toJSONString(queryDTO));
+		if (examInfoQueryDTO == null || examInfoQueryDTO.getDomainId() <= 0 || examInfoQueryDTO.getSellerId() <= 0 || examInfoQueryDTO.getType() <= 0) {
+			log.error("params error:InfoQueryDTO={}",JSON.toJSONString(examInfoQueryDTO));
 			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
 			return result;
 		}
-		MemResult<Boolean> updateResult = merchantApplyRepo.updateMerchantQualificationStatus(queryDTO);
-		if (updateResult == null || !updateResult.isSuccess() || !updateResult.getValue()) {
+		MemResult<Boolean> changeExamineStatusResult = merchantApplyRepo.changeExamineStatus(examInfoQueryDTO);
+		if (changeExamineStatusResult == null || !changeExamineStatusResult.isSuccess()  ) {
+			log.error("params :InfoQueryDTO={} return result:{}",JSON.toJSONString(examInfoQueryDTO),JSON.toJSONString(changeExamineStatusResult));
 			result.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
-			
+			return result;
 		}
+		result.setValue(changeExamineStatusResult.getValue());
 		return result;
 	}
 }

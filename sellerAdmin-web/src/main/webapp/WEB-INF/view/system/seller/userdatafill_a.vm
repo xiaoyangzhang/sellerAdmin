@@ -232,7 +232,7 @@
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>税务登记号：</label></td>
-       	    	   				<td class="rigcontent"><input type="text"  value="$!examineInfo.taxRegisterNumber" placeholder="税务登记号码" name="taxRegisterNumber" id="" class="txt01 taxL"/></td>
+       	    	   				<td class="rigcontent"><input type="text" maxlength="25"  value="$!examineInfo.taxRegisterNumber" placeholder="税务登记号码" name="taxRegisterNumber" id="" class="txt01 taxL"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业地址：</label></td>
@@ -262,7 +262,7 @@
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">开户名称：</label></td>
-								<td class="rigcontent"><input type="text" datatype="*"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" maxlength="60" class="txt01"  placeholder="请输入开户名称"></td>
+								<td class="rigcontent"><input type="text" datatype="*" maxlength="10"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" maxlength="60" class="txt01"  placeholder="请输入开户名称"></td>
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">结算账号：</label></td>
@@ -274,7 +274,7 @@
 									 <input type="hidden" id="province_" value="$!examineInfo.accountBankProvinceCode">
 									<input type="hidden" id="city_" value="$!examineInfo.accountBankCityCode">
 									<select id="province" ><option value="">--请选择--</option></select>
-									<select id="city"  class="ml10"><option value="">--请选择--</option></select>
+									<select id="city"   class="ml10"><option value="">--请选择--</option></select>
 									<span class="inblock"><input class="txt06" datatype="*" value="$!examineInfo.accountBankName" name="accountBankName" maxlength="60" placeholder="请填写详细的开户行名称"></span>
 								</td>
 							</tr>

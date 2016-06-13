@@ -99,6 +99,13 @@
 <script type="text/javascript" src="$rs_js_css_path_admin/js/editer.js"></script>
 <script type="text/javascript">
 $(".save").click(function(){
+	//前端验证-------
+	var errmsg = validatePro();
+	if (errmsg) {
+		layer.msg(errmsg,{icon:2,time:1500});
+		return false;   		
+	};
+	//前端验证end-------
     var result = {
         baseInfo:getBaseInfo(),
 		pictureText:getPictureText(),

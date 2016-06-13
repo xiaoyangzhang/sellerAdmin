@@ -137,27 +137,25 @@ public class LineChecker {
 		if (!(go == null && back == null && StringUtils.isBlank(routePlan.getScenicInfo())
 				&& StringUtils.isBlank(routePlan.getHotelInfo()))) {
 			if (go != null) {
-				if (StringUtils.isBlank(go.getType())) {
-					return WebCheckResult.error("去程交通方式不能为空");
-				} else if (!supportTrafficTypes.contains(go.getType().toUpperCase())) {
+				if (StringUtils.isNotBlank(go.getType())) {
+					if (StringUtils.isBlank(go.getDescription())) {
+						return WebCheckResult.error("去程详细描述不能为空");
+					} else if (go.getDescription().length() > 200) {
+						return WebCheckResult.error("去程详细描述不超过200字");
+					}
+				} else if (StringUtils.isNotBlank(go.getType())&&!supportTrafficTypes.contains(go.getType().toUpperCase())) {
 					return WebCheckResult.error("未知去程交通方式");
-				}
-				if (StringUtils.isBlank(go.getDescription())) {
-					return WebCheckResult.error("去程详细描述不能为空");
-				} else if (go.getDescription().length() > 200) {
-					return WebCheckResult.error("去程详细描述不超过200字");
 				}
 			}
 			if (back != null) {
-				if (StringUtils.isBlank(back.getType())) {
-					return WebCheckResult.error("回程交通方式不能为空");
-				} else if (!supportTrafficTypes.contains(back.getType().toUpperCase())) {
+				if (StringUtils.isNotBlank(back.getType())) {
+					if (StringUtils.isBlank(back.getDescription())) {
+						return WebCheckResult.error("回程详细描述不能为空");
+					} else if (back.getDescription().length() > 200) {
+						return WebCheckResult.error("回程详细描述不超过200字");
+					}
+				} else if (StringUtils.isNotBlank(back.getType())&&!supportTrafficTypes.contains(back.getType().toUpperCase())) {
 					return WebCheckResult.error("未知回程交通方式");
-				}
-				if (StringUtils.isBlank(back.getDescription())) {
-					return WebCheckResult.error("回程详细描述不能为空");
-				} else if (back.getDescription().length() > 500) {
-					return WebCheckResult.error("回程详细描述不超过500字");
 				}
 			}
 			if (StringUtils.isNotBlank(routePlan.getHotelInfo()) && routePlan.getHotelInfo().length() > 1000) {
@@ -228,8 +226,8 @@ public class LineChecker {
 		List<PackageInfo> tcs = priceInfo.getTcs();
 		if (CollectionUtils.isEmpty(tcs)) {
 			return WebCheckResult.error("线路套餐不能为空");
-		} else if (tcs.size() > 10) {
-			return WebCheckResult.error("线路套餐不能超过10个");
+		} else if (tcs.size() > 20) {
+			return WebCheckResult.error("线路套餐不能超过20个");
 		} else {
 			Set<String> tcSet = new HashSet<String>();
 			for (PackageInfo tc : tcs) {

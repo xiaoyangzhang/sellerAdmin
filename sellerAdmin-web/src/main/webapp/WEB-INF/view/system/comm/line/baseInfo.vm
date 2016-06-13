@@ -52,7 +52,7 @@
 		</tr>
 		<tr>
 			<td><span class="red">*</span>行程天数（天）：</td>
-			<td><input type="text" value="$!{baseInfo.days}" class="form-control days int-only" placeholder="请填写1-100整数" maxlength="4"/></td>
+			<td><input type="text" value="$!{baseInfo.days}" class="form-control days int-only" placeholder="请填写1-100整数" maxlength="3"/></td>
 		</tr>
 		<tr>
 			<td><span class="red">*</span>线路亮点：</td>

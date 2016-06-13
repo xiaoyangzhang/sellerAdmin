@@ -1,6 +1,6 @@
 <!-- head start-->
 #set($layout = "/layout/layout-jiuxiu.vm")
-#set( $locations = ["酒店商品管理", "酒店商品"] )
+#set( $locations = ["商品管理", "酒店客栈"] )
 <head>
     #parse("layout/layout-meta.vm")
     <title>选择酒店</title>
@@ -53,7 +53,7 @@
                                             </li>
                                             <li>
                                                 <label>面积：</label>
-                                                <label>$!{roomMessageVO.area} 平米</label>
+                                                <label>$!{roomMessageVO.area} </label>
                                             </li>
                                             <li>
                                                 <label>床型：</label>
@@ -88,7 +88,7 @@
     <div class="baseinfo">
         <table>
             <tr>
-                <td class="coltxt">酒店类型类型：</td>
+                <td class="coltxt">酒店类型：</td>
                 <td><label>$!{hotelMessageVO.hotelTypeStr}</label></td>
             </tr>
             <tr>

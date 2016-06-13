@@ -39,8 +39,6 @@ import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.QualificationVO;
 import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
-import com.yimayhd.user.client.domain.MerchantDO;
-import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionManager;
@@ -370,16 +368,6 @@ public class ApplyController extends BaseController {
 	public MemResult<String> saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
 		MemResult<String> result = new MemResult<>();
 		MemResult<Boolean> addResult = talentBiz.addExamineInfo(vo);
-//				if (resultSupport == null) {
-//				bizResult.init(false, -1, "保存失败");
-//				return bizResult;
-//			}
-//			//更新审核状态
-//			if (updateCheckStatusResult == null) {
-//				bizResult.init(false, -1, "保存失败");
-//				//BizResult.buildFailResult(-1, "保存失败", false);
-//				return bizResult;
-//			}
 			//更新审核状态
 			vo.setType(ExamineType.TALENT.getType());
 			MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
@@ -471,75 +459,86 @@ public class ApplyController extends BaseController {
 	}*/
 	//----------------------2期商家入驻-------------------------//
 	public  String judgeAuthority(Model model,long userId,String pageType){
-		String chooseUrl = "/system/chooseType";
+		String url = "/system/seller/chooseType";
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(userId);
-	//	info.setType(type);
 		try {
 			MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
-			if(!result.isSuccess()){
-				return chooseUrl;
-			}
-			if(null == result.getValue()){
-				return null;
+			if(null == result.getValue() || !result.isSuccess()){
+				return url;
 			}
 			ExamineInfoDTO dto = result.getValue() ;
 			int type = dto.getType();
 			int status = dto.getExaminStatus();
-			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
+			if (ExamineStatus.EXAMIN_OK.getStatus() == status) {
 				if(ExamineType.MERCHANT.getType()==type){
-					return "/system/seller/verification";
-				}else if(ExamineType.TALENT.getType()==type){
-					return "/system/talent/verification";
-				}
-			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
-				if(ExamineType.MERCHANT.getType()==type){
-					return "redirect:/basicInfo/seller/toAddBasicPage";
+					return "redirect:/basicInfo/merchant/toAddBasicPage";
 				}else if(ExamineType.TALENT.getType()==type){
 					return "redirect:/basicInfo/talent/toAddTalentInfo";
 				}
-			}else if(ExamineStatus.EXAMIN_ERROR.getStatus() == status){//审核不通过
-				if("edit".equals(pageType)){
-					return null;
-				}
-				
-				info.setType(type);
-				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
-				if(rest.isSuccess() && (null!=rest.getValue())){
-					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
-				}
-				if(ExamineType.MERCHANT.getType()==type){
-					model.addAttribute("type", Constant.MERCHANT_NAME_CN);
-				}else if(ExamineType.TALENT.getType()==type){
-					model.addAttribute("type", Constant.TALENT_NAME_CN);
-				}
-				model.addAttribute("url", "/apply/toChoosePage?reject=true");
-				return "/system/merchant/nothrough";
-			}else{
-				return null;
 			}
+//			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
+//				if(ExamineType.MERCHANT.getType()==type){
+//					return "/system/seller/verification";
+//				}else if(ExamineType.TALENT.getType()==type){
+//					return "/system/talent/verification";
+//				}
+//			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
+//				if(ExamineType.MERCHANT.getType()==type){
+//					return "redirect:/basicInfo/seller/toAddBasicPage";
+//				}else if(ExamineType.TALENT.getType()==type){
+//					return "redirect:/basicInfo/talent/toAddTalentInfo";
+//				}
+//			}else if(ExamineStatus.EXAMIN_ERROR.getStatus() == status){//审核不通过
+//				if("edit".equals(pageType)){
+//					return null;
+//				}
+//				
+			if (ExamineStatus.EXAMIN_ERROR.getStatus() == status && ExamineType.MERCHANT.getType() == type) {
+				url = "system/seller/nothrough";
+			}
+			if (ExamineStatus.EXAMIN_ERROR.getStatus() == status && ExamineType.TALENT.getType() == type) {
+				url = "system/talent/nothrough";
+			}
+			info.setType(type);
+			MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
+			if(rest.isSuccess() && (null!=rest.getValue())){
+				model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+			}
+//				if(ExamineType.MERCHANT.getType()==type){
+//					model.addAttribute("type", Constant.MERCHANT_NAME_CN);
+//				}else if(ExamineType.TALENT.getType()==type){
+//					model.addAttribute("type", Constant.TALENT_NAME_CN);
+//				}
+//				model.addAttribute("url", "/apply/toChoosePage?reject=true");
+//				return "/system/merchant/nothrough";
+//			}else{
+//				return null;
+//			}
+			model.addAttribute("url", "/apply/toChoosePage?reject=true");
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			return chooseUrl;
+			url = "system/error/500";
 		}
-		return chooseUrl;
+		return url;
 		
 	}
 	@RequestMapping(value = "/toChoosePage")
 	public String toChoosePage(Model model,boolean reject){
-//		String chooseUrl = "/system/seller/chooseType";
-//		if(reject){
-//			return chooseUrl;
-//		}
-//		//权限
-//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "");
-//		if(null != judgeRest){
-//			return judgeRest;
-//		}else{
-//			return chooseUrl;
-//		}
-		return "/system/seller/chooseType";
+		String chooseUrl = "/system/seller/chooseType";
+		if(reject){
+			return chooseUrl;
+		}
+		long userId = sessionManager.getUserId();
+		//权限
+		String judgeRest = judgeAuthority(model,userId, "");
+		//if(null != judgeRest){
+			return judgeRest;
+		//}else{
+		//	return chooseUrl;
+		//}
+		//return chooseUrl;
 	}
 	/**
 	 * 跳转到商户入驻用户协议页面
@@ -548,6 +547,14 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value = "/seller/toAggrementPage")
 	public String toBusinessAggrementPage(Model model){
+		InfoQueryDTO examInfoQueryDTO = new InfoQueryDTO();
+		examInfoQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+		examInfoQueryDTO.setType(ExamineType.MERCHANT.getType());
+		examInfoQueryDTO.setSellerId(sessionManager.getUserId());
+		WebResult<Boolean> changeExamineStatusResult = merchantApplyBiz.changeExamineStatus(examInfoQueryDTO);
+		if (changeExamineStatusResult == null || !changeExamineStatusResult.isSuccess()) {
+			return "/system/error/500";
+		}
 		return "/system/seller/agreement";
 	}
 	
@@ -559,19 +566,10 @@ public class ApplyController extends BaseController {
 	@RequestMapping(value = "/seller/toDetailPage")
 	public String toBusinessDetailPage(Model model){
 		//权限
-//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-//		if(null != judgeRest){
-//			return judgeRest;
-//		}
-//		BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
-//		if (meResult != null && meResult.isSuccess() && meResult.getValue() != null) {
-//			model.addAttribute("id", meResult.getValue().getId());
-//		}
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setType(ExamineType.MERCHANT.getType());
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
-		//MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
 		WebResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
 		if(result != null && result.isSuccess()){
 			model.addAttribute("examineInfo", result.getValue());
@@ -594,10 +592,6 @@ public class ApplyController extends BaseController {
 	@RequestMapping(value = "/seller/toDetailPageB")
 	public String toDetailPageB(Model model){
 		//权限
-//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-//		if(null != judgeRest){
-//			return judgeRest;
-//		}
 		WebResult<List<QualificationVO>> qualificationResult = merchantApplyBiz.getQualification();
 		if(qualificationResult.isSuccess() && qualificationResult.getValue() != null) {
 			List<QualificationVO> qualificationList = qualificationResult.getValue();
@@ -633,17 +627,17 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/seller/saveUserdata" ,method=RequestMethod.POST)
 	@ResponseBody
-	public MemResult<String> saveUserdata(ExamineInfoVO examineInfoVO){
+	public WebResult<String> saveUserdata(ExamineInfoVO examineInfoVO){
 //		MemResult<String> checkResult = checkMerchantApplyParams(examineInfoVO);
 //		if (!checkResult.isSuccess()) {
 //			return checkResult;
 //		}
-		MemResult<String> rest = new MemResult<String>();
-		MemResult<Boolean> result = merchantApplyBiz.submitExamineInfo(examineInfoVO);
+		WebResult<String> rest = new WebResult<String>();
+		WebResult<Boolean> result = merchantApplyBiz.submitExamineInfo(examineInfoVO);
 		if(result.isSuccess()){
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/seller/toDetailPageB");
 		}else{
-			rest.setReturnCode(result.getReturnCode());
+			rest.setWebReturnCode(result.getWebReturnCode());
 		}
 		return rest;
 		
@@ -662,7 +656,6 @@ public class ApplyController extends BaseController {
 		for (MerchantQualificationDO mqDO : merchantQualifications) {
 			mqDO.setDomainId(Constant.DOMAIN_JIUXIU);
 			mqDO.setSellerId(getCurrentUserId());
-			//mqDO.setMerchantCategoryId(1);
 			mqDO.setStatus(1);
 		}
 		examineInfoVO.setMerchantQualifications(merchantQualifications);
@@ -673,12 +666,6 @@ public class ApplyController extends BaseController {
 		examineInfoVO.setType(ExamineType.MERCHANT.getType());
 		MemResult<Boolean> result = merchantApplyBiz.updateMerchantQualification(examineInfoVO);
 		if(result.isSuccess()){
-			//MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(examineInfoVO);
-//			InfoQueryDTO info = new InfoQueryDTO();
-//			info.setDomainId(Constant.DOMAIN_JIUXIU);
-//			info.setSellerId(sessionManager.getUserId());
-//			info.setType(ExamineType.MERCHANT.getType());
-//			merchantBiz.changeExamineStatusIntoIng(info);
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/seller/toAggrementPage");
 		}else{
 			rest.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
@@ -897,8 +884,6 @@ public class ApplyController extends BaseController {
 			checkResult.setWebReturnCode(WebReturnCode.PARAM_ERROR);
 			return checkResult;
 		}
-//		WebResult<List<MerchantScopeDO>> scopeResult = merchantApplyBiz.getMerchantScope();
-//		List<MerchantScopeDO> scopeIds = scopeResult.getValue();
 		WebResult<List<QualificationVO>> qualificationResult = merchantApplyBiz.getQualification();
 		if (qualificationResult == null || !qualificationResult.isSuccess() || qualificationResult.getValue() == null) {
 			log.error("not found the qualification with category of this merchant, result:QualificationVO={}",JSON.toJSONString(qualificationResult));
@@ -1038,20 +1023,5 @@ public class ApplyController extends BaseController {
 		result.setValue(JSON.toJSONString(queryResult.getValue()));
 		return result;
 	}
-	/**
-	 * 
-	* created by zhangxy
-	* @date 2016年6月7日
-	* @Title: toNamingMerchantPage 
-	* @Description: 打开店铺命名说明页面
-	* @param  model
-	* @return String    返回类型 
-	* @throws
-	 */
-	@RequestMapping(value="toNamingMerchantPage",method=RequestMethod.GET)
-	public String toNamingMerchantPage(Model model) {
-		
-		return "";
-		
-	}
+	
 }

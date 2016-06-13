@@ -100,4 +100,8 @@ public class Constant {
      * 出境社分社
      */
     public static final int BROAD_BRANCH_AGENCY=15;
+	/**
+	 * 商家类目校验信息
+	 */
+	public static final String SELLER_CATEGORY_CHECK="SELLER_CATEGORY_CHECK_";
 }

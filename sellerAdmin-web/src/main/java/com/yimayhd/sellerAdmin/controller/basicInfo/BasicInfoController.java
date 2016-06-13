@@ -138,7 +138,7 @@ public class BasicInfoController extends BaseController {
 	@RequestMapping(value="/talent/toAddTalentInfo",method=RequestMethod.GET)
 	public String toAddTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model) {
 		
-		model.addAttribute("talentBiz", talentBiz);
+	//	model.addAttribute("talentBiz", talentBiz);
 		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
 		//try {
 			MemResult<TalentInfoDTO> dtoResult = talentBiz.queryTalentInfoByUserId();
