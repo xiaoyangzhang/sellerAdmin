@@ -81,6 +81,7 @@ public class WebReturnCode implements Serializable {
 
 	public final static WebReturnCode UPDATE_ERROR = new WebReturnCode(24003001, "更新失败");
 	public final static WebReturnCode REPEAT_ERROR = new WebReturnCode(24003003, "商品重复添加");
+	public final static WebReturnCode DRAFTNAME_REPEAT_ERROR = new WebReturnCode(24003003, "草稿名称重复");
 	/***************************************** 美食相关 ********************************************************/
 	public final static WebReturnCode ADD_FAILURE = new WebReturnCode(24003002, "新增失败");
 }
