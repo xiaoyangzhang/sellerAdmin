@@ -50,12 +50,13 @@ public class MerchantApplyBiz {
 	private SessionManager sessionManager;
 	@Autowired
 	private MerchantApplyRepo merchantApplyRepo;
-	public MemResult<Boolean> submitExamineInfo(ExamineInfoVO examineInfoVO) {
+	public WebResult<Boolean> submitExamineInfo(ExamineInfoVO examineInfoVO) {
 		long userId = sessionManager.getUserId();
-		MemResult<Boolean> result = new MemResult<Boolean>();
+		WebResult<Boolean> result = new WebResult<Boolean>();
 		if (examineInfoVO == null) {
 			log.error("params error:examineInfoVO={}",JSON.toJSONString(examineInfoVO));
-			result.setReturnCode(MemberReturnCode.PARAMTER_ERROR);
+			//result.setReturnCode(MemberReturnCode.PARAMTER_ERROR);
+			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
 			return result;
 		}
 		try {
@@ -92,12 +93,14 @@ public class MerchantApplyBiz {
 //				}
 //			}
 			dto.setType(ExamineType.MERCHANT.getType());
-			result = merchantApplyRepo.submitExamineInfo(dto);
-			
+			MemResult<Boolean> submitExamineInfoResult = merchantApplyRepo.submitExamineInfo(dto);
+			if (submitExamineInfoResult == null || !submitExamineInfoResult.isSuccess()) {
+				result.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
+			}
 			
 		} catch (Exception e) {
 			log.error("params :examineInfo={} error:{}",examineInfoVO,e);
-			result.setReturnCode(MemberReturnCode.SAVE_MERCHANT_FAILED);
+			result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
 		}
 		return result;
 	}

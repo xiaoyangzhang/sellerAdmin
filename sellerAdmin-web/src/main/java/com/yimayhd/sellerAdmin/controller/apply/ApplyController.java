@@ -627,17 +627,17 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/seller/saveUserdata" ,method=RequestMethod.POST)
 	@ResponseBody
-	public MemResult<String> saveUserdata(ExamineInfoVO examineInfoVO){
+	public WebResult<String> saveUserdata(ExamineInfoVO examineInfoVO){
 //		MemResult<String> checkResult = checkMerchantApplyParams(examineInfoVO);
 //		if (!checkResult.isSuccess()) {
 //			return checkResult;
 //		}
-		MemResult<String> rest = new MemResult<String>();
-		MemResult<Boolean> result = merchantApplyBiz.submitExamineInfo(examineInfoVO);
+		WebResult<String> rest = new WebResult<String>();
+		WebResult<Boolean> result = merchantApplyBiz.submitExamineInfo(examineInfoVO);
 		if(result.isSuccess()){
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/seller/toDetailPageB");
 		}else{
-			rest.setReturnCode(result.getReturnCode());
+			rest.setWebReturnCode(result.getWebReturnCode());
 		}
 		return rest;
 		
