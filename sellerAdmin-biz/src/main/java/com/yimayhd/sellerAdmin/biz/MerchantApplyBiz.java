@@ -366,35 +366,35 @@ public class MerchantApplyBiz {
 		result.setValue(qualificationVOList);
 		return result;
 	}
-	public WebResult<Boolean> updateMerchantScopeStatus(BusinessScopeQueryDTO queryDTO) {
-		WebResult<Boolean> result = new WebResult<>();
-		if (queryDTO == null || queryDTO.getDomainId() <= 0) {
-			log.error("params error:BusinessScopeQueryDTO={}",JSON.toJSONString(queryDTO));
-			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
-			return result;
-		}
-		MemResult<Boolean> updateResult = merchantApplyRepo.updateMerchantScopeStatus(queryDTO);
-		if (updateResult == null || !updateResult.isSuccess() || !updateResult.getValue()) {
-			result.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
-			
-		}
-		return result;
-	}
-	
-	public WebResult<Boolean> updateMerchantQualificationStatus(QualificationQueryDTO queryDTO) {
-		WebResult<Boolean> result = new WebResult<>();
-		if (queryDTO == null || queryDTO.getDomainId() <= 0) {
-			log.error("params error:QualificationQueryDTO={}",JSON.toJSONString(queryDTO));
-			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
-			return result;
-		}
-		MemResult<Boolean> updateResult = merchantApplyRepo.updateMerchantQualificationStatus(queryDTO);
-		if (updateResult == null || !updateResult.isSuccess() || !updateResult.getValue()) {
-			result.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
-			
-		}
-		return result;
-	}
+//	public WebResult<Boolean> updateMerchantScopeStatus(BusinessScopeQueryDTO queryDTO) {
+//		WebResult<Boolean> result = new WebResult<>();
+//		if (queryDTO == null || queryDTO.getDomainId() <= 0) {
+//			log.error("params error:BusinessScopeQueryDTO={}",JSON.toJSONString(queryDTO));
+//			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+//			return result;
+//		}
+//		MemResult<Boolean> updateResult = merchantApplyRepo.updateMerchantScopeStatus(queryDTO);
+//		if (updateResult == null || !updateResult.isSuccess() || !updateResult.getValue()) {
+//			result.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
+//			
+//		}
+//		return result;
+//	}
+//	
+//	public WebResult<Boolean> updateMerchantQualificationStatus(QualificationQueryDTO queryDTO) {
+//		WebResult<Boolean> result = new WebResult<>();
+//		if (queryDTO == null || queryDTO.getDomainId() <= 0) {
+//			log.error("params error:QualificationQueryDTO={}",JSON.toJSONString(queryDTO));
+//			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+//			return result;
+//		}
+//		MemResult<Boolean> updateResult = merchantApplyRepo.updateMerchantQualificationStatus(queryDTO);
+//		if (updateResult == null || !updateResult.isSuccess() || !updateResult.getValue()) {
+//			result.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
+//			
+//		}
+//		return result;
+//	}
 	
 	public WebResult<Boolean> changeExamineStatus(InfoQueryDTO examInfoQueryDTO) {
 		WebResult<Boolean> result = new WebResult<>();

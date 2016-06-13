@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.CategoryQualificationDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
@@ -56,11 +57,12 @@ public class MerchantApplyRepo {
 	private BusinessScopeService businessScopeService;
 	@Autowired
 	private MerchantService merchantService;
+	@MethodLogger
 	public MemResult<Boolean> submitExamineInfo(ExamineInfoDTO	 dto) {
-			
-			return merchantApplyService.submitExamineInfo(dto);
+		
+		return merchantApplyService.submitExamineInfo(dto);
 	}
-	
+	@MethodLogger
 	public MemResult<Boolean> updateMerchantQualification(ExamineInfoDTO	 dto) {
 			
 			return  qualificationService.updateMerchantQualification(dto);
@@ -104,21 +106,21 @@ public class MerchantApplyRepo {
 		return merchantApplyService.getMerchantCategory(merchantCategoryQueryDTO);
 	}
 	
-	public MemResult<Boolean> updateMerchantScopeStatus(BusinessScopeQueryDTO queryDTO) {
-		return businessScopeService.updateMerchantScopeStatus(queryDTO);
-	}
-	
-	public MemResult<Boolean> updateMerchantQualificationStatus(QualificationQueryDTO queryDTO) {
-		return qualificationService.updateMerchantQualificationStatus(queryDTO);
-	}
-	
-	public MemResult<Integer> updateMerchantScopeStatus(List<BusinessScopeQueryDTO> queryDTOs) {
-		return businessScopeService.updateStatusBatch(queryDTOs);
-	}
-	public MemResult<Integer> updateMerchantQualificationStatus(List<QualificationQueryDTO> queryDTOs) {
-		return qualificationService.updateStatusBatch(queryDTOs);
-	}
-	
+//	public MemResult<Boolean> updateMerchantScopeStatus(BusinessScopeQueryDTO queryDTO) {
+//		return businessScopeService.updateMerchantScopeStatus(queryDTO);
+//	}
+//	
+//	public MemResult<Boolean> updateMerchantQualificationStatus(QualificationQueryDTO queryDTO) {
+//		return qualificationService.updateMerchantQualificationStatus(queryDTO);
+//	}
+//	
+//	public MemResult<Integer> updateMerchantScopeStatus(List<BusinessScopeQueryDTO> queryDTOs) {
+//		return businessScopeService.updateStatusBatch(queryDTOs);
+//	}
+//	public MemResult<Integer> updateMerchantQualificationStatus(List<QualificationQueryDTO> queryDTOs) {
+//		return qualificationService.updateStatusBatch(queryDTOs);
+//	}
+	@MethodLogger
 	public MemResult<Boolean> checkMerchantNameIsExist(ExamineInfoDTO examineInfoDTO) {
 		return examineDealService.checkMerchantNameIsExist(examineInfoDTO);
 	}
@@ -156,7 +158,7 @@ public class MerchantApplyRepo {
 //	public BaseResult<Boolean> updateMerchantInfo(MerchantDTO merchantDTO) {
 //		return merchantService.updateMerchantInfo(merchantDTO);
 //	}
-	
+	@MethodLogger
 	public MemResult<Boolean> changeExamineStatus(InfoQueryDTO examInfoQueryDTO) {
 		return examineDealService.changeExamineStatusIntoIng(examInfoQueryDTO);
 	}
