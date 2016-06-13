@@ -39,9 +39,6 @@ import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.QualificationVO;
 import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
-import com.yimayhd.tradecenter.client.model.enums.ExamineeStatus;
-import com.yimayhd.user.client.domain.MerchantDO;
-import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionManager;
@@ -371,16 +368,6 @@ public class ApplyController extends BaseController {
 	public MemResult<String> saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
 		MemResult<String> result = new MemResult<>();
 		MemResult<Boolean> addResult = talentBiz.addExamineInfo(vo);
-//				if (resultSupport == null) {
-//				bizResult.init(false, -1, "保存失败");
-//				return bizResult;
-//			}
-//			//更新审核状态
-//			if (updateCheckStatusResult == null) {
-//				bizResult.init(false, -1, "保存失败");
-//				//BizResult.buildFailResult(-1, "保存失败", false);
-//				return bizResult;
-//			}
 			//更新审核状态
 			vo.setType(ExamineType.TALENT.getType());
 			MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
@@ -472,7 +459,6 @@ public class ApplyController extends BaseController {
 	}*/
 	//----------------------2期商家入驻-------------------------//
 	public  String judgeAuthority(Model model,long userId,String pageType){
-//		String chooseUrl = "/system/chooseType";
 		String url = "/system/seller/chooseType";
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
@@ -480,19 +466,11 @@ public class ApplyController extends BaseController {
 		try {
 			MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
 			if(null == result.getValue() || !result.isSuccess()){
-				//url = "system/error/500";
 				return url;
 			}
-//			if(null == result.getValue()){
-//				return null;
-//			}
 			ExamineInfoDTO dto = result.getValue() ;
 			int type = dto.getType();
 			int status = dto.getExaminStatus();
-			//if ( result.getValue() == null || (dto != null && ExamineStatus.EXAMIN_ERROR.getStatus() != status) ) {
-				//url = "system/seller/choooseType";
-				//return url;
-			//}
 			if (ExamineStatus.EXAMIN_OK.getStatus() == status) {
 				if(ExamineType.MERCHANT.getType()==type){
 					return "redirect:/basicInfo/merchant/toAddBasicPage";
@@ -542,7 +520,6 @@ public class ApplyController extends BaseController {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			url = "system/error/500";
-			//return url;
 		}
 		return url;
 		
@@ -554,10 +531,6 @@ public class ApplyController extends BaseController {
 			return chooseUrl;
 		}
 		long userId = sessionManager.getUserId();
-//		InfoQueryDTO info = new InfoQueryDTO();
-//		info.setDomainId(Constant.DOMAIN_JIUXIU);
-//		info.setSellerId(userId);
-//		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
 		//权限
 		String judgeRest = judgeAuthority(model,userId, "");
 		//if(null != judgeRest){
@@ -573,20 +546,21 @@ public class ApplyController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/seller/toAggrementPage")
-	public WebResult<String> toBusinessAggrementPage(Model model){
-		WebResult<String> result = new WebResult<String>();
+	public String toBusinessAggrementPage(Model model){
+		//WebResult<String> result = new WebResult<String>();
 		InfoQueryDTO examInfoQueryDTO = new InfoQueryDTO();
 		examInfoQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		examInfoQueryDTO.setType(ExamineType.MERCHANT.getType());
 		examInfoQueryDTO.setSellerId(sessionManager.getUserId());
 		WebResult<Boolean> changeExamineStatusResult = merchantApplyBiz.changeExamineStatus(examInfoQueryDTO);
 		if (changeExamineStatusResult == null || !changeExamineStatusResult.isSuccess()) {
-			result.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
-			result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/system/error/500");
+			//result.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
+			//result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/system/error/500");
+			return "/system/error/500";
 		}
-		//result.s
-		result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/system/seller/agreement");
-		return result;
+//		result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/system/seller/agreement");
+//		return result;
+		return "/system/seller/agreement";
 	}
 	
 	/**
@@ -597,19 +571,10 @@ public class ApplyController extends BaseController {
 	@RequestMapping(value = "/seller/toDetailPage")
 	public String toBusinessDetailPage(Model model){
 		//权限
-//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-//		if(null != judgeRest){
-//			return judgeRest;
-//		}
-//		BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
-//		if (meResult != null && meResult.isSuccess() && meResult.getValue() != null) {
-//			model.addAttribute("id", meResult.getValue().getId());
-//		}
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setType(ExamineType.MERCHANT.getType());
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
-		//MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
 		WebResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
 		if(result != null && result.isSuccess()){
 			model.addAttribute("examineInfo", result.getValue());
@@ -632,10 +597,6 @@ public class ApplyController extends BaseController {
 	@RequestMapping(value = "/seller/toDetailPageB")
 	public String toDetailPageB(Model model){
 		//权限
-//		String judgeRest = judgeAuthority(model,sessionManager.getUserId(), "edit");
-//		if(null != judgeRest){
-//			return judgeRest;
-//		}
 		WebResult<List<QualificationVO>> qualificationResult = merchantApplyBiz.getQualification();
 		if(qualificationResult.isSuccess() && qualificationResult.getValue() != null) {
 			List<QualificationVO> qualificationList = qualificationResult.getValue();
@@ -700,7 +661,6 @@ public class ApplyController extends BaseController {
 		for (MerchantQualificationDO mqDO : merchantQualifications) {
 			mqDO.setDomainId(Constant.DOMAIN_JIUXIU);
 			mqDO.setSellerId(getCurrentUserId());
-			//mqDO.setMerchantCategoryId(1);
 			mqDO.setStatus(1);
 		}
 		examineInfoVO.setMerchantQualifications(merchantQualifications);
@@ -711,12 +671,6 @@ public class ApplyController extends BaseController {
 		examineInfoVO.setType(ExamineType.MERCHANT.getType());
 		MemResult<Boolean> result = merchantApplyBiz.updateMerchantQualification(examineInfoVO);
 		if(result.isSuccess()){
-			//MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(examineInfoVO);
-//			InfoQueryDTO info = new InfoQueryDTO();
-//			info.setDomainId(Constant.DOMAIN_JIUXIU);
-//			info.setSellerId(sessionManager.getUserId());
-//			info.setType(ExamineType.MERCHANT.getType());
-//			merchantBiz.changeExamineStatusIntoIng(info);
 			rest.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/seller/toAggrementPage");
 		}else{
 			rest.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
@@ -935,8 +889,6 @@ public class ApplyController extends BaseController {
 			checkResult.setWebReturnCode(WebReturnCode.PARAM_ERROR);
 			return checkResult;
 		}
-//		WebResult<List<MerchantScopeDO>> scopeResult = merchantApplyBiz.getMerchantScope();
-//		List<MerchantScopeDO> scopeIds = scopeResult.getValue();
 		WebResult<List<QualificationVO>> qualificationResult = merchantApplyBiz.getQualification();
 		if (qualificationResult == null || !qualificationResult.isSuccess() || qualificationResult.getValue() == null) {
 			log.error("not found the qualification with category of this merchant, result:QualificationVO={}",JSON.toJSONString(qualificationResult));
@@ -1076,20 +1028,5 @@ public class ApplyController extends BaseController {
 		result.setValue(JSON.toJSONString(queryResult.getValue()));
 		return result;
 	}
-	/**
-	 * 
-	* created by zhangxy
-	* @date 2016年6月7日
-	* @Title: toNamingMerchantPage 
-	* @Description: 打开店铺命名说明页面
-	* @param  model
-	* @return String    返回类型 
-	* @throws
-	 */
-	@RequestMapping(value="toNamingMerchantPage",method=RequestMethod.GET)
-	public String toNamingMerchantPage(Model model) {
-		
-		return "";
-		
-	}
+	
 }

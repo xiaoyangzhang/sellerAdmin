@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.domain.MerchantScopeDO;
-import com.yimayhd.membercenter.client.domain.merchant.BusinessScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.CategoryQualificationDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryScopeDO;
@@ -25,7 +23,6 @@ import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.query.MerchantCategoryQueryDTO;
 import com.yimayhd.membercenter.client.query.QualificationQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
-import com.yimayhd.membercenter.enums.MerchantCategoryType;
 import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -35,8 +32,6 @@ import com.yimayhd.sellerAdmin.converter.MerchantConverter;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.QualificationVO;
 import com.yimayhd.sellerAdmin.repo.MerchantApplyRepo;
-import com.yimayhd.user.client.domain.MerchantDO;
-import com.yimayhd.user.client.query.MerchantQuery;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /**
@@ -265,7 +260,6 @@ public class MerchantApplyBiz {
 		}
 		List<QualificationVO> qualificationVOList = qualificationVOResult.getValue();
 		for (CategoryQualificationDO cq:categoryQualificationResult) {
-			QualificationVO qualificationVO = new QualificationVO();
 			for (QualificationVO qf	 : qualificationVOList) {
 				if (cq.getQulificationId() == qf.getQualificationId()) {
 					qf.setRequired(cq.isRequired());

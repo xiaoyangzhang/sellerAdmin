@@ -71,12 +71,6 @@ public class MerchantApplyRepo {
 	public MemResult<ExamineInfoDTO> getExamineInfo(InfoQueryDTO examineQueryDTO) {
 		return examineDealService.queryMerchantExamineInfoBySellerId(examineQueryDTO);
 	}
-	
-	
-	
-	
-	
-	
 	public MemResult<List<MerchantCategoryScopeDO>> getMerchantCategoryScope(BusinessScopeQueryDTO businessScopeQueryDTO) {
 		
 		return businessScopeService.getMerchantCategoryScope(businessScopeQueryDTO);
@@ -141,23 +135,6 @@ public class MerchantApplyRepo {
 		result.setValue(merchantDOs);
 		return result ;
 	}
-	/**
-	 * 保存商户店铺名称
-	 * @param merchantDO
-	 * @return
-	 */
-//	public BaseResult<MerchantDO> saveMerchant(MerchantDO merchantDO) {
-//		return merchantService.saveMerchant(merchantDO);
-//	}
-	
-	/**
-	 * 更新商户店铺名称
-	 * @param merchantDO
-	 * @return
-	 */
-//	public BaseResult<Boolean> updateMerchantInfo(MerchantDTO merchantDTO) {
-//		return merchantService.updateMerchantInfo(merchantDTO);
-//	}
 	@MethodLogger
 	public MemResult<Boolean> changeExamineStatus(InfoQueryDTO examInfoQueryDTO) {
 		return examineDealService.changeExamineStatusIntoIng(examInfoQueryDTO);
