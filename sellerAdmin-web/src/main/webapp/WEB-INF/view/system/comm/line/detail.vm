@@ -164,23 +164,16 @@ $(".savedraft").click(function(){
 	console.log(JSON.stringify(result.priceInfo));
 	console.log(JSON.stringify(result.needKnow));
 	var params = {
-		json:JSON.stringify(result)
+		json:JSON.stringify(result),
+		draftName:"aaa",
+		uuid:$("#uuid").val(),
+		subType:21,
+		id:11
 	};
-	var uuid = $("#uuid").val();
-    var url = "$!{utilWebconfig.getActionDefaultFontPath()}/draft/saveLineDraft?uuid="+uuid+"&draftName=aaa";
+    var url = "$!{utilWebconfig.getActionDefaultFontPath()}/draft/saveLineDraft";
     $.post(url,params,function(data){
 		if(data.success) {
-			layer.alert('保存成功', {
-                time: 0 //不自动关闭
-                ,yes: function(index){
-                    
-                    //layer.close(index);
-					//// 刷新父页面
-					//top.freshPrevFrame();
-					//top.tabTopClose(this);
-					window.location.href = "$!{utilWebconfig.getActionDefaultFontPath()}/draft/list"; 
-                }
-            });
+			layer.alert(data.resultMsg);
 		} else {
 			layer.alert(data.resultMsg, {
 				icon : 2

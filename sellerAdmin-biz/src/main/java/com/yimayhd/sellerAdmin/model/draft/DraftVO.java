@@ -3,6 +3,8 @@ package com.yimayhd.sellerAdmin.model.draft;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.apache.commons.collections.CollectionUtils;
+
 public class DraftVO implements Serializable{
 
 	/**

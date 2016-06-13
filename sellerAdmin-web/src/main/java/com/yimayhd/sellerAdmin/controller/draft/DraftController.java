@@ -4,11 +4,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.membercenter.client.query.DraftListQuery;
+import com.yimayhd.membercenter.enums.DraftEnum;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
@@ -48,12 +48,12 @@ public class DraftController extends BaseController {
 			query.setMainType(query.getMainType());
 			query.setSubType(query.getSubType());
 			WebResult<PageVO<DraftVO>> result = draftService.getDraftList(sellerId, query);
-			if (!result.isSuccess()) {
-				throw new BaseException(result.getResultMsg());
+			if (result.isSuccess()) {
+				put("pageVo", result.getValue());
 			}
-			put("pageVo", result.getValue());
+			BizDraftSubType[] draftSubTypes = BizDraftSubType.values();
 			put("query", query);
-			put("draftTypeList", BizDraftSubType.values());
+			put("draftTypeList", draftSubTypes);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -61,10 +61,7 @@ public class DraftController extends BaseController {
 	}
 
 	@RequestMapping(value = "/saveLineDraft")
-	public @ResponseBody WebResultSupport saveLineDraft(String json,
-			String uuid,
-			@RequestParam(value = "draftId", required = false) Long draftId,
-			@RequestParam(value = "draftName") String draftName) {
+	public @ResponseBody WebResultSupport saveLineDraft(String json,String uuid,DraftVO  draftVO) {
 		try {
 			long sellerId = getCurrentUserId();
 			if (sellerId <= 0) {
@@ -77,19 +74,29 @@ public class DraftController extends BaseController {
 			}
 			json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
-			DraftVO draftVO = new DraftVO();
-			draftVO.setDraftName(draftName);
+			draftVO.setDraftName(draftVO.getDraftName());
 			draftVO.setJsonObject(json);
-			draftVO.setId(draftId);
-			// draftVO.setMainType(DraftEnum.MainType);
-			WebOperateResult result = draftService.saveDraft(json, draftVO);
+			draftVO.setId(draftVO.getId());
+			draftVO.setAccountId(sellerId);
+			draftVO.setDomainId(Constant.DOMAIN_JIUXIU);
+			draftVO.setMainType(DraftEnum.ITEM.getValue());
+			BizDraftSubType bizDraftSubType = BizDraftSubType.get(draftVO.getSubType());
+			draftVO.setSubTypeName(bizDraftSubType.getText());
+			WebOperateResult result;
+			if (null==draftVO.getId()) {
+				result = draftService.saveDraft(json, draftVO);
+			}else {
+				result = draftService.coverDraft(json, draftVO);
+			}
+			
 			if (result.isSuccess()) {
 				return WebOperateResult.success("保存草稿成功");
+			}else if (result.getErrorCode()==WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorCode()) {
+				return WebOperateResult.success(WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorMsg());
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR,
-					e.getMessage());
+			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, e.getMessage());
 		}
 		return null;
 	}

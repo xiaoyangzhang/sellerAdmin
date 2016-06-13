@@ -1,0 +1,68 @@
+##     totalPage 总页数   showSize-10   cpage 当前页
+<div class="jiuniu_pagination pagination-large pagination-right pageWrap">
+    #set($pageVoNo = $pageVo.thisPageNo)
+    #set($before=0)
+    #set($after=0)
+    <ul class="pager" style="width: 100%;">
+        #if($pageVo.hasPreviousPage)
+            <li class="previous">
+                <a href="javascript:void(0);" class="LinkeToPage" pageNo="$pageVo.previousPageNo" id="prePage">«
+                    上一页</a>
+            </li>
+        #else
+            <li class="previous disabled">
+                <a href="javascript:void(0);" id="prePage">« 上一页</a>
+            </li>
+        #end
+        #foreach($i in [1 .. $pageVo.lastPageNo])
+            #if($pageVoNo == $i)
+                <li class="active">
+                    <a href="javascript:void(0);">$i</a>
+                </li>
+            #elseif(1 >= $i - 1)
+                <li>
+                    <a href="javascript:void(0);" class="LinkeToPage" pageNo="$i">$i</a>
+                </li>
+            #elseif($pageVo.lastPageNo <= $i + 1)
+                <li>
+                    <a href="javascript:void(0);" class="LinkeToPage" pageNo="$i">$i</a>
+                </li>
+            #elseif($pageVoNo >= $i - 2 && $pageVoNo <= $i + 2)
+                <li>
+                    <a href="javascript:void(0);" class="LinkeToPage" pageNo="$i">$i</a>
+                </li>
+            #elseif($pageVoNo > $i && $before==0)
+                <li>
+                    <a href="javascript:void(0);" data-toggle="pager" data-placement="top">...</a>
+                </li>
+                #set($before=1)
+            #elseif($pageVoNo < $i && $after==0)
+                <li>
+                    <a href="javascript:void(0);" data-toggle="pager" data-placement="top">...</a>
+                </li>
+                #set($after=1)
+            #end
+        #end
+        #if($pageVo.hasNextPage)
+            <li class="next">
+                <a href="javascript:void(0);" class="LinkeToPage" pageNo="$!pageVo.nextPageNo" id="nextPage">下一页»</a>
+            </li>
+        #else
+            <li class="next disabled">
+                <a href="javascript:void(0);" id="nextPage">下一页»</a>
+            </li>
+        #end
+        <li>
+            <span class="input-group-addon">每页</span>
+            <select class="form-control pageSize" name="" id="pageSize" style="width: 60px;">
+                <option value="10"  #if($pageVo.pageSize==10)selected #end>10</option>
+                <option value="20"  #if($pageVo.pageSize==20)selected#end>20</option>
+                <option value="50"  #if($pageVo.pageSize==50)selected#end>50</option>
+            </select>
+            <span class="input-group-addon">条</span>
+            <span class="input-group-addon">共 ${pageVo.totalCount} 条</span>
+        </li>
+    </ul>
+
+</div>
+

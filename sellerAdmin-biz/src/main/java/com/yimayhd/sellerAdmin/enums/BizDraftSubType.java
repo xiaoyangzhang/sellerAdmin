@@ -30,17 +30,18 @@ public enum BizDraftSubType {
 		this.text = text;
 	}
 
-	public int getValue() {
-		return itemType.getValue();
+	public ItemType getValue() {
+		return itemType;
 	}
 
+	public int getValues() {
+		return itemType.getValue();
+	}
+	
 	public String getText() {
 		return text;
 	}
 
-	public boolean isEqual(int value) {
-		return getValue() == value;
-	}
 
 	/**
 	 * 
@@ -49,7 +50,7 @@ public enum BizDraftSubType {
 	 */
 	public static BizDraftSubType get(int enumValue) {
 		for (BizDraftSubType em : BizDraftSubType.values()) {
-			if (em.getValue() == enumValue) {
+			if (em.getValue().getValue() == enumValue) {
 				return em;
 			}
 		}

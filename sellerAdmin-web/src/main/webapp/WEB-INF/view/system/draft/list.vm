@@ -1,21 +1,10 @@
 #set($layout = "/layout/layout-jiuxiu.vm")
-
 <head>
 	#parse("layout/layout-meta.vm")
 	<title>商品草稿箱</title>
 </head>
-<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/base.css">
-<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/common.css">
-<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/jquery-ui-1.10.4.custom.css">
 <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/eredar.css">
 <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/sevice.css">
-<link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/css/zui.min.css"/>
-<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
-<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
-<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
-<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/js/zui.min.js" type="text/javascript" ></script>		
-<script>seajs.use("draft");</script>	
-
 	<!-- 面包屑 -->
 			<div class = "eredar-info clearfix">
 				<ul>
@@ -25,11 +14,12 @@
 			<div class = "draft">
 			    <form class="form-signin" id="draftListForm" action="$!utilWebconfig.getActionDefaultFontPath()/draft/list" method="POST" role="form">
 				<p>
+				<input type="hidden"  name="mainType" value="$!query.mainType"/>
 					<em class ="gray6">商品类型：</em>
 					<select id="edu" name="subType">
 						<option value="0" #if(!$query.subType) selected #end>全部</option>
         					#foreach($draftType in $draftTypeList)
-        					<option value="$!{draftType.value}" #if($query.subType == $draftType.value) selected #end >$!{utilDraft.getDraftSubTypeName($draftType.value)}</option>
+        					<option value="$!{draftType.value.value}" #if($query.subType == $draftType.value.value) selected #end >$!{utilDraft.getDraftSubTypeName($draftType.value.value)}</option>
         					#end
 					</select>
 					<button type="submit" class = "searchBtn">查询</button>
@@ -44,20 +34,14 @@
 					#foreach($draft in $pageVo.resultList)
                             <tr id="draft_$!{draft.id}" draft-id="$!draft.id">
                                 <td class = "name">$!draft.draftName</td>
-        						<td class = "style">$!{utilDraft.getDraftSubTypeName($draft.subType)}</td>
+        						<td class = "style">$!draft.subTypeName</td>
         						<td class = "time">$!{utilDate.date2String($draft.gmtCreated)}</td>
-                                <td class = "handle">
-        							#if($draft.containsOperate('EDIT'))
-									<a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/draft/" target="_blank">编辑</a><br/>
-        							#end
-									#if($draft.containsOperate('DELETE'))
-									<a class="btn btn-mini btn-link draft-operate" href="javascript:void(0);" draft-id="$!draft.id" operate-type="DELETE">删除</a><br/>
-        							#end
-        						</td>
+								<td class = "handle"><a>编辑</a><a class ="del">删除</a></td>
                             </tr>
         			#end
 				</table>
 				#*分页*#
+				#parse("/page_jiuniu.vm")
 			</div>
 			
 		</form>
@@ -69,4 +53,5 @@
 				<button class ="cancel">取消</button>
 			</p>
 		</div>
-	#parse("layout/layout-js.vm")
+#parse("layout/layout-js.vm")
+<script>seajs.use("draft");</script><!--应用程序模块入口JS-->
