@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.yimayhd.commission.client.enums.Domain;
 import com.yimayhd.membercenter.client.query.DraftListQuery;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseException;
@@ -19,8 +18,6 @@ import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.enums.BizDraftSubType;
-import com.yimayhd.sellerAdmin.enums.BizItemStatus;
-import com.yimayhd.sellerAdmin.enums.BizItemType;
 import com.yimayhd.sellerAdmin.model.draft.DraftVO;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.service.draft.DraftService;
@@ -46,17 +43,17 @@ public class DraftController extends BaseController {
 				log.warn("未登录");
 				throw new BaseException("请登陆后重试");
 			}
-//			query.setDomainId(Constant.DOMAIN_JIUXIU);
-//			query.setAccountId(sellerId);
-//			query.setMainType(query.getMainType());
-//			query.setSubType(query.getSubType());
-//			WebResult<PageVO<DraftVO>> result = draftService.getDraftList(sellerId, query);
-//			if (!result.isSuccess()) {
-//				throw new BaseException(result.getResultMsg());
-//			}
-//			put("pageVo", result.getValue());
+			query.setDomainId(Constant.DOMAIN_JIUXIU);
+			query.setAccountId(sellerId);
+			query.setMainType(query.getMainType());
+			query.setSubType(query.getSubType());
+			WebResult<PageVO<DraftVO>> result = draftService.getDraftList(sellerId, query);
+			if (!result.isSuccess()) {
+				throw new BaseException(result.getResultMsg());
+			}
+			put("pageVo", result.getValue());
 			put("query", query);
-			put("itemTypeList", BizDraftSubType.values());
+			put("draftTypeList", BizDraftSubType.values());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

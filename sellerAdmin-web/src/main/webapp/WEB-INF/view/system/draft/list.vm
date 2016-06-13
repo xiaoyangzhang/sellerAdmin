@@ -28,8 +28,8 @@
 					<em class ="gray6">商品类型：</em>
 					<select id="edu" name="subType">
 						<option value="0" #if(!$query.subType) selected #end>全部</option>
-        					#foreach($itemType in $itemTypeList)
-        					<option value="$!{itemType.value}" #if($query.subType == $itemType.value) selected #end >$!{utilDraft.getDraftSubTypeName($itemType.value)}</option>
+        					#foreach($draftType in $draftTypeList)
+        					<option value="$!{draftType.value}" #if($query.subType == $draftType.value) selected #end >$!{utilDraft.getDraftSubTypeName($draftType.value)}</option>
         					#end
 					</select>
 					<button type="submit" class = "searchBtn">查询</button>
@@ -47,6 +47,22 @@
 						<td class = "time">2016-05-30   15:23:06</td>
 						<td class = "handle"><a>编辑</a><a class ="del">删除</a></td>
 					</tr>
+					#foreach($draft in $pageVo.resultList)
+                            <tr id="draft_$!{draft.id}" draft-id="$!draft.id">
+                                <td>$!draft.id</td>
+                                <td>$!draft.name</td>
+        						<td>$!{utilDraft.getDraftTypeName($draft.type)}</td>
+        						<td>$!{utilDate.date2String($draft.gmtCreated)}</td>
+                                <td>
+        							#if($draft.containsOperate('EDIT'))
+									<a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/draft/$!draft.id/type/$!draft.type/edit/" target="_blank">编辑</a><br/>
+        							#end
+									#if($draft.containsOperate('DELETE'))
+									<a class="btn btn-mini btn-link draft-operate" href="javascript:void(0);" draft-id="$!draft.id" operate-type="DELETE">删除</a><br/>
+        							#end
+        						</td>
+                            </tr>
+        					#end
 				</table>
 				#*分页*#
             #parse("/page.vm")
