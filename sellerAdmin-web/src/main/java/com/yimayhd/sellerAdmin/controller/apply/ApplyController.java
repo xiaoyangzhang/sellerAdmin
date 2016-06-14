@@ -478,13 +478,14 @@ public class ApplyController extends BaseController {
 					return "redirect:/basicInfo/talent/toAddTalentInfo";
 				}
 			}
-//			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
-//				if(ExamineType.MERCHANT.getType()==type){
-//					return "/system/seller/verification";
-//				}else if(ExamineType.TALENT.getType()==type){
-//					return "/system/talent/verification";
-//				}
-//			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
+			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
+				if(ExamineType.MERCHANT.getType()==type){
+					return "/system/seller/verification";
+				}else if(ExamineType.TALENT.getType()==type){
+					return "/system/talent/verification";
+				}
+			}
+			//else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
 //				if(ExamineType.MERCHANT.getType()==type){
 //					return "redirect:/basicInfo/seller/toAddBasicPage";
 //				}else if(ExamineType.TALENT.getType()==type){
