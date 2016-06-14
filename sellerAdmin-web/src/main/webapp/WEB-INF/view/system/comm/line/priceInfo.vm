@@ -213,6 +213,7 @@
 		$(".setTime").show();
 	});
 	$(".addTC").click(function(){
+		var curTcId = $("#tc_tab li").length;
 		if (curTcId>=20) {
 			layer.msg('最多可添加20个套餐',{icon:2,time:1500})
 			return false;
@@ -227,11 +228,7 @@
 		$("#tc_"+curTcId).find(".tab-page a").eq(0).click();
 		$("#tc_tab_"+curTcId+"_a").click();
 	})
-	// 初始化
-	var curTcId;
-	$(function() {
-		curTcId = $("#tc_tab li").length;
-	});
+
 	function createTcTab(id) {
 		var tcTab = $("<li class='tab-page tc-tab' rId='"+id+"' id='tc_"+id+"_tab'/>");
 		var tabA = $("<a href='#tc_"+id+"' data-toggle='tab' id='tc_tab_"+id+"_a'>套餐"+id+"&nbsp;&nbsp;</a>");

@@ -11,6 +11,8 @@ import com.yimayhd.ic.client.model.result.item.CategoryResult;
 import com.yimayhd.ic.client.model.result.item.TicketResult;
 import com.yimayhd.ic.client.service.item.CategoryService;
 import com.yimayhd.ic.client.service.item.ScenicPublishService;
+import com.yimayhd.membercenter.client.result.MemResultSupport;
+import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
@@ -59,6 +61,8 @@ public class ScenicManageEnhanceController extends BaseController {
     private ScenicPublishService scenicPublishService;
     @Autowired
     private CacheManager cacheManager ;
+    @Autowired
+    private MerchantItemCategoryService merchantItemCategoryService;
 
     @Value("${sellerAdmin.rootPath}")
     private String rootPath;
@@ -112,6 +116,10 @@ public class ScenicManageEnhanceController extends BaseController {
             return "/system/error/404";
         }
         /**categoryId 权限验证**/
+        MemResultSupport memResultSupport =merchantItemCategoryService.checkCategoryPrivilege(Constant.DOMAIN_JIUXIU, categoryId, userId);
+        if(!memResultSupport.isSuccess()){
+            return "/system/error/lackPermission";
+        }
         scenicManageVO.setCategoryId(categoryId);
         /**初始化动态列表**/
         List<BizCategoryInfo> bizCategoryInfoList=  getBizCategoryInfoListByCategoryBiz(scenicManageVO.getCategoryId());
@@ -463,6 +471,14 @@ public class ScenicManageEnhanceController extends BaseController {
         this.cacheManager = cacheManager;
     }
 
+    public MerchantItemCategoryService getMerchantItemCategoryService() {
+        return merchantItemCategoryService;
+    }
+
+    public void setMerchantItemCategoryService(MerchantItemCategoryService merchantItemCategoryService) {
+        this.merchantItemCategoryService = merchantItemCategoryService;
+    }
+
     public static void main(String[] args) {
         List<MultiChoice> multiList = new ArrayList<MultiChoice>();
         for (int i=0;i<3;i++) {
@@ -474,4 +490,5 @@ public class ScenicManageEnhanceController extends BaseController {
         }
         System.out.println(CommonJsonUtil.objectToJson(multiList, List.class));
     }
+
 }

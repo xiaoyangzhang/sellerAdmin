@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
+import com.yimayhd.membercenter.client.result.MemResultSupport;
+import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
@@ -57,6 +59,8 @@ public class HotelManageController extends BaseController {
 	private HotelManageService hotelManageService;
 	@Autowired
 	private CacheManager cacheManager ;
+	@Autowired
+	private MerchantItemCategoryService merchantItemCategoryService;
 
 	@Value("${sellerAdmin.rootPath}")
 	private String rootPath;
@@ -74,6 +78,10 @@ public class HotelManageController extends BaseController {
 			return "/system/error/404";
 		}
 		long userId = sessionManager.getUserId() ;
+		MemResultSupport memResultSupport =merchantItemCategoryService.checkCategoryPrivilege(Constant.DOMAIN_JIUXIU, categoryId, userId);
+		if(!memResultSupport.isSuccess()){
+			return "/system/error/lackPermission";
+		}
 		hotelMessageVO.setSellerId(userId);
 		hotelMessageVO.setCategoryId(categoryId);
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(null);
@@ -387,6 +395,31 @@ public class HotelManageController extends BaseController {
 	}
 
 
+
+	public HotelManageService getHotelManageService() {
+		return hotelManageService;
+	}
+
+	public void setHotelManageService(HotelManageService hotelManageService) {
+		this.hotelManageService = hotelManageService;
+	}
+
+	public MerchantItemCategoryService getMerchantItemCategoryService() {
+		return merchantItemCategoryService;
+	}
+
+	public void setMerchantItemCategoryService(MerchantItemCategoryService merchantItemCategoryService) {
+		this.merchantItemCategoryService = merchantItemCategoryService;
+	}
+
+	public CacheManager getCacheManager() {
+		return cacheManager;
+	}
+
+	public void setCacheManager(CacheManager cacheManager) {
+		this.cacheManager = cacheManager;
+	}
+
 	public static void main(String[] args) {
 
 		String str = "hello world <br>";//数据库
@@ -435,13 +468,5 @@ public class HotelManageController extends BaseController {
 		String mm = "1465142400000";
 		System.out.println(mm.substring(0,10));
 
-	}
-
-	public HotelManageService getHotelManageService() {
-		return hotelManageService;
-	}
-
-	public void setHotelManageService(HotelManageService hotelManageService) {
-		this.hotelManageService = hotelManageService;
 	}
 }
