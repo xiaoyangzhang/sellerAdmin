@@ -38,7 +38,7 @@
 				<span class="f14 gray6">失败原因：</span>
 				#foreach( $info in $reason)  
 				<span class="bcs">$!info</span>
-		　　　	 #end
+		　　　		 #end
 			</div>
 		</div>
 			<div><a class="agreebtn" href="$!root_path/$!url">重新申请</a></div>
