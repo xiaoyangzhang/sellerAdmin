@@ -111,6 +111,7 @@ public class ScenicManageEnhanceController extends BaseController {
         if(categoryId==0){
             return "/system/error/404";
         }
+        /**categoryId 权限验证**/
         scenicManageVO.setCategoryId(categoryId);
         /**初始化动态列表**/
         List<BizCategoryInfo> bizCategoryInfoList=  getBizCategoryInfoListByCategoryBiz(scenicManageVO.getCategoryId());
