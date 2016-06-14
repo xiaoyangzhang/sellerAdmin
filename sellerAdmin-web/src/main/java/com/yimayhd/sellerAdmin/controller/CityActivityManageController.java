@@ -8,6 +8,8 @@ import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.enums.ReduceType;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
+import com.yimayhd.membercenter.client.result.MemResultSupport;
+import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
@@ -55,6 +57,8 @@ public class CityActivityManageController extends BaseController {
     private TagService tagService;
     @Autowired
 	private CacheManager cacheManager ;
+    @Autowired
+    private MerchantItemCategoryService merchantItemCategoryService;
 	
 	/**
 	 * 新增活动商品
@@ -64,7 +68,12 @@ public class CityActivityManageController extends BaseController {
 	 */
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 	public String toAdd(Model model,int categoryId) throws Exception {
-		
+		long sellerId = sessionManager.getUserId();
+		 /**categoryId 权限验证**/
+        MemResultSupport memResultSupport =merchantItemCategoryService.checkCategoryPrivilege(Constant.DOMAIN_JIUXIU, categoryId, sellerId);
+        if(!memResultSupport.isSuccess()){
+        	 return "/system/error/lackPermission";
+        }
 		CategoryVO categoryVO = categoryService.getCategoryVOById(categoryId);
         if(categoryVO == null) {
             log.warn("错误的类目");
