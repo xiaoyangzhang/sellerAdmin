@@ -33,10 +33,6 @@
         </div>
         <div class="baseinfo ticketbaseinfo">
             <table>
-                <tr>
-                    <td class="coltxt">商品名称：</td>
-                    <td><label id="lbscenicname">景区门票</label></td>
-                </tr>
                 <tr class="notNull">
                     <td class="coltxt" >门票类型：</td>
                     <td class="ticketType">$!{scenicManageVO.ticketTitle}</td>
