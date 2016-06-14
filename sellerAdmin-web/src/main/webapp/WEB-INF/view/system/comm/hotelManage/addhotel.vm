@@ -138,17 +138,20 @@
                     <td>
                         #foreach($multiChoice in $multiChoiceList)
                             <label class="checkbox">
-                                <input type="checkbox" class="productTag" name="storeLastTime"  value="${multiChoice.tValue}" #if($multiChoice.choiceNo) checked #end/>当天${multiChoice.value}前
+                                <input type="checkbox" class="productTag" name="storeLastTime"  value="${multiChoice.tValue}" #if($multiChoice.choiceNo) checked #end/>
+                            #if($multiChoice.tValue<12 ) 次日${multiChoice.value}前 #else 当天${multiChoice.value}前 #end
                             </label>
                         #end
 
                         <div class="gray9">最晚到店时间最多选择3个</div>
                     </td>
                 </tr>
+                <!--
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
                     <td><input type="text" maxlength="10" name="startBookTimeLimit"  value="$!{hotelMessageVO.startBookTimeLimit}" /></td>
                 </tr>
+                -->
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>早餐：</td>
                     <td colspan="3"><input type="hidden" id="breakfast_" value="$!{hotelMessageVO.breakfast}">

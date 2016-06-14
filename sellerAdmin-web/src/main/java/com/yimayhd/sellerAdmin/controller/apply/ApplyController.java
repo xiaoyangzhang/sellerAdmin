@@ -331,16 +331,19 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/talent/saveExamineInfo_pageOne",method=RequestMethod.POST)
 	@ResponseBody
-	public MemResult<String> saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
-			
-			MemResult<String> result=new MemResult<String>();
+	public WebResult<String> saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
+			WebResult<String> checkResult = checkTalentParams_PageOne(vo);
+			if (checkResult != null && !checkResult.isSuccess()) {
+				return checkResult;
+			}
+			WebResult<String> result=new WebResult<String>();
 			ExamineInfoDTO examineInfoDTO = talentBiz.getExamineInfo();
 			
-			MemResult<Boolean> addResult = talentBiz.addExamineInfo(vo);
-//			if (resultSupport == null) {
-//				result.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
-//				return result;
-//			}
+			WebResult<Boolean> addResult = talentBiz.addExamineInfo(vo);
+			if (addResult == null) {
+				result.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
+				return result;
+			}
 			if (result.isSuccess()) {
 				if (null == examineInfoDTO || examineInfoDTO.getSellerId() <= 0) {
 					result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/toAddUserdatafill_pageTwo");
@@ -349,7 +352,7 @@ public class ApplyController extends BaseController {
 					
 				}
 			}else{
-				result.setReturnCode(addResult.getReturnCode());
+				result.setWebReturnCode(addResult.getWebReturnCode());
 			}
 
 			return result;
@@ -365,32 +368,31 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/talent/saveExamineInfo_pageTwo",method=RequestMethod.POST)
 	@ResponseBody
-	public MemResult<String> saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
-		MemResult<String> result = new MemResult<>();
-		MemResult<Boolean> addResult = talentBiz.addExamineInfo(vo);
-			//更新审核状态
-			vo.setType(ExamineType.TALENT.getType());
-			MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
-			if (updateCheckStatusResult == null) {
-				result.setReturnCode(MemberReturnCode.SAVE_MERCHANT_FAILED);
-				return result;
-			}
-			if (addResult.isSuccess()
-					&& updateCheckStatusResult.isSuccess()) {
-				result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/verification");
-			} else if (!addResult.isSuccess()) {
-				result.setSuccess(false);
-				result.setErrorMsg(addResult.getErrorMsg());
-				result.setErrorCode(addResult.getErrorCode());
-				
-			} else if (!updateCheckStatusResult.isSuccess()) {
-
-				result.setSuccess(false);
-				result.setErrorMsg(updateCheckStatusResult.getErrorMsg());
-				result.setErrorCode(updateCheckStatusResult.getErrorCode());
-				
-			}
+	public WebResult<String> saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
+		WebResult<String> checkResult = checkTalentParams_PageTwo(vo);
+		if (checkResult != null && !checkResult.isSuccess()) {
+			return checkResult;
+		}
+		WebResult<String> result = new WebResult<>();
+		WebResult<Boolean> addResult = talentBiz.addExamineInfo(vo);
+		//更新审核状态
+		vo.setType(ExamineType.TALENT.getType());
+		WebResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
+		if (updateCheckStatusResult == null) {
+			result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
 			return result;
+		}
+		if (addResult.isSuccess()
+				&& updateCheckStatusResult.isSuccess()) {
+			result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/verification");
+		} else if (!addResult.isSuccess()) {
+			return WebResult.failure(WebReturnCode.ADD_FAILURE, "达人入驻信息保存失败");
+		} else if (!updateCheckStatusResult.isSuccess()) {
+			return WebResult.failure(WebReturnCode.UPDATE_ERROR, "修改审核状态失败");
+
+			
+		}
+		return result;
 		
 	}
 	
@@ -478,23 +480,13 @@ public class ApplyController extends BaseController {
 					return "redirect:/basicInfo/talent/toAddTalentInfo";
 				}
 			}
-//			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
-//				if(ExamineType.MERCHANT.getType()==type){
-//					return "/system/seller/verification";
-//				}else if(ExamineType.TALENT.getType()==type){
-//					return "/system/talent/verification";
-//				}
-//			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
-//				if(ExamineType.MERCHANT.getType()==type){
-//					return "redirect:/basicInfo/seller/toAddBasicPage";
-//				}else if(ExamineType.TALENT.getType()==type){
-//					return "redirect:/basicInfo/talent/toAddTalentInfo";
-//				}
-//			}else if(ExamineStatus.EXAMIN_ERROR.getStatus() == status){//审核不通过
-//				if("edit".equals(pageType)){
-//					return null;
-//				}
-//				
+			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
+				if(ExamineType.MERCHANT.getType()==type){
+					return "/system/seller/verification";
+				}else if(ExamineType.TALENT.getType()==type){
+					return "/system/talent/verification";
+				}
+			}
 			if (ExamineStatus.EXAMIN_ERROR.getStatus() == status && ExamineType.MERCHANT.getType() == type) {
 				url = "system/seller/nothrough";
 			}
@@ -506,16 +498,6 @@ public class ApplyController extends BaseController {
 			if(rest.isSuccess() && (null!=rest.getValue())){
 				model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
 			}
-//				if(ExamineType.MERCHANT.getType()==type){
-//					model.addAttribute("type", Constant.MERCHANT_NAME_CN);
-//				}else if(ExamineType.TALENT.getType()==type){
-//					model.addAttribute("type", Constant.TALENT_NAME_CN);
-//				}
-//				model.addAttribute("url", "/apply/toChoosePage?reject=true");
-//				return "/system/merchant/nothrough";
-//			}else{
-//				return null;
-//			}
 			model.addAttribute("url", "/apply/toChoosePage?reject=true");
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -534,7 +516,7 @@ public class ApplyController extends BaseController {
 		//权限
 		String judgeRest = judgeAuthority(model,userId, "");
 		//if(null != judgeRest){
-			return judgeRest;
+		return judgeRest;
 		//}else{
 		//	return chooseUrl;
 		//}
@@ -628,10 +610,10 @@ public class ApplyController extends BaseController {
 	@RequestMapping(value="/seller/saveUserdata" ,method=RequestMethod.POST)
 	@ResponseBody
 	public WebResult<String> saveUserdata(ExamineInfoVO examineInfoVO){
-//		MemResult<String> checkResult = checkMerchantApplyParams(examineInfoVO);
-//		if (!checkResult.isSuccess()) {
-//			return checkResult;
-//		}
+		WebResult<String> checkResult = checkMerchantApplyParams(examineInfoVO);
+		if (!checkResult.isSuccess()) {
+			return checkResult;
+		}
 		WebResult<String> rest = new WebResult<String>();
 		WebResult<Boolean> result = merchantApplyBiz.submitExamineInfo(examineInfoVO);
 		if(result.isSuccess()){
@@ -693,129 +675,82 @@ public class ApplyController extends BaseController {
 	* @return boolean    返回类型 
 	* @throws
 	 */
-	private MemResult<String> checkMerchantApplyParams(ExamineInfoVO examineInfoVO) {
-		MemResult<String> checkResult = new MemResult<String>();
+	private WebResult<String> checkMerchantApplyParams(ExamineInfoVO examineInfoVO) {
+		WebResult<String> checkResult = new WebResult<String>();
 		if (examineInfoVO == null) {
 			log.error("param error:examineInfoVO={}",JSON.toJSONString(examineInfoVO));
-			checkResult.setReturnCode(MemberReturnCode.PARAMTER_ERROR);
+			checkResult.setWebReturnCode(WebReturnCode.PARAM_ERROR);
 			return checkResult;
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleName())) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请输入负责人姓名");
-			checkResult.setSuccess(false);
-			return checkResult;
-		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCard()) || !(Constant.ID_CARD.equals(examineInfoVO.getPrincipleCard()))
-				|| !( Constant.PASSPORT.equals(examineInfoVO.getPrincipleCard())) || !( Constant.GUIDE_CERTIFICATE.equals(examineInfoVO.getPrincipleCard())) 
-				|| !( Constant.CAR_LICENSE.equals(examineInfoVO.getPrincipleCard()))) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请选择负责人证件类型");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCard()) || !(Constant.ID_CARD.equals(examineInfoVO.getPrincipleCard())
+				||  Constant.PASSPORT.equals(examineInfoVO.getPrincipleCard())) ||  Constant.GUIDE_CERTIFICATE.equals(examineInfoVO.getPrincipleCard()) 
+				||  Constant.CAR_LICENSE.equals(examineInfoVO.getPrincipleCard())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardId())) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请输入负责人证件号");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleTel()) /*|| (Pattern.matches(Constant.REGEX_MOBILE, examineInfoVO.getPrincipleTel()))*/) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请输入负责人手机号");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleMail()) /*|| (Pattern.matches(Constant.REGEX_EMAIL, examineInfoVO.getPrincipleMail()))*/) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请输入负责人邮箱");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardDown())) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请上传负责人身份证反面");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardUp())) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请上传负责人身份证正面");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getCardInHand())) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请上传负责人手持身份证照片");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getSellerName())) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请输入商户名称");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getLegralName())) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请输入法定代表人姓名");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getLawPersonCard())) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请输入法定代表人身份证号");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getSaleLicenseNumber())) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请输入营业执照号");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getTaxRegisterNumber())) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请输入税务登记证号");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getAddress())) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请输入营业地址");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getSaleScope())) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请输入经营范围");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getFinanceOpenBankId())) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请选择开户银行");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getFinanceOpenName())) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请输入开户名称");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getAccountNum())) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请输入开户帐号");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getProvince()) || StringUtils.isBlank(examineInfoVO.getCity()) || StringUtils.isBlank(examineInfoVO.getAccountBankName())) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请输入结算开户行");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getMerchantName())) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请输入店铺名称");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (StringUtils.isBlank(examineInfoVO.getScopeIds())) {
-		checkResult.setErrorCode(-1);
-		checkResult.setErrorMsg("请选择经营范围");
-		checkResult.setSuccess(false);
-		return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (examineInfoVO.getMerchantCategoryId() <= 0) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请选择身份");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}else if (examineInfoVO.getIsDirectSale() <= 0) {
-			checkResult.setErrorCode(-1);
-			checkResult.setErrorMsg("请选择店铺性质");
-			checkResult.setSuccess(false);
-			return checkResult;
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
 		}
 		//
 		/*WebResult<List<MerchantCategoryScopeDO>> merchantCategoryScopeResult = merchantApplyBiz.getMerchantCategoryScope(examineInfoVO.getMerchantCategoryId());
@@ -1024,4 +959,81 @@ public class ApplyController extends BaseController {
 		return result;
 	}
 	
+	private WebResult<String> checkTalentParams_PageOne(ExamineInfoVO examineInfoVO) {
+		if (examineInfoVO == null) {
+			log.error("params error:ExamineInfoVO={}",JSON.toJSONString(examineInfoVO));
+			return WebResult.failure(WebReturnCode.PARAM_ERROR);
+		}else if (StringUtils.isBlank(examineInfoVO.getSellerName())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+		}else if (StringUtils.isBlank(examineInfoVO.getLegralName())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getLawPersonCard())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getSaleLicenseNumber())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getTaxRegisterNumber())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getSaleScope())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getAddress())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getBusinessLicense())) {
+			return WebResult.failure(WebReturnCode.UPLOAD_QUALIFICATION_FAILED, "请上传必填的资质");
+			
+		}
+		return null;
+	}
+	private WebResult<String> checkTalentParams_PageTwo(ExamineInfoVO examineInfoVO) {
+		if (examineInfoVO == null) {
+			log.error("params error:ExamineInfoVO={}",JSON.toJSONString(examineInfoVO));
+			return WebResult.failure(WebReturnCode.PARAM_ERROR);
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleName())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCard()) || !(Constant.ID_CARD.equals(examineInfoVO.getPrincipleCard()))
+				|| !( Constant.PASSPORT.equals(examineInfoVO.getPrincipleCard())) || !( Constant.GUIDE_CERTIFICATE.equals(examineInfoVO.getPrincipleCard())) 
+				|| !( Constant.CAR_LICENSE.equals(examineInfoVO.getPrincipleCard()))) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardId())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleMail())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleTel())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardDown())) {
+			return WebResult.failure(WebReturnCode.UPLOAD_QUALIFICATION_FAILED, "请上传必填的资质");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardUp())) {
+			return WebResult.failure(WebReturnCode.UPLOAD_QUALIFICATION_FAILED, "请上传必填的资质");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getCardInHand())) {
+			return WebResult.failure(WebReturnCode.UPLOAD_QUALIFICATION_FAILED, "请上传必填的资质");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getFinanceOpenBankId())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		
+		}else if (StringUtils.isBlank(examineInfoVO.getFinanceOpenName())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+				
+		
+		}else if (StringUtils.isBlank(examineInfoVO.getAccountNum())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		
+		}else if (StringUtils.isBlank(examineInfoVO.getAccountBankName())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}
+		return null;
+	}
 }

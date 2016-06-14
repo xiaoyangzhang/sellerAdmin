@@ -404,8 +404,8 @@
         }else if($.trim($('.title').val()).length > 38){
             return '商品名称不能超过38个字';
         }
-        if($('.code').val() && $.trim($('.code').val()).length > 38){
-            return '商品代码不能超过38个字';
+        if($('.code').val() && $.trim($('.code').val()).length > 20){
+            return '商品代码不能超过20个字';
         }
         var msg;
 
@@ -416,6 +416,9 @@
             }
             if(!$('.stockNum').val() || !/^[1-9]\d*|0$/.test($('.stockNum').val())){
                 return '请输入正确的库存';
+            }
+            if(!$('.code').val() || !/^\d{1,20}$/.test($('.code').val())){
+                return '请输入正确的商品代码，1-20位数字';
             }
             //return '您需要选择所有的销售属性，才能组合成完整的规格信息。';
         }else{
