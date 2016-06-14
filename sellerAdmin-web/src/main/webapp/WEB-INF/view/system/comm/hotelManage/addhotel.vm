@@ -145,10 +145,12 @@
                         <div class="gray9">最晚到店时间最多选择3个</div>
                     </td>
                 </tr>
+                <!--
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>提前预定天数：</td>
                     <td><input type="text" maxlength="10" name="startBookTimeLimit"  value="$!{hotelMessageVO.startBookTimeLimit}" /></td>
                 </tr>
+                -->
                 <tr>
                     <td class="coltxt"><span class="bred">*</span>早餐：</td>
                     <td colspan="3"><input type="hidden" id="breakfast_" value="$!{hotelMessageVO.breakfast}">

@@ -50,7 +50,8 @@ import java.util.UUID;
 public class HotelManageController extends BaseController {
 	private static final Logger logger = LoggerFactory.getLogger("hotelManage-business.log");
 	private static final String UPDATE="update";
-	private static final long categoryId=231;
+	//private static final long categoryId=231;
+	private static final int[] lastTimeArr = {12,13,14,15,16,17,18,19,20,21,22,23,24,1,2,3,4,5,6};
 
 	@Autowired
 	private HotelManageService hotelManageService;
@@ -327,12 +328,12 @@ public class HotelManageController extends BaseController {
 			choiseTime = hotelMessageVO.getLatestArriveTime();
 		}
 		List<MultiChoice> multiChoiceList = new ArrayList<MultiChoice>();
-		for(int i=0;i<24;i++){
+		for(int i=0;i<lastTimeArr.length;i++){
 			MultiChoice multiChoice = new MultiChoice();
-			multiChoice.setId(i);//id
+			multiChoice.setId(lastTimeArr[i]);//id
 			multiChoice.setTitle("时间");
-			multiChoice.setTValue(i);
-			multiChoice.setValue(i+":00");
+			multiChoice.setTValue(lastTimeArr[i]);
+			multiChoice.setValue(lastTimeArr[i]+":00");
 			multiChoice.setChoiceNo(false);
 			if(!CollectionUtils.isEmpty(choiseTime)){
 				for (String time :choiseTime){
