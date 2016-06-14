@@ -1,7 +1,5 @@
 package com.yimayhd.sellerAdmin.biz;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
-import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.BankInfoDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
@@ -40,7 +37,7 @@ public class TalentBiz {
 	 * 获取达人基本信息的服务类型
 	 * @return
 	 */
-	public MemResult<List<CertificatesDO>> getServiceTypes() {
+	public WebResult<List<CertificatesDO>> getServiceTypes() {
 		return  talentRepo.getServiceTypes();
 	}
 	/**
@@ -66,11 +63,10 @@ public class TalentBiz {
 	 * @return
 	 * @throws Exception
 	 */
-	public MemResult<Boolean> addTalentInfo(TalentInfoVO vo)  {
+	public WebResult<Boolean> addTalentInfo(TalentInfoVO vo)  {
 		if (vo == null ) {
 			log.error("get examineSubmitDTO params error :vo="+vo);
-			//throw new BaseException("参数错误");
-			return MemResult.buildFailResult(-1, "参数错误", false);
+			return WebResult.failure(WebReturnCode.PARAM_ERROR);
 		}
 		return talentRepo.addTalentInfo(vo);
 		
@@ -83,12 +79,12 @@ public class TalentBiz {
 	 * @throws Exception
 	 */
 	@MethodLogger
-		public MemResult<Boolean> addExamineInfo(ExamineInfoVO vo)  {
+		public WebResult<Boolean> addExamineInfo(ExamineInfoVO vo)  {
 		
 		if (vo == null ) {
 			log.error(" params error :vo={}",vo);
-			MemResult<Boolean> result = new MemResult<Boolean>();
-			result.setReturnCode(MemberReturnCode.PARAMTER_ERROR);
+			WebResult<Boolean> result = new WebResult<Boolean>();
+			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
 			return result;
 		}
 		return talentRepo.addExamineInfo(vo);
@@ -112,15 +108,15 @@ public class TalentBiz {
 //		}
 //	    return  new SimpleDateFormat("yyyy-MM-dd").format(date);
 //	}
-	public MemResult<Boolean> updateCheckStatus(ExamineInfoVO vo) {
+	public WebResult<Boolean> updateCheckStatus(ExamineInfoVO vo) {
 		if (vo == null) {
 			log.error("param : ExamineInfoVO={}",vo);
-			return MemResult.buildFailResult(-1, "参数错误", false);
+			return WebResult.failure(WebReturnCode.PARAM_ERROR);
 		}
 		return  talentRepo.updateCheckStatus(vo);
 		
 	}
-	public MemResult<TalentInfoDTO> queryTalentInfoByUserId () {
+	public WebResult<TalentInfoDTO> queryTalentInfoByUserId () {
 		return talentRepo.queryTalentInfoByUserId(sessionManager.getUserId(), Constant.DOMAIN_JIUXIU);
 	}
 }
