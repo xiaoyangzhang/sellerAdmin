@@ -1,5 +1,10 @@
 package com.yimayhd.sellerAdmin.controller.apply;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -995,9 +1000,9 @@ public class ApplyController extends BaseController {
 			return WebResult.failure(WebReturnCode.PARAM_ERROR);
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleName())) {
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
-		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCard()) || !(Constant.ID_CARD.equals(examineInfoVO.getPrincipleCard()))
-				|| !( Constant.PASSPORT.equals(examineInfoVO.getPrincipleCard())) || !( Constant.GUIDE_CERTIFICATE.equals(examineInfoVO.getPrincipleCard())) 
-				|| !( Constant.CAR_LICENSE.equals(examineInfoVO.getPrincipleCard()))) {
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCard()) || !(Constant.ID_CARD.equals(examineInfoVO.getPrincipleCard())
+				|| Constant.PASSPORT.equals(examineInfoVO.getPrincipleCard())) ||  Constant.GUIDE_CERTIFICATE.equals(examineInfoVO.getPrincipleCard()) 
+				||  Constant.CAR_LICENSE.equals(examineInfoVO.getPrincipleCard())) {
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
 
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardId())) {
@@ -1037,5 +1042,31 @@ public class ApplyController extends BaseController {
 		return null;
 	}
 	
-	//public 
+	public void download(HttpServletRequest request,HttpServletResponse response,String fileName) {
+		try {
+			String newFileName = new String(fileName.getBytes("ISO-8859-1"),"UTF-8");
+			String realPath = WebResourceConfigUtil.getActionUploadFilePath()+"/"+newFileName; 
+			response.setCharacterEncoding("utf-8");
+			response.setContentType("application/x-msdownload");
+			response.setHeader("Cache-Control", "no-cache");
+			response.setHeader("Pragma", "no-cache");
+			response.setDateHeader("expires", -1);
+			response.setHeader("Content-Disposition", "attachment; filename="+ fileName);
+			File file = new File(realPath);
+			InputStream inputStream = new FileInputStream(file);
+			OutputStream os = response.getOutputStream();
+			byte[] b = new byte[10240];
+			int length;
+			while ((length = inputStream.read(b)) > 0) {
+				os.write(b, 0, length);
+			}
+			inputStream.close();
+			os.flush();
+			os.close();
+			
+		} catch (Exception e) {
+			log.error("error:{}",e);
+		}
+		
+	}
 }
