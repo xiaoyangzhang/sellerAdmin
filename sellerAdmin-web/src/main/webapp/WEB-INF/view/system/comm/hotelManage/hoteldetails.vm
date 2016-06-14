@@ -123,10 +123,12 @@
                     #end
                 </td>
             </tr>
+            <!--
             <tr>
                 <td class="coltxt">提前预定天数：</td>
                 <td>$!{hotelMessageVO.startBookTimeLimit} 天</td>
             </tr>
+            -->
             <tr>
                 <td class="coltxt">早餐：</td>
                 <td>$!{hotelMessageVO.breakfastStr}</td>
