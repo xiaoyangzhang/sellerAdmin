@@ -26,6 +26,7 @@
 		<property name="tair.namespace" defaultValue="299" description="#tair命名空间" />
 		<property name="tair.timeout" defaultValue="5000" description="#tair超时" />
 		<property name="session.tair.namespace" defaultValue="40" description="#session.tair" />
+		<property name="session.tair.timeout" defaultValue="0" description="#session.tair" />
 	</group>
 
 	<group name="default">

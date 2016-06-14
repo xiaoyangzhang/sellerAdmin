@@ -29,6 +29,7 @@
 	
 	<bean id="sessionManager" class="com.yimayhd.user.session.manager.SessionManager">
 		<property name="cacheManager" ref="sessionCacheManager"></property>
+		<property name="tokenExpireTime" value="${session.tair.timeout}"></property>
 	</bean>
 	
 	<bean id="verifyCodeManager" class="com.yimayhd.user.session.manager.VerifyCodeManager">
