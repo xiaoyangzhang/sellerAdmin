@@ -94,8 +94,10 @@ public class MerchantApplyBiz {
 //			}
 			dto.setType(ExamineType.MERCHANT.getType());
 			MemResult<Boolean> submitExamineInfoResult = merchantApplyRepo.submitExamineInfo(dto);
-			if (submitExamineInfoResult == null || !submitExamineInfoResult.isSuccess()) {
-				result.setWebReturnCode(WebReturnCode.UPDATE_ERROR);
+			if (submitExamineInfoResult == null ) {
+				result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+			}else if (!submitExamineInfoResult.isSuccess()) {
+				return WebResult.failure(WebReturnCode.UPDATE_ERROR, submitExamineInfoResult.getErrorMsg());
 			}
 			
 		} catch (Exception e) {

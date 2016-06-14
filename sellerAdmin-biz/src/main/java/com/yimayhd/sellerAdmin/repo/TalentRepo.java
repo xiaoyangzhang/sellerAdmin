@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.fastjson.JSON;
+import com.sun.tools.classfile.Annotation.element_value;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
@@ -19,6 +21,8 @@ import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.membercenter.enums.ExamineType;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.MerchantConverter;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
@@ -41,9 +45,15 @@ public class TalentRepo {
 	private SessionManager sessionManager;
 //	@Autowired
 //	private ApplyService applyServiceRef;
-	public MemResult<List<CertificatesDO>> getServiceTypes() {
+	public WebResult<List<CertificatesDO>> getServiceTypes() {
 		MemResult<List<CertificatesDO>> serviceTypes = talentInfoDealService.queryTalentServiceType();
-		return serviceTypes;
+		if (serviceTypes == null) {
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR);
+		}else if (!serviceTypes.isSuccess() || serviceTypes.getValue() == null) {
+			return WebResult.failure(WebReturnCode.QUERY_FAILURE, serviceTypes.getErrorMsg());
+		}
+		return WebResult.success(serviceTypes.getValue());
+		//return serviceTypes;
 	}
 	
 	/**
@@ -103,19 +113,25 @@ public class TalentRepo {
 	 * @return
 	 * @throws Exception
 	 */
-	public MemResult<Boolean> addTalentInfo(TalentInfoVO vo)  {
+	public WebResult<Boolean> addTalentInfo(TalentInfoVO vo)  {
 		if (vo == null) {
-			return null;
-		}
-		MemResult<Boolean> talentInfoResult=null;
-		try {
-			 talentInfoResult = talentInfoDealService.updateTalentInfo(vo.getTalentInfoDTO(vo,sessionManager.getUserId()));
+			log.error("params error:TalentInfoVO={}",JSON.toJSONString(vo));
 			
-			 return talentInfoResult;
+			return WebResult.failure(WebReturnCode.PARAM_ERROR);
+		}
+		WebResult<Boolean> result=new WebResult<Boolean>();
+		try {
+			 MemResult<Boolean> updateResult = talentInfoDealService.updateTalentInfo(vo.getTalentInfoDTO(vo,sessionManager.getUserId()));
+			 if (updateResult == null) {
+				return WebResult.failure(WebReturnCode.SYSTEM_ERROR);
+			}else if (!updateResult.isSuccess()) {
+				return WebResult.failure(WebReturnCode.UPDATE_ERROR, updateResult.getErrorMsg());
+			}
 		} catch (Exception e) {
 			log.error("param : TalentInfoVO={}",vo,e);
-			return null;
+			result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
 		}
+		return result;
 		
 	}
 	
@@ -127,23 +143,28 @@ public class TalentRepo {
 	 * @throws Exception
 	 */
 	@MethodLogger
-	public MemResult<Boolean> addExamineInfo(ExamineInfoVO vo)  {
+	public WebResult<Boolean> addExamineInfo(ExamineInfoVO vo)  {
 		if (vo == null) {
 			return null;
 		}
 		//WebResult<Boolean> result = new WebResult<Boolean>();
-		MemResult<Boolean> result = new MemResult<Boolean>();
+		WebResult<Boolean> result = new WebResult<Boolean>();
 		try {
 			ExamineInfoDTO dto = MerchantConverter.convertVO2DTO(vo, sessionManager.getUserId());
 			dto.setType(ExamineType.TALENT.getType());
 			MemResult<Boolean> ExamineInfoResult = examineDealService.submitMerchantExamineInfo(dto);
 			if (ExamineInfoResult == null) {
-				result.setReturnCode(MemberReturnCode.SYSTEM_ERROR);
+				result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
 			}else if(!ExamineInfoResult.isSuccess() || ExamineInfoResult.getValue() == null) {
-				result.setErrorCode(ExamineInfoResult.getErrorCode());
-				result.setErrorMsg(ExamineInfoResult.getErrorMsg());
-				result.setSuccess(false);
-				return result;
+				int code = ExamineInfoResult.getErrorCode() ;
+				if(MemberReturnCode.DB_MERCHANTNAME_FAILED.getCode() == code ) {
+					result.setWebReturnCode( WebReturnCode.TALENT_MERCHANT_NAME_EXIST );
+				}else if( MemberReturnCode.DB_EXAMINE_FAILED.getCode() == code ){
+					result.setWebReturnCode(WebReturnCode.APPROVE_PASSED_DISABLE_MODIFY);
+				}else {
+					result.setWebReturnCode(WebReturnCode.TALENT_INFO_SAVE_FAILURE);
+				}
+				//return WebResult.failure(WebReturnCode.TALENT_INFO_SAVE_FAILURE, ExamineInfoResult.getErrorMsg());
 			}
 //			if(ExamineInfoResult == null || !ExamineInfoResult.isSuccess()) {
 //				result2.setErrorCode(errorCode);
@@ -160,8 +181,7 @@ public class TalentRepo {
 			
 		} catch (Exception e) {
 			log.error("param :ExamineInfoVO={} error:{}",vo,e);
-			result.setReturnCode(MemberReturnCode.SYSTEM_ERROR);
-			//return null;
+			result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
 		}
 		return result;
 	}
@@ -199,43 +219,44 @@ public class TalentRepo {
 
 		
 	}
-	public MemResult<Boolean> updateCheckStatus(ExamineInfoVO vo) {
+	public WebResult<Boolean> updateCheckStatus(ExamineInfoVO vo) {
+		WebResult<Boolean> result = new WebResult<Boolean>();
 		try {
 			InfoQueryDTO infoQueryDTO = vo.getInfoQueryDTO(sessionManager.getUserId());
 			infoQueryDTO.setType(vo.getType());
 			
 			MemResult<Boolean> changeExamineStatusResult = examineDealService.changeExamineStatusIntoIng(infoQueryDTO);
+			if (changeExamineStatusResult == null) {
+				return WebResult.failure(WebReturnCode.SYSTEM_ERROR);
+			}else if (!changeExamineStatusResult.isSuccess()) {
+				return WebResult.failure(WebReturnCode.UPDATE_ERROR, changeExamineStatusResult.getErrorMsg());
+			}
 			
-			return changeExamineStatusResult;
 		} catch (Exception e) {
 			log.error("param:ExamineInfoVO={}",vo,e);
-			return null;
+			result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
 		}
+		return result;
 		
 	}
 	
-	public MemResult<TalentInfoDTO> queryTalentInfoByUserId(long userId,int domainId) {
-		MemResult<TalentInfoDTO> queryResult = null;
+	public WebResult<TalentInfoDTO> queryTalentInfoByUserId(long userId,int domainId) {
+		WebResult<TalentInfoDTO> result = new WebResult<TalentInfoDTO>();
 		if (userId <= 0 || domainId <= 0) {
 			log.error("params error : userId={},domainId={}",userId,domainId);
-			MemberReturnCode returnCode = new MemberReturnCode(-1, "参数错误");
-			//调用静态方法修改后，对象状态改变？
-			//MemResult.buildFailResult(-1, "参数错误", false);
-//			queryResult.setErrorCode(-1);
-//			queryResult.setErrorMsg("参数错误");
-//			queryResult.setSuccess(false);
-			queryResult.setReturnCode(returnCode);
-			return queryResult;
+			return WebResult.failure(WebReturnCode.PARAM_ERROR);
 		}
 		try {
-			queryResult = talentInfoDealService.queryTalentInfoByUserId(userId, domainId);
+			 MemResult<TalentInfoDTO> queryResult = talentInfoDealService.queryTalentInfoByUserId(userId, domainId);
 			if (queryResult == null ) {
-				return null;
+				return WebResult.failure(WebReturnCode.SYSTEM_ERROR);
+			}else if (!queryResult.isSuccess() || queryResult.getValue() == null) {
+				return WebResult.failure(WebReturnCode.QUERY_FAILURE, queryResult.getErrorMsg());
 			}
-			return queryResult;
 		} catch (Exception e) {
-			log.error("params : userId={},domainId={}",userId,domainId,e);
-			return null;
+			log.error("params : userId={},domainId={} error:{}",userId,domainId,e);
+			result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
 		}
+		return result;
 	}
 }
