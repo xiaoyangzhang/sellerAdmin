@@ -63,7 +63,7 @@
                 #parse("/system/sku/setsku.vm")
             </div>
             <div class="tab-pane" id="tab4">
-                #parse("/system/comm/line/needKnow.vm")
+                #parse("/system/cityactivity/needKnow.vm")
             </div>
             <div class="clubBotBtn">
                 #if(!${isReadonly})
