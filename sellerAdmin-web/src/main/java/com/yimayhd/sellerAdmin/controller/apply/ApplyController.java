@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.MemberReturnCode;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantQualificationDO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
@@ -34,6 +35,7 @@ import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.membercenter.enums.ExamineType;
+import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
@@ -542,15 +544,32 @@ public class ApplyController extends BaseController {
 		if (changeExamineStatusResult == null || !changeExamineStatusResult.isSuccess()) {
 			return "/system/error/500";
 		}
-//		WebResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
-//		if (result == null || !result.isSuccess() || result.getValue() == null) {
-//			return "/system/error/500";
-//		}
-		//ExamineInfoVO examineInfoVO = result.getValue();
-//		if (examineInfoVO.getm) {
-//			
-//		}
-		return "/system/seller/agreement";
+		WebResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
+		if (result == null || !result.isSuccess() || result.getValue() == null) {
+			return "/system/error/500";
+		}
+		ExamineInfoVO examineInfoVO = result.getValue();
+		ExamineInfoDTO dto = new ExamineInfoDTO();
+		dto.setDomainId(Constant.DOMAIN_JIUXIU);
+		dto.setMerchantCategoryId(examineInfoVO.getMerchantCategoryId());
+		MemResult<List<MerchantCategoryDO>> merchantCategoryResult = merchantApplyBiz.getMerchantCategory(dto);
+		if (merchantCategoryResult != null && merchantCategoryResult.isSuccess() && merchantCategoryResult.getValue() != null ) {
+			List<MerchantCategoryDO> MerchantCategoryList = merchantCategoryResult.getValue();
+			if (MerchantCategoryList.get(0).getType() == MerchantType.TRAVEL_AGENCY.getType() || MerchantCategoryList.get(0).getType() == MerchantType.TOUR_COR.getType()) {
+				return "/system/seller/travel_agreement";
+			}else if (MerchantCategoryList.get(0).getType() == MerchantType.CITY_COR.getType()) {
+				return "/system/seller/city_agreement";
+				
+			}else if (MerchantCategoryList.get(0).getType() == MerchantType.HOTEL.getType()) {
+				return "/system/seller/hotel_agreement";
+				
+			}else if (MerchantCategoryList.get(0).getType() == MerchantType.SCENIC.getType()) {
+				return "/system/seller/scenic_agreement";
+				
+			}
+		}
+		//return "/system/seller/agreement";
+		return "/system/error/500";
 	}
 	
 	/**
