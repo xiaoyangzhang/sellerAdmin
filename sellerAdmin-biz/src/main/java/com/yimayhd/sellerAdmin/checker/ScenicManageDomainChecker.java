@@ -52,7 +52,7 @@ public class ScenicManageDomainChecker {
     private  WebResult<ScenicManageVO> webResult;
     private final String UPDATE = "update";
     private final String ADD = "add";
-    private final String DEL = "delete";
+    private final String DEL = "del";
     private int dayTime=24*60*60;
 
     public ScenicManageDomainChecker(ScenicManageVO scenicManageVO){
