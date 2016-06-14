@@ -81,10 +81,10 @@ public class MerchantApplyBiz {
 				return result;
 			}
 			List<MerchantDO> merchantDOs = queryMerchantResult.getValue()	;
-			if( CollectionUtils.isEmpty(merchantDOs) ){
+	//		if( CollectionUtils.isEmpty(merchantDOs) ){
 //				result.setValue(Boolean.FALSE);
 //				return result;
-			}
+	//		}
 			
 			if (null != merchantDOs && merchantDOs.size() > 0) {
 				for (MerchantDO merchantDO : merchantDOs) {
