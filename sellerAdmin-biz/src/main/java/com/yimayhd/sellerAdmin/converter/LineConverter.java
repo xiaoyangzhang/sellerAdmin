@@ -196,7 +196,12 @@ public class LineConverter {
 						day = new LinkedHashMap<Long, ItemSkuDO>();
 						tc.put(time, day);
 					}
-					day.put(personPair.getVId(), sku);
+					if( day == null || personPair == null ){
+						System.err.println();
+					}
+					if( personPair != null ){
+						day.put(personPair.getVId(), sku);
+					}
 				}
 			}
 			// 完成数据组装
@@ -755,6 +760,48 @@ public class LineConverter {
 			}
 		}
 	}
+	
+	public static List<ItemSkuDO> filterUnnecessaryItem(CategoryDO category, List<ItemSkuDO> itemSkuDOList) {
+		if (category==null || CollectionUtils.isEmpty(itemSkuDOList)) {
+			return null;
+		}
+		List<CategoryPropertyValueDO> sellCategoryPropertyDOs = category.getSellCategoryPropertyDOs();
+		if (CollectionUtils.isEmpty(sellCategoryPropertyDOs) || CollectionUtils.isEmpty(itemSkuDOList) ) {
+			return null;
+		}
+		/*
+		 * 套餐
+		 * 出发日期
+		 * 人员类型   ---成人，儿童，单房差
+		 * */
+		//计算出类目下所有销售属性
+		List<Long> usingVIds = new ArrayList<Long>() ;
+		for (CategoryPropertyValueDO categoryPropertyValueDO : sellCategoryPropertyDOs) {
+			List<CategoryValueDO> categoryValueDOs = categoryPropertyValueDO.getCategoryValueDOs() ;
+			if( CollectionUtils.isNotEmpty(categoryValueDOs) ){
+				for( CategoryValueDO value : categoryValueDOs ){
+					//计算出所有销售属性
+					usingVIds.add(value.getId()) ;
+				}
+			}
+		}
+		
+		List<ItemSkuDO> skus = new ArrayList<ItemSkuDO>() ;
+		
+		for (ItemSkuDO sku : itemSkuDOList) {
+			List<ItemSkuPVPair> itemSkuPVPairList = sku.getItemSkuPVPairList();
+			for (ItemSkuPVPair itemSkuPVPair : itemSkuPVPairList) {
+				if (itemSkuPVPair.getPType() == PropertyType.PERSON_TYPE.getType()) {
+					long vId = itemSkuPVPair.getVId() ;
+					if ( !usingVIds.contains(vId)) {
+						skus.add(sku);
+						break; 
+					}
+				}
+			}
+		}
+		return skus ;
+	}
 
 	public static void filterItemSku(CategoryDO category, List<ItemSkuDO> itemSkuDOList) {
 		if (category==null || CollectionUtils.isEmpty(itemSkuDOList)) {
@@ -764,13 +811,19 @@ public class LineConverter {
 		if (CollectionUtils.isEmpty(sellCategoryPropertyDOs) || CollectionUtils.isEmpty(itemSkuDOList) ) {
 			return;
 		}
-		//itemSkuPVPair.getPType() == PropertyType.PERSON_TYPE.getType()
+		/*
+		 * 套餐
+		 * 出发日期
+		 * 人员类型   ---成人，儿童，单房差
+		 * */
 		//计算出类目下所有销售属性
 		Map<Long, CategoryValueDO> map = new HashMap<Long, CategoryValueDO>();
+		CategoryPropertyDO categoryPropertyValueDOForPerson=new CategoryPropertyDO();
 		Long mapcpvd =null;
 		for (CategoryPropertyValueDO categoryPropertyValueDO : sellCategoryPropertyDOs) {
 			List<CategoryValueDO> categoryValueDOs = categoryPropertyValueDO.getCategoryValueDOs() ;
 			if( CollectionUtils.isNotEmpty(categoryValueDOs) ){
+				categoryPropertyValueDOForPerson=categoryPropertyValueDO.getCategoryPropertyDO();
 //				mapcpvd.put(categoryPropertyValueDO.getPropertyId(), categoryPropertyValueDO) ;
 				mapcpvd=categoryPropertyValueDO.getPropertyId();
 				for( CategoryValueDO value : categoryValueDOs ){
@@ -779,41 +832,67 @@ public class LineConverter {
 				}
 			}
 		}
+		Set<Long> skuPIds = new HashSet<Long>();//原来人员类型下的属性取值：1，2，3，4
+		//取出所有的人员类型  下的属性值id
 		for (ItemSkuDO sku : itemSkuDOList) {
-			Set<Long> vIds = map.keySet();
-//			Set<Long> pIds = mapcpvd.keySet();
-			List<ItemSkuPVPair> pairs = new ArrayList<ItemSkuPVPair>() ;
-			
-			
-			Set<Long> skuPIds = new HashSet<Long>();
+			// Set<Long> pIds = mapcpvd.keySet();
 			List<ItemSkuPVPair> itemSkuPVPairList = sku.getItemSkuPVPairList();
 			for (ItemSkuPVPair itemSkuPVPair : itemSkuPVPairList) {
-				long pid = itemSkuPVPair.getPId() ;
-				CategoryValueDO value = map.get(pid) ;
-				if( value != null ){
-					skuPIds.add(pid) ;
-					pairs.add(itemSkuPVPair) ;
+				long pid = itemSkuPVPair.getPId();
+				if (mapcpvd != null && mapcpvd.equals(pid)) {
+					skuPIds.add(itemSkuPVPair.getVId());
 				}
 			}
-			vIds.removeAll(skuPIds) ;
-			
-			if( CollectionUtils.isNotEmpty(vIds)) {
-				for( Long vid : vIds) {
-					CategoryValueDO value = map.get(vid) ;
-					if( value != null ){
-						ItemSkuPVPair pair = new ItemSkuPVPair() ;
-						
-						pair.setPTxt(value.getText());
-						pair.setPType(value.getType());
-						pair.setVId(value.getId());
-						pairs.add(pair) ;
+		}
+		List<ItemSkuDO> itemSkuDOs=new ArrayList<ItemSkuDO>();
+		Set<Long> vIds = map.keySet();// 1，4，145
+		Set<Long> oVIds = new HashSet<Long>();
+		oVIds.addAll(vIds);
+		vIds.removeAll(skuPIds);
+		if (CollectionUtils.isEmpty(oVIds)) {
+			return  ;
+		}
+		for (ItemSkuDO sku : itemSkuDOList) {
+//			for (Long vId : vIds) {
+				List<ItemSkuPVPair> itemSkuPVPairList = sku.getItemSkuPVPairList();
+				List<ItemSkuPVPair> newItemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
+				boolean containPropertyType = false;
+				for (ItemSkuPVPair itemSkuPVPair : itemSkuPVPairList) {
+					if (itemSkuPVPair.getPType() == PropertyType.PERSON_TYPE.getType()) {
+						long vId = itemSkuPVPair.getVId() ;
+						if (oVIds.contains(vId)) {
+							containPropertyType = true; 
+							newItemSkuPVPairList.add(itemSkuPVPair);
+						}
+					} else {
+						newItemSkuPVPairList.add(itemSkuPVPair);
 					}
 				}
-			}
-			
-			sku.setItemSkuPVPairList(pairs);
+				if( !containPropertyType ){
+					for( long vId : vIds ){
+						ItemSkuPVPair pair = new ItemSkuPVPair();
+						CategoryValueDO value = map.get(vId);
+						pair.setPId(categoryPropertyValueDOForPerson.getId());
+						pair.setPType(categoryPropertyValueDOForPerson.getType());
+						pair.setPTxt(categoryPropertyValueDOForPerson.getText());
+						pair.setVTxt(value.getText());
+						pair.setVType(value.getType());
+						pair.setVId(value.getId());
+						newItemSkuPVPairList.add(pair);
+						sku.setPrice(0);
+						sku.setStockNum(0);
+						
+					}
+					
+				}
+				
+				sku.setItemSkuPVPairList(newItemSkuPVPairList);
+				itemSkuDOs.add(sku);
+//			}
 		}
-			
+		
+		
+		itemSkuDOList=itemSkuDOs;
 	}
 	public static void filterItemSku2(CategoryDO category, List<ItemSkuDO> itemSkuDOList) {
 		if (category==null || CollectionUtils.isEmpty(itemSkuDOList)) {

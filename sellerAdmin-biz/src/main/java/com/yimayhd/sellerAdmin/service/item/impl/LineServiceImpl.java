@@ -1,8 +1,11 @@
 package com.yimayhd.sellerAdmin.service.item.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -17,6 +20,7 @@ import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.result.PicTextResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
+import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.CategoryValueDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
@@ -25,6 +29,7 @@ import com.yimayhd.ic.client.model.domain.item.IcDestination;
 import com.yimayhd.ic.client.model.domain.item.IcSubject;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.PropertyType;
+import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.ic.client.model.param.item.line.LinePubAddDTO;
 import com.yimayhd.ic.client.model.param.item.line.LinePubUpdateDTO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
@@ -108,7 +113,7 @@ public class LineServiceImpl implements LineService {
 			
 			CategoryDO category = categoryRepo.getCategoryById(lineResult.getItemDO().getCategoryId());
 			List<ItemSkuDO> itemSkuDOList = lineResult.getItemSkuDOList();
-			LineConverter.filterItemSku2(category,itemSkuDOList);
+			LineConverter.filterItemSku(category,itemSkuDOList);
 			lineResult.setItemSkuDOList(itemSkuDOList);
 			PicTextResult picTextResult = pictureTextRepo.getPictureText(itemId, PictureText.ITEM);
 			LineVO lineVO = LineConverter.toLineVO(lineResult, picTextResult, themes, toCityVO(departTags),
@@ -269,6 +274,15 @@ public class LineServiceImpl implements LineService {
 			convertToIcSubjcet(line);
 			LinePubUpdateDTO linePublishDTOForUpdate = LineConverter.toLinePublishDTOForUpdate(sellerId, line);
 			LinePublishResult publishLine = lineRepo.updateLine(linePublishDTOForUpdate);
+			
+			//删除多余的itemsku
+			LineResult lineResult = lineRepo.getLineByItemId(sellerId, itemId);
+			CategoryDO category = categoryRepo.getCategoryById(lineResult.getItemDO().getCategoryId());
+			List<ItemSkuDO> itemSkuDOList = lineResult.getItemSkuDOList();
+			//FIXME 
+			List<ItemSkuDO> unnecessaryItemSkuDO= LineConverter.filterUnnecessaryItem(category, itemSkuDOList) ;
+			
+			
 			if (publishLine.isSuccess() && itemId > 0) {
 				BaseInfoVO baseInfo = line.getBaseInfo();
 				List<Long> themeIds = baseInfo.getThemes();
@@ -311,6 +325,55 @@ public class LineServiceImpl implements LineService {
 			log.error("更新线路失败", e);
 			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, "更新线路失败 ");
 		}
+	}
+
+	private void deleteUnnecessarySku(CategoryDO category, List<ItemSkuDO> itemSkuDOList) {
+		if (category==null || CollectionUtils.isEmpty(itemSkuDOList)) {
+			return;
+		}
+		List<CategoryPropertyValueDO> sellCategoryPropertyDOs = category.getSellCategoryPropertyDOs();
+		if (CollectionUtils.isEmpty(sellCategoryPropertyDOs) || CollectionUtils.isEmpty(itemSkuDOList) ) {
+			return;
+		}
+		/*
+		 * 套餐
+		 * 出发日期
+		 * 人员类型   ---成人，儿童，单房差
+		 * */
+		//计算出类目下所有销售属性
+		Map<Long, CategoryValueDO> map = new HashMap<Long, CategoryValueDO>();
+		CategoryPropertyDO categoryPropertyValueDOForPerson=new CategoryPropertyDO();
+		Long mapcpvd =null;
+		for (CategoryPropertyValueDO categoryPropertyValueDO : sellCategoryPropertyDOs) {
+			List<CategoryValueDO> categoryValueDOs = categoryPropertyValueDO.getCategoryValueDOs() ;
+			if( CollectionUtils.isNotEmpty(categoryValueDOs) ){
+				categoryPropertyValueDOForPerson=categoryPropertyValueDO.getCategoryPropertyDO();
+//				mapcpvd.put(categoryPropertyValueDO.getPropertyId(), categoryPropertyValueDO) ;
+				mapcpvd=categoryPropertyValueDO.getPropertyId();
+				for( CategoryValueDO value : categoryValueDOs ){
+					//计算出所有销售属性
+					map.put(value.getId(), value) ;
+				}
+			}
+		}
+		Set<Long> skuPIds = new HashSet<Long>();//原来人员类型下的属性取值：1，2，3，4
+		//取出所有的人员类型  下的属性值id
+		for (ItemSkuDO sku : itemSkuDOList) {
+			// Set<Long> pIds = mapcpvd.keySet();
+			List<ItemSkuPVPair> itemSkuPVPairList = sku.getItemSkuPVPairList();
+			for (ItemSkuPVPair itemSkuPVPair : itemSkuPVPairList) {
+				long pid = itemSkuPVPair.getPId();
+				if (mapcpvd != null && mapcpvd.equals(pid)) {
+					skuPIds.add(itemSkuPVPair.getVId());
+				}
+			}
+		}
+		List<ItemSkuDO> itemSkuDOs=new ArrayList<ItemSkuDO>();
+		Set<Long> vIds = map.keySet();// 1，4，145
+		Set<Long> oVIds = new HashSet<Long>();
+		oVIds.addAll(vIds);
+		vIds.removeAll(skuPIds);
+		
 	}
 
 	@Override

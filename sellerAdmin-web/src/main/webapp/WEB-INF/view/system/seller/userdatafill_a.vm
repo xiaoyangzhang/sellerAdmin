@@ -236,7 +236,7 @@
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业地址：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="30" value="$!examineInfo.address" name="address" id="" class="txt01" placeholder="营业执照上的营业地址"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="*" maxlength="30" value="$!examineInfo.address" name="address" id="" class="txt01" placeholder="营业执照上的营业地址"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业范围：</label></td>

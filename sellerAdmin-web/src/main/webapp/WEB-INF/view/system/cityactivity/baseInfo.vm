@@ -78,6 +78,7 @@
                 <td>
                     <textarea class="form-control textarea-count description" rows="3" placeholder="请输入亮点描述" maxlength="200">$!{item.description}</textarea>
                    <div class="word-num"><span class="num-a">0</span>/<span class="num-b">200字</span></div>
+
                 </td>
             </tr>
 ##            <tr>

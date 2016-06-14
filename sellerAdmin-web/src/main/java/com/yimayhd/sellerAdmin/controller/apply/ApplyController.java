@@ -1,5 +1,10 @@
 package com.yimayhd.sellerAdmin.controller.apply;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.MemberReturnCode;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantQualificationDO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
@@ -29,6 +35,7 @@ import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.membercenter.enums.ExamineType;
+import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
@@ -331,16 +338,19 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/talent/saveExamineInfo_pageOne",method=RequestMethod.POST)
 	@ResponseBody
-	public MemResult<String> saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
-			
-			MemResult<String> result=new MemResult<String>();
+	public WebResult<String> saveExamineFile_a(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
+			WebResult<String> checkResult = checkTalentParams_PageOne(vo);
+			if (checkResult != null && !checkResult.isSuccess()) {
+				return checkResult;
+			}
+			WebResult<String> result=new WebResult<String>();
 			ExamineInfoDTO examineInfoDTO = talentBiz.getExamineInfo();
 			
-			MemResult<Boolean> addResult = talentBiz.addExamineInfo(vo);
-//			if (resultSupport == null) {
-//				result.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
-//				return result;
-//			}
+			WebResult<Boolean> addResult = talentBiz.addExamineInfo(vo);
+			if (addResult == null) {
+				result.setWebReturnCode(WebReturnCode.TALENT_BASIC_SAVE_FAILURE);
+				return result;
+			}
 			if (result.isSuccess()) {
 				if (null == examineInfoDTO || examineInfoDTO.getSellerId() <= 0) {
 					result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/toAddUserdatafill_pageTwo");
@@ -349,7 +359,7 @@ public class ApplyController extends BaseController {
 					
 				}
 			}else{
-				result.setReturnCode(addResult.getReturnCode());
+				result.setWebReturnCode(addResult.getWebReturnCode());
 			}
 
 			return result;
@@ -365,32 +375,31 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value="/talent/saveExamineInfo_pageTwo",method=RequestMethod.POST)
 	@ResponseBody
-	public MemResult<String> saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
-		MemResult<String> result = new MemResult<>();
-		MemResult<Boolean> addResult = talentBiz.addExamineInfo(vo);
-			//更新审核状态
-			vo.setType(ExamineType.TALENT.getType());
-			MemResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
-			if (updateCheckStatusResult == null) {
-				result.setReturnCode(MemberReturnCode.SAVE_MERCHANT_FAILED);
-				return result;
-			}
-			if (addResult.isSuccess()
-					&& updateCheckStatusResult.isSuccess()) {
-				result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/verification");
-			} else if (!addResult.isSuccess()) {
-				result.setSuccess(false);
-				result.setErrorMsg(addResult.getErrorMsg());
-				result.setErrorCode(addResult.getErrorCode());
-				
-			} else if (!updateCheckStatusResult.isSuccess()) {
-
-				result.setSuccess(false);
-				result.setErrorMsg(updateCheckStatusResult.getErrorMsg());
-				result.setErrorCode(updateCheckStatusResult.getErrorCode());
-				
-			}
+	public WebResult<String> saveExamineFile_b(HttpServletRequest request,HttpServletResponse response,Model model,ExamineInfoVO vo){
+		WebResult<String> checkResult = checkTalentParams_PageTwo(vo);
+		if (checkResult != null && !checkResult.isSuccess()) {
+			return checkResult;
+		}
+		WebResult<String> result = new WebResult<>();
+		WebResult<Boolean> addResult = talentBiz.addExamineInfo(vo);
+		//更新审核状态
+		vo.setType(ExamineType.TALENT.getType());
+		WebResult<Boolean> updateCheckStatusResult = talentBiz.updateCheckStatus(vo);
+		if (updateCheckStatusResult == null) {
+			result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
 			return result;
+		}
+		if (addResult.isSuccess()
+				&& updateCheckStatusResult.isSuccess()) {
+			result.setValue(WebResourceConfigUtil.getActionDefaultFontPath()+"/apply/talent/verification");
+		} else if (!addResult.isSuccess()) {
+			return WebResult.failure(WebReturnCode.ADD_FAILURE, "达人入驻信息保存失败");
+		} else if (!updateCheckStatusResult.isSuccess()) {
+			return WebResult.failure(WebReturnCode.UPDATE_ERROR, "修改审核状态失败");
+
+			
+		}
+		return result;
 		
 	}
 	
@@ -527,15 +536,33 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value = "/seller/toAggrementPage")
 	public String toBusinessAggrementPage(Model model){
-		InfoQueryDTO examInfoQueryDTO = new InfoQueryDTO();
-		examInfoQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-		examInfoQueryDTO.setType(ExamineType.MERCHANT.getType());
-		examInfoQueryDTO.setSellerId(sessionManager.getUserId());
-		WebResult<Boolean> changeExamineStatusResult = merchantApplyBiz.changeExamineStatus(examInfoQueryDTO);
-		if (changeExamineStatusResult == null || !changeExamineStatusResult.isSuccess()) {
+		
+		WebResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
+		if (result == null || !result.isSuccess() || result.getValue() == null) {
 			return "/system/error/500";
 		}
-		return "/system/seller/agreement";
+		ExamineInfoVO examineInfoVO = result.getValue();
+		ExamineInfoDTO dto = new ExamineInfoDTO();
+		dto.setDomainId(Constant.DOMAIN_JIUXIU);
+		dto.setMerchantCategoryId(examineInfoVO.getMerchantCategoryId());
+		MemResult<List<MerchantCategoryDO>> merchantCategoryResult = merchantApplyBiz.getMerchantCategory(dto);
+		if (merchantCategoryResult != null && merchantCategoryResult.isSuccess() && merchantCategoryResult.getValue() != null ) {
+			List<MerchantCategoryDO> MerchantCategoryList = merchantCategoryResult.getValue();
+			if (MerchantCategoryList.get(0).getType() == MerchantType.TRAVEL_AGENCY.getType() || MerchantCategoryList.get(0).getType() == MerchantType.TOUR_COR.getType()) {
+				return "/system/seller/travel_agreement";
+			}else if (MerchantCategoryList.get(0).getType() == MerchantType.CITY_COR.getType()) {
+				return "/system/seller/city_agreement";
+				
+			}else if (MerchantCategoryList.get(0).getType() == MerchantType.HOTEL.getType()) {
+				return "/system/seller/hotel_agreement";
+				
+			}else if (MerchantCategoryList.get(0).getType() == MerchantType.SCENIC.getType()) {
+				return "/system/seller/scenic_agreement";
+				
+			}
+		}
+		//return "/system/seller/agreement";
+		return "/system/error/500";
 	}
 	
 	/**
@@ -660,6 +687,14 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value = "/seller/toVerifyPage")
 	public String toBusinessVerifyPage(Model model){
+		InfoQueryDTO examInfoQueryDTO = new InfoQueryDTO();
+		examInfoQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+		examInfoQueryDTO.setType(ExamineType.MERCHANT.getType());
+		examInfoQueryDTO.setSellerId(sessionManager.getUserId());
+		WebResult<Boolean> changeExamineStatusResult = merchantApplyBiz.changeExamineStatus(examInfoQueryDTO);
+		if (changeExamineStatusResult == null || !changeExamineStatusResult.isSuccess()) {
+			return "/system/error/500";
+		}
 		return "/system/seller/verification";
 	}
 	/**
@@ -681,9 +716,9 @@ public class ApplyController extends BaseController {
 			return checkResult;
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleName())) {
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
-		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCard()) || !(Constant.ID_CARD.equals(examineInfoVO.getPrincipleCard()))
-				|| !( Constant.PASSPORT.equals(examineInfoVO.getPrincipleCard())) || !( Constant.GUIDE_CERTIFICATE.equals(examineInfoVO.getPrincipleCard())) 
-				|| !( Constant.CAR_LICENSE.equals(examineInfoVO.getPrincipleCard()))) {
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCard()) || !(Constant.ID_CARD.equals(examineInfoVO.getPrincipleCard())
+				||  Constant.PASSPORT.equals(examineInfoVO.getPrincipleCard()) ||  Constant.GUIDE_CERTIFICATE.equals(examineInfoVO.getPrincipleCard()) 
+				||  Constant.CAR_LICENSE.equals(examineInfoVO.getPrincipleCard()))){
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
 
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardId())) {
@@ -696,13 +731,13 @@ public class ApplyController extends BaseController {
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
 
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardDown())) {
-			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请上传必填的资质");
 
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardUp())) {
-			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请上传必填的资质");
 
 		}else if (StringUtils.isBlank(examineInfoVO.getCardInHand())) {
-			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请上传必填的资质");
 
 		}else if (StringUtils.isBlank(examineInfoVO.getSellerName())) {
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
@@ -957,4 +992,109 @@ public class ApplyController extends BaseController {
 		return result;
 	}
 	
+	private WebResult<String> checkTalentParams_PageOne(ExamineInfoVO examineInfoVO) {
+		if (examineInfoVO == null) {
+			log.error("params error:ExamineInfoVO={}",JSON.toJSONString(examineInfoVO));
+			return WebResult.failure(WebReturnCode.PARAM_ERROR);
+		}else if (StringUtils.isBlank(examineInfoVO.getSellerName())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+		}else if (StringUtils.isBlank(examineInfoVO.getLegralName())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getLawPersonCard())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getSaleLicenseNumber())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getTaxRegisterNumber())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getSaleScope())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getAddress())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getBusinessLicense())) {
+			return WebResult.failure(WebReturnCode.UPLOAD_QUALIFICATION_FAILED, "请上传必填的资质");
+			
+		}
+		return null;
+	}
+	private WebResult<String> checkTalentParams_PageTwo(ExamineInfoVO examineInfoVO) {
+		if (examineInfoVO == null) {
+			log.error("params error:ExamineInfoVO={}",JSON.toJSONString(examineInfoVO));
+			return WebResult.failure(WebReturnCode.PARAM_ERROR);
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleName())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCard()) || !(Constant.ID_CARD.equals(examineInfoVO.getPrincipleCard())
+				|| Constant.PASSPORT.equals(examineInfoVO.getPrincipleCard()) ||  Constant.GUIDE_CERTIFICATE.equals(examineInfoVO.getPrincipleCard()) 
+				||  Constant.CAR_LICENSE.equals(examineInfoVO.getPrincipleCard()))){
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardId())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleMail())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleTel())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardDown())) {
+			return WebResult.failure(WebReturnCode.UPLOAD_QUALIFICATION_FAILED, "请上传必填的资质");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardUp())) {
+			return WebResult.failure(WebReturnCode.UPLOAD_QUALIFICATION_FAILED, "请上传必填的资质");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getCardInHand())) {
+			return WebResult.failure(WebReturnCode.UPLOAD_QUALIFICATION_FAILED, "请上传必填的资质");
+			
+		}else if (StringUtils.isBlank(examineInfoVO.getFinanceOpenBankId())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		
+		}else if (StringUtils.isBlank(examineInfoVO.getFinanceOpenName())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+				
+		
+		}else if (StringUtils.isBlank(examineInfoVO.getAccountNum())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		
+		}else if (StringUtils.isBlank(examineInfoVO.getAccountBankName())) {
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			
+		}
+		return null;
+	}
+	@RequestMapping(value="download",method=RequestMethod.GET)
+	public void download(HttpServletRequest request,HttpServletResponse response,String fileName) {
+		try {
+			String newFileName = new String(fileName.getBytes("ISO-8859-1"),"UTF-8");
+			String realPath = WebResourceConfigUtil.getActionUploadFilePath()+"/"+newFileName; 
+			response.setCharacterEncoding("utf-8");
+			response.setContentType("application/x-msdownload");
+			response.setHeader("Cache-Control", "no-cache");
+			response.setHeader("Pragma", "no-cache");
+			response.setDateHeader("expires", -1);
+			response.setHeader("Content-Disposition", "attachment; filename="+ fileName);
+			File file = new File(realPath);
+			InputStream inputStream = new FileInputStream(file);
+			OutputStream os = response.getOutputStream();
+			byte[] b = new byte[10240];
+			int length;
+			while ((length = inputStream.read(b)) > 0) {
+				os.write(b, 0, length);
+			}
+			inputStream.close();
+			os.flush();
+			os.close();
+			
+		} catch (Exception e) {
+			log.error("error:{}",e);
+		}
+		
+	}
 }

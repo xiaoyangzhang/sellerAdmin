@@ -111,11 +111,18 @@ public class ScenicManageEnhanceController extends BaseController {
         if(categoryId==0){
             return "/system/error/404";
         }
+        /**categoryId 权限验证**/
         scenicManageVO.setCategoryId(categoryId);
         /**初始化动态列表**/
         List<BizCategoryInfo> bizCategoryInfoList=  getBizCategoryInfoListByCategoryBiz(scenicManageVO.getCategoryId());
         if(CollectionUtils.isEmpty(bizCategoryInfoList)){
             return "/system/error/500";
+        }
+        if(!CollectionUtils.isEmpty(bizCategoryInfoList)){
+            String bizJson  = CommonJsonUtil.objectToJson(bizCategoryInfoList,List.class);
+            String cacheKey = scenicManageVO.getSellerId()+"_"+scenicManageVO.getCategoryId();
+            cacheManager.addToTair(Constant.SELLER_CATEGORY_CHECK+cacheKey, bizJson , 0, 0);//忽略版本,永久保存
+            log.info("cacheKey:"+Constant.SELLER_CATEGORY_CHECK+cacheKey);
         }
         // 初始化属性列表
         model.addAttribute("scenicManageVO", scenicManageVO);
@@ -166,13 +173,7 @@ public class ScenicManageEnhanceController extends BaseController {
             return message;
         }
 
-        List<BizCategoryInfo> bizCategoryInfoList=  getBizCategoryInfoListByCategoryBiz(scenicManageVO.getCategoryId());
-        if(!CollectionUtils.isEmpty(bizCategoryInfoList)){
-            String bizJson  = CommonJsonUtil.objectToJson(bizCategoryInfoList,List.class);
-            String cacheKey = scenicManageVO.getSellerId()+"_"+scenicManageVO.getCategoryId();
-            cacheManager.addToTair(Constant.SELLER_CATEGORY_CHECK+cacheKey, bizJson , 0, 0);//忽略版本,永久保存
-            log.info("cacheKey:"+Constant.SELLER_CATEGORY_CHECK+cacheKey);
-        }
+
 
         /**属性列表 添加 **/
         model.addAttribute("hotelMessageVO", result.getValue());
@@ -221,7 +222,7 @@ public class ScenicManageEnhanceController extends BaseController {
             return "/system/error/lackPermission";
         }
        // logger.info("editScenicManageView: 回参:webResult="+webResult.isSuccess()+",\n scenicManageVO="+CommonJsonUtil.objectToJson(scenicManageVO,ScenicManageVO.class));
-        /***编辑查看时,在类目中匹配验证信息*/
+        /***编辑查看时,在类目中*/
         String cacheKey = scenicManageVO.getSellerId()+"_"+scenicManageVO.getCategoryId();
         log.info("cacheKey:"+Constant.SELLER_CATEGORY_CHECK+cacheKey);
         Object object= cacheManager.getFormTair(Constant.SELLER_CATEGORY_CHECK+cacheKey);

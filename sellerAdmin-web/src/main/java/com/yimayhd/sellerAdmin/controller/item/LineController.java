@@ -31,6 +31,7 @@ import com.yimayhd.sellerAdmin.cache.CacheManager;
 import com.yimayhd.sellerAdmin.checker.LineChecker;
 import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.converter.LineConverter;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
 import com.yimayhd.sellerAdmin.service.item.LineService;
@@ -175,7 +176,9 @@ public class LineController extends BaseLineController {
 					log.warn("不支持的操作");
 					return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
 				}
-				return commLineService.update(sellerId, gt);
+				return  commLineService.update(sellerId, gt);
+				
+				
 			} else {
 				String key = Constant.APP+"_repeat_"+sessionManager.getUserId()+uuid;
 				boolean rs = cacheManager.addToTair(key, true , 2, 24*60*60);
