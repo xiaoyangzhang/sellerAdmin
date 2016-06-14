@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
-import com.sun.tools.classfile.Annotation.element_value;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
@@ -19,8 +18,8 @@ import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
-import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.membercenter.enums.ExamineType;
+import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
