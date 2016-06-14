@@ -536,14 +536,7 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value = "/seller/toAggrementPage")
 	public String toBusinessAggrementPage(Model model){
-		InfoQueryDTO examInfoQueryDTO = new InfoQueryDTO();
-		examInfoQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-		examInfoQueryDTO.setType(ExamineType.MERCHANT.getType());
-		examInfoQueryDTO.setSellerId(sessionManager.getUserId());
-		WebResult<Boolean> changeExamineStatusResult = merchantApplyBiz.changeExamineStatus(examInfoQueryDTO);
-		if (changeExamineStatusResult == null || !changeExamineStatusResult.isSuccess()) {
-			return "/system/error/500";
-		}
+		
 		WebResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
 		if (result == null || !result.isSuccess() || result.getValue() == null) {
 			return "/system/error/500";
@@ -694,6 +687,14 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value = "/seller/toVerifyPage")
 	public String toBusinessVerifyPage(Model model){
+		InfoQueryDTO examInfoQueryDTO = new InfoQueryDTO();
+		examInfoQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+		examInfoQueryDTO.setType(ExamineType.MERCHANT.getType());
+		examInfoQueryDTO.setSellerId(sessionManager.getUserId());
+		WebResult<Boolean> changeExamineStatusResult = merchantApplyBiz.changeExamineStatus(examInfoQueryDTO);
+		if (changeExamineStatusResult == null || !changeExamineStatusResult.isSuccess()) {
+			return "/system/error/500";
+		}
 		return "/system/seller/verification";
 	}
 	/**
