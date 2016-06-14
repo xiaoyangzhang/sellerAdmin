@@ -76,11 +76,12 @@ public class DraftChecker {
 			log.error("DraftChecker.checkSaveDraft error!");
 			return null;
 		}
-		if(null==draftVO.getId()) {
+		if(null==draftVO.getId()||null==draftVO.getAccountId()) {
 			log.error("DraftChecker.checkSaveDraft error!");
 			return null;
 		}
 		draftDO.setId(draftVO.getId());
+		draftDO.setAccountId(draftVO.getAccountId());
 		return draftDO;
 
 	}

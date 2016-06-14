@@ -38,11 +38,12 @@ public interface DraftService {
 	/**
 	 * 删除草稿
 	 * @param id
+	 * @param accountIds
 	 * @return
 	 * @author liuxp
 	 * @createTime 2016年6月2日
 	 */
-	WebOperateResult deleteDraft(Long id);
+	WebOperateResult deleteDraft(Long id, Long accountIds);
 	
 	/**
 	 * 获得草稿列表

@@ -107,26 +107,27 @@ public class DraftServiceImpl implements DraftService {
 	/**
 	 * 删除草稿
 	 * @param id
+	 * @param accountId
 	 * @return
 	 * @author liuxp
 	 * @createTime 2016年6月2日
 	 */
 	@Override
-	public WebOperateResult deleteDraft(Long id) {
+	public WebOperateResult deleteDraft(Long id, Long accountId) {
         if(null==id) {
-            log.error("DraftServiceImpl.deleteDraft: id=" + id);
+            log.error("DraftServiceImpl.deleteDraft: id=" + id + ", accountId=" + accountId);
             log.error("DraftServiceImpl.deleteDraft error: no draftId!");
         }
         try {
-            MemResult<Boolean> result = draftRepo.deleteDraft(id);
+            MemResult<Boolean> result = draftRepo.deleteDraft(id, accountId);
             if(result.isSuccess()) {
                 return WebOperateResult.success();
             } else {
-                log.error("DraftServiceImpl.deleteDraft: id=" + id);
+                log.error("DraftServiceImpl.deleteDraft: id=" + id + ", accountId=" + accountId);
                 return 	WebOperateResult.failure(WebReturnCode.REMOTE_CALL_FAILED);
             }
         }catch (Exception e) {
-            log.error("DraftServiceImpl.deleteDraft: id=" + id);
+            log.error("DraftServiceImpl.deleteDraft: id=" + id + ", accountId=" + accountId);
             log.error("DraftServiceImpl.deleteDraft error", e);
             return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
         }

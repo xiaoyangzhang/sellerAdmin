@@ -52,15 +52,15 @@ public class DraftRepo {
         return result;
     }
 
-    public MemResult<Boolean> deleteDraft(Long id) {
-        if(null==id) {
-            log.error("DraftRepo.deleteDraft(id) error: id is null");
+    public MemResult<Boolean> deleteDraft(Long id, Long accountId) {
+        if(null==id||null==accountId) {
+            log.error("DraftRepo.deleteDraft(id, accountId) error: id or accountId is null");
             throw new BaseException("参数为null ");
         }
         List<Long> ids = new ArrayList<Long>();
         ids.add(id);
-        RepoUtils.requestLog(log, "draftManagerServiceRef.deleteDraft", ids);
-        MemResult<Boolean> result = draftManagerServiceRef.deleteDrafts(ids);
+        RepoUtils.requestLog(log, "draftManagerServiceRef.deleteDraft", ids, accountId);
+        MemResult<Boolean> result = draftManagerServiceRef.deleteDrafts(ids, accountId);
         RepoUtils.resultLog(log, "draftManagerServiceRef.deleteDraft", result);
         return result;
     }
