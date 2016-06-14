@@ -23,7 +23,7 @@ public interface DraftService {
 	 * @author liuxp
 	 * @createTime 2016年6月2日
 	 */
-	WebOperateResult saveDraft(Object JsonObject, DraftVO draftVO);
+	WebOperateResult saveDraft(String JsonObject, DraftVO draftVO);
 	
 	/**
 	 * 覆盖草稿
@@ -33,7 +33,7 @@ public interface DraftService {
 	 * @author liuxp
 	 * @createTime 2016年6月2日
 	 */
-	WebOperateResult coverDraft(Object JsonObject, DraftVO draftVO);
+	WebOperateResult coverDraft(String JsonObject, DraftVO draftVO);
 	
 	/**
 	 * 删除草稿

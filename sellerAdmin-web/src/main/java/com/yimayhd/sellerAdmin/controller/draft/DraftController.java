@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Preconditions;
-import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.membercenter.client.query.DraftListQuery;
 import com.yimayhd.membercenter.enums.DraftEnum;
@@ -81,6 +80,7 @@ public class DraftController extends BaseDraftController {
 			}
 			json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
+			
 			draftVO.setDraftName(draftVO.getDraftName());
 			draftVO.setJsonObject(json);
 			draftVO.setId(draftVO.getId());
@@ -127,35 +127,64 @@ public class DraftController extends BaseDraftController {
 		}
 	}
 
-	@RequestMapping(value = "/edit/{id}")
-	public String edit(DraftVO draftVO, @PathVariable("id") long id) {
-		if (null != draftVO && id > 0) {
-			// int mainType = draftVO.getMainType();
-			int subType = draftVO.getSubType();
-			ItemType itemType = BizDraftSubType.get(subType).getValue();
-			if (ItemType.FREE_LINE.getValue() == itemType.getValue()
-					|| ItemType.TOUR_LINE.getValue() == itemType.getValue()
-					|| ItemType.TOUR_LINE_ABOARD.getValue() == itemType.getValue()
-					|| ItemType.FREE_LINE_ABOARD.getValue() == itemType.getValue()) {
-				return redirect("/draft/line/edit/" + id + "/");
-			} else if (ItemType.CITY_ACTIVITY.getValue() == itemType.getValue()) {
-				return redirect("/draft/cityactivity/edit/" + id);
-			} else if (ItemType.NORMAL.getValue() == itemType.getValue()) {
-				return redirect("/draft/barterItem/common/edit/" + id);
-			} else {
-				throw new BaseException("unsupport ItemType " + itemType);
-			}
+	/**
+	 * 草稿箱编辑跳转
+	 * @param id
+	 * @param mainType
+	 * @param subType
+	 * @return
+	 * @author liuxp
+	 * @createTime 2016年6月14日
+	 */
+	@RequestMapping(value = "/edit/{id}/{mainType}/{subType}")
+	public String edit(@PathVariable("id") long id, @PathVariable("mainType") int mainType, @PathVariable("subType") int subType) {
+		if (id>0 && mainType>0 && subType>0) {
+		    
+		    if(mainType == DraftEnum.ITEM.getValue()) {
+		    	return draftRedirectToItem(id, mainType, subType);
+		    } else {
+				throw new BaseException("unsupport DraftType " + mainType);
+		    }
+		} else {
+			throw new BaseException("参数错误");
 		}
-		return redirect("/draft/list");
+	}
+	
+	/**
+	 * 重定向到商品
+	 * @param id
+	 * @param mainType
+	 * @param subType
+	 * @return
+	 * @author liuxp
+	 * @createTime 2016年6月14日
+	 */
+	private String draftRedirectToItem(Long id, int mainType, int subType) {
+		ItemType itemType = BizDraftSubType.get(subType).getValue();
+		if (ItemType.FREE_LINE.getValue() == itemType.getValue()
+				|| ItemType.TOUR_LINE.getValue() == itemType.getValue()
+				|| ItemType.TOUR_LINE_ABOARD.getValue() == itemType.getValue()
+				|| ItemType.FREE_LINE_ABOARD.getValue() == itemType.getValue()) {
+			return editLineDraft(id);
+		} else if (ItemType.CITY_ACTIVITY.getValue() == itemType.getValue()) {
+			return redirect("/draft/cityactivity/edit/" + id);
+		} else if (ItemType.NORMAL.getValue() == itemType.getValue()) {
+			return redirect("/draft/barterItem/common/edit/" + id);
+		} else {
+			throw new BaseException("unsupport ItemType " + itemType);
+		}
 	}
 
-	@RequestMapping(value = "/line/edit/{id}")
-	public String editLineDraft(DraftVO draftVO, @PathVariable("id") long id) {
+	/**
+	 * 重定向到线路商品
+	 * @param id
+	 * @return
+	 * @author liuxp
+	 * @createTime 2016年6月14日
+	 */
+	public String editLineDraft(Long id) {
 		try {
-			if (null != draftVO && id > 0) {
-				// int mainType = draftVO.getMainType();
-				// int subType = draftVO.getSubType();
-				// ItemType itemType = BizDraftSubType.get(subType).getValue();
+			if (id > 0) {
 				long sellerId = sessionManager.getUserId();
 				Preconditions.checkState(sellerId > 0, "请登录后访问");
 				initBaseInfo();
@@ -166,8 +195,11 @@ public class DraftController extends BaseDraftController {
 					if (baseInfo != null) {
 						initLinePropertyTypes(baseInfo.getCategoryId());
 					}
+					initBaseInfo();
+
 					put("product", gt);
-					put("isReadonly", baseInfo.getItemStatus() == ItemStatus.valid.getValue());
+					put("draftId", id);
+//					put("isReadonly", ItemStatus.create.getValue());
 					return "/system/comm/line/detail";
 				} else {
 					throw new BaseException("参数错误");
@@ -175,7 +207,7 @@ public class DraftController extends BaseDraftController {
 			}
 		} catch (Exception e) {
 		}
-		return redirect("/draft/list");
+		return redirect("/system/comm/line/detail");
 	}
 
 	@RequestMapping(value = "/cityactivity/edit/{id}")

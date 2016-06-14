@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
-import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.membercenter.client.domain.draft.DraftDO;
 import com.yimayhd.membercenter.client.query.DraftListQuery;
@@ -36,20 +35,14 @@ public class DraftChecker {
      * @author liuxp
      * @createTime 2016年6月7日
      */
-	public static DraftDO checkSaveDraft(Object JsonObject, DraftVO draftVO) {
+	public static DraftDO checkSaveDraft(String JsonObject, DraftVO draftVO) {
 		
 		DraftDO draftDO = new DraftDO();
-		try {
-			String jsonStr = JSONObject.toJSONString(JsonObject).toString();
-			draftDO.setJSONStr(jsonStr);
-		} catch (Exception e) {
+		if(null==draftVO.getAccountId()||StringUtils.isEmpty(draftVO.getDraftName())||draftVO.getMainType()<=0||draftVO.getSubType()<=0||StringUtils.isEmpty(JsonObject)) {
 			log.error("DraftChecker.checkSaveDraft error!");
 			return null;
 		}
-		if(null==draftVO.getAccountId()||StringUtils.isEmpty(draftVO.getDraftName())||draftVO.getMainType()<=0||draftVO.getSubType()<=0||StringUtils.isEmpty(draftDO.getJSONStr())) {
-			log.error("DraftChecker.checkSaveDraft error!");
-			return null;
-		}
+		draftDO.setJSONStr(JsonObject);
 		draftDO.setAccountId(draftVO.getAccountId());
 		draftDO.setDraftName(draftVO.getDraftName());
 		draftDO.setMainType(draftVO.getMainType());
@@ -66,20 +59,14 @@ public class DraftChecker {
 	 * @author liuxp
 	 * @createTime 2016年6月7日
 	 */
-	public static DraftDO checkCoverDraft(Object JsonObject, DraftVO draftVO) {
+	public static DraftDO checkCoverDraft(String JsonObject, DraftVO draftVO) {
 		
 		DraftDO draftDO = new DraftDO();
-		try {
-			String jsonStr = JSONObject.toJSONString(JsonObject).toString();
-			draftDO.setJSONStr(jsonStr);
-		} catch (Exception e) {
+		if(null==draftVO.getId()||null==draftVO.getAccountId()||StringUtils.isEmpty(JsonObject)) {
 			log.error("DraftChecker.checkSaveDraft error!");
 			return null;
 		}
-		if(null==draftVO.getId()||null==draftVO.getAccountId()) {
-			log.error("DraftChecker.checkSaveDraft error!");
-			return null;
-		}
+		draftDO.setJSONStr(JsonObject);
 		draftDO.setId(draftVO.getId());
 		draftDO.setAccountId(draftVO.getAccountId());
 		return draftDO;

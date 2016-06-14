@@ -48,7 +48,7 @@ public class DraftServiceImpl implements DraftService {
 	 * @createTime 2016年6月2日
 	 */
 	@Override
-	public WebOperateResult saveDraft(Object JsonObject, DraftVO draftVO) {
+	public WebOperateResult saveDraft(String JsonObject, DraftVO draftVO) {
         DraftDO draftDO = DraftChecker.checkSaveDraft(JsonObject, draftVO);
         if(null==draftDO) {
             log.error("DraftServiceImpl.saveDraft: JsonObject=" + JsonObject + ", draftVO="+ draftVO);
@@ -83,7 +83,7 @@ public class DraftServiceImpl implements DraftService {
 	 * @createTime 2016年6月2日
 	 */
 	@Override
-	public WebOperateResult coverDraft(Object JsonObject, DraftVO draftVO) {
+	public WebOperateResult coverDraft(String JsonObject, DraftVO draftVO) {
         DraftDO draftDO = DraftChecker.checkCoverDraft(JsonObject, draftVO);
         if(null==draftDO) {
             log.error("DraftServiceImpl.coverDraft: JsonObject=" + JsonObject + ", draftVO="+ draftVO);
@@ -160,6 +160,7 @@ public class DraftServiceImpl implements DraftService {
                         draftVO.setSubTypeName(draftDTO.getSubTypeName());
                         draftVO.setGmtCreated(draftDTO.getGmtCreated());
                         draftVO.setMainType(draftDTO.getMainType());
+                        draftVO.setSubType(draftDTO.getSubType());
                         draftVOList.add(draftVO);
                     }
                     PageVO<DraftVO> pages = new PageVO<DraftVO>(result.getPageNo(), result.getPageSize(), result.getTotalCount(), draftVOList);
@@ -196,8 +197,8 @@ public class DraftServiceImpl implements DraftService {
     		MemResult<DraftDetailDTO> draftDetailDTO = draftRepo.getDraftDetailById(id);
     		if(draftDetailDTO.isSuccess()) {
     			DraftDetailVO draftDetailVO = new DraftDetailVO();
-    			draftDetailVO.setId(draftDetailVO.getId());
-    			draftDetailVO.setJSONStr(draftDetailVO.getJSONStr());
+    			draftDetailVO.setId(draftDetailDTO.getValue().getId());
+    			draftDetailVO.setJSONStr(draftDetailDTO.getValue().getJSONStr());
     			return WebResult.success(draftDetailVO);
     		} else {
     			return WebResult.failure(WebReturnCode.REMOTE_CALL_FAILED);
