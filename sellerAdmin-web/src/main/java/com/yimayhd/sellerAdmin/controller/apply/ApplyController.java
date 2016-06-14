@@ -542,6 +542,14 @@ public class ApplyController extends BaseController {
 		if (changeExamineStatusResult == null || !changeExamineStatusResult.isSuccess()) {
 			return "/system/error/500";
 		}
+//		WebResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
+//		if (result == null || !result.isSuccess() || result.getValue() == null) {
+//			return "/system/error/500";
+//		}
+		//ExamineInfoVO examineInfoVO = result.getValue();
+//		if (examineInfoVO.getm) {
+//			
+//		}
 		return "/system/seller/agreement";
 	}
 	
@@ -689,8 +697,8 @@ public class ApplyController extends BaseController {
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleName())) {
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCard()) || !(Constant.ID_CARD.equals(examineInfoVO.getPrincipleCard())
-				||  Constant.PASSPORT.equals(examineInfoVO.getPrincipleCard())) ||  Constant.GUIDE_CERTIFICATE.equals(examineInfoVO.getPrincipleCard()) 
-				||  Constant.CAR_LICENSE.equals(examineInfoVO.getPrincipleCard())) {
+				||  Constant.PASSPORT.equals(examineInfoVO.getPrincipleCard()) ||  Constant.GUIDE_CERTIFICATE.equals(examineInfoVO.getPrincipleCard()) 
+				||  Constant.CAR_LICENSE.equals(examineInfoVO.getPrincipleCard()))){
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
 
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardId())) {
@@ -703,13 +711,13 @@ public class ApplyController extends BaseController {
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
 
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardDown())) {
-			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请上传必填的资质");
 
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardUp())) {
-			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请上传必填的资质");
 
 		}else if (StringUtils.isBlank(examineInfoVO.getCardInHand())) {
-			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
+			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请上传必填的资质");
 
 		}else if (StringUtils.isBlank(examineInfoVO.getSellerName())) {
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
@@ -1001,8 +1009,8 @@ public class ApplyController extends BaseController {
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleName())) {
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCard()) || !(Constant.ID_CARD.equals(examineInfoVO.getPrincipleCard())
-				|| Constant.PASSPORT.equals(examineInfoVO.getPrincipleCard())) ||  Constant.GUIDE_CERTIFICATE.equals(examineInfoVO.getPrincipleCard()) 
-				||  Constant.CAR_LICENSE.equals(examineInfoVO.getPrincipleCard())) {
+				|| Constant.PASSPORT.equals(examineInfoVO.getPrincipleCard()) ||  Constant.GUIDE_CERTIFICATE.equals(examineInfoVO.getPrincipleCard()) 
+				||  Constant.CAR_LICENSE.equals(examineInfoVO.getPrincipleCard()))){
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
 
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardId())) {
@@ -1041,7 +1049,7 @@ public class ApplyController extends BaseController {
 		}
 		return null;
 	}
-	
+	@RequestMapping(value="download",method=RequestMethod.GET)
 	public void download(HttpServletRequest request,HttpServletResponse response,String fileName) {
 		try {
 			String newFileName = new String(fileName.getBytes("ISO-8859-1"),"UTF-8");
