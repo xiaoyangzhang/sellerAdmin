@@ -272,18 +272,26 @@ public class LineServiceImpl implements LineService {
 			}
 			long itemId = line.getBaseInfo().getItemId();
 			convertToIcSubjcet(line);
+			
+			//FIXME 
 			LinePubUpdateDTO linePublishDTOForUpdate = LineConverter.toLinePublishDTOForUpdate(sellerId, line);
-			LinePublishResult publishLine = lineRepo.updateLine(linePublishDTOForUpdate);
+			lineRepo.updateLine(linePublishDTOForUpdate);
 			
 			//删除多余的itemsku
 			LineResult lineResult = lineRepo.getLineByItemId(sellerId, itemId);
 			CategoryDO category = categoryRepo.getCategoryById(lineResult.getItemDO().getCategoryId());
 			List<ItemSkuDO> itemSkuDOList = lineResult.getItemSkuDOList();
-			//FIXME 
 			List<ItemSkuDO> unnecessaryItemSkuDO= LineConverter.filterUnnecessaryItem(category, itemSkuDOList) ;
-			
-			
-			if (publishLine.isSuccess() && itemId > 0) {
+			if (CollectionUtils.isNotEmpty(unnecessaryItemSkuDO)) {
+				for (ItemSkuDO itemSkuDO : unnecessaryItemSkuDO) {
+					Set<Long> deletedSKU = new HashSet<Long>();
+					deletedSKU.add(itemSkuDO.getId());
+					line.getPriceInfo().setDeletedSKU(deletedSKU);
+				}
+			}
+			LinePubUpdateDTO linePublishDTOForUpdate2 = LineConverter.toLinePublishDTOForUpdate(sellerId, line);
+			LinePublishResult publishLine2 = lineRepo.updateLine(linePublishDTOForUpdate2);
+			if (publishLine2.isSuccess() && itemId > 0) {
 				BaseInfoVO baseInfo = line.getBaseInfo();
 				List<Long> themeIds = baseInfo.getThemes();
 				
