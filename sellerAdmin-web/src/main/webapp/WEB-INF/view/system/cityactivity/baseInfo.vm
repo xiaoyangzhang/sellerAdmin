@@ -76,8 +76,8 @@
             <tr>
                 <td><span class="red">*</span>活动亮点：</td>
                 <td>
-                    <textarea class="form-control textarea-count description" rows="3" placeholder="请输入亮点描述" maxlength="5">$!{item.description}</textarea>
-                    <span class="word-num limit">#if($!{item.description})$!{item.description.length()}#else 0#end/200字</span>
+                    <textarea class="form-control textarea-count description" rows="3" placeholder="请输入亮点描述">$!{item.description}</textarea>
+                    <div class="word-num"><span class="num-a">0</span>/<span class="num-b">200字</span></div>
                 </td>
             </tr>
 ##            <tr>
