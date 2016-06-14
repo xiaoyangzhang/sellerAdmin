@@ -231,14 +231,14 @@ public class HotelManageController extends BaseController {
 			log.warn("商品类目ID错误");
 			throw new BaseException("商品类目ID错误");
 		}
-		logger.info("editHotelMessageView: 入参:hotelMessageVO="+CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
+		//logger.info("editHotelMessageView: 入参:hotelMessageVO="+CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
 		WebResult<HotelMessageVO> webResult = hotelManageService.queryHotelMessageVOyData(hotelMessageVO);
 		if(!webResult.isSuccess()){
 			// "商品类目ID错误";
 			systemLog=webResult.getResultMsg();
 		}
 		hotelMessageVO = webResult.getValue();
-		logger.info("editHotelMessageView: 回参:webResult="+webResult.isSuccess()+",\n hotelMessageVO="+CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
+		//logger.info("editHotelMessageView: 回参:webResult="+webResult.isSuccess()+",\n hotelMessageVO="+CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
 		if(currentUserId>0&&currentUserId!=hotelMessageVO.getSellerId()){
 			return "/system/error/lackPermission";
 		}

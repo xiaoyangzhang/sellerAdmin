@@ -169,9 +169,10 @@ public class HotelManageRepo {
 		domain.setCategoryPropertyValueDO(sellDO);
 		HotelPublishUpdateDTO hotelPublishUpdateDTO = domain.getBizHotelPublishUpdateDTO();
 		ItemPubResult result = itemPublishServiceRef.updatePublishHotel(hotelPublishUpdateDTO);
+		log.info("edit item, commonItemPublishDTO:"+JSON.toJSONString(hotelPublishUpdateDTO));
 		if (!result.isSuccess()){
 			log.error("editHotelMessageVOByData.updatePublishCommonItem 入参: commonItemPublishDTO="+JSON.toJSONString(hotelPublishUpdateDTO));
-			  return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "编辑酒店商品信息错误");
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "编辑酒店商品信息错误");
 		}
 		/***设置商品ID***/
 		webResult.setValue(result.getItemId());
