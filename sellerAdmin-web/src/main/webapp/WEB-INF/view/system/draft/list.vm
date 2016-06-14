@@ -5,6 +5,8 @@
 </head>
 <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/eredar.css">
 <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/sevice.css">
+<script type="text/javascript" src="$rs_js_css_path_admin/js/jquery.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_admin/layer/layer.js"></script>
 	<!-- 面包屑 -->
 			<div class = "eredar-info clearfix">
 				<ul>
@@ -36,7 +38,10 @@
                                 <td class = "name">$!draft.draftName</td>
         						<td class = "style">$!draft.subTypeName</td>
         						<td class = "time">$!{utilDate.date2String($draft.gmtCreated)}</td>
-								<td class = "handle"><a>编辑</a><a class ="del">删除</a></td>
+								<td class = "handle">
+									<a href="$!utilWebconfig.getActionDefaultFontPath()/draft/edit/$!draft.id">编辑</a>
+									<a class ="del" draft-id="$!draft.id">删除</a>
+								</td>
                             </tr>
         			#end
 				</table>
@@ -53,5 +58,25 @@
 				<button class ="cancel">取消</button>
 			</p>
 		</div>
+		
 #parse("layout/layout-js.vm")
-<script>seajs.use("draft");</script><!--应用程序模块入口JS-->
+<script>
+	$(".del").click(function(){
+		var id = $(this).attr("draft-id");
+		operateUrl = "$!{utilWebconfig.getActionDefaultFontPath()}/draft/delete/"+id;
+		layer.confirm('是否确认删除？', {icon: 3, title:'提示'}, function(index){
+    		$.post(operateUrl,function(result) {
+    			if(result.success) {
+    				window.location.reload();
+    			} else {
+    				layer.msg('操作失败', {
+        				icon : 2,
+        				time : 1000
+        			});
+    			}
+    		},"json");
+			layer.close(index);
+        });
+    });
+</script>
+<script>seajs.use("draft");</script>
