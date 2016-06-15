@@ -37,7 +37,7 @@
 					<div class="tit gray6 f16 error_tip">上传资质（所有文件需加盖公章）
 						
 							#if ($!reason && $!reason.size()>0 )
-						<div class="error_box">
+						<div class="error_box error_bigbox">
 							<div>审核不通过原因</div>
 							#foreach( $info in $reason)<span style="color:white;">$!info</span><br/>#end
 						</div>

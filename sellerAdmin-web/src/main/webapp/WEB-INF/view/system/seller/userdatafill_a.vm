@@ -262,7 +262,7 @@
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">开户名称：</label></td>
-								<td class="rigcontent"><input type="text" datatype="*" maxlength="10"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" maxlength="60" class="txt01"  placeholder="请输入开户名称"></td>
+								<td class="rigcontent"><input type="text" datatype="*" maxlength="60"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" maxlength="60" class="txt01"  placeholder="请输入开户名称"></td>
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">结算账号：</label></td>
