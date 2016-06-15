@@ -1,9 +1,13 @@
 package com.yimayhd.sellerAdmin.model.line.base;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.yimayhd.ic.client.model.domain.item.IcDestination;
+import com.yimayhd.ic.client.model.domain.item.IcSubject;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.DestinationNodeVO;
 
 /**
  * 基本信息
@@ -25,8 +29,12 @@ public class BaseInfoVO implements Serializable {
 	private boolean allDeparts;
 	private List<CityVO> departs; // 出发地
 	private List<CityVO> dests; // 目的地
+	private List<DestinationNodeVO> destinations; // 目的地
 	private List<String> picUrls; // App详情轮播图
 	private int itemStatus; // 商品状态
+	private List<IcSubject> themesIcs;//主题标签id，name转化成IcSubject类型
+	private List<IcDestination> departsIcs;//出发地id，name转化成IcSubject类型
+	private List<IcDestination> destsIcs;//主题标签id，name转化成IcSubject类型
 
 	/**
 	 * 包含某个tag
@@ -152,5 +160,38 @@ public class BaseInfoVO implements Serializable {
 	public void setItemStatus(int itemStatus) {
 		this.itemStatus = itemStatus;
 	}
+
+	public List<IcSubject> getThemesIcs() {
+		return themesIcs;
+	}
+
+	public void setThemesIcs(List<IcSubject> themesIcs) {
+		this.themesIcs = themesIcs;
+	}
+
+	public List<IcDestination> getDepartsIcs() {
+		return departsIcs;
+	}
+
+	public void setDepartsIcs(List<IcDestination> departsIcs) {
+		this.departsIcs = departsIcs;
+	}
+
+	public List<IcDestination> getDestsIcs() {
+		return destsIcs;
+	}
+
+	public void setDestsIcs(List<IcDestination> destsIcs) {
+		this.destsIcs = destsIcs;
+	}
+
+	public List<DestinationNodeVO> getDestinations() {
+		return destinations;
+	}
+
+	public void setDestinations(List<DestinationNodeVO> destinations) {
+		this.destinations = destinations;
+	}
+
 
 }

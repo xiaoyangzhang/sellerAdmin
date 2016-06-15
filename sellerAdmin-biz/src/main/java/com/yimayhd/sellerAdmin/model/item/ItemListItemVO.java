@@ -27,6 +27,13 @@ public class ItemListItemVO {
 	private Date publishDate;
 	private List<String> operates;
 
+	private ItemHotelVO itemHotelVO;//酒店vo
+	private ItemScenicVO itemScenicVO;//景区vo
+	private ItemRoomVO itemRoomVO;//酒店房间
+	private ItemTicketVO itemTicketVO;//景区门票
+	private String payMode;//支付方式
+	private long categoryId;
+
 	public long getId() {
 		return id;
 	}
@@ -122,5 +129,60 @@ public class ItemListItemVO {
 			return false;
 		}
 		return getOperates().contains(code.toUpperCase());
+	}
+
+
+	public ItemHotelVO getItemHotelVO() {
+		return itemHotelVO;
+	}
+
+	public ItemListItemVO setItemHotelVO(ItemHotelVO itemHotelVO) {
+		this.itemHotelVO = itemHotelVO;
+		return this;
+	}
+
+	public ItemScenicVO getItemScenicVO() {
+		return itemScenicVO;
+	}
+
+	public ItemListItemVO setItemScenicVO(ItemScenicVO itemScenicVO) {
+		this.itemScenicVO = itemScenicVO;
+		return this;
+	}
+
+	public ItemRoomVO getItemRoomVO() {
+		return itemRoomVO;
+	}
+
+	public ItemListItemVO setItemRoomVO(ItemRoomVO itemRoomVO) {
+		this.itemRoomVO = itemRoomVO;
+		return this;
+	}
+
+	public ItemTicketVO getItemTicketVO() {
+		return itemTicketVO;
+	}
+
+	public ItemListItemVO setItemTicketVO(ItemTicketVO itemTicketVO) {
+		this.itemTicketVO = itemTicketVO;
+		return this;
+	}
+
+	public String getPayMode() {
+		return payMode;
+	}
+
+	public ItemListItemVO setPayMode(String payMode) {
+		this.payMode = payMode;
+		return this;
+	}
+
+	public long getCategoryId() {
+		return categoryId;
+	}
+
+	public ItemListItemVO setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
+		return this;
 	}
 }

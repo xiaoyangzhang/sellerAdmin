@@ -1,8 +1,15 @@
 package com.yimayhd.sellerAdmin.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
+import com.yimayhd.commentcenter.client.dto.RatePageListDTO;
+import com.yimayhd.commentcenter.client.result.ComRateResult;
+import com.yimayhd.commentcenter.client.service.ComRateService;
 import com.yimayhd.sellerAdmin.constant.Constant;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +24,19 @@ import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.constant.ResponseStatus;
+import com.yimayhd.sellerAdmin.model.query.AssessmentListQuery;
 import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
+import com.yimayhd.sellerAdmin.model.trade.JXComRateResult;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
 import com.yimayhd.sellerAdmin.service.OrderService;
+import com.yimayhd.tradecenter.client.model.enums.BizOrderExtFeatureKey;
+import com.yimayhd.tradecenter.client.model.enums.FinishOrderSource;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
+import com.yimayhd.tradecenter.client.model.param.order.UpdateBizOrderExtFeatureDTO;
+import com.yimayhd.tradecenter.client.model.result.ResultSupport;
+import com.yimayhd.tradecenter.client.service.trade.TcTradeService;
+
 
 /**
  * 订单管理
@@ -35,7 +50,6 @@ public class OrderController extends BaseController {
 	private static final Logger LOG = LoggerFactory.getLogger(OrderController.class);
 	@Autowired
 	private OrderService orderService;
-
 
 	/**
 	 * 退款
@@ -95,12 +109,6 @@ public class OrderController extends BaseController {
 		return new ResponseVo(ResponseStatus.ERROR);
 	}
 
-
-
-
-
-
-
 	/**
 	 * 根据ID获取路线订单详情
 	 * @return 路线订单详情
@@ -114,6 +122,7 @@ public class OrderController extends BaseController {
 			long sellerId = orderDetails.getSellerId();
 			if (sellerId>0 && currentUserId == sellerId){
 				model.addAttribute("order", orderDetails);
+				model.addAttribute("finishOrderSource", FinishOrderSource.values());
 				return "/system/order/routeOrderInfo";
 			}else{
 				return "/system/error/lackPermission";
@@ -141,7 +150,69 @@ public class OrderController extends BaseController {
 		}
 		return "/system/order/routeOrderList";
 	}
+	
+	/**
+	 * 确认入住
+	 */
+	@RequestMapping(value = "/confirmCheckIn", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo confirmCheckIn(long orderId, HttpServletRequest request) throws Exception {
+		boolean flag = orderService.confirmCheckIn(orderId,getCurrentUserId());
+		if(flag){
+			return new ResponseVo();
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
+	}
+	
+	/**
+	 * 确认未入住
+	 */
+	@RequestMapping(value = "/confirmCheckNot", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo confirmCheckNot(long orderId, HttpServletRequest request) throws Exception {
+		boolean flag = orderService.confirmCheckNot(orderId,getCurrentUserId());
+		if(flag){
+			return new ResponseVo();
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
+	}
+	
+	/**
+	 * 评价列表
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/assessmentList")
+	public String addessmentList(Model model, AssessmentListQuery assessmentListQuery) throws Exception {
+		long userId = getCurrentUserId();
+		if (userId > 0){
+			assessmentListQuery.setSellerId(userId);
+			assessmentListQuery.setDomain(Constant.DOMAIN_JIUXIU);
+			PageVO<JXComRateResult> pageVo = orderService.getAssessmentList(assessmentListQuery);
+			model.addAttribute("pageVo", pageVo);
+			model.addAttribute("assessmentList", pageVo.getResultList());
+			model.addAttribute("assessmentListQuery", assessmentListQuery);
+		}
+		return "/system/order/assessmentList";
+	}
 
+
+
+	/**
+	 * 更新卖家备注
+	 * @param orderId
+	 * @param sellerRemark
+	 * @return 
+	 */
+	@RequestMapping(value="/updateOrderDetail",method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo updateOrderDetail(long orderId,String sellerRemark) {
+		boolean updateResult = orderService.updateOrderInfo(orderId,sellerRemark);
+		if(updateResult) {
+			return new ResponseVo();
+		}
+		return new ResponseVo(ResponseStatus.ERROR);
+		
+	}
 
 
 

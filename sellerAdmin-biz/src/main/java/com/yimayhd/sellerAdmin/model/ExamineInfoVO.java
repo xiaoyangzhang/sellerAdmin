@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.yimayhd.membercenter.enums.ExamineType;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +16,6 @@ import com.yimayhd.membercenter.client.domain.merchant.MerchantQualificationDO;
 import com.yimayhd.membercenter.client.domain.merchant.QualificationDO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
-import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.constant.Constant;
 
@@ -32,6 +33,7 @@ public class ExamineInfoVO  implements Serializable  {
 	private String city;
 	 //商户名称
     private String sellerName;
+    private long merchantId;//店铺id
     private int domainId;
     // 法人姓名
     private String legralName;
@@ -132,7 +134,8 @@ public class ExamineInfoVO  implements Serializable  {
     private String cardInHand;
     private int type;//达人或者店铺
     
- public int getType() {
+	
+	public int getType() {
 		return type;
 	}
 	public void setType(int type) {
@@ -161,22 +164,22 @@ public class ExamineInfoVO  implements Serializable  {
 	private int isDirectSale;//是否直营
 	private long merchantCategoryId;//商家身份
 	
-	private String interMediaryLicense;//因私出入境中介机构经营许可证正面
-	private String seaTransportationLicense;//水路运输许可证正面
-	private String travelAgencyBranchAgreement;//旅行社分社补充协议
-	private String scenicTicketAuthorization;//景点门票授权书或合作协议
-	private String hotelGoodsAuthorization;//酒店商品授权书
-	private String  specialSaleLicense; //特种经营许可证副本复印件
-	private String specialSaleAuthorization;//旅游局特许经营授权书
-	private String wildlifeSale;//野生动物经营利用许可证
-	private String waterWildlifeSale;//水生野生动物经营利用许可证
-	private String amusementParkReport;//游乐特种设备（备案）登记证明和游乐设备最新的定期检测报告
-	private String scenicPriceRegister;//景区门票价格在物价局的备案登记证明
-	private String scenicTicketUpScanning;//景区门票扫描件正面
-	private String scenicTicketDownScanning;//景区门票扫描件反面
-	private String scenicGoodsAuthorization;//景区商品授权书
-	private String scenicQualityLevel;//景区质量等级证书
-	private String relationBetweenHotelAngGroup;//酒店与集团的所属关系说明
+//	private String interMediaryLicense;//因私出入境中介机构经营许可证正面
+//	private String seaTransportationLicense;//水路运输许可证正面
+//	private String travelAgencyBranchAgreement;//旅行社分社补充协议
+//	private String scenicTicketAuthorization;//景点门票授权书或合作协议
+//	private String hotelGoodsAuthorization;//酒店商品授权书
+//	private String  specialSaleLicense; //特种经营许可证副本复印件
+//	private String specialSaleAuthorization;//旅游局特许经营授权书
+//	private String wildlifeSale;//野生动物经营利用许可证
+//	private String waterWildlifeSale;//水生野生动物经营利用许可证
+//	private String amusementParkReport;//游乐特种设备（备案）登记证明和游乐设备最新的定期检测报告
+//	private String scenicPriceRegister;//景区门票价格在物价局的备案登记证明
+//	private String scenicTicketUpScanning;//景区门票扫描件正面
+//	private String scenicTicketDownScanning;//景区门票扫描件反面
+//	private String scenicGoodsAuthorization;//景区商品授权书
+//	private String scenicQualityLevel;//景区质量等级证书
+//	private String relationBetweenHotelAngGroup;//酒店与集团的所属关系说明
 	private List<MerchantQualificationDO> merchantQualifications;//商家与资质关联对象集合
 	private List<MerchantScopeDO> merchantScopes;//商家与经营范围关联对象集合
 	
@@ -200,108 +203,115 @@ public class ExamineInfoVO  implements Serializable  {
 //			List<MerchantQualificationDO> merchantQualificationList) {
 //		this.merchantQualificationList = merchantQualificationList;
 //	}
+	
 	public String getScopeIds() {
 		return scopeIds;
+	}
+	public long getMerchantId() {
+		return merchantId;
+	}
+	public void setMerchantId(long merchantId) {
+		this.merchantId = merchantId;
 	}
 	public void setScopeIds(String scopeIds) {
 		this.scopeIds = scopeIds;
 	}
-	public String getInterMediaryLicense() {
-		return interMediaryLicense;
-	}
-	public void setInterMediaryLicense(String interMediaryLicense) {
-		this.interMediaryLicense = interMediaryLicense;
-	}
-	public String getSeaTransportationLicense() {
-		return seaTransportationLicense;
-	}
-	public void setSeaTransportationLicense(String seaTransportationLicense) {
-		this.seaTransportationLicense = seaTransportationLicense;
-	}
-	public String getTravelAgencyBranchAgreement() {
-		return travelAgencyBranchAgreement;
-	}
-	public void setTravelAgencyBranchAgreement(String travelAgencyBranchAgreement) {
-		this.travelAgencyBranchAgreement = travelAgencyBranchAgreement;
-	}
-	public String getScenicTicketAuthorization() {
-		return scenicTicketAuthorization;
-	}
-	public void setScenicTicketAuthorization(String scenicTicketAuthorization) {
-		this.scenicTicketAuthorization = scenicTicketAuthorization;
-	}
-	public String getHotelGoodsAuthorization() {
-		return hotelGoodsAuthorization;
-	}
-	public void setHotelGoodsAuthorization(String hotelGoodsAuthorization) {
-		this.hotelGoodsAuthorization = hotelGoodsAuthorization;
-	}
-	public String getSpecialSaleLicense() {
-		return specialSaleLicense;
-	}
-	public void setSpecialSaleLicense(String specialSaleLicense) {
-		this.specialSaleLicense = specialSaleLicense;
-	}
-	public String getSpecialSaleAuthorization() {
-		return specialSaleAuthorization;
-	}
-	public void setSpecialSaleAuthorization(String specialSaleAuthorization) {
-		this.specialSaleAuthorization = specialSaleAuthorization;
-	}
-	public String getWildlifeSale() {
-		return wildlifeSale;
-	}
-	public void setWildlifeSale(String wildlifeSale) {
-		this.wildlifeSale = wildlifeSale;
-	}
-	public String getWaterWildlifeSale() {
-		return waterWildlifeSale;
-	}
-	public void setWaterWildlifeSale(String waterWildlifeSale) {
-		this.waterWildlifeSale = waterWildlifeSale;
-	}
-	public String getAmusementParkReport() {
-		return amusementParkReport;
-	}
-	public void setAmusementParkReport(String amusementParkReport) {
-		this.amusementParkReport = amusementParkReport;
-	}
-	public String getScenicPriceRegister() {
-		return scenicPriceRegister;
-	}
-	public void setScenicPriceRegister(String scenicPriceRegister) {
-		this.scenicPriceRegister = scenicPriceRegister;
-	}
-	public String getScenicTicketUpScanning() {
-		return scenicTicketUpScanning;
-	}
-	public void setScenicTicketUpScanning(String scenicTicketUpScanning) {
-		this.scenicTicketUpScanning = scenicTicketUpScanning;
-	}
-	public String getScenicTicketDownScanning() {
-		return scenicTicketDownScanning;
-	}
-	public void setScenicTicketDownScanning(String scenicTicketDownScanning) {
-		this.scenicTicketDownScanning = scenicTicketDownScanning;
-	}
-	public String getScenicGoodsAuthorization() {
-		return scenicGoodsAuthorization;
-	}
-	public void setScenicGoodsAuthorization(String scenicGoodsAuthorization) {
-		this.scenicGoodsAuthorization = scenicGoodsAuthorization;
-	}
-	public String getScenicQualityLevel() {
-		return scenicQualityLevel;
-	}
-	public void setScenicQualityLevel(String scenicQualityLevel) {
-		this.scenicQualityLevel = scenicQualityLevel;
-	}
-	public String getRelationBetweenHotelAngGroup() {
-		return relationBetweenHotelAngGroup;
-	}
-	public void setRelationBetweenHotelAngGroup(String relationBetweenHotelAngGroup) {
-		this.relationBetweenHotelAngGroup = relationBetweenHotelAngGroup;
-	}
+//	public String getInterMediaryLicense() {
+//		return interMediaryLicense;
+//	}
+//	public void setInterMediaryLicense(String interMediaryLicense) {
+//		this.interMediaryLicense = interMediaryLicense;
+//	}
+//	public String getSeaTransportationLicense() {
+//		return seaTransportationLicense;
+//	}
+//	public void setSeaTransportationLicense(String seaTransportationLicense) {
+//		this.seaTransportationLicense = seaTransportationLicense;
+//	}
+//	public String getTravelAgencyBranchAgreement() {
+//		return travelAgencyBranchAgreement;
+//	}
+//	public void setTravelAgencyBranchAgreement(String travelAgencyBranchAgreement) {
+//		this.travelAgencyBranchAgreement = travelAgencyBranchAgreement;
+//	}
+//	public String getScenicTicketAuthorization() {
+//		return scenicTicketAuthorization;
+//	}
+//	public void setScenicTicketAuthorization(String scenicTicketAuthorization) {
+//		this.scenicTicketAuthorization = scenicTicketAuthorization;
+//	}
+//	public String getHotelGoodsAuthorization() {
+//		return hotelGoodsAuthorization;
+//	}
+//	public void setHotelGoodsAuthorization(String hotelGoodsAuthorization) {
+//		this.hotelGoodsAuthorization = hotelGoodsAuthorization;
+//	}
+//	public String getSpecialSaleLicense() {
+//		return specialSaleLicense;
+//	}
+//	public void setSpecialSaleLicense(String specialSaleLicense) {
+//		this.specialSaleLicense = specialSaleLicense;
+//	}
+//	public String getSpecialSaleAuthorization() {
+//		return specialSaleAuthorization;
+//	}
+//	public void setSpecialSaleAuthorization(String specialSaleAuthorization) {
+//		this.specialSaleAuthorization = specialSaleAuthorization;
+//	}
+//	public String getWildlifeSale() {
+//		return wildlifeSale;
+//	}
+//	public void setWildlifeSale(String wildlifeSale) {
+//		this.wildlifeSale = wildlifeSale;
+//	}
+//	public String getWaterWildlifeSale() {
+//		return waterWildlifeSale;
+//	}
+//	public void setWaterWildlifeSale(String waterWildlifeSale) {
+//		this.waterWildlifeSale = waterWildlifeSale;
+//	}
+//	public String getAmusementParkReport() {
+//		return amusementParkReport;
+//	}
+//	public void setAmusementParkReport(String amusementParkReport) {
+//		this.amusementParkReport = amusementParkReport;
+//	}
+//	public String getScenicPriceRegister() {
+//		return scenicPriceRegister;
+//	}
+//	public void setScenicPriceRegister(String scenicPriceRegister) {
+//		this.scenicPriceRegister = scenicPriceRegister;
+//	}
+//	public String getScenicTicketUpScanning() {
+//		return scenicTicketUpScanning;
+//	}
+//	public void setScenicTicketUpScanning(String scenicTicketUpScanning) {
+//		this.scenicTicketUpScanning = scenicTicketUpScanning;
+//	}
+//	public String getScenicTicketDownScanning() {
+//		return scenicTicketDownScanning;
+//	}
+//	public void setScenicTicketDownScanning(String scenicTicketDownScanning) {
+//		this.scenicTicketDownScanning = scenicTicketDownScanning;
+//	}
+//	public String getScenicGoodsAuthorization() {
+//		return scenicGoodsAuthorization;
+//	}
+//	public void setScenicGoodsAuthorization(String scenicGoodsAuthorization) {
+//		this.scenicGoodsAuthorization = scenicGoodsAuthorization;
+//	}
+//	public String getScenicQualityLevel() {
+//		return scenicQualityLevel;
+//	}
+//	public void setScenicQualityLevel(String scenicQualityLevel) {
+//		this.scenicQualityLevel = scenicQualityLevel;
+//	}
+//	public String getRelationBetweenHotelAngGroup() {
+//		return relationBetweenHotelAngGroup;
+//	}
+//	public void setRelationBetweenHotelAngGroup(String relationBetweenHotelAngGroup) {
+//		this.relationBetweenHotelAngGroup = relationBetweenHotelAngGroup;
+//	}
 
 	
 	
@@ -367,6 +377,7 @@ public class ExamineInfoVO  implements Serializable  {
 	public void setMerchantCategoryId(long merchantCategoryId) {
 		this.merchantCategoryId = merchantCategoryId;
 	}
+	
 	public int getIsDirectSale() {
 		return isDirectSale;
 	}
@@ -660,6 +671,65 @@ public class ExamineInfoVO  implements Serializable  {
 	}
 	public void setCity(String city) {
 		this.city = city;
+	}
+
+	public  ExamineInfoDTO getExamineInfoDTO(ExamineInfoVO vo,long userId) throws Exception {
+		if (vo == null || userId <= 0 ) {
+			log.error("get examineSubmitDTO params error :vo="+vo+"userId="+userId);
+			throw new BaseException("参数错误");
+		}
+//		if (!vo.getPrincipleName().equals(vo.getFinanceOpenName())) {
+//			log.error("达人姓名与开户名称不相同");
+//			throw new BaseException("商户姓名与开户名称需相同");
+//		}
+		ExamineInfoDTO dto=new ExamineInfoDTO();
+		//BeanUtils.copyProperties(dto, vo);
+		dto.setAccountBankName(vo.getAccountBankName());
+		dto.setAccountNum(vo.getAccountNum());
+		dto.setAddress(vo.getAddress());
+		dto.setAffairsCard(vo.getAffairsCard());
+		dto.setArtCertificate(vo.getArtCertificate());
+		dto.setBusinessLicense(vo.getBusinessLicense());
+		dto.setCardInHand(vo.getCardInHand());
+		dto.setClimbingCertificate(vo.getClimbingCertificate());
+		dto.setCooperation1(vo.getCooperation1());
+		dto.setCooperation2(vo.getCooperation2());
+		dto.setCooperation3(vo.getCooperation3());
+		dto.setCooperation4(vo.getCooperation4());
+		dto.setCooperation5(vo.getCooperation5());
+		dto.setDivingLinence(vo.getDivingLinence());
+		dto.setDrivingLinence(vo.getDrivingLinence());
+		dto.setFinanceOpenBankId(vo.getFinanceOpenBankId());
+		dto.setFinanceOpenName(vo.getFinanceOpenName());
+		dto.setLegralCardDown(vo.getLegralCardDown());
+		dto.setLegralCardUp(vo.getLegralCardUp());
+		dto.setLegralName(vo.getLegralName());
+		dto.setOpenCard(vo.getOpenCard());
+		dto.setPhotographyCertificate(vo.getPhotographyCertificate());
+		dto.setOrgCard(vo.getOrgCard());
+		dto.setPrincipleCard(vo.getPrincipleCard());
+		dto.setSaleScope(vo.getSaleScope());
+		dto.setSellerName(vo.getSellerName());
+		dto.setTravingCard(vo.getTravingCard());
+		dto.setPrincipleCardId(vo.getPrincipleCardId());
+		dto.setPrincipleMail(vo.getPrincipleMail());
+		dto.setPrincipleTel(vo.getPrincipleTel());
+		dto.setTeacherCertificate(vo.getTeacherCertificate());
+		dto.setTouchProve(vo.getTouchProve());
+		dto.setTouristCard(vo.getTouristCard());
+		dto.setTrainingCertificate(vo.getTrainingCertificate());
+		dto.setPrincipleName(vo.getPrincipleName());
+		dto.setPrincipleCardUp(vo.getPrincipleCardUp());
+		dto.setPrincipleCardDown(vo.getPrincipleCardDown());
+		dto.setDomainId(Constant.DOMAIN_JIUXIU);
+		dto.setSellerId(userId);
+		dto.setType(ExamineType.TALENT.getType());
+		dto.setAccountBankProvinceCode(vo.getProvince());
+		dto.setAccountBankCityCode(vo.getCity());
+		//dto.setMerchantCategoryId(vo.getMerchantCategoryId());
+		//dto.setIsDirectSale(vo.getIsDirectSale());
+		return dto;
+		
 	}
 	
 

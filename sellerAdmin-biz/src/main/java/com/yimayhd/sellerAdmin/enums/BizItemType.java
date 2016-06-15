@@ -9,10 +9,14 @@ import com.yimayhd.ic.client.model.enums.ItemType;
  *
  */
 public enum BizItemType {
-	MUST_BUY(ItemType.NORMAL, "必买商品"),
-	TOUR_LINE(ItemType.TOUR_LINE),
-	FREE_LINE(ItemType.FREE_LINE),
-	CITY_ACTIVITY(ItemType.CITY_ACTIVITY);
+	TOUR_LINE(ItemType.TOUR_LINE,"国内跟团游"),
+	FREE_LINE(ItemType.FREE_LINE,"国内自由行"),
+	TOUR_LINE_ABOARD(ItemType.TOUR_LINE_ABOARD),
+	FREE_LINE_ABOARD(ItemType.FREE_LINE_ABOARD,"境外自由行"),
+	CITY_ACTIVITY(ItemType.CITY_ACTIVITY,"国内当地玩乐"),
+	SPOTS(ItemType.SPOTS,"国内景点门票"),
+	HOTEL(ItemType.HOTEL,"酒店客栈"),
+	MUST_BUY(ItemType.NORMAL, "特产商品");
 	private String		text;
 	private ItemType	itemType;
 

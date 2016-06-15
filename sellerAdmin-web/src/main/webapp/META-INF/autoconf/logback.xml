@@ -57,7 +57,68 @@
             <pattern><![CDATA[%date %level [%thread] %logger{10} [%file:%line] %msg%n]]></pattern>
         </layout>
     </appender>
+    <appender name="SERVICE-LOGGER-APPEN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${sellerAdmin.logger.dir}/business-seller/service-business-success-%d{yyyy-MM-dd}.log</FileNamePattern>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]: %level %class %L %M - %X %msg%xEx%n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="SERVICE-ERROR-LOGGER-APPEN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${sellerAdmin.logger.dir}/business-seller/service-business-error-%d{yyyy-MM-dd}.log</FileNamePattern>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]: %level %class %L %M - %X %msg%xEx%n
+            </pattern>
+        </encoder>
+    </appender>
 
+    <appender name="HOTEL-MANAGE-APPEN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${sellerAdmin.logger.dir}/hotelManage/hotelManage-%d{yyyy-MM-dd}.log</FileNamePattern>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]: %level %class %L %M - %X %msg%xEx%n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="SCENIC-MANAGE-APPEN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${sellerAdmin.logger.dir}/hotelManage/scenicManage-%d{yyyy-MM-dd}.log</FileNamePattern>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]: %level %class %L %M - %X %msg%xEx%n
+            </pattern>
+        </encoder>
+    </appender>
+    <logger name="serviceLogger" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="SERVICE-LOGGER-APPEN"/>
+    </logger>
+
+    <logger name="serviceErrorLogger" additivity="false">
+        <level value="ERROR"/>
+        <appender-ref ref="SERVICE-ERROR-LOGGER-APPEN"/>
+    </logger>
+
+    <logger name="hotelManage-business.log" additivity="false">
+        <level value="INFO"/>
+        <level>ERROR</level>
+        <appender-ref ref="HOTEL-MANAGE-APPEN"/>
+    </logger>
+
+    <logger name="scenicManage-business.log" additivity="false">
+        <level value="INFO"/>
+        <level>ERROR</level>
+        <appender-ref ref="SCENIC-MANAGE-APPEN"/>
+    </logger>
     <!--myibatis log configure -->
     <logger name="org.mybatis" level="TRACE"/>
     <logger name="java.sql.Connection" level="DEBUG"/>
@@ -67,8 +128,8 @@
 
     <!--<logger name="com.pajk.sims"/>-->
     <root level="TRACE">
-        <!--<appender-ref ref="STDOUT"/>
-        <appender-ref ref="DEBUG"/>-->
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEBUG"/>
         <appender-ref ref="INFO"/>
         <appender-ref ref="ERROR"/>
     </root>

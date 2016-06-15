@@ -42,11 +42,14 @@ public class LineChecker {
 	static {
 		supportItemTypes.add(ItemType.FREE_LINE.getValue());
 		supportItemTypes.add(ItemType.TOUR_LINE.getValue());
+		supportItemTypes.add(ItemType.TOUR_LINE_ABOARD.getValue());
+		supportItemTypes.add(ItemType.FREE_LINE_ABOARD.getValue());
 
 		supportTrafficTypes.add(RouteItemType.PLANE.name());
 		supportTrafficTypes.add(RouteItemType.TRAIN.name());
 		supportTrafficTypes.add(RouteItemType.BUS.name());
 		supportTrafficTypes.add(RouteItemType.BOAT.name());
+		supportTrafficTypes.add(RouteItemType.OTHERS.name());
 	}
 
 	public static WebCheckResult checkLine(LineVO line) {
@@ -59,7 +62,7 @@ public class LineChecker {
 			return checkPictureText;
 		}
 		int itemType = line.getBaseInfo().getType();
-		if (itemType == ItemType.FREE_LINE.getValue()) {
+		if (itemType == ItemType.FREE_LINE.getValue()||itemType == ItemType.FREE_LINE_ABOARD.getValue()) {
 			WebCheckResult checkRoutePlan = checkRoutePlan(itemType, line.getRoutePlan());
 			if (!checkRoutePlan.isSuccess()) {
 				return checkRoutePlan;
@@ -104,6 +107,10 @@ public class LineChecker {
 							if (content.length() > 2000) {
 								return WebCheckResult.error(title + "内容不能超过2000个字符");
 							}
+						} else if ("护照签证须知".endsWith(title)) {
+							if (content.length() > 2000) {
+								return WebCheckResult.error(title + "内容不能超过2000个字符");
+							}
 						} else if ("退改规定".endsWith(title)) {
 							if (content.length() > 500) {
 								return WebCheckResult.error(title + "内容不能超过500个字符");
@@ -130,27 +137,25 @@ public class LineChecker {
 		if (!(go == null && back == null && StringUtils.isBlank(routePlan.getScenicInfo())
 				&& StringUtils.isBlank(routePlan.getHotelInfo()))) {
 			if (go != null) {
-				if (StringUtils.isBlank(go.getType())) {
-					return WebCheckResult.error("去程交通方式不能为空");
-				} else if (!supportTrafficTypes.contains(go.getType().toUpperCase())) {
+				if (StringUtils.isNotBlank(go.getType())) {
+					if (StringUtils.isBlank(go.getDescription())) {
+						return WebCheckResult.error("去程详细描述不能为空");
+					} else if (go.getDescription().length() > 200) {
+						return WebCheckResult.error("去程详细描述不超过200字");
+					}
+				} else if (StringUtils.isNotBlank(go.getType())&&!supportTrafficTypes.contains(go.getType().toUpperCase())) {
 					return WebCheckResult.error("未知去程交通方式");
-				}
-				if (StringUtils.isBlank(go.getDescription())) {
-					return WebCheckResult.error("去程详细描述不能为空");
-				} else if (go.getDescription().length() > 200) {
-					return WebCheckResult.error("去程详细描述不超过200字");
 				}
 			}
 			if (back != null) {
-				if (StringUtils.isBlank(back.getType())) {
-					return WebCheckResult.error("回程交通方式不能为空");
-				} else if (!supportTrafficTypes.contains(back.getType().toUpperCase())) {
+				if (StringUtils.isNotBlank(back.getType())) {
+					if (StringUtils.isBlank(back.getDescription())) {
+						return WebCheckResult.error("回程详细描述不能为空");
+					} else if (back.getDescription().length() > 200) {
+						return WebCheckResult.error("回程详细描述不超过200字");
+					}
+				} else if (StringUtils.isNotBlank(back.getType())&&!supportTrafficTypes.contains(back.getType().toUpperCase())) {
 					return WebCheckResult.error("未知回程交通方式");
-				}
-				if (StringUtils.isBlank(back.getDescription())) {
-					return WebCheckResult.error("回程详细描述不能为空");
-				} else if (back.getDescription().length() > 500) {
-					return WebCheckResult.error("回程详细描述不超过500字");
 				}
 			}
 			if (StringUtils.isNotBlank(routePlan.getHotelInfo()) && routePlan.getHotelInfo().length() > 1000) {
@@ -192,9 +197,9 @@ public class LineChecker {
 			return WebCheckResult.error("出发地不能超过15个");
 		}
 		if (baseInfo.getDays() <= 0) {
-			return WebCheckResult.error("行程天数不能小于0");
+			return WebCheckResult.error("请输入正确的行程天数[1-100]");
 		} else if (baseInfo.getDays() > 100) {
-			return WebCheckResult.error("行程天数不能大于100");
+			return WebCheckResult.error("请输入正确的行程天数[1-100]");
 		}
 		if (StringUtils.isBlank(baseInfo.getDescription())) {
 			return WebCheckResult.error("线路亮点不能为空");
@@ -221,8 +226,8 @@ public class LineChecker {
 		List<PackageInfo> tcs = priceInfo.getTcs();
 		if (CollectionUtils.isEmpty(tcs)) {
 			return WebCheckResult.error("线路套餐不能为空");
-		} else if (tcs.size() > 10) {
-			return WebCheckResult.error("线路套餐不能超过10个");
+		} else if (tcs.size() > 20) {
+			return WebCheckResult.error("线路套餐不能超过20个");
 		} else {
 			Set<String> tcSet = new HashSet<String>();
 			for (PackageInfo tc : tcs) {
@@ -255,8 +260,8 @@ public class LineChecker {
 		List<PackageMonth> months = tc.getMonths();
 		if (StringUtils.isBlank(tc.getName())) {
 			return WebCheckResult.error("线路套餐名称不能为空");
-		} else if (tc.getName().length() > 15) {
-			return WebCheckResult.error("线路套餐名称不能超过15个字");
+		} else if (tc.getName().length() > 20) {
+			return WebCheckResult.error("线路套餐名称不能超过20个字");
 		}
 		if (CollectionUtils.isEmpty(months)) {
 			return WebCheckResult.error("套餐月份不能为空");
@@ -338,7 +343,7 @@ public class LineChecker {
 				}
 			}
 		} else {
-			if (itemType == ItemType.TOUR_LINE.getValue()) {
+			if (itemType == ItemType.TOUR_LINE.getValue()||itemType == ItemType.TOUR_LINE_ABOARD.getValue()) {
 				return WebCheckResult.error("行程信息不能为空");
 			}
 		}
@@ -356,8 +361,8 @@ public class LineChecker {
 		}
 		if (StringUtils.isBlank(tripDay.getDescription())) {
 			return WebCheckResult.error("行程描述不能为空");
-		} else if (tripDay.getDescription().length() > 500) {
-			return WebCheckResult.error("行程描述不能超过500个字");
+		} else if (tripDay.getDescription().length() > 1000) {
+			return WebCheckResult.error("行程描述不能超过1000个字");
 		}
 		if (CollectionUtils.isNotEmpty(tripDay.getPicUrls()) && tripDay.getPicUrls().size() > 5) {
 			return WebCheckResult.error("行程图片不能超过5张");

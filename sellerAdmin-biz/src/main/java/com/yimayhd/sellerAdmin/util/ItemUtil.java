@@ -58,6 +58,9 @@ public class ItemUtil {
 	}
 
 	public static boolean isFreeLine(ItemType itemType) {
-		return ItemType.FREE_LINE.equals(itemType);
+		return ItemType.FREE_LINE.equals(itemType)||ItemType.FREE_LINE_ABOARD.equals(itemType);
+	}
+	public static boolean isAboardLine(ItemType itemType) {
+		return ItemType.FREE_LINE_ABOARD.equals(itemType)||ItemType.TOUR_LINE_ABOARD.equals(itemType);
 	}
 }

@@ -1,12 +1,17 @@
+
 #set($layout = "/layout/layout-apply.vm")
+
 <head>
 	#parse("layout/layout-meta.vm")
-	<title>申请入驻-审核不通过</title>
+	<title>入驻申请结果-审核不通过</title>
 	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/filldata.css">
 </head>
 
+
+
+
 	<div class="comwidth agreement-box mt30">
-		<div class="tit gray6 f16">达人开通申请</div>
+		<div class="tit gray6 f16">$!type开通申请</div>
 		<div class="titbox">
 			<div class="progress clearfix">
 				<div class="step start step-on step-fl">
@@ -24,16 +29,14 @@
 			</div>
 		</div>
 		<div class="waiting nothrough tc m60">
-			<i class="mb5"></i><br><label class="f16 gray6">很遗憾，您的申请审核不通过，请填充后再次提交！</label>
-			<div class="message">
-				<span class="f14 gray6">如果有任何疑问，请联系我们：4000-696-888</span><br>
-				<span class="f14 gray6">失败原因：</span>
-				#foreach( $info in $checkResultInfo)  
+			<i></i><label class="f18 ml5 gray6">很遗憾，您的申请审核不通过，请修改后再次提交！如果有任何疑问，请联系我们：4000-696-888</label><br>
+			<span class="f16 gray6">失败原因：</span>
+			#foreach( $info in $reason)  
 				<span class="bcs">$!info</span>
-		　　　	 #end
-			</div>
+		　　　 #end
 		</div>
+		<div><a class="agreebtn" href="$!root_path/$!url">重新申请</a></div>
 	</div>
 	#parse("layout/layout-js.vm")
-	<script>seajs.use("test");</script>	
+	<script>seajs.use("merchant");</script>	
 

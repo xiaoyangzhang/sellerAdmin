@@ -6,6 +6,7 @@
 	<bean id="gFTagRepo" class="com.yimayhd.gf.repo.GFTagRepo" />
 	<bean id="hotelRepo" class="com.yimayhd.sellerAdmin.repo.HotelRepo"></bean>
 	<bean class="com.yimayhd.sellerAdmin.repo.CommentRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.DestinationRepo"></bean>
 	<bean class="com.yimayhd.sellerAdmin.repo.CategoryRepo"></bean>
 	<bean class="com.yimayhd.sellerAdmin.repo.LineRepo"></bean>
 	<bean class="com.yimayhd.sellerAdmin.repo.RestaurantRepo"></bean>
@@ -21,14 +22,16 @@
 
 
 	<bean id="userRepo" class="com.yimayhd.sellerAdmin.repo.UserRepo" />
+	<bean id="hotelManageRepo" class="com.yimayhd.sellerAdmin.repo.HotelManageRepo" />
+	<bean id="scenicManageRepo" class="com.yimayhd.sellerAdmin.repo.ScenicManageRepo" />
 
 	<bean id="merchantRepo" class="com.yimayhd.sellerAdmin.repo.MerchantRepo" />
-	<bean id="merchantApplyRepo" class="com.yimayhd.sellerAdmin.repo.MerchantApplyRepo" />
 
 	<bean id="menuRepo" class="com.yimayhd.sellerAdmin.repo.MenuRepo" />
 	<bean id="itemRepo" class="com.yimayhd.sellerAdmin.repo.ItemRepo" />
 	<bean id="talentRepo" class="com.yimayhd.sellerAdmin.repo.TalentRepo" />
 	<bean id="pictureTextRepo" class="com.yimayhd.sellerAdmin.repo.PictureTextRepo" />
-	<bean id="draftRepo" class="com.yimayhd.sellerAdmin.repo.DraftRepo" />
+	<bean id="merchantApplyRepo" class="com.yimayhd.sellerAdmin.repo.MerchantApplyRepo" />
+
 
 </beans>

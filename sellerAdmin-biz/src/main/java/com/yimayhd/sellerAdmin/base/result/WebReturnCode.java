@@ -65,14 +65,15 @@ public class WebReturnCode implements Serializable {
 	public final static WebReturnCode QUERY_MERCHANT_SCOPE_FAILED = new WebReturnCode(24003005, "获取商家经营范围失败");
 	public final static WebReturnCode QUERY_MERCHANT_CATEGORY_SCOPE_FAILED = new WebReturnCode(24003006, "获取商家身份对应经营范围失败");
 	public final static WebReturnCode QUERY_MERCHANT_CATEGORY_QUALIFICATION_FAILED = new WebReturnCode(24003007, "获取商家身份对应的资质失败");
+	public final static WebReturnCode UPLOAD_QUALIFICATION_FAILED = new WebReturnCode(24003008, "请上传必填的资质");
 	/***************************************** 达人相关 ********************************************************/
 	public static final WebReturnCode TALENT_BASIC_SAVE_FAILURE = new WebReturnCode(24002004, "达人基本信息保存失败");
 	public static final WebReturnCode TALENT_BASIC_EDIT_FAILURE = new WebReturnCode(24002005, "达人基本信息修改失败");
 	public static final WebReturnCode TALENT_INFO_SAVE_FAILURE = new WebReturnCode(24002006, "达人入驻填写信息保存失败");
 	public static final WebReturnCode TALENT_INFO_EDIT_FAILURE = new WebReturnCode(24002007, "达人入驻填写信息修改失败");
 	//FIXME 张晓阳
-	public static final WebReturnCode TALENT_CHECKRESULT_FAILURE = new WebReturnCode(24002007, "达人入驻审核结果获取失败");
-	public static final WebReturnCode UPDATE_CHECKRESULT_FAILURE = new WebReturnCode(24002007, "更新审核状态失败");
+	public static final WebReturnCode TALENT_CHECKRESULT_FAILURE = new WebReturnCode(24002011, "达人入驻审核结果获取失败");
+	public static final WebReturnCode UPDATE_CHECKRESULT_FAILURE = new WebReturnCode(24002012, "更新审核状态失败");
 	public static final WebReturnCode MERCHANT_NAME_EXIST = new WebReturnCode(24002008, "店铺名称已存在");
 	public static final WebReturnCode APPROVE_PASSED_DISABLE_MODIFY = new WebReturnCode(24002009, "已经修改通过，禁止修改");
 	public static final WebReturnCode TALENT_MERCHANT_NAME_EXIST = new WebReturnCode(240020010, "商户名称已存在");
@@ -84,4 +85,5 @@ public class WebReturnCode implements Serializable {
 	public final static WebReturnCode DRAFTNAME_REPEAT_ERROR = new WebReturnCode(24003003, "草稿名称重复");
 	/***************************************** 美食相关 ********************************************************/
 	public final static WebReturnCode ADD_FAILURE = new WebReturnCode(24003002, "新增失败");
+	public final static WebReturnCode QUERY_FAILURE = new WebReturnCode(24003003, "查询失败");
 }

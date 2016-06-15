@@ -22,12 +22,8 @@
 		<tr>
 			<td>详细描述：</td>
 			<td>
-				<textarea class="form-control textarea-number go-description" rows="3" placeholder="" maxlength="200">$!{routePlan.go.description}</textarea>
-				#if($routePlan.go.description)
-				<span class="word-num">$!{routePlan.go.description.length()}/200字</span>
-				#else
-				<span class="word-num">0/200字</span>	
-				#end
+				<textarea class="form-control textarea-count go-description" rows="3" placeholder="">$!{routePlan.go.description}</textarea>
+				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">200字</span></div>
 			</td>
 		</tr>
 		<tr>
@@ -48,12 +44,8 @@
 		<tr>
 			<td>详细描述：</td>
 			<td>
-				<textarea class="form-control textarea-number back-description" rows="3" placeholder="" maxlength="200">$!{routePlan.back.description}</textarea>										
-				#if($routePlan.back.description)
-				<span class="word-num">$!{routePlan.back.description.length()}/200字</span>
-				#else
-				<span class="word-num">0/200字</span>	
-				#end
+				<textarea class="form-control textarea-count back-description" rows="3" placeholder="">$!{routePlan.back.description}</textarea>										
+				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">200字</span></div>
 			</td>
 		</tr>
 	</table>
@@ -66,12 +58,8 @@
 		<tr>
 			<td>酒店信息：</td>
 			<td>
-				<textarea class="form-control textarea-number hotelInfo" rows="3" placeholder="" maxlength="1000">$!{routePlan.hotelInfo}</textarea>
-				#if($routePlan.hotelInfo)
-				<span class="word-num">$!{routePlan.hotelInfo.length()}/1000字</span>
-				#else
-				<span class="word-num">0/1000字</span>
-				#end
+				<textarea class="form-control textarea-count hotelInfo" rows="3" placeholder="">$!{routePlan.hotelInfo}</textarea>
+				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">1000字</span></div>
 			</td>
 		</tr>
 	</table>
@@ -84,12 +72,8 @@
 		<tr>
 			<td>景点信息：</td>
 			<td>
-				<textarea class="form-control textarea-number scenicInfo" rows="3" placeholder="" maxlength="1000">$!{routePlan.scenicInfo}</textarea>
-				#if($routePlan.scenicInfo)
-				<span class="word-num">$!{routePlan.scenicInfo.length()}/1000字</span>
-				#else
-				<span class="word-num">0/1000字</span>
-				#end
+				<textarea class="form-control textarea-count scenicInfo" rows="3" placeholder="">$!{routePlan.scenicInfo}</textarea>
+				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">1000字</span></div>
 			</td>
 		</tr>
 	</table>
@@ -104,12 +88,10 @@
     			description: $(".go-description").val()
     		};
 		}
-		if($(".back-type").val()) {
     		result["back"] = {
     			type: $(".back-type").val(),
     			description: $(".back-description").val()
     		};
-		}
 		result["hotelInfo"] = $(".hotelInfo").val();
 		result["scenicInfo"] = $(".scenicInfo").val();
         return result;

@@ -43,11 +43,3 @@ $(document).delegate(".int-only","onafterpaste",function(){
 	}
 });
 // 只能输入整数 END
-
-
-
-$(".tab-inputgroup td textarea").keyup(function () {
-	var num=$.trim($(this).val()).length;
-	var count=$(this).attr("maxlength");
-	$(this).siblings(".word-num").text(num+"/"+count+"字");
-})

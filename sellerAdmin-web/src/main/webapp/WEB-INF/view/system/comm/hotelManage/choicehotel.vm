@@ -1,0 +1,243 @@
+#set($layout = "/layout/layout-apply.vm")
+<head>
+	#parse("layout/layout-meta.vm")
+    <title>选择酒店</title>
+    <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/addhotelproduct.css">
+</head>
+
+<!-- div start-->
+<div class = "comwidth crumbs f12">您所在的位置：添加酒店商品><a class = "f12 gray6">选择酒店</a></div>
+<div class = "comwidth clearfix" id = "eredar">
+<div class = "eredar-left">
+    <dl class = "first">
+        <dd>商品管理</dd>
+        <dt class = "one">添加商品</dt>
+        <dt>商品列表</dt>
+    </dl>
+    <dl>
+        <dd>添加酒店商品</dd>
+        <dt class = "on">选择酒店</dt>
+        <dt>基本信息</dt>
+        <dt>价格日历</dt>
+    </dl>
+    <dl>
+        <dd>添加景区门票</dd>
+        <dt>基本信息</dt>
+        <dt>价格日历</dt>
+    </dl>
+    <dl>
+        <dd>订单管理</dd>
+        <dt class = "one">订单列表</dt>
+    </dl>
+    <dl>
+        <dd>店铺管理</dd>
+        <dt class = "one">基本信息</dt>
+        <dt>账户信息</dt>
+    </dl>
+    <dl>
+        <dd>对账管理</dd>
+        <dt class = "one">月结账单</dt>
+    </dl>
+</div>
+<div class = "eredar-right">
+    <div class = "eredar-info clearfix">
+        <ul>
+            <li class = " first on">选择酒店</li>
+            <!-- <li>账户信息</li> -->
+        </ul>
+    </div>
+    <div class="hotelinfo">
+        <p>
+            <span class="nm"><span class="bred">*</span><label>酒店信息：</label></span>
+					<span class="info-bar">
+						<label class="htn">如家酒店望京店</label>
+						<label class="smtt">地址：</label><label class="address">北京市海淀区中关村东路1号院</label>
+						|<label class="smtt">电话：</label><label class="tel">010-83122549</label>
+					</span>
+            <button>查询酒店</button>
+        </p>
+        <div>
+            <span class="nm"><span class="bred">*</span><label>酒店信息：</label></span>
+					<span class="info-box clearfix">
+						<ul class="clearfix">
+                            <li>
+                                <div class="radio-bar clearfix">
+                                    <label class="fl"><input type="radio" name="gp"> 房型1</label>
+                                    <img class="fr" src="http://s0.test.jiuxiulvxing.com/PC_JX/img/droptip_up.jpg">
+                                </div>
+                                <div class="bar-box">
+                                    <ul class="clearfix">
+                                        <li>
+                                            <label>房型：</label>
+                                            <label>房型说明</label>
+                                        </li>
+                                        <li>
+                                            <label>面积：</label>
+                                            <label>120平方米</label>
+                                        </li>
+                                        <li>
+                                            <label>床型：</label>
+                                            <label>大床1.8m</label>
+                                        </li>
+                                        <li>
+                                            <label>可住：</label>
+                                            <label>2人</label>
+                                        </li>
+                                        <li>
+                                            <label>网络：</label>
+                                            <label>有wifi</label>
+                                        </li>
+                                        <li>
+                                            <label>窗户：</label>
+                                            <label>有窗</label>
+                                        </li>
+                                    </ul>
+                                    <div class="img-group">
+                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
+                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
+                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="radio-bar clearfix">
+                                    <label class="fl"><input type="radio" name="gp"> 房型2</label>
+                                    <img class="fr" src="http://s0.test.jiuxiulvxing.com/PC_JX/img/droptip_up.jpg">
+                                </div>
+                                <div class="bar-box">
+                                    <ul class="clearfix">
+                                        <li>
+                                            <label>房型：</label>
+                                            <label>房型说明</label>
+                                        </li>
+                                        <li>
+                                            <label>面积：</label>
+                                            <label>120平方米</label>
+                                        </li>
+                                        <li>
+                                            <label>床型：</label>
+                                            <label>大床1.8m</label>
+                                        </li>
+                                        <li>
+                                            <label>可住：</label>
+                                            <label>2人</label>
+                                        </li>
+                                        <li>
+                                            <label>网络：</label>
+                                            <label>有wifi</label>
+                                        </li>
+                                        <li>
+                                            <label>窗户：</label>
+                                            <label>有窗</label>
+                                        </li>
+                                    </ul>
+                                    <div class="img-group">
+                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
+                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
+                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="radio-bar clearfix">
+                                    <label class="fl"><input type="radio" name="gp"> 房型3</label>
+                                    <img class="fr" src="http://s0.test.jiuxiulvxing.com/PC_JX/img/droptip_up.jpg">
+                                </div>
+                                <div class="bar-box">
+                                    <ul class="clearfix">
+                                        <li>
+                                            <label>房型：</label>
+                                            <label>房型说明</label>
+                                        </li>
+                                        <li>
+                                            <label>面积：</label>
+                                            <label>120平方米</label>
+                                        </li>
+                                        <li>
+                                            <label>床型：</label>
+                                            <label>大床1.8m</label>
+                                        </li>
+                                        <li>
+                                            <label>可住：</label>
+                                            <label>2人</label>
+                                        </li>
+                                        <li>
+                                            <label>网络：</label>
+                                            <label>有wifi</label>
+                                        </li>
+                                        <li>
+                                            <label>窗户：</label>
+                                            <label>有窗</label>
+                                        </li>
+                                    </ul>
+                                    <div class="img-group">
+                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
+                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
+                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="radio-bar clearfix">
+                                    <label class="fl"><input type="radio" name="gp"> 房型4</label>
+                                    <img class="fr" src="http://s0.test.jiuxiulvxing.com/PC_JX/img/droptip_up.jpg">
+                                </div>
+                                <div class="bar-box">
+                                    <ul class="clearfix">
+                                        <li>
+                                            <label>房型：</label>
+                                            <label>房型说明</label>
+                                        </li>
+                                        <li>
+                                            <label>面积：</label>
+                                            <label>120平方米</label>
+                                        </li>
+                                        <li>
+                                            <label>床型：</label>
+                                            <label>大床1.8m</label>
+                                        </li>
+                                        <li>
+                                            <label>可住：</label>
+                                            <label>2人</label>
+                                        </li>
+                                        <li>
+                                            <label>网络：</label>
+                                            <label>有wifi</label>
+                                        </li>
+                                        <li>
+                                            <label>窗户：</label>
+                                            <label>有窗</label>
+                                        </li>
+                                    </ul>
+                                    <div class="img-group">
+                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
+                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
+                                        <img src="http://s0.test.jiuxiulvxing.com/PC_JX/img/temp_1.png">
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+					</span>
+        </div>
+    </div>
+</div>
+</div>
+<!--div end -->
+#parse("layout/layout-footer.vm")
+<!-- public sheet-->
+<script  type='text/temple' id='province-tpl'>
+	    <option value="">--请选择--</option>
+	    <# for(var j=0; j<province.length; j++) { #>
+	            <option value="<#= province[j].id#>"><#= province[j].name#></option>
+	    <# } #>
+	</script>
+<script  type='text/temple' id='city-tpl'>
+	    <option value="">--请选择--</option>
+	    <# for(var j=0; j<city.length; j++) { #>
+	            <option value="<#= city[j].id#>"><#= city[j].name#></option>
+	    <# } #>
+	</script>
+
+#parse("layout/layout-js.vm")
+<script>seajs.use("choicehotel");</script>
+

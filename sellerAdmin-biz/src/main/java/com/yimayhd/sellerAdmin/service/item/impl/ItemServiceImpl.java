@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.yimayhd.ic.client.model.domain.item.ItemInfo;
+import com.yimayhd.ic.client.model.result.ICPageResult;
+
+import com.yimayhd.sellerAdmin.biz.DestinationBiz;
+import com.yimayhd.sellerAdmin.repo.DestinationRepo;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +28,7 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.converter.ItemConverter;
 import com.yimayhd.sellerAdmin.model.item.ItemListItemVO;
+import com.yimayhd.sellerAdmin.model.line.City;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
 import com.yimayhd.sellerAdmin.model.query.ItemListQuery;
 import com.yimayhd.sellerAdmin.repo.CityRepo;
@@ -46,6 +52,8 @@ public class ItemServiceImpl implements ItemService {
 	private CommentRepo	commentRepo;
 	@Autowired
 	private CityRepo	cityRepo;
+	@Autowired
+	private DestinationBiz destinationBiz;
 
 	@Override
 	public WebResult<PageVO<ItemListItemVO>> getItemList(long sellerId, ItemListQuery query) {
@@ -62,17 +70,18 @@ public class ItemServiceImpl implements ItemService {
 			if (itemQryDTO == null) {
 				return WebResult.success(new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(), 0));
 			}
-			ItemPageResult itemPageResult = itemRepo.getItemList(itemQryDTO);
-			if (itemPageResult == null) {
+		//	ItemPageResult itemPageResult = itemRepo.getItemList(itemQryDTO);
+			ICPageResult<ItemInfo> icPageResult = itemRepo.getItemList(itemQryDTO);
+			if (icPageResult == null) {
 				return WebResult.success(new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(), 0));
 			}
-			List<ItemDO> itemDOList = itemPageResult.getItemDOList();
+			List<ItemInfo> itemDOList = icPageResult.getList();
 			List<ItemListItemVO> resultList = new ArrayList<ItemListItemVO>();
 			if (CollectionUtils.isNotEmpty(itemDOList)) {
 				List<Long> itemIds = new ArrayList<Long>();
-				for (ItemDO itemDO : itemDOList) {
+				for (ItemInfo itemDO : itemDOList) {
 					resultList.add(ItemConverter.toItemListItemVO(itemDO));
-					itemIds.add(itemDO.getId());
+					itemIds.add(itemDO.getItemDTO().getId());
 				}
 				Map<Long, List<ComTagDO>> tagMap = commentRepo.getTagsByOutIds(itemIds, TagType.DESTPLACE);
 				if (!org.springframework.util.CollectionUtils.isEmpty(tagMap)) {
@@ -80,7 +89,8 @@ public class ItemServiceImpl implements ItemService {
 						long itemId = itemListItemVO.getId();
 						if (tagMap.containsKey(itemId)) {
 							List<ComTagDO> comTagDOs = tagMap.get(itemId);
-							List<CityVO> dests = toCityVO(comTagDOs);
+							//List<CityVO> dests = toCityVO(comTagDOs);
+							List<CityVO> dests = destinationBiz .toCityVOForDest(comTagDOs);
 							itemListItemVO.setDests(dests);
 						}
 					}
@@ -88,7 +98,7 @@ public class ItemServiceImpl implements ItemService {
 
 			}
 			PageVO<ItemListItemVO> pageVO = new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(),
-					itemPageResult.getRecordCount(), resultList);
+					icPageResult.getTotalCount(), resultList);
 			return WebResult.success(pageVO);
 		} catch (Exception e) {
 			log.warn("Params: sellerId=" + sellerId);
@@ -111,7 +121,7 @@ public class ItemServiceImpl implements ItemService {
 		for (ComTagDO comTagDO : tags) {
 			if (citiesByCodes.containsKey(comTagDO.getName())) {
 				CityDTO cityDTO = citiesByCodes.get(comTagDO.getName());
-				departs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
+				departs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), new City(cityDTO.getCode(), cityDTO.getName(), cityDTO.getFirstLetter())));
 			}
 		}
 		return departs;

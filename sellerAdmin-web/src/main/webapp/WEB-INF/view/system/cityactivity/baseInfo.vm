@@ -1,32 +1,32 @@
     <div class="createClubTable">
         <table class="table tab-inputgroup base-info">
             <tr>
-                <td><span class="spColor">*</span>分类：</td>
+                <td><span class="red">*</span>分类：</td>
                 <td>
                     $!{category.name}
                 </td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>商品标题：</td>
+                <td><span class="red">*</span>商品标题：</td>
                 <td>
                     #if($item.id)
                         <input type="hidden" class="inpControl" name="id" id="id" value="$!{item.id}">
                     #end
                     <input type="hidden" class="inpControl" name="id" id="categoryId" value="$!{category.id}">
                     <input type="hidden" class="inpControl" name="rootCategoryId" id="rootCategoryId" value="$!{category.parentId}">
-                    <input type="text" class="form-control item-title" placeholder="请输入商品标题" name="title" value="$!{item.title}">
-                    <span class="spColor">38字</span>
+                    <input type="text" class="form-control item-title" placeholder="请输入商品标题" maxlength="38" name="title" value="$!{item.title}">
+                    <span class="limit">38字</span>
                 </td>
             </tr>
             <tr>
                 <td>商品代码：</td>
                 <td>
-                    <input type="text" class="form-control item-code" placeholder="请输入商品代码" name="code" value="$!{item.code}">
-                    <span class="spColor">20字</span>
+                    <input type="text" class="form-control item-code" placeholder="请输入商品代码" maxlength="20" name="code" value="$!{item.code}">
+                    <span class="limit">20字</span>
                 </td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>活动主题：</td>
+                <td><span class="red">*</span>活动主题：</td>
                 <td>
                     #foreach($theme in $themes)
                         <label class="checkbox-inline">
@@ -39,7 +39,7 @@
                 </td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>截止报名日期：</td>
+                <td><span class="red">*</span>截止报名日期：</td>
                 <td>
                     <div class="row input-group">
                         <input type="text" class='form-control form-date dateInp end-date' placeholder='' readonly name="endDateStr" value="$!{item.endDateStr}">
@@ -47,7 +47,7 @@
                 </td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>活动城市：</td>
+                <td><span class="red">*</span>活动城市：</td>
                 <td>
                     <select class="form-control propertySelect dest" name="dest">
                         <option value="0" >请选择</option>
@@ -59,25 +59,26 @@
             </tr>
 
             <tr>
-                <td><span class="spColor">*</span>详细地址：</td>
-                <td><input type="text" class="form-control location-text" placeholder="" value="$!cityActivity.locationText"><span>38字</span></td>
+                <td><span class="red">*</span>详细地址：</td>
+                <td><input type="text" class="form-control location-text" placeholder="" value="$!cityActivity.locationText"><span class="limit">38字</span></td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>坐标：</td>
+                <td><span class="red">*</span>坐标：</td>
                 <td>
                     <span>经度</span>
                     <input type="text" name="item.longitude" id="longitude" class="inpControl getAddress" value="$!item.longitude">
-                    <span>维度</span>
+                    <span>纬度</span>
                     <input type="text" name="item.latitude" id="latitude" class="inpControl getAddress" value="$!item.latitude">
                     <button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button>
                 #*<code>点击查找经纬度可自动获取</code>*#
                 </td>
             </tr>
             <tr>
-                <td><span class="spColor">*</span>活动亮点：</td>
+                <td><span class="red">*</span>活动亮点：</td>
                 <td>
                     <textarea class="form-control textarea-count description" rows="3" placeholder="请输入亮点描述" maxlength="200">$!{item.description}</textarea>
-                    <span class="word-num">#if($!{item.description})$!{item.description.length()}#else 0#end/200字</span>
+                   <div class="word-num"><span class="num-a">0</span>/<span class="num-b">200字</span></div>
+
                 </td>
             </tr>
 ##            <tr>
@@ -101,7 +102,7 @@
 ##                <td><input type="text" class="form-control serviceTel" placeholder="请输入客服电话" name="serviceTel" value="$!serviceTel"></td>
 ##            </tr>
             <tr>
-                <td><span class="spColor">*</span>商品图：</td>
+                <td><span class="red">*</span>商品图：</td>
                 <td>
                     <div class="uploadbox clearfix">
                         <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionUploadFilePath()}" />

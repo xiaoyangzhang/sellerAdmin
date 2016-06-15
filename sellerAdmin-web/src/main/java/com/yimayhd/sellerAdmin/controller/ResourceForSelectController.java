@@ -1,7 +1,11 @@
 package com.yimayhd.sellerAdmin.controller;
 
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,13 +18,21 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yimayhd.ic.client.model.domain.LineDO;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
+import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.model.result.ICResultSupport;
+import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.resourcecenter.domain.RegionIntroduceDO;
 import com.yimayhd.resourcecenter.model.query.RegionIntroduceQuery;
 import com.yimayhd.sellerAdmin.base.BaseController;
@@ -29,8 +41,13 @@ import com.yimayhd.sellerAdmin.base.BaseQuery;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.converter.LineConverter;
 import com.yimayhd.sellerAdmin.model.ItemVO;
+import com.yimayhd.sellerAdmin.model.line.City;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.DestinationNodeVO;
+import com.yimayhd.sellerAdmin.model.line.DestinationVO;
+import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.query.ActivityListQuery;
 import com.yimayhd.sellerAdmin.model.query.CommodityListQuery;
 import com.yimayhd.sellerAdmin.model.query.LiveListQuery;
@@ -38,7 +55,9 @@ import com.yimayhd.sellerAdmin.service.ActivityService;
 import com.yimayhd.sellerAdmin.service.CommodityService;
 import com.yimayhd.sellerAdmin.service.TripService;
 import com.yimayhd.sellerAdmin.service.UserRPCService;
+import com.yimayhd.sellerAdmin.service.item.ItemService;
 import com.yimayhd.sellerAdmin.service.item.LineService;
+import com.yimayhd.sellerAdmin.util.ItemUtil;
 import com.yimayhd.snscenter.client.domain.SnsActivityDO;
 import com.yimayhd.snscenter.client.domain.SnsSubjectDO;
 import com.yimayhd.snscenter.client.enums.BaseStatus;
@@ -66,7 +85,6 @@ public class ResourceForSelectController extends BaseController {
 	private LineService			commLineService;
 	@Autowired
 	private ActivityService		activityService;
-
 	/**
 	 * 选择出发地
 	 *
@@ -75,13 +93,14 @@ public class ResourceForSelectController extends BaseController {
 	 */
 	@RequestMapping(value = "/selectDeparts")
 	public String selectDeparts() {
+		//put("item", getItemLineInfo(itmeId));
 		WebResult<List<CityVO>> result = commLineService.getAllLineDeparts();
 		if (result.isSuccess()) {
 			Map<String, List<CityVO>> departMap = new TreeMap<String, List<CityVO>>();
 			List<CityVO> allLineDeparts = result.getValue();
 			if (CollectionUtils.isNotEmpty(allLineDeparts)) {
 				for (CityVO cityVO : allLineDeparts) {
-					CityDTO city = cityVO.getCity();
+					City city = cityVO.getCity();
 					String firstLetter = city.getFirstLetter();
 					if (departMap.containsKey(firstLetter)) {
 						departMap.get(firstLetter).add(cityVO);
@@ -107,13 +126,15 @@ public class ResourceForSelectController extends BaseController {
 	 */
 	@RequestMapping(value = "/selectDests")
 	public String selectDests() {
+		//put("item", getItemLineInfo(itmeId));
 		WebResult<List<CityVO>> result = commLineService.getAllLineDests();
+		
 		if (result.isSuccess()) {
 			Map<String, List<CityVO>> destMap = new TreeMap<String, List<CityVO>>();
 			List<CityVO> allLineDests = result.getValue();
 			if (CollectionUtils.isNotEmpty(allLineDests)) {
 				for (CityVO cityVO : allLineDests) {
-					CityDTO city = cityVO.getCity();
+					City city = cityVO.getCity();
 					String firstLetter = city.getFirstLetter();
 					if (destMap.containsKey(firstLetter)) {
 						destMap.get(firstLetter).add(cityVO);
@@ -128,6 +149,67 @@ public class ResourceForSelectController extends BaseController {
 			return "/system/resource/forSelect/selectDests";
 		} else {
 			throw new BaseException("选择出发地失败");
+		}
+	}
+	
+	/**
+	 * 根据itemType确定目的地数据
+	 * @author xiemingna
+	 * 2016年5月30日上午11:14:03
+	 * @return
+	 */
+	@RequestMapping(value = "/selectDests/{itemType}")
+	public String selectDestsByItemType(@PathVariable(value = "itemType") ItemType itemType,
+			@RequestParam(value = "selectedIds", required = false) List<String> selectedIds) {
+		try {
+			WebResult<List<DestinationNodeVO>> result = null;
+			HashMap<String, Object> hashMap = new HashMap<String, Object>();
+			if (itemType.equals(ItemType.TOUR_LINE) || itemType.equals(ItemType.FREE_LINE)) {
+				result = commLineService.queryInlandDestinationTree();
+				hashMap.put("type", "inland");
+			} else {
+				result = commLineService.queryOverseaDestinationTree();
+				hashMap.put("type", "oversea");
+			}
+			List<DestinationNodeVO> destinationNodeVOs = result.getValue();
+			LineConverter.fillDestinationesSelectedInfo(destinationNodeVOs, selectedIds);
+			if (result.isSuccess()) {
+				ObjectMapper mapper = new ObjectMapper();
+				hashMap.put("destinationNodeVOs", destinationNodeVOs);
+				orderByFirstLetter(destinationNodeVOs);
+				String valueAsString = mapper.writeValueAsString(hashMap);
+				put("destMap", valueAsString);
+			} else {
+				throw new BaseException("选择目的地失败");
+			}
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return "/system/resource/forSelect/selectDests";
+	}
+
+//	private LineVO getItemLineInfo(Long id) {
+//		if (id == null ) {
+//			return null;
+//		}
+//		WebResult<LineVO> itemInfoResult = commLineService.getByItemId(getCurrentUserId(), id);
+//		if (itemInfoResult != null && itemInfoResult.isSuccess()) {
+//			return itemInfoResult.getValue();
+//		}
+//		return null;
+//	}
+
+	private void orderByFirstLetter(List<DestinationNodeVO> destinationNodeVOs) {
+		for (DestinationNodeVO destinationNodeVO : destinationNodeVOs) {
+			if (destinationNodeVO.getChild()!=null) {
+				orderByFirstLetter(destinationNodeVO.getChild());
+			}else {
+				Collections.sort(destinationNodeVOs, new Comparator<DestinationNodeVO>() {
+					public int compare(DestinationNodeVO arg0, DestinationNodeVO arg1) {
+						return arg0.getDestinationVO().getSimpleCode().compareTo(arg1.getDestinationVO().getSimpleCode());
+					}
+				});
+			}
 		}
 	}
 

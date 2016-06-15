@@ -1,0 +1,51 @@
+#set($layout = "/layout/layout_non.vm")
+#parse("layout/layout-meta.vm")
+<ul class="clearfix">
+    #if($roomList.size()>0)
+    #foreach($roomMessageVO in $roomList)
+        <li>
+            <div class="radio-bar clearfix">
+                <label class="fl"><input type="radio" name="gp" value="$!{roomMessageVO.roomId}" #if($hotelMessageVO.roomId == $roomMessageVO.roomId) checked #end  > 房型$!{velocityCount}</label>
+                <img class="fr" src="$!rs_path_jiuxiu/img/droptip_down.jpg">
+            </div>
+            <div class="bar-box">
+                <ul class="clearfix">
+                    <li>
+                        <label>房型：</label>
+                        <label>$!{roomMessageVO.name}</label>
+                    </li>
+                    <li>
+                        <label>面积：</label>
+                        <label>$!{roomMessageVO.area}</label>
+                    </li>
+                    <li>
+                        <label>床型：</label>
+                        <label>$!{roomMessageVO.bed}</label>
+                    </li>
+                    <li>
+                        <label>可住：</label>
+                        <label>#if($roomMessageVO.people>0) $!{roomMessageVO.people}人 #end </label>
+                    </li>
+                    <li>
+                        <label>网络：</label>
+                        <label>$!{roomMessageVO.networkStr}</label>
+                    </li>
+                    <li>
+                        <label>窗户：</label>
+                        <label>$!{roomMessageVO.windowStr}</label>
+                    </li>
+                </ul>
+                <div class="img-group">
+                    #foreach($pic in $roomMessageVO.pics)
+                        <img src="$tfs$pic">
+                    #end
+                </div>
+            </div>
+        </li>
+    #end
+    #else
+        <div class="room-error">
+            该酒店尚未添加房型
+        </div>
+    #end
+</ul>

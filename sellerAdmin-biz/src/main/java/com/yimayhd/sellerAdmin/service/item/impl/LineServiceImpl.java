@@ -1,8 +1,11 @@
 package com.yimayhd.sellerAdmin.service.item.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -14,26 +17,37 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.ComentEditDTO;
 import com.yimayhd.commentcenter.client.enums.PictureText;
 import com.yimayhd.commentcenter.client.enums.TagType;
+import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.result.PicTextResult;
+import com.yimayhd.commentcenter.client.service.ComCenterService;
+import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.CategoryValueDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
+import com.yimayhd.ic.client.model.domain.item.IcDestination;
+import com.yimayhd.ic.client.model.domain.item.IcSubject;
+import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.PropertyType;
+import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.ic.client.model.param.item.line.LinePubAddDTO;
 import com.yimayhd.ic.client.model.param.item.line.LinePubUpdateDTO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.ic.client.model.result.item.LinePublishResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
+import com.yimayhd.resourcecenter.dto.DestinationNode;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.biz.DestinationBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.LineConverter;
 import com.yimayhd.sellerAdmin.converter.PictureTextConverter;
 import com.yimayhd.sellerAdmin.converter.TagConverter;
+import com.yimayhd.sellerAdmin.model.line.City;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.DestinationNodeVO;
 import com.yimayhd.sellerAdmin.model.line.LinePropertyConfig;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.TagDTO;
@@ -41,23 +55,30 @@ import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
 import com.yimayhd.sellerAdmin.repo.CategoryRepo;
 import com.yimayhd.sellerAdmin.repo.CityRepo;
 import com.yimayhd.sellerAdmin.repo.CommentRepo;
+import com.yimayhd.sellerAdmin.repo.DestinationRepo;
 import com.yimayhd.sellerAdmin.repo.LineRepo;
 import com.yimayhd.sellerAdmin.repo.PictureTextRepo;
 import com.yimayhd.sellerAdmin.service.item.LineService;
 import com.yimayhd.user.client.dto.CityDTO;
 
 public class LineServiceImpl implements LineService {
-	private Logger			log	= LoggerFactory.getLogger(getClass());
+	private Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
-	private LineRepo		lineRepo;
+	private LineRepo lineRepo;
 	@Autowired
-	private CommentRepo		commentRepo;
+	private CommentRepo commentRepo;
 	@Autowired
-	private CategoryRepo	categoryRepo;
+	private CategoryRepo categoryRepo;
 	@Autowired
-	private CityRepo		cityRepo;
+	private CityRepo cityRepo;
 	@Autowired
-	private PictureTextRepo	pictureTextRepo;
+	private PictureTextRepo pictureTextRepo;
+	@Autowired
+	private ComCenterService comCenterServiceRef;
+	@Autowired
+	private DestinationRepo destinationRepo;
+	@Autowired
+	private DestinationBiz destinationBiz;
 
 	@Override
 	public WebResult<LineVO> getByItemId(long sellerId, long itemId) {
@@ -89,9 +110,14 @@ public class LineServiceImpl implements LineService {
 			// 目的地
 			List<ComTagDO> destTags = commentRepo.getTagsByOutId(itemId, TagType.DESTPLACE);
 			// 图文详情
+			
+			CategoryDO category = categoryRepo.getCategoryById(lineResult.getItemDO().getCategoryId());
+			List<ItemSkuDO> itemSkuDOList = lineResult.getItemSkuDOList();
+			LineConverter.filterItemSku(category,itemSkuDOList);
+			lineResult.setItemSkuDOList(itemSkuDOList);
 			PicTextResult picTextResult = pictureTextRepo.getPictureText(itemId, PictureText.ITEM);
 			LineVO lineVO = LineConverter.toLineVO(lineResult, picTextResult, themes, toCityVO(departTags),
-					toCityVO(destTags));
+					destinationBiz.toCityVOForDest(destTags));
 			lineVO.getBaseInfo().setAllDeparts(allDeparts);
 			return WebResult.success(lineVO);
 		} catch (Exception e) {
@@ -152,17 +178,43 @@ public class LineServiceImpl implements LineService {
 		for (ComTagDO comTagDO : tags) {
 			if (citiesByCodes.containsKey(comTagDO.getName())) {
 				CityDTO cityDTO = citiesByCodes.get(comTagDO.getName());
-				departs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), cityDTO));
+				City city = new City(cityDTO.getCode(), cityDTO.getName(), cityDTO.getFirstLetter());
+				departs.add(new CityVO(comTagDO.getId(), cityDTO.getName(), city));
 			}
 		}
 		return departs;
 	}
+	
+
 
 	@Override
 	public WebResult<List<CityVO>> getAllLineDests() {
 		try {
 			List<ComTagDO> comTagDOs = commentRepo.getTagsByTagType(TagType.DESTPLACE);
 			return WebResult.success(toCityVO(comTagDOs));
+		} catch (Exception e) {
+			log.error("LineService.getAllLineDeparts error", e);
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR);
+		}
+	}
+
+	@Override
+	public WebResult<List<DestinationNodeVO>> queryInlandDestinationTree() {
+		try {
+			List<DestinationNode> destinationNodes = destinationRepo.queryInlandDestinationTree();
+			return WebResult.success(LineConverter.toDestinationNodeVO(destinationNodes));
+		} catch (Exception e) {
+			log.error("LineService.getAllLineDeparts error", e);
+			return WebResult.failure(WebReturnCode.SYSTEM_ERROR);
+		}
+	}
+
+	@Override
+	public WebResult<List<DestinationNodeVO>> queryOverseaDestinationTree() {
+		try {
+			List<DestinationNode> destinationNodes = destinationRepo.queryOverseaDestinationTree();
+			List<DestinationNodeVO> cityVO = LineConverter.toDestinationNodeVO(destinationNodes);
+			return WebResult.success(cityVO);
 		} catch (Exception e) {
 			log.error("LineService.getAllLineDeparts error", e);
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR);
@@ -219,11 +271,30 @@ public class LineServiceImpl implements LineService {
 				return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
 			}
 			long itemId = line.getBaseInfo().getItemId();
+			convertToIcSubjcet(line);
+			
+			//FIXME 
 			LinePubUpdateDTO linePublishDTOForUpdate = LineConverter.toLinePublishDTOForUpdate(sellerId, line);
-			LinePublishResult publishLine = lineRepo.updateLine(linePublishDTOForUpdate);
-			if (publishLine.isSuccess() && itemId > 0) {
+			lineRepo.updateLine(linePublishDTOForUpdate);
+			
+			//删除多余的itemsku
+			LineResult lineResult = lineRepo.getLineByItemId(sellerId, itemId);
+			CategoryDO category = categoryRepo.getCategoryById(lineResult.getItemDO().getCategoryId());
+			List<ItemSkuDO> itemSkuDOList = lineResult.getItemSkuDOList();
+			List<ItemSkuDO> unnecessaryItemSkuDO= LineConverter.filterUnnecessaryItem(category, itemSkuDOList) ;
+			if (CollectionUtils.isNotEmpty(unnecessaryItemSkuDO)) {
+				for (ItemSkuDO itemSkuDO : unnecessaryItemSkuDO) {
+					Set<Long> deletedSKU = new HashSet<Long>();
+					deletedSKU.add(itemSkuDO.getId());
+					line.getPriceInfo().setDeletedSKU(deletedSKU);
+				}
+			}
+			LinePubUpdateDTO linePublishDTOForUpdate2 = LineConverter.toLinePublishDTOForUpdate(sellerId, line);
+			LinePublishResult publishLine2 = lineRepo.updateLine(linePublishDTOForUpdate2);
+			if (publishLine2.isSuccess() && itemId > 0) {
 				BaseInfoVO baseInfo = line.getBaseInfo();
 				List<Long> themeIds = baseInfo.getThemes();
+				
 				commentRepo.saveTagRelation(itemId, TagType.LINETAG, themeIds);
 				List<Long> departIds = new ArrayList<Long>();
 				if (baseInfo.isAllDeparts()) {
@@ -241,10 +312,13 @@ public class LineServiceImpl implements LineService {
 				}
 				List<CityVO> dests = baseInfo.getDests();
 				List<Long> destIds = new ArrayList<Long>();
-				for (TagDTO tagDTO : dests) {
-					destIds.add(tagDTO.getId());
+//				for (TagDTO tagDTO : dests) {
+//					destIds.add(tagDTO.getId());
+//				}
+				for (CityVO cityVOs : dests) {
+					destIds.add(Long.parseLong(cityVOs.getCode()));
 				}
-				commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
+				commentRepo.addLineTagRelationInfo(itemId, TagType.DESTPLACE, destIds);
 
 				ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemId, PictureText.ITEM,
 						line.getPictureText());
@@ -261,6 +335,55 @@ public class LineServiceImpl implements LineService {
 		}
 	}
 
+	private void deleteUnnecessarySku(CategoryDO category, List<ItemSkuDO> itemSkuDOList) {
+		if (category==null || CollectionUtils.isEmpty(itemSkuDOList)) {
+			return;
+		}
+		List<CategoryPropertyValueDO> sellCategoryPropertyDOs = category.getSellCategoryPropertyDOs();
+		if (CollectionUtils.isEmpty(sellCategoryPropertyDOs) || CollectionUtils.isEmpty(itemSkuDOList) ) {
+			return;
+		}
+		/*
+		 * 套餐
+		 * 出发日期
+		 * 人员类型   ---成人，儿童，单房差
+		 * */
+		//计算出类目下所有销售属性
+		Map<Long, CategoryValueDO> map = new HashMap<Long, CategoryValueDO>();
+		CategoryPropertyDO categoryPropertyValueDOForPerson=new CategoryPropertyDO();
+		Long mapcpvd =null;
+		for (CategoryPropertyValueDO categoryPropertyValueDO : sellCategoryPropertyDOs) {
+			List<CategoryValueDO> categoryValueDOs = categoryPropertyValueDO.getCategoryValueDOs() ;
+			if( CollectionUtils.isNotEmpty(categoryValueDOs) ){
+				categoryPropertyValueDOForPerson=categoryPropertyValueDO.getCategoryPropertyDO();
+//				mapcpvd.put(categoryPropertyValueDO.getPropertyId(), categoryPropertyValueDO) ;
+				mapcpvd=categoryPropertyValueDO.getPropertyId();
+				for( CategoryValueDO value : categoryValueDOs ){
+					//计算出所有销售属性
+					map.put(value.getId(), value) ;
+				}
+			}
+		}
+		Set<Long> skuPIds = new HashSet<Long>();//原来人员类型下的属性取值：1，2，3，4
+		//取出所有的人员类型  下的属性值id
+		for (ItemSkuDO sku : itemSkuDOList) {
+			// Set<Long> pIds = mapcpvd.keySet();
+			List<ItemSkuPVPair> itemSkuPVPairList = sku.getItemSkuPVPairList();
+			for (ItemSkuPVPair itemSkuPVPair : itemSkuPVPairList) {
+				long pid = itemSkuPVPair.getPId();
+				if (mapcpvd != null && mapcpvd.equals(pid)) {
+					skuPIds.add(itemSkuPVPair.getVId());
+				}
+			}
+		}
+		List<ItemSkuDO> itemSkuDOs=new ArrayList<ItemSkuDO>();
+		Set<Long> vIds = map.keySet();// 1，4，145
+		Set<Long> oVIds = new HashSet<Long>();
+		oVIds.addAll(vIds);
+		vIds.removeAll(skuPIds);
+		
+	}
+
 	@Override
 	public WebResult<Long> save(long sellerId, LineVO line) {
 		try {
@@ -270,14 +393,19 @@ public class LineServiceImpl implements LineService {
 				log.warn("LineService.save param error");
 				return WebResult.failure(WebReturnCode.PARAM_ERROR);
 			}
+			
+			//查询主题标签的中文描述
+			BaseInfoVO baseInfo = line.getBaseInfo();
+			List<Long> themeIds = baseInfo.getThemes();
+			convertToIcSubjcet(line);
+			
 			LinePubAddDTO linePublishDTOForSave = LineConverter.toLinePublishDTOForSave(sellerId, line);
 			LinePublishResult publishLine = lineRepo.saveLine(linePublishDTOForSave);
 			long itemId = publishLine.getItemId();
 			if (itemId > 0) {
-				BaseInfoVO baseInfo = line.getBaseInfo();
-				List<Long> themeIds = baseInfo.getThemes();
 				commentRepo.saveTagRelation(itemId, TagType.LINETAG, themeIds);
 				List<Long> departIds = new ArrayList<Long>();
+				List<String> departNames = new ArrayList<String>();
 				if (baseInfo.isAllDeparts()) {
 					ComTagDO tagByName = commentRepo.getTagByName(TagType.DEPARTPLACE, Constant.ALL_PLACE_CODE);
 					if (tagByName != null) {
@@ -288,15 +416,19 @@ public class LineServiceImpl implements LineService {
 					List<CityVO> departs = baseInfo.getDeparts();
 					for (TagDTO tagDTO : departs) {
 						departIds.add(tagDTO.getId());
+						departNames.add(tagDTO.getName());
 					}
 					commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
 				}
 				List<CityVO> dests = baseInfo.getDests();
 				List<Long> destIds = new ArrayList<Long>();
-				for (TagDTO tagDTO : dests) {
-					destIds.add(tagDTO.getId());
+//				for (TagDTO tagDTO : dests) {
+//					destIds.add(tagDTO.getId());
+//				}
+				for (CityVO cityVOs : dests) {
+					destIds.add(Long.parseLong(cityVOs.getCode()));
 				}
-				commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
+				commentRepo.addLineTagRelationInfo(itemId, TagType.DESTPLACE, destIds);
 				ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemId, PictureText.ITEM,
 						line.getPictureText());
 				pictureTextRepo.editPictureText(comentEditDTO);
@@ -311,4 +443,39 @@ public class LineServiceImpl implements LineService {
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "保存线路失败 ");
 		}
 	}
+
+	private void convertToIcSubjcet(LineVO line) {
+		BaseInfoVO baseInfo = line.getBaseInfo();
+		List<CityVO> departs = baseInfo.getDeparts();
+		List<CityVO> dests = baseInfo.getDests();
+		BaseResult<List<ComTagDO>> selectTagsIn = comCenterServiceRef.selectTagsIn(baseInfo.getThemes());
+		List<ComTagDO> comTagDOs = selectTagsIn.getValue();
+		ArrayList<IcSubject> themesIcs = new ArrayList<IcSubject>();
+		ArrayList<IcDestination> departsIcs = new ArrayList<IcDestination>();
+		ArrayList<IcDestination> destsIcs = new ArrayList<IcDestination>();
+		for (ComTagDO tag : comTagDOs) {
+			IcSubject icSubject = new IcSubject();
+			icSubject.setId(tag.getId());
+			icSubject.setTxt(tag.getName());
+			themesIcs.add(icSubject);
+		}
+		baseInfo.setThemesIcs(themesIcs);
+		
+		for (CityVO cityVO : departs) {
+			IcDestination icDestination = new IcDestination();
+			icDestination.setCode(cityVO.getCode());
+			icDestination.setTxt(cityVO.getName());
+			departsIcs.add(icDestination);
+		}
+		baseInfo.setDepartsIcs(departsIcs);
+		
+		for (CityVO cityVO : dests) {
+			IcDestination icDestination = new IcDestination();
+			icDestination.setCode(cityVO.getCode());
+			icDestination.setTxt(cityVO.getName());
+			destsIcs.add(icDestination);
+		}
+		baseInfo.setDestsIcs(destsIcs);
+	}
+
 }

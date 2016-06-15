@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+	<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/css/zui.min.css"
+      rel="stylesheet">
+	<link href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"
+      rel="stylesheet">
+      
+	<link rel="shortcut icon" href="$!rs_path_jiuxiu/img/jiuxiu_favicon.ico" mce_href="$!rs_path_jiuxiu/img/jiuxiu_favicon.ico" type="image/x-icon" />
+	
+	#parse("layout/layout-meta.vm")
+
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/base.css">
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/common.css">
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/jquery-ui-1.10.4.custom.css">
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/eredar.css">
+	
+	#if( $!title ) 
+		<title>$!title</title>
+	#end
+</head>
+<body>
+	#parse("layout/layout-top.vm")
+
+	<div class = "comwidth crumbs f12">
+		您所在的位置：
+		#if( $currentMenu )
+			$!currentMenu.parentName > <a class = "f12 gray6">$!currentMenu.name</a></div>
+		#else
+			<a class = "f12 gray6">首页</a></div>
+		#end
+		<div class = "comwidth clearfix" id = "eredar">
+			<div class = "eredar-left">
+				#parse("layout/menu.vm")
+			</div>
+			<div class = "eredar-right">
+		    	$screen_content
+			</div>
+		</div>
+		#parse("layout/layout-footer.vm")
+		<script src="$rs_js_css_path_jiuxiu/js/other/public.js"></script>
+	</div>
+</body>
+
+</html>
+

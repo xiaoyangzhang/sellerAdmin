@@ -1,0 +1,205 @@
+<!-- head start-->
+#set($layout = "/layout/layout-jiuxiu.vm")
+#set( $locations = ["商品管理", "酒店客栈"] )
+<head>
+    #parse("layout/layout-meta.vm")
+    <title>选择酒店</title>
+    <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/addhotelproduct.css">
+</head>
+<!-- head end-->
+<div class = "eredar-info clearfix">
+    <ul>
+        <li class = "first on">选择酒店</li>
+        <li>基本信息</li>
+        <li>价格日历</li>
+    </ul>
+</div>
+<div class="panel on">
+    <input type="hidden" class="picCode baseInfo-picCode" name="hotelId" value="$!{hotelMessageVO.hotelId}" />
+    <input type="hidden" class="picCode baseInfo-picCode" name="name" value="$!{hotelMessageVO.name}" />
+    <input type="hidden" class="picCode baseInfo-picCode" name="supplierCalendar" value='$!{hotelMessageVO.supplierCalendar}' />
+    <input type="hidden" class="picCode baseInfo-picCode" name="roomId" value="$!{hotelMessageVO.roomId}" />
+    <input type="hidden" class="picCode baseInfo-picCode" name="sellerId" value="$!{hotelMessageVO.sellerId}" />
+    <input type="hidden" class="picCode baseInfo-picCode" name="operationFlag" value="$!{operationFlag}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="categoryId" value="$!{categoryId}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="itemId" value="$!{itemId}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="systemLog" value="$!{systemLog}">
+    <input type="hidden" class="picCode baseInfo-picCode" name="UUID" value="$!{UUID}">
+    <div class="hotelinfo">
+        <p>
+            <span class="nm"><label>酒店信息：</label></span>
+                <span class="info-bar">
+                    <label class="htn">$!{hotelMessageVO.name}</label>
+                    <label class="smtt">地址：</label><label class="address">$!{hotelMessageVO.locationText}</label>
+                    |<label class="smtt">电话：</label><label class="tel">$!{hotelMessageVO.phone}</label>
+                </span>
+            <!-- <a class="choicehotel">查询酒店</a> -->
+        </p>
+        <!-- <div class='load_room'><img src="$!rs_path_jiuxiu/img/loading.gif"></div> -->
+        <div class="hotelcol" style="display: block;">
+                <span class="nm"><label>酒店房型：</label></span>
+                        <span class="info-box clearfix">
+                            <ul class="clearfix">
+                                <li>
+                                    <div class="radio-bar clearfix">
+                                        <label class="fl"><input type="radio" name="gp" checked> 房型</label>
+                                        <img class="fr" src="$!rs_path_jiuxiu/img/droptip_up.jpg">
+                                    </div>
+                                    <div class="bar-box" style="height:auto">
+                                        <ul class="clearfix">
+                                            <li>
+                                                <label>房型：</label>
+                                                <label>$!{roomMessageVO.name}</label>
+                                            </li>
+                                            <li>
+                                                <label>面积：</label>
+                                                <label>$!{roomMessageVO.area} </label>
+                                            </li>
+                                            <li>
+                                                <label>床型：</label>
+                                                <label>$!{roomMessageVO.bed}</label>
+                                            </li>
+                                            <li>
+                                                <label>可住：</label>
+                                                <label>#if($roomMessageVO.people>0) $!{roomMessageVO.people}人 #end </label>
+                                            </li>
+                                            <li>
+                                                <label>网络：</label>
+                                                <label>$!{roomMessageVO.networkStr}</label>
+                                            </li>
+                                            <li>
+                                                <label>窗户：</label>
+                                                <label>$!{roomMessageVO.windowStr}</label>
+                                            </li>
+                                        </ul>
+                                        <div class="img-group">
+                                            #foreach($pic in $roomMessageVO.pics)
+                                                <img src="$tfs$pic">
+                                            #end
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </span>
+        </div>
+    </div>
+</div>
+<div class="panel">
+    <div class="baseinfo">
+        <table>
+            <tr>
+                <td class="coltxt">酒店类型：</td>
+                <td><label>$!{hotelMessageVO.hotelTypeStr}</label></td>
+            </tr>
+            <tr>
+                <td class="coltxt">酒店名称：</td>
+                <td><label>$!{hotelMessageVO.name}</label></td>
+            </tr>
+            <tr>
+                <td class="coltxt">商品标题：</td>
+                <td> $!{hotelMessageVO.title}</td>
+            </tr>
+            <tr>
+                <td class="coltxt">商品代码：</td>
+                <td>$!{hotelMessageVO.code}</td>
+            </tr>
+            <tr>
+                <td class="coltxt">付款方式：</td>
+                <td>$!{hotelMessageVO.payTypeStr}</td>
+            </tr>
+            <tr>
+                <td class="coltxt">退订限制：</td>
+                <td>$!{hotelMessageVO.cancelLimitStr}</td>
+            </tr>
+            <tr>
+                <td class="coltxt vt">退订规则：</td>
+                <td><textarea name ="description" maxlength="40"  readonly="readonly" >$!{hotelMessageVO.description}</textarea></td>
+            </tr>
+            <tr>
+                <td class="coltxt vt">最晚到店时间：</td>
+                <td>
+                    #foreach($multiChoice in $multiChoiceList)
+                        #if($multiChoice.choiceNo)
+                            #if($multiChoice.tValue<12 ) 次日${multiChoice.value}前 #else 当天${multiChoice.value}前 #end
+                        #end
+                    #end
+                </td>
+            </tr>
+            <!--
+            <tr>
+                <td class="coltxt">提前预定天数：</td>
+                <td>$!{hotelMessageVO.startBookTimeLimit} 天</td>
+            </tr>
+            -->
+            <tr>
+                <td class="coltxt">早餐：</td>
+                <td>$!{hotelMessageVO.breakfastStr}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="panel">
+    <div id="CLD" class="clearfix datepicker">
+        <table class="fl">
+            <tr>
+                <td class="tdyears clearfix" colspan="7">
+                    <i class="fl prev"></i>
+                    <!-- <select id="SY"></select> -->
+                    <i class="fr next"></i>
+                    <label id="SY"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdmonth" colspan="7">
+                    <ul>
+                        <li>1月</li>
+                        <li>2月</li>
+                        <li>3月</li>
+                        <li class="on">4月</li>
+                        <li>5月</li>
+                        <li>6月</li>
+                        <li>7月</li>
+                        <li>8月</li>
+                        <li>9月</li>
+                        <li>10月</li>
+                        <li>11月</li>
+                        <li>12月</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr class="tdweek">
+                <td>周日</td>
+                <td>周一</td>
+                <td>周二</td>
+                <td>周三</td>
+                <td>周四</td>
+                <td>周五</td>
+                <td>周六</td>
+            </tr>
+        </table>
+    </div><br><br>
+</div>
+<div class="btngroup">
+</div>
+<script  type='text/temple' id='province-tpl'>
+	    <option value="">--请选择--</option>
+	    <# for(var j=0; j<province.length; j++) { #>
+	            <option value="<#= province[j].id#>"><#= province[j].name#></option>
+	    <# } #>
+	</script>
+<script  type='text/temple' id='city-tpl'>
+	    <option value="">--请选择--</option>
+	    <# for(var j=0; j<city.length; j++) { #>
+	            <option value="<#= city[j].id#>"><#= city[j].name#></option>
+	    <# } #>
+	</script>
+<script  type='text/temple' id='area-tpl'>
+	    <option value="">--请选择--</option>
+	    <# for(var j=0; j<area.length; j++) { #>
+	            <option value="<#= area[j].id#>"><#= area[j].name#></option>
+	    <# } #>
+	</script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
+<script>seajs.use("addhotel");</script>

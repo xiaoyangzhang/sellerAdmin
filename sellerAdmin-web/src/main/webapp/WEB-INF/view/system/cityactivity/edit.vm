@@ -42,7 +42,7 @@
                 <a href="#tab1" data-toggle="tab">基础信息</a>
             </li>
             <li class="">
-                <a href="#tab2" data-toggle="tab">详细描述</a>
+                <a href="#tab2" data-toggle="tab">图文介绍</a>
             </li>
             <li class="">
                 <a href="#tab3" data-toggle="tab">价格套餐</a>
@@ -63,7 +63,7 @@
                 #parse("/system/sku/setsku.vm")
             </div>
             <div class="tab-pane" id="tab4">
-                #parse("/system/comm/line/needKnow.vm")
+                #parse("/system/cityactivity/needKnow.vm")
             </div>
             <div class="clubBotBtn">
                 #if(!${isReadonly})
@@ -198,6 +198,13 @@
 //        });
 
         $(".save").click(function(){
+        	//前端验证-------
+        	var errmsg = validatePro();
+	    	if (errmsg) {
+	    		layer.msg(errmsg,{icon:2,time:1500});
+	    		return false;   		
+	    	};
+	    	//前端验证end-------
             var itemVO = getItemInfo();
             itemVO.itemSkuVOStr = JSON.stringify(skuPropertyAll);
             var category = {

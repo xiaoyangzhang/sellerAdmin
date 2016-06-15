@@ -1,6 +1,5 @@
 package com.yimayhd.sellerAdmin.biz;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -10,17 +9,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
-import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
-import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
@@ -34,7 +29,6 @@ import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.MerchantDTO;
 import com.yimayhd.user.client.dto.UserDTO;
 import com.yimayhd.user.client.enums.MerchantOption;
-import com.yimayhd.user.client.enums.UserOptions;
 import com.yimayhd.user.client.query.MerchantQuery;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.session.manager.SessionManager;
@@ -104,7 +98,7 @@ public class MerchantBiz {
 	}
 	/**
 	 * 保存商户基本信息
-	 * @param merchantDO
+	 * @param basicInfo
 	 * @return
 	 */
 	@MethodLogger
@@ -126,7 +120,7 @@ public class MerchantBiz {
 	
 	/**
 	 * 修改商户基本信息
-	 * @param merchantDTO
+	 * @param basicInfo
 	 * @return
 	 */
 	@MethodLogger
@@ -179,7 +173,7 @@ public class MerchantBiz {
 	
 	/**
 	 * 修改商户入驻状态
-	 * @param userDetailInfo
+	 * @param infoQueryDTO
 	 * @return
 	 */
 	@MethodLogger
@@ -194,12 +188,9 @@ public class MerchantBiz {
 		}
 		return webResult;
 	}
-	
+
 	/**
 	 * 判断权限的通用方法
-	 * @param model
-	 * @param userId
-	 * @param pageType
 	 * @return
 	 *//*
 	public  String judgeAuthority(Model model,long userId,String pageType){
@@ -229,15 +220,15 @@ public class MerchantBiz {
 			int type = dto.getType();
 			int status = dto.getExaminStatus();
 			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
-				if(ExamineType.MERCHANT.getType()==type){
+				if(MerchantType.MERCHANT.getType()==type){
 					return "/system/merchant/verification";
-				}else if(ExamineType.TALENT.getType()==type){
+				}else if(MerchantType.TALENT.getType()==type){
 					return "/system/talent/verification";
 				}
 			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
-				if(ExamineType.MERCHANT.getType()==type){
+				if(MerchantType.MERCHANT.getType()==type){
 					return "redirect:/basicInfo/merchant/toAddBasicPage";
-				}else if(ExamineType.TALENT.getType()==type){
+				}else if(MerchantType.TALENT.getType()==type){
 					return "redirect:/basicInfo/talent/toAddTalentInfo";
 				}
 			}else if(ExamineStatus.EXAMIN_ERROR.getStatus() == status){//审核不通过
@@ -250,9 +241,9 @@ public class MerchantBiz {
 				if(rest.isSuccess() && (null!=rest.getValue())){
 					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
 				}
-				if(ExamineType.MERCHANT.getType()==type){
+				if(MerchantType.MERCHANT.getType()==type){
 					model.addAttribute("type", Constant.MERCHANT_NAME_CN);
-				}else if(ExamineType.TALENT.getType()==type){
+				}else if(MerchantType.TALENT.getType()==type){
 					model.addAttribute("type", Constant.TALENT_NAME_CN);
 				}
 				model.addAttribute("url", "/apply/toChoosePage?reject=true");

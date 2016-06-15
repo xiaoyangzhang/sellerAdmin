@@ -86,31 +86,50 @@
         				<thead>
                             <tr>
                                 <th data-col-class="text-center" data-width="80">编号</th>
-                                <th>商品信息</th>
-        						<th data-width="160">目的地</th>
-                                <th data-col-class="text-center" data-width="110">类型</th>
-                                <th data-width="160">单价</th>
+                                <th data-col-class="text-center" data-width="310">商品信息</th>
+        						<th data-width="100">目的地</th>
+                                <th data-col-class="text-center" data-width="90">类型</th>
+                                <th data-width="80">单价</th>
         						<th data-col-class="text-center" data-width="70">状态</th>
         						<th data-type="date" data-width="100">发布时间</th>
-        						<th data-col-class="text-center" data-width="60">操作</th>
+        						<th data-col-class="text-center" data-width="70">操作</th>
                             </tr>
                         </thead>
         				<tbody >
                             #foreach($item in $pageVo.resultList)
                             <tr id="item_$!{item.id}" item-id="$!item.id">
                                 <td>$!item.id</td>
-                                <td>$!item.name</td>
-        						<td>$!item.destString</td>
+
+                                <td width="120px">
+                                    <img src="$!{utilWebconfig.getTfsRootPath()}/$!item.picture" width="120" height="90" style="float: left;"/>
+                               		<span style="float: left;text-align:left; padding-left:inherit;width: 187px">
+									#if($item.type==3)
+										$!{item.itemHotelVO.name}<br>
+										$!{item.name}<br>
+										$!{item.itemRoomVO.name}<br>
+										$!{item.payMode}<br>
+                                      	  商品代码:$!{item.code}
+									#elseif($item.type==4)
+										$!{item.itemScenicVO.name}<br>
+										$!{item.name}<br>
+										$!{item.itemTicketVO.title}<br>
+									#else
+										$!{item.name}<br>
+										商品代码:$!{item.code}
+									#end
+								</span>
+                                </td>
+		  						<td>$!item.destString</td>
         						<td>$!{utilItem.getItemTypeName($item.type)}</td>
-        						<td>￥$!{utilMoney.centToYuanMoneyFormat($item.price)}</td>
+        						<td>￥$!{utilMoney.centToYuanMoneyFormat($item.price)}&nbsp;起</td>
                                 <td>$!{utilItem.getItemStatusName($item.status)}</td>
         						<td>$!{utilDate.date2String($item.publishDate)}</td>
                                 <td>
         							#if($item.containsOperate('VIEW'))
-        							<a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/item/$!item.id/type/$!item.type/view/" target="_blank">查看</a><br/>
+        							<a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/item/$!item.id/type/$!item.type/view/?categoryId=$!{item.categoryId}" target="_blank">查看</a><br/>
         							#end
         							#if($item.containsOperate('EDIT'))
-									<a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/item/$!item.id/type/$!item.type/edit/" target="_blank">编辑</a><br/>
+									<a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/item/$!item.id/type/$!item.type/edit/?categoryId=$!{item.categoryId}" target="_blank">编辑</a><br/>
         							#end
         							#if($item.containsOperate('SHELVE'))
         							<a class="btn btn-mini btn-link item-operate" href="javascript:void(0);" item-id="$!item.id" operate-type="SHELVE">上架</a><br/>
@@ -121,6 +140,9 @@
 									#if($item.containsOperate('DELETE'))
 									<a class="btn btn-mini btn-link item-operate" href="javascript:void(0);" item-id="$!item.id" operate-type="DELETE">删除</a><br/>
         							#end
+									#if(($item.status==2||$item.status==3)&&($item.containsOperate('SHELVE')||$item.containsOperate('UNSHELVE')))
+                                        <a class="btn btn-mini btn-link" href="$!utilWebconfig.getActionDefaultFontPath()/order/assessmentList?itemNo=$!{item.id}" target="_blank">查看评价</a><br/>
+									#end
         						</td>
                             </tr>
         					#end
@@ -136,6 +158,7 @@
 </html>
 <script>
 	$(".form-clear").click(function() {
+		
 		$(".search-item").val("");
 	});
 	$(".form-date").datetimepicker({

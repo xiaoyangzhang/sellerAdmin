@@ -14,6 +14,7 @@ import com.yimayhd.sellerAdmin.model.vo.user.ModifyPasswordVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RegisterVo;
 import com.yimayhd.sellerAdmin.model.vo.user.RetrievePasswordVo;
 import com.yimayhd.sellerAdmin.model.vo.user.UserVo;
+import com.yimayhd.sellerAdmin.util.Common;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.ChangePasswordDTO;
 import com.yimayhd.user.client.dto.LoginDTO;
@@ -46,18 +47,22 @@ public class UserConverter {
 		if (registerVo == null) {
 			return null;
 		}
-
+//		//注册时昵称随机生成
+//		String nickName = Constant.JIUXIU_NICKNAME_HEAD + Common.getCharAndNumr(8);
+//		registerVo.setNickname(nickName);
 		RegisterDTO registerDTO = new RegisterDTO();
 
 		registerDTO.setMobile(registerVo.getUsername());
 		registerDTO.setNickName(registerVo.getNickname());
 		UserDO userDO = new UserDO();
-		userDO.setNickname(registerVo.getNickname());
+//		userDO.setNickname(registerVo.getNickname());
 		userDO.setPassword(registerVo.getPassword());
 		userDO.setMobileNo(registerVo.getUsername());
 		registerDTO.setUserDO(userDO);
 		registerDTO.setVerifyCode(registerVo.getVerifyCode());
 		registerDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+		//昵称自动生成
+		registerDTO.setNicknameAutoGen(true);;
 
 		return registerDTO;
 

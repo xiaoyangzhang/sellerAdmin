@@ -49,17 +49,17 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 			String pathInfo = request.getPathInfo() ; 
 			String method = request.getMethod();
 //			System.err.println(pathInfo);
-//			menuBiz.cacheUserMenus2Tair(userId);
+			menuBiz.cacheUserMenus2Tair(userId);
 			
 			List<MenuVO> menus = menuCacheMananger.getUserMenus(userId);
 //			System.err.println(JSON.toJSONString(menus));
 			MenuVO menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
-			
+			/* wdtest 上线前放开
 			if(RequestMethod.GET.name().equalsIgnoreCase(method)  && menu == null  && !pathInfo.toLowerCase().contains("home") ){
 				String url = UrlHelper.getUrl( rootPath, "/error/lackPermission") ;
 				response.sendRedirect(url);
 				return false;
-			}
+			}*/
 			
 			request.setAttribute("menus", menus);
 			request.setAttribute("currentMenu", menu);

@@ -52,10 +52,10 @@
        	    	   				<tr>
                	    	   				<td class="rigtxt ts"><label>旅游企业：</label></td>
                	    	   				<td class="rigcontent listli">
-               	    	   					<input type="radio" value="1" name="" id="travel" checked="checked" class="flm ccc"/><label >旅行社</label>
+               	    	   					<input type="radio" value="1" name="lxs" id="travel"  class="flm ccc"/><label >旅行社</label>
                	    	   					<input type="radio" value="2" #if($!examineInfo.merchantCategoryId == 2) checked="checked" #end name="merchantCategoryId" id="" class="lm ddd"/><label class="">旅游商务服务公司</label>
                	    	   					<div class="company">
-								               <label class="bomb-con"><input type="radio" #if($!examineInfo.merchantCategoryId == 12) checked="checked" #end value="12"  name="merchantCategoryId" id="" class="" checked="checked"/><label>国内社总社</label></label>
+								               <label class="bomb-con"><input type="radio" #if($!examineInfo.merchantCategoryId == 12) checked="checked" #end value="12"  name="merchantCategoryId" id="" class="" /><label>国内社总社</label></label>
 							                   <label class="bomb-con"><input type="radio" value="13" #if($!examineInfo.merchantCategoryId == 13) checked="checked" #end name="merchantCategoryId" id="" class="daible"/><label>国内社分社</label></label>
 								               <label class="bomb-con"><input type="radio" value="14" #if($!examineInfo.merchantCategoryId == 14) checked="checked" #end name="merchantCategoryId" id="" class=""/><label>出境社总社</label></label>
 								               <label class="bomb-con"><input type="radio" value="15" #if($!examineInfo.merchantCategoryId == 15) checked="checked" #end name="merchantCategoryId" id="" class="daible"/><label>出境社分社</label></label>
@@ -100,17 +100,17 @@
 					   	       	<td class="rigtxt rigtit"><label>经营范围：</label></td>
 					   	       	<td class="rigcontent qdlm">
 					   	       		<ol>
-						   	       		<li><input type="checkbox" disabled="disabled" value="1" name="" id="" class="k1"/><label>度假路线</label></li>
+						   	       		<li><input type="checkbox"  value="1"  id="" class="k1"/><label>度假路线</label></li>
 						   	       		<div class="bomb">
 										    <div class="aaa bomb-txt01">
-												<label><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 2) checked="checked" #end #end value="2" disabled="disabled" name="" id="" class=""/><label>国内游</label></label>
-												<label class="bomb-con"><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 3) checked="checked" #end #end disabled="disabled" value="3" name="" id="" class=""/><label>出境游</label></label>
-												<label class="bomb-con"><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 4) checked="checked" #end #end disabled="disabled" value="4" name="" id="" class=""/><label>其他(交通卡券、送关、租车、旅游服务等)</label></label>
+												<label><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 2) checked="checked" #end #end value="2"  name="businessScopeId" id="" class=""/><label>国内游</label></label>
+												<label class="bomb-con"><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 3) checked="checked" #end #end  value="3" name="businessScopeId" id="" class=""/><label>出境游</label></label>
+												<label class="bomb-con"><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 4) checked="checked" #end #end  value="4" name="businessScopeId" id="" class=""/><label>其他(交通卡券、送关、租车、旅游服务等)</label></label>
 											</div>
 										</div>
-						   	       		<li><input type="checkbox" value="5" name="" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 5) checked="checked" #end #end  disabled="disabled" class=""/><label>酒店</label></li>
-						   	       		<li><input type="checkbox" value="6" name="" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 6) checked="checked" #end #end disabled="disabled" class=""/><label>门票</label></li>
-						   	       		<li><input type="checkbox" value="7" name="" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 7) checked="checked" #end #end disabled="disabled" class="" datatype="*"/><label>特产商品</label></li>
+						   	       		<li><input type="checkbox" value="5" name="businessScopeId" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 5) checked="checked" #end #end   class=""/><label>酒店</label></li>
+						   	       		<li><input type="checkbox" value="6" name="businessScopeId" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 6) checked="checked" #end #end  class=""/><label>门票</label></li>
+						   	       		<li><input type="checkbox" value="7" name="businessScopeId" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 7) checked="checked" #end #end  class="" datatype="*"/><label>特产商品</label></li>
 						   	       	</ol>
 					   	       	</td>
 				   	       </tr>
@@ -136,11 +136,11 @@
                	    	   <table>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>商户负责人姓名：</label></td>
-       	    	   				<td class="rigcontent"><input  datatype="s" maxlength="60" type="text" value="$!examineInfo.principleName" name="principleName" id="" class="txt01" placeholder="合同签约人的姓名"/></td>
+       	    	   				<td class="rigcontent"><input      type="text" value="$!examineInfo.principleName" name="principleName" id="" class="zrname txt01" placeholder="合同签约人的姓名"/></td>
        	    	   			</tr>
        	    	   			<tr>
 								<td class="rigtxt"><span class="">*</span><label>负责人证件类型：</label></td>
-								<td class="rigcontent" colspan="3"><input type="hidden" id="card_" value="2"><select name="principleCard" id="card" class="selectlist">
+								<td class="rigcontent" colspan="3"><select name="principleCard" id="card" class="selectlist">
 								  <option value="">--请选择--</option>
 								  <option #if ($examineInfo.principleCard == 0) selected="selected" #end value="0">身份证</option>
 								  <option #if ($examineInfo.principleCard == 1) selected="selected" #end value="1">驾驶证</option>
@@ -150,7 +150,7 @@
 							</tr>
 							<tr>
 								  <td class="rigtxt"><span>*</span><label>负责人证件号：</label></td>
-								  <td class="rigcontent"><input class="txt01" value="$!examineInfo.principleCardId" name="principleCardId" datatype="psport" maxlength="18"  placeholder="证件号码"></td>
+								  <td class="rigcontent"><input class="txt01" id="cardtxt" value="$!examineInfo.principleCardId" name="principleCardId" datatype="psport" maxlength="18"  placeholder="证件号码"></td>
 					        </tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>负责人手机号：</label></td>
@@ -161,7 +161,7 @@
        	    	   				<td class="rigcontent"><input type="text" value="$!examineInfo.principleMail"  name="principleMail" id="" class="txt01" datatype="e" maxlength="80" placeholder="请输入商户负责人邮箱"/></td>
        	    	   			</tr>
        	    	   			<tr>
-								<td class="rigtxt vertop"><span class="">*</span><label>负责人身份证正面：</label></td>
+								<td class="rigtxt vertop"><span class="">*</span><label>负责人身份证正面复印件加盖公章：</label></td>
 									<td class="rigcontent imgwidth">
 									<span class="imgbox">
 									        <div class="canclick">
@@ -176,7 +176,7 @@
 							        </span>
 								</td>
 
-								<td class="rigtxt widthrig vertop"><span>*</span><label>负责人身份证背面：</label></td>
+								<td class="rigtxt widthrig vertop"><span>*</span><label>负责人身份证反面复印件加盖公章：</label></td>
 								<td class="rigcontent imgwidth">
 									<span class="imgbox">
 									        <div class="canclick">
@@ -216,31 +216,31 @@
                				<table>
        						<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>商户名称：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="60" value="$!examineInfo.sellerName" name="sellerName" id="" class="txt01" placeholder="公司主体名称、营业执照上名称"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="20" value="$!examineInfo.sellerName" name="sellerName" id="" class="txt01" placeholder="公司主体名称、营业执照上名称"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>法定代表人名称：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="60" value="$!examineInfo.legralName" name="legralName" id="" class="txt01" placeholder="营业执照上的法人名称"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="5" value="$!examineInfo.legralName" name="legralName" id="" class="txt01" placeholder="营业执照上的法人名称"/></td>
        	    	   			</tr>
        	    	   			<tr>
-       	    	   				<td class="rigtxt"><span>*</span><label>法定代表人身法证：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="card" maxlength="60" value="$!examineInfo.lawPersonCard" name="lawPersonCard" id="" class="txt01"/></td>
+       	    	   				<td class="rigtxt"><span>*</span><label>法定代表人身份证：</label></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="card" maxlength="18" value="$!examineInfo.lawPersonCard" name="lawPersonCard" placeholder="营业执照上的法人身份证" id="" class="txt01"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业执照号码：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="n" maxlength="60" value="$!examineInfo.saleLicenseNumber" name="saleLicenseNumber" id="" class="txt01"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="n" maxlength="25" value="$!examineInfo.saleLicenseNumber" placeholder="营业执照号码" name="saleLicenseNumber" id="" class="txt01"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>税务登记号：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" maxlength="60" value="$!examineInfo.taxRegisterNumber" name="taxRegisterNumber" id="" class="txt01 taxL"/></td>
+       	    	   				<td class="rigcontent"><input type="text" maxlength="25"  value="$!examineInfo.taxRegisterNumber" placeholder="税务登记号码" name="taxRegisterNumber" id="" class="txt01 taxL"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业地址：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="60" value="$!examineInfo.address" name="address" id="" class="txt01" placeholder="营业执照上的营业地址"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="*" maxlength="30" value="$!examineInfo.address" name="address" id="" class="txt01" placeholder="营业执照上的营业地址"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业范围：</label></td>
-       	    	   				<td class="rigcontent"><textarea tip="" datatype="s" maxlength="60"  class="txt02" name="saleScope"  id="" placeholder="营业执照上的经营范围">$!examineInfo.saleScope</textarea></td>
+       	    	   				<td class="rigcontent"><textarea tip="" datatype="*" maxlength="150"  class="txt02" name="saleScope"  id="" placeholder="营业执照上的经营范围">$!examineInfo.saleScope</textarea></td>
        	    	   			</tr>
                				</table>
                	</div>
@@ -251,7 +251,7 @@
 								<td class="rigtxt"><span>*</span><label class="">开户银行：</label></td>
 								<td class="rigcontent"><select id="bank" class="selectlist" name="financeOpenBankId">
 								
-									  <option  value="">--请选择--</option>
+									  
 									#foreach ($bank in $bankList)
 										
 									  <option  #if ($examineInfo.financeOpenBankId == $bank.bankId) selected="selected" #end value="$!bank.bankId" >$!bank.bankName</option>
@@ -262,7 +262,7 @@
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">开户名称：</label></td>
-								<td class="rigcontent"><input type="text" datatype="*"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" maxlength="60" class="txt01"  placeholder="请输入开户行名称"></td>
+								<td class="rigcontent"><input type="text" datatype="*" maxlength="10"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" maxlength="60" class="txt01"  placeholder="请输入开户名称"></td>
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">结算账号：</label></td>
@@ -274,7 +274,7 @@
 									 <input type="hidden" id="province_" value="$!examineInfo.accountBankProvinceCode">
 									<input type="hidden" id="city_" value="$!examineInfo.accountBankCityCode">
 									<select id="province" ><option value="">--请选择--</option></select>
-									<select id="city"  class="ml10"><option value="">--请选择--</option></select>
+									<select id="city"   class="ml10"><option value="">--请选择--</option></select>
 									<span class="inblock"><input class="txt06" datatype="*" value="$!examineInfo.accountBankName" name="accountBankName" maxlength="60" placeholder="请填写详细的开户行名称"></span>
 								</td>
 							</tr>
@@ -283,17 +283,199 @@
 					</div>
 					<div class="infor-title">店铺命名</div>
 					<div class="seven">
-					     <div class="shopname"><span>*</span><label>店铺名称：</label><input type="text" datatype="s" maxlength="60" name="merchantName" value="$!examineInfo.merchantName" id="" class="rigcontent nameinput txt04"  placeholder=""></div>
+					     <div class="shopname"><span>*</span><label>店铺名称：</label><input type="text" datatype="s" maxlength="30" name="merchantName" value="$!examineInfo.merchantName" id="" class="rigcontent nameinput txt04"  placeholder=""></div>
+					    <img class="rule-name" src="$!rs_path_jiuxiu/img/rule-name.png">
+					     
 					     <div class="notes namelm"><span>*</span><label>店铺名称要符合店铺命名规范</label></div>
 					 </div>  
 					 <div class="identity">
-					  <div class="nextpage"><a href="javascript:history.go(-1);">上一页</a><a class="subt"
+					  <div class="nextpage"><a href="$!root_path/apply/toChoosePage">上一页</a><a class="subt"
 					   href="$!root_path/apply/seller/saveUserdata">下一页</a></div>
 					  </div>
 					  </div>
         </form> 
 </div>
-	
+	<div class="big-box" >
+<div class="close"><label>X</label></div>
+<div class="rule-box">
+	<table>
+		<thead>
+			<tr class="cor">
+				<td></td>
+				<td>招商类型</td>
+				<td>经营主体</td>
+				<td>店铺类型</td>
+				<td>店铺命名</td>
+				<td>举例</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td  rowspan="3">旅游企业</td>
+				<td>旅行社</td>
+				<td>法人</td>
+				<td>直营店</td>
+				<td>行政区划+商号+直营店</td>
+				<td class="box-example">
+					<ol>
+						<li><label>公司名:</label><label>云南丽江市XXX国际旅行社</label></li>
+						<li><label>商号：</label><label>XXX国旅</label></li>
+						<li><label>店铺名称：</label><label>丽江XXX国旅直营店</label></li>
+					</ol>
+				</td>
+			</tr>
+			<tr>	
+				<td>旅行社分社</td>
+				<td>非法人</td>
+				<td>专营店</td>
+				<td>行政区划+商号+分社名+专营店</td>
+				<td class="box-example">
+					<ol>
+						<li><label>公司名称：</label><label>云南丽江市XXX旅行社锦绣分社店铺</label></li>
+						<li><label>商号：</label><label>XXX旅行社</label></li>
+						<li><label>名称：</label><label>丽江XXX旅行社锦绣专营店</label></li>
+					</ol>
+				</td>
+			</tr>
+			<tr>
+				
+				<td>旅游类商务服务公司</td>
+				<td>法人</td>
+				<td>直营店</td>
+				<td>行政区划+商标+类目+直营店或商标名+类目+直营店</td>
+				<td class="box-example">
+					<ol>
+						<li><label>公司名称：</label><label>云南丽江市XXX商务服务公司</label></li>
+						<li><label>商标：</label><label>XXX</label></li>
+						<li><label>店铺名称:</label><label>丽江XXX旅游直营店</label></li>
+					</ol>
+				</td>
+			</tr>
+			<tr>
+				<td rowspan="3">酒店</td>
+				<td>酒店集团、连锁酒店、单体酒店</td>
+				<td>法人</td>
+				<td>直营店</td>
+				<td>行政区划+商号+直营店</td>
+				<td class="box-example">
+					<ol>
+						<li><label>公司名称：</label><label>云南丽江市XXX酒店</label></li>
+						<li><label>商号：</label><label>XXX酒店</label></li>
+						<li><label>店铺名称:</label><label>丽江XXX酒店直营店</label></li>
+					</ol>
+				</td>
+			</tr>
+			<tr>
+				
+				<td>客栈</td>
+				<td>法人/非法人</td>
+				<td>直营店/专营店</td>
+				<td>行政区划+商号+直营店/专营店</td>
+				<td class="box-example">
+					<ol>
+						<li><label>公司名称：</label><label>云南丽江市XXX客栈</label></li>
+						<li><label>商号：</label><label>XXX客栈</label></li>
+						<li><label>店铺名称:</label><label>丽江XXX客栈直营店/专营店</label></li>
+					</ol>
+				</td>
+			</tr>
+			<tr>
+				
+				<td>含物业地产\会展\酒店预订等相关经营范围的商务服务公司</td>
+				<td>法人</td>
+				<td>直营店</td>
+				<td>行政区划+商标+类目+直营店或商标名+类目+直营店</td>
+				<td class="box-example">
+					<ol>
+						<li><label>公司名称：</label><label>云南丽江市XXX商务公司</label></li>
+						<li><label>商标：</label><label>XXX</label></li>
+						<li><label>店铺名称:</label><label>丽江XXX酒店直营店</label></li>
+					</ol>
+				</td>
+			</tr>
+			<tr>
+				<td rowspan="4">同城活动企业</td>
+				<td>个体工商户</td>
+				<td>非法人</td>
+				<td>专营店</td>
+				<td>行政区划+商标/商号+类目+专营店</td>
+				<td class="box-example">
+					<ol>
+						<li><label>公司名称：</label><label>云南丽江XXX加工厂</label></li>
+						<li><label>店铺名称:</label><label>丽江XXX同城玩乐专营店</label></li>
+					</ol>
+				</td>
+			</tr>
+			<tr>
+				
+				<td>合伙企业</td>
+				<td>非法人</td>
+				<td>专营店</td>
+				<td>行政区划+商标/商号+类目+专营店</td>
+				<td class="box-example">
+					<ol>
+						<li><label>俱乐部名称：</label><label>云南丽江XXX俱乐部</label></li>
+						<li><label>店铺名称:</label><label>丽江XXX同城玩乐专营店</label></li>
+					</ol>
+				</td>
+			</tr>
+			<tr>
+			
+				<td>其他组织团体</td>
+				<td>非法人</td>
+				<td>专营店</td>
+				<td>行政区划+商标+类目+专营店</td>
+				<td class="box-example">
+					<ol>
+						<li><label>俱乐部名称：</label><label>云南丽江XXX俱乐部</label></li>
+						<li><label>店铺名称:</label><label>丽江XXX同城玩乐专营店</label></li>
+					</ol>
+				</td>
+			</tr>
+			<tr>
+				
+				<td>公司</td>
+				<td>法人</td>
+				<td>专营店</td>
+				<td>行政区划+商标+类目+直营店</td>
+				<td class="box-example">
+					<ol>
+						<li><label>俱乐部名称：</label><label>丽江XXX有限公司</label></li>
+						<li><label>店铺名称:</label><label>丽江XXX同城玩乐直营店</label></li>
+					</ol>
+				</td>
+			</tr>
+			<tr>
+				<td rowspan="2">景区</td>
+				<td>景区集团/游乐园/景区经营方（单体）</td>
+				<td>法人</td>
+				<td>直营店</td>
+				<td>景区名称+直营店</td>
+				<td class="box-example">
+					<ol>
+						<li><label>俱乐部名称：</label><label>宋城集团有限公司</label></li>
+						<li><label>商标：</label><label>宋城</label></li>
+						<li><label>店铺名称:</label><label>宋城景区集团直营店</label></li>
+					</ol>
+				</td>
+			</tr>
+			<tr>
+				
+				<td>非景区公司/实景演出/主题乐园</td>
+				<td>法人</td>
+				<td>直营店</td>
+				<td>行政区划+商标+类目+直营店或商标名+类目+直营店</td>
+				<td class="box-example">
+					<ol>
+						<li><label>俱乐部名称：</label><label>云南丽江市XXX公司</label></li>
+						<li><label>店铺名称:</label><label>丽江XXX门票直营店</label></li>
+					</ol>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</div>
 	
 <script  type='text/temple' id='province-tpl'>
 	    <option value="">--请选择--</option>

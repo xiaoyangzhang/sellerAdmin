@@ -17,9 +17,13 @@ import org.springframework.beans.BeanUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.result.PicTextResult;
+import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
+import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
+import com.yimayhd.ic.client.model.domain.CategoryValueDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
 import com.yimayhd.ic.client.model.domain.RouteDO;
 import com.yimayhd.ic.client.model.domain.RouteItemDO;
+import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
@@ -45,7 +49,11 @@ import com.yimayhd.ic.client.model.param.item.line.RouteItemUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.line.RouteUpdateDTO;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
+import com.yimayhd.resourcecenter.domain.DestinationDO;
+import com.yimayhd.resourcecenter.dto.DestinationNode;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.DestinationNodeVO;
+import com.yimayhd.sellerAdmin.model.line.DestinationVO;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.TagDTO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
@@ -188,7 +196,12 @@ public class LineConverter {
 						day = new LinkedHashMap<Long, ItemSkuDO>();
 						tc.put(time, day);
 					}
-					day.put(personPair.getVId(), sku);
+					if( day == null || personPair == null ){
+						System.err.println();
+					}
+					if( personPair != null ){
+						day.put(personPair.getVId(), sku);
+					}
 				}
 			}
 			// 完成数据组装
@@ -351,7 +364,7 @@ public class LineConverter {
 		BaseInfoVO baseInfo = toBaseInfoVO(line, item, themes, departs, dests);
 		result.setBaseInfo(baseInfo);
 		// 线路个性化部分 start
-		if (item.getItemType() == ItemType.FREE_LINE.getValue()) {
+		if (item.getItemType() == ItemType.FREE_LINE.getValue()||item.getItemType() == ItemType.FREE_LINE_ABOARD.getValue()) {
 			RouteDO routeDO = lineResult.getRouteDO();
 			if (routeDO != null) {
 				RoutePlanVo routePlan = toRoutePlanVo(routeDO.getRoutePlan());
@@ -361,6 +374,10 @@ public class LineConverter {
 		// 行程信息
 		RouteInfoVO routeInfo = toRouteInfoVO(lineResult.getRouteDO(), lineResult.getRouteItemDOList());
 		result.setRouteInfo(routeInfo);
+		
+		//查询类目的所有销售属性
+		//过滤lineResult.getItemSkuDOList()中的属性，如果销售属性已被删除，页面就不在显示了
+		
 		// 价格信息
 		result.setPriceInfo(toPriceInfoVO(lineResult.getItemSkuDOList(), item));
 		// 购买须知
@@ -569,6 +586,9 @@ public class LineConverter {
 		itemDO.setDays(baseInfo.getDays());
 		ItemFeature itemFeature = new ItemFeature(null);
 		itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, priceInfo.getLimitBySecond());
+		itemFeature.put(ItemFeatureKey.SUBJECTS, baseInfo.getThemesIcs());
+		itemFeature.put(ItemFeatureKey.START_CITIES, baseInfo.getDepartsIcs());
+		itemFeature.put(ItemFeatureKey.DEST_CITIES, baseInfo.getDestsIcs());
 		itemDO.setItemFeature(itemFeature);
 		return itemDO;
 	}
@@ -587,6 +607,11 @@ public class LineConverter {
 		itemUpdateDTO.setItemMainPics(baseInfo.getPicUrls());
 		itemUpdateDTO.setStartBookTimeLimit(startBookTimeLimit);
 		itemUpdateDTO.setDays(baseInfo.getDays());
+		ItemFeature itemFeature = new ItemFeature(null);
+		itemFeature.put(ItemFeatureKey.SUBJECTS, baseInfo.getThemesIcs());
+		itemFeature.put(ItemFeatureKey.START_CITIES, baseInfo.getDepartsIcs());
+		itemFeature.put(ItemFeatureKey.DEST_CITIES, baseInfo.getDestsIcs());
+		itemUpdateDTO.setItemFeature(itemFeature);
 		return itemUpdateDTO;
 	}
 
@@ -683,6 +708,7 @@ public class LineConverter {
 			List<RouteItemDO> routeItemDOList = toRouteItemDOs(routeDays);
 			dto.setRouteItemList(routeItemDOList);
 		}
+		
 		BaseInfoVO baseInfo = line.getBaseInfo();
 		PriceInfoVO priceInfo = line.getPriceInfo();
 		long categoryId = baseInfo.getCategoryId();
@@ -690,5 +716,261 @@ public class LineConverter {
 		dto.setItemSkuList(toItemSkuDOList(categoryId, sellerId, priceInfo.getTcs()));
 		return dto;
 	}
+	
+	public static List<DestinationNodeVO> toDestinationNodeVO(List<DestinationNode> destinationNodes) {
+		if (CollectionUtils.isEmpty(destinationNodes)) {
+			return new ArrayList<DestinationNodeVO>(0);
+		}
+		List<DestinationNodeVO> departs = new ArrayList<DestinationNodeVO>();
+		for (DestinationNode node : destinationNodes) {
+			DestinationNodeVO destinationNodeVO = new DestinationNodeVO();
+			if (node.isHasChild()) {
+				DestinationDO destinationDO = node.getDestinationDO();
+				DestinationVO destinationVO = new DestinationVO(destinationDO.getId(), destinationDO.getName(),
+						destinationDO.getCode(), destinationDO.getSimpleCode());
+				destinationNodeVO.setChild(toDestinationNodeVO(node.getChildList()));
+				destinationNodeVO.setDestinationVO(destinationVO);
+			} else {
+				DestinationDO destinationDO = node.getDestinationDO();
+				DestinationVO destinationVO = new DestinationVO(destinationDO.getId(), destinationDO.getName(),
+						destinationDO.getCode(), destinationDO.getSimpleCode());
+				destinationNodeVO.setDestinationVO(destinationVO);
+			}
+			departs.add(destinationNodeVO);
+		}
+		return departs;
+	}
 
+	public static void fillDestinationesSelectedInfo(List<DestinationNodeVO> destinationNodeVOs,
+			List<String> selectedIds) {
+		if (CollectionUtils.isEmpty(destinationNodeVOs) || CollectionUtils.isEmpty(selectedIds)) {
+			return ;
+		}
+		for (DestinationNodeVO destinationNodeVO : destinationNodeVOs) {
+			List<DestinationNodeVO> children = destinationNodeVO.getChild() ;
+			if (CollectionUtils.isNotEmpty( children )) {
+				fillDestinationesSelectedInfo(children, selectedIds);
+			}
+			DestinationVO destinationVO = destinationNodeVO.getDestinationVO();
+			
+			//FIXME 非空判断
+			Long id = destinationVO.getId() ;
+			if (selectedIds.contains( id.toString() )) {
+				destinationVO.setSelected(true);
+			}
+		}
+	}
+	
+	public static List<ItemSkuDO> filterUnnecessaryItem(CategoryDO category, List<ItemSkuDO> itemSkuDOList) {
+		if (category==null || CollectionUtils.isEmpty(itemSkuDOList)) {
+			return null;
+		}
+		List<CategoryPropertyValueDO> sellCategoryPropertyDOs = category.getSellCategoryPropertyDOs();
+		if (CollectionUtils.isEmpty(sellCategoryPropertyDOs) || CollectionUtils.isEmpty(itemSkuDOList) ) {
+			return null;
+		}
+		/*
+		 * 套餐
+		 * 出发日期
+		 * 人员类型   ---成人，儿童，单房差
+		 * */
+		//计算出类目下所有销售属性
+		List<Long> usingVIds = new ArrayList<Long>() ;
+		for (CategoryPropertyValueDO categoryPropertyValueDO : sellCategoryPropertyDOs) {
+			List<CategoryValueDO> categoryValueDOs = categoryPropertyValueDO.getCategoryValueDOs() ;
+			if( CollectionUtils.isNotEmpty(categoryValueDOs) ){
+				for( CategoryValueDO value : categoryValueDOs ){
+					//计算出所有销售属性
+					usingVIds.add(value.getId()) ;
+				}
+			}
+		}
+		
+		List<ItemSkuDO> skus = new ArrayList<ItemSkuDO>() ;
+		
+		for (ItemSkuDO sku : itemSkuDOList) {
+			List<ItemSkuPVPair> itemSkuPVPairList = sku.getItemSkuPVPairList();
+			for (ItemSkuPVPair itemSkuPVPair : itemSkuPVPairList) {
+				if (itemSkuPVPair.getPType() == PropertyType.PERSON_TYPE.getType()) {
+					long vId = itemSkuPVPair.getVId() ;
+					if ( !usingVIds.contains(vId)) {
+						skus.add(sku);
+						break; 
+					}
+				}
+			}
+		}
+		return skus ;
+	}
+
+	public static void filterItemSku(CategoryDO category, List<ItemSkuDO> itemSkuDOList) {
+		if (category==null || CollectionUtils.isEmpty(itemSkuDOList)) {
+			return;
+		}
+		List<CategoryPropertyValueDO> sellCategoryPropertyDOs = category.getSellCategoryPropertyDOs();
+		if (CollectionUtils.isEmpty(sellCategoryPropertyDOs) || CollectionUtils.isEmpty(itemSkuDOList) ) {
+			return;
+		}
+		/*
+		 * 套餐
+		 * 出发日期
+		 * 人员类型   ---成人，儿童，单房差
+		 * */
+		//计算出类目下所有销售属性
+		Map<Long, CategoryValueDO> map = new HashMap<Long, CategoryValueDO>();
+		CategoryPropertyDO categoryPropertyValueDOForPerson=new CategoryPropertyDO();
+		Long mapcpvd =null;
+		for (CategoryPropertyValueDO categoryPropertyValueDO : sellCategoryPropertyDOs) {
+			List<CategoryValueDO> categoryValueDOs = categoryPropertyValueDO.getCategoryValueDOs() ;
+			if( CollectionUtils.isNotEmpty(categoryValueDOs) ){
+				categoryPropertyValueDOForPerson=categoryPropertyValueDO.getCategoryPropertyDO();
+//				mapcpvd.put(categoryPropertyValueDO.getPropertyId(), categoryPropertyValueDO) ;
+				mapcpvd=categoryPropertyValueDO.getPropertyId();
+				for( CategoryValueDO value : categoryValueDOs ){
+					//计算出所有销售属性
+					map.put(value.getId(), value) ;
+				}
+			}
+		}
+		Set<Long> skuPIds = new HashSet<Long>();//原来人员类型下的属性取值：1，2，3，4
+		//取出所有的人员类型  下的属性值id
+		for (ItemSkuDO sku : itemSkuDOList) {
+			// Set<Long> pIds = mapcpvd.keySet();
+			List<ItemSkuPVPair> itemSkuPVPairList = sku.getItemSkuPVPairList();
+			for (ItemSkuPVPair itemSkuPVPair : itemSkuPVPairList) {
+				long pid = itemSkuPVPair.getPId();
+				if (mapcpvd != null && mapcpvd.equals(pid)) {
+					skuPIds.add(itemSkuPVPair.getVId());
+				}
+			}
+		}
+		List<ItemSkuDO> itemSkuDOs=new ArrayList<ItemSkuDO>();
+		Set<Long> vIds = map.keySet();// 1，4，145
+		Set<Long> oVIds = new HashSet<Long>();
+		oVIds.addAll(vIds);
+		vIds.removeAll(skuPIds);
+		if (CollectionUtils.isEmpty(oVIds)) {
+			return  ;
+		}
+		for (ItemSkuDO sku : itemSkuDOList) {
+//			for (Long vId : vIds) {
+				List<ItemSkuPVPair> itemSkuPVPairList = sku.getItemSkuPVPairList();
+				List<ItemSkuPVPair> newItemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
+				boolean containPropertyType = false;
+				for (ItemSkuPVPair itemSkuPVPair : itemSkuPVPairList) {
+					if (itemSkuPVPair.getPType() == PropertyType.PERSON_TYPE.getType()) {
+						long vId = itemSkuPVPair.getVId() ;
+						if (oVIds.contains(vId)) {
+							containPropertyType = true; 
+							newItemSkuPVPairList.add(itemSkuPVPair);
+						}
+					} else {
+						newItemSkuPVPairList.add(itemSkuPVPair);
+					}
+				}
+				if( !containPropertyType ){
+					for( long vId : vIds ){
+						ItemSkuPVPair pair = new ItemSkuPVPair();
+						CategoryValueDO value = map.get(vId);
+						pair.setPId(categoryPropertyValueDOForPerson.getId());
+						pair.setPType(categoryPropertyValueDOForPerson.getType());
+						pair.setPTxt(categoryPropertyValueDOForPerson.getText());
+						pair.setVTxt(value.getText());
+						pair.setVType(value.getType());
+						pair.setVId(value.getId());
+						newItemSkuPVPairList.add(pair);
+						sku.setPrice(0);
+						sku.setStockNum(0);
+						
+					}
+					
+				}
+				
+				sku.setItemSkuPVPairList(newItemSkuPVPairList);
+				itemSkuDOs.add(sku);
+//			}
+		}
+		
+		
+		itemSkuDOList=itemSkuDOs;
+	}
+	public static void filterItemSku2(CategoryDO category, List<ItemSkuDO> itemSkuDOList) {
+		if (category==null || CollectionUtils.isEmpty(itemSkuDOList)) {
+			return;
+		}
+		List<CategoryPropertyValueDO> sellCategoryPropertyDOs = category.getSellCategoryPropertyDOs();
+		if (CollectionUtils.isEmpty(sellCategoryPropertyDOs) || CollectionUtils.isEmpty(itemSkuDOList) ) {
+			return;
+		}
+		/*
+		 * 套餐
+		 * 出发日期
+		 * 人员类型   ---成人，儿童，单房差
+		 * */
+		//计算出类目下所有销售属性
+		Map<Long, CategoryValueDO> map = new HashMap<Long, CategoryValueDO>();
+		CategoryPropertyDO categoryPropertyValueDOForPerson=new CategoryPropertyDO();
+		Long mapcpvd =null;
+		for (CategoryPropertyValueDO categoryPropertyValueDO : sellCategoryPropertyDOs) {
+			List<CategoryValueDO> categoryValueDOs = categoryPropertyValueDO.getCategoryValueDOs() ;
+			if( CollectionUtils.isNotEmpty(categoryValueDOs) ){
+				categoryPropertyValueDOForPerson=categoryPropertyValueDO.getCategoryPropertyDO();
+//				mapcpvd.put(categoryPropertyValueDO.getPropertyId(), categoryPropertyValueDO) ;
+				mapcpvd=categoryPropertyValueDO.getPropertyId();
+				for( CategoryValueDO value : categoryValueDOs ){
+					//计算出所有销售属性
+					map.put(value.getId(), value) ;
+				}
+			}
+		}
+		Set<Long> skuPIds = new HashSet<Long>();//原来人员类型下的属性取值：1，2，3，4
+		//取出所有的人员类型  下的属性值id
+		for (ItemSkuDO sku : itemSkuDOList) {
+			// Set<Long> pIds = mapcpvd.keySet();
+			List<ItemSkuPVPair> itemSkuPVPairList = sku.getItemSkuPVPairList();
+			for (ItemSkuPVPair itemSkuPVPair : itemSkuPVPairList) {
+				long pid = itemSkuPVPair.getPId();
+				if (mapcpvd != null && mapcpvd.equals(pid)) {
+					skuPIds.add(itemSkuPVPair.getVId());
+				}
+			}
+		}
+		List<ItemSkuDO> itemSkuDOs=new ArrayList<ItemSkuDO>();
+		Set<Long> vIds = map.keySet();// 1，4，145
+		Set<Long> oVIds = new HashSet<Long>();
+		oVIds.addAll(vIds);
+		vIds.removeAll(skuPIds);
+		if (CollectionUtils.isNotEmpty(vIds)) {
+			for (ItemSkuDO sku : itemSkuDOList) {
+				for (Long vId : vIds) {
+					List<ItemSkuPVPair> itemSkuPVPairList = sku.getItemSkuPVPairList();
+					List<ItemSkuPVPair> newItemSkuPVPairList = new ArrayList<ItemSkuPVPair>();
+					for (ItemSkuPVPair itemSkuPVPair : itemSkuPVPairList) {
+						if (itemSkuPVPair.getPType() == PropertyType.PERSON_TYPE.getType()) {
+							if (oVIds.contains(itemSkuPVPair.getVId())) {
+								newItemSkuPVPairList.add(itemSkuPVPair);
+							} else {
+								ItemSkuPVPair pair = new ItemSkuPVPair();
+								CategoryValueDO value = map.get(vId);
+								pair.setPId(categoryPropertyValueDOForPerson.getId());
+								pair.setPType(categoryPropertyValueDOForPerson.getType());
+								pair.setPTxt(categoryPropertyValueDOForPerson.getText());
+								pair.setVTxt(value.getText());
+								pair.setVType(value.getType());
+								pair.setVId(value.getId());
+								newItemSkuPVPairList.add(pair);
+								sku.setPrice(0);
+								sku.setStockNum(0);
+							}
+						} else {
+							newItemSkuPVPairList.add(itemSkuPVPair);
+						}
+					}
+					sku.setItemSkuPVPairList(newItemSkuPVPairList);
+					itemSkuDOs.add(sku);
+				}
+			}
+		}
+		itemSkuDOList=itemSkuDOs;
+	}
 }

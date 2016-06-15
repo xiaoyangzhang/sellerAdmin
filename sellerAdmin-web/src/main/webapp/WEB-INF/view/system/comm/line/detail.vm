@@ -41,14 +41,13 @@
 	</head>
 	<body>
 		<input type ="hidden" id ="uuid" name ="uuid" value ="$!UUID" />
-		<input type ="hidden" id ="draftId" name ="draftId" value ="$!draftId" />
 		<div class="tab-container">	
             <ul class="nav nav-tabs">
                 <li class="active">
                   <a href="#tab1" data-toggle="tab">基本信息</a>
                 </li>
                 <li>
-                  <a href="#tab2" data-toggle="tab">详细描述</a>
+                  <a href="#tab2" data-toggle="tab">图文介绍</a>
                 </li>
 				#if($utilItem.isFreeLine($itemType))
                 <li>
@@ -92,9 +91,7 @@
             #if(!${isReadonly})
             <div class="groupTravelBot">
                 <button class="btn btn-primary save">全部保存</button>
-                <button class="btn btn-primary savedraft">保存草稿</button>
             </div>
-              
 			#end
         </div>
 	</body>
@@ -102,6 +99,13 @@
 <script type="text/javascript" src="$rs_js_css_path_admin/js/editer.js"></script>
 <script type="text/javascript">
 $(".save").click(function(){
+	//前端验证-------
+	var errmsg = validatePro();
+	if (errmsg) {
+		layer.msg(errmsg,{icon:2,time:1500});
+		return false;   		
+	};
+	//前端验证end-------
     var result = {
         baseInfo:getBaseInfo(),
 		pictureText:getPictureText(),
@@ -144,57 +148,5 @@ $(".save").click(function(){
 			});
 		}
     },"json");
-});
-$(".savedraft").click(function(){
-	 layer.prompt({title: '请输入草稿名称', formType: 0}, function(text){
-	    var result = {
-	        baseInfo:getBaseInfo(),
-			pictureText:getPictureText(),
-			#if($utilItem.isFreeLine($itemType))
-			routePlan:getRoutePlan(),
-			#end
-	        routeInfo:getRouteInfo(),
-	        priceInfo:getPriceInfo(),
-			needKnow:getNeedKnow()
-	    };
-		console.log(JSON.stringify(result.baseInfo));
-		console.log(JSON.stringify(result.pictureText));
-		#if($utilItem.isFreeLine($itemType))
-		console.log(JSON.stringify(result.routePlan));
-		#end
-		console.log(JSON.stringify(result.routeInfo));
-		console.log(JSON.stringify(result.priceInfo));
-		console.log(JSON.stringify(result.needKnow));
-		var params = {
-			json:JSON.stringify(result),
-			draftName:text,
-			uuid:$("#uuid").val(),
-			subType:21,
-			mainType:1,
-			id:$("#draftId").val()
-		};
-	
-	    var url = "$!{utilWebconfig.getActionDefaultFontPath()}/draft/saveLineDraft";
-	    $.post(url,params,function(data){
-			if(data.success) {
-				layer.alert(data.resultMsg);
-			} else {
-				layer.alert(data.resultMsg, {
-					icon : 2
-				});
-			}
-	    },"json");
-    		$.post(operateUrl,function(result) {
-    			if(result.success) {
-    				window.location.reload();
-    			} else {
-    				layer.msg('操作失败', {
-        				icon : 2,
-        				time : 1000
-        			});
-    			}
-    		},"json");
-		layer.close(index);
-    });
 });
 </script>

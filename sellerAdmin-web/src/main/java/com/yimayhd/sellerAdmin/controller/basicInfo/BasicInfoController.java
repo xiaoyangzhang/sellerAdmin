@@ -25,6 +25,7 @@ import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.biz.MerchantBiz;
 import com.yimayhd.sellerAdmin.biz.TalentBiz;
@@ -138,10 +139,10 @@ public class BasicInfoController extends BaseController {
 	@RequestMapping(value="/talent/toAddTalentInfo",method=RequestMethod.GET)
 	public String toAddTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model) {
 		
-		model.addAttribute("talentBiz", talentBiz);
+	//	model.addAttribute("talentBiz", talentBiz);
 		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
 		//try {
-			MemResult<TalentInfoDTO> dtoResult = talentBiz.queryTalentInfoByUserId();
+			WebResult<TalentInfoDTO> dtoResult = talentBiz.queryTalentInfoByUserId();
 			if (dtoResult == null) {
 				return "/system/error/500";
 			}
@@ -180,19 +181,17 @@ public class BasicInfoController extends BaseController {
 	@ResponseBody
 	public BizResult<String> addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
 			BizResult<String> bizResult = new BizResult<>();
-			MemResult<Boolean> addTalentInfoResult = talentBiz.addTalentInfo(vo);
+			WebResult<Boolean> addTalentInfoResult = talentBiz.addTalentInfo(vo);
 			if (addTalentInfoResult == null) {
 				bizResult.init(false, -1, "保存失败");
-				//bizResult = BizResult.buildFailResult(-1, "保存失败", false);
 				return bizResult;
 			}
 			if (addTalentInfoResult.isSuccess()) {
 				bizResult.setValue("/toAddTalentInfo");
 			}
 			else {
-				//BizResult.buildFailResult(addTalentInfoResult.getErrorCode(), addTalentInfoResult.getErrorMsg(), false);
 				bizResult.init(false, addTalentInfoResult.getErrorCode(),
-						addTalentInfoResult.getErrorMsg());
+						addTalentInfoResult.getResultMsg());
 			}
 			return bizResult;
 		

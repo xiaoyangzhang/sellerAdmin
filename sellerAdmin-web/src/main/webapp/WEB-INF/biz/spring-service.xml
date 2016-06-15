@@ -61,5 +61,10 @@
  	<!-- <bean class="com.yimayhd.sellerAdmin.service.impl.TalentInfoDealServiceImpl"></bean> -->
 	<bean class="com.yimayhd.sellerAdmin.service.impl.CityActivityServiceImpl"></bean>
 	<bean class="com.yimayhd.sellerAdmin.service.impl.TagServiceImpl"></bean>
-
+	<!--九牛二期 -->
+	<!--酒店商品管理-->
+	<bean id ="hotelManageService" class="com.yimayhd.sellerAdmin.service.hotelManage.impl.HotelManageServiceImpl" />
+	<!--景区商品管理-->
+	<bean id ="scenicManageService" class="com.yimayhd.sellerAdmin.service.hotelManage.impl.ScenicManageServiceImpl" />
+	<bean id="serviceTemplate" class="com.yimayhd.sellerAdmin.base.template.ServiceTemplateImpl" />
 </beans>

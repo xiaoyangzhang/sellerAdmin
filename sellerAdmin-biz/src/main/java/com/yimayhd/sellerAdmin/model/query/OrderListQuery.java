@@ -18,6 +18,8 @@ public class OrderListQuery extends BaseQuery {
 	private Integer domain; //1000--b2c、1100--gf;
 	private int itemType;//商品类型
 	private long sellerId;
+	
+	private String assesmentType;//评价状态
 
 
 	public String getOrderNO() {
@@ -107,4 +109,12 @@ public class OrderListQuery extends BaseQuery {
 	public void setItemType(int itemType) {
 		this.itemType = itemType;
 	}
+	public String getAssesmentType() {
+		return assesmentType;
+	}
+	public void setAssesmentType(String assesmentType) {
+		this.assesmentType = assesmentType;
+	}
+	
+	
 }

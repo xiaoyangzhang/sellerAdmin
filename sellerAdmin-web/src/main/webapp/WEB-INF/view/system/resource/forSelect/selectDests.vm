@@ -2,32 +2,40 @@
 <html>
     <head>
         #parse("layout/layout-meta.vm")
-		<title>选择目的地</title>  
+		<title>选择目的地</title>
         <meta name="keywords" content=""></meta>
         <meta name="description" content=""></meta>
 		#parse("layout/base-link.vm")
-        <style>
-            .choosecity{padding-top:20px;}
+		<style>
+            .choosecity{padding-top:10px;}
             .choosecity label,.choosecity input,.choosecity span{vertical-align:middle;margin:0;padding:0;outline:none;}
             .choosecity label{font-size:14px;line-height:14px;color:#666;display:inline-block;margin-right:10px;cursor:pointer;}
             .choosecity input.ck{height:14px;margin-bottom:2px;margin-right:5px;cursor:pointer;}
+
+            .destlistbox{padding: 20px 25px;font-size: 16px; overflow: hidden;}
+            .destlistbox .destbox{float: left; position:relative;width:235px;height: 345px;overflow-y: auto; margin-right: 20px; border: 1px solid #e5e5e5;border-top: 3px solid #ffab00;}
+            .destlistbox .destbox ul li{position: relative;height: 40px;line-height: 40px;padding: 0 15px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; border-bottom: 1px solid #e5e5e5;}
+            .destlistbox .destbox ul li:first-child{background: #fff9ec;color:#ffaf00;}
+            .destlistbox .destbox ul li:first-child:hover{background: #fff9ec;color:#ffaf00;}
+            .destlistbox .destbox ul li.sel{background: #ffaf00;}
+            .destlistbox .destbox ul li.sel:hover{background: #ffaf00;}
+            .destlistbox .destbox ul li:hover{background: #f5f5ee;}
+            .destlistbox .destbox .jiantou{display: block;position: absolute;top:15px;right:15px;width: 10px;height: 10px;
+            					border-top: 1px solid #666;border-right: 1px solid #666;
+            				 	transform:rotate(45deg);-ms-transform:rotate(45deg);}
+			.destlistbox .destbox ul li .destcheckbox{height: 13px; margin: 0 5px 2px 0;}
         </style>
     </head>
     <body>
-        #foreach($entry in $destMap.entrySet())  
-        <div id="$!{entry.key}" class="choosecity">
-        	<label>$!{entry.key}:</label>
-        	#foreach($dest in $entry.value)  
-        	<label><input type="checkbox" class="city ck" dest-id="$!{dest.id}" dest-code="$!{dest.city.code}" dest-name="$!{dest.city.name}">$!{dest.city.name}</label>
-        	#end
-        </div>
-        #end
-        <br><br><br>
+    	<div class="destlistbox">
+			<input type="hidden" name="destData" value='$!destMap' />
+		</div>
+
+        <br>
 		#parse("layout/base-js.vm")
         <script>
             function getSelected() {
                 var result = [];
-            	$("input:checkbox:checked")
             	$(".ck:checked").each(function(){
             		result.push({
             			id:$(this).attr("dest-id"),
@@ -35,8 +43,256 @@
             			code:$(this).attr("dest-code")
             		});
             	});
+//          	$(".sel").each(function(){
+//          		result.push({
+//          			id:$(this).attr("dest-id"),
+//          			name:$(this).attr("dest-name"),
+//          			code:$(this).attr("dest-code")
+//          		});
+//          	});
+	            	//-------境外提交数据-----------
+	            var destDataObj = JSON.parse($('input[name="destData"]').val());
+        		var countryArr = destDataObj.destinationNodeVOs;
+        		for (var i=0;i<countryArr.length;i++) {
+        			if (countryArr[i].destinationVO.selected) {
+//      				result.push({
+//      					id : countryArr[i].destinationVO.id,
+//      					name : countryArr[i].destinationVO.name,
+//      					code : countryArr[i].destinationVO.code
+//      				});
+	    				if (countryArr[i].child) {
+	    					var flag = true;
+	        				for (var j=0;j<countryArr[i].child.length;j++) {
+	        					if (countryArr[i].child[j].destinationVO.selected) {
+	        						flag = false;
+	        						result.push({
+		            					id : countryArr[i].child[j].destinationVO.id,
+		            					name : countryArr[i].child[j].destinationVO.name,
+		            					code : countryArr[i].child[j].destinationVO.code
+		            				});
+	        					}
+	        				};
+							if(flag){
+		        				result.push({
+		        					id : countryArr[i].destinationVO.id,
+		        					name : countryArr[i].destinationVO.name,
+		        					code : countryArr[i].destinationVO.code
+		        				});
+							};
+	    				}else{
+	        				result.push({
+	        					id : countryArr[i].destinationVO.id,
+	        					name : countryArr[i].destinationVO.name,
+	        					code : countryArr[i].destinationVO.code
+	        				});
+	    				};
+        			}
+        		}
             	return result;
-            }
+            };
+            $(function(){
+            	var destDataObj = JSON.parse($('input[name="destData"]').val());
+            	//console.log(destDataObj);
+            	//国内
+          		if (destDataObj.type=='inland') {
+ 					var inlandCityArr = destDataObj.destinationNodeVOs[0].child;
+					for (var i=65;i<91;i++ ) {
+						var myLetter = String.fromCharCode(i);
+						var $html = '';
+						var flagNum = false;
+						$html += '<div id='+ myLetter +' class="choosecity">';
+						$html += '<label>'+ myLetter +':</label>';
+
+						for (var j=0;j<inlandCityArr.length;j++) {
+							var singleCity = inlandCityArr[j].destinationVO;
+							if (myLetter == singleCity.simpleCode) {
+								$html += '<label><input type="checkbox" class="city ck"  dest-id='+ singleCity.id +' dest-code='+ singleCity.code +' dest-name='+ singleCity.name +'>'+ singleCity.name +'</label>';
+								flagNum = true;
+							};
+						};
+						if (flagNum) {
+							$html += '</div>';
+							$('.destlistbox').append($html);
+						};
+					};
+          		};
+          		//境外
+          		if (destDataObj.type=='oversea') {
+ 					var countryArr = destDataObj.destinationNodeVOs;
+
+					var $html = '';
+					$html += '<div class="destbox countrybox"><ul>';
+					$html += '<li>国家</li>';
+					for (var i=65;i<91;i++ ) {
+						var myLetter = String.fromCharCode(i);
+
+						for (var j=0;j<countryArr.length;j++) {
+							var singleCountry = countryArr[j].destinationVO;
+							if (myLetter == singleCountry.simpleCode) {
+								if (singleCountry.selected) {
+									if (countryArr[j].child) {
+										$html += '<li class="destlist childlist" dest-index='+j+' dest-id='+singleCountry.id+' dest-code='+singleCountry.code+' dest-name='+singleCountry.name+'><input type="checkbox" class="destcheckbox" checked>'+singleCountry.name+'<span class="jiantou"></span></li>';
+									}else{
+										$html += '<li class="destlist nolist" dest-index='+j+' dest-id='+singleCountry.id+' dest-code='+singleCountry.code+' dest-name='+singleCountry.name+'><input type="checkbox" class="destcheckbox" checked>'+singleCountry.name+'</li>';
+									}
+								}else{
+									if (countryArr[j].child) {
+										var flag = false;
+										$.each(countryArr[j].child,function () {
+											if(this.destinationVO.selected == true){
+												flag = true;
+												return false;
+											}
+										});
+										if (flag) {
+											$html += '<li class="destlist childlist" dest-index='+j+' dest-id='+singleCountry.id+' dest-code='+singleCountry.code+' dest-name='+singleCountry.name+'><input type="checkbox" class="destcheckbox" checked>'+singleCountry.name+'<span class="jiantou"></span></li>';
+										} else{
+											$html += '<li class="destlist childlist" dest-index='+j+' dest-id='+singleCountry.id+' dest-code='+singleCountry.code+' dest-name='+singleCountry.name+'><input type="checkbox" class="destcheckbox">'+singleCountry.name+'<span class="jiantou"></span></li>';
+										};
+									}else{
+										$html += '<li class="destlist nolist" dest-index='+j+' dest-id='+singleCountry.id+' dest-code='+singleCountry.code+' dest-name='+singleCountry.name+'><input type="checkbox" class="destcheckbox">'+singleCountry.name+'</li>';
+									}
+								};
+							};
+						};
+					};
+					$html += '</ul></div>';
+					$('.destlistbox').append($html);
+
+	            	//checkbox点击事件国家
+	            	function stopBubble (ev) {
+		            	var e = ev || window.event || arguments.callee.caller.arguments[0];
+						   if(e && e.stopPropagation){
+							   //W3C取消冒泡事件
+							   e.stopPropagation();
+						   }else{
+							   //IE取消冒泡事件
+							   window.event.cancelBubble = true;
+						   };
+	           		};
+	            	$(document).on('click','.countrybox .destcheckbox',function(ev){
+            			var $selfIndex = $(this).closest('li.destlist').attr('dest-index');
+            			var $parIndex = $('.citybox').attr('par-index');
+            			var country = destDataObj.destinationNodeVOs[$selfIndex];
+	            		if($(this).prop('checked')){
+	            			country.destinationVO.selected = true;
+	            		}else{
+	            			country.destinationVO.selected = false;
+	            			if(country.child){
+	            				$.each(country.child,function () {
+	            					this.destinationVO.selected = false;
+	            				});
+	            				if($selfIndex==$parIndex){
+	            					$('.citybox').find('.destcheckbox').prop('checked',false);
+	            				};
+	            			}
+	            		}
+	            		//保存修改的数据
+	            		$('input[name="destData"]').val(JSON.stringify(destDataObj));
+	            		stopBubble(ev);
+	            	});
+	            	//checkbox点击事件城市
+	            	$(document).on('click','.citybox .destcheckbox',function (ev) {
+	            		var $parIndex = $(this).closest('.citybox').attr('par-index');
+	            		var $selfIndex = $(this).closest('li.destlist').attr('dest-index')
+	            		var country = destDataObj.destinationNodeVOs[$parIndex];
+	            		if ($(this).prop('checked')) {
+	            			country.child[$selfIndex].destinationVO.selected = true;
+	            			country.destinationVO.selected = true;
+	            			$('.countrybox').find('li.destlist').each(function () {
+	            				if($(this).attr('dest-index')==$parIndex) $(this).find('.destcheckbox').prop('checked',true);
+	            			})
+	            		} else{
+	            			country.child[$selfIndex].destinationVO.selected = false;
+	            		}
+	            		//保存修改的数据
+	            		$('input[name="destData"]').val(JSON.stringify(destDataObj));
+	            		stopBubble(ev);
+	            	});
+					//点击变色列
+					$(document).on('click','.destlist',function(){
+						$(this).addClass('sel').siblings('.destlist').removeClass('sel');
+						if($(this).closest('.destbox').hasClass('countrybox')) $('.citybox').remove();
+					});
+
+//					//点击变色 国家列
+//					$(document).on('click','.countrybox .destlist',function () {
+//						var $index = $(this).attr('dest-index');
+//						var country = destDataObj.destinationNodeVOs[$index];
+//						if ($(this).hasClass('sel')) {
+//							$(this).removeClass('sel').find('.destcheckbox').prop('checked',false);
+//						}else{
+//							country.destinationVO.selected = true;
+//		            		$(this).addClass('sel').find('.destcheckbox').prop('checked',true);
+//						};
+//						$('.citybox').remove();
+//						$('input[name="destData"]').val(JSON.stringify(destDataObj));
+//	            	});
+//	            	//点击变色 城市列
+//					$(document).on('click','.citybox .destlist',function () {
+//						var $pindex = $(this).attr('par-index'),$sindex = $(this).attr('dest-index');
+//						var cityAr = destDataObj.destinationNodeVOs[$pindex].child[$sindex];
+//						if ($(this).hasClass('sel')) {
+//							$(this).removeClass('sel').find('.destcheckbox').prop('checked',false);
+//							cityAr.destinationVO.selected=false;
+//						}else{
+//		            		$(this).addClass('sel').find('.destcheckbox').prop('checked',true);
+//		            		cityAr.destinationVO.selected=true;
+//						};
+//						$('input[name="destData"]').val(JSON.stringify(destDataObj));
+//	            	});
+					//二级菜单
+					$(document).on('click','.childlist',function () {
+						var $index = $(this).attr('dest-index');
+						var cityArr = destDataObj.destinationNodeVOs[$index].child;
+
+						var $html = '';
+						$html += '<div class="destbox citybox" par-index='+$index+'><ul>';
+						$html += '<li>城市（非必选项）</li>';
+						for (var i=65;i<91;i++) {
+							var myLetter = String.fromCharCode(i);
+							for (var j=0;j<cityArr.length;j++) {
+								var singleCity = cityArr[j].destinationVO;
+								if (myLetter == singleCity.simpleCode) {
+									if (singleCity.selected) {
+										if (cityArr[j].child) {
+											$html += '<li class="destlist childlist" dest-index='+j+' dest-id='+singleCity.id+' dest-code='+singleCity.code+' dest-name='+singleCity.name+'><input type="checkbox" class="destcheckbox" checked>'+singleCity.name+'<span class="jiantou"></span></li>';
+										}else{
+											$html += '<li class="destlist nolist" dest-index='+j+' dest-id='+singleCity.id+' dest-code='+singleCity.code+' dest-name='+singleCity.name+'><input type="checkbox" class="destcheckbox" checked>'+singleCity.name+'</li>';
+										}
+									} else{
+										if (cityArr[j].child) {
+											$html += '<li class="destlist childlist" dest-index='+j+' dest-id='+singleCity.id+' dest-code='+singleCity.code+' dest-name='+singleCity.name+'><input type="checkbox" class="destcheckbox">'+singleCity.name+'<span class="jiantou"></span></li>';
+										}else{
+											$html += '<li class="destlist nolist" dest-index='+j+' dest-id='+singleCity.id+' dest-code='+singleCity.code+' dest-name='+singleCity.name+'><input type="checkbox" class="destcheckbox">'+singleCity.name+'</li>';
+										}
+									};
+								};
+							};
+						};
+						$html += '</ul></div>';
+
+						$('.destlistbox').append($html);
+
+	            	});
+
+
+          		};
+
+
+            	//---------------------------选中项回填-----------------------------------
+            	var selectedDests = parent.getBaseInfo().dests;
+            	//console.log(selectedDests);
+            	$("input:checkbox").each(function(){
+            		for(var j=0;j<selectedDests.length;j++) {
+            			if($(this).attr("dest-id")==selectedDests[j].id){
+            				$(this).attr("checked","checked");
+            			}
+            		}
+            	});
+
+            })
+
         </script>
     </body>
 </html>
