@@ -54,13 +54,13 @@
 	                </span>
 	                <span>
 		                   	 #if($!order.mainOrder.tcMainOrder.finishOrderSource == "1")
-		                   	 	用户APP端确认收货
+		                   	 	客户收货
 		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "2")
-		                   	 	用户PC端确认收货
+		                   	 	客户收货
 		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "3")
-		                   	 	用户PC端确认收货
+		                   	 	客户收货
 		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "4")
-		                   	 	卖家确认完成
+		                   	 	客户收货
 		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "5")
 		                   	 	超时自动收货
 		                   	 #end
@@ -118,13 +118,13 @@
 	                </span>
 	                 <span>
 		                   	 #if($!order.mainOrder.tcMainOrder.finishOrderSource == "1")
-		                   	 	用户APP端确认收货
+		                   	 	客户收货
 		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "2")
-		                   	 	用户PC端确认收货
+		                   	 	客户收货
 		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "3")
-		                   	 	用户PC端确认收货
+		                   	 	客户收货
 		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "4")
-		                   	 	卖家确认完成
+		                   	 	客户收货
 		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "5")
 		                   	 	超时自动收货
 		                   	 #end
@@ -182,13 +182,13 @@
 	                </span>
 	                 <span>
 		                   	 #if($!order.mainOrder.tcMainOrder.finishOrderSource == "1")
-		                   	 	用户APP端确认收货
+		                   	 	客户收货
 		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "2")
-		                   	 	用户PC端确认收货
+		                   	 	客户收货
 		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "3")
-		                   	 	用户PC端确认收货
+		                   	 	客户收货
 		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "4")
-		                   	 	卖家确认完成
+		                   	 	客户收货
 		                   	 #elseif($!order.mainOrder.tcMainOrder.finishOrderSource == "5")
 		                   	 	超时自动收货
 		                   	 #end
