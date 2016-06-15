@@ -16,7 +16,7 @@ public class RoomMessageVO implements Serializable {
     private long	    hotelId;//酒店ID
     private long        rno;//序号按创建时间升序
     private String      bed;//床型
-    private double      area;//面积
+    private String      area;//面积
     private String      areaStr;//面积str
     private int     people ;//人数
     private List<Integer> network;//网络
@@ -66,11 +66,11 @@ public class RoomMessageVO implements Serializable {
         this.bed = bed;
     }
 
-    public double getArea() {
+    public String getArea() {
         return area;
     }
 
-    public void setArea(double area) {
+    public void setArea(String area) {
         this.area = area;
     }
 

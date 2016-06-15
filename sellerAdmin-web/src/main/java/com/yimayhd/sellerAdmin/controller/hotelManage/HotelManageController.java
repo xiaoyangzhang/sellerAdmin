@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
+import com.yimayhd.membercenter.client.result.MemResultSupport;
+import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
@@ -50,12 +52,15 @@ import java.util.UUID;
 public class HotelManageController extends BaseController {
 	private static final Logger logger = LoggerFactory.getLogger("hotelManage-business.log");
 	private static final String UPDATE="update";
-	private static final long categoryId=231;
+	//private static final long categoryId=231;
+	private static final int[] lastTimeArr = {12,13,14,15,16,17,18,19,20,21,22,23,24,1,2,3,4,5,6};
 
 	@Autowired
 	private HotelManageService hotelManageService;
 	@Autowired
 	private CacheManager cacheManager ;
+	@Autowired
+	private MerchantItemCategoryService merchantItemCategoryService;
 
 	@Value("${sellerAdmin.rootPath}")
 	private String rootPath;
@@ -73,6 +78,10 @@ public class HotelManageController extends BaseController {
 			return "/system/error/404";
 		}
 		long userId = sessionManager.getUserId() ;
+		MemResultSupport memResultSupport =merchantItemCategoryService.checkCategoryPrivilege(Constant.DOMAIN_JIUXIU, categoryId, userId);
+		if(!memResultSupport.isSuccess()){
+			return "/system/error/lackPermission";
+		}
 		hotelMessageVO.setSellerId(userId);
 		hotelMessageVO.setCategoryId(categoryId);
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(null);
@@ -230,14 +239,12 @@ public class HotelManageController extends BaseController {
 			log.warn("商品类目ID错误");
 			throw new BaseException("商品类目ID错误");
 		}
-		logger.info("editHotelMessageView: 入参:hotelMessageVO="+CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
 		WebResult<HotelMessageVO> webResult = hotelManageService.queryHotelMessageVOyData(hotelMessageVO);
 		if(!webResult.isSuccess()){
 			// "商品类目ID错误";
 			systemLog=webResult.getResultMsg();
 		}
 		hotelMessageVO = webResult.getValue();
-		logger.info("editHotelMessageView: 回参:webResult="+webResult.isSuccess()+",\n hotelMessageVO="+CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
 		if(currentUserId>0&&currentUserId!=hotelMessageVO.getSellerId()){
 			return "/system/error/lackPermission";
 		}
@@ -327,12 +334,12 @@ public class HotelManageController extends BaseController {
 			choiseTime = hotelMessageVO.getLatestArriveTime();
 		}
 		List<MultiChoice> multiChoiceList = new ArrayList<MultiChoice>();
-		for(int i=0;i<24;i++){
+		for(int i=0;i<lastTimeArr.length;i++){
 			MultiChoice multiChoice = new MultiChoice();
-			multiChoice.setId(i);//id
+			multiChoice.setId(lastTimeArr[i]);//id
 			multiChoice.setTitle("时间");
-			multiChoice.setTValue(i);
-			multiChoice.setValue(i+":00");
+			multiChoice.setTValue(lastTimeArr[i]);
+			multiChoice.setValue(lastTimeArr[i]+":00");
 			multiChoice.setChoiceNo(false);
 			if(!CollectionUtils.isEmpty(choiseTime)){
 				for (String time :choiseTime){
@@ -388,6 +395,31 @@ public class HotelManageController extends BaseController {
 	}
 
 
+
+	public HotelManageService getHotelManageService() {
+		return hotelManageService;
+	}
+
+	public void setHotelManageService(HotelManageService hotelManageService) {
+		this.hotelManageService = hotelManageService;
+	}
+
+	public MerchantItemCategoryService getMerchantItemCategoryService() {
+		return merchantItemCategoryService;
+	}
+
+	public void setMerchantItemCategoryService(MerchantItemCategoryService merchantItemCategoryService) {
+		this.merchantItemCategoryService = merchantItemCategoryService;
+	}
+
+	public CacheManager getCacheManager() {
+		return cacheManager;
+	}
+
+	public void setCacheManager(CacheManager cacheManager) {
+		this.cacheManager = cacheManager;
+	}
+
 	public static void main(String[] args) {
 
 		String str = "hello world <br>";//数据库
@@ -436,13 +468,5 @@ public class HotelManageController extends BaseController {
 		String mm = "1465142400000";
 		System.out.println(mm.substring(0,10));
 
-	}
-
-	public HotelManageService getHotelManageService() {
-		return hotelManageService;
-	}
-
-	public void setHotelManageService(HotelManageService hotelManageService) {
-		this.hotelManageService = hotelManageService;
 	}
 }

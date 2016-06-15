@@ -118,15 +118,19 @@
             <tr>
                 <td class="coltxt vt">最晚到店时间：</td>
                 <td>
-                    #foreach($o in $hotelMessageVO.latestArriveTime)
-                    当天$!{o}前
+                    #foreach($multiChoice in $multiChoiceList)
+                        #if($multiChoice.choiceNo)
+                            #if($multiChoice.tValue<12 ) 次日${multiChoice.value}前 #else 当天${multiChoice.value}前 #end
+                        #end
                     #end
                 </td>
             </tr>
+            <!--
             <tr>
                 <td class="coltxt">提前预定天数：</td>
                 <td>$!{hotelMessageVO.startBookTimeLimit} 天</td>
             </tr>
+            -->
             <tr>
                 <td class="coltxt">早餐：</td>
                 <td>$!{hotelMessageVO.breakfastStr}</td>

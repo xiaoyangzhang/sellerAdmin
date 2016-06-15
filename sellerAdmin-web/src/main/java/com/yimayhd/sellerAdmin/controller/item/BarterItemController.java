@@ -14,6 +14,8 @@ import com.google.common.base.Preconditions;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.membercenter.client.result.MemResultSupport;
+import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.cache.CacheManager;
 import com.yimayhd.sellerAdmin.checker.BarterItemChecker;
@@ -38,6 +40,8 @@ public class BarterItemController extends BaseController {
 	private CategoryService		categoryService;
 	@Autowired
 	private CacheManager cacheManager ;
+    @Autowired
+    private MerchantItemCategoryService merchantItemCategoryService;
 
 	/**
 	 * 新增普通商品
@@ -47,6 +51,12 @@ public class BarterItemController extends BaseController {
 	 */
 	@RequestMapping(value = "/common/toAdd", method = RequestMethod.GET)
 	public String toAddCommon(Model model, long categoryId) throws Exception {
+		long sellerId = sessionManager.getUserId();
+		 /**categoryId 权限验证**/
+        MemResultSupport memResultSupport =merchantItemCategoryService.checkCategoryPrivilege(Constant.DOMAIN_JIUXIU, categoryId, sellerId);
+        if(!memResultSupport.isSuccess()){
+        	 return "/system/error/lackPermission";
+        }
 		CategoryDO categoryDO = categoryService.getCategoryVOById(categoryId);
 		ItemType itemType = ItemType.get(categoryDO.getCategoryFeature().getItemType());
 		Preconditions.checkArgument(ItemType.NORMAL.equals(itemType), "错误的商品类型");

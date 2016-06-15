@@ -136,7 +136,7 @@
                	    	   <table>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>商户负责人姓名：</label></td>
-       	    	   				<td class="rigcontent"><input   class="zrname"  type="text" value="$!examineInfo.principleName" name="principleName" id="" class="txt01" placeholder="合同签约人的姓名"/></td>
+       	    	   				<td class="rigcontent"><input      type="text" value="$!examineInfo.principleName" name="principleName" id="" class="zrname txt01" placeholder="合同签约人的姓名"/></td>
        	    	   			</tr>
        	    	   			<tr>
 								<td class="rigtxt"><span class="">*</span><label>负责人证件类型：</label></td>
@@ -236,7 +236,7 @@
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业地址：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="30" value="$!examineInfo.address" name="address" id="" class="txt01" placeholder="营业执照上的营业地址"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="*" maxlength="30" value="$!examineInfo.address" name="address" id="" class="txt01" placeholder="营业执照上的营业地址"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业范围：</label></td>

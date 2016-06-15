@@ -13,7 +13,7 @@ public class BarterItemChecker {
 			return WebCheckResult.error("商品名称不能为空");
 		if (itemVO.getTitle().length() > 38)
 			return WebCheckResult.error("商品名称不能超过38个字");
-		if (itemVO.getCode() != null && itemVO.getCode().length() > 38)
+		if (itemVO.getCode() != null && itemVO.getCode().length() > 20)
 			return WebCheckResult.error("商品编码不能超过38个字");
 		return WebCheckResult.success();
 	}
