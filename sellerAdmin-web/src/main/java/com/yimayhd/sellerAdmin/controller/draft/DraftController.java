@@ -41,6 +41,13 @@ public class DraftController extends BaseDraftController {
 	@Autowired
 	private DraftService draftService;
 
+	/**
+	 * 草稿箱列表获取接口
+	 * @param query 查询条件
+	 * @return 草稿箱列表
+	 * @author liuxp
+	 * @createTime 2016年6月15日
+	 */
 	@RequestMapping(value = "/list")
 	public String list(DraftListQuery query) {
 		try {
@@ -60,12 +67,23 @@ public class DraftController extends BaseDraftController {
 			BizDraftSubType[] draftSubTypes = BizDraftSubType.values();
 			put("query", query);
 			put("draftTypeList", draftSubTypes);
+			return "/system/draft/list";
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
+			throw new BaseException("系统错误");
 		}
-		return "/system/draft/list";
 	}
 
+	/**
+	 * 保存/覆盖草稿
+	 * 
+	 * @param json 草稿json数据
+	 * @param uuid 多次提交唯一标识id
+	 * @param draftVO 草稿具体属性信息
+	 * @return 保存结果
+	 * @author liuxp
+	 * @createTime 2016年6月15日
+	 */
 	@RequestMapping(value = "/saveLineDraft")
 	public @ResponseBody WebResultSupport saveLineDraft(String json, String uuid, DraftVO draftVO) {
 		try {
@@ -105,9 +123,17 @@ public class DraftController extends BaseDraftController {
 			log.error(e.getMessage(), e);
 			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, e.getMessage());
 		}
-		return null;
+		return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
 	}
 
+	/**
+	 * 草稿箱删除功能
+	 * 
+	 * @param id
+	 * @return
+	 * @author liuxp
+	 * @createTime 2016年6月15日
+	 */
 	@RequestMapping(value = "/delete/{id}")
 	public @ResponseBody WebOperateResult delete(@PathVariable("id") long id) {
 		long sellerId = getCurrentUserId();
@@ -134,10 +160,11 @@ public class DraftController extends BaseDraftController {
 	 * @param subType
 	 * @return
 	 * @author liuxp
+	 * @throws Exception 
 	 * @createTime 2016年6月14日
 	 */
 	@RequestMapping(value = "/edit/{id}/{mainType}/{subType}")
-	public String edit(@PathVariable("id") long id, @PathVariable("mainType") int mainType, @PathVariable("subType") int subType) {
+	public String edit(@PathVariable("id") long id, @PathVariable("mainType") int mainType, @PathVariable("subType") int subType) throws Exception {
 		if (id>0 && mainType>0 && subType>0) {
 		    
 		    if(mainType == DraftEnum.ITEM.getValue()) {
@@ -157,9 +184,10 @@ public class DraftController extends BaseDraftController {
 	 * @param subType
 	 * @return
 	 * @author liuxp
+	 * @throws Exception 
 	 * @createTime 2016年6月14日
 	 */
-	private String draftRedirectToItem(Long id, int mainType, int subType) {
+	private String draftRedirectToItem(Long id, int mainType, int subType) throws Exception {
 		ItemType itemType = BizDraftSubType.get(subType).getValue();
 		if (ItemType.FREE_LINE.getValue() == itemType.getValue()
 				|| ItemType.TOUR_LINE.getValue() == itemType.getValue()
@@ -180,37 +208,38 @@ public class DraftController extends BaseDraftController {
 	 * @param id
 	 * @return
 	 * @author liuxp
+	 * @throws Exception 
 	 * @createTime 2016年6月14日
 	 */
-	public String editLineDraft(Long id) {
-		try {
+	public String editLineDraft(Long id) throws Exception {
+		if (id > 0) {
+			long sellerId = sessionManager.getUserId();
+			Preconditions.checkState(sellerId > 0, "请登录后访问");
+			initBaseInfo();
 			if (id > 0) {
-				long sellerId = sessionManager.getUserId();
-				Preconditions.checkState(sellerId > 0, "请登录后访问");
-				initBaseInfo();
-				if (id > 0) {
-					WebResult<DraftDetailVO> draftDetailVOResult = draftService.getDetailById(id);
-					LineVO gt = DraftConverter.toLineVOWithDraftDetailVO(draftDetailVOResult);
-					BaseInfoVO baseInfo = gt.getBaseInfo();
-					if (baseInfo != null) {
-						initLinePropertyTypes(baseInfo.getCategoryId());
-					}
-					initBaseInfo();
-
-					put("product", gt);
-					put("draftId", id);
-//					put("isReadonly", ItemStatus.create.getValue());
-					return "/system/comm/line/detail";
-				} else {
-					throw new BaseException("参数错误");
+				WebResult<DraftDetailVO> draftDetailVOResult = draftService.getDetailById(id);
+				LineVO gt = DraftConverter.toLineVOWithDraftDetailVO(draftDetailVOResult);
+				BaseInfoVO baseInfo = gt.getBaseInfo();
+				if (baseInfo != null) {
+					initLinePropertyTypes(baseInfo.getCategoryId());
 				}
+				initBaseInfo();
+
+				// 线路商品信息
+				put("product", gt);
+				
+				// 草稿id信息
+				put("draftId", id);
+				return "/system/comm/line/detail";
+			} else {
+				throw new BaseException("参数错误");
 			}
-		} catch (Exception e) {
+		} else {
+			throw new BaseException("参数错误");
 		}
-		return redirect("/system/comm/line/detail");
 	}
 
-	@RequestMapping(value = "/cityactivity/edit/{id}")
+//	@RequestMapping(value = "/cityactivity/edit/{id}")
 	public String editCityactivityDraft(DraftVO draftVO, @PathVariable("id") long id) {
 		if (null != draftVO && id > 0) {
 			// int mainType = draftVO.getMainType();
@@ -220,7 +249,7 @@ public class DraftController extends BaseDraftController {
 		return redirect("/draft/list");
 	}
 
-	@RequestMapping(value = "/barterItem/common/edit/{id}")
+//	@RequestMapping(value = "/barterItem/common/edit/{id}")
 	public String editBarterItemDraft(DraftVO draftVO, @PathVariable("id") long id) {
 		if (null != draftVO && id > 0) {
 			// int mainType = draftVO.getMainType();
