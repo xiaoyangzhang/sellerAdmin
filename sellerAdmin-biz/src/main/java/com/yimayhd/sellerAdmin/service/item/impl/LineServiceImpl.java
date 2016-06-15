@@ -52,6 +52,7 @@ import com.yimayhd.sellerAdmin.model.line.LinePropertyConfig;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.TagDTO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
+import com.yimayhd.sellerAdmin.model.line.price.PriceInfoVO;
 import com.yimayhd.sellerAdmin.repo.CategoryRepo;
 import com.yimayhd.sellerAdmin.repo.CityRepo;
 import com.yimayhd.sellerAdmin.repo.CommentRepo;
@@ -275,23 +276,25 @@ public class LineServiceImpl implements LineService {
 			
 			//FIXME 
 			LinePubUpdateDTO linePublishDTOForUpdate = LineConverter.toLinePublishDTOForUpdate(sellerId, line);
-			lineRepo.updateLine(linePublishDTOForUpdate);
+			LinePublishResult publishLine=lineRepo.updateLine(linePublishDTOForUpdate);
 			
 			//删除多余的itemsku
+			LineVO lineVO = getByItemId(sellerId, itemId).getValue();
 			LineResult lineResult = lineRepo.getLineByItemId(sellerId, itemId);
 			CategoryDO category = categoryRepo.getCategoryById(lineResult.getItemDO().getCategoryId());
 			List<ItemSkuDO> itemSkuDOList = lineResult.getItemSkuDOList();
 			List<ItemSkuDO> unnecessaryItemSkuDO= LineConverter.filterUnnecessaryItem(category, itemSkuDOList) ;
 			if (CollectionUtils.isNotEmpty(unnecessaryItemSkuDO)) {
+				Set<Long> deletedSKU = new HashSet<Long>();
 				for (ItemSkuDO itemSkuDO : unnecessaryItemSkuDO) {
-					Set<Long> deletedSKU = new HashSet<Long>();
 					deletedSKU.add(itemSkuDO.getId());
-					line.getPriceInfo().setDeletedSKU(deletedSKU);
 				}
+				lineVO.getPriceInfo().setDeletedSKU(deletedSKU);
+				LinePubUpdateDTO linePublishDTOForUpdate2 = LineConverter.toLinePublishDTOForUpdate(sellerId, lineVO);
+				lineRepo.updateLine(linePublishDTOForUpdate2);
 			}
-			LinePubUpdateDTO linePublishDTOForUpdate2 = LineConverter.toLinePublishDTOForUpdate(sellerId, line);
-			LinePublishResult publishLine2 = lineRepo.updateLine(linePublishDTOForUpdate2);
-			if (publishLine2.isSuccess() && itemId > 0) {
+
+			if (publishLine.isSuccess() && itemId > 0) {
 				BaseInfoVO baseInfo = line.getBaseInfo();
 				List<Long> themeIds = baseInfo.getThemes();
 				
