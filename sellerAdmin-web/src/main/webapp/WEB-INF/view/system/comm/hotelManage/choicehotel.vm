@@ -1,7 +1,7 @@
 #set($layout = "/layout/layout-apply.vm")
 <head>
 	#parse("layout/layout-meta.vm")
-    <title>选择酒店</title>
+    <title>酒店客栈</title>
     <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/addhotelproduct.css">
 </head>
 

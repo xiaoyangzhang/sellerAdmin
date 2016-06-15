@@ -491,13 +491,20 @@ public class ApplyController extends BaseController {
 					return "redirect:/basicInfo/talent/toAddTalentInfo";
 				}
 			}
-			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
+			if(ExamineStatus.EXAMIN_ING.getStatus() == status || ExamineStatus.EXAMIN_NOT_ABLE.getStatus() == status ){//等待审核状态
 				if(ExamineType.MERCHANT.getType()==type){
 					return "/system/seller/verification";
 				}else if(ExamineType.TALENT.getType()==type){
 					return "/system/talent/verification";
 				}
 			}
+//			if(ExamineStatus.EXAMIN_NOT_ABLE.getStatus() == status ){//等待审核状态
+//				if(ExamineType.MERCHANT.getType()==type){
+//					return "/system/seller/verification";
+//				}else if(ExamineType.TALENT.getType()==type){
+//					return "/system/talent/verification";
+//				}
+//			}
 			if (ExamineStatus.EXAMIN_ERROR.getStatus() == status && ExamineType.MERCHANT.getType() == type) {
 				url = "system/seller/nothrough";
 			}
@@ -691,6 +698,13 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value = "/seller/toVerifyPage")
 	public String toBusinessVerifyPage(Model model){
+		long userId = sessionManager.getUserId();
+		//权限
+		String judgeRest = judgeAuthority(model,userId, "");
+		if (StringUtils.isNotBlank(judgeRest)) {
+			
+			return judgeRest;
+		}
 		InfoQueryDTO examInfoQueryDTO = new InfoQueryDTO();
 		examInfoQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		examInfoQueryDTO.setType(ExamineType.MERCHANT.getType());
