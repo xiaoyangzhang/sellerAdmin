@@ -1073,7 +1073,7 @@ public class ApplyController extends BaseController {
 	public void download(HttpServletRequest request,HttpServletResponse response,String fileName) {
 		try {
 			String newFileName = new String(fileName.getBytes("ISO-8859-1"),"UTF-8");
-			String realPath = WebResourceConfigUtil.getActionUploadFilePath()+"/"+newFileName; 
+			String realPath = WebResourceConfigUtil.getTfsRootPath()+"/"+newFileName; 
 			response.setCharacterEncoding("utf-8");
 			response.setContentType("application/x-msdownload");
 			response.setHeader("Cache-Control", "no-cache");
