@@ -146,42 +146,55 @@ $(".save").click(function(){
     },"json");
 });
 $(".savedraft").click(function(){
-    var result = {
-        baseInfo:getBaseInfo(),
-		pictureText:getPictureText(),
+	 layer.prompt({title: '请输入草稿名称', formType: 0}, function(text){
+	    var result = {
+	        baseInfo:getBaseInfo(),
+			pictureText:getPictureText(),
+			#if($utilItem.isFreeLine($itemType))
+			routePlan:getRoutePlan(),
+			#end
+	        routeInfo:getRouteInfo(),
+	        priceInfo:getPriceInfo(),
+			needKnow:getNeedKnow()
+	    };
+		console.log(JSON.stringify(result.baseInfo));
+		console.log(JSON.stringify(result.pictureText));
 		#if($utilItem.isFreeLine($itemType))
-		routePlan:getRoutePlan(),
+		console.log(JSON.stringify(result.routePlan));
 		#end
-        routeInfo:getRouteInfo(),
-        priceInfo:getPriceInfo(),
-		needKnow:getNeedKnow()
-    };
-	console.log(JSON.stringify(result.baseInfo));
-	console.log(JSON.stringify(result.pictureText));
-	#if($utilItem.isFreeLine($itemType))
-	console.log(JSON.stringify(result.routePlan));
-	#end
-	console.log(JSON.stringify(result.routeInfo));
-	console.log(JSON.stringify(result.priceInfo));
-	console.log(JSON.stringify(result.needKnow));
-	var params = {
-		json:JSON.stringify(result),
-		draftName:"ddd",
-		uuid:$("#uuid").val(),
-		subType:21,
-		mainType:1,
-		id:$("#draftId").val()
-	};
-
-    var url = "$!{utilWebconfig.getActionDefaultFontPath()}/draft/saveLineDraft";
-    $.post(url,params,function(data){
-		if(data.success) {
-			layer.alert(data.resultMsg);
-		} else {
-			layer.alert(data.resultMsg, {
-				icon : 2
-			});
-		}
-    },"json");
+		console.log(JSON.stringify(result.routeInfo));
+		console.log(JSON.stringify(result.priceInfo));
+		console.log(JSON.stringify(result.needKnow));
+		var params = {
+			json:JSON.stringify(result),
+			draftName:text,
+			uuid:$("#uuid").val(),
+			subType:21,
+			mainType:1,
+			id:$("#draftId").val()
+		};
+	
+	    var url = "$!{utilWebconfig.getActionDefaultFontPath()}/draft/saveLineDraft";
+	    $.post(url,params,function(data){
+			if(data.success) {
+				layer.alert(data.resultMsg);
+			} else {
+				layer.alert(data.resultMsg, {
+					icon : 2
+				});
+			}
+	    },"json");
+    		$.post(operateUrl,function(result) {
+    			if(result.success) {
+    				window.location.reload();
+    			} else {
+    				layer.msg('操作失败', {
+        				icon : 2,
+        				time : 1000
+        			});
+    			}
+    		},"json");
+		layer.close(index);
+    });
 });
 </script>
