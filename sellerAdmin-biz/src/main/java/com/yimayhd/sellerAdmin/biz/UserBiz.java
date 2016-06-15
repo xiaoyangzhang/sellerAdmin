@@ -9,6 +9,8 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.repo.UserRepo;
+import com.yimayhd.sellerAdmin.util.HttpRequestUtil;
+import com.yimayhd.sellerAdmin.util.HttpUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.ChangePasswordDTO;
 import com.yimayhd.user.client.dto.LoginDTO;
@@ -18,6 +20,7 @@ import com.yimayhd.user.client.dto.VerifyCodeDTO;
 import com.yimayhd.user.client.enums.SmsType;
 import com.yimayhd.user.client.enums.security.RegisterStep;
 import com.yimayhd.user.client.result.login.LoginResult;
+import com.yimayhd.user.session.manager.SessionHelper;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /**
@@ -72,7 +75,9 @@ public class UserBiz {
 	}
 
 	public WebResultSupport sendRegisterVerifyCode(String mobile) {
-
+		String ip = HttpUtil.getIpAddr(SessionHelper.getRequest());
+		
+		
 		VerifyCodeDTO verifyCodeDTO = new VerifyCodeDTO() ;
 		verifyCodeDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		verifyCodeDTO.setMobile(mobile);
