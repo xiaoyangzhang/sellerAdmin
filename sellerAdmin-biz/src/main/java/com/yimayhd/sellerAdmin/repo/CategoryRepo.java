@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.result.item.CategoryQryResult;
 import com.yimayhd.ic.client.model.result.item.CategoryResult;
@@ -24,6 +25,7 @@ public class CategoryRepo {
 	@Autowired
 	private CategoryService categoryServiceRef;
 
+	@MethodLogger
 	public CategoryDO getCategoryById(long id) {
 		RepoUtils.requestLog(log, "categoryServiceRef.getCategory", id);
 		CategoryResult categoryResult = categoryServiceRef.getCategory(id);
@@ -37,6 +39,7 @@ public class CategoryRepo {
 	 * @return
 	 * @throws
 	 */
+	@MethodLogger
 	public CategoryDO getCategoryByDomainId(int domainId){
 		RepoUtils.requestLog(log, "categoryServiceRef.getCategoryTreeByDomain", domainId);
 		CategoryTreeResult ret = categoryServiceRef.getCategoryTreeByDomain(domainId);
@@ -48,6 +51,7 @@ public class CategoryRepo {
 	 * 获取二级类目
 	 * @return
 	 */
+	@MethodLogger
 	public List<CategoryDO> getCategoryChildrenByDomain(int domain){
 		RepoUtils.requestLog(log, "categoryServiceRef.getCategoryChildrenByDomain", domain);
 		CategoryQryResult ret = categoryServiceRef.getCategoryChildrenByDomain(domain);

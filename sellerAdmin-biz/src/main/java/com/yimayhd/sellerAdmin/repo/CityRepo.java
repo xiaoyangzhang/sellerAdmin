@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.user.client.cache.CityDataCacheClient;
 import com.yimayhd.user.client.dto.CityDTO;
 
@@ -24,10 +25,12 @@ public class CityRepo {
 	 * @param code
 	 * @return
 	 */
+	@MethodLogger
 	public CityDTO getCityByCode(String code) {
 		return cityDataCacheClientRef.getCityByCode(code);
 	}
 
+	@MethodLogger(isPrintResult=false)
 	public Map<String, CityDTO> getCitiesByCodes(List<String> codes) {
 		return cityDataCacheClientRef.getCities(codes);
 	}
