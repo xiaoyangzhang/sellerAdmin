@@ -43,6 +43,7 @@
 	#set( $avatar= "$!rs_path_jiuxiu/img/default_1.png" )
 #end
 
+
 #*
 <input type="hidden" id="root_path" value="$root_path">
 <input type="hidden" id="filegw_url" value="$filegw_url">

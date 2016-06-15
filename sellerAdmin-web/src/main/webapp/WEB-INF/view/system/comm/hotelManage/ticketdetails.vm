@@ -3,7 +3,7 @@
 #set( $locations = ["商品管理", "国内景点门票"] )
 <head>
     #parse("layout/layout-meta.vm")
-    <title>添加景区</title>
+    <title>国内景点门票</title>
     <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/addhotelproduct.css">
 </head>
 <!-- 面包屑 -->
