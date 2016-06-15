@@ -252,6 +252,7 @@ public class TalentRepo {
 			}else if (!queryResult.isSuccess() || queryResult.getValue() == null) {
 				return WebResult.failure(WebReturnCode.QUERY_FAILURE, queryResult.getErrorMsg());
 			}
+			result.setValue(queryResult.getValue());
 		} catch (Exception e) {
 			log.error("params : userId={},domainId={} error:{}",userId,domainId,e);
 			result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);

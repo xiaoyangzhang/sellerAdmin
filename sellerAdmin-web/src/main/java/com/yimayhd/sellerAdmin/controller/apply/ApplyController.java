@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.controller.apply;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -9,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryScopeDO;
@@ -81,7 +84,8 @@ public class ApplyController extends BaseController {
 	private TalentBiz talentBiz;
 	@Autowired
 	private MerchantApplyBiz merchantApplyBiz;
-	
+	@Autowired
+	private TfsManager tfsManager;
 	/**
 	 * 跳转到选择页面
 	 * @param model
@@ -1070,25 +1074,37 @@ public class ApplyController extends BaseController {
 		return null;
 	}
 	@RequestMapping(value="download",method=RequestMethod.GET)
-	public void download(HttpServletRequest request,HttpServletResponse response,String fileName) {
+	public void download(HttpServletRequest request,HttpServletResponse response,int fileType) {
 		try {
-			String newFileName = new String(fileName.getBytes("ISO-8859-1"),"UTF-8");
-			String realPath = WebResourceConfigUtil.getTfsRootPath()+"/"+newFileName; 
+			String newFileName = "";
+			String tfsFileName = "";
+			if (1 == fileType) {
+				newFileName = new String("九休开放平台总则.pdf".getBytes("UTF-8"),"ISO-8859-1");
+				tfsFileName = "T1S8KTByZT1RCvBVdK";
+			}else if (2 == fileType) {
+				newFileName = new String("九休开放平台酒店管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
+				tfsFileName = "T1NHYTByVT1RCvBVdK";
+			}else if (4 == fileType) {
+				newFileName = new String("九休开放平台同城管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
+				tfsFileName = "T1GHKTByxT1RCvBVdK";
+			}else if (5 == fileType) {
+				newFileName = new String("九休开放平台景区管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
+				tfsFileName = "T1HpKTByhT1RCvBVdK";
+			}else if (6 == fileType) {
+				newFileName = new String("九休开放平台旅行社管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
+				tfsFileName = "T1T4JTBXAT1RCvBVdK";
+			}
 			response.setCharacterEncoding("utf-8");
-			response.setContentType("application/x-msdownload");
+			response.setContentType("multipart/form-data");
 			response.setHeader("Cache-Control", "no-cache");
 			response.setHeader("Pragma", "no-cache");
 			response.setDateHeader("expires", -1);
-			response.setHeader("Content-Disposition", "attachment; filename="+ fileName);
-			File file = new File(realPath);
-			InputStream inputStream = new FileInputStream(file);
-			OutputStream os = response.getOutputStream();
+			response.setHeader("Content-Disposition", "attachment; filename="+ newFileName);
 			byte[] b = new byte[10240];
-			int length;
-			while ((length = inputStream.read(b)) > 0) {
-				os.write(b, 0, length);
-			}
-			inputStream.close();
+			OutputStream os = response.getOutputStream();
+			boolean fetchFileResult = tfsManager.fetchFile(tfsFileName, null,os );
+			
+			os.write(b);
 			os.flush();
 			os.close();
 			
