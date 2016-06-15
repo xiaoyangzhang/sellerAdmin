@@ -338,55 +338,6 @@ public class LineServiceImpl implements LineService {
 		}
 	}
 
-	private void deleteUnnecessarySku(CategoryDO category, List<ItemSkuDO> itemSkuDOList) {
-		if (category==null || CollectionUtils.isEmpty(itemSkuDOList)) {
-			return;
-		}
-		List<CategoryPropertyValueDO> sellCategoryPropertyDOs = category.getSellCategoryPropertyDOs();
-		if (CollectionUtils.isEmpty(sellCategoryPropertyDOs) || CollectionUtils.isEmpty(itemSkuDOList) ) {
-			return;
-		}
-		/*
-		 * 套餐
-		 * 出发日期
-		 * 人员类型   ---成人，儿童，单房差
-		 * */
-		//计算出类目下所有销售属性
-		Map<Long, CategoryValueDO> map = new HashMap<Long, CategoryValueDO>();
-		CategoryPropertyDO categoryPropertyValueDOForPerson=new CategoryPropertyDO();
-		Long mapcpvd =null;
-		for (CategoryPropertyValueDO categoryPropertyValueDO : sellCategoryPropertyDOs) {
-			List<CategoryValueDO> categoryValueDOs = categoryPropertyValueDO.getCategoryValueDOs() ;
-			if( CollectionUtils.isNotEmpty(categoryValueDOs) ){
-				categoryPropertyValueDOForPerson=categoryPropertyValueDO.getCategoryPropertyDO();
-//				mapcpvd.put(categoryPropertyValueDO.getPropertyId(), categoryPropertyValueDO) ;
-				mapcpvd=categoryPropertyValueDO.getPropertyId();
-				for( CategoryValueDO value : categoryValueDOs ){
-					//计算出所有销售属性
-					map.put(value.getId(), value) ;
-				}
-			}
-		}
-		Set<Long> skuPIds = new HashSet<Long>();//原来人员类型下的属性取值：1，2，3，4
-		//取出所有的人员类型  下的属性值id
-		for (ItemSkuDO sku : itemSkuDOList) {
-			// Set<Long> pIds = mapcpvd.keySet();
-			List<ItemSkuPVPair> itemSkuPVPairList = sku.getItemSkuPVPairList();
-			for (ItemSkuPVPair itemSkuPVPair : itemSkuPVPairList) {
-				long pid = itemSkuPVPair.getPId();
-				if (mapcpvd != null && mapcpvd.equals(pid)) {
-					skuPIds.add(itemSkuPVPair.getVId());
-				}
-			}
-		}
-		List<ItemSkuDO> itemSkuDOs=new ArrayList<ItemSkuDO>();
-		Set<Long> vIds = map.keySet();// 1，4，145
-		Set<Long> oVIds = new HashSet<Long>();
-		oVIds.addAll(vIds);
-		vIds.removeAll(skuPIds);
-		
-	}
-
 	@Override
 	public WebResult<Long> save(long sellerId, LineVO line) {
 		try {
