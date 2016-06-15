@@ -26,6 +26,7 @@
 
 <!-- tfs路径 -->
 #set( $tfs = $utilWebconfig.getTfsRootPath())
+#set( $filegw_url = $utilWebconfig.getFilegwPath())
 
 
 

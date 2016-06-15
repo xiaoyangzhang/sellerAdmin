@@ -34,6 +34,7 @@
 		<property name="sellerAdmin.actionDefaultFontPath" defaultValue="http://seller.test.yimayholiday.com" description="#请求地址默认前缀" />
 		<property name="actionUploadFilePath" defaultValue="http://seller.test.yimayholiday.com/upload/file" description="#上传附件地址(单个)" />
 		<property name="actionUploadFilesPath" defaultValue="http://seller.test.yimayholiday.com/upload/files" description="#上传附件地址(多个)" />
+		<property name="filegw.path" defaultValue="http://filegw.test.jiuxiulvxing.com/filegw/file/upload_string" description="#" />
 		<property name="env" defaultValue="test" description="当前环境" />
 		<property name="resource.path.jiuxiu" defaultValue="http://s0.test.jiuxiulvxing.com/busines" description="" />
 		<property name="resource.path.admin" defaultValue="http://s0.test.jiuxiulvxing.com/admin" description="" />

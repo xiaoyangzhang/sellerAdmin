@@ -22,9 +22,13 @@ public class WebResourceConfigUtil {
 	private final static String RESOURCE_PATH_ADMIN = "resource.path.admin";
 //	private final static String RESOURCE_PATH = "resource.path";
 	private final static String JIUXIU_OFFICIAL_SITE = "jiuxiu.official.site";
+	private final static String filegwPath = "filegw.path";
 
 	public static String getRootPath() {
 		return ResourceConfig.getInstance().getValueByKey(ROOT_PATH_KEY);
+	}
+	public static String getFilegwPath() {
+		return ResourceConfig.getInstance().getValueByKey(filegwPath);
 	}
 	public static String getJiuXiuOfficialSite() {
 		return ResourceConfig.getInstance().getValueByKey(JIUXIU_OFFICIAL_SITE);
