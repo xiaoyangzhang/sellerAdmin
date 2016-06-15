@@ -23,7 +23,7 @@ public interface DraftService {
 	 * @author liuxp
 	 * @createTime 2016年6月2日
 	 */
-	WebOperateResult saveDraft(String JsonObject, DraftVO draftVO);
+	WebResult<Long> saveDraft(String JsonObject, DraftVO draftVO);
 	
 	/**
 	 * 覆盖草稿

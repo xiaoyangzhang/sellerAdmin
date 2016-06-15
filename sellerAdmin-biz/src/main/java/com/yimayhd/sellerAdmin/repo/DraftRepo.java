@@ -28,14 +28,14 @@ public class DraftRepo {
     private DraftManagerService draftManagerServiceRef;
 
 
-    public MemResult<Boolean> saveDraft(DraftDO draftDO) {
+    public MemResult<Long> saveDraft(DraftDO draftDO) {
 
         if(null==draftDO) {
             log.error("DraftRepo.saveDraft(draftDO) error: draftDO is null");
             throw new BaseException("参数为null ");
         }
         RepoUtils.requestLog(log, "draftManagerServiceRef.saveDraft", draftDO);
-        MemResult<Boolean> result = draftManagerServiceRef.saveDraft(draftDO);
+        MemResult<Long> result = draftManagerServiceRef.saveDraft(draftDO);
         RepoUtils.resultLog(log, "draftManagerServiceRef.saveDraft", result);
         return result;
     }

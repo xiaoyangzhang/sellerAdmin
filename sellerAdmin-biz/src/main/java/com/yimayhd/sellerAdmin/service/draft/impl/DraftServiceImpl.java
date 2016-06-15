@@ -48,29 +48,29 @@ public class DraftServiceImpl implements DraftService {
 	 * @createTime 2016年6月2日
 	 */
 	@Override
-	public WebOperateResult saveDraft(String JsonObject, DraftVO draftVO) {
+	public WebResult<Long> saveDraft(String JsonObject, DraftVO draftVO) {
         DraftDO draftDO = DraftChecker.checkSaveDraft(JsonObject, draftVO);
         if(null==draftDO) {
             log.error("DraftServiceImpl.saveDraft: JsonObject=" + JsonObject + ", draftVO="+ draftVO);
-            return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
+            return WebResult.failure(WebReturnCode.PARAM_ERROR);
         }
 		try {
-			MemResult<Boolean> result = draftRepo.saveDraft(draftDO);
+			MemResult<Long> result = draftRepo.saveDraft(draftDO);
 			if(result.isSuccess()) {
 				if(result.getErrorCode()== MemberReturnCode.DRAFTNAME_EXISTS_FAILED.getCode()) {
                     log.error("DraftServiceImpl.saveDraft: JsonObject=" + JsonObject + ", draftVO="+ draftVO);
-                    return 	WebOperateResult.failure(WebReturnCode.DRAFTNAME_REPEAT_ERROR);
+                    return 	WebResult.failure(WebReturnCode.DRAFTNAME_REPEAT_ERROR);
                 } else {
-    				return WebOperateResult.success();
+    				return WebResult.success(result.getValue());
                 }
 			} else {
                 log.error("DraftServiceImpl.saveDraft: JsonObject=" + JsonObject + ", draftVO="+ draftVO);
-                return 	WebOperateResult.failure(WebReturnCode.REMOTE_CALL_FAILED);
+                return 	WebResult.failure(WebReturnCode.REMOTE_CALL_FAILED);
 			}
 		}catch (Exception e) {
             log.error("DraftServiceImpl.saveDraft: JsonObject=" + JsonObject + ", draftVO="+ draftVO);
             log.error("DraftServiceImpl.saveDraft error", e);
-            return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
+            return WebResult.failure(WebReturnCode.SYSTEM_ERROR);
 		}
 	}
 
