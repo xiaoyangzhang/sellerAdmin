@@ -58,7 +58,6 @@ public class HotelManageRepo {
 	 * @return
 	 * @throws Exception
      */
-	@MethodLogger
 	public WebResult <PageVO<HotelMessageVO>>  queryHotelMessageVOListByDataRepo(HotelManageDomainChecker domain) throws Exception {
 		HotelMessageVO hotelMessageVO =domain.getHotelMessageVO();
 		WebResult<PageVO<HotelMessageVO>> result = domain.getPageResult();
