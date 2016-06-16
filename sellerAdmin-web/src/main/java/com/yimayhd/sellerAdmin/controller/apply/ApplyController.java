@@ -958,7 +958,7 @@ public class ApplyController extends BaseController {
 			response.setHeader("Content-Disposition", "attachment; filename="+ newFileName);
 			byte[] b = new byte[10240];
 			OutputStream os = response.getOutputStream();
-			boolean fetchFileResult = tfsManager.fetchFile(tfsFileName, "pdf",os );
+			boolean fetchFileResult = tfsManager.fetchFile(tfsFileName, ".pdf",os );
 			
 			os.write(b);
 			os.flush();
