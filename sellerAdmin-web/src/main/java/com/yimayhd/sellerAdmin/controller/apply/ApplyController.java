@@ -491,7 +491,7 @@ public class ApplyController extends BaseController {
 					return "redirect:/basicInfo/talent/toAddTalentInfo";
 				}
 			}
-			if(ExamineStatus.EXAMIN_ING.getStatus() == status || ExamineStatus.EXAMIN_NOT_ABLE.getStatus() == status ){//等待审核状态
+			if(ExamineStatus.EXAMIN_ING.getStatus() == status /*|| ExamineStatus.EXAMIN_NOT_ABLE.getStatus() == status*/ ){//等待审核状态
 				if(ExamineType.MERCHANT.getType()==type){
 					return "/system/seller/verification";
 				}else if(ExamineType.TALENT.getType()==type){
@@ -698,13 +698,13 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value = "/seller/toVerifyPage")
 	public String toBusinessVerifyPage(Model model){
-		long userId = sessionManager.getUserId();
+		//long userId = sessionManager.getUserId();
 		//权限
-		String judgeRest = judgeAuthority(model,userId, "");
-		if (StringUtils.isNotBlank(judgeRest)) {
-			
-			return judgeRest;
-		}
+//		String judgeRest = judgeAuthority(model,userId, "");
+//		if (StringUtils.isNotBlank(judgeRest)) {
+//			
+//			return judgeRest;
+//		}
 		InfoQueryDTO examInfoQueryDTO = new InfoQueryDTO();
 		examInfoQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		examInfoQueryDTO.setType(ExamineType.MERCHANT.getType());
@@ -715,6 +715,21 @@ public class ApplyController extends BaseController {
 		}
 		return "/system/seller/verification";
 	}
+	
+//	@RequestMapping(value="/seller/changeExamineStatus",method=RequestMethod.GET)
+//	@ResponseBody
+//	public WebResult<Boolean> changeExamineStatus() {
+//		WebResult<Boolean> result = new WebResult<Boolean>();
+//		InfoQueryDTO examInfoQueryDTO = new InfoQueryDTO();
+//		examInfoQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+//		examInfoQueryDTO.setType(ExamineType.MERCHANT.getType());
+//		examInfoQueryDTO.setSellerId(sessionManager.getUserId());
+//		WebResult<Boolean> changeExamineStatusResult = merchantApplyBiz.changeExamineStatus(examInfoQueryDTO);
+//		if (changeExamineStatusResult == null || !changeExamineStatusResult.isSuccess()) {
+//			return WebResult.failure(WebReturnCode.UPDATE_ERROR, "修改审核状态失败");
+//		}
+//		return result;
+//	}
 	/**
 	 * 
 	* created by zhangxy
