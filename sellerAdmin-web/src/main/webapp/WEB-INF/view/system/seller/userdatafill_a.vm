@@ -240,6 +240,7 @@
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业范围：</label></td>
+       	    	   				
        	    	   				<td class="rigcontent"><textarea tip="" datatype="*" maxlength="150"  class="txt02" name="saleScope"  id="" placeholder="营业执照上的经营范围">$!examineInfo.saleScope</textarea></td>
        	    	   			</tr>
                				</table>
@@ -262,7 +263,7 @@
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">开户名称：</label></td>
-								<td class="rigcontent"><input type="text" datatype="*" maxlength="10"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" maxlength="60" class="txt01"  placeholder="请输入开户名称"></td>
+								<td class="rigcontent"><input type="text" datatype="*" maxlength="60"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" maxlength="60" class="txt01"  placeholder="请输入开户名称"></td>
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">结算账号：</label></td>
@@ -290,7 +291,7 @@
 					 </div>  
 					 <div class="identity">
 					  <div class="nextpage"><a href="$!root_path/apply/toChoosePage">上一页</a><a class="subt"
-					   href="$!root_path/apply/seller/saveUserdata">下一页</a></div>
+					   >下一页</a></div>
 					  </div>
 					  </div>
         </form> 

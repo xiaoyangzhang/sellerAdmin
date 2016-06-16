@@ -203,7 +203,7 @@ public class HotelManageServiceImpl extends AbstractBaseService implements Hotel
 			public CallResult<PageVO<HotelMessageVO>> checkBiz() {
 				// 类目ID 必传,并且不为0
 				// 商品ID,与数据库编辑Id必须一致
-				return null;
+				return CallResult.success();
 			}
 
 			@Override
@@ -215,7 +215,7 @@ public class HotelManageServiceImpl extends AbstractBaseService implements Hotel
 					//建立异常日志
 					e.printStackTrace();
 				}
-				return null;
+				return CallResult.success();
 			}
 
 			@Override

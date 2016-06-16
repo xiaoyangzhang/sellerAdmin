@@ -881,7 +881,7 @@ public class LineConverter {
 						newItemSkuPVPairList.add(pair);
 						sku.setPrice(0);
 						sku.setStockNum(0);
-						
+						sku.setId(0);
 					}
 					
 				}

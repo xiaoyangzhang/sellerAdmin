@@ -33,7 +33,7 @@ public class MenuRepo {
 		dto.setContainUrl(true);
 		MemPageResult<HaMenuDO> queryResult = userPermissionService.getMenuListByUserId(userMenuQuery,dto);
 		if (queryResult == null || !queryResult.isSuccess() ) {
-			logger.error("getMenuListByUserId failed  userId={}",userId);
+			logger.error("getMenuListByUserId failed  userId={}, Result={}",userId, JSON.toJSONString(queryResult));
 			result.setWebReturnCode(WebReturnCode.REMOTE_CALL_FAILED);
 			return result ;
 		}

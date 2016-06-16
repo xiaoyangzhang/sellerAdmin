@@ -129,7 +129,7 @@
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>开户银行：</span></td>
 								<td><select id="bank" class="selectlist" name="financeOpenBankId">
-									  <option  value="">--请选择--</option>
+									  
 									#foreach ($bank in $bankList)
 										
 									  <option  #if ($examineInfo.financeOpenBankId == $bank.bankId) selected="selected" #end value="$!bank.bankId" >$!bank.bankName</option>
