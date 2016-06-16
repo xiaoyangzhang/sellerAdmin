@@ -33,7 +33,7 @@ import com.yimayhd.user.client.domain.UserDO;
  * @date : 2015年12月1日
  * @description : 首页管理
  */
-@Controller
+@Controller 
 @RequestMapping("/B2C/homeManage")
 public class HomeManageController extends BaseController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomeManageController.class);
