@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yimayhd.ic.client.util.JsonUtils;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
@@ -97,69 +98,81 @@ public class ItemController extends BaseController {
         long option = user.getOptions();
         boolean isTalent = UserOptions.CERTIFICATED.has(option);
 
-		String cateId = get("categoryId");
-		List<CategoryVO> list = null;
-		if (StringUtils.isBlank(cateId)) {
-			WebResult<CategoryDO> webResult = categoryService.getCategoryByDomainId(DomainType.DOMAIN_JX.getType());
-			if (null != webResult && webResult.getValue() != null) {
-				list = categoryDoTOVo(webResult.getValue().getChildren(), isTalent);
-			}
-		} else {
-			// 查询某节点下的子节点
-			WebResult<CategoryDO> webResult = categoryService.getCategoryById(Integer.parseInt(cateId));
-			if (null != webResult && webResult.getValue() != null) {
-				list = categoryDoTOVo(webResult.getValue().getChildren(),false);
-			}
-		}
-		if(!isTalent) { // 身份为商户时进行商品类目权限过滤
-			List<CategoryVO> filteredList = new ArrayList<>();
-			MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesBySellerId(Constant.DOMAIN_JIUXIU, user.getId());
-			outer : for(CategoryVO categoryVO : list) {
-				inner : for (MerchantItemCategoryDO merchantItemCategoryDO : merchantItemCategoryResult.getValue()) {
-					try {
-						CategoryDO categoryDO = categoryService.getCategoryDOById(merchantItemCategoryDO.getItemCategoryId());
-						while (categoryVO.getCategoryId() != categoryDO.getId()) { // 根据商户有权限的山品类目递归查找到根节点,如果所有类目都没权限,判断list集中和的下一个类目
-							categoryDO = categoryService.getCategoryDOById(categoryDO.getParentId());
-							if(null == categoryDO) {
-								continue inner;
-							}
-						}
-						// 如果匹配到权限,加入新的集合中,并对list的下一个类目进行判断
-						filteredList.add(categoryVO);
-						continue  outer;
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			return filteredList;
-		}else {
-			List<CategoryVO> filteredList = new ArrayList<>();
-			List<Long> idList = new ArrayList<>();
-			idList.add(204L);
-			idList.add(205L);
-			idList.add(207L);
-			outer : for(CategoryVO categoryVO : list) {
-				inner : for (Long id : idList) {
-					try {
-						CategoryDO categoryDO = categoryService.getCategoryDOById(id);
-						while (categoryVO.getCategoryId() != categoryDO.getId()) { // 根据商户有权限的山品类目递归查找到根节点,如果所有类目都没权限,判断list集中和的下一个类目
-							categoryDO = categoryService.getCategoryDOById(categoryDO.getParentId());
-							if(null == categoryDO) {
-								continue inner;
-							}
-						}
-						// 如果匹配到权限,加入新的集合中,并对list的下一个类目进行判断
-						filteredList.add(categoryVO);
-						continue  outer;
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			return filteredList;
-		}
-	}
+        String cateId = get("categoryId");
+        List<CategoryVO> list = null;
+        if (StringUtils.isBlank(cateId)) {
+            WebResult<CategoryDO> webResult = categoryService.getCategoryByDomainId(DomainType.DOMAIN_JX.getType());
+            if (null != webResult && webResult.getValue() != null) {
+                list = categoryDoTOVo(webResult.getValue().getChildren(), isTalent);
+            }
+        } else {
+            int categoryId = 0;
+            try {
+                categoryId = Integer.parseInt(cateId);
+            } catch (Exception e){
+                log.error("cateId={} is null", cateId);
+                list = new ArrayList<>();
+                return list;
+            }
+            // 查询某节点下的子节点
+            WebResult<CategoryDO> webResult = categoryService.getCategoryById(categoryId);
+            if (null != webResult && webResult.getValue() != null) {
+                list = categoryDoTOVo(webResult.getValue().getChildren(), false);
+            }
+        }
+        if (!isTalent) { // 身份为商户时进行商品类目权限过滤
+            List<CategoryVO> filteredList = new ArrayList<>();
+            MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesBySellerId(Constant.DOMAIN_JIUXIU, user.getId());
+            outer:
+            for (CategoryVO categoryVO : list) {
+                inner:
+                for (MerchantItemCategoryDO merchantItemCategoryDO : merchantItemCategoryResult.getValue()) {
+                    try {
+                        CategoryDO categoryDO = categoryService.getCategoryDOById(merchantItemCategoryDO.getItemCategoryId());
+                        while (categoryVO.getCategoryId() != categoryDO.getId()) { // 根据商户有权限的山品类目递归查找到根节点,如果所有类目都没权限,判断list集中和的下一个类目
+                            categoryDO = categoryService.getCategoryDOById(categoryDO.getParentId());
+                            if (null == categoryDO) {
+                                continue inner;
+                            }
+                        }
+                        // 如果匹配到权限,加入新的集合中,并对list的下一个类目进行判断
+                        filteredList.add(categoryVO);
+                        continue outer;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return filteredList;
+        } else {
+            List<CategoryVO> filteredList = new ArrayList<>();
+            List<Long> idList = new ArrayList<>();
+            idList.add(204L);
+            idList.add(205L);
+            idList.add(207L);
+            outer:
+            for (CategoryVO categoryVO : list) {
+                inner:
+                for (Long id : idList) {
+                    try {
+                        CategoryDO categoryDO = categoryService.getCategoryDOById(id);
+                        while (categoryVO.getCategoryId() != categoryDO.getId()) { // 根据商户有权限的山品类目递归查找到根节点,如果所有类目都没权限,判断list集中和的下一个类目
+                            categoryDO = categoryService.getCategoryDOById(categoryDO.getParentId());
+                            if (null == categoryDO) {
+                                continue inner;
+                            }
+                        }
+                        // 如果匹配到权限,加入新的集合中,并对list的下一个类目进行判断
+                        filteredList.add(categoryVO);
+                        continue outer;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return filteredList;
+        }
+    }
 
     private List<CategoryVO> categoryDoTOVo(List<CategoryDO> childrenList, boolean isTalent) {
         List<CategoryVO> list = new ArrayList<CategoryVO>();
