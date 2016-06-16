@@ -229,7 +229,7 @@ public class DraftController extends BaseDraftController {
 					initLinePropertyTypes(baseInfo.getCategoryId());
 				}
 				initBaseInfo();
-
+				
 				// 线路商品信息
 				put("product", gt);
 				
