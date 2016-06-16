@@ -936,19 +936,19 @@ public class ApplyController extends BaseController {
 			String tfsFileName = "";
 			if (1 == fileType) {
 				newFileName = new String("九休开放平台总则.pdf".getBytes("UTF-8"),"ISO-8859-1");
-				tfsFileName = "T1S8KTByZT1RCvBVdK";
+				tfsFileName = "L13NxTBXET1R4oIErK";
 			}else if (2 == fileType) {
 				newFileName = new String("九休开放平台酒店管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
-				tfsFileName = "T1NHYTByVT1RCvBVdK";
+				tfsFileName = "T1.XZTByCT1R4oIErK";
 			}else if (4 == fileType) {
 				newFileName = new String("九休开放平台同城管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
-				tfsFileName = "T1GHKTByxT1RCvBVdK";
+				tfsFileName = "T1pzZTByJT1R4oIErK";
 			}else if (5 == fileType) {
 				newFileName = new String("九休开放平台景区管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
-				tfsFileName = "T1HpKTByhT1RCvBVdK";
+				tfsFileName = "T1ZFZTByhT1R4oIErK";
 			}else if (6 == fileType) {
 				newFileName = new String("九休开放平台旅行社管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
-				tfsFileName = "T1T4JTBXAT1RCvBVdK";
+				tfsFileName = "T1IzxTBXdT1R4oIErK";
 			}
 			response.setCharacterEncoding("utf-8");
 			response.setContentType("multipart/form-data");
@@ -958,7 +958,7 @@ public class ApplyController extends BaseController {
 			response.setHeader("Content-Disposition", "attachment; filename="+ newFileName);
 			byte[] b = new byte[10240];
 			OutputStream os = response.getOutputStream();
-			boolean fetchFileResult = tfsManager.fetchFile(tfsFileName, null,os );
+			boolean fetchFileResult = tfsManager.fetchFile(tfsFileName, "pdf",os );
 			
 			os.write(b);
 			os.flush();
