@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.controller.draft;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -49,7 +50,7 @@ public class DraftController extends BaseDraftController {
 	 * @createTime 2016年6月15日
 	 */
 	@RequestMapping(value = "/list")
-	public String list(DraftListQuery query) {
+	public String list(Model model, DraftListQuery query) {
 		try {
 			long sellerId = getCurrentUserId();
 			if (sellerId <= 0) {
@@ -60,13 +61,21 @@ public class DraftController extends BaseDraftController {
 			query.setAccountId(sellerId);
 			query.setMainType(query.getMainType());
 			query.setSubType(query.getSubType());
+			query.setPage(query.getPage());
 			WebResult<PageVO<DraftVO>> result = draftService.getDraftList(sellerId, query);
-			if (result.isSuccess()) {
-				put("pageVo", result.getValue());
+			PageVO<DraftVO> pageResult = result.getValue();
+			int totalPage = 0;
+			if (pageResult.getTotalCount() % pageResult.getPageSize() > 0) {
+				totalPage += pageResult.getTotalCount() / pageResult.getPageSize() + 1;
+			} else {
+				totalPage += pageResult.getTotalCount() / pageResult.getPageSize();
 			}
 			BizDraftSubType[] draftSubTypes = BizDraftSubType.values();
 			put("query", query);
 			put("draftTypeList", draftSubTypes);
+			model.addAttribute("pageVo", pageResult);
+			model.addAttribute("totalPage", totalPage);
+			model.addAttribute("totalCount", pageResult.getPaginator().getTotalItems());
 			return "/system/draft/list";
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

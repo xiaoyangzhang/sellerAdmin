@@ -14,10 +14,9 @@
 				</ul>
 			</div>
 			<div class = "draft">
-			    <form class="form-signin" id="draftListForm" action="$!utilWebconfig.getActionDefaultFontPath()/draft/list" method="POST" role="form">
+			    <form class="form-signin" id="draftListForm" action="$!utilWebconfig.getActionDefaultFontPath()/draft/list" method="GET" role="form">
 				<p>
 				<input type="hidden"  name="mainType" value="$!query.mainType"/>
-				
 					<em class ="gray6">商品类型：</em>
 					<select id="edu" name="subType">
 						<option value="0" #if(!$query.subType) selected #end>全部</option>
@@ -80,31 +79,5 @@
 			layer.close(index);
         });
     });
-   /** 
-    $(".edit").click(function(){
-    
-		var id = $(this).attr("draft-id");
-		var subType = $(this).attr("draft-subType");
-		var mainType = $(this).attr("draft-mainType");
-		var params = {
-			id:id,
-			subType:subType,
-			mainType:mainType
-		};
-		operateUrl = "$!{utilWebconfig.getActionDefaultFontPath()}/draft/edit/"+id;
-		layer.confirm('是否确认编辑？', {icon: 3, title:'提示'}, function(index){
-    		$.post(operateUrl,params,function(result) {
-    			if(result.success) {
-    				window.location.reload();
-    			} else {
-    				layer.msg('操作失败', {
-        				icon : 2,
-        				time : 1000
-        			});
-    			}
-    		},"json");
-			layer.close(index);
-        });
-    });**/
 </script>
 <script>seajs.use("draft");</script>
