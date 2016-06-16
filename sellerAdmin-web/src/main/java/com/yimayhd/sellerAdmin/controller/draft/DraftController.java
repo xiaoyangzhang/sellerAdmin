@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.controller.draft;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Preconditions;
+import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.membercenter.client.query.DraftListQuery;
 import com.yimayhd.membercenter.enums.DraftEnum;
@@ -26,8 +29,11 @@ import com.yimayhd.sellerAdmin.enums.BizDraftSubType;
 import com.yimayhd.sellerAdmin.model.CityActivityItemVO;
 import com.yimayhd.sellerAdmin.model.draft.DraftDetailVO;
 import com.yimayhd.sellerAdmin.model.draft.DraftVO;
+import com.yimayhd.sellerAdmin.model.line.CityVO;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
+import com.yimayhd.sellerAdmin.model.line.TagDTO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
+import com.yimayhd.sellerAdmin.service.TagService;
 import com.yimayhd.sellerAdmin.service.draft.DraftService;
 
 /**
@@ -42,10 +48,14 @@ public class DraftController extends BaseDraftController {
 
 	@Autowired
 	private DraftService draftService;
+    @Autowired
+    private TagService tagService;
 
 	/**
 	 * 草稿箱列表获取接口
-	 * @param query 查询条件
+	 * 
+	 * @param query
+	 *            查询条件
 	 * @return 草稿箱列表
 	 * @author liuxp
 	 * @createTime 2016年6月15日
@@ -87,9 +97,12 @@ public class DraftController extends BaseDraftController {
 	/**
 	 * 保存/覆盖草稿
 	 * 
-	 * @param json 草稿json数据
-	 * @param uuid 多次提交唯一标识id
-	 * @param draftVO 草稿具体属性信息
+	 * @param json
+	 *            草稿json数据
+	 * @param uuid
+	 *            多次提交唯一标识id
+	 * @param draftVO
+	 *            草稿具体属性信息
 	 * @return 保存结果
 	 * @author liuxp
 	 * @createTime 2016年6月15日
@@ -108,10 +121,9 @@ public class DraftController extends BaseDraftController {
 			}
 			json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
-			
+
 			return saveDraft(json, draftVO, sellerId);
 
-			
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, e.getMessage());
@@ -134,7 +146,7 @@ public class DraftController extends BaseDraftController {
 			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR_MERCHANT_TALENT);
 		}
 		if (id > 0) {
-			WebOperateResult deleteDraft = draftService.deleteDraft(id,sellerId);
+			WebOperateResult deleteDraft = draftService.deleteDraft(id, sellerId);
 			if (deleteDraft.isSuccess()) {
 				return WebOperateResult.success("删除草稿成功");
 			} else {
@@ -147,36 +159,39 @@ public class DraftController extends BaseDraftController {
 
 	/**
 	 * 草稿箱编辑跳转
+	 * 
 	 * @param id
 	 * @param mainType
 	 * @param subType
 	 * @return
 	 * @author liuxp
-	 * @throws Exception 
+	 * @throws Exception
 	 * @createTime 2016年6月14日
 	 */
 	@RequestMapping(value = "/edit/{id}/{mainType}/{subType}")
-	public String edit(@PathVariable("id") long id, @PathVariable("mainType") int mainType, @PathVariable("subType") int subType) throws Exception {
-		if (id>0 && mainType>0 && subType>0) {
-		    
-		    if(mainType == DraftEnum.ITEM.getValue()) {
-		    	return draftRedirectToItem(id, mainType, subType);
-		    } else {
+	public String edit(@PathVariable("id") long id, @PathVariable("mainType") int mainType,
+			@PathVariable("subType") int subType) throws Exception {
+		if (id > 0 && mainType > 0 && subType > 0) {
+
+			if (mainType == DraftEnum.ITEM.getValue()) {
+				return draftRedirectToItem(id, mainType, subType);
+			} else {
 				throw new BaseException("unsupport DraftType " + mainType);
-		    }
+			}
 		} else {
 			throw new BaseException("参数错误");
 		}
 	}
-	
+
 	/**
 	 * 重定向到商品
+	 * 
 	 * @param id
 	 * @param mainType
 	 * @param subType
 	 * @return
 	 * @author liuxp
-	 * @throws Exception 
+	 * @throws Exception
 	 * @createTime 2016年6月14日
 	 */
 	private String draftRedirectToItem(Long id, int mainType, int subType) throws Exception {
@@ -187,7 +202,7 @@ public class DraftController extends BaseDraftController {
 				|| ItemType.FREE_LINE_ABOARD.getValue() == itemType.getValue()) {
 			return editLineDraft(id);
 		} else if (ItemType.CITY_ACTIVITY.getValue() == itemType.getValue()) {
-			return redirect("/draft/cityactivity/edit/" + id);
+			return editCityactivityDraft(id);
 		} else if (ItemType.NORMAL.getValue() == itemType.getValue()) {
 			return redirect("/draft/barterItem/common/edit/" + id);
 		} else {
@@ -197,10 +212,11 @@ public class DraftController extends BaseDraftController {
 
 	/**
 	 * 重定向到线路商品
+	 * 
 	 * @param id
 	 * @return
 	 * @author liuxp
-	 * @throws Exception 
+	 * @throws Exception
 	 * @createTime 2016年6月14日
 	 */
 	public String editLineDraft(Long id) throws Exception {
@@ -216,10 +232,10 @@ public class DraftController extends BaseDraftController {
 					initLinePropertyTypes(baseInfo.getCategoryId());
 				}
 				initBaseInfo();
-				
+
 				// 线路商品信息
 				put("product", gt);
-				
+
 				// 草稿id信息
 				put("draftId", id);
 				return "/system/comm/line/detail";
@@ -231,17 +247,43 @@ public class DraftController extends BaseDraftController {
 		}
 	}
 
-//	@RequestMapping(value = "/cityactivity/edit/{id}")
-	public String editCityactivityDraft(DraftVO draftVO, @PathVariable("id") long id) {
-		if (null != draftVO && id > 0) {
-			// int mainType = draftVO.getMainType();
-			int subType = draftVO.getSubType();
-			ItemType itemType = BizDraftSubType.get(subType).getValue();
+	public String editCityactivityDraft(long id) {
+		try {
+			if (id > 0) {
+				long sellerId = sessionManager.getUserId();
+				Preconditions.checkState(sellerId > 0, "请登录后访问");
+				WebResult<DraftDetailVO> draftDetailVOResult = draftService.getDetailById(id);
+				CityActivityItemVO itemVO = DraftConverter.toCityactivityWithDraftDetailVO(draftDetailVOResult);
+				WebResult<List<TagDTO>> allThemes = tagService.getAllThemes(TagType.CITYACTIVITY);
+				if (allThemes.isSuccess()) {
+					put("themes", allThemes.getValue());
+				}
+				WebResult<List<CityVO>> allDests = tagService.getAllDests();
+				if (allDests.isSuccess()) {
+					put("dests", allDests.getValue());
+				}
+				put("category", itemVO.getCategoryVO());
+				put("item", itemVO.getItemVO());
+				put("cityActivity", itemVO.getCityActivityVO());
+				put("itemThemes", itemVO.getThemes());
+				put("itemDest", itemVO.getDest());
+				put("itemType", ItemType.CITY_ACTIVITY.getValue());
+				put("pictureText", itemVO.getPictureTextVO());
+				put("needKnow", itemVO.getNeedKnowVO());
+
+				// 草稿id信息
+				put("draftId", id);
+				return "/system/cityactivity/edit";
+			} else {
+				throw new BaseException("参数错误");
+			}
+		} catch (Exception e) {
+			throw new BaseException("参数错误");
 		}
-		return redirect("/draft/list");
 	}
-	@RequestMapping(value = "/cityactivity/save")
-	public WebOperateResult saveCityactivityDraft(String json, String uuid, DraftVO draftVO) {
+
+	@RequestMapping(value = "/savecityactivity")
+	public @ResponseBody WebOperateResult saveCityactivityDraft(String json, String uuid, DraftVO draftVO) {
 		try {
 			long sellerId = getCurrentUserId();
 			if (sellerId <= 0) {
@@ -253,7 +295,7 @@ public class DraftController extends BaseDraftController {
 				return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
 			}
 			json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
-            CityActivityItemVO itemVO = (CityActivityItemVO) JSONObject.parseObject(json, CityActivityItemVO.class);
+			CityActivityItemVO itemVO = (CityActivityItemVO) JSONObject.parseObject(json, CityActivityItemVO.class);
 			return saveDraft(json, draftVO, sellerId);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -276,7 +318,7 @@ public class DraftController extends BaseDraftController {
 				return WebOperateResult.success(resultSave.getValue().toString());
 			} else if (resultSave.getErrorCode() == WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorCode()) {
 				return WebOperateResult.success(WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorMsg());
-			}else {
+			} else {
 				return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
 			}
 		} else {
@@ -285,13 +327,13 @@ public class DraftController extends BaseDraftController {
 				return WebOperateResult.success("保存草稿成功");
 			} else if (resultCover.getErrorCode() == WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorCode()) {
 				return WebOperateResult.success(WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorMsg());
-			}else {
+			} else {
 				return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
 			}
 		}
 	}
 
-//	@RequestMapping(value = "/barterItem/common/edit/{id}")
+	// @RequestMapping(value = "/barterItem/common/edit/{id}")
 	public String editBarterItemDraft(DraftVO draftVO, @PathVariable("id") long id) {
 		if (null != draftVO && id > 0) {
 			// int mainType = draftVO.getMainType();
