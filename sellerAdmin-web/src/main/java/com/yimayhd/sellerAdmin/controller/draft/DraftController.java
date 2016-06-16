@@ -122,6 +122,8 @@ public class DraftController extends BaseDraftController {
 					return WebOperateResult.success(resultSave.getValue().toString());
 				} else if (resultSave.getErrorCode() == WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorCode()) {
 					return WebOperateResult.success(WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorMsg());
+				}else {
+					return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
 				}
 			} else {
 				WebOperateResult resultCover = draftService.coverDraft(json, draftVO);
@@ -129,6 +131,8 @@ public class DraftController extends BaseDraftController {
 					return WebOperateResult.success("保存草稿成功");
 				} else if (resultCover.getErrorCode() == WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorCode()) {
 					return WebOperateResult.success(WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorMsg());
+				}else {
+					return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
 				}
 			}
 
@@ -137,7 +141,6 @@ public class DraftController extends BaseDraftController {
 			log.error(e.getMessage(), e);
 			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, e.getMessage());
 		}
-		return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
 	}
 
 	/**
