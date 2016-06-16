@@ -57,7 +57,7 @@
                                                 </li>
                                                 <li>
                                                     <label>可住：</label>
-                                                    <label>#if($roomMessageVO.people>0) $!{roomMessageVO.people}人 #end </label>
+                                                    <label>#if($!roomMessageVO.people > 0) $!{roomMessageVO.people}人 #end </label>
                                                 </li>
                                                 <li>
                                                     <label>网络：</label>
