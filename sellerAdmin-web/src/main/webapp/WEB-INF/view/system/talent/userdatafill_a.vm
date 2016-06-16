@@ -43,7 +43,8 @@
 						<div class="column" style="padding-left:174px;"><label class="bred">*</label><label>营业执照号码：</label><input class="inptxt" name="saleLicenseNumber" datatype="n" value="$!examineInfo.saleLicenseNumber" maxlength="25" placeholder=""></div>
 						<div class="column" style="padding-left:174px;"><label class="bred">*</label><label>税务登记号码：</label><input class="inptxt" name="taxRegisterNumber" datatype="n" value="$!examineInfo.taxRegisterNumber" maxlength="25" placeholder=""></div>
 						<div class="column"><label class="bred">*</label><label>营业地址：</label><input class="inptxt" datatype="*" maxlength="60" value="$!examineInfo.address" name="address" placeholder="营业执照上的营业地址"></div>
-						<div class="column"><label class="bred vt">*</label><label class="vt">经营范围：</label><textarea class="inptxt" datatype="*"  name="saleScope" maxlength="300" placeholder="营业执照上的经营范围">$!examineInfo.saleScope</textarea></div>
+						#set( $contentHtml = $!examineInfo.saleScope.replaceAll("\n","<br/>") )
+						<div class="column"><label class="bred vt">*</label><label class="vt">经营范围：</label><textarea class="inptxt" datatype="*"  name="saleScope" maxlength="300" placeholder="营业执照上的经营范围">$!{contentHtml}</textarea></div>
 					</div>
 					<div class="tit gray6 f16">上传资质（所有文件需加盖公章）</div>
 					<div class="fm_md_two fm_md">

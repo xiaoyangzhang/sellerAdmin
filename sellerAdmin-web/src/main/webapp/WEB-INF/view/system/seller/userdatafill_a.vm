@@ -240,7 +240,8 @@
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业范围：</label></td>
-       	    	   				<td class="rigcontent"><textarea tip="" datatype="*" maxlength="150"  class="txt02" name="saleScope"  id="" placeholder="营业执照上的经营范围">$!examineInfo.saleScope</textarea></td>
+       	    	   				#set( $contentHtml = $!examineInfo.saleScope.replaceAll("\n","<br/>") )
+       	    	   				<td class="rigcontent"><textarea tip="" datatype="*" maxlength="150"  class="txt02" name="saleScope"  id="" placeholder="营业执照上的经营范围">$!{contentHtml}</textarea></td>
        	    	   			</tr>
                				</table>
                	</div>
