@@ -23,6 +23,7 @@ import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.DraftConverter;
 import com.yimayhd.sellerAdmin.enums.BizDraftSubType;
+import com.yimayhd.sellerAdmin.model.CityActivityItemVO;
 import com.yimayhd.sellerAdmin.model.draft.DraftDetailVO;
 import com.yimayhd.sellerAdmin.model.draft.DraftVO;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
@@ -108,33 +109,7 @@ public class DraftController extends BaseDraftController {
 			json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
 			
-			draftVO.setDraftName(draftVO.getDraftName());
-			draftVO.setJsonObject(json);
-			draftVO.setId(draftVO.getId());
-			draftVO.setAccountId(sellerId);
-			draftVO.setDomainId(Constant.DOMAIN_JIUXIU);
-			draftVO.setMainType(DraftEnum.ITEM.getValue());
-			BizDraftSubType bizDraftSubType = BizDraftSubType.get(draftVO.getSubType());
-			draftVO.setSubTypeName(bizDraftSubType.getText());
-			if (null == draftVO.getId()) {
-				WebResult<Long> resultSave = draftService.saveDraft(json, draftVO);
-				if (resultSave.isSuccess()) {
-					return WebOperateResult.success(resultSave.getValue().toString());
-				} else if (resultSave.getErrorCode() == WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorCode()) {
-					return WebOperateResult.success(WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorMsg());
-				}else {
-					return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
-				}
-			} else {
-				WebOperateResult resultCover = draftService.coverDraft(json, draftVO);
-				if (resultCover.isSuccess()) {
-					return WebOperateResult.success("保存草稿成功");
-				} else if (resultCover.getErrorCode() == WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorCode()) {
-					return WebOperateResult.success(WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorMsg());
-				}else {
-					return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
-				}
-			}
+			return saveDraft(json, draftVO, sellerId);
 
 			
 		} catch (Exception e) {
@@ -264,6 +239,56 @@ public class DraftController extends BaseDraftController {
 			ItemType itemType = BizDraftSubType.get(subType).getValue();
 		}
 		return redirect("/draft/list");
+	}
+	@RequestMapping(value = "/cityactivity/save")
+	public WebOperateResult saveCityactivityDraft(String json, String uuid, DraftVO draftVO) {
+		try {
+			long sellerId = getCurrentUserId();
+			if (sellerId <= 0) {
+				log.warn("未登录");
+				return WebOperateResult.failure(WebReturnCode.USER_NOT_FOUND);
+			}
+			if (StringUtils.isBlank(json)) {
+				log.warn("json is null");
+				return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
+			}
+			json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
+            CityActivityItemVO itemVO = (CityActivityItemVO) JSONObject.parseObject(json, CityActivityItemVO.class);
+			return saveDraft(json, draftVO, sellerId);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, e.getMessage());
+		}
+	}
+
+	private WebOperateResult saveDraft(String json, DraftVO draftVO, long sellerId) {
+		draftVO.setDraftName(draftVO.getDraftName());
+		draftVO.setJsonObject(json);
+		draftVO.setId(draftVO.getId());
+		draftVO.setAccountId(sellerId);
+		draftVO.setDomainId(Constant.DOMAIN_JIUXIU);
+		draftVO.setMainType(DraftEnum.ITEM.getValue());
+		BizDraftSubType bizDraftSubType = BizDraftSubType.get(draftVO.getSubType());
+		draftVO.setSubTypeName(bizDraftSubType.getText());
+		if (null == draftVO.getId()) {
+			WebResult<Long> resultSave = draftService.saveDraft(json, draftVO);
+			if (resultSave.isSuccess()) {
+				return WebOperateResult.success(resultSave.getValue().toString());
+			} else if (resultSave.getErrorCode() == WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorCode()) {
+				return WebOperateResult.success(WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorMsg());
+			}else {
+				return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
+			}
+		} else {
+			WebOperateResult resultCover = draftService.coverDraft(json, draftVO);
+			if (resultCover.isSuccess()) {
+				return WebOperateResult.success("保存草稿成功");
+			} else if (resultCover.getErrorCode() == WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorCode()) {
+				return WebOperateResult.success(WebReturnCode.DRAFTNAME_REPEAT_ERROR.getErrorMsg());
+			}else {
+				return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR);
+			}
+		}
 	}
 
 //	@RequestMapping(value = "/barterItem/common/edit/{id}")
