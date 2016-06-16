@@ -207,7 +207,7 @@ public class HotelManageDomainChecker {
         itemDO.setDescription(hotelMessageVO.getDescription());//退订规则描述
         itemDO.setDomain(Constant.DOMAIN_JIUXIU);
         itemDO.setOptions(1);
-        itemDO.setItemType(categoryDO.getCategoryFeature().getItemType());
+        itemDO.setItemType(categoryDO.getCategoryFeature().getItemType().intValue());
         itemDO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS,hotelDO.getLogoUrl());
         /***feature**/
         ItemFeature itemFeature = new ItemFeature(null);
