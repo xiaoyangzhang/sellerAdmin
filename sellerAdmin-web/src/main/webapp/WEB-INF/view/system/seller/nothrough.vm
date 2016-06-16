@@ -43,7 +43,7 @@
 				</div>
 			</div>
 		</div>
-			<div><a class="agreebtn" href="$!root_path/$!url">重新申请</a></div>
+			<div><a class="agreebtn" href="$!root_path/apply/toChoosePage?reject=true">重新申请</a></div>
 	</div>
 		</div>
 	#parse("layout/layout-js.vm")
