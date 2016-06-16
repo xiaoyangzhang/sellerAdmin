@@ -54,7 +54,7 @@ import com.yimayhd.user.session.manager.SessionManager;
  *
  */
 @Controller
-@RequestMapping("/apply")
+@RequestMapping("/apply/")
 public class ApplyController extends BaseController {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
@@ -257,6 +257,7 @@ public class ApplyController extends BaseController {
 	@RequestMapping(value="/talent/nothrough",method=RequestMethod.GET)
 	public String toTalentNothrough(Model model) {
 		//model.addAttribute("url", "/apply/toChoosePage?reject=true");
+		CheckResult(model, MerchantType.TALENT.getType());
 		return "/system/talent/nothrough";
 		
 	}
@@ -444,12 +445,7 @@ public class ApplyController extends BaseController {
 			if (ExamineStatus.EXAMIN_ERROR.getStatus() == status && ExamineType.TALENT.getType() == type) {
 				return "redirect:talent/nothrough";
 			}
-			info.setType(type);
-			MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
-			if(rest.isSuccess() && (null!=rest.getValue())){
-				model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
-			}
-			model.addAttribute("url", "/apply/toChoosePage?reject=true");
+			//model.addAttribute("url", "/apply/toChoosePage?reject=true");
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			url = "system/error/500";
@@ -457,9 +453,31 @@ public class ApplyController extends BaseController {
 		return url;
 		
 	}
+	/**
+	 * 
+	* created by zhangxy
+	* @date 2016年6月16日
+	* @Title: CheckResult 
+	* @Description: 获取审批失败的原因
+	* @param @param model
+	* @param @param type    设定文件 
+	* @return void    返回类型 
+	* @throws
+	 */
+	private void CheckResult(Model model,int type) {
+		InfoQueryDTO info = new InfoQueryDTO();
+		info.setDomainId(Constant.DOMAIN_JIUXIU);
+		info.setSellerId(getCurrentUserId());
+		info.setType(type);
+		MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
+		if(rest.isSuccess() && (null!=rest.getValue())){
+			model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+		}
+	}
 	@RequestMapping(value="/seller/nothrough",method=RequestMethod.GET) 
 	public String toMerchantNothrough(Model model) {
 		//model.addAttribute("url", "/apply/toChoosePage?reject=true");
+		CheckResult(model, MerchantType.MERCHANT.getType());
 		return "system/seller/nothrough";
 	}
 	@RequestMapping(value = "/toChoosePage")
@@ -630,6 +648,13 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value = "/seller/toVerifyPage")
 	public String toBusinessVerifyPage(Model model){
+		WebResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
+		if (result == null || !result.isSuccess() || result.getValue() == null) {
+			return "/system/error/500";
+		}
+		if (result.getValue().getExaminStatus() == ExamineStatus.EXAMIN_ERROR.getStatus()) {
+			return "redirect:/apply/seller/nothrough";
+		}
 		InfoQueryDTO examInfoQueryDTO = new InfoQueryDTO();
 		examInfoQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		examInfoQueryDTO.setType(ExamineType.MERCHANT.getType());
