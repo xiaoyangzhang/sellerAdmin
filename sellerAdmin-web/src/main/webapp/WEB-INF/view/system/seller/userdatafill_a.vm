@@ -291,7 +291,7 @@
 					 </div>  
 					 <div class="identity">
 					  <div class="nextpage"><a href="$!root_path/apply/toChoosePage">上一页</a><a class="subt"
-					   href="$!root_path/apply/seller/saveUserdata">下一页</a></div>
+					   >下一页</a></div>
 					  </div>
 					  </div>
         </form> 
