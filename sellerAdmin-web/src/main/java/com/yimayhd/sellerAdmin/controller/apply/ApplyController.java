@@ -693,7 +693,7 @@ public class ApplyController extends BaseController {
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardId())) {
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
 
-		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleTel()) /*|| !(Pattern.matches(Constant.REGEX_MOBILE, examineInfoVO.getPrincipleTel()))*/) {
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleTel()) || !(Pattern.matches(Constant.REGEX_MOBILE, examineInfoVO.getPrincipleTel()))) {
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
 
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleMail()) || !(Pattern.matches(Constant.REGEX_EMAIL, examineInfoVO.getPrincipleMail()))) {
