@@ -106,8 +106,11 @@
 				<input type="hidden" class="need-know-item-key" value="预订说明"/>
 				#set($length = 0)
 				#set($content = '')
-				#if($needKnowItems && $needKnowItems.size() > 3)
+				#if($needKnowItems && $needKnowItems.size() > 3&&$utilItem.isAboardLine($itemType))
 					#set($content = $needKnowItems.get(3).content)
+					#set($length = $content.length())
+				#else
+					#set($content = $needKnowItems.get(2).content)
 					#set($length = $content.length())
 				#end
 				#if(!$product&&!$utilItem.isAboardLine($itemType))
