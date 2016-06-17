@@ -284,7 +284,7 @@
 					</div>
 					<div class="infor-title">店铺命名</div>
 					<div class="seven">
-					     <div class="shopname"><span>*</span><label>店铺名称：</label><input type="text" datatype="s" maxlength="30" name="merchantName" value="$!examineInfo.merchantName" id="" class="rigcontent nameinput txt04"  placeholder=""></div>
+					     <div class="shopname"><span>*</span><label>店铺名称：</label><input type="text" datatype="*" maxlength="30" name="merchantName" value="$!examineInfo.merchantName" id="" class="rigcontent nameinput txt04"  placeholder=""></div>
 					    <img class="rule-name" src="$!rs_path_jiuxiu/img/rule-name.png">
 					     
 					     <div class="notes namelm"><span>*</span><label>店铺名称要符合店铺命名规范</label></div>
