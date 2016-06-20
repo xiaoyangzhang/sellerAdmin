@@ -30,7 +30,7 @@
 					<div id="departs-content">
 						#if(!$baseInfo.allDeparts)
 							#foreach($depart in $baseInfo.departs)
-						<button class="btn btn-info departs remove-self" rid="$!{depart.id}" rcode="$!{depart.city.code}">$!{depart.city.name}</button>
+						<button class="btn btn-info departs remove-self" rid="$!{depart.id}" rcode="$!{depart.code}">$!{depart.name}</button>
 							#end
 						#end
 					</div>
@@ -44,7 +44,7 @@
 					<button type="button" class="btn btn-success select-dests">选择目的地</button>
 					<div id="dests-content">
 						#foreach($dest in $baseInfo.dests)
-						<button class="btn btn-info dests remove-self" rid="$!{dest.id}" rcode="$!{dest.city.code}">$!{dest.city.name}</button>
+						<button class="btn btn-info dests remove-self" rid="$!{dest.id}" rcode="$!{dest.code}">$!{dest.name}</button>
 						#end
 					</div>
 				</div>
