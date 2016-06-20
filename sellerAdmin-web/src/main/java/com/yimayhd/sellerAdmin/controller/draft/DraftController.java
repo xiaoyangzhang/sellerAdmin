@@ -1,6 +1,7 @@
 package com.yimayhd.sellerAdmin.controller.draft;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -169,12 +170,12 @@ public class DraftController extends BaseDraftController {
 	 * @createTime 2016年6月14日
 	 */
 	@RequestMapping(value = "/edit/{id}/{mainType}/{subType}")
-	public String edit(@PathVariable("id") long id, @PathVariable("mainType") int mainType,
+	public String edit(Model model, @PathVariable("id") long id, @PathVariable("mainType") int mainType,
 			@PathVariable("subType") int subType) throws Exception {
 		if (id > 0 && mainType > 0 && subType > 0) {
 
 			if (mainType == DraftEnum.ITEM.getValue()) {
-				return draftRedirectToItem(id, mainType, subType);
+				return draftRedirectToItem(model,id, mainType, subType);
 			} else {
 				throw new BaseException("unsupport DraftType " + mainType);
 			}
@@ -194,13 +195,13 @@ public class DraftController extends BaseDraftController {
 	 * @throws Exception
 	 * @createTime 2016年6月14日
 	 */
-	private String draftRedirectToItem(Long id, int mainType, int subType) throws Exception {
+	private String draftRedirectToItem(Model model,Long id, int mainType, int subType) throws Exception {
 		ItemType itemType = BizDraftSubType.get(subType).getValue();
 		if (ItemType.FREE_LINE.getValue() == itemType.getValue()
 				|| ItemType.TOUR_LINE.getValue() == itemType.getValue()
 				|| ItemType.TOUR_LINE_ABOARD.getValue() == itemType.getValue()
 				|| ItemType.FREE_LINE_ABOARD.getValue() == itemType.getValue()) {
-			return editLineDraft(id);
+			return editLineDraft(model,id);
 		} else if (ItemType.CITY_ACTIVITY.getValue() == itemType.getValue()) {
 			return editCityactivityDraft(id);
 		} else if (ItemType.NORMAL.getValue() == itemType.getValue()) {
@@ -219,7 +220,7 @@ public class DraftController extends BaseDraftController {
 	 * @throws Exception
 	 * @createTime 2016年6月14日
 	 */
-	public String editLineDraft(Long id) throws Exception {
+	public String editLineDraft(Model model,Long id) throws Exception {
 		if (id > 0) {
 			long sellerId = sessionManager.getUserId();
 			Preconditions.checkState(sellerId > 0, "请登录后访问");
@@ -238,6 +239,8 @@ public class DraftController extends BaseDraftController {
 
 				// 草稿id信息
 				put("draftId", id);
+				model.addAttribute("UUID", UUID.randomUUID().toString());
+
 				return "/system/comm/line/detail";
 			} else {
 				throw new BaseException("参数错误");

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.yimayhd.sellerAdmin.service.draft.DraftService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,6 +54,9 @@ public class LineController extends BaseLineController {
 	private ItemQueryService itemQueryService;
     @Autowired
     private MerchantItemCategoryService merchantItemCategoryService;
+
+	@Autowired
+	private DraftService draftService;
 	/**
 	 * 详细信息页
 	 * 
@@ -155,7 +159,7 @@ public class LineController extends BaseLineController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/save")
-	public @ResponseBody WebResultSupport save(String json,String uuid) {
+	public @ResponseBody WebResultSupport save(String json,String uuid, String draftId) {
 		try {
 			long sellerId = getCurrentUserId();
 			if (sellerId <= 0) {
@@ -195,7 +199,11 @@ public class LineController extends BaseLineController {
 					log.warn("重复添加");
 					return WebOperateResult.failure(WebReturnCode.REPEAT_ERROR);
 				}
-				return commLineService.save(sellerId, gt);
+				WebResult<Long> result = commLineService.save(sellerId, gt);
+				if(result.isSuccess()&&!StringUtils.isEmpty(draftId)) {
+					WebOperateResult deleteDraft = draftService.deleteDraft(Long.parseLong(draftId), sellerId);
+				}
+				return result;
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
