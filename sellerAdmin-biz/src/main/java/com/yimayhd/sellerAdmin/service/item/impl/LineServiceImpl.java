@@ -52,6 +52,7 @@ import com.yimayhd.sellerAdmin.model.line.LinePropertyConfig;
 import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.TagDTO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
+import com.yimayhd.sellerAdmin.model.line.price.PriceInfoVO;
 import com.yimayhd.sellerAdmin.repo.CategoryRepo;
 import com.yimayhd.sellerAdmin.repo.CityRepo;
 import com.yimayhd.sellerAdmin.repo.CommentRepo;
@@ -275,23 +276,25 @@ public class LineServiceImpl implements LineService {
 			
 			//FIXME 
 			LinePubUpdateDTO linePublishDTOForUpdate = LineConverter.toLinePublishDTOForUpdate(sellerId, line);
-			lineRepo.updateLine(linePublishDTOForUpdate);
+			LinePublishResult publishLine=lineRepo.updateLine(linePublishDTOForUpdate);
 			
 			//删除多余的itemsku
+			LineVO lineVO = getByItemId(sellerId, itemId).getValue();
 			LineResult lineResult = lineRepo.getLineByItemId(sellerId, itemId);
 			CategoryDO category = categoryRepo.getCategoryById(lineResult.getItemDO().getCategoryId());
 			List<ItemSkuDO> itemSkuDOList = lineResult.getItemSkuDOList();
 			List<ItemSkuDO> unnecessaryItemSkuDO= LineConverter.filterUnnecessaryItem(category, itemSkuDOList) ;
 			if (CollectionUtils.isNotEmpty(unnecessaryItemSkuDO)) {
+				Set<Long> deletedSKU = new HashSet<Long>();
 				for (ItemSkuDO itemSkuDO : unnecessaryItemSkuDO) {
-					Set<Long> deletedSKU = new HashSet<Long>();
 					deletedSKU.add(itemSkuDO.getId());
-					line.getPriceInfo().setDeletedSKU(deletedSKU);
 				}
+				lineVO.getPriceInfo().setDeletedSKU(deletedSKU);
+				LinePubUpdateDTO linePublishDTOForUpdate2 = LineConverter.toLinePublishDTOForUpdate(sellerId, lineVO);
+				lineRepo.updateLine(linePublishDTOForUpdate2);
 			}
-			LinePubUpdateDTO linePublishDTOForUpdate2 = LineConverter.toLinePublishDTOForUpdate(sellerId, line);
-			LinePublishResult publishLine2 = lineRepo.updateLine(linePublishDTOForUpdate2);
-			if (publishLine2.isSuccess() && itemId > 0) {
+
+			if (publishLine.isSuccess() && itemId > 0) {
 				BaseInfoVO baseInfo = line.getBaseInfo();
 				List<Long> themeIds = baseInfo.getThemes();
 				
@@ -333,55 +336,6 @@ public class LineServiceImpl implements LineService {
 			log.error("更新线路失败", e);
 			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, "更新线路失败 ");
 		}
-	}
-
-	private void deleteUnnecessarySku(CategoryDO category, List<ItemSkuDO> itemSkuDOList) {
-		if (category==null || CollectionUtils.isEmpty(itemSkuDOList)) {
-			return;
-		}
-		List<CategoryPropertyValueDO> sellCategoryPropertyDOs = category.getSellCategoryPropertyDOs();
-		if (CollectionUtils.isEmpty(sellCategoryPropertyDOs) || CollectionUtils.isEmpty(itemSkuDOList) ) {
-			return;
-		}
-		/*
-		 * 套餐
-		 * 出发日期
-		 * 人员类型   ---成人，儿童，单房差
-		 * */
-		//计算出类目下所有销售属性
-		Map<Long, CategoryValueDO> map = new HashMap<Long, CategoryValueDO>();
-		CategoryPropertyDO categoryPropertyValueDOForPerson=new CategoryPropertyDO();
-		Long mapcpvd =null;
-		for (CategoryPropertyValueDO categoryPropertyValueDO : sellCategoryPropertyDOs) {
-			List<CategoryValueDO> categoryValueDOs = categoryPropertyValueDO.getCategoryValueDOs() ;
-			if( CollectionUtils.isNotEmpty(categoryValueDOs) ){
-				categoryPropertyValueDOForPerson=categoryPropertyValueDO.getCategoryPropertyDO();
-//				mapcpvd.put(categoryPropertyValueDO.getPropertyId(), categoryPropertyValueDO) ;
-				mapcpvd=categoryPropertyValueDO.getPropertyId();
-				for( CategoryValueDO value : categoryValueDOs ){
-					//计算出所有销售属性
-					map.put(value.getId(), value) ;
-				}
-			}
-		}
-		Set<Long> skuPIds = new HashSet<Long>();//原来人员类型下的属性取值：1，2，3，4
-		//取出所有的人员类型  下的属性值id
-		for (ItemSkuDO sku : itemSkuDOList) {
-			// Set<Long> pIds = mapcpvd.keySet();
-			List<ItemSkuPVPair> itemSkuPVPairList = sku.getItemSkuPVPairList();
-			for (ItemSkuPVPair itemSkuPVPair : itemSkuPVPairList) {
-				long pid = itemSkuPVPair.getPId();
-				if (mapcpvd != null && mapcpvd.equals(pid)) {
-					skuPIds.add(itemSkuPVPair.getVId());
-				}
-			}
-		}
-		List<ItemSkuDO> itemSkuDOs=new ArrayList<ItemSkuDO>();
-		Set<Long> vIds = map.keySet();// 1，4，145
-		Set<Long> oVIds = new HashSet<Long>();
-		oVIds.addAll(vIds);
-		vIds.removeAll(skuPIds);
-		
 	}
 
 	@Override

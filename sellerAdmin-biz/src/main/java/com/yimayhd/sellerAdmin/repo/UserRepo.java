@@ -302,6 +302,7 @@ public class UserRepo {
 	 * @return
 	 * @throws BizException
 	 */
+	@MethodLogger
 	public UserDO getUserByMobile(String mobile) {
 		BaseResult<UserDO> userDOResult = userServiceRef.getUserByMobile(mobile);
 		if( userDOResult == null || !userDOResult.isSuccess() ){

@@ -1,12 +1,9 @@
 package com.yimayhd.sellerAdmin.controller.apply;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryScopeDO;
@@ -56,7 +54,7 @@ import com.yimayhd.user.session.manager.SessionManager;
  *
  */
 @Controller
-@RequestMapping("/apply")
+@RequestMapping("/apply/")
 public class ApplyController extends BaseController {
 
 	private Logger log = LoggerFactory.getLogger(getClass());
@@ -81,7 +79,8 @@ public class ApplyController extends BaseController {
 	private TalentBiz talentBiz;
 	@Autowired
 	private MerchantApplyBiz merchantApplyBiz;
-	
+	@Autowired
+	private TfsManager tfsManager;
 	/**
 	 * 跳转到选择页面
 	 * @param model
@@ -255,6 +254,13 @@ public class ApplyController extends BaseController {
 		return "system/talent/agreement";
 		
 	}
+	@RequestMapping(value="/talent/nothrough",method=RequestMethod.GET)
+	public String toTalentNothrough(Model model) {
+		//model.addAttribute("url", "/apply/toChoosePage?reject=true");
+		CheckResult(model, MerchantType.TALENT.getType());
+		return "/system/talent/nothrough";
+		
+	}
 	/**
 	 * 跳转到填写达人申请资料页面1
 	  
@@ -404,68 +410,7 @@ public class ApplyController extends BaseController {
 	}
 	
 	
-	/**
-	 * 判断权限的通用方法
-	 * @param model
-	 * @param userId
-	 * @param pageType
-	 * @return
-	 */
-	/*public  String judgeAuthority(Model model,long userId,String pageType){
-		String chooseUrl = "/system/chooseType";
-		InfoQueryDTO info = new InfoQueryDTO();
-		info.setDomainId(Constant.DOMAIN_JIUXIU);
-		info.setSellerId(userId);
-		try {
-			MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
-			if(!result.isSuccess()){
-				return chooseUrl;
-			}
-			if(null == result.getValue()){
-				return null;
-			}
-			ExamineInfoDTO dto = result.getValue() ;
-			int type = dto.getType();
-			int status = dto.getExaminStatus();
-			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
-				if(ExamineType.MERCHANT.getType()==type){
-					return "/system/merchant/verification";
-				}else if(ExamineType.TALENT.getType()==type){
-					return "/system/talent/verification";
-				}
-			}else if(ExamineStatus.EXAMIN_OK.getStatus() == status){//审核通过
-				if(ExamineType.MERCHANT.getType()==type){
-					return "redirect:/basicInfo/merchant/toAddBasicPage";
-				}else if(ExamineType.TALENT.getType()==type){
-					return "redirect:/basicInfo/talent/toAddTalentInfo";
-				}
-			}else if(ExamineStatus.EXAMIN_ERROR.getStatus() == status){//审核不通过
-				if("edit".equals(pageType)){
-					return null;
-				}
-				
-				info.setType(type);
-				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
-				if(rest.isSuccess() && (null!=rest.getValue())){
-					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
-				}
-				if(ExamineType.MERCHANT.getType()==type){
-					model.addAttribute("type", Constant.MERCHANT_NAME_CN);
-				}else if(ExamineType.TALENT.getType()==type){
-					model.addAttribute("type", Constant.TALENT_NAME_CN);
-				}
-				model.addAttribute("url", "/apply/toChoosePage?reject=true");
-				return "/system/merchant/nothrough";
-			}else{
-				return null;
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return chooseUrl;
-		}
-		return chooseUrl;
-		
-	}*/
+	
 	//----------------------2期商家入驻-------------------------//
 	public  String judgeAuthority(Model model,long userId,String pageType){
 		String url = "/system/seller/chooseType";
@@ -487,31 +432,53 @@ public class ApplyController extends BaseController {
 					return "redirect:/basicInfo/talent/toAddTalentInfo";
 				}
 			}
-			if(ExamineStatus.EXAMIN_ING.getStatus() == status ){//等待审核状态
+			if(ExamineStatus.EXAMIN_ING.getStatus() == status  ){//等待审核状态
 				if(ExamineType.MERCHANT.getType()==type){
-					return "/system/seller/verification";
+					return "redirect:seller/toVerifyPage";
 				}else if(ExamineType.TALENT.getType()==type){
-					return "/system/talent/verification";
+					return "redirect:talent/verification";
 				}
 			}
 			if (ExamineStatus.EXAMIN_ERROR.getStatus() == status && ExamineType.MERCHANT.getType() == type) {
-				url = "system/seller/nothrough";
+				return "redirect:seller/nothrough";
 			}
 			if (ExamineStatus.EXAMIN_ERROR.getStatus() == status && ExamineType.TALENT.getType() == type) {
-				url = "system/talent/nothrough";
+				return "redirect:talent/nothrough";
 			}
-			info.setType(type);
-			MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
-			if(rest.isSuccess() && (null!=rest.getValue())){
-				model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
-			}
-			model.addAttribute("url", "/apply/toChoosePage?reject=true");
+			//model.addAttribute("url", "/apply/toChoosePage?reject=true");
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			url = "system/error/500";
 		}
 		return url;
 		
+	}
+	/**
+	 * 
+	* created by zhangxy
+	* @date 2016年6月16日
+	* @Title: CheckResult 
+	* @Description: 获取审批失败的原因
+	* @param @param model
+	* @param @param type    设定文件 
+	* @return void    返回类型 
+	* @throws
+	 */
+	private void CheckResult(Model model,int type) {
+		InfoQueryDTO info = new InfoQueryDTO();
+		info.setDomainId(Constant.DOMAIN_JIUXIU);
+		info.setSellerId(getCurrentUserId());
+		info.setType(type);
+		MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
+		if(rest.isSuccess() && (null!=rest.getValue())){
+			model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes().split(Constant.SYMBOL_SEMIONLON)));
+		}
+	}
+	@RequestMapping(value="/seller/nothrough",method=RequestMethod.GET) 
+	public String toMerchantNothrough(Model model) {
+		//model.addAttribute("url", "/apply/toChoosePage?reject=true");
+		CheckResult(model, MerchantType.MERCHANT.getType());
+		return "system/seller/nothrough";
 	}
 	@RequestMapping(value = "/toChoosePage")
 	public String toChoosePage(Model model,boolean reject){
@@ -522,12 +489,7 @@ public class ApplyController extends BaseController {
 		long userId = sessionManager.getUserId();
 		//权限
 		String judgeRest = judgeAuthority(model,userId, "");
-		//if(null != judgeRest){
 		return judgeRest;
-		//}else{
-		//	return chooseUrl;
-		//}
-		//return chooseUrl;
 	}
 	/**
 	 * 跳转到商户入驻用户协议页面
@@ -561,7 +523,6 @@ public class ApplyController extends BaseController {
 				
 			}
 		}
-		//return "/system/seller/agreement";
 		return "/system/error/500";
 	}
 	
@@ -687,6 +648,13 @@ public class ApplyController extends BaseController {
 	 */
 	@RequestMapping(value = "/seller/toVerifyPage")
 	public String toBusinessVerifyPage(Model model){
+		WebResult<ExamineInfoVO> result = merchantApplyBiz.getExamineInfo();
+		if (result == null || !result.isSuccess() || result.getValue() == null) {
+			return "/system/error/500";
+		}
+		if (result.getValue().getExaminStatus() == ExamineStatus.EXAMIN_ERROR.getStatus()) {
+			return "redirect:/apply/seller/nothrough";
+		}
 		InfoQueryDTO examInfoQueryDTO = new InfoQueryDTO();
 		examInfoQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		examInfoQueryDTO.setType(ExamineType.MERCHANT.getType());
@@ -697,6 +665,7 @@ public class ApplyController extends BaseController {
 		}
 		return "/system/seller/verification";
 	}
+	
 	/**
 	 * 
 	* created by zhangxy
@@ -724,10 +693,10 @@ public class ApplyController extends BaseController {
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardId())) {
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
 
-		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleTel()) /*|| (Pattern.matches(Constant.REGEX_MOBILE, examineInfoVO.getPrincipleTel()))*/) {
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleTel()) || !(Pattern.matches(Constant.REGEX_MOBILE, examineInfoVO.getPrincipleTel()))) {
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
 
-		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleMail()) /*|| (Pattern.matches(Constant.REGEX_EMAIL, examineInfoVO.getPrincipleMail()))*/) {
+		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleMail()) || !(Pattern.matches(Constant.REGEX_EMAIL, examineInfoVO.getPrincipleMail()))) {
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
 
 		}else if (StringUtils.isBlank(examineInfoVO.getPrincipleCardDown())) {
@@ -785,53 +754,7 @@ public class ApplyController extends BaseController {
 			return WebResult.failure(WebReturnCode.MERCHANT_INFO_EDIT_FAILURE, "请检查填写的数据");
 
 		}
-		//
-		/*WebResult<List<MerchantCategoryScopeDO>> merchantCategoryScopeResult = merchantApplyBiz.getMerchantCategoryScope(examineInfoVO.getMerchantCategoryId());
-		if (merchantCategoryScopeResult != null && merchantCategoryScopeResult.isSuccess() && merchantCategoryScopeResult.getValue() != null) {
-			List<Long> idList = new ArrayList<Long>();
-			String[] scopeIds = examineInfoVO.getScopeIds().split(",");
-			for (MerchantCategoryScopeDO scopeDO : merchantCategoryScopeResult.getValue()) {
-				for (String scopeId : scopeIds) {
-					if (scopeDO.getBusinessScopeId() == Long.parseLong(scopeId)) {
-						idList.add(Long.parseLong(scopeId));
-					}
-				}
-			}
-			if (idList.size() == 0) {
-				checkResult.setErrorCode(-1);
-				checkResult.setErrorMsg("请选择正确的经营范围");
-				checkResult.setSuccess(false);
-				return checkResult;
-			}
-		}*/
-		//
-		/*if (examineInfoVO.getIsDirectSale() == ExamineCharacter.DIRECT_SALE.getType()) {
-			if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOME_BRANCH_AGENCY.getSubType() || 
-					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.BROAD_BRANCH_AGENCY.getSubType() ||
-					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.HOTEL_AGENT.getSubType() ||
-					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.INDIVIDUAL_BUSINESS.getSubType() ||
-					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.PARTNERSHIP_BUSINESS.getSubType() ||
-					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.OTHER_ORG.getSubType()) {
-				checkResult.setErrorCode(-1);
-				checkResult.setErrorMsg("请选择正确的店铺性质");
-				checkResult.setSuccess(false);
-				return checkResult;
-				
-			}
-		}*/
-		/*if (examineInfoVO.getIsDirectSale() == ExamineCharacter.BOUTIQUE.getType()) {
-			if (examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.SCENIC_SPOT.getSubType() || 
-					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.AMUSEMENT_PARK.getSubType() ||
-					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.TICKET_AGENT.getSubType() ||
-					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.SCENIC_SPOT_GROUP.getSubType() ||
-					examineInfoVO.getMerchantCategoryId() == MerchantCategoryType.TOURISM_PROMOTION.getSubType() ) {
-				checkResult.setErrorCode(-1);
-				checkResult.setErrorMsg("请选择正确的店铺性质");
-				checkResult.setSuccess(false);
-				return checkResult;
-				
-			}
-		}*/
+	
 		return checkResult;
 	}
 	/**
@@ -868,104 +791,7 @@ public class ApplyController extends BaseController {
 				}
 			}
 		}
-		//
-		/*if (examineInfoVO.getMerchantCategoryId() == 12 ||  examineInfoVO.getMerchantCategoryId() == 14 ) {
-			if (StringUtils.isBlank(examineInfoVO.getBusinessLicense())) {
-				checkResult.setErrorCode(-1);
-				checkResult.setErrorMsg("请上传营业执照副本正面");
-				checkResult.setSuccess(false);
-				return checkResult;
-			}else if (StringUtils.isBlank(examineInfoVO.getTravingCard())) {
-				checkResult.setErrorCode(-1);
-				checkResult.setErrorMsg("请上传旅行社业务经营许可证复印件正面");
-				checkResult.setSuccess(false);
-				return checkResult;
-			}else if ( StringUtils.isBlank(examineInfoVO.getTravelAgencyInsurance())) {
-				checkResult.setErrorCode(-1);
-				checkResult.setErrorMsg("请上传旅行社责任险保险单复印件正面");
-				checkResult.setSuccess(false);
-				return checkResult;
-			}*/
-		//
-		/*if (examineInfoVO.getMerchantCategoryId() == 13 || examineInfoVO.getMerchantCategoryId() == 15) {
-			if (StringUtils.isBlank(examineInfoVO.getBusinessLicense())) {
-				checkResult.setErrorCode(-1);
-				checkResult.setErrorMsg("请上传营业执照副本正面");
-				checkResult.setSuccess(false);
-				return checkResult;
-			}else if (StringUtils.isBlank(examineInfoVO.getTravingCard())) {
-				checkResult.setErrorCode(-1);
-				checkResult.setErrorMsg("请上传旅行社业务经营许可证复印件正面");
-				checkResult.setSuccess(false);
-				return checkResult;
-			}else if ( StringUtils.isBlank(examineInfoVO.getTravelAgencyInsurance())) {
-				checkResult.setErrorCode(-1);
-				checkResult.setErrorMsg("请上传旅行社责任险保险单复印件正面");
-				checkResult.setSuccess(false);
-				return checkResult;
-			}else if ( StringUtils.isBlank(examineInfoVO.getTravelAgencyBranchAgreement())) {
-				checkResult.setErrorCode(-1);
-				checkResult.setErrorMsg("请上传旅行社分社补充协议");
-				checkResult.setSuccess(false);
-				return checkResult;
-			}
-			}*/
-		//
-			/*if (examineInfoVO.getMerchantCategoryId() == 2) {
-				for (MerchantScopeDO scope : scopeIds) {
-					
-					if (scope.getBusinessScopeId() == 2 || scope.getBusinessScopeId() == 3 || scope.getBusinessScopeId() == 4 || scope.getBusinessScopeId() == 7 ) {
-						if (StringUtils.isBlank(examineInfoVO.getBusinessLicense())) {
-							checkResult.setErrorCode(-1);
-							checkResult.setErrorMsg("请上传营业执照副本正面");
-							checkResult.setSuccess(false);
-							return checkResult;
-						}else if (StringUtils.isBlank(examineInfoVO.getTravingCard())) {
-							checkResult.setErrorCode(-1);
-							checkResult.setErrorMsg("请上传旅行社业务经营许可证复印件正面");
-							checkResult.setSuccess(false);
-							return checkResult;
-						}else if ( StringUtils.isBlank(examineInfoVO.getTravelAgencyInsurance())) {
-							checkResult.setErrorCode(-1);
-							checkResult.setErrorMsg("请上传旅行社责任险保险单复印件正面");
-							checkResult.setSuccess(false);
-							return checkResult;
-						}
-					if (scope.getBusinessScopeId() == 5) {
-						if (StringUtils.isBlank(examineInfoVO.getBusinessLicense())) {
-							checkResult.setErrorCode(-1);
-							checkResult.setErrorMsg("请上传营业执照副本正面");
-							checkResult.setSuccess(false);
-							return checkResult;
-						}
-						if (examineInfoVO.getIsDirectSale() == 1 && StringUtils.isBlank(examineInfoVO.getHotelGoodsAuthorization())) {
-							checkResult.setErrorCode(-1);
-							checkResult.setErrorMsg("请上传酒店商品授权书");
-							checkResult.setSuccess(false);
-							return checkResult;
-						}
-					}
-					if (scope.getBusinessScopeId() == 6 ) {
-						if (StringUtils.isBlank(examineInfoVO.getBusinessLicense())) {
-							checkResult.setErrorCode(-1);
-							checkResult.setErrorMsg("请上传营业执照副本复印件");
-							checkResult.setSuccess(false);
-							return checkResult;
-						}else if (StringUtils.isBlank(examineInfoVO.getScenicTicketAuthorization())) {
-							checkResult.setErrorCode(-1);
-							checkResult.setErrorMsg("请上传景点门票授权书或合作协议");
-							checkResult.setSuccess(false);
-							return checkResult;
-						}
-					}
-					}
-				}
-			}*/
-			//
-			/*if (examineInfoVO.getMerchantCategoryId() == 3 ) {
-				
-			}
-		}*/
+		
 		return checkResult;
 	}
 	/**
@@ -991,7 +817,17 @@ public class ApplyController extends BaseController {
 		result.setValue(JSON.toJSONString(queryResult.getValue()));
 		return result;
 	}
-	
+	/**
+	 * 
+	* created by zhangxy
+	* @date 2016年6月16日
+	* @Title: checkTalentParams_PageOne 
+	* @Description: 达人入驻信息第一页参数校验
+	* @param @param examineInfoVO
+	* @param @return    设定文件 
+	* @return WebResult<String>    返回类型 
+	* @throws
+	 */
 	private WebResult<String> checkTalentParams_PageOne(ExamineInfoVO examineInfoVO) {
 		if (examineInfoVO == null) {
 			log.error("params error:ExamineInfoVO={}",JSON.toJSONString(examineInfoVO));
@@ -1022,6 +858,18 @@ public class ApplyController extends BaseController {
 		}
 		return null;
 	}
+	/**
+	 * 
+	* created by zhangxy
+	* @date 2016年6月16日
+	* @Title: checkTalentParams_PageTwo 
+	* @Description: 达人入驻信息第二页参数校验
+	* @param @param examineInfoVO
+	* @param @return    设定文件 
+	* @return WebResult<String>    返回类型 
+	* @throws
+	 */
+	
 	private WebResult<String> checkTalentParams_PageTwo(ExamineInfoVO examineInfoVO) {
 		if (examineInfoVO == null) {
 			log.error("params error:ExamineInfoVO={}",JSON.toJSONString(examineInfoVO));
@@ -1069,26 +917,50 @@ public class ApplyController extends BaseController {
 		}
 		return null;
 	}
+	/**
+	 * 
+	* created by zhangxy
+	* @date 2016年6月16日
+	* @Title: download 
+	* @Description: 下载入驻协议
+	* @param @param request
+	* @param @param response
+	* @param @param fileType    设定文件 
+	* @return void    返回类型 
+	* @throws
+	 */
 	@RequestMapping(value="download",method=RequestMethod.GET)
-	public void download(HttpServletRequest request,HttpServletResponse response,String fileName) {
+	public void download(HttpServletRequest request,HttpServletResponse response,int fileType) {
 		try {
-			String newFileName = new String(fileName.getBytes("ISO-8859-1"),"UTF-8");
-			String realPath = WebResourceConfigUtil.getTfsRootPath()+"/"+newFileName; 
+			String newFileName = "";
+			String tfsFileName = "";
+			if (1 == fileType) {
+				newFileName = new String("九休开放平台总则.pdf".getBytes("UTF-8"),"ISO-8859-1");
+				tfsFileName = "L13NxTBXET1R4oIErK";
+			}else if (2 == fileType) {
+				newFileName = new String("九休开放平台酒店管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
+				tfsFileName = "T1.XZTByCT1R4oIErK";
+			}else if (4 == fileType) {
+				newFileName = new String("九休开放平台同城管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
+				tfsFileName = "T1pzZTByJT1R4oIErK";
+			}else if (5 == fileType) {
+				newFileName = new String("九休开放平台景区管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
+				tfsFileName = "T1ZFZTByhT1R4oIErK";
+			}else if (6 == fileType) {
+				newFileName = new String("九休开放平台旅行社管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
+				tfsFileName = "T1IzxTBXdT1R4oIErK";
+			}
 			response.setCharacterEncoding("utf-8");
-			response.setContentType("application/x-msdownload");
+			response.setContentType("multipart/form-data");
 			response.setHeader("Cache-Control", "no-cache");
 			response.setHeader("Pragma", "no-cache");
 			response.setDateHeader("expires", -1);
-			response.setHeader("Content-Disposition", "attachment; filename="+ fileName);
-			File file = new File(realPath);
-			InputStream inputStream = new FileInputStream(file);
-			OutputStream os = response.getOutputStream();
+			response.setHeader("Content-Disposition", "attachment; filename="+ newFileName);
 			byte[] b = new byte[10240];
-			int length;
-			while ((length = inputStream.read(b)) > 0) {
-				os.write(b, 0, length);
-			}
-			inputStream.close();
+			OutputStream os = response.getOutputStream();
+			boolean fetchFileResult = tfsManager.fetchFile(tfsFileName, ".pdf",os );
+			
+			os.write(b);
 			os.flush();
 			os.close();
 			

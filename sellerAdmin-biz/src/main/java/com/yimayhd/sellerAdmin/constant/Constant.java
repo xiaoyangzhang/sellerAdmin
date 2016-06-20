@@ -63,12 +63,12 @@ public class Constant {
 	/**
 	 * 正则表达式：手机号码
 	 */
-	public static final String REGEX_MOBILE = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
+	public static final String REGEX_MOBILE = "^1\\d{10}$";
 	 
     /**
      * 正则表达式：验证邮箱
      */
-    public static final String REGEX_EMAIL = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+    public static final String REGEX_EMAIL = "^([\\s\\S]*)@([\\s\\S]*)$";
     /**
      * 身份证
      */

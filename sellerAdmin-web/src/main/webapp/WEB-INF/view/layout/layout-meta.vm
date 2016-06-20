@@ -26,6 +26,7 @@
 
 <!-- tfs路径 -->
 #set( $tfs = $utilWebconfig.getTfsRootPath())
+#set( $filegw_url = $utilWebconfig.getFilegwPath())
 
 
 
@@ -41,6 +42,7 @@
 #else
 	#set( $avatar= "$!rs_path_jiuxiu/img/default_1.png" )
 #end
+
 
 #*
 <input type="hidden" id="root_path" value="$root_path">

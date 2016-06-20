@@ -1,18 +1,13 @@
 package com.yimayhd.sellerAdmin.repo;
 
 import com.alibaba.fastjson.JSON;
-import com.google.gson.reflect.TypeToken;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
-import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
-import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
-import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.HotelPublishAddDTO;
 import com.yimayhd.ic.client.model.param.item.HotelPublishUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
@@ -35,7 +30,6 @@ import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.log4j.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +58,6 @@ public class HotelManageRepo {
 	 * @return
 	 * @throws Exception
      */
-	@MethodLogger
 	public WebResult <PageVO<HotelMessageVO>>  queryHotelMessageVOListByDataRepo(HotelManageDomainChecker domain) throws Exception {
 		HotelMessageVO hotelMessageVO =domain.getHotelMessageVO();
 		WebResult<PageVO<HotelMessageVO>> result = domain.getPageResult();
@@ -97,7 +90,6 @@ public class HotelManageRepo {
 	 * @param domain
 	 * @return
      */
-	@MethodLogger
 	public WebResult<HotelMessageVO>  addHotelMessageVOByData(HotelManageDomainChecker domain) throws Exception{
 		WebResult<HotelMessageVO> webResult = domain.getWebResult();
 		HotelMessageVO hotelMessageVO =domain.getHotelMessageVO();
@@ -169,7 +161,7 @@ public class HotelManageRepo {
 		domain.setCategoryPropertyValueDO(sellDO);
 		HotelPublishUpdateDTO hotelPublishUpdateDTO = domain.getBizHotelPublishUpdateDTO();
 		ItemPubResult result = itemPublishServiceRef.updatePublishHotel(hotelPublishUpdateDTO);
-		log.info("edit item, commonItemPublishDTO:"+JSON.toJSONString(hotelPublishUpdateDTO));
+		//log.info("edit item, commonItemPublishDTO:"+JSON.toJSONString(hotelPublishUpdateDTO));
 		if (!result.isSuccess()){
 			log.error("editHotelMessageVOByData.updatePublishCommonItem 入参: commonItemPublishDTO="+JSON.toJSONString(hotelPublishUpdateDTO));
 			return WebResult.failure(WebReturnCode.SYSTEM_ERROR, "编辑酒店商品信息错误");

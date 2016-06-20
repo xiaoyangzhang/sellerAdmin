@@ -129,7 +129,7 @@
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>开户银行：</span></td>
 								<td><select id="bank" class="selectlist" name="financeOpenBankId">
-									  <option  value="">--请选择--</option>
+									  
 									#foreach ($bank in $bankList)
 										
 									  <option  #if ($examineInfo.financeOpenBankId == $bank.bankId) selected="selected" #end value="$!bank.bankId" >$!bank.bankName</option>
@@ -140,7 +140,7 @@
 							</tr>
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>开户名称：</span></td>
-								<td><input class="inptxt" datatype="*" maxlength="10"   value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" ></td>
+								<td><input class="inptxt" datatype="*" maxlength="60"   value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" ></td>
 							</tr>
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>结算账号：</span></td>
