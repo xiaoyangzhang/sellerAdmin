@@ -203,7 +203,7 @@ public class DraftController extends BaseDraftController {
 				|| ItemType.FREE_LINE_ABOARD.getValue() == itemType.getValue()) {
 			return editLineDraft(model,id);
 		} else if (ItemType.CITY_ACTIVITY.getValue() == itemType.getValue()) {
-			return editCityactivityDraft(id);
+			return editCityactivityDraft(model, id);
 		} else if (ItemType.NORMAL.getValue() == itemType.getValue()) {
 			return redirect("/draft/barterItem/common/edit/" + id);
 		} else {
@@ -250,7 +250,7 @@ public class DraftController extends BaseDraftController {
 		}
 	}
 
-	public String editCityactivityDraft(long id) {
+	public String editCityactivityDraft(Model model,long id) {
 		try {
 			if (id > 0) {
 				long sellerId = sessionManager.getUserId();
@@ -273,6 +273,7 @@ public class DraftController extends BaseDraftController {
 				put("itemType", ItemType.CITY_ACTIVITY.getValue());
 				put("pictureText", itemVO.getPictureTextVO());
 				put("needKnow", itemVO.getNeedKnowVO());
+				model.addAttribute("UUID",UUID.randomUUID().toString());
 
 				// 草稿id信息
 				put("draftId", id);
