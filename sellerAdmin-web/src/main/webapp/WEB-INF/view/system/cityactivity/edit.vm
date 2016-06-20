@@ -71,7 +71,9 @@
                 #if(!${isReadonly})
                     <div class="btn-group">
                         <button type="btn" class="btn btn-primary save">全部保存</button>
+                        #if(${isDraft})
                         <button class="btn btn-primary savedraft">保存草稿</button>
+                        #end
                     </div>
                 #end
             </div>

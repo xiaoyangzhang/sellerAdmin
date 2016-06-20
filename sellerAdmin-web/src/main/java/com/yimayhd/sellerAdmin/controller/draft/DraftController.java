@@ -240,6 +240,7 @@ public class DraftController extends BaseDraftController {
 				// 草稿id信息
 				put("draftId", id);
 				model.addAttribute("UUID", UUID.randomUUID().toString());
+				put("isDraft", true);
 
 				return "/system/comm/line/detail";
 			} else {
@@ -277,6 +278,8 @@ public class DraftController extends BaseDraftController {
 
 				// 草稿id信息
 				put("draftId", id);
+				put("isDraft", true);
+
 				return "/system/cityactivity/edit";
 			} else {
 				throw new BaseException("参数错误");

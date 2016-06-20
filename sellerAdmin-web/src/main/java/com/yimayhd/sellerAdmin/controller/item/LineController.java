@@ -137,6 +137,7 @@ public class LineController extends BaseLineController {
 		initLinePropertyTypes(categoryId);
 		put("lineType", LineType.TOUR_LINE);
 		model.addAttribute("UUID",UUID.randomUUID().toString());
+		put("isDraft", true);
 		return "/system/comm/line/detail";
 	}
 

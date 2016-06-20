@@ -93,7 +93,9 @@
             #if(!${isReadonly})
             <div class="groupTravelBot">
                 <button class="btn btn-primary save">全部保存</button>
-                <button class="btn btn-primary savedraft">保存草稿</button>
+					#if(${isDraft})
+                    <button id="draftButton" class="btn btn-primary savedraft">保存草稿</button>
+                    #end
             </div>
 			#end
         </div>
@@ -128,7 +130,8 @@ $(".save").click(function(){
 	console.log(JSON.stringify(result.priceInfo));
 	console.log(JSON.stringify(result.needKnow));
 	var params = {
-		json:JSON.stringify(result)
+		json:JSON.stringify(result),
+        draftId:$("#draftId").val()
 	};
 	var uuid = $("#uuid").val();
     var url = "$!{utilWebconfig.getActionDefaultFontPath()}/line/save?uuid="+uuid;
