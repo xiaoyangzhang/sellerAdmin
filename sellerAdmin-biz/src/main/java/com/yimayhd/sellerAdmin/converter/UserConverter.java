@@ -63,7 +63,7 @@ public class UserConverter {
 		registerDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		//昵称自动生成
 		registerDTO.setNicknameAutoGen(true);;
-
+		registerDTO.setApplicationId(Constant.APPID_JIUXIU);
 		return registerDTO;
 
 	}
