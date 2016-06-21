@@ -21,10 +21,11 @@ public class DraftConverter {
 		return gt;
 	}
 
-	public static CityActivityItemVO toCityactivityWithDraftDetailVO(WebResult<DraftDetailVO> draftDetailVOResult) {
+	public static CityActivityItemVO toCityactivityWithDraftDetailVO(WebResult<DraftDetailVO> draftDetailVOResult) throws Exception {
 		DraftDetailVO detailVO = draftDetailVOResult.getValue();
 		String jsonStr = detailVO.getJSONStr();
 		CityActivityItemVO cityActivityItemVO = (CityActivityItemVO) JSONObject.parseObject(jsonStr, CityActivityItemVO.class);
+		cityActivityItemVO.setNeedKnowVO(cityActivityItemVO.getCityActivityVO().getNeedKnowVO());
 		return cityActivityItemVO;
 	}
 
