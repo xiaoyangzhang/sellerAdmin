@@ -297,10 +297,10 @@ public class HotelMessageVO  implements Serializable {
 				/**最晚到店时间不为空**/
 				String [] timeArr = storeLastTime.split(",");
 				for(int i=0;i<timeArr.length;i++){
-					latestCheckin.add(timeArr[i]+":00");
+					latestCheckin.add(timeArr[i]);
 				}
 			}else{
-				latestCheckin.add(storeLastTime+":00");
+				latestCheckin.add(storeLastTime);
 			}
 			this.setLatestArriveTime(latestCheckin);
 

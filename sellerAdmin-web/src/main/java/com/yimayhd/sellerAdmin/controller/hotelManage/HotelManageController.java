@@ -54,6 +54,7 @@ public class HotelManageController extends BaseController {
 	private static final String UPDATE="update";
 	//private static final long categoryId=231;
 	private static final int[] lastTimeArr = {12,13,14,15,16,17,18,19,20,21,22,23,24,1,2,3,4,5,6};
+	private static final String DATE_END=":00";
 
 	@Autowired
 	private HotelManageService hotelManageService;
@@ -339,11 +340,17 @@ public class HotelManageController extends BaseController {
 			multiChoice.setId(lastTimeArr[i]);//id
 			multiChoice.setTitle("时间");
 			multiChoice.setTValue(lastTimeArr[i]);
-			multiChoice.setValue(lastTimeArr[i]+":00");
+			multiChoice.setValue(lastTimeArr[i]+DATE_END);
+			multiChoice.setStrDate(lastTimeArr[i]+DATE_END);
+			int currentTime = lastTimeArr[i];
+			if(currentTime<12){
+				currentTime+=24;
+				multiChoice.setStrDate(currentTime+DATE_END);//传给中台日期时间,次日加24
+			}
 			multiChoice.setChoiceNo(false);
 			if(!CollectionUtils.isEmpty(choiseTime)){
 				for (String time :choiseTime){
-					if(multiChoice.getValue().equals(time)){
+					if(multiChoice.getStrDate().equals(time)){
 						/**设置选中标识**/
 						multiChoice.setChoiceNo(true);
 					}

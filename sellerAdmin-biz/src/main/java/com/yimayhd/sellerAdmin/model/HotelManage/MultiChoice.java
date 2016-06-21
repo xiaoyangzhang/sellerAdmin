@@ -14,6 +14,7 @@ public class MultiChoice implements Serializable {
     private String value;//显示内容
     private long tValue;//日期等
     private boolean choiceNo;//是否选中
+    private String strDate;//
 
 
 
@@ -64,5 +65,13 @@ public class MultiChoice implements Serializable {
 
     public void setChoiceNo(boolean choiceNo) {
         this.choiceNo = choiceNo;
+    }
+
+    public String getStrDate() {
+        return strDate;
+    }
+
+    public void setStrDate(String strDate) {
+        this.strDate = strDate;
     }
 }
