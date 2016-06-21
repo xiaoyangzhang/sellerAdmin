@@ -89,7 +89,9 @@ public class CityActivityManageController extends BaseController {
 		model.addAttribute("category", categoryVO);
 		model.addAttribute("itemType",ItemType.CITY_ACTIVITY.getValue());
 		model.addAttribute("UUID",UUID.randomUUID().toString());
-		return "/system/cityactivity/edit";
+        put("isDraft", true);
+
+        return "/system/cityactivity/edit";
 	}
 
     /**
