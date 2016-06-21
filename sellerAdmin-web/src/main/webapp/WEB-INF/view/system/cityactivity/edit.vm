@@ -299,7 +299,10 @@
 	    var url = "$!{utilWebconfig.getActionDefaultFontPath()}/draft/savecityactivity";
 	    $.post(url,params,function(data){
 			if(data.success) {
-				layer.alert("保存草稿成功");
+				var index = layer.alert("保存草稿成功");
+                setTimeout(function(){
+                    layer.close(index);
+                }, 2000);
 			} else {
 				layer.alert(data.resultMsg, {
 					icon : 2
@@ -340,7 +343,10 @@
 					var str = data.resultMsg;
 					if(Number(str)>0) {
 						$("#draftId").val(str);
-						layer.alert("保存草稿成功");
+						var index = layer.alert("保存草稿成功");
+                        setTimeout(function(){
+                            layer.close(index);
+                        }, 2000);
 					} else {
 						layer.alert(data.resultMsg);
 					}

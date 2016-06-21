@@ -186,7 +186,10 @@ $(".savedraft").click(function(){
 	    var url = "$!{utilWebconfig.getActionDefaultFontPath()}/draft/saveLineDraft";
 	    $.post(url,params,function(data){
 			if(data.success) {
-				layer.alert("保存草稿成功");
+                var index = layer.alert("保存草稿成功");
+                setTimeout(function(){
+                    layer.close(index);
+                }, 2000);
 			} else {
 				layer.alert(data.resultMsg, {
 					icon : 2
@@ -229,12 +232,15 @@ $(".savedraft").click(function(){
 					var str = data.resultMsg;
 					if(Number(str)>0) {
 						$("#draftId").val(str);
-						layer.alert("保存草稿成功");
+						var index = layer.alert("保存草稿成功");
+                        setTimeout(function(){
+                            layer.close(index);
+                        }, 2000);
 					} else {
-						layer.alert(data.resultMsg);
+                        layer.alert(data.resultMsg);
 					}
 				} else {
-					layer.alert(data.resultMsg, {
+                    layer.alert(data.resultMsg, {
 						icon : 2
 					});
 				}
