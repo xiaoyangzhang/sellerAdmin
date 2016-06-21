@@ -191,7 +191,7 @@ $(".savedraft").click(function(){
                     layer.close(index);
                 }, 2000);
 			} else {
-				layer.alert(data.resultMsg, {
+				layer.alert("保存失败", {
 					icon : 2
 				});
 			}
@@ -244,7 +244,7 @@ $(".savedraft").click(function(){
                              layer.alert(data.resultMsg, function(index) {inputDraftName()});
                          }
                      } else {
-                         layer.alert(data.resultMsg, {
+                         layer.alert("保存失败", {
                              icon : 2
                          });
                      }
