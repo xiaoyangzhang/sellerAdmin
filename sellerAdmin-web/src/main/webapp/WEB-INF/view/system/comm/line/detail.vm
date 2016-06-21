@@ -197,56 +197,62 @@ $(".savedraft").click(function(){
 			}
 	    },"json");
 	 } else {
-		 layer.prompt({title: '请输入草稿名称', formType: 0}, function(text){
-		 
-		    var result = {
-		        baseInfo:getBaseInfo(),
-				pictureText:getPictureText(),
-				#if($utilItem.isFreeLine($itemType))
-				routePlan:getRoutePlan(),
-				#end
-		        routeInfo:getRouteInfo(),
-		        priceInfo:getPriceInfo(),
-				needKnow:getNeedKnow()
-		    };
-			console.log(JSON.stringify(result.baseInfo));
-			console.log(JSON.stringify(result.pictureText));
-			#if($utilItem.isFreeLine($itemType))
-			console.log(JSON.stringify(result.routePlan));
-			#end
-			console.log(JSON.stringify(result.routeInfo));
-			console.log(JSON.stringify(result.priceInfo));
-			console.log(JSON.stringify(result.needKnow));
-			var params = {
-				json:JSON.stringify(result),
-				draftName:text,
-				uuid:$("#uuid").val(),
-				subType:$("#draftSubType").val(),
-				mainType:1,
-				id:$("#draftId").val()
-			};
-		
-		    var url = "$!{utilWebconfig.getActionDefaultFontPath()}/draft/saveLineDraft";
-		    $.post(url,params,function(data){
-				if(data.success) {
-					var str = data.resultMsg;
-					if(Number(str)>0) {
-						$("#draftId").val(str);
-						var index = layer.alert("保存草稿成功");
-                        setTimeout(function(){
-                            layer.close(index);
-                        }, 2000);
-					} else {
-                        layer.alert(data.resultMsg);
-					}
-				} else {
-                    layer.alert(data.resultMsg, {
-						icon : 2
-					});
-				}
-		    },"json");
-	    });
-	 }
+
+		 function inputDraftName() {
+
+             layer.prompt({title: '请输入草稿名称', formType: 0, maxlength:38}, function(text){
+
+
+                 var result = {
+                     baseInfo:getBaseInfo(),
+                     pictureText:getPictureText(),
+					 #if($utilItem.isFreeLine($itemType))
+                         routePlan:getRoutePlan(),
+					 #end
+                     routeInfo:getRouteInfo(),
+                     priceInfo:getPriceInfo(),
+                     needKnow:getNeedKnow()
+                 };
+                 console.log(JSON.stringify(result.baseInfo));
+                 console.log(JSON.stringify(result.pictureText));
+				 #if($utilItem.isFreeLine($itemType))
+                     console.log(JSON.stringify(result.routePlan));
+				 #end
+                 console.log(JSON.stringify(result.routeInfo));
+                 console.log(JSON.stringify(result.priceInfo));
+                 console.log(JSON.stringify(result.needKnow));
+                 var params = {
+                     json:JSON.stringify(result),
+                     draftName:text,
+                     uuid:$("#uuid").val(),
+                     subType:$("#draftSubType").val(),
+                     mainType:1,
+                     id:$("#draftId").val()
+                 };
+
+                 var url = "$!{utilWebconfig.getActionDefaultFontPath()}/draft/saveLineDraft";
+                 $.post(url,params,function(data){
+                     if(data.success) {
+                         var str = data.resultMsg;
+                         if(Number(str)>0) {
+                             $("#draftId").val(str);
+                             var index = layer.alert("保存草稿成功");
+                             setTimeout(function(){
+                                 layer.close(index);
+                             }, 2000);
+                         } else {
+                             layer.alert(data.resultMsg, function(index) {inputDraftName()});
+                         }
+                     } else {
+                         layer.alert(data.resultMsg, {
+                             icon : 2
+                         });
+                     }
+                 },"json");
+             });
+		 };
+         inputDraftName();
+     }
 	 
 });
 </script>

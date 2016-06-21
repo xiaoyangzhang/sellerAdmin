@@ -71,9 +71,9 @@
                 #if(!${isReadonly})
                     <div class="btn-group">
                         <button type="btn" class="btn btn-primary save">全部保存</button>
-                        #if(${isDraft})
-                        <button class="btn btn-primary savedraft">保存草稿</button>
-                        #end
+                        ## #if(${isDraft})
+                        ##   <button class="btn btn-primary savedraft">保存草稿</button>
+                        ## #end
                     </div>
                 #end
             </div>
@@ -310,53 +310,57 @@
 			}
 	    },"json");
 	 } else {
-		 layer.prompt({title: '请输入草稿名称', formType: 0}, function(text){
-		    var itemVO = getItemInfo();
-	        itemVO.itemSkuVOStr = JSON.stringify(skuPropertyAll);
-	        var category = {
-	            id:$("#categoryId").val(),
-	            parentId:$("#rootCategoryId").val(),
-	        };
-	        var result = {
-	            itemVO:itemVO,
-	            cityActivityVO:getCityActivity(),
-	            themes:getThemes(),
-	            dest:getDest(),
-	            pictureTextVO:getPictureText(),
-	            categoryVO:category
-	        };
-	        console.log(JSON.stringify(result.itemVO));
-	        console.log(JSON.stringify(result.cityActivityVO));
-	        console.log(JSON.stringify(result.themes));
-	        console.log(JSON.stringify(result.dest));
-			var params = {
-				json:JSON.stringify(result),
-				draftName:text,
-				uuid:$("#uuid").val(),
-				subType:$("#draftSubType").val(),
-				mainType:1,
-				id:$("#draftId").val()
-			};
-		    var url = "$!{utilWebconfig.getActionDefaultFontPath()}/draft/savecityactivity";
-		    $.post(url,params,function(data){
-				if(data.success) {
-					var str = data.resultMsg;
-					if(Number(str)>0) {
-						$("#draftId").val(str);
-						var index = layer.alert("保存草稿成功");
-                        setTimeout(function(){
-                            layer.close(index);
-                        }, 2000);
-					} else {
-						layer.alert(data.resultMsg);
-					}
-				} else {
-					layer.alert(data.resultMsg, {
-						icon : 2
-					});
-				}
-		    },"json");
-	    });
+
+         function inputDraftName() {
+             layer.prompt({title: '请输入草稿名称', formType: 0, maxlength:38}, function(text){
+                 var itemVO = getItemInfo();
+                 itemVO.itemSkuVOStr = JSON.stringify(skuPropertyAll);
+                 var category = {
+                     id:$("#categoryId").val(),
+                     parentId:$("#rootCategoryId").val(),
+                 };
+                 var result = {
+                     itemVO:itemVO,
+                     cityActivityVO:getCityActivity(),
+                     themes:getThemes(),
+                     dest:getDest(),
+                     pictureTextVO:getPictureText(),
+                     categoryVO:category
+                 };
+                 console.log(JSON.stringify(result.itemVO));
+                 console.log(JSON.stringify(result.cityActivityVO));
+                 console.log(JSON.stringify(result.themes));
+                 console.log(JSON.stringify(result.dest));
+                 var params = {
+                     json:JSON.stringify(result),
+                     draftName:text,
+                     uuid:$("#uuid").val(),
+                     subType:$("#draftSubType").val(),
+                     mainType:1,
+                     id:$("#draftId").val()
+                 };
+                 var url = "$!{utilWebconfig.getActionDefaultFontPath()}/draft/savecityactivity";
+                 $.post(url,params,function(data){
+                     if(data.success) {
+                         var str = data.resultMsg;
+                         if(Number(str)>0) {
+                             $("#draftId").val(str);
+                             var index = layer.alert("保存草稿成功");
+                             setTimeout(function(){
+                                 layer.close(index);
+                             }, 2000);
+                         } else {
+                             layer.alert(data.resultMsg, function(index) {inputDraftName()});
+                         }
+                     } else {
+                         layer.alert(data.resultMsg, {
+                             icon : 2
+                         });
+                     }
+                 },"json");
+             });
+         }
+         inputDraftName();
 	 }
 	 
 });
