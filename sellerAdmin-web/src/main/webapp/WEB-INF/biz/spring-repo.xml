@@ -32,6 +32,7 @@
 	<bean id="talentRepo" class="com.yimayhd.sellerAdmin.repo.TalentRepo" />
 	<bean id="pictureTextRepo" class="com.yimayhd.sellerAdmin.repo.PictureTextRepo" />
 	<bean id="merchantApplyRepo" class="com.yimayhd.sellerAdmin.repo.MerchantApplyRepo" />
+	<bean id="draftRepo" class="com.yimayhd.sellerAdmin.repo.DraftRepo" />
 
 
 </beans>

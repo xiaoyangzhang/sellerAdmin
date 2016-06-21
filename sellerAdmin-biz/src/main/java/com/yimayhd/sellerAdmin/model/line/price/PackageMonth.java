@@ -41,4 +41,8 @@ public class PackageMonth {
 		return new Date(this.time);
 	}
 
+	public void setDate(Long date) {
+		this.time = date;
+	}
+
 }

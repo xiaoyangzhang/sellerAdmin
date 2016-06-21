@@ -228,7 +228,7 @@
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业执照号码：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="n" maxlength="25" value="$!examineInfo.saleLicenseNumber" placeholder="营业执照号码" name="saleLicenseNumber" id="" class="txt01"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="*" maxlength="25" value="$!examineInfo.saleLicenseNumber" placeholder="营业执照号码" name="saleLicenseNumber" id="" class="txt01"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>税务登记号：</label></td>
@@ -240,6 +240,7 @@
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业范围：</label></td>
+       	    	   				
        	    	   				<td class="rigcontent"><textarea tip="" datatype="*" maxlength="150"  class="txt02" name="saleScope"  id="" placeholder="营业执照上的经营范围">$!examineInfo.saleScope</textarea></td>
        	    	   			</tr>
                				</table>
@@ -283,14 +284,14 @@
 					</div>
 					<div class="infor-title">店铺命名</div>
 					<div class="seven">
-					     <div class="shopname"><span>*</span><label>店铺名称：</label><input type="text" datatype="s" maxlength="30" name="merchantName" value="$!examineInfo.merchantName" id="" class="rigcontent nameinput txt04"  placeholder=""></div>
+					     <div class="shopname"><span>*</span><label>店铺名称：</label><input type="text" datatype="*" maxlength="30" name="merchantName" value="$!examineInfo.merchantName" id="" class="rigcontent nameinput txt04"  placeholder=""></div>
 					    <img class="rule-name" src="$!rs_path_jiuxiu/img/rule-name.png">
 					     
 					     <div class="notes namelm"><span>*</span><label>店铺名称要符合店铺命名规范</label></div>
 					 </div>  
 					 <div class="identity">
 					  <div class="nextpage"><a href="$!root_path/apply/toChoosePage">上一页</a><a class="subt"
-					   href="$!root_path/apply/seller/saveUserdata">下一页</a></div>
+					   >下一页</a></div>
 					  </div>
 					  </div>
         </form> 

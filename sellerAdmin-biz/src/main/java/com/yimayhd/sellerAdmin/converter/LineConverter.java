@@ -641,6 +641,9 @@ public class LineConverter {
 		}
 		// 删除
 		Set<Long> deletedSKUSet = priceInfo.getDeletedSKU();
+		Set<Long> zero=new HashSet<Long>();
+		zero.add(0L);
+		deletedSKUSet.removeAll(zero);
 		if (CollectionUtils.isNotEmpty(deletedSKUSet)) {
 			deleteSkuList.addAll(deletedSKUSet);
 		}

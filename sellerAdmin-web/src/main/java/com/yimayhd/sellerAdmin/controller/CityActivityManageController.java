@@ -1,13 +1,20 @@
 package com.yimayhd.sellerAdmin.controller;
 
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.fastjson.JSONObject;
-import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.ic.client.model.domain.item.CategoryFeature;
-import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
-import com.yimayhd.ic.client.model.enums.ReduceType;
-import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.membercenter.client.result.MemResultSupport;
 import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
 import com.yimayhd.sellerAdmin.base.BaseController;
@@ -22,24 +29,11 @@ import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 import com.yimayhd.sellerAdmin.model.CityActivityItemVO;
-import com.yimayhd.sellerAdmin.model.ItemResultVO;
-import com.yimayhd.sellerAdmin.model.ItemVO;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
-import com.yimayhd.sellerAdmin.model.line.LineVO;
 import com.yimayhd.sellerAdmin.model.line.TagDTO;
-import com.yimayhd.sellerAdmin.service.*;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import com.yimayhd.sellerAdmin.service.CategoryService;
+import com.yimayhd.sellerAdmin.service.CityActivityService;
+import com.yimayhd.sellerAdmin.service.TagService;
 
 /**
  * 活动商品
@@ -95,7 +89,9 @@ public class CityActivityManageController extends BaseController {
 		model.addAttribute("category", categoryVO);
 		model.addAttribute("itemType",ItemType.CITY_ACTIVITY.getValue());
 		model.addAttribute("UUID",UUID.randomUUID().toString());
-		return "/system/cityactivity/edit";
+        put("isDraft", true);
+
+        return "/system/cityactivity/edit";
 	}
 
     /**

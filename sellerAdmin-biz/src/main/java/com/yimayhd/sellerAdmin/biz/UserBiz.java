@@ -1,14 +1,19 @@
 package com.yimayhd.sellerAdmin.biz;
 
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.repo.UserRepo;
+import com.yimayhd.sellerAdmin.util.HttpRequestUtil;
+import com.yimayhd.sellerAdmin.util.HttpUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.ChangePasswordDTO;
 import com.yimayhd.user.client.dto.LoginDTO;
@@ -18,6 +23,7 @@ import com.yimayhd.user.client.dto.VerifyCodeDTO;
 import com.yimayhd.user.client.enums.SmsType;
 import com.yimayhd.user.client.enums.security.RegisterStep;
 import com.yimayhd.user.client.result.login.LoginResult;
+import com.yimayhd.user.session.manager.SessionHelper;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /**
@@ -72,20 +78,37 @@ public class UserBiz {
 	}
 
 	public WebResultSupport sendRegisterVerifyCode(String mobile) {
-
+		String ip = HttpUtil.getIpAddr(SessionHelper.getRequest());
+		StringBuilder sb = new StringBuilder();
+		sb.append("UUID=").append(UUID.randomUUID()).append("  sendRegisterVerifyCode   ip=").append(ip).append("  mobile=").append(mobile) ;
+		LOGGER.info(sb.toString());
+		
 		VerifyCodeDTO verifyCodeDTO = new VerifyCodeDTO() ;
 		verifyCodeDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		verifyCodeDTO.setMobile(mobile);
 		verifyCodeDTO.setSmsType(SmsType.REGISTER);
+		
+		
 		WebResultSupport result= userRepo.sendSmsVerifyCode(verifyCodeDTO);
+		LOGGER.info(sb.append("  result=").append(JSON.toJSONString(result)).toString());
+		
+		
 		return result;
 	}
 	public WebResultSupport sendRetrievePasswordVerifyCode(String mobile) {
+		String ip = HttpUtil.getIpAddr(SessionHelper.getRequest());
+		StringBuilder sb = new StringBuilder();
+		sb.append("UUID=").append(UUID.randomUUID()).append("  sendRegisterVerifyCode   ip=").append(ip).append("  mobile=").append(mobile) ;
+		LOGGER.info(sb.toString());
+		
 		VerifyCodeDTO verifyCodeDTO = new VerifyCodeDTO() ;
 		verifyCodeDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		verifyCodeDTO.setMobile(mobile);
 		verifyCodeDTO.setSmsType(SmsType.RETRIVE_PASSWORD);
 		WebResultSupport result= userRepo.sendSmsVerifyCode(verifyCodeDTO);
+		
+		LOGGER.info(sb.append("  result=").append(JSON.toJSONString(result)).toString());
+		
 		return result;
 	}
 	public WebResultSupport modifyPassword(ChangePasswordDTO changePasswordDTO) {

@@ -44,6 +44,7 @@ public abstract class BaseLineController extends BaseController {
 				ItemType.FREE_LINE_ABOARD.equals(itemType) || ItemType.TOUR_LINE_ABOARD.equals(itemType),
 				"错误的商品类型");
 		put("itemType", itemType);
+		put("draftSubType", itemType.getValue());
 		put("category", categoryDO);
 		WebResult<LinePropertyConfig> result = commLineService.getLinePropertyConfig(categoryId);
 		if (result.isSuccess()) {
