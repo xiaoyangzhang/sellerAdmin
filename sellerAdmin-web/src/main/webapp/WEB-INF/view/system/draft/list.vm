@@ -44,7 +44,7 @@
 					#foreach($draft in $pageVo.resultList)
                             <tr id="draft_$!{draft.id}" draft-id="$!draft.id">
                                 <td class = "name">$!draft.draftName</td>
-        						<td class = "style">$!draft.subTypeName</td>
+        						<td class = "style">$!{utilDraft.getDraftSubTypeName($!draft.subType)}</td>
         						<td class = "time">$!{utilDate.date2String($draft.gmtCreated)}</td>
 								<td class = "handle">
 									<!--<a class="edit" draft-id="$!draft.id" draft-mainType="$!draft.mainType" draft-subType="$!draft.subType" >编辑</a>-->
