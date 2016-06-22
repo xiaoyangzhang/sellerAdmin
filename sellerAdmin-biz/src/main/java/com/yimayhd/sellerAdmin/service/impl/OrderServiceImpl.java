@@ -93,8 +93,8 @@ public class OrderServiceImpl implements OrderService {
 					OrderBizType.HOTEL.getBizType() ,
 					OrderBizType.SPOTS.getBizType() ,
 					OrderBizType.HOTEL_OFFLINE.getBizType() ,
-					OrderBizType.TOUR_LINE_ABORD.getBizType() ,
-					OrderBizType.FREE_LINE_ABORD.getBizType()};
+					OrderBizType.TOUR_LINE_ABOARD.getBizType() ,
+					OrderBizType.FREE_LINE_ABOARD.getBizType()};
 			orderListQuery.setOrderTypes(orderBizTypes);
 		} else if (orderListQuery.getItemType() == 3100) {
 			int[] orderBizTypes = new int[] { OrderBizType.TOUR_LINE
@@ -117,6 +117,12 @@ public class OrderServiceImpl implements OrderService {
 			orderListQuery.setOrderTypes(orderBizTypes);
 		} else if (orderListQuery.getItemType() == 1200) {
 			int[] orderBizTypes = new int[] { OrderBizType.SPOTS.getBizType() };
+			orderListQuery.setOrderTypes(orderBizTypes);
+		}else if (orderListQuery.getItemType() == 3500) {
+			int[] orderBizTypes = new int[] { OrderBizType.TOUR_LINE_ABOARD.getBizType() };
+			orderListQuery.setOrderTypes(orderBizTypes);
+		}else if (orderListQuery.getItemType() == 3600) {
+			int[] orderBizTypes = new int[] { OrderBizType.FREE_LINE_ABOARD.getBizType() };
 			orderListQuery.setOrderTypes(orderBizTypes);
 		}
 

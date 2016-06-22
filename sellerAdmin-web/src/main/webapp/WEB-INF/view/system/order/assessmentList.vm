@@ -30,7 +30,15 @@
 			</div>
 			#foreach($assessment in $assessmentList)
 				<div class = "rewiewInfo reW clearfix">
-					<dl class = "infoleft"><img src="$!tfs$!assessment.userPhoto"></br><strong title = "$!assessment.nickName" class = "gray6 infonick">$!assessment.nickName</strong></dl>
+					<dl class = "infoleft">
+						#if("$!assessment.userPhoto" == "")
+						<img src="$!rs_path_jiuxiu/img/default_1.png">
+						#else
+						<img src="$!tfs$!assessment.userPhoto">
+						#end
+						</br>
+						<strong title = "$!assessment.nickName" class = "gray6 infonick">$!assessment.nickName</strong>
+					</dl>
 					<dl class = "inforight clearfix">
 						<p>
 							<em>订单编号：</em><span class = "black">$!assessment.orderId</span>

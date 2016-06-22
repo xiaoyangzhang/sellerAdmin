@@ -365,7 +365,13 @@
                 <tr>
                     <td>$velocityCount</td>
 
-                    <td>$!tourist.contactName</td>
+                    <td>
+                    	#if($!order.mainOrder.tcMainOrder.bizOrder.orderType == 3500 ||$!order.mainOrder.tcMainOrder.bizOrder.orderType == 3600)
+                    		$!tourist.contactName/$!tourist.firstName $!tourist.lastName 
+                    	#else
+                    		$!tourist.contactName
+                    	#end
+                    </td>
                     <td>$!tourist.contactPhone</td>
                     <td>
                     #if($!tourist.certificatesType == 1)
