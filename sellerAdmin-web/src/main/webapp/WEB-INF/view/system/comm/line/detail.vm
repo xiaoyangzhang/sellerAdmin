@@ -200,8 +200,13 @@ $(".savedraft").click(function(){
 
 		 function inputDraftName() {
 
-             layer.prompt({title: '请输入草稿名称', formType: 0, maxlength:38}, function(text){
-
+             layer.prompt({title: '请输入草稿名称', formType: 0}, function(text){
+				
+				text=text.replace(/(^\s*)|(\s*$)/g, "");
+				if(text.length<=0||text.length>38){
+					alert('草稿名称长度1~38个字符(不包括前后空格)！');
+					return;
+				}
 
                  var result = {
                      baseInfo:getBaseInfo(),
