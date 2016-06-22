@@ -25,7 +25,13 @@
 			<button class="btn btn-primary setTime" #if($product) style="display:none;" #end>确定</button>
         </div>
     </div>*#
-	<div class="tc-main" #if(!$product) style="display:none;margin: 10px 0 15px;" #end>
+    #set($size = $!{product.priceInfo.tcs.size()})  
+	<div class="tc-main" 
+		#if(!$product) 
+			style="display:none;margin: 10px 0 15px;" 
+		#elseif($product&&$size==0) 
+			style="display:none;margin: 10px 0 15px;" 
+		#end>
 		<input type="hidden" id="item_id" value="$!{product.priceInfo.itemId}"/>
 		<p>套餐设置：<button class="btn btn-primary addTC">添加新套餐</button><span class="ml15">最多可添加20个套餐</span></p>
 		<ul id="tc_tab" class="nav nav-tabs navCombo">
