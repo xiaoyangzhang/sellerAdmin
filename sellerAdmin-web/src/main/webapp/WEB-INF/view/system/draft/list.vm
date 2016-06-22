@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/sevice.css">
 
 </head>
-<script type="text/javascript" src="$rs_js_css_path_admin/js/jquery.js"></script>
-<script type="text/javascript" src="$rs_js_css_path_admin/layer/layer.js"></script>
+<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/js/jquery.js"></script>
+<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/layer/layer.js"></script>
 
 
 	<!-- 面包屑 -->
