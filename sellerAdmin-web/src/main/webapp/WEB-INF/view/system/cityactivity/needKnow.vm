@@ -10,7 +10,6 @@
 			<td>
 				<input type="hidden" class="need-know-item-key" value="费用包含"/>
 				#set($length = 0)
-				#set($content = '')
 				#if($needKnowItems && $needKnowItems.size() > 0)
 					#set($content = $needKnowItems.get(0).content)
 					#set($length = $content.length())
@@ -24,7 +23,6 @@
 			<td>
 				<input type="hidden" class="need-know-item-key" value="费用不含"/>
 				#set($length = 0)
-				#set($content = '')
 				#if($needKnowItems && $needKnowItems.size() > 1)
 					#set($content = $needKnowItems.get(1).content)
 					#set($length = $content.length())
@@ -42,7 +40,6 @@
 			<td>
 				<input type="hidden" class="need-know-item-key" value="预订说明"/>
 				#set($length = 0)
-				#set($content = '')
 				#if($needKnowItems && $needKnowItems.size() > 2)
 					#set($content = $needKnowItems.get(2).content)
 					#set($length = $content.length())
@@ -65,7 +62,6 @@
 			<td>
 				<input type="hidden" class="need-know-item-key" value="退改规定"/>
 				#set($length = 0)
-				#set($content = '')
 				#if($needKnowItems && $needKnowItems.size() > 3)
 					#set($content = $needKnowItems.get(3).content)
 					#set($length = $content.length())
