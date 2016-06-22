@@ -407,28 +407,36 @@ public class LineServiceImpl implements LineService {
 		ArrayList<IcSubject> themesIcs = new ArrayList<IcSubject>();
 		ArrayList<IcDestination> departsIcs = new ArrayList<IcDestination>();
 		ArrayList<IcDestination> destsIcs = new ArrayList<IcDestination>();
+		if (baseInfo.isAllDeparts()) {
+			ComTagDO tagByName = commentRepo.getTagByName(TagType.DEPARTPLACE, Constant.ALL_PLACE_CODE);
+			if (tagByName != null) {
+				IcDestination icDestination = new IcDestination();
+				icDestination.setCode(tagByName.getName());//出发地为全国
+				icDestination.setTxt("全国");
+				departsIcs.add(icDestination);
+			}
+		}else {
+			for (CityVO cityVO : departs) {
+				IcDestination icDestination = new IcDestination();
+				icDestination.setCode(cityVO.getCode());
+				icDestination.setTxt(cityVO.getName());
+				departsIcs.add(icDestination);
+			}
+		}
 		for (ComTagDO tag : comTagDOs) {
 			IcSubject icSubject = new IcSubject();
 			icSubject.setId(tag.getId());
 			icSubject.setTxt(tag.getName());
 			themesIcs.add(icSubject);
 		}
-		baseInfo.setThemesIcs(themesIcs);
-		
-		for (CityVO cityVO : departs) {
-			IcDestination icDestination = new IcDestination();
-			icDestination.setCode(cityVO.getCode());
-			icDestination.setTxt(cityVO.getName());
-			departsIcs.add(icDestination);
-		}
-		baseInfo.setDepartsIcs(departsIcs);
-		
 		for (CityVO cityVO : dests) {
 			IcDestination icDestination = new IcDestination();
 			icDestination.setCode(cityVO.getCode());
 			icDestination.setTxt(cityVO.getName());
 			destsIcs.add(icDestination);
 		}
+		baseInfo.setThemesIcs(themesIcs);
+		baseInfo.setDepartsIcs(departsIcs);
 		baseInfo.setDestsIcs(destsIcs);
 	}
 
