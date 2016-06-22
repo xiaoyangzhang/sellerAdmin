@@ -67,7 +67,7 @@
 					#set($length = $content.length())
 				#end
 				#if(!$content)
-					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">	
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">
 1、本次活动提前__________天/小时可免费退改。
 2、本次活动提前__________天提出修改或退订，需支付__________%损失费
 3、申请退款时间距离活动时间不足__________个小时/工作日，不予退款。
