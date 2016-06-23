@@ -140,6 +140,8 @@
 										var flag = false;
 										$.each(countryArr[j].child,function () {
 											if(this.destinationVO.selected == true){
+												countryArr[j].destinationVO.selected = true;
+												$('input[name="destData"]').val(JSON.stringify(destDataObj));
 												flag = true;
 												return false;
 											}
