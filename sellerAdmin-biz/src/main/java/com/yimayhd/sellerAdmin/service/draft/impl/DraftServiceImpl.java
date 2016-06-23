@@ -161,6 +161,7 @@ public class DraftServiceImpl implements DraftService {
                         draftVO.setGmtCreated(draftDTO.getGmtCreated());
                         draftVO.setMainType(draftDTO.getMainType());
                         draftVO.setSubType(draftDTO.getSubType());
+                        draftVO.setGmtModified(draftDTO.getGmtModified());
                         draftVOList.add(draftVO);
                     }
                     PageVO<DraftVO> pages = new PageVO<DraftVO>(result.getPageNo(), result.getPageSize(), result.getTotalCount(), draftVOList);
