@@ -56,6 +56,11 @@ public class DraftVO implements Serializable{
 	 * 创建时间
 	 */
 	private Date gmtCreated;
+	
+	/**
+	 * 修改时间
+	 */
+	private Date gmtModified;
 
 	public Long getId() {
 		return id;
@@ -127,5 +132,13 @@ public class DraftVO implements Serializable{
 
 	public void setGmtCreated(Date gmtCreated) {
 		this.gmtCreated = gmtCreated;
+	}
+
+	public Date getGmtModified() {
+		return gmtModified;
+	}
+
+	public void setGmtModified(Date gmtModified) {
+		this.gmtModified = gmtModified;
 	}
 }

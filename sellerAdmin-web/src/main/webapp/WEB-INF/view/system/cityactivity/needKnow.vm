@@ -10,7 +10,6 @@
 			<td>
 				<input type="hidden" class="need-know-item-key" value="费用包含"/>
 				#set($length = 0)
-				#set($content = '')
 				#if($needKnowItems && $needKnowItems.size() > 0)
 					#set($content = $needKnowItems.get(0).content)
 					#set($length = $content.length())
@@ -24,12 +23,11 @@
 			<td>
 				<input type="hidden" class="need-know-item-key" value="费用不含"/>
 				#set($length = 0)
-				#set($content = '')
 				#if($needKnowItems && $needKnowItems.size() > 1)
 					#set($content = $needKnowItems.get(1).content)
 					#set($length = $content.length())
 				#end
-				#if(!$product)
+				#if(!$content)
 					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">以上费用包含未提及的消费</textarea>
 				#else
 					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">$!content</textarea>
@@ -42,12 +40,11 @@
 			<td>
 				<input type="hidden" class="need-know-item-key" value="预订说明"/>
 				#set($length = 0)
-				#set($content = '')
 				#if($needKnowItems && $needKnowItems.size() > 2)
 					#set($content = $needKnowItems.get(2).content)
 					#set($length = $content.length())
 				#end
-				#if(!$product)
+				#if(!$content)
 					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">
 1、提前__________天进行预约
 2、活动时间（周六、周日）上午9:00—11:00   下午2:00—4:00
@@ -65,13 +62,12 @@
 			<td>
 				<input type="hidden" class="need-know-item-key" value="退改规定"/>
 				#set($length = 0)
-				#set($content = '')
 				#if($needKnowItems && $needKnowItems.size() > 3)
 					#set($content = $needKnowItems.get(3).content)
 					#set($length = $content.length())
 				#end
-				#if(!$product)
-					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">	
+				#if(!$content)
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">
 1、本次活动提前__________天/小时可免费退改。
 2、本次活动提前__________天提出修改或退订，需支付__________%损失费
 3、申请退款时间距离活动时间不足__________个小时/工作日，不予退款。

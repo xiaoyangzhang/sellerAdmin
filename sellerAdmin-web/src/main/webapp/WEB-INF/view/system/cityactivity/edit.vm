@@ -222,6 +222,7 @@
                 themes:getThemes(),
                 dest:getDest(),
                 pictureTextVO:getPictureText(),
+                needKnowVO:getNeedKnow(),
                 categoryVO:category
             };
             console.log(JSON.stringify(result.itemVO));

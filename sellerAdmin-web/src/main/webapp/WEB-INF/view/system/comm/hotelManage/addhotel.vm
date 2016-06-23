@@ -142,7 +142,7 @@
                     <td>
                         #foreach($multiChoice in $multiChoiceList)
                             <label class="checkbox">
-                                <input type="checkbox" class="productTag" name="storeLastTime"  value="${multiChoice.tValue}" #if($multiChoice.choiceNo) checked #end/>
+                                <input type="checkbox" class="productTag" name="storeLastTime"  value="${multiChoice.strDate}" #if($multiChoice.choiceNo) checked #end/>
                             #if($multiChoice.tValue<12 ) 次日${multiChoice.value}前 #else 当天${multiChoice.value}前 #end
                             </label>
                         #end

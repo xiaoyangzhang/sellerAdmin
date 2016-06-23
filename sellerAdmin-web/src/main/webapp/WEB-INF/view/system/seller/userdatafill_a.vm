@@ -150,7 +150,7 @@
 							</tr>
 							<tr>
 								  <td class="rigtxt"><span>*</span><label>负责人证件号：</label></td>
-								  <td class="rigcontent"><input class="txt01" id="cardtxt" value="$!examineInfo.principleCardId" name="principleCardId" datatype="psport" maxlength="18"  placeholder="证件号码"></td>
+								  <td class="rigcontent"><input type="text" class="txt01" id="cardtxt" value="$!examineInfo.principleCardId" name="principleCardId" datatype="psport" maxlength="18"  placeholder="证件号码"></td>
 					        </tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>负责人手机号：</label></td>
