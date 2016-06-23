@@ -29,10 +29,10 @@
 			<form id="forminfo" method="post" action="saveExamineInfo_a.do">
 				<div class="panel">
 					<div class="tit gray6 f16 error_tip">商户信息
-					#if ($!checkResultInfo && $!checkResultInfo.size()>0 )
+					#if ($!checkResultInfo && $!checkResultInfo.length()>0 )
 						<div class="error_box">
 							<div>审核不通过原因</div>
-							#foreach( $info in $checkResultInfo)<span style="color:white;">$!info</span><br/>#end
+							<span style="color:white;">$!checkResultInfo</span><br/>
 						</div>
 					#end
 					</div>
