@@ -288,19 +288,19 @@
                                 		</div>
                                 </td>
                                 <td rowspan="$!size" class="middle">
-                                    <a class="btn btn-primary addRefund detail" href="$!utilWebconfig.getActionDefaultFontPath()/order/$!order.tcMainOrder.bizOrder.bizOrderId/" target="_blank">详情</a><br/>
+                                    <a class="btn btn-mini btn-link addRefund detail" href="$!utilWebconfig.getActionDefaultFontPath()/order/$!order.tcMainOrder.bizOrder.bizOrderId/" target="_blank">详情</a><br/>
                                     #if($order.orderStatus == 3)
-                                        <button type="button" class="btn btn-primary affirm"
+                                        <button type="button" class="btn btn-mini btn-link affirm"
                                                 data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">确认
                                         </button>
                                     #end
                                     #if($order.orderStatus == 10)
-                                        <button type="button" class="btn btn-primary assessment"
+                                        <button type="button" class="btn btn-mini btn-link assessment"
                                                 data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">查看评价
                                         </button>
                                     #end
                                     #if($order.orderStatus == 6 && $!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
-                                        <button type="button" class="btn btn-primary isCheck"
+                                        <button type="button" class="btn btn-mini btn-link isCheck"
                                                 data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">是否入驻
                                         </button>
                                     #end
