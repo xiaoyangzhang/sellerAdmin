@@ -160,8 +160,25 @@
 					};
 					$html += '</ul></div>';
 					$('.destlistbox').append($html);
-
-	            	//checkbox点击事件国家
+					
+					//判断按钮置灰
+            		function isPray() {
+	            		if ($('.countrybox .destcheckbox:checked').length<1) {
+	            			$('.layui-layer-btn0',parent.document).css({
+	            				'border-color':'#dedede',
+	            				'background-color':'#f1f1f1',
+	            				'color':'#999'
+	            			})
+	            		}else{
+	            			$('.layui-layer-btn0',parent.document).css({
+	            				'border-color':'#4898d5',
+	            				'background-color':'#2e8ded',
+	            				'color':'#fff'
+	            			})
+	            		};	            			
+            		};
+					isPray();
+					//点击阻止冒泡
 	            	function stopBubble (ev) {
 		            	var e = ev || window.event || arguments.callee.caller.arguments[0];
 						   if(e && e.stopPropagation){
@@ -172,6 +189,7 @@
 							   window.event.cancelBubble = true;
 						   };
 	           		};
+	            	//checkbox点击事件国家
 	            	$(document).on('click','.countrybox .destcheckbox',function(ev){
             			var $selfIndex = $(this).closest('li.destlist').attr('dest-index');
             			var $parIndex = $('.citybox').attr('par-index');
@@ -191,6 +209,8 @@
 	            		}
 	            		//保存修改的数据
 	            		$('input[name="destData"]').val(JSON.stringify(destDataObj));
+	            		//按钮智慧
+	            		isPray();
 	            		stopBubble(ev);
 	            	});
 	            	//checkbox点击事件城市

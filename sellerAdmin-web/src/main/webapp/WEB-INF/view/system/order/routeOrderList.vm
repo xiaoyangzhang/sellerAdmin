@@ -5,6 +5,8 @@
 
 <head>
     <title>订单列表</title>
+    #parse("layout/layout-meta.vm")
+    <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/orderlist.css">
 </head>
 
 
@@ -128,7 +130,7 @@
                     <tr></tr>
                     <tr>
                         <td><input class="subChecked" type="checkbox" value="$!order.tcMainOrder.bizOrder.bizOrderId"></td>
-                        <td colspan="8" align="left">
+                        <td colspan="9" align="left">
                             订单编号：$!order.tcMainOrder.bizOrder.bizOrderId &nbsp;&nbsp;&nbsp;&nbsp;下单时间：$!date.format(
                             'yyyy-MM-dd HH:mm:ss',$!order.tcMainOrder.bizOrder.createTime)
                         </td>
@@ -268,33 +270,37 @@
                                     </div>
                                 </td>
                                 <td rowspan="$!size" class="middle">
-                                    <div style="width:70px">
-                                    	#if($order.tcMainOrder.otherInfo)
-                                      	 	买家备注：<div class="txt">#if($!order.tcMainOrder.otherInfo.length() < 11) $!order.tcMainOrder.otherInfo #else $!order.tcMainOrder.otherInfo.substring(0,9)... #end</div>
-                                       	#else
-                                    	买家备注：
-                                       	#end 
-                                       	#if($order.tcMainOrder.sellerMemo)
-                                       	 卖家备注：<div class="txt">#if($!order.tcMainOrder.sellerMemo.length() < 11) $!order.tcMainOrder.sellerMemo #else $!order.tcMainOrder.sellerMemo.substring(0,9)... #end</div>
-                                    	#else
-                                    	卖家备注：
-                                    	#end 
-                                    </div>
+                                		<div class="td-bz">
+                                				<i class="icon-bz">
+	                                				<div class="bz-box">
+			                                    	#if($order.tcMainOrder.otherInfo)
+			                                      	 	<div class="bz-txt">买家备注：$!order.tcMainOrder.otherInfo</div>
+			                                       	#else
+			                                      	 	<div class="bz-txt">买家备注：</div>
+			                                       	#end 
+			                                       	#if($order.tcMainOrder.sellerMemo)
+			                                       		<div class="bz-txt"> 卖家备注：$!order.tcMainOrder.sellerMemo</div>
+			                                    		#else
+			                                       		<div class="bz-txt"> 卖家备注：</div>
+			                                    		#end 	                                					
+	                                				</div>                                					
+                                				</i>
+                                		</div>
                                 </td>
                                 <td rowspan="$!size" class="middle">
-                                    <a class="btn btn-primary addRefund detail" href="$!utilWebconfig.getActionDefaultFontPath()/order/$!order.tcMainOrder.bizOrder.bizOrderId/" target="_blank">详情</a><br/>
+                                    <a class="btn btn-mini btn-link addRefund detail" href="$!utilWebconfig.getActionDefaultFontPath()/order/$!order.tcMainOrder.bizOrder.bizOrderId/" target="_blank">详情</a><br/>
                                     #if($order.orderStatus == 3)
-                                        <button type="button" class="btn btn-primary affirm"
+                                        <button type="button" class="btn btn-mini btn-link affirm"
                                                 data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">确认
                                         </button>
                                     #end
                                     #if($order.orderStatus == 10)
-                                        <button type="button" class="btn btn-primary assessment"
+                                        <button type="button" class="btn btn-mini btn-link assessment"
                                                 data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">查看评价
                                         </button>
                                     #end
                                     #if($order.orderStatus == 6 && $!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
-                                        <button type="button" class="btn btn-primary isCheck"
+                                        <button type="button" class="btn btn-mini btn-link isCheck"
                                                 data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">是否入驻
                                         </button>
                                     #end
@@ -493,6 +499,13 @@
 			});
         	
         });
+    
+    //备注信息
+    $('.td-bz .icon-bz').hover(function () {
+    		$(this).find('.bz-box').show();
+    },function () {
+    		$(this).find('.bz-box').hide();
+    });
 
     });
 </script>

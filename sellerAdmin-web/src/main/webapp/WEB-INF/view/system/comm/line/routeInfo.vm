@@ -20,33 +20,38 @@
         	});
 
 			$(document).delegate(".myTrash","click",function(){
-				var tab = $(this).parent();
-				var day = tab.attr("day-id");
-				// 删除当前的
-				setAllRouteItem(day,deletedRouteItems);
-				// 更新后续所有
-				tab.nextAll().each(function() {
-					var _day = $(this).attr("day-id");
-					setAllRouteItem(_day,updatedRouteItems);
-				});
-                var tabConId = $(this).prev().attr("href");
-                $(".tripInfo .tab-content .tab-pane").removeClass("active");
-                $(".tripInfoNav .day_tab").removeClass("active");
-				if($(tabConId).prev().length != 0){
-                    $(tabConId).prev().addClass("active");
-                    $(tabConId).remove();
-				}else{
-                    $(tabConId).remove();
-					$(".tripInfo .tab-content .tab-pane:first").addClass("active");
-				}
-				if($(this).parent().prev().length != 0){
-                    $(this).parent().prev().addClass("active");
-                    $(this).parent().remove();
-				}else{
-                    $(this).parent().remove();
-					$(".tripInfoNav .day_tab:first").addClass("active");
-                }
-				show();
+				var _this = $(this);
+				layer.confirm('确认删除该天的行程信息？', {icon: 3, title:'提示'}, function(index){
+					var tab = _this.parent();
+					var day = tab.attr("day-id");
+					// 删除当前的
+					setAllRouteItem(day,deletedRouteItems);
+					// 更新后续所有
+					tab.nextAll().each(function() {
+						var _day = _this.attr("day-id");
+						setAllRouteItem(_day,updatedRouteItems);
+					});
+	                var tabConId = _this.prev().attr("href");
+	                $(".tripInfo .tab-content .tab-pane").removeClass("active");
+	                $(".tripInfoNav .day_tab").removeClass("active");
+					if($(tabConId).prev().length != 0){
+	                    $(tabConId).prev().addClass("active");
+	                    $(tabConId).remove();
+					}else{
+	                    $(tabConId).remove();
+						$(".tripInfo .tab-content .tab-pane:first").addClass("active");
+					}
+					if(_this.parent().prev().length != 0){
+	                    _this.parent().prev().addClass("active");
+	                    _this.parent().remove();
+					}else{
+	                    _this.parent().remove();
+						$(".tripInfoNav .day_tab:first").addClass("active");
+	                }
+					show();										
+				    layer.msg('删除成功', {icon: 1});					
+					layer.close(index);
+		       });
 			});
 
 		  	$(".addDay").click(function() {
