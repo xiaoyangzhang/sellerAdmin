@@ -17,6 +17,7 @@
 			<td>
 				<input type="text" value="$!{baseInfo.code}" class="form-control item-code" placeholder="请输入商品编号" maxlength="20"/>
 				<span class="limit">20字</span>
+				<span class="tip ml20">注：商品代码供商家管理商品使用，不会展示给用户</span>
 			</td>
 		</tr>
 		<tr>
@@ -204,8 +205,8 @@
 			var departs = win.getSelected() || [];
 			console.log(JSON.stringify(departs));
 			if(departs.length == 0) return true;
-			if(departs.length > 15) {
-				layer.alert("出发地最多选择15个", {
+			if(departs.length > 100) {
+				layer.alert("出发地最多选择100个", {
     				icon : 2
     			});
 				return false;
