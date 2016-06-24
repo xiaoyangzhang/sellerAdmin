@@ -215,7 +215,7 @@
 	                    	待确认；
 	                </span>
 	                <span>
-	                   	下单时间：#if($!order.mainOrder.tcMainOrder.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)#end
+	                   	下单时间：#if($!order.mainOrder.tcMainOrder.bizOrder.createTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.createTime)#end
 	                </span>
 	                <span>
 	                    <button type="button" class="btn btn-primary affirm"
