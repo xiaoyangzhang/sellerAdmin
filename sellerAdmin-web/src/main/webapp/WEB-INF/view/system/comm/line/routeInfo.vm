@@ -137,7 +137,7 @@
 				</div>
 			</div>
 			<div class="panel trip-images">
-				<div class="panel-heading travelPanel"><span class="tripAddSp"><i class='red'>*</i>行程图片</span></div>
+				<div class="panel-heading travelPanel"><span class="tripAddSp">行程图片</span></div>
 				<div class="panel-body trip-images-content uploadbox clearfix">
                     <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionUploadFilePath()}" />
                     <input type="hidden" class="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />	
