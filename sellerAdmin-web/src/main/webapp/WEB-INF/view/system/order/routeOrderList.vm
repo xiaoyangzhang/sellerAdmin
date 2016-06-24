@@ -130,7 +130,7 @@
                     <tr></tr>
                     <tr>
                         <td><input class="subChecked" type="checkbox" value="$!order.tcMainOrder.bizOrder.bizOrderId"></td>
-                        <td colspan="8" align="left">
+                        <td colspan="9" align="left">
                             订单编号：$!order.tcMainOrder.bizOrder.bizOrderId &nbsp;&nbsp;&nbsp;&nbsp;下单时间：$!date.format(
                             'yyyy-MM-dd HH:mm:ss',$!order.tcMainOrder.bizOrder.createTime)
                         </td>
