@@ -274,12 +274,12 @@
                                 				<i class="icon-bz">
 	                                				<div class="bz-box">
 			                                    	#if($order.tcMainOrder.otherInfo)
-			                                      	 	<div class="bz-txt">买家备注：#if($!order.tcMainOrder.otherInfo.length() < 11) $!order.tcMainOrder.otherInfo #else $!order.tcMainOrder.otherInfo.substring(0,9)... #end</div>
+			                                      	 	<div class="bz-txt">买家备注：$!order.tcMainOrder.otherInfo</div>
 			                                       	#else
 			                                      	 	<div class="bz-txt">买家备注：</div>
 			                                       	#end 
 			                                       	#if($order.tcMainOrder.sellerMemo)
-			                                       		<div class="bz-txt"> 卖家备注：#if($!order.tcMainOrder.sellerMemo.length() < 11) $!order.tcMainOrder.sellerMemo #else $!order.tcMainOrder.sellerMemo.substring(0,9)... #end</div>
+			                                       		<div class="bz-txt"> 卖家备注：$!order.tcMainOrder.sellerMemo</div>
 			                                    		#else
 			                                       		<div class="bz-txt"> 卖家备注：</div>
 			                                    		#end 	                                					
