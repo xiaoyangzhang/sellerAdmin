@@ -72,8 +72,13 @@ public class ItemServiceImpl implements ItemService {
 			}
 		//	ItemPageResult itemPageResult = itemRepo.getItemList(itemQryDTO);
 			ICPageResult<ItemInfo> icPageResult = itemRepo.getItemList(itemQryDTO);
-			if (icPageResult == null) {
-				return WebResult.success(new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(), 0));
+			if (icPageResult == null||icPageResult.getList()==null) {
+				int toalCount = icPageResult.getTotalCount();
+				int totalPage = toalCount % icPageResult.getPageSize() == 0 ? (toalCount / icPageResult.getPageSize()) : (toalCount / icPageResult.getPageSize() + 1);
+				itemQryDTO.setPageNo(totalPage);
+				query.setPageNo(totalPage);
+				icPageResult = itemRepo.getItemList(itemQryDTO);
+			//	return WebResult.success(new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(), 0));
 			}
 			List<ItemInfo> itemDOList = icPageResult.getList();
 			List<ItemListItemVO> resultList = new ArrayList<ItemListItemVO>();
