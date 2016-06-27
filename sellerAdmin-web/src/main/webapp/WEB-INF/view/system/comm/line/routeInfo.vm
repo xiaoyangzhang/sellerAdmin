@@ -228,7 +228,7 @@
 			var route_item_id = $(this).attr("route-item-id")||0;
 			setRouteItem(route_item_id,updatedRouteItems);
 		});
-		$(".trip-description-textarea").change(function() {
+		$(".trip-description-textarea").on('blur',function() {
 			// update
 			var route_item_id = $(this).attr("route-item-id")||0;
 			setRouteItem(route_item_id,updatedRouteItems);
