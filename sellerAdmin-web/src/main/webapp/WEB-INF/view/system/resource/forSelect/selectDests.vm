@@ -53,18 +53,17 @@
 	            	//-------境外提交数据-----------
 	            var destDataObj = JSON.parse($('input[name="destData"]').val());
         		var countryArr = destDataObj.destinationNodeVOs;
+        		//回填带父节点
         		for (var i=0;i<countryArr.length;i++) {
         			if (countryArr[i].destinationVO.selected) {
-//      				result.push({
-//      					id : countryArr[i].destinationVO.id,
-//      					name : countryArr[i].destinationVO.name,
-//      					code : countryArr[i].destinationVO.code
-//      				});
+        				result.push({
+        					id : countryArr[i].destinationVO.id,
+        					name : countryArr[i].destinationVO.name,
+        					code : countryArr[i].destinationVO.code
+        				});
 	    				if (countryArr[i].child) {
-	    					var flag = true;
 	        				for (var j=0;j<countryArr[i].child.length;j++) {
 	        					if (countryArr[i].child[j].destinationVO.selected) {
-	        						flag = false;
 	        						result.push({
 		            					id : countryArr[i].child[j].destinationVO.id,
 		            					name : countryArr[i].child[j].destinationVO.name,
@@ -72,24 +71,43 @@
 		            				});
 	        					}
 	        				};
-							if(flag){
-		        				result.push({
-		        					id : countryArr[i].destinationVO.id,
-		        					name : countryArr[i].destinationVO.name,
-		        					code : countryArr[i].destinationVO.code
-		        				});
-							};
-	    				}else{
-	        				result.push({
-	        					id : countryArr[i].destinationVO.id,
-	        					name : countryArr[i].destinationVO.name,
-	        					code : countryArr[i].destinationVO.code
-	        				});
-	    				};
+	    				}
         			}
-        		}
+        		};
+				//回填数据 去掉父节点
+//      		for (var i=0;i<countryArr.length;i++) {
+//      			if (countryArr[i].destinationVO.selected) {
+//	    				if (countryArr[i].child) {
+//	    					var flag = true;
+//	        				for (var j=0;j<countryArr[i].child.length;j++) {
+//	        					if (countryArr[i].child[j].destinationVO.selected) {
+//	        						flag = false;
+//	        						result.push({
+//		            					id : countryArr[i].child[j].destinationVO.id,
+//		            					name : countryArr[i].child[j].destinationVO.name,
+//		            					code : countryArr[i].child[j].destinationVO.code
+//		            				});
+//	        					}
+//	        				};
+//							if(flag){
+//		        				result.push({
+//		        					id : countryArr[i].destinationVO.id,
+//		        					name : countryArr[i].destinationVO.name,
+//		        					code : countryArr[i].destinationVO.code
+//		        				});
+//							};
+//	    				}else{
+//	        				result.push({
+//	        					id : countryArr[i].destinationVO.id,
+//	        					name : countryArr[i].destinationVO.name,
+//	        					code : countryArr[i].destinationVO.code
+//	        				});
+//	    				};
+//      			}
+//      		}
             	return result;
             };
+            
             $(function(){
             	var destDataObj = JSON.parse($('input[name="destData"]').val());
             	//console.log(destDataObj);
@@ -229,6 +247,8 @@
 	            		}
 	            		//保存修改的数据
 	            		$('input[name="destData"]').val(JSON.stringify(destDataObj));
+	            		//按钮智慧
+	            		isPray();
 	            		stopBubble(ev);
 	            	});
 					//点击变色列
