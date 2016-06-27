@@ -304,14 +304,14 @@ public class HotelManageController extends BaseController {
 			message.initFailure(WebReturnCode.SYSTEM_ERROR,"请不要重复提交");
 			return message;
 		}
-//		logger.info("editHotelMessageVOByData:start 入参: itemId={},hotelMessageVO={}",hotelMessageVO.getItemId(),CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
+		logger.info("editHotelMessageVOByData:start 入参: itemId={},hotelMessageVO={}",hotelMessageVO.getItemId(),CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
 		WebResult<Long> result = hotelManageService.editHotelMessageVOByData(hotelMessageVO);
 		if(!result.isSuccess()){
 			message.initFailure(WebReturnCode.PARAM_ERROR,"编辑商品错误");
 			log.error("editHotelMessageVOByData.添加商品错误");
 			return message;
 		}
-//		logger.info("editHotelMessageVOByData: end 回参:webResult="+result.isSuccess());
+		logger.info("editHotelMessageVOByData: end 回参:webResult="+result.isSuccess());
 		/**最晚到店时间**/
 		List<MultiChoice> multiChoiceList = initMultiChoiceList(hotelMessageVO);
 		model.addAttribute("itemId", result.getValue());
