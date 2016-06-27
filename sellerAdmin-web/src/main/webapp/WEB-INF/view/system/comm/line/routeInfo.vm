@@ -133,7 +133,7 @@
 			<div class="panel trip-description">
 				<div class="panel-heading travelPanel"><span class="tripAddSp"><i class='red'>*</i>行程描述</span></div>
 				<div class="panel-body trip-description-content">
-					<textarea class="form-control trip-description-textarea" rows="3" id="day_${velocityCount}_trip_description" route-item-id="$!{tripDay.routeItemId}">$!{tripDay.description}</textarea>
+					<textarea class="form-control trip-description-textarea textarea-count" rows="3" id="day_${velocityCount}_trip_description" route-item-id="$!{tripDay.routeItemId}">$!{tripDay.description}</textarea>
 					<div class='word-num'><span class='num-a'>0</span>/<span class='num-b'>1000字</span></div>
 				</div>
 			</div>
