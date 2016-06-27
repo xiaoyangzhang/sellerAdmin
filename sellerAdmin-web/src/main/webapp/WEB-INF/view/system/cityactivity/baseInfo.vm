@@ -23,7 +23,6 @@
                 <td>
                     <input type="text" class="form-control item-code" placeholder="请输入商品代码" maxlength="20" name="code" value="$!{item.code}">
                     <span class="limit">20字</span>
-                    <span class="tip ml20">注：商品代码供商家管理商品使用，不会展示给用户</span>
                 </td>
             </tr>
             <tr>
