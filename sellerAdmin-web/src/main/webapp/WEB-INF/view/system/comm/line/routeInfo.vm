@@ -128,6 +128,7 @@
 				<div class="panel-heading travelPanel"><span class="tripAddSp"><i class='red'>*</i>行程标题</span></div>
 				<div class="panel-body trip-title-content">
 					<input type="text" class="form-control trip-title-text" id="day_${velocityCount}_trip_title" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.title}" maxlength="38"/>
+					<span class='limit'>38字</span>
 				</div>
 			</div>
 			<div class="panel trip-description">
