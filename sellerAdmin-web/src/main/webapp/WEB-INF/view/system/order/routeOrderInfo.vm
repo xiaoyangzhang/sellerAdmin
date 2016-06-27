@@ -239,7 +239,7 @@
 	                  	  未入住；
 	                </span>
 	                <span>
-	                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.deliveryTime)
+	                  	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)
 	                </span>
 	            #elseif($order.mainOrder.orderStatus == 10)
 	                <span>
