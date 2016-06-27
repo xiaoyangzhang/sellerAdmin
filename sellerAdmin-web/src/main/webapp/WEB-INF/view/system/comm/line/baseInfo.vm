@@ -204,8 +204,8 @@
 			var departs = win.getSelected() || [];
 			console.log(JSON.stringify(departs));
 			if(departs.length == 0) return true;
-			if(departs.length > 100) {
-				layer.alert("出发地最多选择100个", {
+			if(departs.length > 15) {
+				layer.alert("出发地最多选择15个", {
     				icon : 2
     			});
 				return false;
