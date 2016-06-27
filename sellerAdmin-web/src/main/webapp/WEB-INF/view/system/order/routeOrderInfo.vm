@@ -8,6 +8,8 @@
 
 <head>
     <title>订单详情</title>
+    #parse("layout/layout-meta.vm")
+    <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/orderlist.css">
 </head>
 
 <div>
