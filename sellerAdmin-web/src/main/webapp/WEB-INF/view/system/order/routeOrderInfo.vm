@@ -325,7 +325,7 @@
                		#if($!order.mainOrder.tcMainOrder.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)#end
                 #end
                 </td>
-                <td>付款方式</td>
+                <td>付款方式：</td>
                 <td>
                 	$!order.payChannel
                  </td>
