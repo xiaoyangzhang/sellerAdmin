@@ -1,8 +1,13 @@
 package com.yimayhd.sellerAdmin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import net.pocrd.util.StringUtil;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -84,7 +89,8 @@ public class CityActivityManageController extends BaseController {
         }
         WebResult<List<CityVO>> allDests = tagService.getAllDests();
         if (allDests.isSuccess()) {
-            put("dests", allDests.getValue());
+        	List<CityVO> activityCitys = getActivityCitys(allDests.getValue());
+            put("dests", activityCitys);
         }
 		model.addAttribute("category", categoryVO);
 		model.addAttribute("itemType",ItemType.CITY_ACTIVITY.getValue());
@@ -117,8 +123,11 @@ public class CityActivityManageController extends BaseController {
         }
         WebResult<List<CityVO>> allDests = tagService.getAllDests();
         if (allDests.isSuccess()) {
-            put("dests", allDests.getValue());
+        	List<CityVO> activityCitys = getActivityCitys(allDests.getValue());
+            put("dests", activityCitys);
+            
         }
+        
         model.addAttribute("category", itemVO.getCategoryVO());
     	model.addAttribute("item", itemVO.getItemVO());
         model.addAttribute("cityActivity", itemVO.getCityActivityVO());
@@ -129,6 +138,42 @@ public class CityActivityManageController extends BaseController {
         model.addAttribute("needKnow", itemVO.getNeedKnowVO());
 
         return "/system/cityactivity/edit";
+    }
+    
+    private List<CityVO> getActivityCitys(List<CityVO> allCities){
+    	List<CityVO> cities = new ArrayList<CityVO>() ;
+    	if( CollectionUtils.isEmpty(allCities) ){
+    		return null;
+    	}
+    	List<String> codes = new ArrayList<String>() ;
+    	codes.add("530100");
+    	codes.add("530300");
+    	codes.add("530400");
+    	codes.add("530500");
+    	codes.add("530600");
+    	codes.add("530700");
+    	codes.add("530800");
+    	codes.add("530900");
+    	codes.add("532300");
+    	codes.add("532500");
+    	codes.add("532600");
+    	codes.add("532800");
+    	codes.add("532900");
+    	codes.add("533100");
+    	codes.add("533300");
+    	codes.add("533400");
+    	
+    	for (CityVO cityVO : allCities) {
+    		if (null!= cityVO.getCity()) {
+    			String code = cityVO.getCity().getCode();
+    			if( StringUtils.isNotBlank(code) ){
+    				if( codes.contains(code ) ){
+    					cities.add(cityVO);
+    				}
+    			}
+			}
+		}
+		return cities;
     }
 
     /**
@@ -154,7 +199,8 @@ public class CityActivityManageController extends BaseController {
         }
         WebResult<List<CityVO>> allDests = tagService.getAllDests();
         if (allDests.isSuccess()) {
-            put("dests", allDests.getValue());
+        	List<CityVO> activityCitys = getActivityCitys(allDests.getValue());
+            put("dests", activityCitys);
         }
         model.addAttribute("category", itemVO.getCategoryVO());
         model.addAttribute("item", itemVO.getItemVO());
