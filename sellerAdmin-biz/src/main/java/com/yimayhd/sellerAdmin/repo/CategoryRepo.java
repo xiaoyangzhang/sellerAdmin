@@ -39,11 +39,11 @@ public class CategoryRepo {
 	 * @return
 	 * @throws
 	 */
-	@MethodLogger
+	@MethodLogger(isPrintResult=false)
 	public CategoryDO getCategoryByDomainId(int domainId){
 		RepoUtils.requestLog(log, "categoryServiceRef.getCategoryTreeByDomain", domainId);
 		CategoryTreeResult ret = categoryServiceRef.getCategoryTreeByDomain(domainId);
-		RepoUtils.resultLog(log, "categoryServiceRef.getCategoryTreeByDomain", ret);
+//		RepoUtils.resultLog(log, "categoryServiceRef.getCategoryTreeByDomain", ret);
 		return ret.getTree();
 	}
 	
