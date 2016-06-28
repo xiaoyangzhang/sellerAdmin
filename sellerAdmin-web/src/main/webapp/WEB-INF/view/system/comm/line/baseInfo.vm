@@ -55,7 +55,7 @@
 							#end
 						#else
 							#foreach($dest in $baseInfo.dests)
-								<button class="btn btn-info dests remove-self" rid="$!{dest.id}" rcode="$!{dest.city.code}">$!{dest.city.name}</button>
+								<button class="btn btn-info dests remove-self" rid="$!{dest.id}" pid="$!{dest.pid}" rcode="$!{dest.city.code}" pcode="$!{dest.pcode}" pname="$!{dest.pname}">$!{dest.city.name}</button>
 							#end
 						#end
 					</div>
