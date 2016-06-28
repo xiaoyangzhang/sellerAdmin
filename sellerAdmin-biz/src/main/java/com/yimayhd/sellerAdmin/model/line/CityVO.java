@@ -9,8 +9,15 @@ package com.yimayhd.sellerAdmin.model.line;
  *
  */
 public class CityVO extends TagDTO {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -522963027064686042L;
 	private String code;
 	private City city;
+	private long pid;
+	private int pcode;
+	private String pname;
 
 	public CityVO() {
 		super();
@@ -36,4 +43,30 @@ public class CityVO extends TagDTO {
 	public void setCode(String code) {
 		this.code = code;
 	}
+
+	public long getPid() {
+		return pid;
+	}
+
+	public void setPid(long pid) {
+		this.pid = pid;
+	}
+
+	public int getPcode() {
+		return pcode;
+	}
+
+	public void setPcode(int pcode) {
+		this.pcode = pcode;
+	}
+
+	public String getPname() {
+		return pname;
+	}
+
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
+
+
 }

@@ -118,7 +118,7 @@ public class LineServiceImpl implements LineService {
 			lineResult.setItemSkuDOList(itemSkuDOList);
 			PicTextResult picTextResult = pictureTextRepo.getPictureText(itemId, PictureText.ITEM);
 			LineVO lineVO = LineConverter.toLineVO(lineResult, picTextResult, themes, toCityVO(departTags),
-					destinationBiz.toCityVOForDest(destTags));
+					destinationBiz.toCityVODestWithTags(destTags));
 			lineVO.getBaseInfo().setAllDeparts(allDeparts);
 			return WebResult.success(lineVO);
 		} catch (Exception e) {
