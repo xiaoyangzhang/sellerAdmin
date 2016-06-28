@@ -243,9 +243,12 @@
 			for(i in dests) {
 				var dest = dests[i];
 				if($(".dests[rId='"+dest.id+"']").length > 0) continue;
-				var btn = $("<button class='btn btn-info dests remove-self'>"+dest.name+"</button>");
+				var btn = $("<button class='btn btn-info dests remove-self' >"+dest.name+"</button>");
 				btn.attr("rId", dest.id);
 				btn.attr("rCode", dest.code);
+				btn.attr("pid", dest.pid);
+				btn.attr("pcode", dest.pcode);
+				btn.attr("pname", dest.pname);
 				content.append("  ").append(btn);
 			}
 			return true;
@@ -270,6 +273,9 @@
 		});
 		var dests = [];
 		$(".dests").each(function(){
+			if ($(this).attr('pid')&&$(this).attr('pid')!=$(this).prev('.dests').attr('pid')) {
+				dests.push({id:$(this).attr('pid'),name:$(this).attr('pname'),code:$(this).attr('pcode')})
+			}
 			dests.push({id:$(this).attr("rId"),name:$(this).text(),code:$(this).attr("rCode")});
 		});
 		var result = {
