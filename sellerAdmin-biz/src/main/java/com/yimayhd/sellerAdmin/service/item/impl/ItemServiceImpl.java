@@ -77,7 +77,7 @@ public class ItemServiceImpl implements ItemService {
 				int totalPage = toalCount % icPageResult.getPageSize() == 0 ? (toalCount / icPageResult.getPageSize()) : (toalCount / icPageResult.getPageSize() + 1);
 				itemQryDTO.setPageNo(totalPage);
 				query.setPageNo(totalPage);
-//				icPageResult = itemRepo.getItemList(itemQryDTO);
+				icPageResult = itemRepo.getItemList(itemQryDTO);
 			//	return WebResult.success(new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(), 0));
 			}
 			List<ItemInfo> itemDOList = icPageResult.getList();
