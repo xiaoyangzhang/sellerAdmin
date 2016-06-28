@@ -146,12 +146,18 @@
                                              src="$!{utilWebconfig.getTfsRootPath()}$!{utilImg.getImgUrl($!{subOrder.tcDetailOrder.itemPic}, 160)}">
                                     </div>
                                     <div class="t-msg">
-                                        #if($!subOrder.tcDetailOrder.bizOrder.orderType == 3100 ||$!subOrder.tcDetailOrder.bizOrder.orderType == 3200 || $!subOrder.tcDetailOrder.bizOrder.orderType == 3300 || $!subOrder.tcDetailOrder.bizOrder.orderType == 200 
+                                        #if($!subOrder.tcDetailOrder.bizOrder.orderType == 3100 ||$!subOrder.tcDetailOrder.bizOrder.orderType == 3200 || $!subOrder.tcDetailOrder.bizOrder.orderType == 200 
                                         || $!subOrder.tcDetailOrder.bizOrder.orderType == 3500 || $!subOrder.tcDetailOrder.bizOrder.orderType == 3600)
                                            	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
                                             <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.executeTime) 出发</div>
                                             <div class="t-userType">$!subOrder.tcDetailOrder.linePackage</div>
                                             <div class="t-userType">$!subOrder.vTxt</div>
+                                        #end
+                                        
+                                        #if($!subOrder.tcDetailOrder.bizOrder.orderType == 3300 )
+                                           	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
+                                            <div class="t-date">$!subOrder.tcDetailOrder.activityTime</div>
+                                    		<div class="t-date">$!subOrder.tcDetailOrder.activityContent</div>
                                         #end
                                         
                                         #if($!subOrder.tcDetailOrder.bizOrder.orderType == 1200 )
