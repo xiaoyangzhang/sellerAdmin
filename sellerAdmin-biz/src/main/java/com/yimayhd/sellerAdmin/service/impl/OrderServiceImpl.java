@@ -118,6 +118,12 @@ public class OrderServiceImpl implements OrderService {
 		} else if (orderListQuery.getItemType() == 1200) {
 			int[] orderBizTypes = new int[] { OrderBizType.SPOTS.getBizType() };
 			orderListQuery.setOrderTypes(orderBizTypes);
+		}else if (orderListQuery.getItemType() == 3500) {
+			int[] orderBizTypes = new int[] { OrderBizType.TOUR_LINE_ABORD.getBizType() };
+			orderListQuery.setOrderTypes(orderBizTypes);
+		}else if (orderListQuery.getItemType() == 3600) {
+			int[] orderBizTypes = new int[] { OrderBizType.FREE_LINE_ABORD.getBizType() };
+			orderListQuery.setOrderTypes(orderBizTypes);
 		}
 
 		List<MainOrder> mainOrderList = new ArrayList<>();

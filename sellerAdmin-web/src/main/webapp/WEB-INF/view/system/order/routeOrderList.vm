@@ -144,33 +144,7 @@
                                              src="$!{utilWebconfig.getTfsRootPath()}$!{utilImg.getImgUrl($!{subOrder.tcDetailOrder.itemPic}, 160)}">
                                     </div>
                                     <div class="t-msg">
-                                        #if($!subOrder.tcDetailOrder.bizOrder.orderType == 3100 ||$!subOrder.tcDetailOrder.bizOrder.orderType == 3200 || $!subOrder.tcDetailOrder.bizOrder.orderType == 3300 || $!subOrder.tcDetailOrder.bizOrder.orderType == 200 
-                                        || $!subOrder.tcDetailOrder.bizOrder.orderType == 3500 || $!subOrder.tcDetailOrder.bizOrder.orderType == 3600)
-                                           	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
-                                            <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.executeTime) 出发</div>
-                                            <div class="t-userType">$!subOrder.tcDetailOrder.linePackage</div>
-                                            <div class="t-userType">$!subOrder.vTxt</div>
-                                        #end
-                                        
-                                        #if($!subOrder.tcDetailOrder.bizOrder.orderType == 1200 )
-                                        	<div class="t-name">$!order.tcMainOrder.scenicTitle</div>
-                                        	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
-                                            <div class="t-date">$!date.format('yyyy-MM-dd',$!order.tcMainOrder.scenicEnterTime) 入园</div>
-                                            <div class="t-userType">$!order.tcMainOrder.ticketTitle</div>
-                                        #end
-                                        
-                                         #if($!subOrder.tcDetailOrder.bizOrder.orderType == 1100 || $!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
-                                        	<div class="t-name">$!order.tcMainOrder.hotelTitle</div>
-                                        	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
-                                            <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.tcDetailOrder.startDate)</div>
-                                            <div class="t-userType">$!order.tcMainOrder.roomTitle</div>
-                                            #if($!subOrder.tcDetailOrder.bizOrder.orderType == 1100)
-                                            	<div class="t-userType">在线付</div>
-                                            #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
-                                            	<div class="t-userType">到店付</div>
-                                            #end
-                                        #end
-                                        
+                                    	#ROUTE_ORDER_LIST_SKU($!subOrder.tcDetailOrder.bizOrder.orderType)
                                     </div>
                                 </div>
                             </td>
@@ -188,25 +162,7 @@
 
                             <td class="middle">
                                 <div>
-                                    #if($!subOrder.tcDetailOrder.bizOrder.orderType == 3100)
-                                       国内 跟团游
-                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3200)
-                                        国内自由行
-                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3500)
-                                        境外跟团游
-                                     #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3600)
-                                       境外自由行
-                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3300)
-                                        国内当地玩乐
-                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 200)
-                                        特产商品
-                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 1200)
-                                       国内景区门票
-                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 1100)
-                                        酒店客栈
-                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
-                                        酒店客栈
-                                    #end
+                                	#ROUTE_ORDER_LIST_GOODS_TYPE($!subOrder.tcDetailOrder.bizOrder.orderType)
                                 </div>
                             </td>
 
@@ -219,47 +175,7 @@
                                 </td>
                                 <td rowspan="$!size" class="middle">
                                     <div class="">
-	                                    #if($!subOrder.tcDetailOrder.bizOrder.orderType == 3100 || $!subOrder.tcDetailOrder.bizOrder.orderType == 3200 
-	                                     	|| $!subOrder.tcDetailOrder.bizOrder.orderType == 3300 || $!subOrder.tcDetailOrder.bizOrder.orderType == 200 
-	                                     	|| $!subOrder.tcDetailOrder.bizOrder.orderType == 3500 || $!subOrder.tcDetailOrder.bizOrder.orderType == 3600)
-	                                    	    #if($order.orderStatus == 2)
-	                                          		待付款
-		                                        #elseif($order.orderStatus == 3)
-		                                           	 处理中
-		                                        #elseif($order.orderStatus == 6)
-		                                          	  待出行
-		                                        #elseif($order.orderStatus == 10)
-		                                          	  已完成
-		                                        #elseif($order.orderStatus == 8)
-		                                           	 已取消
-		                                        #end
-	                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 1200)
-	                                       		#if($order.orderStatus == 2)
-	                                          		待付款
-		                                        #elseif($order.orderStatus == 3)
-		                                           	待确认
-		                                        #elseif($order.orderStatus == 6)
-		                                          	  待使用
-		                                        #elseif($order.orderStatus == 10)
-		                                          	  已完成
-		                                        #elseif($order.orderStatus == 8)
-		                                           	 已取消
-		                                        #end
-	                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 1100 || $!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
-	                                    		#if($order.orderStatus == 2)
-	                                          		待付款
-		                                        #elseif($order.orderStatus == 3)
-		                                           	待确认
-		                                        #elseif($order.orderStatus == 6)
-		                                          	 预订成功
-		                                        #elseif($order.orderStatus == 10)
-		                                          	  已完成
-		                                        #elseif($order.orderStatus == 8)
-		                                           	 已取消
-		                                        #elseif($order.orderStatus == 11)
-		                                           	 未入住
-		                                        #end
-	                                    #end
+                                    	#ROUTE_ORDER_LIST_ORDER_TYPE($!subOrder.tcDetailOrder.bizOrder.orderType)
                                     </div>
                                 </td>
                                 <td rowspan="$!size" class="middle">
