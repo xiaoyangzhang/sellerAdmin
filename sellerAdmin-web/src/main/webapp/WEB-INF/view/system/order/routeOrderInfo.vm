@@ -415,12 +415,18 @@
                             </div>
                             <div class="t-msg">
                                 
-                                #if($!order.mainOrder.orderType == 3100 ||$!order.mainOrder.orderType == 3200 || $!order.mainOrder.orderType == 3300 || $!order.mainOrder.orderType == 200 
+                                #if($!order.mainOrder.orderType == 3100 ||$!order.mainOrder.orderType == 3200 || $!order.mainOrder.orderType == 200 
                                 || $!order.mainOrder.orderType == 3500 || $!order.mainOrder.orderType == 3600)
                                    	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
                                     <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.executeTime) 出发</div>
                                     <div class="t-userType">$!subOrder.tcDetailOrder.linePackage</div>
                                     <div class="t-userType">$!subOrder.vTxt</div>
+                                #end
+                                
+                                #if($!order.mainOrder.orderType == 3300 )
+                                   	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
+                                    <div class="t-date">$!subOrder.tcDetailOrder.activityTime</div>
+                                    <div class="t-date">$!subOrder.tcDetailOrder.activityContent</div>
                                 #end
                                 
                                 #if($!order.mainOrder.orderType == 1200 )
