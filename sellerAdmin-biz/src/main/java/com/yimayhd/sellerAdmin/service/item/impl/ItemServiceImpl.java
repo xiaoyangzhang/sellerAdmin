@@ -95,7 +95,7 @@ public class ItemServiceImpl implements ItemService {
 						if (tagMap.containsKey(itemId)) {
 							List<ComTagDO> comTagDOs = tagMap.get(itemId);
 							//List<CityVO> dests = toCityVO(comTagDOs);
-							List<CityVO> dests = destinationBiz .toCityVOForDest(comTagDOs);
+							List<CityVO> dests = destinationBiz.toCityVODestWithTags(comTagDOs);
 							itemListItemVO.setDests(dests);
 						}
 					}
