@@ -202,7 +202,7 @@
 	$(".select-departs").click(function() {
 		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDeparts','选择出发地 ',function() {
 			var departs = win.getSelected() || [];
-			console.log(JSON.stringify(departs));
+			//console.log(JSON.stringify(departs));
 			if(departs.length == 0) return true;
 			if(departs.length > 15) {
 				layer.alert("出发地最多选择15个", {
@@ -230,7 +230,7 @@
 		});
 		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDests/$itemType?selectedIds='+selIdArr,'选择目的地 ',function() {
 			var dests = win.getSelected();
-			console.log(JSON.stringify(dests));
+			//console.log(JSON.stringify(dests));
 			if(dests.length == 0) return false;
 			if(dests.length > 15) {
 				layer.alert("目的地最多选择15个", {
@@ -278,6 +278,16 @@
 			}
 			dests.push({id:$(this).attr("rId"),name:$(this).text(),code:$(this).attr("rCode")});
 		});
+		//去重
+		var dests_temp = [],arr_temp=[];
+		for (var i = 0;i<dests.length;i++) {
+			if (arr_temp.indexOf(dests[i].id)==-1){
+				arr_temp.push(dests[i].id);
+				dests_temp.push(dests[i]);
+			} 
+		}
+		dests = dests_temp;
+		
 		var result = {
 			#if($product)
 			lineId:$!{product.baseInfo.lineId},
