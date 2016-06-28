@@ -152,7 +152,7 @@ public class DestinationBiz {
 			if (!hashSet.contains(dest1.getCode())) {
 				City city = new City(String.valueOf(dest1.getCode()), dest1.getName(), dest1.getSimpleCode());
 				CityVO cityVO = new CityVO(dest1.getId(), dest1.getName(), city);
-				cityVO.setCode(dest1.getSimpleCode());
+				cityVO.setCode(String.valueOf(dest1.getCode()));
 				newdests.add(cityVO);
 			}
 		}
