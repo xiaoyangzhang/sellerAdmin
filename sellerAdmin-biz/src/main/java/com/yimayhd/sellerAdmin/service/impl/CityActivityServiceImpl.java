@@ -90,7 +90,7 @@ public class CityActivityServiceImpl implements CityActivityService {
         CityVO dest = cityActivityItemVO.getDest();
         List<Long> destIds = new ArrayList<Long>();
         destIds.add(dest.getId());
-        commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
+        commentRepo.addLineTagRelationInfo(itemId, TagType.DESTPLACE, destIds);
         ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemId, PictureText.ITEM,
                 cityActivityItemVO.getPictureTextVO());
         pictureTextRepo.editPictureText(comentEditDTO);
