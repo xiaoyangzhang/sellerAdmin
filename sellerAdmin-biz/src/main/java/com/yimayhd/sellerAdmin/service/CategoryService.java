@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.service;
 import java.util.List;
 
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
+import com.yimayhd.ic.client.model.result.item.CategoryTreeResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 
@@ -63,5 +64,18 @@ public interface CategoryService {
 	 * @throws
 	 */
 	WebResult<CategoryDO> getCategoryById(int parentId);
+	/**
+	 * 
+	* created by zhangxy
+	* @date 2016年6月28日
+	* @Title: getCategoryTreeByDomainId 
+	* @Description: TODO
+	* @param @param domainId
+	* @param @return    设定文件 
+	* @return CategoryTreeResult    返回类型 
+	* @throws
+	 */
+	WebResult<CategoryDO> getCategoryTreeByDomainId(int domainId);
+	
 
 }
