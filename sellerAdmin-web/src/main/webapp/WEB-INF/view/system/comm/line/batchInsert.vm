@@ -3,12 +3,12 @@
 	<head>
 		#parse("layout/layout-meta.vm")
         <title>批量插入</title>
-        <link rel="stylesheet" href="$rs_js_css_path_admin/css/base.css">
-		<link rel="stylesheet" href="$rs_js_css_path_admin/css/common.css"/>
+        <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/old/css/base.css">
+		<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/old/css/common.css"/>
 		<link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/css/zui.min.css"/>
 		
-		<script type="text/javascript" src="$rs_js_css_path_admin/js/jquery.js"></script>
-		<script type="text/javascript" src="$rs_js_css_path_admin/layer/layer.js"></script>
+		<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/js/jquery.js"></script>
+		<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/layer/layer.js"></script>
 		<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/js/zui.min.js" type="text/javascript" ></script>
         <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/input.js" type="text/javascript"></script>
     </head>

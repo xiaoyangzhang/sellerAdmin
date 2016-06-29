@@ -20,33 +20,38 @@
         	});
 
 			$(document).delegate(".myTrash","click",function(){
-				var tab = $(this).parent();
-				var day = tab.attr("day-id");
-				// 删除当前的
-				setAllRouteItem(day,deletedRouteItems);
-				// 更新后续所有
-				tab.nextAll().each(function() {
-					var _day = $(this).attr("day-id");
-					setAllRouteItem(_day,updatedRouteItems);
-				});
-                var tabConId = $(this).prev().attr("href");
-                $(".tripInfo .tab-content .tab-pane").removeClass("active");
-                $(".tripInfoNav .day_tab").removeClass("active");
-				if($(tabConId).prev().length != 0){
-                    $(tabConId).prev().addClass("active");
-                    $(tabConId).remove();
-				}else{
-                    $(tabConId).remove();
-					$(".tripInfo .tab-content .tab-pane:first").addClass("active");
-				}
-				if($(this).parent().prev().length != 0){
-                    $(this).parent().prev().addClass("active");
-                    $(this).parent().remove();
-				}else{
-                    $(this).parent().remove();
-					$(".tripInfoNav .day_tab:first").addClass("active");
-                }
-				show();
+				var _this = $(this);
+				layer.confirm('确认删除该天的行程信息？', {icon: 3, title:'提示'}, function(index){
+					var tab = _this.parent();
+					var day = tab.attr("day-id");
+					// 删除当前的
+					setAllRouteItem(day,deletedRouteItems);
+					// 更新后续所有
+					tab.nextAll().each(function() {
+						var _day = _this.attr("day-id");
+						setAllRouteItem(_day,updatedRouteItems);
+					});
+	                var tabConId = _this.prev().attr("href");
+	                $(".tripInfo .tab-content .tab-pane").removeClass("active");
+	                $(".tripInfoNav .day_tab").removeClass("active");
+					if($(tabConId).prev().length != 0){
+	                    $(tabConId).prev().addClass("active");
+	                    $(tabConId).remove();
+					}else{
+	                    $(tabConId).remove();
+						$(".tripInfo .tab-content .tab-pane:first").addClass("active");
+					}
+					if(_this.parent().prev().length != 0){
+	                    _this.parent().prev().addClass("active");
+	                    _this.parent().remove();
+					}else{
+	                    _this.parent().remove();
+						$(".tripInfoNav .day_tab:first").addClass("active");
+	                }
+					show();										
+				    layer.msg('删除成功', {icon: 1});					
+					layer.close(index);
+		       });
 			});
 
 		  	$(".addDay").click(function() {
@@ -123,16 +128,18 @@
 				<div class="panel-heading travelPanel"><span class="tripAddSp"><i class='red'>*</i>行程标题</span></div>
 				<div class="panel-body trip-title-content">
 					<input type="text" class="form-control trip-title-text" id="day_${velocityCount}_trip_title" route-item-id="$!{tripDay.routeItemId}" value="$!{tripDay.title}" maxlength="38"/>
+					<span class='limit'>38字</span>
 				</div>
 			</div>
 			<div class="panel trip-description">
 				<div class="panel-heading travelPanel"><span class="tripAddSp"><i class='red'>*</i>行程描述</span></div>
 				<div class="panel-body trip-description-content">
-					<textarea class="form-control trip-description-textarea" rows="3" id="day_${velocityCount}_trip_description" route-item-id="$!{tripDay.routeItemId}" maxlength="1000">$!{tripDay.description}</textarea>
+					<textarea class="form-control trip-description-textarea textarea-count" rows="3" id="day_${velocityCount}_trip_description" route-item-id="$!{tripDay.routeItemId}">$!{tripDay.description}</textarea>
+					<div class='word-num'><span class='num-a'>0</span>/<span class='num-b'>1000字</span></div>
 				</div>
 			</div>
 			<div class="panel trip-images">
-				<div class="panel-heading travelPanel"><span class="tripAddSp"><i class='red'>*</i>行程图片</span></div>
+				<div class="panel-heading travelPanel"><span class="tripAddSp">行程图片</span></div>
 				<div class="panel-body trip-images-content uploadbox clearfix">
                     <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionUploadFilePath()}" />
                     <input type="hidden" class="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />	
@@ -221,7 +228,7 @@
 			var route_item_id = $(this).attr("route-item-id")||0;
 			setRouteItem(route_item_id,updatedRouteItems);
 		});
-		$(".trip-description-textarea").change(function() {
+		$(".trip-description-textarea").on('blur',function() {
 			// update
 			var route_item_id = $(this).attr("route-item-id")||0;
 			setRouteItem(route_item_id,updatedRouteItems);

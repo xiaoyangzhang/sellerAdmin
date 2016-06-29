@@ -9,8 +9,8 @@
 		<link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/css/zui.min.css"/>
 		<link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/css/common.css"/>
 		
-		<script type="text/javascript" src="$rs_js_css_path_admin/js/jquery.js"></script>
-		<script type="text/javascript" src="$rs_js_css_path_admin/layer/layer.js"></script>
+		<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/js/jquery.js"></script>
+		<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/layer/layer.js"></script>
 	
         <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
 		<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/js/zui.min.js" type="text/javascript" ></script>

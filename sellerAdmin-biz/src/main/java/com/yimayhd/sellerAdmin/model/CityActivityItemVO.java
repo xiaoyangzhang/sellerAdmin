@@ -15,8 +15,12 @@ import java.util.List;
 /**
  * Created by weiwenliang on 2016/04/06.
  */
-public class CityActivityItemVO{
-    private ItemVO itemVO;
+public class CityActivityItemVO implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private ItemVO itemVO;
     private CategoryVO categoryVO;
     private CityActivityVO cityActivityVO;
     private List<Long> themes;

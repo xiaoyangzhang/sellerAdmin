@@ -1,3 +1,4 @@
+
 package com.yimayhd.sellerAdmin.constant;
 
 import com.yimayhd.user.session.manager.constant.SessionConstant;
@@ -22,10 +23,11 @@ public class Constant {
 	public static final int DOMAIN_B2CPC = 1000;
 
 	public static final int DOMAIN_JIUXIU = 1200;
-	public static final int APPID_JIUXIU = 26;
 
 	public static final String ENV_PROD = "prod";
-
+	public static final int APPID_JIUXIU = 26;//商户后台应用id
+	
+	
 //	public static final String TFS_URL = "http://img.test.yimayholiday.com/v1/tfs/";
 
 	public static final String MOBILE_PRE = "+86";

@@ -1,0 +1,65 @@
+#set($layout = "/layout/layout-jiuxiu.vm")
+<head>
+    <link rel="shortcut icon" href="../../img/jiuxiu_favicon.ico" mce_href="../../img/jiuxiu_favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	#parse("layout/layout-meta.vm")
+	<title>商品草稿箱</title>
+    <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/eredar.css">
+    <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/sevice.css">
+
+</head>
+<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/js/jquery.js"></script>
+<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/layer/layer.js"></script>
+
+
+	<!-- 面包屑 -->
+			<div class = "eredar-info clearfix">
+				<ul>
+					<li class = " first on">商品草稿箱</li>
+				</ul>
+			</div>
+			<div class = "draft">
+			    <form class="form-signin" id="draftListForm" action="$!utilWebconfig.getActionDefaultFontPath()/draft/list" method="GET" role="form">
+				<p>
+				<input type="hidden"  name="mainType" value="$!query.mainType"/>
+					<em class ="gray6">商品类型：</em>
+					<select id="edu" name="subType">
+						<option value="0" #if(!$query.subType) selected #end>全部</option>
+        					#foreach($draftType in $draftTypeList)
+        					<option value="$!{draftType.value.value}" #if($query.subType == $draftType.value.value) selected #end >$!{utilDraft.getDraftSubTypeName($draftType.value.value)}</option>
+        					#end
+					</select>
+					<button type="submit" class = "searchBtn">查询</button>
+				</p>
+				<table width= "892px">
+					<tr>
+						<th class = "name">草稿名称</th>
+						<th class = "style">类型</th>
+						<th class = "time">编辑时间</th>
+						<th class = "handle">操作</th>
+					</tr>
+					#foreach($draft in $pageVo.resultList)
+                            <tr id="draft_$!{draft.id}" draft-id="$!draft.id">
+                                <td class = "name">$!draft.draftName</td>
+        						<td class = "style">$!{utilDraft.getDraftSubTypeName($!draft.subType)}</td>
+        						<td class = "time">$!{utilDate.date2String($draft.gmtModified)}</td>
+								<td class = "handle">
+									<!--<a class="edit" draft-id="$!draft.id" draft-mainType="$!draft.mainType" draft-subType="$!draft.subType" >编辑</a>-->
+									<a id="edit" draft-id="$!draft.id" draft-mainType="$!draft.mainType" draft-subType="$!draft.subType" href="$!utilWebconfig.getActionDefaultFontPath()/draft/edit/$!draft.id/$!draft.mainType/$!draft.subType">编辑</a>
+									<a class ="del" draft-id="$!draft.id">删除</a>
+								</td>
+                            </tr>
+        			#end
+				</table>
+				#*分页*#
+				#parse("/page_jiuniu.vm")
+			</div>
+			
+		</form>
+
+
+#parse("layout/layout-js.vm")
+<script type="text/javascript">seajs.use("draft");</script>

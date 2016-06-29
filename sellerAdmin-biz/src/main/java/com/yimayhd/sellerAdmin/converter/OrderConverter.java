@@ -233,7 +233,7 @@ public class OrderConverter {
                 //sku
                 SkuInfo skuInfo = tcBizOrder.getSkuInfo();
                 if (tcBizOrder.getOrderType() == OrderBizType.TOUR_LINE.getBizType() ||tcBizOrder.getOrderType() == OrderBizType.FREE_LINE.getBizType()
-                		||tcBizOrder.getOrderType() == OrderBizType.TOUR_LINE_ABORD.getBizType() ||tcBizOrder.getOrderType() == OrderBizType.FREE_LINE_ABORD.getBizType()){
+                		||tcBizOrder.getOrderType() == OrderBizType.TOUR_LINE_ABOARD.getBizType() ||tcBizOrder.getOrderType() == OrderBizType.FREE_LINE_ABOARD.getBizType()){
                     //获取出发时间
                     String startDate = SkuUtils.getPropertyValue(skuInfo, PropertyType.START_DATE.getType());
                     if (StringUtils.isNotEmpty(startDate)){

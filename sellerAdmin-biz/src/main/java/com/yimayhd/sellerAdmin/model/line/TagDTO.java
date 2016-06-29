@@ -1,12 +1,14 @@
 package com.yimayhd.sellerAdmin.model.line;
 
+import java.io.Serializable;
+
 /**
  * 标签
  * 
  * @author yebin
  *
  */
-public class TagDTO {
+public class TagDTO implements Serializable{
 	private long id;
 	private String name;
 
