@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.service.item.impl;
+	package com.yimayhd.sellerAdmin.service.item.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +84,7 @@ public class ItemServiceImpl implements ItemService {
 				}
 			}
 			if (icPageResult == null) {
+
 				return WebResult.success(new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(), 0));
 			}
 			List<ItemInfo> itemDOList = icPageResult.getList();
