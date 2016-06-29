@@ -74,10 +74,14 @@ public class ItemServiceImpl implements ItemService {
 			ICPageResult<ItemInfo> icPageResult = itemRepo.getItemList(itemQryDTO);
 			if(icPageResult!=null&&icPageResult.getList()==null){
 				int toalCount = icPageResult.getTotalCount();
-				int totalPage = toalCount % icPageResult.getPageSize() == 0 ? (toalCount / icPageResult.getPageSize()) : (toalCount / icPageResult.getPageSize() + 1);
-				itemQryDTO.setPageNo(totalPage);
-				query.setPageNo(totalPage);
-				icPageResult = itemRepo.getItemList(itemQryDTO);
+				if(toalCount>0) {
+					int totalPage = toalCount % icPageResult.getPageSize() == 0 ? (toalCount / icPageResult.getPageSize()) : (toalCount / icPageResult.getPageSize() + 1);
+					itemQryDTO.setPageNo(totalPage);
+					query.setPageNo(totalPage);
+					icPageResult = itemRepo.getItemList(itemQryDTO);
+				}else {
+					return WebResult.success(new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(), 0));
+				}
 			}
 			if (icPageResult == null) {
 				return WebResult.success(new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(), 0));
