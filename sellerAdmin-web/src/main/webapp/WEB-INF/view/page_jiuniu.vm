@@ -3,6 +3,7 @@
     #set($pageVoNo = $pageVo.thisPageNo)
     #set($before=0)
     #set($after=0)
+    <input type="hidden" name="page" value="1">
     <ul class="pager" style="width: 100%;">
         #if($pageVo.hasPreviousPage)
             <li class="previous">
@@ -54,7 +55,7 @@
         #end
         <li>
             <span class="input-group-addon">每页</span>
-            <select class="form-control pageSize" name="" id="pageSize" style="width: 60px;">
+            <select class="form-control pageSize" name="pageSize" id="pageSize" style="width: 60px;">
                 <option value="10"  #if($pageVo.pageSize==10)selected #end>10</option>
                 <option value="20"  #if($pageVo.pageSize==20)selected#end>20</option>
                 <option value="50"  #if($pageVo.pageSize==50)selected#end>50</option>

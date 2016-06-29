@@ -1,4 +1,3 @@
-
 ##选中菜单
 #set( $selectMenu = "/order/list" )
 
@@ -9,6 +8,8 @@
 
 <head>
     <title>订单详情</title>
+    #parse("layout/layout-meta.vm")
+    <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/orderlist.css">
 </head>
 
 <div>
@@ -29,6 +30,7 @@
 	   #elseif($order.mainOrder.orderType == 3400)
 	        #ORDER_BIZ_STATUS_D_HOTEL($order.mainOrder.orderStatus)
 	   #end
+	      
     </div>
     <br><br>
     <div>
@@ -68,7 +70,7 @@
                		#if($!order.mainOrder.tcMainOrder.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)#end
                 #end
                 </td>
-                <td>付款方式</td>
+                <td>付款方式：</td>
                 <td>
                 	$!order.payChannel
                  </td>
@@ -108,7 +110,13 @@
                 <tr>
                     <td>$velocityCount</td>
 
-                    <td>$!tourist.contactName</td>
+                    <td>
+                    	#if($!order.mainOrder.tcMainOrder.bizOrder.orderType == 3500 ||$!order.mainOrder.tcMainOrder.bizOrder.orderType == 3600)
+                    		$!tourist.contactName/$!tourist.firstName $!tourist.lastName 
+                    	#else
+                    		$!tourist.contactName
+                    	#end
+                    </td>
                     <td>$!tourist.contactPhone</td>
                     <td>
                     	#CERTIFICATES_TYPE($!tourist.certificatesType)
@@ -142,6 +150,7 @@
                             </div>
                             <div class="t-msg">
                                 #ROUTE_ORDER_LIST_SKU($!order.mainOrder.orderType)
+                                
                             </div>
                         </div>
                     </td>

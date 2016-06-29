@@ -105,7 +105,7 @@
 										    <div class="aaa bomb-txt01">
 												<label><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 2) checked="checked" #end #end value="2"  name="businessScopeId" id="" class=""/><label>国内游</label></label>
 												<label class="bomb-con"><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 3) checked="checked" #end #end  value="3" name="businessScopeId" id="" class=""/><label>出境游</label></label>
-												<label class="bomb-con"><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 4) checked="checked" #end #end  value="4" name="businessScopeId" id="" class=""/><label>其他(交通卡券、送关、租车、旅游服务等)</label></label>
+											<!--	<label class="bomb-con"><input type="checkbox" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 4) checked="checked" #end #end  value="4" name="businessScopeId" id="" class=""/><label>其他(交通卡券、送关、租车、旅游服务等)</label></label> -->
 											</div>
 										</div>
 						   	       		<li><input type="checkbox" value="5" name="businessScopeId" id="" #foreach($ms in $$!examineInfo.merchantScopes) #if($ms.businessScopeId == 5) checked="checked" #end #end   class=""/><label>酒店</label></li>

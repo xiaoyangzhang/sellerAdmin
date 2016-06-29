@@ -29,8 +29,14 @@
 					<button type="button" class="btn btn-success select-departs"  #if($baseInfo.allDeparts) disabled="disabled" #end>选择出发地</button>
 					<div id="departs-content">
 						#if(!$baseInfo.allDeparts)
-							#foreach($depart in $baseInfo.departs)
-						<button class="btn btn-info departs remove-self" rid="$!{depart.id}" rcode="$!{depart.city.code}">$!{depart.city.name}</button>
+							#if(${isDraft})
+								#foreach($depart in $baseInfo.departs)
+									<button class="btn btn-info departs remove-self" rid="$!{depart.id}" rcode="$!{depart.code}">$!{depart.name}</button>
+								#end
+							#else
+								#foreach($depart in $baseInfo.departs)
+									<button class="btn btn-info departs remove-self" rid="$!{depart.id}" rcode="$!{depart.city.code}">$!{depart.city.name}</button>
+								#end
 							#end
 						#end
 					</div>
@@ -43,8 +49,14 @@
 				<div>
 					<button type="button" class="btn btn-success select-dests">选择目的地</button>
 					<div id="dests-content">
-						#foreach($dest in $baseInfo.dests)
-						<button class="btn btn-info dests remove-self" rid="$!{dest.id}" rcode="$!{dest.city.code}">$!{dest.city.name}</button>
+						#if(${isDraft})
+							#foreach($dest in $baseInfo.dests)
+								<button class="btn btn-info dests remove-self" rid="$!{dest.id}" rcode="$!{dest.code}">$!{dest.name}</button>
+							#end
+						#else
+							#foreach($dest in $baseInfo.dests)
+								<button class="btn btn-info dests remove-self" rid="$!{dest.id}" rcode="$!{dest.city.code}">$!{dest.city.name}</button>
+							#end
 						#end
 					</div>
 				</div>
@@ -57,7 +69,7 @@
 		<tr>
 			<td><span class="red">*</span>线路亮点：</td>
 			<td>
-				<textarea class="form-control textarea-count description" rows="3" placeholder="请输入亮点描述">$!{baseInfo.description}</textarea>
+				<textarea class="form-control textarea-count description" rows="3" placeholder="把线路亮点写出来，订单量嗖嗖往上涨哟…">$!{baseInfo.description}</textarea>
 				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">200字</span></div>
 			</td>
 		</tr>
@@ -219,7 +231,7 @@
 		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDests/$itemType?selectedIds='+selIdArr,'选择目的地 ',function() {
 			var dests = win.getSelected();
 			console.log(JSON.stringify(dests));
-			if(dests.length == 0) return true;
+			if(dests.length == 0) return false;
 			if(dests.length > 15) {
 				layer.alert("目的地最多选择15个", {
     				icon : 2

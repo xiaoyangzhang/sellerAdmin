@@ -47,22 +47,22 @@
 #*标签-状态*#
 #macro(TAG_STATUS $type)
     #if($type == '1')
-	启用
+    启用
     #elseif($type == '2')
-	停用
+    停用
     #else
-	未知
+    未知
     #end
 #end
 
 #*标签-类型*#
 #macro(TAG_TYPE $type)
     #if($type == '1')
-	热门标签
+    热门标签
     #elseif($type == '2')
-	普通标签
-	#else
-	未知
+    普通标签
+    #else
+    未知
     #end
 #end
 
@@ -101,7 +101,7 @@
     启用
     #elseif($type == '2')
     停用
-	#else
+    #else
     未知
     #end
 #end
@@ -109,11 +109,11 @@
 #*景区状态*#
 #macro(ITEMSCENIC_STATUS $type)
     #if($type == '1')
-     初始化
+    初始化
     #elseif($type == '2')
     启用
     #elseif($type == '3')
-   停用
+    停用
     #end
 #end
 #*景点级别 1-五星级 2-四星级 3-三星级 4-连锁酒店*#
@@ -125,19 +125,19 @@
     #elseif($type == '3')
     AAA
     #elseif($type == '2')
-   AA
+    AA
     #elseif($type == '1')
-   A
+    A
     #end
 #end
 #*商品状态*#
 #macro(COMMODITY_STATUS $type)
     #if($type == '2')
-        启用
+    启用
     #elseif($type == '3')
-        停用
+    停用
     #else
-        未知
+    未知
     #end
 #end
 #*支付方式*#
@@ -239,26 +239,26 @@
     #if($type == '1')
     <span><input type="button" value="取消订单"></span>
     #elseif($type == '2')
-   	<span><input type="button" value="确认"></span>
-   	<span><input type="button" value="退款"></span>
+    <span><input type="button" value="确认"></span>
+    <span><input type="button" value="退款"></span>
     #elseif($type == '3')
     <span><input type="button" value="完成"></span>
-   	<span><input type="button" value="退款"></span>
+    <span><input type="button" value="退款"></span>
     #elseif($type == '4')
     <span>完成时间：2015-02-05 18：45</span>
     #elseif($type == '5')
     <span>取消来源：XXX客服</span>
     <span>取消时间：2015-02-05 18：45</span>
-    <span>取消原因：买家信息填错了，重拍</span>         
+    <span>取消原因：买家信息填错了，重拍</span>
     #elseif($type == '6')
-   	<span>退款来源：客服/用户</span>
+    <span>退款来源：客服/用户</span>
     <span>退款理由：用户申请退款</span>
-    <span>退款金额：￥86.00</span> 
+    <span>退款金额：￥86.00</span>
     <span>退款时间：2015-02-05 18：45</span>
     #elseif($type == '7')
     <span>退款来源：客服/用户</span>
     <span>退款理由：用户申请退款</span>
-    <span>退款金额：￥86.00</span> 
+    <span>退款金额：￥86.00</span>
     <span>退款时间：2015-02-05 18：45</span>·
     #end
 #end
@@ -278,15 +278,15 @@
 #end
 
 #macro(IS_RECOMMEND_SELECTED $isRecommend)
-<option value="">全部</option> 
-<option value="true" #if($isRecommend=="true")selected#end>已推荐</option> 
-<option value="false" #if($isRecommend=="false")selected#end>未推荐</option> 
+<option value="">全部</option>
+<option value="true" #if($isRecommend=="true")selected#end>已推荐</option>
+<option value="false" #if($isRecommend=="false")selected#end>未推荐</option>
 #end
 ##doctorcenter 外部医生列表
 #macro(DOCTOR_LIST_STATUS $status)
-    <option value="-1">全部</option>
-    <option value="20" #if($status==20) selected="selected" #end>审核已通过</option>
-    <option value="40" #if($status==40) selected="selected" #end>账户锁定</option>
+<option value="-1">全部</option>
+<option value="20" #if($status==20) selected="selected" #end>审核已通过</option>
+<option value="40" #if($status==40) selected="selected" #end>账户锁定</option>
 #end
 ##外部医生审核列表
 #macro(DOCTOR_AUDITS_STATUS $status)
@@ -315,13 +315,13 @@
 #end
 
 ##券状态
-        #macro(VOUCHER_STATUS $status)
-            #if($status == '1')
-            初始
-            #elseif($status == '2')
-            上架
-            #elseif($status == '3')
-            下架
+#macro(VOUCHER_STATUS $status)
+    #if($status == '1')
+    初始
+    #elseif($status == '2')
+    上架
+    #elseif($status == '3')
+    下架
     #elseif($status == '4')
     已领完
     #end
@@ -367,10 +367,9 @@
     直降
     #end
 #end
-
 ##订单列表-展示的SKU信息
 #macro(ROUTE_ORDER_LIST_SKU $type)
-    #if($type == 3100 ||$type == 3200 || $type == 200  
+    #if($type == 3100 ||$type == 3200 || $type == 200
     || $type == 3500 || $type == 3600)
        	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
         <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.executeTime) 出发</div>
@@ -382,91 +381,92 @@
         <div class="t-userType">$!subOrder.tcDetailOrder.activityTime</div>
         <div class="t-userType">$!subOrder.tcDetailOrder.activityContent</div>
     #elseif($type == 1200 )
-    	<div class="t-name">$!order.tcMainOrder.scenicTitle</div>
-    	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
+        <div class="t-name">$!order.tcMainOrder.scenicTitle</div>
+        <div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
         <div class="t-date">$!date.format('yyyy-MM-dd',$!order.tcMainOrder.scenicEnterTime) 入园</div>
         <div class="t-userType">$!order.tcMainOrder.ticketTitle</div>
-    
+
     #elseif($type == 1100 || $type == 3400)
-    	<div class="t-name">$!order.tcMainOrder.hotelTitle</div>
-    	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
+        <div class="t-name">$!order.tcMainOrder.hotelTitle</div>
+        <div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
         <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.tcDetailOrder.startDate)</div>
         <div class="t-userType">$!order.tcMainOrder.roomTitle</div>
-        #if($type == 1100)
-        	<div class="t-userType">在线付</div>
-        #elseif($type == 3400)
-        	<div class="t-userType">到店付</div>
+            #if($type == 1100)
+            <div class="t-userType">在线付</div>
+            #elseif($type == 3400)
+            <div class="t-userType">到店付</div>
+            #end
         #end
     #end
 #end
 
 ##订单列表-商品类型
 #macro(ROUTE_ORDER_LIST_GOODS_TYPE $type)
-     #if($type == 3100)
-                       国内跟团游
+	#if($type == 3100)
+                   国内跟团游
     #elseif($type == 3200)
-   		 国内自由行
+    国内自由行
     #elseif($type == 3500)
-      	 境外跟团游
-     #elseif($type == 3600)
-      	 境外自由行
+    境外跟团游
+    #elseif($type == 3600)
+    境外自由行
     #elseif($type == 3300)
-       	 国内当地玩乐
+    国内当地玩乐
     #elseif($type == 200)
-       	 特产商品
+    特产商品
     #elseif($type == 1200)
-       	国内景区门票
+    国内景区门票
     #elseif($type == 1100)
-       	 酒店客栈
+    酒店客栈
     #elseif($type == 3400)
-       	 酒店客栈
+    酒店客栈
     #end
 #end
 
 ##订单列表-订单状态-线路
 #macro(ORDER_BIZ_STATUS_LINE $type)
     #if($type == 2)
-  		待付款 
+    待付款
     #elseif($type == 3)
-       	 处理中
+    处理中
     #elseif($type == 6)
-      	  待出行
+    待出行
     #elseif($type == 10)
-      	  已完成
+    已完成
     #elseif($type == 8)
-       	 已取消
+    已取消
     #end
 #end
 
 ##订单列表-订单状态-景区
 #macro(ORDER_BIZ_STATUS_SPOTS $type)
-   	#if($type == 2)
-  		待付款
+    #if($type == 2)
+    待付款
     #elseif($type == 3)
-       	待确认
+    待确认
     #elseif($type == 6)
-      	  待使用
+    待使用
     #elseif($type == 10)
-      	  已完成
+    已完成
     #elseif($type == 8)
-       	 已取消
+    已取消
     #end
 #end
 
 ##订单列表-订单状态-酒店
 #macro(ORDER_BIZ_STATUS_HOTEL $type)
-   	#if($type == 2)
-  		待付款
+    #if($type == 2)
+    待付款
     #elseif($type == 3)
-       	待确认
+    待确认
     #elseif($type == 6)
-      	 预订成功
+    预订成功
     #elseif($type == 10)
-      	  已完成
+    已完成
     #elseif($type == 8)
-       	 已取消
+    已取消
     #elseif($type == 11)
-       	 未入住
+    未入住
     #end
 #end
 
@@ -642,3 +642,4 @@
 	港澳通行证
 	#end
 #end
+
