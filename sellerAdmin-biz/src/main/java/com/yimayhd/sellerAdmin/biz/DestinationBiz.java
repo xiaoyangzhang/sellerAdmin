@@ -1,6 +1,8 @@
 package com.yimayhd.sellerAdmin.biz;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
@@ -11,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.resourcecenter.domain.DestinationDO;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.model.line.City;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.DestinationNodeVO;
+import com.yimayhd.sellerAdmin.model.line.DestinationVO;
 import com.yimayhd.sellerAdmin.repo.DestinationRepo;
 
 /**
@@ -158,5 +163,20 @@ public class DestinationBiz {
 		}
 		
 		return newdests;
+	}
+
+	public List<CityVO> toCityVOWithDestinationNodeVOs(List<CityVO> cityVos, List<DestinationNodeVO> destinationNodeVOs) {
+		for (DestinationNodeVO destinationNodeVO : destinationNodeVOs) {
+			if (destinationNodeVO.getChild() != null) {
+				toCityVOWithDestinationNodeVOs(cityVos, destinationNodeVO.getChild());
+			} else {
+				DestinationVO destinationVO = destinationNodeVO.getDestinationVO();
+				City city = new City(String.valueOf(destinationVO.getCode()), destinationVO.getName(), destinationVO.getSimpleCode());
+				CityVO cityVO = new CityVO(destinationVO.getId(), destinationVO.getName(), city);
+				cityVO.setCode(String.valueOf(destinationVO.getCode()));
+				cityVos.add(cityVO);
+			}
+		}
+		return cityVos;
 	}
 }

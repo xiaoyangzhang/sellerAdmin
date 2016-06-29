@@ -52,7 +52,7 @@
                     <select class="form-control propertySelect dest" name="dest">
                         <option value="0" >请选择</option>
                         #foreach($dest in $dests)
-                            <option value="$!dest.id" #if($itemDest.id == $!dest.id)selected#end>$!dest.name</option>
+                            <option value="$!dest.code" #if($itemDest.city.code == $!dest.code)selected#end>$!dest.city.name</option>
                         #end
                     </select>
                 </td>

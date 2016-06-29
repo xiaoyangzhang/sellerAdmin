@@ -92,35 +92,37 @@ public class ItemController extends BaseController {
 
     @ResponseBody
     @RequestMapping(value = "/getcate")
-    public List<CategoryVO> getcate(HttpServletRequest request) {
+    public List<CategoryVO> getcate(HttpServletRequest request,String categoryId) {
         // 判断是否是达人
         UserDO user = sessionManager.getUser(request);
         long option = user.getOptions();
-        boolean isTalent = UserOptions.CERTIFICATED.has(option);
-
-        String cateId = get("categoryId");
+        boolean isTalentA = UserOptions.CERTIFICATED.has(option);
+        boolean isTalentB = UserOptions.USER_TALENT.has(option);
+        
+       // String cateId = get("categoryId");
         List<CategoryVO> list = null;
-        if (StringUtils.isBlank(cateId)) {
-            WebResult<CategoryDO> webResult = categoryService.getCategoryByDomainId(DomainType.DOMAIN_JX.getType());
+        if (StringUtils.isBlank(categoryId)) {
+            WebResult<CategoryDO> webResult = categoryService.getCategoryByDomainId(Constant.DOMAIN_JIUXIU);
             if (null != webResult && webResult.getValue() != null) {
-                list = categoryDoTOVo(webResult.getValue().getChildren(), isTalent);
+                list = categoryDoTOVo(webResult.getValue().getChildren(), isTalentA || isTalentB);
             }
         } else {
-            int categoryId = 0;
-            try {
-                categoryId = Integer.parseInt(cateId);
-            } catch (Exception e){
-                log.error("cateId={} is null", cateId);
-                list = new ArrayList<>();
-                return list;
-            }
+//            int categoryId = 0;
+//            try {
+//                categoryId = Integer.parseInt(cateId);
+//            } catch (Exception e){
+//                log.error("cateId={} is null", cateId);
+//                list = new ArrayList<>();
+//                return list;
+//            }
             // 查询某节点下的子节点
-            WebResult<CategoryDO> webResult = categoryService.getCategoryById(categoryId);
+            WebResult<CategoryDO> webResult = categoryService.getCategoryById(Integer.parseInt(categoryId));
             if (null != webResult && webResult.getValue() != null) {
                 list = categoryDoTOVo(webResult.getValue().getChildren(), false);
             }
         }
-        if (!isTalent) { // 身份为商户时进行商品类目权限过滤
+        //WebResult<List<CategoryDO>> categoryTreeResult = categoryService.getCategoryTreeByDomainId(Constant.DOMAIN_JIUXIU);
+        if (!isTalentA && !isTalentB) { // 身份为商户时进行商品类目权限过滤
             List<CategoryVO> filteredList = new ArrayList<>();
             MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesBySellerId(Constant.DOMAIN_JIUXIU, user.getId());
             outer:
