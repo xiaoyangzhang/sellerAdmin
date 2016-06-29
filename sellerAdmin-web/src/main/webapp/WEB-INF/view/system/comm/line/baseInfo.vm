@@ -51,7 +51,7 @@
 					<div id="dests-content">
 						#if(${isDraft})
 							#foreach($dest in $baseInfo.dests)
-								<button class="btn btn-info dests remove-self" rid="$!{dest.id}" rcode="$!{dest.code}">$!{dest.name}</button>
+								<button class="btn btn-info dests remove-self" pid="$!{dest.pid}"  pcode="$!{dest.pcode}" pname="$!{dest.pname}" rid="$!{dest.id}" rcode="$!{dest.code}">$!{dest.name}</button>
 							#end
 						#else
 							#foreach($dest in $baseInfo.dests)
