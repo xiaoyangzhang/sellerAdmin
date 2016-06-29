@@ -225,7 +225,9 @@ public class ItemController extends BaseController {
             return redirect("/hotel/addHotelMessageVOByDataView?categoryId=" + categoryId);
         } else if (ItemType.SPOTS.equals(itemType)) {
             return redirect("/scenic/addScenicManageView?categoryId=" + categoryId);
-        } else {
+        } else if ("积分商城".equals(itemType)) {
+            return redirect("/integralMall/common/toAdd?categoryId=" + categoryId);
+        }  else {
             throw new BaseException("unsupport ItemType " + itemType.name());
         }
     }
