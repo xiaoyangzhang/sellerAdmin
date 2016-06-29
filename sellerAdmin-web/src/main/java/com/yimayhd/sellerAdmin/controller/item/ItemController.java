@@ -8,7 +8,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.yimayhd.ic.client.util.JsonUtils;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
@@ -37,13 +36,11 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.enums.BizItemStatus;
 import com.yimayhd.sellerAdmin.enums.BizItemType;
-import com.yimayhd.sellerAdmin.model.enums.ItemOperate;
 import com.yimayhd.sellerAdmin.model.item.ItemListItemVO;
 import com.yimayhd.sellerAdmin.model.query.ItemListQuery;
 import com.yimayhd.sellerAdmin.service.CategoryService;
 import com.yimayhd.sellerAdmin.service.item.ItemService;
 import com.yimayhd.sellerAdmin.vo.menu.CategoryVO;
-import com.yimayhd.stone.enums.DomainType;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.enums.UserOptions;
 
