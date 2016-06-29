@@ -267,7 +267,7 @@
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">结算账号：</label></td>
-								<td class="rigcontent"><input type="text"datatype="n10-25" name="accountNum" value="$!examineInfo.accountNum" maxlength="25" class="txt01"  placeholder="请输入结算账号"></td>
+								<td class="rigcontent"><input type="text" datatype="n8-25" name="accountNum" value="$!examineInfo.accountNum" maxlength="25" class="txt01"  placeholder="请输入结算账号"></td>
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*<span/><label>结算开户行：</label></td>

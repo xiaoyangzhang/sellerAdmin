@@ -144,7 +144,7 @@
 							</tr>
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>结算账号：</span></td>
-								<td><input class="inptxt finance"  name="accountNum" maxlength="25" value="$!examineInfo.accountNum" placeholder="请输入结算账号"></td>
+								<td><input class="inptxt finance"  name="accountNum" datatype="n8-25" value="$!examineInfo.accountNum" placeholder="请输入结算账号"></td>
 							</tr>
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>结算开户行：</span></td>
