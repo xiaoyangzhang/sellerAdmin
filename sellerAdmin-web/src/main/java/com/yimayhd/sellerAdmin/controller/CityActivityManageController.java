@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.Resource;
+
 import net.pocrd.util.StringUtil;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.bouncycastle.jcajce.provider.asymmetric.dsa.DSASigner.detDSA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +31,7 @@ import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.biz.DestinationBiz;
 import com.yimayhd.sellerAdmin.cache.CacheManager;
 import com.yimayhd.sellerAdmin.checker.CityActivityChecker;
 import com.yimayhd.sellerAdmin.checker.result.WebCheckResult;
@@ -35,10 +39,12 @@ import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 import com.yimayhd.sellerAdmin.model.CityActivityItemVO;
 import com.yimayhd.sellerAdmin.model.line.CityVO;
+import com.yimayhd.sellerAdmin.model.line.DestinationNodeVO;
 import com.yimayhd.sellerAdmin.model.line.TagDTO;
 import com.yimayhd.sellerAdmin.service.CategoryService;
 import com.yimayhd.sellerAdmin.service.CityActivityService;
 import com.yimayhd.sellerAdmin.service.TagService;
+import com.yimayhd.sellerAdmin.service.item.LineService;
 
 /**
  * 活动商品
@@ -58,6 +64,10 @@ public class CityActivityManageController extends BaseController {
 	private CacheManager cacheManager ;
     @Autowired
     private MerchantItemCategoryService merchantItemCategoryService;
+    @Autowired
+	private LineService lineService;
+    @Autowired
+    private DestinationBiz destinationBiz;
 	
 	/**
 	 * 新增活动商品
@@ -87,11 +97,13 @@ public class CityActivityManageController extends BaseController {
         if (allThemes.isSuccess()) {
             put("themes", allThemes.getValue());
         }
-        WebResult<List<CityVO>> allDests = tagService.getAllDests();
-        if (allDests.isSuccess()) {
-        	List<CityVO> activityCitys = getActivityCitys(allDests.getValue());
-            put("dests", activityCitys);
-        }
+//        WebResult<List<CityVO>> allDests = tagService.getAllDests();
+        WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree();
+        if (result.isSuccess()) {
+        	List<CityVO> cityVos = new ArrayList<CityVO>();
+        	List<CityVO> allDests=destinationBiz.toCityVOWithDestinationNodeVOs(cityVos,result.getValue());
+        	put("dests", allDests);
+		}
 		model.addAttribute("category", categoryVO);
 		model.addAttribute("itemType",ItemType.CITY_ACTIVITY.getValue());
 		model.addAttribute("UUID",UUID.randomUUID().toString());
@@ -121,12 +133,12 @@ public class CityActivityManageController extends BaseController {
         if (allThemes.isSuccess()) {
             put("themes", allThemes.getValue());
         }
-        WebResult<List<CityVO>> allDests = tagService.getAllDests();
-        if (allDests.isSuccess()) {
-        	List<CityVO> activityCitys = getActivityCitys(allDests.getValue());
-            put("dests", activityCitys);
-            
-        }
+        WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree();
+        if (result.isSuccess()) {
+        	List<CityVO> cityVos = new ArrayList<CityVO>();
+        	List<CityVO> allDests=destinationBiz.toCityVOWithDestinationNodeVOs(cityVos,result.getValue());
+        	put("dests", allDests);
+		}
         
         model.addAttribute("category", itemVO.getCategoryVO());
     	model.addAttribute("item", itemVO.getItemVO());
@@ -140,42 +152,6 @@ public class CityActivityManageController extends BaseController {
         return "/system/cityactivity/edit";
     }
     
-    private List<CityVO> getActivityCitys(List<CityVO> allCities){
-    	List<CityVO> cities = new ArrayList<CityVO>() ;
-    	if( CollectionUtils.isEmpty(allCities) ){
-    		return null;
-    	}
-    	List<String> codes = new ArrayList<String>() ;
-    	codes.add("530100");
-    	codes.add("530300");
-    	codes.add("530400");
-    	codes.add("530500");
-    	codes.add("530600");
-    	codes.add("530700");
-    	codes.add("530800");
-    	codes.add("530900");
-    	codes.add("532300");
-    	codes.add("532500");
-    	codes.add("532600");
-    	codes.add("532800");
-    	codes.add("532900");
-    	codes.add("533100");
-    	codes.add("533300");
-    	codes.add("533400");
-    	
-    	for (CityVO cityVO : allCities) {
-    		if (null!= cityVO.getCity()) {
-    			String code = cityVO.getCity().getCode();
-    			if( StringUtils.isNotBlank(code) ){
-    				if( codes.contains(code ) ){
-    					cities.add(cityVO);
-    				}
-    			}
-			}
-		}
-		return cities;
-    }
-
     /**
      * chakan活动（商品）
      * @return 活动（商品）详情
@@ -197,11 +173,12 @@ public class CityActivityManageController extends BaseController {
         if (allThemes.isSuccess()) {
             put("themes", allThemes.getValue());
         }
-        WebResult<List<CityVO>> allDests = tagService.getAllDests();
-        if (allDests.isSuccess()) {
-        	List<CityVO> activityCitys = getActivityCitys(allDests.getValue());
-            put("dests", activityCitys);
-        }
+        WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree();
+        if (result.isSuccess()) {
+        	List<CityVO> cityVos = new ArrayList<CityVO>();
+        	List<CityVO> allDests=destinationBiz.toCityVOWithDestinationNodeVOs(cityVos,result.getValue());
+        	put("dests", allDests);
+		}
         model.addAttribute("category", itemVO.getCategoryVO());
         model.addAttribute("item", itemVO.getItemVO());
         model.addAttribute("cityActivity", itemVO.getCityActivityVO());
