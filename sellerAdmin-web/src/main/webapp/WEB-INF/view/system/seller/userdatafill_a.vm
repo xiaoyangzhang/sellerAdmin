@@ -40,7 +40,7 @@
 							#if ($!reason && $!reason.size()>0 )
 						<div class="error_box">
 							<div>审核不通过原因</div>
-							#foreach( $info in $reason)<span style="color:white;">$!info</span><br/>#end
+							<ol>#foreach( $info in $reason)<li style="color:white;">$!info</li><br/>#end</ol>
 						</div>
 					#end
 						

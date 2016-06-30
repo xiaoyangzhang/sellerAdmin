@@ -32,7 +32,7 @@
 					#if ($!checkResultInfo && $!checkResultInfo.length()>0 )
 						<div class="error_box">
 							<div>审核不通过原因</div>
-							<span style="color:white;">$!checkResultInfo</span><br/>
+							<ol><li style="color:white;">$!checkResultInfo</li></ol><br/>
 						</div>
 					#end
 					</div>
