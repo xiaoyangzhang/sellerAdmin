@@ -216,7 +216,7 @@
                				<table>
        						<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>商户名称：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="20" value="$!examineInfo.sellerName" name="sellerName" id="" class="txt01" placeholder="公司主体名称、营业执照上名称"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="100" value="$!examineInfo.sellerName" name="sellerName" id="" class="txt01" placeholder="公司主体名称、营业执照上名称"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>法定代表人名称：</label></td>
