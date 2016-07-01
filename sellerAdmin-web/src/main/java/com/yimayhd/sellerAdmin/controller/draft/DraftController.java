@@ -24,6 +24,7 @@ import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.biz.DestinationBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.DraftConverter;
 import com.yimayhd.sellerAdmin.enums.BizDraftSubType;
@@ -51,6 +52,8 @@ public class DraftController extends BaseDraftController {
 	private DraftService draftService;
     @Autowired
     private TagService tagService;
+	@Autowired
+	private DestinationBiz destinationBiz;
 
 	/**
 	 * 草稿箱列表获取接口
@@ -230,6 +233,9 @@ public class DraftController extends BaseDraftController {
 				LineVO gt = DraftConverter.toLineVOWithDraftDetailVO(draftDetailVOResult);
 				BaseInfoVO baseInfo = gt.getBaseInfo();
 				if (baseInfo != null) {
+					List<CityVO> dests = baseInfo.getDests();
+					dests=destinationBiz.toCityVODestWithCityVos(dests);
+					baseInfo.setDests(dests);
 					initLinePropertyTypes(baseInfo.getCategoryId());
 				}
 				initBaseInfo();

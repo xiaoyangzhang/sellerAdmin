@@ -2,15 +2,17 @@ package com.yimayhd.sellerAdmin.controller.item;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.yimayhd.ic.client.util.JsonUtils;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
 import com.yimayhd.sellerAdmin.constant.Constant;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -34,13 +36,11 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.enums.BizItemStatus;
 import com.yimayhd.sellerAdmin.enums.BizItemType;
-import com.yimayhd.sellerAdmin.model.enums.ItemOperate;
 import com.yimayhd.sellerAdmin.model.item.ItemListItemVO;
 import com.yimayhd.sellerAdmin.model.query.ItemListQuery;
 import com.yimayhd.sellerAdmin.service.CategoryService;
 import com.yimayhd.sellerAdmin.service.item.ItemService;
 import com.yimayhd.sellerAdmin.vo.menu.CategoryVO;
-import com.yimayhd.stone.enums.DomainType;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.enums.UserOptions;
 
@@ -121,25 +121,63 @@ public class ItemController extends BaseController {
                 list = categoryDoTOVo(webResult.getValue().getChildren(), false);
             }
         }
-        //WebResult<List<CategoryDO>> categoryTreeResult = categoryService.getCategoryTreeByDomainId(Constant.DOMAIN_JIUXIU);
+        WebResult<CategoryDO> categoryTreeResult = categoryService.getCategoryTreeByDomainId(Constant.DOMAIN_JIUXIU);
+        if (categoryTreeResult == null || !categoryTreeResult.isSuccess() || categoryTreeResult.getValue() == null) {
+        	 list = new ArrayList<>();
+        	 return list;
+		}
+        
+        List<CategoryDO> categoryList = getAllChildNode(categoryTreeResult.getValue(), new ArrayList<CategoryDO>());
         if (!isTalentA && !isTalentB) { // 身份为商户时进行商品类目权限过滤
             List<CategoryVO> filteredList = new ArrayList<>();
             MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesBySellerId(Constant.DOMAIN_JIUXIU, user.getId());
-            outer:
+            Set<CategoryDO> leafCategoryOfMerchantList = new HashSet<CategoryDO>();
+            for (CategoryDO categoryDO : categoryList) {
+				for (MerchantItemCategoryDO micDO : merchantItemCategoryResult.getValue()) {
+					if (categoryDO.getId() == micDO.getItemCategoryId()) {
+						leafCategoryOfMerchantList.add(categoryDO);
+						
+					}
+				}
+			}
+            Set<CategoryDO> categoryOfMerchantList = new HashSet<CategoryDO>();
+            for (CategoryDO categoryDO : leafCategoryOfMerchantList) {
+            	for (CategoryDO cate : categoryList) {
+            		if (categoryDO.getParentId() == cate.getId()) {
+            			categoryOfMerchantList.add(cate);
+            			
+            		}
+            	}
+            }
+            Set<CategoryDO> rootCategoryOfMerchantList = new HashSet<CategoryDO>();
+            for (CategoryDO categoryDO : categoryOfMerchantList) {
+            	for (CategoryDO cate : categoryList) {
+            		if (categoryDO.getParentId() == cate.getId()) {
+            			rootCategoryOfMerchantList.add(cate);
+            			
+            		}
+            	}
+            }
+            leafCategoryOfMerchantList.addAll(rootCategoryOfMerchantList);
+            categoryOfMerchantList.addAll(leafCategoryOfMerchantList);
             for (CategoryVO categoryVO : list) {
-                inner:
-                for (MerchantItemCategoryDO merchantItemCategoryDO : merchantItemCategoryResult.getValue()) {
+                for (CategoryDO categoryDO : categoryOfMerchantList) {
                     try {
-                        CategoryDO categoryDO = categoryService.getCategoryDOById(merchantItemCategoryDO.getItemCategoryId());
-                        while (categoryVO.getCategoryId() != categoryDO.getId()) { // 根据商户有权限的山品类目递归查找到根节点,如果所有类目都没权限,判断list集中和的下一个类目
-                            categoryDO = categoryService.getCategoryDOById(categoryDO.getParentId());
-                            if (null == categoryDO) {
-                                continue inner;
-                            }
-                        }
+                       // CategoryDO categoryDO = categoryService.getCategoryDOById(merchantItemCategoryDO.getItemCategoryId());
+                       // while (categoryVO.getCategoryId() != categoryDO.getId()) { // 根据商户有权限的山品类目递归查找到根节点,如果所有类目都没权限,判断list集中和的下一个类目
+                          //  categoryDO = categoryService.getCategoryDOById(categoryDO.getParentId());
+//                            if (null == categoryDO) {
+//                                continue inner;
+//                            }
+//                        }
                         // 如果匹配到权限,加入新的集合中,并对list的下一个类目进行判断
-                        filteredList.add(categoryVO);
-                        continue outer;
+                    	if (categoryVO.getCategoryId() == categoryDO.getId()) {
+							
+                    		filteredList.add(categoryVO);
+						}else {
+							
+							continue ;
+						}
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -152,21 +190,53 @@ public class ItemController extends BaseController {
             idList.add(204L);
             idList.add(205L);
             idList.add(207L);
-            outer:
+            Set<CategoryDO> leafCategoryOfMerchantList = new HashSet<CategoryDO>();
+            for (CategoryDO categoryDO : categoryList) {
+				for (Long id : idList) {
+					if (categoryDO.getId() == id) {
+						leafCategoryOfMerchantList.add(categoryDO);
+						
+					}
+				}
+			}
+            Set<CategoryDO> categoryOfMerchantList = new HashSet<CategoryDO>();
+            for (CategoryDO categoryDO : leafCategoryOfMerchantList) {
+            	for (CategoryDO cate : categoryList) {
+            		if (categoryDO.getParentId() == cate.getId()) {
+            			categoryOfMerchantList.add(cate);
+            			
+            		}
+            	}
+            }
+            Set<CategoryDO> rootCategoryOfMerchantList = new HashSet<CategoryDO>();
+            for (CategoryDO categoryDO : categoryOfMerchantList) {
+            	for (CategoryDO cate : categoryList) {
+            		if (categoryDO.getParentId() == cate.getId()) {
+            			rootCategoryOfMerchantList.add(cate);
+            			
+            		}
+            	}
+            }
+            leafCategoryOfMerchantList.addAll(rootCategoryOfMerchantList);
+            categoryOfMerchantList.addAll(leafCategoryOfMerchantList);
             for (CategoryVO categoryVO : list) {
-                inner:
-                for (Long id : idList) {
+                for (CategoryDO categoryDO : categoryOfMerchantList) {
                     try {
-                        CategoryDO categoryDO = categoryService.getCategoryDOById(id);
-                        while (categoryVO.getCategoryId() != categoryDO.getId()) { // 根据商户有权限的山品类目递归查找到根节点,如果所有类目都没权限,判断list集中和的下一个类目
-                            categoryDO = categoryService.getCategoryDOById(categoryDO.getParentId());
-                            if (null == categoryDO) {
-                                continue inner;
-                            }
-                        }
+//                        CategoryDO categoryDO = categoryService.getCategoryDOById(id);
+//                        while (categoryVO.getCategoryId() != categoryDO.getId()) { // 根据商户有权限的山品类目递归查找到根节点,如果所有类目都没权限,判断list集中和的下一个类目
+//                            categoryDO = categoryService.getCategoryDOById(categoryDO.getParentId());
+//                            if (null == categoryDO) {
+//                                continue inner;
+//                            }
+//                        }
                         // 如果匹配到权限,加入新的集合中,并对list的下一个类目进行判断
-                        filteredList.add(categoryVO);
-                        continue outer;
+                    	if (categoryVO.getCategoryId() == categoryDO.getId()) {
+							
+                    		filteredList.add(categoryVO);
+						}else {
+							
+							continue ;
+						}
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -477,4 +547,21 @@ public class ItemController extends BaseController {
             throw new BaseException("unsupport ItemType " + itemType);
         }
     }
+    
+    public  List<CategoryDO> getAllChildNode(CategoryDO cate,List<CategoryDO> categoryDOList) {
+		for (CategoryDO categoryDO : cate.getChildren()) {
+			if (categoryDO.getChildren().size() == 0) {
+				categoryDOList.add(categoryDO);
+				continue;
+			}else {
+				categoryDOList.add(categoryDO);
+				getAllChildNode(categoryDO, categoryDOList);
+			}
+		}
+		
+    	return categoryDOList;
+    	
+    }
+   
+   
 }
