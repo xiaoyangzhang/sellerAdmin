@@ -31,6 +31,12 @@ public class MainOrder {
     
     private String customerServiceNote;//卖家备注
     
+    private long requirement;
+
+    private long value;
+    
+    private long userPointNum;//使用的积分
+    
 
 
 	public int getOrderType() {
@@ -117,4 +123,29 @@ public class MainOrder {
         this.tcMainOrder = tcMainOrder;
         this.subOrderList = subOrderList;
     }
+
+	public long getRequirement() {
+		return requirement;
+	}
+
+	public void setRequirement(long requirement) {
+		this.requirement = requirement;
+	}
+
+	public long getValue() {
+		return value;
+	}
+
+	public void setValue(long value) {
+		this.value = value;
+	}
+
+	public long getUserPointNum() {
+		return userPointNum;
+	}
+
+	public void setUserPointNum(long userPointNum) {
+		this.userPointNum = userPointNum;
+	}
+    
 }

@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.yimayhd.ic.client.model.param.item.*;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
@@ -30,6 +32,8 @@ import com.yimayhd.ic.client.service.item.HotelService;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
+import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -142,6 +146,15 @@ public class CommodityServiceImpl implements CommodityService {
 		ItemResultVO itemResultVO = new ItemResultVO();
 
 		itemResultVO.setCategoryVO(CategoryVO.getCategoryVO(itemResult.getCategory()));
+		//获取---是否积分商品
+		MemResult<List<MerchantItemCategoryDO>> memResult = itemRepo.getMerchantItemCategory(Constant.DOMAIN_JIUXIU, itemResultVO.getCategoryVO().getId(), sellerId);
+//		if(null != memResult && memResult.isSuccess() && memResult.getValue().get(0)){
+//			itemResultVO.getCategoryVO().setIntegralType(ItemType.POINT_MALL.name());
+//		}else{
+//			
+//		}
+		
+		
 		itemResultVO.setItemVO(ItemVO.getItemVO(itemResult.getItem(), itemResultVO.getCategoryVO()));
 		// 商品的排序字段
 		itemResultVO.getItemVO().setSort(itemResult.getSortNum());

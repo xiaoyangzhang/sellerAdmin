@@ -86,4 +86,16 @@ public class WebReturnCode implements Serializable {
 	/***************************************** 美食相关 ********************************************************/
 	public final static WebReturnCode ADD_FAILURE = new WebReturnCode(24003002, "新增失败");
 	public final static WebReturnCode QUERY_FAILURE = new WebReturnCode(24003003, "查询失败");
+	
+	/***************************************** 优惠劵相关 ********************************************************/
+	public final static WebReturnCode VOUVHER_TITLE_ERROR = new WebReturnCode(24003020, "优惠劵名称长度不正确");
+	public final static WebReturnCode VOUVHER_REQUERMENT_ERROR = new WebReturnCode(24003021, "优惠劵满减金额不正确");
+	public final static WebReturnCode VOUVHER_COUNT_ERROR = new WebReturnCode(24003022, "优惠劵个人领取数量不正确");
+	public final static WebReturnCode VOUVHER_TOTAL_NUM_ERROR = new WebReturnCode(24003023, "优惠劵发劵数量不正确");
+	public final static WebReturnCode VOUVHER_PUT_TIME_ERROR = new WebReturnCode(24003024, "优惠劵发劵时间不正确");
+	public final static WebReturnCode VOUVHER_USE_TIME_ERROR = new WebReturnCode(24003025, "优惠劵使用时间不正确");
+	public final static WebReturnCode VOUVHER_USE_PUT_TIME_ERROR = new WebReturnCode(24003026, "优惠劵使用开始或结束时间必须大于等于发放开始时间或结束时间");
+	public final static WebReturnCode VOUVHER_ADD_ERROR = new WebReturnCode(24003027, "优惠劵添加异常");
+	public final static WebReturnCode VOUVHER_EDIT_ERROR = new WebReturnCode(24003028, "优惠劵修改异常");
+	
 }

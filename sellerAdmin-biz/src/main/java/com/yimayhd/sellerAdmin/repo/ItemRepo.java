@@ -1,10 +1,12 @@
 package com.yimayhd.sellerAdmin.repo;
 
 import java.util.Arrays;
+import java.util.List;
 
 import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.service.item.ItemBizQueryService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.model.result.item.ItemResult;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
+import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.util.RepoUtils;
@@ -33,6 +38,8 @@ public class ItemRepo {
 	private ItemPublishService	itemPublishServiceRef;
 	@Autowired
 	private ItemBizQueryService itemBizQueryServiceRef;
+	@Autowired
+    private MerchantItemCategoryService merchantItemCategoryService;
 
 /*	public ItemPageResult getItemList(ItemQryDTO itemQryDTO) {
 		if (itemQryDTO == null) {
@@ -125,6 +132,10 @@ public class ItemRepo {
 		RepoUtils.requestLog(log, "itemQueryServiceRef.batchClose", itemBatchPublishDTO);
 		ItemDeleteResult batchDelete = itemPublishServiceRef.batchDelete(itemBatchPublishDTO);
 		RepoUtils.resultLog(log, "itemQueryServiceRef.batchClose", batchDelete);
+	}
+	
+	public MemResult<List<MerchantItemCategoryDO>> getMerchantItemCategory(int domainId,long categoryId,long sellerId){
+		return merchantItemCategoryService.getMerchantItemCategory(domainId, categoryId, sellerId);
 	}
 
 }

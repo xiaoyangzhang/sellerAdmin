@@ -17,7 +17,7 @@
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<itemcenter.client.version>1.0.8-SNAPSHOT</itemcenter.client.version>
+		<itemcenter.client.version>1.0.11-SNAPSHOT</itemcenter.client.version>
 		<jackson.version>2.6.3</jackson.version>
 		<session.manager.version>1.7.1-SNAPSHOT</session.manager.version>
 		<user.client.version>1.8.1-SNAPSHOT</user.client.version>

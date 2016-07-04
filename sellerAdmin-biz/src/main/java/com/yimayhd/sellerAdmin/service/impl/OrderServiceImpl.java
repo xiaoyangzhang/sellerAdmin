@@ -30,6 +30,7 @@ import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
 import com.yimayhd.sellerAdmin.service.OrderService;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.order.VoucherInfo;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderExtFeatureKey;
 import com.yimayhd.tradecenter.client.model.enums.CloseOrderReason;
 import com.yimayhd.tradecenter.client.model.enums.FinishOrderSource;
@@ -171,6 +172,20 @@ public class OrderServiceImpl implements OrderService {
 					UserDO user = userServiceRef.getUserDOById(tcMainOrder
 							.getBizOrder().getBuyerId());
 					mo.setUser(user);
+					
+					
+					//获取优惠劵优惠金额
+					BizOrderDO biz = new BizOrderDO();
+					biz.setDomain(Constant.DOMAIN_JIUXIU);
+					biz.setBizOrderId(tcMainOrder.getBizOrder() == null ? 0
+							: tcMainOrder.getBizOrder().getBizOrderId());
+					VoucherInfo voucherInfo = BizOrderUtil.getVoucherInfo(biz);
+					mo.setRequirement(voucherInfo.getRequirement());
+					mo.setValue(voucherInfo.getValue());
+					//获取使用的积分
+					BizOrderUtil.getUsePointNum(biz);
+					
+					
 					// 卖家备注
 					// 获取卖家备注
 					BizOrderDO bizOrderDO = new BizOrderDO();

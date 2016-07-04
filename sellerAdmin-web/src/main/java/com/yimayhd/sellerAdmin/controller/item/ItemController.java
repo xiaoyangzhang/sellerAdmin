@@ -121,7 +121,6 @@ public class ItemController extends BaseController {
                 list = categoryDoTOVo(webResult.getValue().getChildren(), false);
             }
         }
-        WebResult<List<CategoryDO>> categoryTreeResult = categoryService.getCategoryTreeByDomainId(Constant.DOMAIN_JIUXIU);
         if (!isTalentA && !isTalentB) { // 身份为商户时进行商品类目权限过滤
             List<CategoryVO> filteredList = new ArrayList<>();
             MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesBySellerId(Constant.DOMAIN_JIUXIU, user.getId());
@@ -227,8 +226,8 @@ public class ItemController extends BaseController {
             return redirect("/hotel/addHotelMessageVOByDataView?categoryId=" + categoryId);
         } else if (ItemType.SPOTS.equals(itemType)) {
             return redirect("/scenic/addScenicManageView?categoryId=" + categoryId);
-        } else if ("积分商城".equals(itemType)) {
-            return redirect("/integralMall/common/toAdd?categoryId=" + categoryId);
+        } else if (ItemType.POINT_MALL.equals(itemType)) {
+            return redirect("/integralMall/toAdd?categoryId=" + categoryId);
         }  else {
             throw new BaseException("unsupport ItemType " + itemType.name());
         }

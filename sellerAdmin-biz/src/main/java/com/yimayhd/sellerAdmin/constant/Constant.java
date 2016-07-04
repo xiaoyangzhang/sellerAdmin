@@ -107,4 +107,8 @@ public class Constant {
 	 * 商家类目校验信息
 	 */
 	public static final String SELLER_CATEGORY_CHECK="SELLER_CATEGORY_CHECK_";
+	/**
+	 * 优惠劵标题长度限制
+	 */
+	public static final int VOUCHET_TITILE_LIMIT=10;
 }

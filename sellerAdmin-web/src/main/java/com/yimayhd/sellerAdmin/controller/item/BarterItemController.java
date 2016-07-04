@@ -1,6 +1,7 @@
 package com.yimayhd.sellerAdmin.controller.item;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import com.google.common.base.Preconditions;
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
+import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.result.MemResultSupport;
 import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
 import com.yimayhd.sellerAdmin.base.BaseController;
@@ -57,11 +60,19 @@ public class BarterItemController extends BaseController {
         if(!memResultSupport.isSuccess()){
         	 return "/system/error/lackPermission";
         }
+        
+        //是否有发积分商品权限
+//        MemResult<List<MerchantItemCategoryDO>> result = categoryService.getMerchantItemCategory(Constant.DOMAIN_JIUXIU, categoryId, sellerId);
+//        if(null!=result && result.isSuccess() && null!=result.getValue()){
+//        	model.addAttribute("integralType", );
+//        }
+        
 		CategoryDO categoryDO = categoryService.getCategoryVOById(categoryId);
 		ItemType itemType = ItemType.get(categoryDO.getCategoryFeature().getItemType());
 		Preconditions.checkArgument(ItemType.NORMAL.equals(itemType), "错误的商品类型");
 		model.addAttribute("category", categoryDO);
 		model.addAttribute("UUID",UUID.randomUUID().toString());
+		
 		return "/system/comm/common/edit";
 	}
 

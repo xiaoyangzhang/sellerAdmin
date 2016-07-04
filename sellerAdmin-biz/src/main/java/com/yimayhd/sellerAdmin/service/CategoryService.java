@@ -4,7 +4,10 @@ import java.util.List;
 
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.result.item.CategoryTreeResult;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
+import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 
 /**
@@ -77,5 +80,13 @@ public interface CategoryService {
 	 */
 	WebResult<CategoryDO> getCategoryTreeByDomainId(int domainId);
 	
+	/**
+	 * 查看是否有积分商品权限
+	 * @param domainId
+	 * @param categoryId
+	 * @param sellerId
+	 * @return
+	 */
+	MemResult<List<MerchantItemCategoryDO>> getMerchantItemCategory(int domainId,long categoryId , long sellerId);
 
 }
