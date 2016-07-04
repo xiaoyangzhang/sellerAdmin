@@ -90,7 +90,7 @@ public class CityActivityServiceImpl implements CityActivityService {
         CityVO dest = cityActivityItemVO.getDest();
         List<Long> destIds = new ArrayList<Long>();
         destIds.add(dest.getId());
-        commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
+        commentRepo.addLineTagRelationInfo(itemId, TagType.DESTPLACE, destIds);
         ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemId, PictureText.ITEM,
                 cityActivityItemVO.getPictureTextVO());
         pictureTextRepo.editPictureText(comentEditDTO);
@@ -122,13 +122,15 @@ public class CityActivityServiceImpl implements CityActivityService {
             log.error("cityActivityPublishServiceRef.update error:" + JSON.toJSONString(icResultSupport) + "and param: " + JSON.toJSONString(cityActivityPubUpdateDTO));
             throw new BaseException(icResultSupport.getResultMsg());
         }
+        
         long itemId = cityActivityItemVO.getItemVO().getId();
-        List<Long> themeIds = cityActivityItemVO.getThemes();
-        commentRepo.saveTagRelation(itemId, TagType.CITYACTIVITY, themeIds);
         CityVO dest = cityActivityItemVO.getDest();
         List<Long> destIds = new ArrayList<Long>();
         destIds.add(dest.getId());
-        commentRepo.saveTagRelation(itemId, TagType.DESTPLACE, destIds);
+        commentRepo.addLineTagRelationInfo(itemId, TagType.DESTPLACE, destIds);
+        List<Long> themeIds = cityActivityItemVO.getThemes();
+        commentRepo.saveTagRelation(itemId, TagType.CITYACTIVITY, themeIds);
+
         ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(itemId, PictureText.ITEM,
                 cityActivityItemVO.getPictureTextVO());
         pictureTextRepo.editPictureText(comentEditDTO);

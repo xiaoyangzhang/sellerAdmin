@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.service.item.impl;
+	package com.yimayhd.sellerAdmin.service.item.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,12 +72,19 @@ public class ItemServiceImpl implements ItemService {
 			}
 		//	ItemPageResult itemPageResult = itemRepo.getItemList(itemQryDTO);
 			ICPageResult<ItemInfo> icPageResult = itemRepo.getItemList(itemQryDTO);
-			if (icPageResult == null||icPageResult.getList()==null) {
+			if(icPageResult!=null&&icPageResult.getList()==null){
 				int toalCount = icPageResult.getTotalCount();
-				int totalPage = toalCount % icPageResult.getPageSize() == 0 ? (toalCount / icPageResult.getPageSize()) : (toalCount / icPageResult.getPageSize() + 1);
-				itemQryDTO.setPageNo(totalPage);
-				query.setPageNo(totalPage);
-//				icPageResult = itemRepo.getItemList(itemQryDTO);
+				if(toalCount>0) {
+					int totalPage = toalCount % icPageResult.getPageSize() == 0 ? (toalCount / icPageResult.getPageSize()) : (toalCount / icPageResult.getPageSize() + 1);
+					itemQryDTO.setPageNo(totalPage);
+					query.setPageNo(totalPage);
+					icPageResult = itemRepo.getItemList(itemQryDTO);
+				}else {
+					return WebResult.success(new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(), 0));
+				}
+			}
+			if (icPageResult == null) {
+
 				return WebResult.success(new PageVO<ItemListItemVO>(query.getPageNo(), query.getPageSize(), 0));
 			}
 			List<ItemInfo> itemDOList = icPageResult.getList();
@@ -95,7 +102,7 @@ public class ItemServiceImpl implements ItemService {
 						if (tagMap.containsKey(itemId)) {
 							List<ComTagDO> comTagDOs = tagMap.get(itemId);
 							//List<CityVO> dests = toCityVO(comTagDOs);
-							List<CityVO> dests = destinationBiz .toCityVOForDest(comTagDOs);
+							List<CityVO> dests = destinationBiz.toCityVODestWithTags(comTagDOs);
 							itemListItemVO.setDests(dests);
 						}
 					}

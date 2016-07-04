@@ -40,7 +40,7 @@
 							#if ($!reason && $!reason.size()>0 )
 						<div class="error_box">
 							<div>审核不通过原因</div>
-							#foreach( $info in $reason)<span style="color:white;">$!info</span><br/>#end
+							<ol>#foreach( $info in $reason)<li style="color:white;">$!info</li><br/>#end</ol>
 						</div>
 					#end
 						
@@ -216,7 +216,7 @@
                				<table>
        						<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>商户名称：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="20" value="$!examineInfo.sellerName" name="sellerName" id="" class="txt01" placeholder="公司主体名称、营业执照上名称"/></td>
+       	    	   				<td class="rigcontent"><input type="text" datatype="s" maxlength="100" value="$!examineInfo.sellerName" name="sellerName" id="" class="txt01" placeholder="公司主体名称、营业执照上名称"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>法定代表人名称：</label></td>
@@ -267,7 +267,7 @@
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">结算账号：</label></td>
-								<td class="rigcontent"><input type="text"datatype="n10-25" name="accountNum" value="$!examineInfo.accountNum" maxlength="25" class="txt01"  placeholder="请输入结算账号"></td>
+								<td class="rigcontent"><input type="text" datatype="n8-25" name="accountNum" value="$!examineInfo.accountNum" maxlength="25" class="txt01"  placeholder="请输入结算账号"></td>
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*<span/><label>结算开户行：</label></td>
