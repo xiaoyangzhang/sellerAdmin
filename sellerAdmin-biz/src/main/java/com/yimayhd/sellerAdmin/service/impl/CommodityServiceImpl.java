@@ -147,7 +147,7 @@ public class CommodityServiceImpl implements CommodityService {
 
 		itemResultVO.setCategoryVO(CategoryVO.getCategoryVO(itemResult.getCategory()));
 		//获取---是否积分商品
-		MemResult<List<MerchantItemCategoryDO>> memResult = itemRepo.getMerchantItemCategory(Constant.DOMAIN_JIUXIU, itemResultVO.getCategoryVO().getId(), sellerId);
+		MemResult<MerchantItemCategoryDO> memResult = itemRepo.getMerchantItemCategory(Constant.DOMAIN_JIUXIU, itemResultVO.getCategoryVO().getId(), sellerId);
 //		if(null != memResult && memResult.isSuccess() && memResult.getValue().get(0)){
 			itemResultVO.getCategoryVO().setIntegralType(ItemType.POINT_MALL.name());
 //		}else{
