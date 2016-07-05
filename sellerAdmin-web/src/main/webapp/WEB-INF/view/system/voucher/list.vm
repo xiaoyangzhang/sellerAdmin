@@ -1,0 +1,139 @@
+#set($layout = "/layout/layout-jiuxiu-order.vm")	
+
+	<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/jquery.js?version=20160414"></script>
+<head>
+	#parse("layout/layout-meta.vm")
+    <title>优惠劵列表</title>
+    <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/conpon.css">
+    <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/orderlist.css">
+</head>
+
+	<input type="hidden" id="subpath"  value="$!root_path/jiuxiu/voucher/list">
+	<input type="hidden" id="addVoucher"  value="$!root_path/jiuxiu/voucher/toAdd">
+	<input type="hidden" id="editor"  value="$!root_path/jiuxiu/voucher/toEdit">
+	<input type="hidden" id="putaway"  value="$!root_path/jiuxiu/voucher/enableVoucher">
+	<input type="hidden" id="getaway"  value="$!root_path/jiuxiu/voucher/disableVoucher">
+	<input type="hidden" id="delete"  value="$!root_path/jiuxiu/voucher/del">
+	<div class = "eredar-info clearfix">
+		<ul>
+
+			<li class = " first on">优惠券管理</li>
+
+			<!-- <li>账户信息</li> -->
+		</ul>
+	</div>
+	<form class ="form-signin" id="tradeListForm" name="tradeListForm"  action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/voucher/list" method="GET" role="form">
+		<div class = "coupon reW clearfix">
+			<p class = "first">
+				<em>状态：</em>
+				<select id="status" name="status">
+					<option value="0">全部</option>
+					<option value="1" #if($!voucherListQuery.status == 1) selected #end>待上架</option>
+					<option value="2" #if($!voucherListQuery.status == 2) selected #end>上架</option>
+					<option value="3" #if($!voucherListQuery.status == 3) selected #end>下架</option>
+				</select>
+				<em class = "right">投放期限：</em>
+				<select id="putStatus" name="putStatus">
+					<option value="0">全部</option>
+					<option value="1" #if($!voucherListQuery.putStatus == 1) selected #end>未开始</option>
+					<option value="2" #if($!voucherListQuery.putStatus == 2) selected #end>投放中</option>
+					<option value="3" #if($!voucherListQuery.putStatus == 3) selected #end>已过期</option>
+				</select>
+			</p>
+			<p>
+				<em>使用期限：</em>
+				<select id="useStatus" name="useStatus">
+					<option value="0">全部</option>
+					<option value="1" #if($!voucherListQuery.useStatus == 1) selected #end>未开始</option>
+					<option value="2" #if($!voucherListQuery.useStatus == 2) selected #end>使用中</option>
+					<option value="3" #if($!voucherListQuery.useStatus == 3) selected #end>已过期</option>
+				</select>
+                <button type="submit" class="btn btn-primary">查询</button>
+                <button type="button" class="btn btn-primary form-clear delBtn">清空</button>
+		</div>
+		<div class = "addcoupon">
+			<a class = "addBtn">添加优惠券</a>
+			<em>注：在投放期限内且已上架的优惠券，用户才能领取</em>
+		</div>
+		<div class = "coupontable">
+			<table border="0">
+				<thead>
+					<tr class = "title">
+						<th class = "list1">编号</th>
+						<th class = "list2">类型</th>
+						<th class = "list3">优惠券标题</th>
+						<th class = "list4">状态</th>
+						<th class = "list5">投放期限</th>
+						<th class = "list6">使用期限</th>
+						<th class = "list7">已发/总量</th>
+						<th class = "list8">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					#foreach($voucher in $voucherTemplateList)
+						<tr class = "con">
+							<td class = "list1">$!voucher.id</td>
+							<td class = "list2">满减</td>
+							<td class = "list3"><em>$!voucher.title</em></td>
+							<td class = "list4">
+								#JIUXIU_VOUCHER_STATUS($!voucher.voucherStatus)
+							</td>
+							<td class = "list5 conlist">
+								<p><img src = "$!rs_path_jiuxiu/img/couponstar.png"><a class = "date date_list1">$!date.format('yyyy-MM-dd',$!voucher.putStartTime)</a></p>
+								<p class = "endtime"><img src = "$!rs_path_jiuxiu/img/couponend.png"><a class = "date date_list2">$!date.format('yyyy-MM-dd',$!voucher.putEndTime)</a></p>
+							</td>
+							<td class = "list6 conlist">
+								<p><img src = "$!rs_path_jiuxiu/img/couponstar.png"><a class = "date date_list3">$!date.format('yyyy-MM-dd',$!voucher.startTime)</a></p>
+								<p class = "endtime"><img src = "$!rs_path_jiuxiu/img/couponend.png"><a class = "date date_list4">$!date.format('yyyy-MM-dd',$!voucher.endTime)</a></p>
+							</td>
+							<td class = "list7">$!voucher.sendNum/$!voucher.totalNum</td>
+							<td class = "list8">
+								#if($!voucher.voucherStatus == 'INIT')
+									<a voucherId="$!voucher.id" class = "editor">编辑</a>
+									<a voucherId="$!voucher.id" class = "putaway">上架</a>
+									<a voucherId="$!voucher.id" class = "delete">删除</a>
+								#elseif($!voucher.voucherStatus == 'ACTIVE')
+									<a voucherId="$!voucher.id" class = "editor">编辑</a>
+									<a voucherId="$!voucher.id" class = "getaway">下架</a>
+								#elseif($!voucher.voucherStatus == 'INACTIVE')
+									<a voucherId="$!voucher.id" class = "delete">删除</a>
+								#end
+							</td>
+						</tr>
+					#end
+				</tbody>
+			</table>
+		</div>
+		#*分页*#
+        #parse("/page.vm")
+        #pageStyle("tradeListForm")
+	</form>
+	
+	<!-- 下架弹出层 -->
+	<div class = "outcoupon" id = "tip_get">
+		<p class = "first">上架后，在投放期限内用户即可领取是否确上架？</p>
+		<p class = "btn_coupon"><a class = "out_surebtn" id = "get_sure">确定</a><a class = "out_clearbtn  get_del">取消</a></p>
+		<img src = "$!rs_path_jiuxiu/img/close.png" class = "out_delete get_del"/>
+		<input type="hidden" id="put_voucherId"/>
+	</div>
+	<div class = "outcoupon" id = "tip_out">
+		<p class = "first">下架后，用户不能领取该优惠券，已发出的券仍可使用,是否确认下架？</p>
+		<p class = "btn_coupon"><a class = "out_surebtn" id = "away_sure">确定</a><a class = "out_clearbtn get_del">取消</a></p>
+		<img src = "$!rs_path_jiuxiu/img/close.png" class = "out_delete get_del"/>
+		<input type="hidden" id="get_voucherId"/>
+		
+	</div>
+	<div class = "outcoupon" id = "tip_del">
+		<p class><em>起：</em><span class = "tou_start">2010-3-20</span></p>
+		<p class><em>止：</em><span class = "tou_end">2010-3-20</span></p>
+		<p class>是否删除该优惠券</p>
+		<p class><em>起：</em><span class = "shi_start">2010-3-20</span></p>
+		<p class><em>止：</em><span class = "shi_end">2010-3-20</span></p>
+		<p class = "btn_coupon"><a class = "out_surebtn delete_sure">确定</a><a class = "out_clearbtn get_del">取消</a></p>
+		<img src = "$!rs_path_jiuxiu/img/close.png" class = "out_delete get_del" />
+		<input type="hidden" id="del_voucherId"/>
+	</div>
+	
+ <!-- 尾部结束 -->
+#parse("layout/layout-js.vm")
+<script>seajs.use("coupon");</script>	
