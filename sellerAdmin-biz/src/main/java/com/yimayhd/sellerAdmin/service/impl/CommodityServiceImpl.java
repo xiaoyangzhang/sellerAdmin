@@ -149,7 +149,7 @@ public class CommodityServiceImpl implements CommodityService {
 		//获取---是否积分商品
 		MemResult<List<MerchantItemCategoryDO>> memResult = itemRepo.getMerchantItemCategory(Constant.DOMAIN_JIUXIU, itemResultVO.getCategoryVO().getId(), sellerId);
 //		if(null != memResult && memResult.isSuccess() && memResult.getValue().get(0)){
-//			itemResultVO.getCategoryVO().setIntegralType(ItemType.POINT_MALL.name());
+			itemResultVO.getCategoryVO().setIntegralType(ItemType.POINT_MALL.name());
 //		}else{
 //			
 //		}
@@ -428,6 +428,8 @@ public class CommodityServiceImpl implements CommodityService {
 			itemDB.setItemPropertyList(itemVO.getItemPropertyList());
 			// 减库存方式
 			itemDB.getItemFeature().put(ItemFeatureKey.REDUCE_TYPE, itemVO.getReduceType());
+			// 最大可用积分
+			itemDB.getItemFeature().put(ItemFeatureKey.MAX_POINT, itemVO.getMaxPoint());
 			// 评分
 			if (null != itemVO.getGrade()) {
 				ItemFeature itemFeature = null;

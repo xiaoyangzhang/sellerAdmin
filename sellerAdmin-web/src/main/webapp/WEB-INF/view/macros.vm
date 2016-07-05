@@ -641,3 +641,14 @@
 	#end
 #end
 
+##优惠劵列表-状态
+#macro(JIUXIU_VOUCHER_STATUS $type)
+	#if($type == 'INIT')
+	待上架
+	#elseif($type == 'ACTIVE')
+	上架
+	#elseif($type == 'INACTIVE')
+	下架
+	#end
+#end
+

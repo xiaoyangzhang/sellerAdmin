@@ -523,6 +523,8 @@ public class ItemController extends BaseController {
             return redirect("/hotel/editHotelMessageView?operationFlag=update&itemId=" + itemId + "&categoryId=" + categoryId);
         } else if (ItemType.SPOTS.getValue() == itemType) {
             return redirect("/scenic/editScenicManageView?operationFlag=update&itemId=" + itemId + "&categoryId=" + categoryId);
+        } else if (ItemType.POINT_MALL.getValue()==itemType) {
+            return redirect("/integralMall/toEdit/" + itemId);
         } else {
             throw new BaseException("unsupport ItemType " + itemType);
         }
@@ -543,6 +545,8 @@ public class ItemController extends BaseController {
             return redirect("/hotel/editHotelMessageView?operationFlag=detail&itemId=" + itemId + "&categoryId=" + categoryId);
         } else if (ItemType.SPOTS.getValue() == itemType) {
             return redirect("/scenic/editScenicManageView?operationFlag=detail&itemId=" + itemId + "&categoryId=" + categoryId);
+        } else if (ItemType.POINT_MALL.getValue()==itemType) {
+            return redirect("/integralMall/view/" + itemId);
         } else {
             throw new BaseException("unsupport ItemType " + itemType);
         }

@@ -87,6 +87,6 @@ public interface CategoryService {
 	 * @param sellerId
 	 * @return
 	 */
-	MemResult<List<MerchantItemCategoryDO>> getMerchantItemCategory(int domainId,long categoryId , long sellerId);
+	MemResult<MerchantItemCategoryDO> getMerchantItemCategory(int domainId,long categoryId , long sellerId);
 
 }

@@ -67,6 +67,7 @@ public class ItemRepo {
 		itemOptionDTO.setCreditFade(true);
 		itemOptionDTO.setNeedCategory(true);
 		itemOptionDTO.setNeedSku(true);
+		itemOptionDTO.setUserId(sellerId);
 		RepoUtils.requestLog(log, "itemQueryServiceRef.getItem", itemOptionDTO);
 		ItemResult itemResult = itemQueryServiceRef.getItem(itemId, itemOptionDTO);
 		RepoUtils.resultLog(log, "itemQueryServiceRef.getItem", itemResult);
@@ -134,8 +135,8 @@ public class ItemRepo {
 		RepoUtils.resultLog(log, "itemQueryServiceRef.batchClose", batchDelete);
 	}
 	
-	public MemResult<List<MerchantItemCategoryDO>> getMerchantItemCategory(int domainId,long categoryId,long sellerId){
-		return merchantItemCategoryService.getMerchantItemCategory(domainId, categoryId, sellerId);
+	public MemResult<MerchantItemCategoryDO> getMerchantItemCategory(int domainId,long categoryId,long sellerId){
+		return merchantItemCategoryService.selectObjByCategoryIdAndSellerId(domainId, categoryId, sellerId);
 	}
 
 }

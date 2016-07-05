@@ -119,7 +119,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public MemResult<List<MerchantItemCategoryDO>> getMerchantItemCategory(
+	public MemResult<MerchantItemCategoryDO> getMerchantItemCategory(
 			int domainId, long categoryId, long sellerId) {
 		return itemRepo.getMerchantItemCategory(domainId, categoryId, sellerId);
 	}
