@@ -102,5 +102,6 @@ public class WebReturnCode implements Serializable {
 	public final static WebReturnCode VOUVHER_PUT_ERROR = new WebReturnCode(24003031, "优惠劵上架异常");
 	public final static WebReturnCode VOUVHER_GET_ERROR = new WebReturnCode(24003032, "优惠劵下架异常");
 	public final static WebReturnCode VOUVHER_LIMIT_ERROR = new WebReturnCode(24003033, "当前上架优惠劵已超过5张");
+	public final static WebReturnCode VOUVHER_PUT_SET_ERROR = new WebReturnCode(24003034, "优惠劵发布数量小于已领取数量");
 	
 }

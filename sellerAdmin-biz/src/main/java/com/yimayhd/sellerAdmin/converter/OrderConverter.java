@@ -252,6 +252,10 @@ public class OrderConverter {
                 }else if (tcBizOrder.getOrderType() == OrderBizType.NORMAL.getBizType()){
 
                 }
+                //获取子订单实付金额
+                //TODO
+//                subOrder.setItemPrice_( BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder()));
+                
                 subOrderList.add(subOrder);
             }
             return new MainOrder(tcMainOrder,subOrderList);

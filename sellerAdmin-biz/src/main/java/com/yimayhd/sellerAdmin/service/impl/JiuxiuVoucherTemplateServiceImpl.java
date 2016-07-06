@@ -95,6 +95,7 @@ public class JiuxiuVoucherTemplateServiceImpl implements JiuxiuVoucherTemplateSe
     		return webResult;
     	}
     	entity.setDomain(Constant.DOMAIN_JIUXIU);
+//    	entity.setEntityId(entity.getUserId());
     	entity.setTitle(entity.getTitle().trim());
     	entity.setRequirement(entity.getRequirement());
     	entity.setValue(entity.getValue());
@@ -116,10 +117,10 @@ public class JiuxiuVoucherTemplateServiceImpl implements JiuxiuVoucherTemplateSe
     @Override
     public  WebResultSupport add(VoucherTemplateVO entity) throws Exception {
     	WebResultSupport webResult = new WebResultSupport();
-    	BaseResult<MerchantDO> merchantResult = merchantApplyRepo.getMerchantBySellerId(entity.getUserId());
-    	if(null != merchantResult && null != merchantResult.getValue()){
-    		entity.setEntityId(merchantResult.getValue().getId());
-    	}
+//    	BaseResult<MerchantDO> merchantResult = merchantApplyRepo.getMerchantBySellerId(entity.getUserId());
+//    	if(null != merchantResult && null != merchantResult.getValue()){
+    		entity.setEntityId(entity.getUserId());
+//    	}
     	//判断入参是否正确
     	webResult = chargeParam(entity, webResult);
     	if(null!=webResult && !webResult.isSuccess()){
@@ -129,7 +130,7 @@ public class JiuxiuVoucherTemplateServiceImpl implements JiuxiuVoucherTemplateSe
     	entity.setTitle(entity.getTitle().trim());
     	entity.setRequirement(Math.round(entity.getRequirement_() * 100));
     	entity.setValue(Math.round(entity.getValue_() * 100));
-    	entity.setPutStartTime(entity.getPutEndTime());
+    	entity.setPutStartTime(entity.getPutStartTime());
     	entity.setPutEndTime(DateUtil.formatMaxTimeForDate(entity.getPutEndTime()));
     	entity.setStartTime(entity.getStartTime());
     	entity.setEndTime(DateUtil.formatMaxTimeForDate(entity.getEndTime()));

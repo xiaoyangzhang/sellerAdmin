@@ -123,7 +123,7 @@ public class JiuxiuVoucherController extends BaseController {
      */
     
     @RequestMapping(value = "/toEdit/{id}", method = RequestMethod.GET)
-    public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
+    public String toEdit(Model model, @PathVariable(value = "id") long id,String edtType) throws Exception {
     	JiuxiuVoucherListQuery voucherListQuery = new JiuxiuVoucherListQuery();
     	List<Integer> ids = new ArrayList<Integer>();
     	ids.add((int)id);
@@ -132,6 +132,7 @@ public class JiuxiuVoucherController extends BaseController {
         PageVO<VoucherTemplateVO> pageVO = jiuxiuVoucherTemplateService.getList(voucherListQuery);
         model.addAttribute("voucherTemplate",pageVO.getResultList().get(0));
         model.addAttribute("editType", "edit");
+        model.addAttribute("edtType", edtType);
         return "/system/voucher/edit";
     }
     /**
@@ -143,9 +144,21 @@ public class JiuxiuVoucherController extends BaseController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     @ResponseBody
     public WebResultSupport edit(@PathVariable(value = "id") long id,VoucherTemplateVO voucherTemplateVO) throws Exception {
-        voucherTemplateVO.setId(id);
-        WebResultSupport result = new WebResultSupport();
-        try {
+    	WebResultSupport result = new WebResultSupport();
+    	JiuxiuVoucherListQuery voucherListQuery = new JiuxiuVoucherListQuery();
+    	List<Integer> ids = new ArrayList<Integer>();
+    	ids.add((int)id);
+    	voucherListQuery.setIds(ids);
+    	voucherListQuery.setUserId(sessionManager.getUserId());
+    	try {
+	        PageVO<VoucherTemplateVO> pageVO = jiuxiuVoucherTemplateService.getList(voucherListQuery);
+	        if(null!=pageVO && pageVO.getResultList().size()>0 && pageVO.getResultList().get(0).getSendNum() > voucherTemplateVO.getTotalNum()){
+	        	result.setWebReturnCode(WebReturnCode.VOUVHER_PUT_SET_ERROR);
+				return result;
+	        }
+	        
+	        voucherTemplateVO.setId(id);
+	        voucherTemplateVO.setUserId(sessionManager.getUserId());
         	result = jiuxiuVoucherTemplateService.modify(voucherTemplateVO);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

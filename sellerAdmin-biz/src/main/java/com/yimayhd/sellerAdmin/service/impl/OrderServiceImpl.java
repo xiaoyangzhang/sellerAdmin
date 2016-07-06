@@ -173,18 +173,14 @@ public class OrderServiceImpl implements OrderService {
 							.getBizOrder().getBuyerId());
 					mo.setUser(user);
 					
-					
-//					//获取优惠劵优惠金额
-//					BizOrderDO biz = new BizOrderDO();
-//					biz.setDomain(Constant.DOMAIN_JIUXIU);
-//					biz.setBizOrderId(tcMainOrder.getBizOrder() == null ? 0
-//							: tcMainOrder.getBizOrder().getBizOrderId());
-//					VoucherInfo voucherInfo = BizOrderUtil.getVoucherInfo(biz);
-//					mo.setRequirement(voucherInfo.getRequirement());
-//					mo.setValue(voucherInfo.getValue());
-//					//获取使用的积分
-//					BizOrderUtil.getUsePointNum(biz);
-					
+					//获取优惠劵优惠金额
+					BizOrderDO biz = new BizOrderDO();
+					biz.setDomain(Constant.DOMAIN_JIUXIU);
+					biz.setBizOrderId(tcMainOrder.getBizOrder() == null ? 0
+							: tcMainOrder.getBizOrder().getBizOrderId());
+					VoucherInfo voucherInfo = BizOrderUtil.getVoucherInfo(biz);
+					mo.setRequirement(voucherInfo.getRequirement());
+					mo.setValue(voucherInfo.getValue());
 					
 					// 卖家备注
 					// 获取卖家备注
@@ -195,6 +191,9 @@ public class OrderServiceImpl implements OrderService {
 									: tcMainOrder.getBizOrder().getBizOrderId());
 					mo.setCustomerServiceNote(BizOrderUtil
 							.getSellerMemo(bizOrderDO));
+					//添加主订单实付款
+					//TODO
+//					mo.setItemPrice_(itemPrice_);
 					mainOrderList.add(mo);
 				}
 			}

@@ -37,6 +37,8 @@ public class MainOrder {
     
     private long userPointNum;//使用的积分
     
+    private long itemPrice_;//主订单实付金额
+    
 
 
 	public int getOrderType() {
@@ -146,6 +148,14 @@ public class MainOrder {
 
 	public void setUserPointNum(long userPointNum) {
 		this.userPointNum = userPointNum;
+	}
+
+	public long getItemPrice_() {
+		return itemPrice_;
+	}
+
+	public void setItemPrice_(long itemPrice_) {
+		this.itemPrice_ = itemPrice_;
 	}
     
 }
