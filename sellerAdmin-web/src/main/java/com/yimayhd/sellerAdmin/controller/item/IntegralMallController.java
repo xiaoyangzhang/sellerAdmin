@@ -60,6 +60,15 @@ public class IntegralMallController extends BaseController {
         if(!memResultSupport.isSuccess()){
         	 return "/system/error/lackPermission";
         }
+        
+        //是否有发积分商品权限
+  		MemResult<MerchantItemCategoryDO> result = categoryService.getMerchantItemCategory(Constant.DOMAIN_JIUXIU, categoryId, sellerId);
+  		if(null!=result && result.isSuccess() && result.getValue().getType() ==1){
+  			model.addAttribute("integralType", result.getValue().getType());
+  		}else{
+  			return "/system/error/lackPermission";
+  		}
+      		
 		CategoryDO categoryDO = categoryService.getCategoryVOById(categoryId);
 		ItemType itemType = ItemType.get(categoryDO.getCategoryFeature().getItemType());
 		Preconditions.checkArgument(ItemType.POINT_MALL.equals(itemType), "错误的商品类型");
@@ -76,13 +85,15 @@ public class IntegralMallController extends BaseController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addCommon(Model model, ItemVO itemVO,String uuid) throws Exception {
-        //积分权限验证
-//		MemResult<MerchantItemCategoryDO> result = categoryService.getMerchantItemCategory(Constant.DOMAIN_JIUXIU, itemVO.getCategoryId(), sessionManager.getUserId());
-//		if(null==result || result.isSuccess() || null!=result.getValue()){
-//			return "/system/error/lackPermission";
-//		}else if (result.getValue().get) {
-//			return "/system/error/lackPermission";
-//		}
+		long sellerId = sessionManager.getUserId();
+		//是否有发积分商品权限
+		MemResult<MerchantItemCategoryDO> result = categoryService.getMerchantItemCategory(Constant.DOMAIN_JIUXIU, itemVO.getCategoryId(), sellerId);
+		if(null!=result && result.isSuccess() && result.getValue().getType() ==1){
+			model.addAttribute("integralType", result.getValue().getType());
+		}else{
+			return "/system/error/lackPermission";
+		}
+		
 		String key = Constant.APP+"_repeat_"+sessionManager.getUserId()+uuid;
 		boolean rs = cacheManager.addToTair(key, true , 2, 24*60*60);
 		if(rs){
@@ -90,7 +101,6 @@ public class IntegralMallController extends BaseController {
 			if (!check.isSuccess()) {
 				throw new NoticeException(check.getResultMsg());
 			}
-			long sellerId = sessionManager.getUserId();
 			itemVO.setSellerId(sellerId);
 			//积分商品
 			itemVO.setPayType(PayType.MONEY_OR_POINT.getValue());
@@ -117,6 +127,15 @@ public class IntegralMallController extends BaseController {
 		Preconditions.checkState(itemResultVO != null, "商品未找到");
 		int itemType = itemResultVO.getItemVO().getItemType();
 		Preconditions.checkArgument(ItemType.POINT_MALL.getValue() == itemType, "错误的商品类型");
+		
+		//是否有发积分商品权限
+		MemResult<MerchantItemCategoryDO> result = categoryService.getMerchantItemCategory(Constant.DOMAIN_JIUXIU, itemResultVO.getCategoryVO().getId(), sellerId);
+		if(null!=result && result.isSuccess() && result.getValue().getType() ==1){
+			model.addAttribute("integralType", result.getValue().getType());
+		}else{
+			return "/system/error/lackPermission";
+		}
+		
 		model.addAttribute("category", itemResultVO.getCategoryVO());
 		model.addAttribute("commodity", itemResultVO.getItemVO());
 		model.addAttribute("itemSkuList", itemResultVO.getItemSkuVOList());
@@ -161,13 +180,20 @@ public class IntegralMallController extends BaseController {
 	 */
 	@RequestMapping(value = "/edit/{itemId}", method = RequestMethod.POST)
 	public String editCommon(Model model, ItemVO itemVO, @PathVariable(value = "itemId") long itemId) throws Exception {
-
+		long sellerId = sessionManager.getUserId();
+		//是否有发积分商品权限
+		MemResult<MerchantItemCategoryDO> result = categoryService.getMerchantItemCategory(Constant.DOMAIN_JIUXIU, itemVO.getCategoryId(), sellerId);
+		if(null!=result && result.isSuccess() && result.getValue().getType() ==1){
+			model.addAttribute("integralType", result.getValue().getType());
+		}else{
+			return "/system/error/lackPermission";
+		}
+				
 		WebCheckResult check = BarterItemChecker.BarterItemCheck(itemVO);
 		if (!check.isSuccess()) {
 			throw new NoticeException(check.getResultMsg());
 		}
 		itemVO.setId(itemId);
-		long sellerId = sessionManager.getUserId();
 		// TODO
 		sellerId = Constant.YIMAY_OFFICIAL_ID;
 		itemVO.setSellerId(sellerId);

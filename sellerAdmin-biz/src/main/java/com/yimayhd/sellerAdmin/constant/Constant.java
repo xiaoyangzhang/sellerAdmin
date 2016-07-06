@@ -111,4 +111,12 @@ public class Constant {
 	 * 优惠劵标题长度限制
 	 */
 	public static final int VOUCHET_TITILE_LIMIT=10;
+	/**
+	 * 优惠劵没人领卷限制
+	 */
+	public static final int VOUCHET_GET_MAX_LIMIT=10;
+	/**
+	 * 优惠劵发劵限制
+	 */
+	public static final int VOUCHET_PUT_MAX_LIMIT=10000;
 }

@@ -62,10 +62,10 @@ public class BarterItemController extends BaseController {
         }
         
         //是否有发积分商品权限
-//        MemResult<List<MerchantItemCategoryDO>> result = categoryService.getMerchantItemCategory(Constant.DOMAIN_JIUXIU, categoryId, sellerId);
-//        if(null!=result && result.isSuccess() && null!=result.getValue()){
-//        	model.addAttribute("integralType", );
-//        }
+        MemResult<MerchantItemCategoryDO> result = categoryService.getMerchantItemCategory(Constant.DOMAIN_JIUXIU, categoryId, sellerId);
+        if(null!=result && result.isSuccess() && result.getValue().getType() ==1){
+        	model.addAttribute("integralType", result.getValue().getType());
+        }
         
 		CategoryDO categoryDO = categoryService.getCategoryVOById(categoryId);
 		ItemType itemType = ItemType.get(categoryDO.getCategoryFeature().getItemType());

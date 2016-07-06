@@ -89,11 +89,11 @@
 							<td class = "list7">$!voucher.sendNum/$!voucher.totalNum</td>
 							<td class = "list8">
 								#if($!voucher.voucherStatus == 'INIT')
-									<a voucherId="$!voucher.id" class = "editor">编辑</a>
+									<a voucherId="$!voucher.id" mode_status="$!voucher.voucherStatus" class = "editor">编辑</a>
 									<a voucherId="$!voucher.id" class = "putaway">上架</a>
 									<a voucherId="$!voucher.id" class = "delete">删除</a>
 								#elseif($!voucher.voucherStatus == 'ACTIVE')
-									<a voucherId="$!voucher.id" class = "editor">编辑</a>
+									<a voucherId="$!voucher.id" mode_status="$!voucher.voucherStatus" class = "editor">编辑</a>
 									<a voucherId="$!voucher.id" class = "getaway">下架</a>
 								#elseif($!voucher.voucherStatus == 'INACTIVE')
 									<a voucherId="$!voucher.id" class = "delete">删除</a>

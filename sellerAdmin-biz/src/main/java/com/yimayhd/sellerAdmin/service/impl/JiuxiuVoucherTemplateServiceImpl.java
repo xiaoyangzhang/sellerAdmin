@@ -198,11 +198,11 @@ public class JiuxiuVoucherTemplateServiceImpl implements JiuxiuVoucherTemplateSe
     		webResult.setWebReturnCode(WebReturnCode.VOUVHER_REQUERMENT_ERROR);
     		return webResult;
     	}
-    	if(entity.getVoucherCount() <= 0 || entity.getVoucherCount() > 10){
+    	if(entity.getVoucherCount() <= 0 || entity.getVoucherCount() > Constant.VOUCHET_GET_MAX_LIMIT){
     		webResult.setWebReturnCode(WebReturnCode.VOUVHER_COUNT_ERROR);
     		return webResult;
     	}
-    	if(entity.getTotalNum() < 1){
+    	if(entity.getTotalNum() < 1 || entity.getTotalNum() > Constant.VOUCHET_PUT_MAX_LIMIT){
     		webResult.setWebReturnCode(WebReturnCode.VOUVHER_TOTAL_NUM_ERROR);
     		return webResult;
     	}

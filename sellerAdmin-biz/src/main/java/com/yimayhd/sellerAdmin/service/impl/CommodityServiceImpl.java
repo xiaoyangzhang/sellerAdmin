@@ -148,11 +148,10 @@ public class CommodityServiceImpl implements CommodityService {
 		itemResultVO.setCategoryVO(CategoryVO.getCategoryVO(itemResult.getCategory()));
 		//获取---是否积分商品
 		MemResult<MerchantItemCategoryDO> memResult = itemRepo.getMerchantItemCategory(Constant.DOMAIN_JIUXIU, itemResultVO.getCategoryVO().getId(), sellerId);
-//		if(null != memResult && memResult.isSuccess() && memResult.getValue().get(0)){
+		//memResult.getValue().getType()没有枚举，1表示是积分商品
+		if(null != memResult && memResult.isSuccess() && memResult.getValue().getType() == 1){
 			itemResultVO.getCategoryVO().setIntegralType(ItemType.POINT_MALL.name());
-//		}else{
-//			
-//		}
+		}
 		
 		
 		itemResultVO.setItemVO(ItemVO.getItemVO(itemResult.getItem(), itemResultVO.getCategoryVO()));
