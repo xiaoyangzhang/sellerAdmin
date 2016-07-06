@@ -11,8 +11,8 @@
 		<property name="sellerAdmin.logger.dir" defaultValue="/home/admin/logs/sellerAdmin" description="日志目录"/>
 	</group>
 	<group name="tfs">
-		<property name="tfs.nsip" defaultValue="192.168.1.152:9999" description="#" />
-		<property name="tfs.uniqueServerList" defaultValue="192.168.1.152:5198" description="#" />
+		<property name="tfs.nsip" defaultValue="192.168.1.209:9999" description="#" />
+		<property name="tfs.uniqueServerList" defaultValue="192.168.1.209:5198" description="#" />
 		<property name="tfs.groupName" defaultValue="group_1" description="#" />
 		<property name="tfs.namespace" defaultValue="201" description="#" />
 		<property name="sellerAdmin.tfsRootPath" defaultValue="//192.168.1.152:7500/v1/tfs/" description="#tfs默认访问地址" />
