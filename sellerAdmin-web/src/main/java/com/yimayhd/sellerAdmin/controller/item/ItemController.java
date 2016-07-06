@@ -220,7 +220,7 @@ public class ItemController extends BaseController {
 			}
 		}
 		for (CategoryDO categoryDO : categoryOfMerchantList) {
-			if (categoryDO.getParentId() != Constant.JX_ROOT) {
+			if (categoryDO.getParentId() != Constant.JX_ITEM_ROOT) {
 				count ++ ;
 				continue;
 			}
