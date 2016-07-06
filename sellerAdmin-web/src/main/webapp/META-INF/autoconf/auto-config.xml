@@ -11,16 +11,16 @@
 		<property name="sellerAdmin.logger.dir" defaultValue="/home/admin/logs/sellerAdmin" description="日志目录"/>
 	</group>
 	<group name="tfs">
-		<property name="tfs.nsip" defaultValue="192.168.1.152:9999" description="#" />
-		<property name="tfs.uniqueServerList" defaultValue="192.168.1.152:5198" description="#" />
+		<property name="tfs.nsip" defaultValue="192.168.1.209:9999" description="#" />
+		<property name="tfs.uniqueServerList" defaultValue="192.168.1.209:5198" description="#" />
 		<property name="tfs.groupName" defaultValue="group_1" description="#" />
 		<property name="tfs.namespace" defaultValue="201" description="#" />
 		<property name="sellerAdmin.tfsRootPath" defaultValue="//192.168.1.152:7500/v1/tfs/" description="#tfs默认访问地址" />
 		<property name="sellerAdmin.rootPath" defaultValue="http://localhost:8080/sellerAdmin/" description="#tfs默认访问地址" />
 	</group>
 	<group name="tair">
-		<property name="tair.configServer.main" defaultValue="192.168.1.155:5198" description="#tair服务器的地址" />
-		<property name="tair.configServer.slave" defaultValue="192.168.1.155:5198" description="#tair服务器的地址" />
+		<property name="tair.configServer.main" defaultValue="192.168.1.153:5198" description="#tair服务器的地址" />
+		<property name="tair.configServer.slave" defaultValue="192.168.1.154:5198" description="#tair服务器的地址" />
 		<property name="tair.groupName.per" defaultValue="group_1" description="#持久化tair的namespace" />
 		<property name="tair.groupName.temp" defaultValue="group_1" description="#持久化tair的namespace" />
 		<property name="tair.namespace" defaultValue="299" description="#tair命名空间" />
