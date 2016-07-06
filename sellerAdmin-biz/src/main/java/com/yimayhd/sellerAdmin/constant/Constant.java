@@ -107,4 +107,5 @@ public class Constant {
 	 * 商家类目校验信息
 	 */
 	public static final String SELLER_CATEGORY_CHECK="SELLER_CATEGORY_CHECK_";
+	public static final int JX_ROOT = 200;//九休商品类目根节点
 }
