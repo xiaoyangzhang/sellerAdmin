@@ -9,6 +9,7 @@ import java.util.concurrent.CountDownLatch;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.sun.tools.classfile.Annotation.element_value;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
@@ -53,6 +54,7 @@ import com.yimayhd.user.client.enums.UserOptions;
 @Controller
 @RequestMapping("/item")
 public class ItemController extends BaseController {
+	private  static final  int layerNum = Constant.LAYER_NUM ;
     @Autowired
     private ItemService itemService;
     @Autowired
@@ -61,7 +63,7 @@ public class ItemController extends BaseController {
     private ItemQueryService itemQueryService;
     @Autowired
     private MerchantItemCategoryService merchantItemCategoryService;
-
+    
     /**
      * 商品列表
      *
@@ -129,6 +131,8 @@ public class ItemController extends BaseController {
 		}
         
         List<CategoryDO> categoryList = getAllChildNode(categoryTreeResult.getValue(), new ArrayList<CategoryDO>());
+        //System.out.println(layerNum+"----------------------------------------");
+      //  int layerNum2 = getLayerNum(categoryTreeResult.getValue(),0);
         if (!isTalentA && !isTalentB) { // 身份为商户时进行商品类目权限过滤
             List<CategoryVO> filteredList = new ArrayList<>();
             MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesBySellerId(Constant.DOMAIN_JIUXIU, user.getId());
@@ -141,8 +145,7 @@ public class ItemController extends BaseController {
 					}
 				}
 			}
-            
-            Set<CategoryDO> fillMerchantItemCategory = fillMerchantItemCategory(categoryList, categoryOfMerchantList);
+            Set<CategoryDO> fillMerchantItemCategory = fillMerchantItemCategory(categoryList, categoryOfMerchantList,layerNum);
             for (CategoryVO categoryVO : list) {
                 for (CategoryDO categoryDO : fillMerchantItemCategory) {
                     try {
@@ -182,7 +185,7 @@ public class ItemController extends BaseController {
 					}
 				}
 			}
-            Set<CategoryDO> fillMerchantItemCategory = fillMerchantItemCategory(categoryList, categoryOfMerchantList);
+            Set<CategoryDO> fillMerchantItemCategory = fillMerchantItemCategory(categoryList, categoryOfMerchantList,layerNum);
             for (CategoryVO categoryVO : list) {
                 for (CategoryDO categoryDO : fillMerchantItemCategory) {
                     try {
@@ -210,27 +213,34 @@ public class ItemController extends BaseController {
         }
     }
 
-	private Set<CategoryDO> fillMerchantItemCategory(List<CategoryDO> categoryList,List<CategoryDO> categoryOfMerchantList) {
+//	private int getLayerNum(CategoryDO cate,int deepth) {
+//		if (CollectionUtils.isEmpty(cate.getChildren())) {
+//			layerNum = Math.max(layerNum, deepth);
+//			return layerNum;
+//		}else {
+//			
+//			for (CategoryDO categoryDO : cate.getChildren()) {
+//				
+//				getLayerNum(categoryDO,deepth+1);
+//				
+//			}
+//		}
+//		return layerNum;
+//		
+//	}
+
+	private Set<CategoryDO> fillMerchantItemCategory(List<CategoryDO> categoryList,List<CategoryDO> categoryOfMerchantList,int layerNum) {
 		int count = 0;
-		for (int i = 0; i < categoryList.size(); i++) {
-			for (int j = 0; j < categoryOfMerchantList.size(); j++) {
-				if (categoryList.get(i).getId() == categoryOfMerchantList.get(j).getParentId() ) {
-					categoryOfMerchantList.add(categoryList.get(i));
+		while(count <= layerNum) {
+			
+			for (int i = 0; i < categoryList.size(); i++) {
+				for (int j = 0; j < categoryOfMerchantList.size(); j++) {
+					if (categoryList.get(i).getId() == categoryOfMerchantList.get(j).getParentId() ) {
+						categoryOfMerchantList.add(categoryList.get(i));
+					}
 				}
 			}
-		}
-		for (CategoryDO categoryDO : categoryOfMerchantList) {
-			if (categoryDO.getParentId() != Constant.JX_ITEM_ROOT) {
-				count ++ ;
-				continue;
-			}
-			count = 0;
-			break;
-			
-		}
-		if (count > 0) {
-			
-			fillMerchantItemCategory(categoryList, categoryOfMerchantList);
+			count ++;
 		}
 		Set<CategoryDO> finalMerchantItemCategoryList = new HashSet<CategoryDO>();
 		for (CategoryDO categoryDO : categoryOfMerchantList) {
@@ -540,6 +550,7 @@ public class ItemController extends BaseController {
     }
     
     public  List<CategoryDO> getAllChildNode(CategoryDO cate,List<CategoryDO> categoryDOList) {
+    	
 		for (CategoryDO categoryDO : cate.getChildren()) {
 			if (categoryDO.getChildren().size() == 0) {
 				categoryDOList.add(categoryDO);
