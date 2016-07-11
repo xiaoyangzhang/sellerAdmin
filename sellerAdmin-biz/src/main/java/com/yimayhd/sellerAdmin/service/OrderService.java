@@ -1,12 +1,16 @@
 package com.yimayhd.sellerAdmin.service;
 
+import java.util.List;
+
 import com.yimayhd.commentcenter.client.result.ComRateResult;
+import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.query.AssessmentListQuery;
 import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
 import com.yimayhd.sellerAdmin.model.trade.JXComRateResult;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
+import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
 import com.yimayhd.tradecenter.client.model.param.order.UpdateBizOrderExtFeatureDTO;
 
 /**
@@ -41,7 +45,6 @@ public interface OrderService {
 
 	boolean closeOrder(long id);
 	/**
-<<<<<<< HEAD
 	 * 确认入住
 	 * @param id
 	 * @return
@@ -66,5 +69,17 @@ public interface OrderService {
 	 * @return
 	 */
 	boolean updateOrderInfo(long id,String remark);
+	/**
+	 * 发货
+	 * @param sg
+	 * @return
+	 */
+	boolean sendGoods(SellerSendGoodsDTO sg);
+	
+	/**
+	 * 查看物流公司
+	 * @return
+	 */
+	List<ExpressCodeRelationDO> selectAllExpressCode();
 
 }

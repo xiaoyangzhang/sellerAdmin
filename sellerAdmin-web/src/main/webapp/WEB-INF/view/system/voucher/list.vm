@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/orderlist.css">
 </head>
 
-	<input type="hidden" id="subpath"  value="$!root_path/jiuxiu/voucher/list">
+	<input type="hidden" id="subpath"  value="$!root_path/jiuxiu/voucher/list?id=0&status=0&useStatus=0&putStatus=0&userId=0">
 	<input type="hidden" id="addVoucher"  value="$!root_path/jiuxiu/voucher/toAdd">
 	<input type="hidden" id="editor"  value="$!root_path/jiuxiu/voucher/toEdit">
 	<input type="hidden" id="putaway"  value="$!root_path/jiuxiu/voucher/enableVoucher">

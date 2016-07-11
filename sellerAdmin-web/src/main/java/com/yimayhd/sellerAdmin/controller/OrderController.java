@@ -1,6 +1,8 @@
 package com.yimayhd.sellerAdmin.controller;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,8 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import com.yimayhd.commentcenter.client.dto.RatePageListDTO;
 import com.yimayhd.commentcenter.client.result.ComRateResult;
 import com.yimayhd.commentcenter.client.service.ComRateService;
+import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
 import com.yimayhd.sellerAdmin.constant.Constant;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +29,19 @@ import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.constant.ResponseStatus;
+import com.yimayhd.sellerAdmin.enums.BizItemType;
+import com.yimayhd.sellerAdmin.enums.OrderSearchType;
 import com.yimayhd.sellerAdmin.model.query.AssessmentListQuery;
 import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
 import com.yimayhd.sellerAdmin.model.trade.JXComRateResult;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
 import com.yimayhd.sellerAdmin.service.OrderService;
+import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderExtFeatureKey;
 import com.yimayhd.tradecenter.client.model.enums.FinishOrderSource;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
+import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
 import com.yimayhd.tradecenter.client.model.param.order.UpdateBizOrderExtFeatureDTO;
 import com.yimayhd.tradecenter.client.model.result.ResultSupport;
 import com.yimayhd.tradecenter.client.service.trade.TcTradeService;
@@ -147,6 +156,7 @@ public class OrderController extends BaseController {
 			model.addAttribute("pageVo", pageVo);
 			model.addAttribute("orderList", pageVo.getResultList());
 			model.addAttribute("orderListQuery", orderListQuery);
+			model.addAttribute("orderTypeList", OrderSearchType.values());
 		}
 		return "/system/order/routeOrderList";
 	}
@@ -212,6 +222,48 @@ public class OrderController extends BaseController {
 		}
 		return new ResponseVo(ResponseStatus.ERROR);
 		
+	}
+	/**
+	 * 查询物流公司
+	 * @param model
+	 * @param bizOrderId
+	 * @return
+	 */
+	@RequestMapping(value = "/sendGoodsSearch", method = RequestMethod.GET)
+	public String sendGoodsSearch(Model model,long bizOrderId){
+		List<ExpressCodeRelationDO> list = orderService.selectAllExpressCode();//查询物流公司接口
+		model.addAttribute("listExpress",list);
+		model.addAttribute("bizOrderId",bizOrderId);
+		return "/system/order/routeOrderSendGoods";
+	}
+	
+	/**
+	 * 发货
+	 * @param bizOrderId
+	 * @param expressCompany
+	 * @param expressNo
+	 * @return
+	 */
+	@RequestMapping(value = "/sendGoods", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo sendGoods(long bizOrderId,String expressCompany,String expressNo){
+		if(0==bizOrderId || StringUtils.isEmpty(expressCompany) || StringUtils.isEmpty(expressNo)){
+			return new ResponseVo(ResponseStatus.INVALID_DATA);
+		}
+		long userId = sessionManager.getUserId();
+		StringBuilder sb = new StringBuilder();
+		sb.append(" time=").append(DateUtil.format(new Date()))
+		  .append(" userid=").append(userId)
+		  .append(" bizOrderId=").append(bizOrderId)
+		  .append(" expressCompany=").append(expressCompany)
+		  .append(" expressNo=").append(expressNo);
+		LOG.info(sb.toString());
+		SellerSendGoodsDTO sg = new SellerSendGoodsDTO();
+		sg.setBizOrderId(bizOrderId);
+		sg.setExpressCompany(expressCompany);
+		sg.setExpressNo(expressNo);
+		boolean flag = orderService.sendGoods(sg);
+		return new ResponseVo(flag);
 	}
 
 

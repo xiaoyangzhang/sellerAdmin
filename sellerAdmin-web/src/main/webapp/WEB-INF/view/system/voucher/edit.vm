@@ -11,6 +11,7 @@
 
 	<input type="hidden" id="add"  value="$!root_path/jiuxiu/voucher/add">
 	<input type="hidden" id="edit"  value="$!root_path/jiuxiu/voucher/edit">
+	<input type="hidden" id="subpath"  value="$!root_path/jiuxiu/voucher/list?id=0&status=0&useStatus=0&putStatus=0&userId=0">
 	<div class = "eredar-info clearfix">
 		<ul>
 
@@ -25,12 +26,13 @@
 		<form class = "addcouponForm" action = "">
 			<input type ="hidden" id ="uuid" name ="uuid" value ="$!UUID" />
 			<input type ="hidden" id ="voucherId" name ="voucherId" value ="$!voucherTemplate.id" />
+			<input type ="hidden" id ="edtType" name ="edtType" value ="$!edtType" />
 			<p>
 				<em><s>*</s>优惠券名称：</em>
 				<span><input type = "text" maxlength = "10" #if($!edtType=='ACTIVE') disabled="disabled" #end datatype = "*" class = "coupon-input" name = "title" value="$!voucherTemplate.title"/ ></span>
 			</p>
 			<p>
-				<em><s>*</s>满减金额：$!edtType</em>
+				<em><s>*</s>满减金额：</em>
 				<span class = "tip"><strong>满</strong><input #if($!edtType=='ACTIVE') disabled="disabled" #end type = "text" id = "starnum" class = "coupon-num dis" name = "requirement_" value = "$!voucherTemplate.requirement_"></input>
 					<strong class = "dis">减</strong><input #if($!edtType=='ACTIVE') disabled="disabled" #end type = "text" id = "emdnum" class = "coupon-num dis" name = "value_" value="$!voucherTemplate.value_"/>
 					<strong class = "dis">元</strong>

@@ -87,23 +87,26 @@ public class JiuxiuVoucherTemplateServiceImpl implements JiuxiuVoucherTemplateSe
     }
 
     @Override
-    public WebResultSupport modify(VoucherTemplateVO entity) throws Exception {
+    public WebResultSupport modify(VoucherTemplateVO entity,String edtType) throws Exception {
     	WebResultSupport webResult = new WebResultSupport();
-    	//判断入参是否正确
-    	webResult = chargeParam(entity, webResult);
+    	if(!edtType.equals("ACTIVE")){
+    		//判断入参是否正确
+    		webResult = chargeParam(entity, webResult);
+    		
+    		entity.setTitle(entity.getTitle().trim());
+        	entity.setRequirement(Math.round(entity.getRequirement_()*100));
+        	entity.setValue(Math.round(entity.getValue_()*100));
+        	entity.setPutStartTime(entity.getPutStartTime());
+        	entity.setStartTime(entity.getStartTime());
+        	entity.setEndTime(DateUtil.formatMaxTimeForDate(entity.getEndTime()));
+        	entity.setVoucherCount(entity.getVoucherCount());
+        	
+    	}
     	if(null!=webResult && !webResult.isSuccess()){
     		return webResult;
     	}
     	entity.setDomain(Constant.DOMAIN_JIUXIU);
-//    	entity.setEntityId(entity.getUserId());
-    	entity.setTitle(entity.getTitle().trim());
-    	entity.setRequirement(entity.getRequirement());
-    	entity.setValue(entity.getValue());
-    	entity.setPutStartTime(entity.getPutStartTime());
     	entity.setPutEndTime(DateUtil.formatMaxTimeForDate(entity.getPutEndTime()));
-    	entity.setStartTime(entity.getStartTime());
-    	entity.setEndTime(DateUtil.formatMaxTimeForDate(entity.getEndTime()));
-    	entity.setVoucherCount(entity.getVoucherCount());
     	entity.setTotalNum(entity.getTotalNum());
     	
     	VcBaseResult<Boolean> result = jixiuVoucherRepo.updateVoucherTemplate(entity);
@@ -191,7 +194,7 @@ public class JiuxiuVoucherTemplateServiceImpl implements JiuxiuVoucherTemplateSe
 	}
     
     private  WebResultSupport chargeParam(VoucherTemplateVO entity,WebResultSupport webResult) throws Exception{
-    	if(StringUtils.isEmpty(entity.getTitle().trim()) || entity.getTitle().trim().length() > Constant.VOUCHET_TITILE_LIMIT){
+    	if(StringUtils.isEmpty(entity.getTitle()) || entity.getTitle().trim().length() > Constant.VOUCHET_TITILE_LIMIT){
     		webResult.setWebReturnCode(WebReturnCode.VOUVHER_TITLE_ERROR);
     		return webResult;
     	}

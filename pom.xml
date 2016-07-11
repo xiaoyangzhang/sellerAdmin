@@ -27,7 +27,7 @@
 		<resourcecenter.client.version>1.0.6-SNAPSHOT</resourcecenter.client.version>
 		<membercenter.client.version>1.1.4-SNAPSHOT</membercenter.client.version>
 		<paycore.client.version>1.0.0-SNAPSHOT</paycore.client.version>
-		<tradecenter.client.version>1.0.12-SNAPSHOT</tradecenter.client.version>
+		<tradecenter.client.version>1.0.13-SNAPSHOT</tradecenter.client.version>
 		<comment.version>1.0.4-SNAPSHOT</comment.version>
 		<fhtd.version>0.1.0-SNAPSHOT</fhtd.version>
 		<logback.version>1.1.1</logback.version>
@@ -38,6 +38,7 @@
 		<promotion.client.version>1.0.0-SNAPSHOT</promotion.client.version>
 		<tair.version>2.3.4.3</tair.version>
 		<activity.client.version>1.1.0-SNAPSHOT</activity.client.version>
+		<lgcenter.client.version>0.0.6-SNAPSHOT</lgcenter.client.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -626,6 +627,11 @@
 				<groupId>com.yimayhd.activitycenter</groupId>
 				<artifactId>activitycenter-client</artifactId>
 				<version>${activity.client.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.yimayhd.lgcenter</groupId>
+				<artifactId>lgcenter-client</artifactId>
+				<version>${lgcenter.client.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.yimayhd.promotion</groupId>

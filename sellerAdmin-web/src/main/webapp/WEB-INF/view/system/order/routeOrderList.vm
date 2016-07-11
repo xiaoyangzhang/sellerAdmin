@@ -26,14 +26,9 @@
                 </span>
                 <select data-placeholder="请选择..." class="chosen-select form-control integer-field " tabindex="2" name="itemType">
                     <option value="0">全部</option>
-                    <option value="3100" #if($!orderListQuery.itemType == 3100) selected #end>国内跟团游</option>
-                    <option value="3200" #if($!orderListQuery.itemType == 3200) selected #end>国内自由行</option>
-                    <option value="3500" #if($!orderListQuery.itemType == 3500) selected #end>境外跟团游</option>
-                    <option value="3600" #if($!orderListQuery.itemType == 3600) selected #end>境外自由行</option>
-                    <option value="3300" #if($!orderListQuery.itemType == 3300) selected #end>国内当地玩乐</option>
-                    <option value="1200" #if($!orderListQuery.itemType == 1200) selected #end>国内景区门票</option>
-                    <option value="1100" #if($!orderListQuery.itemType == 1100) selected #end>酒店客栈</option>
-                    <option value="200" #if($!orderListQuery.itemType == 200) selected #end>特产商品</option>
+					#foreach($itemType in $orderTypeList)
+					<option value="$!{itemType.value}" #if($orderListQuery.itemType == $itemType.value) selected #end >$!{utilItem.getOrderItemName($itemType.value)}</option>
+					#end
                 </select>
             </div>
 
@@ -44,8 +39,8 @@
                 <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="orderStat">
                     <option value="">全部</option>
                     <option value="WAITING_PAY" #if($!orderListQuery.orderStat == 'WAITING_PAY') selected #end>待付款</option>
-                    <option value="WAITING_DELIVERY" #if($!orderListQuery.orderStat == 'WAITING_DELIVERY') selected #end>处理中/待确认</option>
-                    <option value="SHIPPING" #if($!orderListQuery.orderStat == 'SHIPPING') selected #end>待出行/待使用/预定成功</option>
+                    <option value="WAITING_DELIVERY" #if($!orderListQuery.orderStat == 'WAITING_DELIVERY') selected #end>处理中/待确认/已付款</option>
+                    <option value="SHIPPING" #if($!orderListQuery.orderStat == 'SHIPPING') selected #end>待出行/待使用/预定成功/已发货</option>
                     <option value="CONFIRMED_CLOSE" #if($!orderListQuery.orderStat == 'CONFIRMED_CLOSE') selected #end>未入住（酒店客栈）</option>
                     <option value="FINISH" #if($!orderListQuery.orderStat == 'FINISH') selected #end>已完成</option>
                     <option value="CANCEL" #if($!orderListQuery.orderStat == 'CANCEL') selected #end>已取消</option>
@@ -152,7 +147,7 @@
                             </td>
                             <td class="middle">
                                 <div class="order-price">
-                                    $!utilNum.moneyTransform($!subOrder.tcDetailOrder.itemPrice)
+                                    $!utilNum.moneyTransform($!subOrder.itemPrice_)
                                 </div>
                             </td>
 
@@ -183,6 +178,7 @@
                                 <td rowspan="$!size" class="middle">
                                     <div>
                                         $!utilNum.moneyTransform($!order.tcMainOrder.totalFee)
+                                      		#if($!order.value > 0) 满$!utilNum.moneyTransform($!order.requirement) <br/> 减$!utilNum.moneyTransform($!order.value) #end
                                     </div>
                                 </td>
                                 <td rowspan="$!size" class="middle">
@@ -205,14 +201,26 @@
                                 </td>
                                 <td rowspan="$!size" class="middle">
                                     <a class="btn btn-mini btn-link addRefund detail" href="$!utilWebconfig.getActionDefaultFontPath()/order/$!order.tcMainOrder.bizOrder.bizOrderId/" target="_blank">详情</a><br/>
+                                    ##$order.orderStatus的枚举是BizOrderStatus，$!subOrder.tcDetailOrder.bizOrder.orderType的枚举是OrderBizType
                                     #if($order.orderStatus == 3)
-                                        <button type="button" class="btn btn-mini btn-link affirm"
-                                                data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">确认
-                                        </button>
+                                    ##	#if($!subOrder.tcDetailOrder.bizOrder.orderType == 200)
+                                    		<button type="button" class="btn btn-mini btn-link sendGoods"
+	                                                data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">发货
+	                                        </button>
+                                    ##	#else
+	                                 ##       <button type="button" class="btn btn-mini btn-link affirm"
+	                                 ##               data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">确认
+	                                 ##       </button>
+                                    ##	#end
                                     #end
                                     #if($order.orderStatus == 10)
                                         <button type="button" class="btn btn-mini btn-link assessment"
                                                 data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">查看评价
+                                        </button>
+                                    #end
+                                    #if($order.orderStatus == 6 && $!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
+                                        <button type="button" class="btn btn-mini btn-link isCheck"
+                                                data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">是否入驻
                                         </button>
                                     #end
                                     #if($order.orderStatus == 6 && $!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
@@ -415,6 +423,65 @@
 			});
         	
         });
+        
+        //发货
+        $(".sendGoods").click(function(){
+			var bizOrderId = $(this).attr("orderId");
+            layer.open({
+                type: 2,
+                btn: ['提交', '取消'],
+                title: '<label style="color:red;">发货提交后不可更改，请谨慎操作！</label>',
+                fix: false,
+                shadeClose: true,
+                maxmin: true,
+                area: ['800px', '230px'],
+                content: '$!utilWebconfig.getActionDefaultFontPath()/order/sendGoodsSearch?bizOrderId='+bizOrderId,
+                yes: function(index){
+                    console.log(frames == window);
+					var dilog_iframe = $($(".layui-layer-content iframe")[0].contentWindow.document);
+
+                    var bizOrderId = dilog_iframe.find("#bizOrderId").val();
+                    var wlgs= dilog_iframe.find("#choosewlId option:selected").val();
+                    var wldh = dilog_iframe.find("#wldhId").val();
+                    
+                    console.log(bizOrderId);
+                    console.log(wlgs);
+                    console.log(wldh);
+
+					if("" == wlgs || null == wlgs || 0==wlgs){
+                        layer.alert("请选择物流公司");
+                        return ;
+                    }else if(""==wldh||null == wldh ){
+                        layer.alert("请填写物流单号");
+                        return ;
+                    }else if(!check(wldh)){
+                        layer.alert("物流单号由10-20位字母或数字组成");
+                        return ;
+					}else if(checkLengthGT(wldh,20)){
+                        layer.alert("物流单号由10-20位字母或数字组成");
+                        return ;
+					}else{
+                        console.log(bizOrderId);
+                        console.log(wlgs);
+                        console.log(wldh);
+
+                        $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/order/sendGoods2/',
+								{'bizOrderId':bizOrderId,'expressCompany':wlgs,'expressNo':wldh} ,function(data){
+                            if(data.status == 200){
+                                layer.alert("操作成功");
+                            }else{
+                                layer.alert("操作失败");
+                            }
+							setTimeout(function(){
+								layer.close(index);
+							},2000);
+
+                        })
+
+                    }
+                }
+            });
+		});
     
     //备注信息
     $('.td-bz .icon-bz').hover(function () {

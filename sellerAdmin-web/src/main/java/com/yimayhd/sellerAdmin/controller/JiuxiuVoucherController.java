@@ -143,7 +143,7 @@ public class JiuxiuVoucherController extends BaseController {
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public WebResultSupport edit(@PathVariable(value = "id") long id,VoucherTemplateVO voucherTemplateVO) throws Exception {
+    public WebResultSupport edit(@PathVariable(value = "id") long id,VoucherTemplateVO voucherTemplateVO,String edtType) throws Exception {
     	WebResultSupport result = new WebResultSupport();
     	JiuxiuVoucherListQuery voucherListQuery = new JiuxiuVoucherListQuery();
     	List<Integer> ids = new ArrayList<Integer>();
@@ -159,7 +159,7 @@ public class JiuxiuVoucherController extends BaseController {
 	        
 	        voucherTemplateVO.setId(id);
 	        voucherTemplateVO.setUserId(sessionManager.getUserId());
-        	result = jiuxiuVoucherTemplateService.modify(voucherTemplateVO);
+        	result = jiuxiuVoucherTemplateService.modify(voucherTemplateVO,edtType);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			result.setWebReturnCode(WebReturnCode.REMOTE_CALL_FAILED);
@@ -249,29 +249,4 @@ public class JiuxiuVoucherController extends BaseController {
         return DateUtil.convertStringToDate(DateUtil.DATE_TIME_FORMAT,str);
     }
 
-    @RequestMapping("/setJoinStatus")
-    @ResponseBody
-    public ResponseVo setJoinStatus(long id, int status){
-        try {
-            VoucherTemplateVO voucherTemplateVO = new VoucherTemplateVO();
-            voucherTemplateVO.setId(id);
-            if (VoucherTemplateStatus.ACTIVE.getStatus() == status){
-                voucherTemplateVO.setStatus(VoucherTemplateStatus.INACTIVE.getStatus());
-            }
-            if (VoucherTemplateStatus.INACTIVE.getStatus() == status){
-                voucherTemplateVO.setStatus(VoucherTemplateStatus.ACTIVE.getStatus());
-            }
-            UserDO userDO = sessionManager.getUser();
-            if (userDO != null){
-                voucherTemplateVO.setOperator(userDO.getNickname());
-            }
-            jiuxiuVoucherTemplateService.modify(voucherTemplateVO);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseVo.error(e);
-        }
-        return ResponseVo.success();
-    }
-   
-	
 }
