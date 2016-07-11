@@ -439,6 +439,21 @@
     #end
 #end
 
+##订单列表-订单状态-普通商品
+#macro(ORDER_BIZ_STATUS_NORMAL $type)
+    #if($type == 2)
+    待付款
+    #elseif($type == 3)
+    已付款
+    #elseif($type == 6)
+    已发货
+    #elseif($type == 10)
+    已完成
+    #elseif($type == 8)
+    已取消
+    #end
+#end
+
 ##订单列表-订单状态-景区
 #macro(ORDER_BIZ_STATUS_SPOTS $type)
     #if($type == 2)
@@ -474,10 +489,12 @@
 ##订单列表-订单状态
 #macro(ROUTE_ORDER_LIST_ORDER_TYPE $type)
    	#if($type == 3100 || $type == 3200 
-	 	|| $type == 3300 || $type == 200 
+	 	|| $type == 3300 
 	 	|| $type == 3500 || $type == 3600)
 	 	
 	 	#ORDER_BIZ_STATUS_LINE($order.orderStatus)
+	#elseif($type == 200)
+		#ORDER_BIZ_STATUS_NORMAL($order.orderStatus)
 	#elseif($type == 1200)
 		#ORDER_BIZ_STATUS_SPOTS($order.orderStatus)
 	#elseif($type == 1100 || $type == 3400)
@@ -498,6 +515,8 @@
         <span>
         	#if($order.mainOrder.orderType == 1200 || $order.mainOrder.orderType == 1100)
         	待确认；
+        	#elseif($order.mainOrder.orderType == 200)
+        	已付款；
         	#else
         	处理中；
         	#end
@@ -506,9 +525,16 @@
            	 付款时间：#if($!order.mainOrder.tcMainOrder.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)#end
         </span>
         <span>
-            <button type="button" class="btn btn-primary affirm"
+        	#if($order.mainOrder.orderType == 200)
+        		<button type="button" class="btn btn-primary sendGoods"
+                    data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">发货
+            	</button>
+        	#else
+        		<button type="button" class="btn btn-primary affirm"
                     data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">确认
-            </button>
+            	</button>
+        	#end
+            
         </span>
     #elseif($type == 6)
         <span>
@@ -516,12 +542,18 @@
         	待使用；
         	#elseif($order.mainOrder.orderType == 1100)
         	预订成功；
+        	#elseif($order.mainOrder.orderType == 200)
+        	已发货；
         	#else
         	 待出行；
         	#end
         </span>
         <span>
-          	  确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.deliveryTime)
+        	 #if($order.mainOrder.orderType == 200)
+          	  	发货时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.deliveryTime)
+          	 #else
+          	 	 确认时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.deliveryTime)
+          	 #end
         </span>
     #elseif($type == 10)
         <span>

@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -232,7 +233,25 @@ public class OrderController extends BaseController {
 	@RequestMapping(value = "/sendGoodsSearch", method = RequestMethod.GET)
 	public String sendGoodsSearch(Model model,long bizOrderId){
 		List<ExpressCodeRelationDO> list = orderService.selectAllExpressCode();//查询物流公司接口
-		model.addAttribute("listExpress",list);
+		List<ExpressCodeRelationDO> list2 = new ArrayList<ExpressCodeRelationDO>();
+		for (ExpressCodeRelationDO expressCodeRelationDO : list) {
+			if(expressCodeRelationDO.getName().contains("顺丰速运")){
+				list2.add(expressCodeRelationDO);
+			}else if (expressCodeRelationDO.getName().contains("圆通")) {
+				list2.add(expressCodeRelationDO);
+			}else if (expressCodeRelationDO.getName().contains("韵达快递")) {
+				list2.add(expressCodeRelationDO);
+			}else if (expressCodeRelationDO.getName().contains("申通快递")) {
+				list2.add(expressCodeRelationDO);
+			}else if (expressCodeRelationDO.getName().contains("中通快递")) {
+				list2.add(expressCodeRelationDO);
+			}else if (expressCodeRelationDO.getName().contains("百世汇通")) {
+				list2.add(expressCodeRelationDO);
+			}else if (expressCodeRelationDO.getName().equals("EMS")) {
+				list2.add(expressCodeRelationDO);
+			}
+		}
+		model.addAttribute("listExpress",list2);
 		model.addAttribute("bizOrderId",bizOrderId);
 		return "/system/order/routeOrderSendGoods";
 	}

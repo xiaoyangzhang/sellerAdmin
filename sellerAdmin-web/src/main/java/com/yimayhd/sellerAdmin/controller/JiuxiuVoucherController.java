@@ -93,7 +93,7 @@ public class JiuxiuVoucherController extends BaseController {
     	WebResultSupport result = new WebResultSupport();
     	String key = Constant.APP+"_voucher_"+sessionManager.getUserId()+uuid;
 		boolean rs = cacheManager.addToTair(key, true , 2, 24*60*60);
-		if(rs){
+//		if(rs){
 			UserDO userDO = sessionManager.getUser();
 			voucherTemplateVO.setDomain(Constant.DOMAIN_JIUXIU);
 			voucherTemplateVO.setVoucherType(VoucherType.SUM_REDUCE.getType());
@@ -108,9 +108,9 @@ public class JiuxiuVoucherController extends BaseController {
 				result.setWebReturnCode(WebReturnCode.REMOTE_CALL_FAILED);
 				return result;
 			}
-		}else{
-			result.setWebReturnCode(WebReturnCode.VOUVHER_ADD_REPET_ERROR);
-		}
+//		}else{
+//			result.setWebReturnCode(WebReturnCode.VOUVHER_ADD_REPET_ERROR);
+//		}
         
         return result;
     }

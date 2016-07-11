@@ -18,11 +18,12 @@
 	   <span>
      		订单状态：
        </span>
-       #if($order.mainOrder.orderType == 3100 || $order.mainOrder.orderType == 3200 || $order.mainOrder.orderType == 3300 || $order.mainOrder.orderType == 200
+       #if($order.mainOrder.orderType == 3100 || $order.mainOrder.orderType == 3200 || $order.mainOrder.orderType == 3300 
         || $order.mainOrder.orderType == 3500 || $order.mainOrder.orderType == 3600)
         
         	#ORDER_BIZ_STATUS_M($order.mainOrder.orderStatus)
-	            
+	   #elseif($order.mainOrder.orderType == 200)
+	    	#ORDER_BIZ_STATUS_M($order.mainOrder.orderStatus)         
 	   #elseif($order.mainOrder.orderType == 1200)
 	    	#ORDER_BIZ_STATUS_M($order.mainOrder.orderStatus)
 	   #elseif($order.mainOrder.orderType == 1100)
@@ -79,9 +80,14 @@
         </table>
     </div>
     <br><br>
+    
     <!-- 联系人信息 -->
     <div class="contacts">
-        <div>联系人信息</div>
+    	#if($order.mainOrder.orderType == 200)
+        	<div>收货人信息</div>
+        #else
+        	<div>联系人信息</div>
+        #end
         <table class="table table-hover">
             <tr>
                 <td>姓名</td>
@@ -94,39 +100,58 @@
         </table>
     </div>
     <br><br>
-    <!-- 游客信息 -->
-    <div class="turistInfo">
-        <div>游客信息</div>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <td>序号</td>
-                <td>姓名</td>
-                <td>手机号</td>
-                <td>证件类型</td>
-                <td>证件号</td>
-            </tr>
-                #foreach($tourist in $!order.mainOrder.tcMainOrder.touristList)
-                <tr>
-                    <td>$velocityCount</td>
-
-                    <td>
-                    	#if($!order.mainOrder.tcMainOrder.bizOrder.orderType == 3500 ||$!order.mainOrder.tcMainOrder.bizOrder.orderType == 3600)
-                    		$!tourist.contactName/$!tourist.firstName $!tourist.lastName 
-                    	#else
-                    		$!tourist.contactName
-                    	#end
-                    </td>
-                    <td>$!tourist.contactPhone</td>
-                    <td>
-                    	#CERTIFICATES_TYPE($!tourist.certificatesType)
-                    </td>
-                    <td>$!tourist.certificatesNum</td>
-                </tr>
-                #end
-        </table>
-    </div>
-    <br><br>
+    ##如果是特产商品并且是已发货，则显示发货信息
+    #if($order.mainOrder.orderType == 200 && $order.mainOrder.orderStatus == 6)
+		<div class="contacts">
+	    	<div>物流信息</div>
+	        <table class="table table-hover">
+	            <tr>
+	                <td>物流公司：</td>
+	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.expressCompany</td>
+	            </tr>
+	            <tr>
+	                <td>运单编号：</td>
+	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.expressNo</td>
+	            </tr>
+	        </table>
+	    </div>
+	    <br><br>
+    #else
+	    <!-- 游客信息 -->
+	    <div class="turistInfo">
+	        <div>游客信息</div>
+	        <table class="table table-hover">
+	            <thead>
+	            <tr>
+	                <td>序号</td>
+	                <td>姓名</td>
+	                <td>手机号</td>
+	                <td>证件类型</td>
+	                <td>证件号</td>
+	            </tr>
+	                #foreach($tourist in $!order.mainOrder.tcMainOrder.touristList)
+	                <tr>
+	                    <td>$velocityCount</td>
+	
+	                    <td>
+	                    	#if($!order.mainOrder.tcMainOrder.bizOrder.orderType == 3500 ||$!order.mainOrder.tcMainOrder.bizOrder.orderType == 3600)
+	                    		$!tourist.contactName/$!tourist.firstName $!tourist.lastName 
+	                    	#else
+	                    		$!tourist.contactName
+	                    	#end
+	                    </td>
+	                    <td>$!tourist.contactPhone</td>
+	                    <td>
+	                    	#CERTIFICATES_TYPE($!tourist.certificatesType)
+	                    </td>
+	                    <td>$!tourist.certificatesNum</td>
+	                </tr>
+	                #end
+	        </table>
+	    </div>
+	    <br><br>
+	#end
+	
 	<!-- 订单商品信息 -->
     <div class="orderInfo">
     	<div>订单商品信息</div>
@@ -352,6 +377,89 @@
 			});
         	
         });
+        
+        
+        function check(str){
+            return /^[\da-z]+$/i.test(str);
+        }
+
+        function checkLengthGT(str,length){
+            if(parseInt(str.length)>parseInt(length)){
+				return true;
+			}else if(parseInt(str.length)<=10){
+                return true;
+			}else{
+				return false;
+			}
+        }
+        
+        
+        //发货
+        $(".sendGoods").click(function(){
+			var bizOrderId = $(this).attr("orderId");
+            layer.open({
+                type: 2,
+                btn: ['提交', '取消'],
+                title: '<label style="color:red;">发货提交后不可更改，请谨慎操作！</label>',
+                fix: false,
+                shadeClose: true,
+                maxmin: true,
+                area: ['800px', '230px'],
+                content: '$!utilWebconfig.getActionDefaultFontPath()/order/sendGoodsSearch?bizOrderId='+bizOrderId,
+                yes: function(index){
+                    console.log(frames == window);
+					var dilog_iframe = $($(".layui-layer-content iframe")[0].contentWindow.document);
+
+                    var bizOrderId = dilog_iframe.find("#bizOrderId").val();
+                    var wlgs= dilog_iframe.find("#choosewlId option:selected").text();
+                    var wldh = dilog_iframe.find("#wldhId").val();
+                    
+                    console.log(bizOrderId);
+                    console.log(wlgs);
+                    console.log(wldh);
+
+					if("" == wlgs || null == wlgs || 0==wlgs){
+                        layer.alert("请选择物流公司");
+                        return ;
+                    }else if(""==wldh||null == wldh ){
+                        layer.alert("请填写物流单号");
+                        return ;
+                    }else if(!check(wldh)){
+                        layer.alert("物流单号由10-20位字母或数字组成");
+                        return ;
+					}else if(checkLengthGT(wldh,20)){
+                        layer.alert("物流单号由10-20位字母或数字组成");
+                        return ;
+					}
+                    console.log(bizOrderId);
+                    console.log(wlgs);
+                    console.log(wldh);
+
+                    $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/order/sendGoods/',
+							{'bizOrderId':bizOrderId,'expressCompany':wlgs,'expressNo':wldh} ,function(data){
+                        if(data.status == 200){
+                            layer.msg('操作成功', {
+		        				icon : 1,
+		        				time : 1000
+		        			});
+		    				window.location.reload();
+                        }else{
+                            layer.msg('操作失败', {
+		        				icon : 2,
+		        				time : 1000
+		        			});
+                        }
+						setTimeout(function(){
+							layer.close(index);
+						},1000);
+
+                    })
+
+                    
+                }
+            });
+		});
+        
 
             //取消订单
             $(".cancel").click(function(){
