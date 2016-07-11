@@ -264,7 +264,7 @@ public class UploadController extends BaseController {
 		try {
 			if (size > MAX_LENGTH) {
 				return null;
-			} else if (size > TfsFile.MAX_SMALL_IO_LENGTH && size < MAX_LENGTH) {
+			} else if (size > TfsFile.MAX_SMALL_FILE_LENGTH && size < MAX_LENGTH) {
 				String key = String.valueOf(System.currentTimeMillis());
 				tfsName = tfsManager.saveLargeFile(bytes, null, suffix, key);
 			} else {
