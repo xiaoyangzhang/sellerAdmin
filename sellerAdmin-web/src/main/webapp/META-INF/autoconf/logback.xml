@@ -127,7 +127,7 @@
     <logger name=" com.yimayhd.sellerAdmin.mapper" level="TRACE"/>
 
     <!--<logger name="com.pajk.sims"/>-->
-    <root level="TRACE">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
         <!--
         <appender-ref ref="DEBUG"/>
