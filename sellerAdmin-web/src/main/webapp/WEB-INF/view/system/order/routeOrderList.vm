@@ -203,15 +203,15 @@
                                     <a class="btn btn-mini btn-link addRefund detail" href="$!utilWebconfig.getActionDefaultFontPath()/order/$!order.tcMainOrder.bizOrder.bizOrderId/" target="_blank">详情</a><br/>
                                     ##$order.orderStatus的枚举是BizOrderStatus，$!subOrder.tcDetailOrder.bizOrder.orderType的枚举是OrderBizType
                                     #if($order.orderStatus == 3)
-                                    ##	#if($!subOrder.tcDetailOrder.bizOrder.orderType == 200)
+                                    	#if($!subOrder.tcDetailOrder.bizOrder.orderType == 200)
                                     		<button type="button" class="btn btn-mini btn-link sendGoods"
 	                                                data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">发货
 	                                        </button>
-                                    ##	#else
-	                                 ##       <button type="button" class="btn btn-mini btn-link affirm"
-	                                 ##               data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">确认
-	                                 ##       </button>
-                                    ##	#end
+                                    	#else
+	                                        <button type="button" class="btn btn-mini btn-link affirm"
+	                                                data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">确认
+	                                        </button>
+                                    	#end
                                     #end
                                     #if($order.orderStatus == 10)
                                         <button type="button" class="btn btn-mini btn-link assessment"
