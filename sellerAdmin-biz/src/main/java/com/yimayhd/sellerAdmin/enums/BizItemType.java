@@ -17,7 +17,7 @@ public enum BizItemType {
 	SPOTS(ItemType.SPOTS,"国内景点门票"),
 	HOTEL(ItemType.HOTEL,"酒店客栈"),
 	MUST_BUY(ItemType.NORMAL, "特产商品"),
-	POINT_MALL(ItemType.POINT_MALL, "积分商品");
+	POINT_MALL(ItemType.POINT_MALL, "积分商城");
 	private String		text;
 	private ItemType	itemType;
 

@@ -29,7 +29,7 @@ public interface JiuxiuVoucherTemplateService {
      * @return 
      * @throws Exception
      */
-    WebResultSupport modify(VoucherTemplateVO entity) throws Exception;
+    WebResultSupport modify(VoucherTemplateVO entity,String edtType) throws Exception;
 
     /**
      * 添加优惠券模板

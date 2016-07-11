@@ -16,7 +16,7 @@
 <div class="example whole">
     <form name="commodityForm" id="commodityForm" class="form-horizontal" action="" method="post" commodityId="$!commodity.id">
     	<input type ="hidden" id ="uuid" name ="uuid" value ="$!UUID" />
-        <div class="">
+        <div class="gradeID">
                 <table class="table tab-productdetail">
                     <input type="hidden" name="categoryId" value="$!category.id">
                     <input type="hidden" name="rootCategoryId" value="$!category.parent.id">
@@ -34,7 +34,7 @@
                     #*version 新增时为1*#
                     <input type="hidden" name="version" value="1">
                     #*有没有sku*#
-                    <input type="hidden" name="options" value="#if($!category.sellCategoryPropertyDOs) 1 #else 0 #end">
+                    <input type="hidden" name="options" value="#if($!category.sellCategoryPropertyDOs.size > 0) 1 #else 0 #end">
                     #*减库存方式*#
                     <input class="reduceType" type="hidden" name="reduceType" value="1">
 

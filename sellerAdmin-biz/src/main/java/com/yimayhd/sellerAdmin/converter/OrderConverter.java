@@ -253,8 +253,8 @@ public class OrderConverter {
 
                 }
                 //获取子订单实付金额
-                //TODO
-//                subOrder.setItemPrice_( BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder()));
+                subOrder.setItemPrice_(BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder().getBizOrderDO()));
+                BizOrderUtil.getSubOrderTotalFee(tcDetailOrder.getBizOrder().getBizOrderDO());
                 
                 subOrderList.add(subOrder);
             }
