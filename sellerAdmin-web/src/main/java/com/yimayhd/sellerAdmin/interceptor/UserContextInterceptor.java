@@ -1,24 +1,23 @@
 package com.yimayhd.sellerAdmin.interceptor;
- 
-import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.yimayhd.sellerAdmin.biz.MenuBiz;
+import com.yimayhd.sellerAdmin.biz.helper.MenuHelper;
+import com.yimayhd.sellerAdmin.cache.MenuCacheMananger;
+import com.yimayhd.sellerAdmin.model.vo.menu.MenuVO;
+import com.yimayhd.sellerAdmin.repo.MenuRepo;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.session.manager.SessionHelper;
+import com.yimayhd.user.session.manager.SessionManager;
+import com.yimayhd.user.session.manager.constant.SessionConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.yimayhd.sellerAdmin.biz.MenuBiz;
-import com.yimayhd.sellerAdmin.biz.helper.MenuHelper;
-import com.yimayhd.sellerAdmin.cache.MenuCacheMananger;
-import com.yimayhd.sellerAdmin.model.vo.menu.MenuVO;
-import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.session.manager.SessionHelper;
-import com.yimayhd.user.session.manager.SessionManager;
-import com.yimayhd.user.session.manager.constant.SessionConstant;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public class UserContextInterceptor extends HandlerInterceptorAdapter {
 
@@ -30,6 +29,9 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 	private MenuCacheMananger menuCacheMananger ;
 	@Autowired
 	private MenuBiz menuBiz;
+
+	@Autowired
+	private MenuRepo menuRepo;
 	
 	@Value("${sellerAdmin.rootPath}")
 	private String rootPath;
@@ -48,7 +50,9 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 //			System.err.println(pathInfo);
 //			menuBiz.cacheUserMenus2Tair(userId);
 			
-			List<MenuVO> menus = menuCacheMananger.getUserMenus(userId);
+			//List<MenuVO> menus = menuCacheMananger.getUserMenus(userId);
+			//权限整合
+			List<MenuVO> menus = menuRepo.getUserMenus(userId);
 //			System.err.println(JSON.toJSONString(menus));
 			MenuVO menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
 			/* wdtest 上线前放开

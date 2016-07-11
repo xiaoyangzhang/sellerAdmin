@@ -63,7 +63,7 @@ public class MenuHelper {
 		}
 		return null;
 	}
-	
+
 	public static HashMap<String, MenuVO> mapMenus(List<MenuVO> menus){
 		if( CollectionUtils.isEmpty(menus) ){
 			return null;
