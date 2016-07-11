@@ -23,6 +23,7 @@ import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.ic.client.model.enums.PayType;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
@@ -353,6 +354,9 @@ public class CommodityServiceImpl implements CommodityService {
 		CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
 		removeEmptyProperty(itemVO);
 		ItemDO itemDO = ItemVO.getItemDO(itemVO);
+		if(itemVO.getMaxPoint() > 0){
+			itemDO.setItemType(ItemType.POINT_MALL.getValue());
+		}
 		itemDO.setDomain(Constant.DOMAIN_JIUXIU);
 		commonItemPublishDTO.setItemDO(itemDO);
 		commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
