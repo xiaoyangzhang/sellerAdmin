@@ -29,7 +29,7 @@
 			<input type ="hidden" id ="edtType" name ="edtType" value ="$!edtType" />
 			<p>
 				<em><s>*</s>优惠券名称：</em>
-				<span><input type = "text" maxlength = "10" #if($!edtType=='ACTIVE') disabled="disabled" #end datatype = "*" class = "coupon-input" name = "title" value="$!voucherTemplate.title"/ ></span>
+				<span><input type = "text" maxlength = "10" #if($!edtType=='ACTIVE') disabled="disabled" #end datatype = "*" class = "coupon-input" name = "title" value="$!voucherTemplate.title"/ ><a class = "dis2">最长为60天</a></span>
 			</p>
 			<p>
 				<em><s>*</s>满减金额：</em>
@@ -44,6 +44,7 @@
 					<input #if($!edtType=='ACTIVE') disabled="disabled" #end id="putstartime" class = "field coupon-input"  name="putStartTime" title="开始时间" value="$!date.format('yyyy-MM-dd',$!voucherTemplate.putStartTime)"   readonly="readonly">
 					<font class = "dis">至</font>
 					<input  id="putendtime" class = "field coupon-input dis" name="putEndTime" title="结束时间" value="$!date.format('yyyy-MM-dd',$!voucherTemplate.putEndTime)" readonly="readonly">
+					<a class = "dis2">最长为60天</a>
 				</span>
 			</p>
 			<p>
@@ -52,6 +53,7 @@
 					<input #if($!edtType=='ACTIVE') disabled="disabled" #end id="getstartime" class = "field coupon-input" name="startTime" title="开始时间" value="$!date.format('yyyy-MM-dd',$!voucherTemplate.startTime)"   readonly="readonly">
 					<font class = "dis">至</font>
 					<input #if($!edtType=='ACTIVE') disabled="disabled" #end id="getendtime" class = "field coupon-input dis" name="endTime" title="结束时间" value="$!date.format('yyyy-MM-dd',$!voucherTemplate.endTime)" readonly="readonly">
+					<a class = "dis2">最长为60天</a>
 				</span>
 			</p>
 			<p>

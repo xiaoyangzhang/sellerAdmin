@@ -178,7 +178,9 @@
                                 <td rowspan="$!size" class="middle">
                                     <div>
                                         $!utilNum.moneyTransform($!order.tcMainOrder.totalFee)<br/>
-                                      		#if($!order.value > 0) 满$!utilNum.moneyTransform($!order.requirement) <br/> 减$!utilNum.moneyTransform($!order.value) #end
+                                      		#if($!order.value > 0) 
+                                      			<span class="fullCut">满$!utilNum.moneyTransform($!order.requirement)减$!utilNum.moneyTransform($!order.value)</span>
+                                      		#end
                                     </div>
                                 </td>
                                 <td rowspan="$!size" class="middle">
@@ -424,21 +426,6 @@
         	
         });
         
-        function check(str){
-            return /^[\da-z]+$/i.test(str);
-        }
-
-        function checkLengthGT(str,length){
-            if(parseInt(str.length)>parseInt(length)){
-				return true;
-			}else if(parseInt(str.length)<=10){
-                return true;
-			}else{
-				return false;
-			}
-        }
-        
-        
         //发货
         $(".sendGoods").click(function(){
 			var bizOrderId = $(this).attr("orderId");
@@ -452,33 +439,22 @@
                 area: ['800px', '230px'],
                 content: '$!utilWebconfig.getActionDefaultFontPath()/order/sendGoodsSearch?bizOrderId='+bizOrderId,
                 yes: function(index){
-                    console.log(frames == window);
 					var dilog_iframe = $($(".layui-layer-content iframe")[0].contentWindow.document);
 
                     var bizOrderId = dilog_iframe.find("#bizOrderId").val();
                     var wlgs= dilog_iframe.find("#choosewlId option:selected").text();
                     var wldh = dilog_iframe.find("#wldhId").val();
-                    
-                    console.log(bizOrderId);
-                    console.log(wlgs);
-                    console.log(wldh);
 
-					if("" == wlgs || null == wlgs || 0==wlgs){
+					if("" == wlgs || null == wlgs || "请选择"==wlgs){
                         layer.alert("请选择物流公司");
                         return ;
                     }else if(""==wldh||null == wldh ){
                         layer.alert("请填写物流单号");
                         return ;
-                    }else if(!check(wldh)){
-                        layer.alert("物流单号由10-20位字母或数字组成");
-                        return ;
-					}else if(checkLengthGT(wldh,20)){
+                    }else if(!/^[0-9A-Za-z]{10,20}$/.test(wldh)){
                         layer.alert("物流单号由10-20位字母或数字组成");
                         return ;
 					}
-                    console.log(bizOrderId);
-                    console.log(wlgs);
-                    console.log(wldh);
 
                     $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/order/sendGoods/',
 							{'bizOrderId':bizOrderId,'expressCompany':wlgs,'expressNo':wldh} ,function(data){

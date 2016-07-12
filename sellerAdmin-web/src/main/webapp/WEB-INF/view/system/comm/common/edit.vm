@@ -71,7 +71,7 @@
 	                    <tr>
 	                        <td><span class="red">*</span>最多可用积分</td>
 	                        <td>
-	                            <input class="maxPoint form-control" type="text" name="maxPoint" value="$!commodity.maxPoint" maxlength="9">分 100分=1元
+	                            <input reg="/^[1-9]\d*$/" class="maxPoint form-control" type="text" name="maxPoint" value="$!commodity.maxPoint" maxlength="9">分 100分=1元
 	                        </td>
 	                    </tr>
                     #end
@@ -423,6 +423,15 @@
         if(!skuTableShowFlag){
             if(!$('.priceY').val() || !/^\d{1,6}(\.\d{1,2})?$|^[1-9]\d{0,5}$/.test($('.priceY').val())){
                 return '价格为数字，最大六位整数，可带两位小数';
+            }
+            var reg = $('.maxPoint').attr("reg");
+            if(reg){
+            	if(!/^[1-9]\d*$/.test($('.maxPoint').val())) {
+		            return '请输入正确的积分';
+		        }
+		        if($('.maxPoint').val() < 100) {
+		            return '积分必须大于100';
+		        }
             }
             if($('.priceY').val()*100 < $('.maxPoint').val()){
             	return '最多可用积分不得超过商品价格';

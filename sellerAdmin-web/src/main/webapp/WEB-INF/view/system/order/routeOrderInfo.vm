@@ -85,37 +85,57 @@
     <div class="contacts">
     	#if($order.mainOrder.orderType == 200)
         	<div>收货人信息</div>
+        	<table class="table table-hover">
+	            <tr>
+	            	<td>序号</td>
+	                <td>姓名</td>
+	                <td>手机号</td>
+	                <td>邮编</td>
+	                <td>所在地区</td>
+	                <td>详细地址</td>
+	            </tr>
+	            <tr>
+	            	<td>1</td>
+	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.fullName</td>
+	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.mobilePhone</td>
+	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.post</td>
+	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.prov $!order.mainOrder.tcMainOrder.logisticsOrderDO.city</td>
+	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.address</td>
+	            </tr>
+	        </table>
         #else
         	<div>联系人信息</div>
+        	<table class="table table-hover">
+	            <tr>
+	                <td>姓名</td>
+	                <td>手机号</td>
+	            </tr>
+	            <tr>
+	                <td>$!order.mainOrder.tcMainOrder.contactInfo.contactName</td>
+	                <td>$!order.mainOrder.tcMainOrder.contactInfo.contactPhone</td>
+	            </tr>
+	        </table>
         #end
-        <table class="table table-hover">
-            <tr>
-                <td>姓名</td>
-                <td>手机号</td>
-            </tr>
-            <tr>
-                <td>$!order.mainOrder.tcMainOrder.contactInfo.contactName</td>
-                <td>$!order.mainOrder.tcMainOrder.contactInfo.contactPhone</td>
-            </tr>
-        </table>
     </div>
     <br><br>
     ##如果是特产商品并且是已发货，则显示发货信息
-    #if($order.mainOrder.orderType == 200 && $order.mainOrder.orderStatus == 6)
-		<div class="contacts">
-	    	<div>物流信息</div>
-	        <table class="table table-hover">
-	            <tr>
-	                <td>物流公司：</td>
-	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.expressCompany</td>
-	            </tr>
-	            <tr>
-	                <td>运单编号：</td>
-	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.expressNo</td>
-	            </tr>
-	        </table>
-	    </div>
+    #if($order.mainOrder.orderType == 200)
+    	#if($order.mainOrder.orderStatus == 6)
+			<div class="contacts">
+		    	<div>物流信息</div>
+		        <table class="table table-hover">
+		            <tr>
+		                <td>物流公司：</td>
+		                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.expressCompany</td>
+		            </tr>
+		            <tr>
+		                <td>运单编号：</td>
+		                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.expressNo</td>
+		            </tr>
+		        </table>
+		    </div>
 	    <br><br>
+	    #end
     #else
 	    <!-- 游客信息 -->
 	    <div class="turistInfo">
@@ -201,9 +221,11 @@
                     <td>
                         <div class="">
                          	#if($!order.mainOrder.orderType == 3100 || $!order.mainOrder.orderType == 3200 
-                             	|| $!order.mainOrder.orderType == 3300 || $!order.mainOrder.orderType == 200 
+                             	|| $!order.mainOrder.orderType == 3300  
                              	|| $!order.mainOrder.orderType == 3500 || $!order.mainOrder.orderType == 3600)
                          		#ORDER_BIZ_STATUS_LINE($order.mainOrder.orderStatus)
+                         	#elseif($!order.mainOrder.orderType == 200)
+                            	#ORDER_BIZ_STATUS_NORMAL($order.mainOrder.orderStatus)
                             #elseif($!order.mainOrder.orderType == 1200)
                             	#ORDER_BIZ_STATUS_SPOTS($order.mainOrder.orderStatus)
                             #elseif($!order.mainOrder.orderType == 1100 || $!order.mainOrder.orderType == 3400)
