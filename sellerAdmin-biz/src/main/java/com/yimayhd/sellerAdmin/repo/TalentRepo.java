@@ -154,24 +154,24 @@ public class TalentRepo {
 		try {
 			
 			
-			MerchantQuery merchantQuery = new MerchantQuery();
-			merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
-			merchantQuery.setName(vo.getMerchantName());
-			WebResult<List<MerchantDO>> queryMerchantResult = merchantApplyRepo.queryMerchant(merchantQuery);
-			if (queryMerchantResult == null || !queryMerchantResult.isSuccess()  ) {
-				result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
-				return result;
-			}
-			List<MerchantDO> merchantDOs = queryMerchantResult.getValue()	;
-			
-			if (null != merchantDOs && merchantDOs.size() > 0) {
-				for (MerchantDO merchantDO : merchantDOs) {
-					if (merchantDO.getSellerId() != userId) {
-					result.setWebReturnCode(WebReturnCode.MERCHANT_NAME_EXIST);
-						return result;
-					}
-				}
-			}
+//			MerchantQuery merchantQuery = new MerchantQuery();
+//			merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+//			merchantQuery.setName(vo.getMerchantName());
+//			WebResult<List<MerchantDO>> queryMerchantResult = merchantApplyRepo.queryMerchant(merchantQuery);
+//			if (queryMerchantResult == null || !queryMerchantResult.isSuccess()  ) {
+//				result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+//				return result;
+//			}
+//			List<MerchantDO> merchantDOs = queryMerchantResult.getValue()	;
+//			
+//			if (null != merchantDOs && merchantDOs.size() > 0) {
+//				for (MerchantDO merchantDO : merchantDOs) {
+//					if (merchantDO.getSellerId() != userId) {
+//					result.setWebReturnCode(WebReturnCode.MERCHANT_NAME_EXIST);
+//						return result;
+//					}
+//				}
+//			}
 			ExamineInfoDTO dto = MerchantConverter.convertVO2DTO(vo, userId);
 			
 			dto.setType(ExamineType.TALENT.getType());
