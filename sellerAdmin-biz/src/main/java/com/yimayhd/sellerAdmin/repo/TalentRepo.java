@@ -26,6 +26,8 @@ import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.MerchantConverter;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
+import com.yimayhd.user.client.domain.MerchantDO;
+import com.yimayhd.user.client.query.MerchantQuery;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /***
@@ -42,8 +44,8 @@ public class TalentRepo {
 	private ExamineDealService examineDealService;
 	@Autowired
 	private SessionManager sessionManager;
-//	@Autowired
-//	private ApplyService applyServiceRef;
+	@Autowired
+	private MerchantApplyRepo merchantApplyRepo;
 	public WebResult<List<CertificatesDO>> getServiceTypes() {
 		MemResult<List<CertificatesDO>> serviceTypes = talentInfoDealService.queryTalentServiceType();
 		if (serviceTypes == null) {
@@ -146,10 +148,32 @@ public class TalentRepo {
 		if (vo == null) {
 			return null;
 		}
-		//WebResult<Boolean> result = new WebResult<Boolean>();
+		long userId = sessionManager.getUserId();
+
 		WebResult<Boolean> result = new WebResult<Boolean>();
 		try {
-			ExamineInfoDTO dto = MerchantConverter.convertVO2DTO(vo, sessionManager.getUserId());
+			
+			
+			MerchantQuery merchantQuery = new MerchantQuery();
+			merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+			merchantQuery.setName(vo.getMerchantName());
+			WebResult<List<MerchantDO>> queryMerchantResult = merchantApplyRepo.queryMerchant(merchantQuery);
+			if (queryMerchantResult == null || !queryMerchantResult.isSuccess()  ) {
+				result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+				return result;
+			}
+			List<MerchantDO> merchantDOs = queryMerchantResult.getValue()	;
+			
+			if (null != merchantDOs && merchantDOs.size() > 0) {
+				for (MerchantDO merchantDO : merchantDOs) {
+					if (merchantDO.getSellerId() != userId) {
+					result.setWebReturnCode(WebReturnCode.MERCHANT_NAME_EXIST);
+						return result;
+					}
+				}
+			}
+			ExamineInfoDTO dto = MerchantConverter.convertVO2DTO(vo, userId);
+			
 			dto.setType(ExamineType.TALENT.getType());
 			MemResult<Boolean> ExamineInfoResult = examineDealService.submitMerchantExamineInfo(dto);
 			if (ExamineInfoResult == null) {
