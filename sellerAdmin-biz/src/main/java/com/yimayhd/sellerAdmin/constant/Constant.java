@@ -119,4 +119,8 @@ public class Constant {
 	 * 优惠劵发劵限制
 	 */
 	public static final int VOUCHET_PUT_MAX_LIMIT=10000;
+	/**
+	 * 优惠劵领卷时间间隔
+	 */
+	public static final int VOUCHET_TIME_LIMIT=60;
 }

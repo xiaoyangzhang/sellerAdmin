@@ -179,7 +179,7 @@
                                     <div>
                                         $!utilNum.moneyTransform($!order.tcMainOrder.totalFee)<br/>
                                       		#if($!order.value > 0) 
-                                      			<span class="fullCut">满$!utilNum.moneyTransform($!order.requirement)减$!utilNum.moneyTransform($!order.value)</span>
+                                      			<span class="fullCut">满$!utilNum.moneyTransform($!order.requirement)<br/>减$!utilNum.moneyTransform($!order.value)</span>
                                       		#end
                                     </div>
                                 </td>
