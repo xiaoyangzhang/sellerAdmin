@@ -252,8 +252,13 @@ public class OrderConverter {
                 }else if (tcBizOrder.getOrderType() == OrderBizType.NORMAL.getBizType()){
 
                 }
+                //订单实付总额
+                long total = BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder().getBizOrderDO());
                 //获取子订单实付金额
-                subOrder.setItemPrice_(BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder().getBizOrderDO()));
+                if(tcDetailOrder.getBizOrder().getBuyAmount() > 0){
+                	long act = total/tcDetailOrder.getBizOrder().getBuyAmount();
+                	subOrder.setItemPrice_(act);
+                }
                 BizOrderUtil.getSubOrderTotalFee(tcDetailOrder.getBizOrder().getBizOrderDO());
                 
                 subOrderList.add(subOrder);

@@ -118,9 +118,9 @@
         #end
     </div>
     <br><br>
-    ##如果是特产商品并且是已发货，则显示发货信息
+    ##如果是特产商品并且是已发货、已完成，则显示发货信息
     #if($order.mainOrder.orderType == 200)
-    	#if($order.mainOrder.orderStatus == 6)
+    	#if($order.mainOrder.orderStatus == 6 || $order.mainOrder.orderStatus == 10)
 			<div class="contacts">
 		    	<div>物流信息</div>
 		        <table class="table table-hover">
