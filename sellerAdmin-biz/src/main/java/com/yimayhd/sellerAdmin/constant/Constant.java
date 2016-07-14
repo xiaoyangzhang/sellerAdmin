@@ -123,4 +123,10 @@ public class Constant {
 	 * 优惠劵领卷时间间隔
 	 */
 	public static final int VOUCHET_TIME_LIMIT=60;
+	 
+	/**
+	 * 九休商品类目根节点
+	 */
+	public static final int JX_ITEM_ROOT = 200;
+	public static final int LAYER_NUM = 5;
 }

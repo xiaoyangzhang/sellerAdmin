@@ -24,6 +24,11 @@ public class WebResourceConfigUtil {
 	private final static String JIUXIU_OFFICIAL_SITE = "jiuxiu.official.site";
 	private final static String FILEGW_DOMAIN = "filegw.domain";
 
+	private final static String filegwPath = "filegw.path";
+	private final static String JIUXIU_IM_SITE="jiuxiu.im.site";
+	public static String getIMPath() {
+		return ResourceConfig.getInstance().getValueByKey(JIUXIU_IM_SITE);
+	}
 	public static String getRootPath() {
 		return ResourceConfig.getInstance().getValueByKey(ROOT_PATH_KEY);
 	}
