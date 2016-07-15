@@ -13,7 +13,6 @@
 	</parent>
 	<modules>
 		<module>sellerAdmin-web</module>
-		<module>sellerAdmin-api</module>
 		<module>sellerAdmin-biz</module>
 	</modules>
 	<properties>
@@ -97,11 +96,7 @@
 				<artifactId>sellerAdmin-biz</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>com.yimayhd</groupId>
-				<artifactId>sellerAdmin-api</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+			
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-webmvc</artifactId>
