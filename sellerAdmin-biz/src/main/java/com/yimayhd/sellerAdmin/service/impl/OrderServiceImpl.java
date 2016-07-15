@@ -483,4 +483,9 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return true;
 	}
+
+	@Override
+	public  TcSingleQueryResult searchOrderById(long bizOrderId) {
+		return tcBizQueryServiceRef.querySingle(bizOrderId, new OrderQueryOption());
+	}
 }

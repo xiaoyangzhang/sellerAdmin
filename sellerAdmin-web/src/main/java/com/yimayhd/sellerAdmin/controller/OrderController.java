@@ -45,6 +45,8 @@ import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
 import com.yimayhd.tradecenter.client.model.param.order.UpdateBizOrderExtFeatureDTO;
 import com.yimayhd.tradecenter.client.model.result.ResultSupport;
+import com.yimayhd.tradecenter.client.model.result.order.TcSingleQueryResult;
+import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
 import com.yimayhd.tradecenter.client.service.trade.TcTradeService;
 
 
@@ -269,6 +271,20 @@ public class OrderController extends BaseController {
 		if(0==bizOrderId || StringUtils.isEmpty(expressCompany) || StringUtils.isEmpty(expressNo)){
 			return new ResponseVo(ResponseStatus.INVALID_DATA);
 		}
+		//权限校验
+		TcSingleQueryResult result = orderService.searchOrderById(bizOrderId);
+		if(result == null || !result.isSuccess() || null==result.getTcMainOrder()){
+			return new ResponseVo(ResponseStatus.NOT_FOUND);
+		}
+		TcBizOrder bizOrder = result.getTcMainOrder().getBizOrder();
+		if (null == bizOrder) {
+			return new ResponseVo(ResponseStatus.NOT_FOUND);
+		}
+		if(bizOrder.getBizOrderId() != bizOrderId){
+			return new ResponseVo(ResponseStatus.PARAM_ERROR);
+		}
+		//权限校验end
+		
 		long userId = sessionManager.getUserId();
 		StringBuilder sb = new StringBuilder();
 		sb.append(" time=").append(DateUtil.format(new Date()))

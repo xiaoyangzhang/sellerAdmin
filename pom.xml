@@ -13,6 +13,7 @@
 	</parent>
 	<modules>
 		<module>sellerAdmin-web</module>
+		<module>sellerAdmin-api</module>
 		<module>sellerAdmin-biz</module>
 	</modules>
 	<properties>
@@ -39,6 +40,7 @@
 		<tair.version>2.3.4.3</tair.version>
 		<activity.client.version>1.1.0-SNAPSHOT</activity.client.version>
 		<lgcenter.client.version>0.0.6-SNAPSHOT</lgcenter.client.version>
+		<api-util.version>1.4.1.1-SNAPSHOT</api-util.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -66,6 +68,26 @@
 				</exclusions>
 			</dependency>
 			<dependency>
+                <groupId>com.yimayhd.api</groupId>
+                <artifactId>api-util</artifactId>
+                <version>${api-util.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>log4j-core</artifactId>
+                    </exclusion>
+
+                    <exclusion>
+                        <groupId>org.apache.logging.log4j</groupId>
+                        <artifactId>log4j-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 				<version>18.0</version>
@@ -75,7 +97,11 @@
 				<artifactId>sellerAdmin-biz</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
+			<dependency>
+				<groupId>com.yimayhd</groupId>
+				<artifactId>sellerAdmin-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-webmvc</artifactId>

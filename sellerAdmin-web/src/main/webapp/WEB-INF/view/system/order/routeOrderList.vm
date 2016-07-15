@@ -167,7 +167,7 @@
                                 <td rowspan="$!size" class="middle">
                                     <div>
                                         <div class="txt">$!order.user.nickname</div>
-                                        <div class="txt">$!order.user.mobileNo</div>
+                                        <div class="txt">$!utilPhone.phoneFormat($!order.user.mobileNo)</div>
                                     </div>
                                 </td>
                                 <td rowspan="$!size" class="middle">
@@ -218,11 +218,6 @@
                                     #if($order.orderStatus == 10)
                                         <button type="button" class="btn btn-mini btn-link assessment"
                                                 data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">查看评价
-                                        </button>
-                                    #end
-                                    #if($order.orderStatus == 6 && $!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
-                                        <button type="button" class="btn btn-mini btn-link isCheck"
-                                                data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">是否入驻
                                         </button>
                                     #end
                                     #if($order.orderStatus == 6 && $!subOrder.tcDetailOrder.bizOrder.orderType == 3400)

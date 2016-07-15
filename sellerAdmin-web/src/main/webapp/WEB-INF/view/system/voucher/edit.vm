@@ -33,8 +33,8 @@
 			</p>
 			<p>
 				<em><s>*</s>满减金额：</em>
-				<span class = "tip"><strong>满</strong><input #if($!edtType=='ACTIVE') disabled="disabled" #end type = "text" id = "starnum" maxlength="8" class = "coupon-num dis" name = "requirement_" value = "$!voucherTemplate.requirement_"></input>
-					<strong class = "dis">减</strong><input #if($!edtType=='ACTIVE') disabled="disabled" #end type = "text" id = "emdnum" maxlength="8" class = "coupon-num dis" name = "value_" value="$!voucherTemplate.value_"/>
+				<span class = "tip"><strong>满</strong><input #if($!edtType=='ACTIVE') disabled="disabled" #end type = "text" id = "starnum" maxlength="8" class = "coupon-num dis" name = "requirement_" value = "$!utilNum.doubleDelZero($!voucherTemplate.requirement_)"></input>
+					<strong class = "dis">减</strong><input #if($!edtType=='ACTIVE') disabled="disabled" #end type = "text" id = "emdnum" maxlength="8" class = "coupon-num dis" name = "value_" value="$!utilNum.doubleDelZero($!voucherTemplate.value_)"/>
 					<strong class = "dis">元</strong>
 				</span>
 			</p>
