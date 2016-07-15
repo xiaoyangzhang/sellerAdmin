@@ -9,6 +9,7 @@
 #set( $root_path = $utilWebconfig.getRootPath() )
 
 #set( $jiuniu_update_file = $utilWebconfig.getActionUploadFilePath() )
+#set( $jiuniu_im_site = $utilWebconfig.getIMPath() )
 
 <!-- 是否是测试模式 -->
 #set( $test = $utilWebconfig.isTestMode())

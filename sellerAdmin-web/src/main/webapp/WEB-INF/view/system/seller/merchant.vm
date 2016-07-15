@@ -31,7 +31,7 @@
 						</span>
 					</p>
 					<p>
-						<em>客服电话  :</em>
+						<em><font>*</font>客服电话  :</em>
 						<span>
 							<input type="text" value="$!serviceTel" name="serviceTel" class="inputxt fixdetel"   />
 						</span>
