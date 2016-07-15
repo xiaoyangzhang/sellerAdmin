@@ -12,6 +12,8 @@ public class GoodsDetail implements Serializable {
 	private static final long serialVersionUID = 3886089390572328400L;
 	@Description("商品管理")
 	public GoodsManagement goodsManagement;
-	
-	
+	@Description("商品id")
+	public long id;
+	@Description("商品信息")
+	public PublishServiceDO publishServiceDO;
 }
