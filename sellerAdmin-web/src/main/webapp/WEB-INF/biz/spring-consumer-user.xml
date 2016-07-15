@@ -58,14 +58,4 @@
 	<bean id="cityDataCacheClient" class="com.yimayhd.user.client.cache.CityDataCacheClient">
 		<property name="dataCacheService" ref="dataCacheServiceRef" />
 	</bean>
-	<bean id="publishGoodsApiExport" class="com.alibaba.dubbo.config.spring.ServiceBean">
-              <property name="interface" value="org.yimayhd.sellerAdmin.api.PublishGoodsApi"/>
-              <property name="ref" ref="publishGoodsApi"/>
-              <property name="application" ref="dubboApplicationConfig"/>
-              <property name="registry" ref="dubboRegistryConfig"/>
-              <property name="protocol" ref="dubboProtocolConfig"/>
-              <property name="version" value="${export.dubbo.version}"/>
-              <property name="timeout" value="${export.dubbo.timeout}"/>
-              <property name="retries" value="${dubbo.retries}"/>
-       </bean>
 </beans>
