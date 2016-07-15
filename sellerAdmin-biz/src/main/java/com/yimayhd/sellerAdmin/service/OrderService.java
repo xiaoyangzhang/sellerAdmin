@@ -12,6 +12,7 @@ import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
 import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
 import com.yimayhd.tradecenter.client.model.param.order.UpdateBizOrderExtFeatureDTO;
+import com.yimayhd.tradecenter.client.model.result.order.TcSingleQueryResult;
 
 /**
  * 订单服务接口
@@ -81,5 +82,12 @@ public interface OrderService {
 	 * @return
 	 */
 	List<ExpressCodeRelationDO> selectAllExpressCode();
+	
+	/**
+	 *  根据订单号查询订单
+	 * @param bizOrderId
+	 * @return
+	 */
+	TcSingleQueryResult searchOrderById(long bizOrderId);
 
 }
