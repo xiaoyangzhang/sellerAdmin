@@ -106,8 +106,10 @@ public class IntegralMallController extends BaseController {
 			itemVO.setPayType(PayType.MONEY_OR_POINT.getValue());
 			commodityService.addCommonItem(itemVO);
 			model.addAttribute("href", "/item/list");
+			return "/success";
 		}
-		return "/success";
+		model.addAttribute("message", "不要重复提交！");
+		return "/error";
 	}
 
 	/**
