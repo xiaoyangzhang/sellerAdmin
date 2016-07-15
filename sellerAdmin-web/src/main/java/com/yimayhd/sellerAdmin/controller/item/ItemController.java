@@ -142,6 +142,10 @@ public class ItemController extends BaseController {
 					}
 				}
 			}
+            
+            //Set itemCategoryIds 
+            //for  categoryTreeResult
+            
             Set<CategoryDO> fillMerchantItemCategory = fillMerchantItemCategory(categoryList, categoryOfMerchantList,layerNum);
             for (CategoryVO categoryVO : list) {
                 for (CategoryDO categoryDO : fillMerchantItemCategory) {
