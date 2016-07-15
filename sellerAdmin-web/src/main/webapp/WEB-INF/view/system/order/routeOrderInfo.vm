@@ -176,9 +176,9 @@
     <div class="orderInfo">
     	<div>订单商品信息</div>
     	<div>
-    		<span>订单总额：￥$!utilNum.moneyTransform($!order.mainOrder.itemPrice_)</span>
-    		<span>已优惠：￥$!utilNum.moneyTransform($!order.mainOrder.value)</span>
-    		<span>积分抵扣：￥$!utilNum.moneyTransform($!order.mainOrder.userPointNum)</span>
+    		<span>订单总额：￥$!utilNum.moneyTransform($!order.mainOrder.itemPrice_)</span>&nbsp;&nbsp;&nbsp;&nbsp;
+    		<span>已优惠：￥$!utilNum.moneyTransform($!order.mainOrder.value)</span>&nbsp;&nbsp;&nbsp;&nbsp;
+    		<span>积分抵扣：￥$!utilNum.moneyTransform($!order.mainOrder.userPointNum)</span>&nbsp;&nbsp;&nbsp;&nbsp;
     		<span>实付金额：￥$!utilNum.moneyTransform($!order.actualTotalFee)</span>
     	</div>
         <table class="table table-hover">
