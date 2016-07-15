@@ -280,7 +280,7 @@ public class OrderController extends BaseController {
 		if (null == bizOrder) {
 			return new ResponseVo(ResponseStatus.NOT_FOUND);
 		}
-		if(bizOrder.getBizOrderId() != bizOrderId){
+		if(bizOrder.getSellerId() != sessionManager.getUserId()){
 			return new ResponseVo(ResponseStatus.PARAM_ERROR);
 		}
 		//权限校验end
