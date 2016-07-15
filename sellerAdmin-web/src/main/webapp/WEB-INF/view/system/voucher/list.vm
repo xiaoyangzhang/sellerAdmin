@@ -48,8 +48,8 @@
 					<option value="2" #if($!voucherListQuery.useStatus == 2) selected #end>使用中</option>
 					<option value="3" #if($!voucherListQuery.useStatus == 3) selected #end>已过期</option>
 				</select>
-                <button type="submit" class="btn btn-primary">查询</button>
-                <button type="button" class="btn btn-primary form-clear delBtn">清空</button>
+                <button type="submit" class="searchBtn">查询</button>
+                <button type="button" class="delBtn">清空</button>
 		</div>
 		<div class = "addcoupon">
 			<a class = "addBtn">添加优惠券</a>
@@ -124,11 +124,7 @@
 		
 	</div>
 	<div class = "outcoupon" id = "tip_del">
-		<p class><em>起：</em><span class = "tou_start">2010-3-20</span></p>
-		<p class><em>止：</em><span class = "tou_end">2010-3-20</span></p>
 		<p class>是否删除该优惠券</p>
-		<p class><em>起：</em><span class = "shi_start">2010-3-20</span></p>
-		<p class><em>止：</em><span class = "shi_end">2010-3-20</span></p>
 		<p class = "btn_coupon"><a class = "out_surebtn delete_sure">确定</a><a class = "out_clearbtn get_del">取消</a></p>
 		<img src = "$!rs_path_jiuxiu/img/close.png" class = "out_delete get_del" />
 		<input type="hidden" id="del_voucherId"/>

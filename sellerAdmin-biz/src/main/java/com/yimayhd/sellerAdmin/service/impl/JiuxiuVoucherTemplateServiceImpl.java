@@ -206,7 +206,7 @@ public class JiuxiuVoucherTemplateServiceImpl implements JiuxiuVoucherTemplateSe
     		webResult.setWebReturnCode(WebReturnCode.VOUVHER_COUNT_ERROR);
     		return webResult;
     	}
-    	if(entity.getTotalNum() < 1 || entity.getTotalNum() > Constant.VOUCHET_PUT_MAX_LIMIT){
+    	if(entity.getTotalNum() <= 0 || entity.getTotalNum() > Constant.VOUCHET_PUT_MAX_LIMIT){
     		webResult.setWebReturnCode(WebReturnCode.VOUVHER_TOTAL_NUM_ERROR);
     		return webResult;
     	}
@@ -215,7 +215,7 @@ public class JiuxiuVoucherTemplateServiceImpl implements JiuxiuVoucherTemplateSe
     		return webResult;
     	}
     	long dateCharge = DateUtil.daySubtraction(entity.getPutStartTime(),entity.getPutEndTime());
-    	if(dateCharge > 60 || dateCharge < 0){
+    	if(dateCharge > Constant.VOUCHET_TIME_LIMIT || dateCharge < 0){
     		webResult.setWebReturnCode(WebReturnCode.VOUVHER_PUT_TIME_ERROR);
     		return webResult;
     	}
@@ -224,7 +224,7 @@ public class JiuxiuVoucherTemplateServiceImpl implements JiuxiuVoucherTemplateSe
     		return webResult;
     	}
     	long dateCharge2 = DateUtil.daySubtraction(entity.getStartTime(),entity.getEndTime());
-    	if(dateCharge2 > 60 || dateCharge < 0){
+    	if(dateCharge2 > Constant.VOUCHET_TIME_LIMIT || dateCharge < 0){
     		webResult.setWebReturnCode(WebReturnCode.VOUVHER_USE_TIME_ERROR);
     		return webResult;
     	}

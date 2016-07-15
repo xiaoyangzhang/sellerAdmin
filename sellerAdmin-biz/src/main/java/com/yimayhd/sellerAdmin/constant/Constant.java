@@ -7,6 +7,8 @@ import com.yimayhd.user.session.manager.constant.SessionConstant;
  * Created by czf on 2015/12/22.
  */
 public class Constant {
+	public static final int MIN_CODE = 23000000;//错误码最小
+    public static final int MAX_CODE = 25000000;//错误码最大
 	public static final long YIMAY_OFFICIAL_ID = 1000 * 10000;// 商贸项目的官方用户id
 	public static final String DEFAULT_CONTRACT_TFS_CODE = "T1WtJTBXWT1RXx1p6K.html"; // 默认合同
 	public static final String YIMAY_CUSTOMER_SERVICE = "4000696888";
@@ -119,4 +121,14 @@ public class Constant {
 	 * 优惠劵发劵限制
 	 */
 	public static final int VOUCHET_PUT_MAX_LIMIT=10000;
+	/**
+	 * 优惠劵领卷时间间隔
+	 */
+	public static final int VOUCHET_TIME_LIMIT=60;
+	 
+	/**
+	 * 九休商品类目根节点
+	 */
+	public static final int JX_ITEM_ROOT = 200;
+	public static final int LAYER_NUM = 5;
 }

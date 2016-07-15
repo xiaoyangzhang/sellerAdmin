@@ -2,6 +2,7 @@ package com.yimayhd.sellerAdmin.repo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.sellerAdmin.model.vo.VoucherTemplateVO;
 import com.yimayhd.voucher.client.domain.VoucherTemplateDO;
 import com.yimayhd.voucher.client.param.VoucherDTO;
@@ -21,6 +22,7 @@ public class JixiuVoucherRepo {
 	 * @param entity
 	 * @return
 	 */
+	@MethodLogger
 	public VcBaseResult<Long> publishVoucherTemplate(VoucherTemplateVO entity){
 		return voucherClientServiceRef.publishVoucherTemplate(entity);
 	}
@@ -30,6 +32,7 @@ public class JixiuVoucherRepo {
 	 * @param entity
 	 * @return
 	 */
+	@MethodLogger
 	public VcBaseResult<Boolean> updateVoucherTemplate(VoucherTemplateVO entity){
 		return voucherClientServiceRef.updateVoucherTemplate(entity);
 	}
@@ -39,6 +42,7 @@ public class JixiuVoucherRepo {
 	 * @param voucherTemplateQuery
 	 * @return
 	 */
+	@MethodLogger
 	public VcBasePageResult<VoucherTemplateDO> queryVoucherTemplates(VoucherTemplateQuery voucherTemplateQuery){
 		return voucherClientServiceRef.queryVoucherTemplates(voucherTemplateQuery);
 	}
@@ -48,6 +52,7 @@ public class JixiuVoucherRepo {
 	 * @param dto
 	 * @return
 	 */
+	@MethodLogger
 	public VcBaseResult<?> deleteVoucherTemplate(VoucherTemplateDeleteDTO dto){
 		return voucherClientServiceRef.deleteVoucherTemplate(dto);
 	}
@@ -56,6 +61,7 @@ public class JixiuVoucherRepo {
 	 * @param dto
 	 * @return
 	 */
+	@MethodLogger
 	public VcResultSupport enableVoucher(VoucherDTO dto){
 		return voucherClientServiceRef.enableVoucher(dto);
 	}
@@ -65,6 +71,7 @@ public class JixiuVoucherRepo {
 	 * @param dto
 	 * @return
 	 */
+	@MethodLogger
 	public VcResultSupport disableVoucher(VoucherDTO dto){
 		return voucherClientServiceRef.disableVoucher(dto);
 	}
