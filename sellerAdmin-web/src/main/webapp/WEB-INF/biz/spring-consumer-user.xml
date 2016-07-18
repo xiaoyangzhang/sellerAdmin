@@ -58,4 +58,5 @@
 	<bean id="cityDataCacheClient" class="com.yimayhd.user.client.cache.CityDataCacheClient">
 		<property name="dataCacheService" ref="dataCacheServiceRef" />
 	</bean>
+
 </beans>

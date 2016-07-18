@@ -60,10 +60,6 @@
 			<artifactId>cglib</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.yimayhd</groupId>
-			<artifactId>sellerAdmin-api</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
 		</dependency>

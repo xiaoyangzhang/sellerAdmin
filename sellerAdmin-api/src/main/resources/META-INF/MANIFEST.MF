@@ -1,2 +1,0 @@
-Api-Export: org.yimayhd.sellerAdmin.api.PublishGoodsApi
-Api-Dependency-Type: dubbo
