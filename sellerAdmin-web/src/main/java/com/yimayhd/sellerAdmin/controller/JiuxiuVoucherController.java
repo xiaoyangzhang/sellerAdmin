@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 
+
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
@@ -27,6 +28,7 @@ import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.cache.CacheManager;
 import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.converter.JiuxiuVoucherConverter;
 import com.yimayhd.sellerAdmin.model.query.JiuxiuVoucherListQuery;
 import com.yimayhd.sellerAdmin.model.vo.VoucherTemplateVO;
 import com.yimayhd.sellerAdmin.service.JiuxiuVoucherTemplateService;
@@ -91,9 +93,11 @@ public class JiuxiuVoucherController extends BaseController {
     @ResponseBody
     public WebResultSupport add(VoucherTemplateVO voucherTemplateVO,String uuid) throws Exception {
     	WebResultSupport result = new WebResultSupport();
+    	//判断入参是否正确
+    	result = JiuxiuVoucherConverter.chargeParam(voucherTemplateVO, result);
     	String key = Constant.APP+"_voucher_"+sessionManager.getUserId()+uuid;
 		boolean rs = cacheManager.addToTair(key, true , 2, 24*60*60);
-//		if(rs){
+		if(rs){
 			UserDO userDO = sessionManager.getUser();
 			voucherTemplateVO.setDomain(Constant.DOMAIN_JIUXIU);
 			voucherTemplateVO.setVoucherType(VoucherType.SUM_REDUCE.getType());
@@ -108,9 +112,9 @@ public class JiuxiuVoucherController extends BaseController {
 				result.setWebReturnCode(WebReturnCode.REMOTE_CALL_FAILED);
 				return result;
 			}
-//		}else{
-//			result.setWebReturnCode(WebReturnCode.VOUVHER_ADD_REPET_ERROR);
-//		}
+		}else{
+			result.setWebReturnCode(WebReturnCode.VOUVHER_ADD_REPET_ERROR);
+		}
         
         return result;
     }
