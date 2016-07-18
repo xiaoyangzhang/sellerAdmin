@@ -1,8 +1,6 @@
 package com.yimayhd.sellerAdmin.controller;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
-import com.yimayhd.sellerAdmin.base.ResponseVo;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.cache.CacheManager;
@@ -32,13 +29,11 @@ import com.yimayhd.sellerAdmin.converter.JiuxiuVoucherConverter;
 import com.yimayhd.sellerAdmin.model.query.JiuxiuVoucherListQuery;
 import com.yimayhd.sellerAdmin.model.vo.VoucherTemplateVO;
 import com.yimayhd.sellerAdmin.service.JiuxiuVoucherTemplateService;
-import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.session.manager.SessionManager;
 import com.yimayhd.voucher.client.enums.EntityType;
 import com.yimayhd.voucher.client.enums.IssueType;
 import com.yimayhd.voucher.client.enums.VoucherTemplateStatus;
-import com.yimayhd.voucher.client.enums.VoucherTemplateUseStatus;
 import com.yimayhd.voucher.client.enums.VoucherType;
 
 /**
@@ -245,12 +240,6 @@ public class JiuxiuVoucherController extends BaseController {
  			return result;
  		}
         return result;
-    }
-
-    private Date getEndTime(Date endTime) throws ParseException {
-        String str = DateUtil.date2StringByDay(endTime);
-        str = str + " 23:59:59";
-        return DateUtil.convertStringToDate(DateUtil.DATE_TIME_FORMAT,str);
     }
 
 }
