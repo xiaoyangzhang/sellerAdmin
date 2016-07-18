@@ -35,6 +35,7 @@
     <import resource="biz/spring-manager.xml"/>
     <import resource="biz/spring-repo.xml"/>
     <import resource="biz/spring-annot.xml"/>
+    <import resource="biz/application-export-api.xml"/>
 
     <!-- spring注解定时任务 -->
     <!--<task:annotation-driven/>-->

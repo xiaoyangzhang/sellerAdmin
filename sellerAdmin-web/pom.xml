@@ -86,6 +86,10 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.yimayhd</groupId>
+			<artifactId>sellerAdmin-api</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
