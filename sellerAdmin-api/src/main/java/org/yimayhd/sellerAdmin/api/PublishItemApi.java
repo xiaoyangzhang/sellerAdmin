@@ -22,7 +22,7 @@ public interface PublishItemApi {
 
 	@HttpApi(name = "sellerAdmin.publishService", desc = "发布商品", security = SecurityType.UserLogin, owner = "zhangxy")
     @DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C})
-    public GoodsApiResult publishService(
+    public boolean publishService(
             @ApiAutowired(CommonParameter.applicationId) int appId,
             @ApiAutowired(CommonParameter.domainId) int domainId,
             @ApiAutowired(CommonParameter.deviceId) long deviceId,

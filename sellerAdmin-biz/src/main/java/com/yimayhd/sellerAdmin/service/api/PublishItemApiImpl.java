@@ -9,10 +9,10 @@ import org.yimayhd.sellerAdmin.result.GoodsApiResult;
 public class PublishItemApiImpl implements PublishItemApi  {
 
 	@Override
-	public GoodsApiResult publishService(int appId, int domainId,
+	public boolean publishService(int appId, int domainId,
 			long deviceId, long userId, int versionCode,
 			PublishServiceDO publishServiceDO) {
-		return null;
+		return true;
 	}
 
 	@Override
