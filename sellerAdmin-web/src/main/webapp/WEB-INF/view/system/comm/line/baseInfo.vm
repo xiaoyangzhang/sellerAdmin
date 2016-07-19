@@ -17,7 +17,7 @@
 			<td>
 				<input type="text" value="$!{baseInfo.code}" class="form-control item-code w300" placeholder="请输入商品编号" maxlength="20"/>
 				<span class="limit">20字</span>
-				<span class="ml10">住：商品代码供商家管理商品使用，不会展示给用户</span>
+				<span class="ml10">注：商品代码供商家管理商品使用，不会展示给用户</span>
 			</td>
 		</tr>
 		<tr>

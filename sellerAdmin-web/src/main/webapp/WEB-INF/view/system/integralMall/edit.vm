@@ -57,7 +57,7 @@
                         <td>
                             <input class="code form-control w300" type="text" maxlength="20" name="code" value="$!esc.html($!commodity.code)">
                             <span class="limit">20字</span>
-                            <span class="ml10">住：商品代码供商家管理商品使用，不会展示给用户</span>
+                            <span class="ml10">注：商品代码供商家管理商品使用，不会展示给用户</span>
                         </td>
                     </tr>
                     <tr>
