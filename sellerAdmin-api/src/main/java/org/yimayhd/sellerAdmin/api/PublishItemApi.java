@@ -53,7 +53,7 @@ public interface PublishItemApi {
 			@ApiParameter(required = true, name = "goodsDetail", desc = "商品详情页面信息") GoodsDetail goodsDetail
 			);
 	
-	@HttpApi(name = "sellerAdmin.checkWhiteList", desc = "获取商品详情页面信息", security = SecurityType.UserLogin, owner = "zhangxy")
+	@HttpApi(name = "sellerAdmin.checkWhiteList", desc = "发布服务白名单", security = SecurityType.UserLogin, owner = "zhangxy")
 	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C})
 	public boolean checkWhiteList(
 			@ApiAutowired(CommonParameter.applicationId) int appId,

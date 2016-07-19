@@ -970,8 +970,5 @@ public class ApplyController extends BaseController {
 		
 	}
 	
-//	@Test
-//	public void testTfs() {
-//		tfsManager.saveTfsFile("aaaaa", "aaaaa", null);
-//	}
+	
 }
