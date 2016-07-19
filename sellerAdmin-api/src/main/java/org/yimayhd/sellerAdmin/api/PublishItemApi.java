@@ -22,7 +22,7 @@ public interface PublishItemApi {
 
 	@HttpApi(name = "sellerAdmin.publishService", desc = "发布商品", security = SecurityType.UserLogin, owner = "zhangxy")
     @DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C})
-    public Boolean publishService(
+    public boolean publishService(
             @ApiAutowired(CommonParameter.applicationId) int appId,
             @ApiAutowired(CommonParameter.domainId) int domainId,
             @ApiAutowired(CommonParameter.deviceId) long deviceId,
@@ -55,7 +55,7 @@ public interface PublishItemApi {
 	
 	@HttpApi(name = "sellerAdmin.checkWhiteList", desc = "发布服务白名单", security = SecurityType.UserLogin, owner = "zhangxy")
 	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C})
-	public Boolean checkWhiteList(
+	public boolean checkWhiteList(
 			@ApiAutowired(CommonParameter.applicationId) int appId,
 			@ApiAutowired(CommonParameter.domainId) int domainId,
 			@ApiAutowired(CommonParameter.deviceId) long deviceId,
