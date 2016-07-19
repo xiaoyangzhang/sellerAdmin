@@ -9,7 +9,7 @@ import org.yimayhd.sellerAdmin.result.GoodsApiResult;
 public class PublishItemApiImpl implements PublishItemApi  {
 
 	@Override
-	public boolean publishService(int appId, int domainId,
+	public Boolean publishService(int appId, int domainId,
 			long deviceId, long userId, int versionCode,
 			PublishServiceDO publishServiceDO) {
 		return true;
@@ -29,7 +29,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	}
 
 	@Override
-	public boolean checkWhiteList(int appId, int domainId, long deviceId,
+	public Boolean checkWhiteList(int appId, int domainId, long deviceId,
 			long userId, int versionCode) {
 		return false;
 	}
