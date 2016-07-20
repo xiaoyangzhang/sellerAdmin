@@ -1,5 +1,6 @@
 #set($layout = "/layout/layout-jiuxiu.vm")
-
+#set( $selectMenu = "/jiuxiu/voucher/list" )
+#set( $locations = ["优惠劵管理", "#if($!editType=='edit')编辑#else添加#end优惠劵"] )
 <head>
 	#parse("layout/layout-meta.vm")
 	<title>优惠劵管理</title>
