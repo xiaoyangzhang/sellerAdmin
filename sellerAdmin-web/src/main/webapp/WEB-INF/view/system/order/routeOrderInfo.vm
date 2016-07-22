@@ -198,7 +198,7 @@
                                 <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!{utilImg.getImgUrl($!{subOrder.tcDetailOrder.itemPic}, 160)}">
                             </div>
                             <div class="t-msg">
-                                #ROUTE_ORDER_LIST_SKU($!order.mainOrder.orderType)
+                                #ROUTE_ORDER_INFO_SKU($!order.mainOrder.orderType)
                                 
                             </div>
                         </div>
