@@ -88,7 +88,7 @@
 			<td><span class="red">*</span>商品图：</td>
 			<td>
 				<div class="uploadbox clearfix">
-                    <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionUploadFilePath()}" />
+                    <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file_string" />
                     <input type="hidden" class="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />	
 					<div class="imgbox">												
 						<div class="dimg">
