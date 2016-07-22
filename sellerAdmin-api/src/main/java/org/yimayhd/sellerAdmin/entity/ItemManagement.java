@@ -5,7 +5,7 @@ import java.io.Serializable;
 import net.pocrd.annotation.Description;
 
 @Description("商品管理")
-public class GoodsManagement implements Serializable {
+public class ItemManagement implements Serializable {
 
 	/**
 	* @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
