@@ -33,6 +33,8 @@
 	<bean id="pictureTextRepo" class="com.yimayhd.sellerAdmin.repo.PictureTextRepo" />
 	<bean id="merchantApplyRepo" class="com.yimayhd.sellerAdmin.repo.MerchantApplyRepo" />
 	<bean id="draftRepo" class="com.yimayhd.sellerAdmin.repo.DraftRepo" />
-
+	
+	<bean id="accountRepo" class="com.yimayhd.sellerAdmin.repo.AccountRepo" />
+	<bean id="settlementRepo" class="com.yimayhd.sellerAdmin.repo.SettlementRepo" />
 
 </beans>
