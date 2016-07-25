@@ -67,4 +67,6 @@
 	<!--景区商品管理-->
 	<bean id ="scenicManageService" class="com.yimayhd.sellerAdmin.service.hotelManage.impl.ScenicManageServiceImpl" />
 	<bean id="serviceTemplate" class="com.yimayhd.sellerAdmin.base.template.ServiceTemplateImpl" />
+	
+	<bean id ="accountService" class="com.yimayhd.sellerAdmin.service.impl.AccountServiceImpl" />
 </beans>
