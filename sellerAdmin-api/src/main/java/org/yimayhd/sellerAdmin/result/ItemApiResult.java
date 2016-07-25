@@ -19,7 +19,8 @@ public class ItemApiResult implements Serializable {
 	private static final long serialVersionUID = -8660801869518465676L;
 //	@Description("发布是商品详情")
 //	public PublishServiceDO publishServiceDO;
-	
+	@Description("商品管理列表")
+	public List<ItemManagement> ItemManagements;
 	@Description("商品详情")
 	public ItemDetail ItemDetail;
 	@Description("达人信息")

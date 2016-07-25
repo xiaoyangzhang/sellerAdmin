@@ -189,5 +189,7 @@ public class PublishItemBiz {
 		return result;
 	}
 	
-	//public 
+//	public PublishServiceDO getPublishItemById() {
+//		
+//	}
 }

@@ -34,13 +34,13 @@ public interface PublishItemApi {
 	
 	@HttpApi(name = "sellerAdmin.getGoodsManagementInfo", desc = "获取商品管理列表", security = SecurityType.UserLogin, owner = "zhangxy")
 	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C})
-	public ItemListPage getGoodsManagementInfo(
+	public ItemApiResult getGoodsManagementInfo(
 			@ApiAutowired(CommonParameter.applicationId) int appId,
 			@ApiAutowired(CommonParameter.domainId) int domainId,
 			@ApiAutowired(CommonParameter.deviceId) long deviceId,
 			@ApiAutowired(CommonParameter.userId) long userId,
 			@ApiAutowired(CommonParameter.versionCode) int versionCode,
-			@ApiParameter(required = true, name = "goodsManagement", desc = "商品管理列表") ItemManagement goodsManagement
+			@ApiParameter(required = true, name = "itemListPage", desc = "商品管理列表") ItemListPage itemListPage
 			);
 	
 	@HttpApi(name = "sellerAdmin.getGoodsDetailInfo", desc = "获取商品详情页面信息", security = SecurityType.UserLogin, owner = "zhangxy")

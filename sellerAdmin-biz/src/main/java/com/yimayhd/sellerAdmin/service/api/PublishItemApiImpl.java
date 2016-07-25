@@ -31,9 +31,9 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	}
 
 	@Override
-	public ItemListPage getGoodsManagementInfo(int appId, int domainId,
+	public ItemApiResult getGoodsManagementInfo(int appId, int domainId,
 			long deviceId, long userId, int versionCode,
-			ItemManagement goodsManagement) {
+			ItemListPage itemListPage) {
 		return null;
 	}
 
@@ -55,7 +55,11 @@ public class PublishItemApiImpl implements PublishItemApi  {
 		query.setDomainId(domainId);
 		query.setSellerId(userId);
 		WebResult<Boolean> checkResult = publishItemBiz.checkWhiteList(query);
-		return false;
+		if (checkResult == null || !checkResult.isSuccess()) {
+			
+			return false;
+		}
+		return true;
 	}
 
 	@Override
