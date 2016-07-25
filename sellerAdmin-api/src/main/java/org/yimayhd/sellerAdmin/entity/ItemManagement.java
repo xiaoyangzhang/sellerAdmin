@@ -13,12 +13,15 @@ public class ItemManagement implements Serializable {
 	private static final long serialVersionUID = 3640262198164481539L;
 	@Description("商品状态")
 	public int state;
+	@Description("商品id")
+	public long itemId;
 //	@Description("发布中的商品数量")
 //	public int onSaleCount;
 //	@Description("待发布的商品数量")
 //	public int offSaleCount;
 	@Description("已售数量")
 	public int saleVolume;
+	
 	@Description("商品信息")
 	public PublishServiceDO publishServiceDO;
 }

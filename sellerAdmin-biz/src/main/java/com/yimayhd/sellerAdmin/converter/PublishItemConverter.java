@@ -10,7 +10,9 @@ import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.param.item.ConsultPublishAddDTO;
 import com.yimayhd.ic.client.model.param.item.ConsultPublishUpdateDTO;
+import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
 import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.model.query.ItemQueryDTO;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /**
@@ -21,7 +23,7 @@ import com.yimayhd.user.session.manager.SessionManager;
 * @date 2016年7月20日 下午5:11:29
 *
  */
-public class PublishServiceConverter {
+public class PublishItemConverter {
 
 	public static ConsultPublishAddDTO converterLocal2AddPublishConsult(PublishServiceDO publishServiceDO,long sellerId) {
 		ConsultPublishAddDTO dto = new ConsultPublishAddDTO();
@@ -65,5 +67,12 @@ public class PublishServiceConverter {
 		itemFeature.put(ItemFeatureKey.CONSULT_TIME, publishServiceDO.oldTime);
 		itemDO.setItemFeature(itemFeature);
 		return dto;
+	}
+	
+	public static ItemPublishDTO converterLocal2ItemPublishDTO(ItemQueryDTO dto) {
+		ItemPublishDTO itemPublishDTO = new ItemPublishDTO();
+		itemPublishDTO.setItemId(dto.getItemId());
+		itemPublishDTO.setSellerId(dto.getSellerId());
+		return itemPublishDTO;
 	}
 }

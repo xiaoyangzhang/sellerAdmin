@@ -1,18 +1,29 @@
 package com.yimayhd.sellerAdmin.biz;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.param.item.ConsultPublishAddDTO;
 import com.yimayhd.ic.client.model.param.item.ConsultPublishUpdateDTO;
+import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
+import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
+import com.yimayhd.ic.client.model.result.item.ItemDeleteResult;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
+import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
-import com.yimayhd.sellerAdmin.converter.PublishServiceConverter;
+import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.converter.PublishItemConverter;
+import com.yimayhd.sellerAdmin.model.query.ItemCategoryQuery;
 import com.yimayhd.sellerAdmin.model.query.ItemQueryDTO;
 import com.yimayhd.sellerAdmin.repo.PublishItemRepo;
 import com.yimayhd.user.session.manager.SessionManager;
@@ -42,7 +53,7 @@ public class PublishItemBiz {
 			return result;
 		}
 		try {
-			ConsultPublishAddDTO dto = PublishServiceConverter.converterLocal2AddPublishConsult(publishServiceDO, sessionManager.getUserId());
+			ConsultPublishAddDTO dto = PublishItemConverter.converterLocal2AddPublishConsult(publishServiceDO, sessionManager.getUserId());
 			ItemPubResult addItemResult = publishItemRepo.addItem(dto);
 			if (addItemResult == null) {
 				log.error("result:ItemPubResult={}",addItemResult);
@@ -67,7 +78,7 @@ public class PublishItemBiz {
 			return result;
 		}
 		try {
-			ConsultPublishUpdateDTO dto = PublishServiceConverter.converterLocal2UpdatePublishConsult(publishServiceDO, sessionManager.getUserId());
+			ConsultPublishUpdateDTO dto = PublishItemConverter.converterLocal2UpdatePublishConsult(publishServiceDO, sessionManager.getUserId());
 			ItemPubResult updateItemResult = publishItemRepo.updateItem(dto);
 			if (updateItemResult == null) {
 				log.error("result:ItemPubResult={}",updateItemResult);
@@ -92,11 +103,91 @@ public class PublishItemBiz {
 		return result;
 	}
 	
-//	public WebResult<Boolean> updateItemState(ItemQueryDTO dto) {
-//		WebResult<Boolean> result = new WebResult<Boolean>();
-//		if (condition) {
-//			
-//		}
-//		return result;
-//	}
+	public WebResult<Boolean> updateItemState(ItemQueryDTO dto) {
+		WebResult<Boolean> result = new WebResult<Boolean>();
+		if (dto == null || dto.getDomainId() <= 0 || dto.getItemId() <= 0 ) {
+			log.error("params:ItemQueryDTO={}",JSON.toJSONString(dto));
+			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+			return result;
+		}
+		dto.setSellerId(sessionManager.getUserId());
+		ItemPublishDTO itemPublishDTO = PublishItemConverter.converterLocal2ItemPublishDTO(dto);
+		
+		try {
+			if (dto.getState() == ItemStatus.valid.getValue()) {
+				ItemPubResult pubResult = publishItemRepo.publishItem(itemPublishDTO);
+				if (pubResult == null) {
+					log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),pubResult);
+					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+					return result;
+				}else if (!pubResult.isSuccess() || pubResult.getItemId() <= 0) {
+					log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),JSON.toJSONString(pubResult));
+					result.setWebReturnCode(WebReturnCode.ON_SALE_ERROR);
+					return result;
+				}
+				return result;
+			}else if (dto.getState() == ItemStatus.invalid.getValue()) {
+				ItemCloseResult closeResult = publishItemRepo.closeItem(itemPublishDTO);
+				if (closeResult == null) {
+					log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),closeResult);
+					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+					return result;
+				}else if (!closeResult.isSuccess() ) {
+					log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),JSON.toJSONString(closeResult));
+					result.setWebReturnCode(WebReturnCode.OFF_SALE_ERROR);
+					return result;
+				}
+				return result;
+			}else if (dto.getState() == ItemStatus.deleted.getValue()) {
+				ItemDeleteResult deleteResult = publishItemRepo.deleteItem(itemPublishDTO);
+				if (deleteResult == null) {
+					log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),deleteResult);
+					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+					return result;
+				}else if (!deleteResult.isSuccess() ) {
+					log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),JSON.toJSONString(deleteResult));
+					result.setWebReturnCode(WebReturnCode.DELETE_ERROR);
+					return result;
+				}
+				return result;
+			}
+		} catch (Exception e) {
+			log.error("param:ItemQueryDTO={},error:{}",JSON.toJSONString(dto),e);
+			result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	public WebResult<Boolean> checkWhiteList(ItemCategoryQuery query) {
+		WebResult<Boolean> result = new WebResult<Boolean>();
+		try {
+			MemResult<List<MerchantItemCategoryDO>> itemCaetgoryListResult = publishItemRepo.getMerchantItemCaetgoryList(query);
+			if (itemCaetgoryListResult == null) {
+				log.error("param:ItemCategoryQuery={},result:{}",JSON.toJSONString(query),itemCaetgoryListResult);
+				result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+				return result;
+			}else if (!itemCaetgoryListResult.isSuccess() || CollectionUtils.isEmpty(itemCaetgoryListResult.getValue())) {
+				log.error("param:ItemCategoryQuery={},result:{}",JSON.toJSONString(query),JSON.toJSONString(itemCaetgoryListResult));
+				result.setWebReturnCode(WebReturnCode.QUERY_FAILURE);
+				return result;
+			}
+			int count = 0;
+			for (MerchantItemCategoryDO item : itemCaetgoryListResult.getValue()) {
+				if (item.getItemCategoryId() == Constant.CONSULT_SERVICE) {
+					count ++ ;
+				}
+			}
+			if (count > 0) {
+				return result;
+			}else {
+				result.setWebReturnCode(WebReturnCode.NO_AUTHORITY);
+				return result;
+			}
+		} catch (Exception e) {
+			log.error("param:ItemCategoryQuery={},error:{}",JSON.toJSONString(query),e);
+			result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+		}
+		return result;
+	}
+	
+	//public 
 }

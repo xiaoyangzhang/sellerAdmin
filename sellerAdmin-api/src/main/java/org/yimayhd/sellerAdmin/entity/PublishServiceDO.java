@@ -11,7 +11,7 @@ public class PublishServiceDO implements Serializable {
 	* @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
 	*/
 	private static final long serialVersionUID = 1247048066341573956L;
-	@Description("主键")
+	@Description("商品id")
 	public long id;
 	@Description("头图")
 	public String avater;

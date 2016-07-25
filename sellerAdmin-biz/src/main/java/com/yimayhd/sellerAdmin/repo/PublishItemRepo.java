@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.repo;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,14 @@ import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemDeleteResult;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
+import com.yimayhd.ic.client.model.result.item.SingleItemQueryResult;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
+import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.model.query.ItemCategoryQuery;
 
 /**
  * 
@@ -31,7 +39,8 @@ public class PublishItemRepo {
 	private ItemPublishService itemPublishService;
 	@Autowired
 	private ItemQueryService itemQueryService;
-	
+	@Autowired
+	private MerchantItemCategoryService merchantItemCategoryService;
 	public ItemPubResult addItem(ConsultPublishAddDTO dto) {
 		log.info("param:ConsultPublishAddDTO={}",JSON.toJSONString(dto));
 		ItemPubResult addPublishConsult = itemPublishService.addPublishConsult(dto);
@@ -88,5 +97,25 @@ public class PublishItemRepo {
 			log.info("param:ItemDeleteResult={}",JSON.toJSONString(deleteResult));
 		}
 		return deleteResult;
+	}
+	
+	public MemResult<List<MerchantItemCategoryDO>> getMerchantItemCaetgoryList(ItemCategoryQuery query) {
+		log.info("param:ItemCategoryQuery={}",JSON.toJSONString(query));
+
+		MemResult<List<MerchantItemCategoryDO>> queryResult = merchantItemCategoryService.findMerchantItemCategoriesBySellerId(query.getDomainId(), query.getSellerId());
+		if (queryResult != null) {
+			
+			log.info("param:MemResult<List<MerchantItemCategoryDO>>={}",JSON.toJSONString(queryResult));
+		}
+		return queryResult;
+	}
+	
+	public SingleItemQueryResult queryPublishItem(ItemCategoryQuery query) {
+		log.info("param:ItemCategoryQuery={}",JSON.toJSONString(query));
+		SingleItemQueryResult itemResult = itemQueryService.querySingleItem(query.getItemId(), query.getItemOptionDTO(query.getSellerId()));
+		if (itemResult != null) {
+			log.info("param:SingleItemQueryResult={}",JSON.toJSONString(itemResult));
+		}
+		return itemResult;
 	}
 }

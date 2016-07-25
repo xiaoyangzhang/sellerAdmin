@@ -14,6 +14,14 @@ public class ItemQueryDTO implements Serializable {
 	 */
 	private int state;
 	private int domainId;
+	private long sellerId;
+	
+	public long getSellerId() {
+		return sellerId;
+	}
+	public void setSellerId(long sellerId) {
+		this.sellerId = sellerId;
+	}
 	public long getItemId() {
 		return itemId;
 	}

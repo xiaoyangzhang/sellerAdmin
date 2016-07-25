@@ -112,4 +112,9 @@ public class Constant {
 	 */
 	public static final int JX_ITEM_ROOT = 200;
 	public static final int LAYER_NUM = 5;
+	/**
+	 * 发布咨询服务类目id
+	 */
+	public static final int CONSULT_SERVICE = 241;
+	
 }
