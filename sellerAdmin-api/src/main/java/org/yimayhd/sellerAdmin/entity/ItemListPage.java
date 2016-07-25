@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import net.pocrd.annotation.Description;
-
+@Description("商品管理列表")
 public class ItemListPage implements Serializable {
 
 	/**
