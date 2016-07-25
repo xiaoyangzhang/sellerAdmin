@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yimayhd.pay.client.model.enums.eleaccount.EleAccountType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
@@ -21,7 +22,9 @@ import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.biz.UserBiz;
 import com.yimayhd.sellerAdmin.checker.UserChecker;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.UserConverter;
+import com.yimayhd.sellerAdmin.exception.NoticeException;
 import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.EleAccountBillVO;
 import com.yimayhd.sellerAdmin.model.EleAccountInfoVO;
@@ -89,11 +92,11 @@ public class AccountController extends BaseController {
 	/**
 	 * 我的钱包
 	 */
-	@RequestMapping(value = "/toMywallet", method = RequestMethod.GET) 
-	public String toMywallet(Model model) throws Exception {
+	@RequestMapping(value = "/toMyWallet", method = RequestMethod.GET) 
+	public String toMyWallet(Model model) throws Exception {
 
-		AccountQuery query = new AccountQuery();
-		EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(query);
+		long userId = sessionManager.getUserId();
+		EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
 		model.addAttribute("accountInfo", accountInfo);
 		return "/system/account/wallet";
 	}
@@ -111,9 +114,22 @@ public class AccountController extends BaseController {
 	 */
 	@RequestMapping(value = "/withdrawal", method = RequestMethod.POST) 
 	@ResponseBody
-	public ResponseVo withdrawal(Model model, WithdrawalVO withdrawalVO){
+	public ResponseVo withdrawal(Model model){
 		try {
-			accountService.withdrawal(withdrawalVO);
+			long userId = sessionManager.getUserId();
+			
+			EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
+			
+			WithdrawalVO vo = new WithdrawalVO();
+			vo.setUserId(userId);
+			vo.setBankCardId(Long.parseLong(accountInfo.getOpenAcctNo()));
+			vo.setWithdrawalAmount(accountInfo.getAccountBalance());
+			vo.setEleAccountType(EleAccountType.UNION_ELE_ACCOUNT.getType());
+			if(accountInfo.getAccountBalance() <= 0 ){
+				throw new NoticeException(Constant.WITHDRAWAL_ACCOUNT_BALANCE_IS_ZERO);
+			}
+			
+			accountService.withdrawal(vo);
 			return ResponseVo.success();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -126,7 +142,8 @@ public class AccountController extends BaseController {
 	 */
 	@RequestMapping(value = "/billDetail", method = RequestMethod.POST) 
 	public String billDetail(Model model, AccountQuery query) throws Exception {
-		PageVO<EleAccountBillVO> pageVo = accountService.queryEleAccBillDetail(query);
+		long userId = sessionManager.getUserId();
+		PageVO<EleAccountBillVO> pageVo = accountService.queryEleAccBillDetail(query, userId);
 		model.addAttribute("pageVo", pageVo);
 		return "/system/account/billDetail";
 	}

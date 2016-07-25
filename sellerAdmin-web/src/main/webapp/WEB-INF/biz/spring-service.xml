@@ -69,4 +69,5 @@
 	<bean id="serviceTemplate" class="com.yimayhd.sellerAdmin.base.template.ServiceTemplateImpl" />
 	
 	<bean id ="accountService" class="com.yimayhd.sellerAdmin.service.impl.AccountServiceImpl" />
+	<bean id ="settlementService" class="com.yimayhd.sellerAdmin.service.impl.SettlementServiceImpl" />
 </beans>

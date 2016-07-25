@@ -1,0 +1,67 @@
+package com.yimayhd.sellerAdmin.model.query;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.yimayhd.sellerAdmin.base.BaseQuery;
+
+
+public class SettlementQuery extends BaseQuery {
+
+	private static final long serialVersionUID = 1L;
+	
+	/** 商户ID */
+    private String sellerId;
+
+	/** 结算单号 */
+    private String settlementId;
+
+    /** 结算日期-开始日期,格式：yyyy-MM-dd */
+    private String reqDateStart;
+
+    /** 结算日期-结束日期,格式：yyyy-MM-dd */
+    private String reqDateEnd;
+
+    
+    public static com.yimayhd.pay.client.model.query.settlement.SettlementQuery getSettlementQuery(SettlementQuery query, long userId){
+    	
+    	com.yimayhd.pay.client.model.query.settlement.SettlementQuery queryDO = new com.yimayhd.pay.client.model.query.settlement.SettlementQuery(); 
+    	
+    	queryDO.setSellerId(userId);
+    	if(StringUtils.isNotEmpty(query.getSettlementId())){
+    		queryDO.setSettlementId(Long.parseLong(query.getSettlementId()));
+    	}
+    	if(StringUtils.isNotEmpty(query.getReqDateStart())){
+    		queryDO.setReqDateStart(query.getReqDateStart());
+    	}
+    	if(StringUtils.isNotEmpty(query.getReqDateEnd())){
+    		queryDO.setReqDateEnd(query.getReqDateEnd());
+    	}
+    	return queryDO;
+    }
+    
+    public String getSellerId() {
+		return sellerId;
+	}
+	public void setSellerId(String sellerId) {
+		this.sellerId = sellerId;
+	}
+	public String getSettlementId() {
+		return settlementId;
+	}
+	public void setSettlementId(String settlementId) {
+		this.settlementId = settlementId;
+	}
+	public String getReqDateStart() {
+		return reqDateStart;
+	}
+	public void setReqDateStart(String reqDateStart) {
+		this.reqDateStart = reqDateStart;
+	}
+	public String getReqDateEnd() {
+		return reqDateEnd;
+	}
+	public void setReqDateEnd(String reqDateEnd) {
+		this.reqDateEnd = reqDateEnd;
+	}
+}
+

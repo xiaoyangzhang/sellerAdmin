@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.model.query;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.yimayhd.pay.client.model.query.eleaccount.EleAccBillDetailQuery;
 import com.yimayhd.pay.client.model.query.eleaccount.EleAccountSingleQuery;
 import com.yimayhd.sellerAdmin.base.BaseQuery;
@@ -10,13 +12,7 @@ public class AccountQuery extends BaseQuery {
 
 	private static final long serialVersionUID = 1L;
 
-	/**是否需要账户余额信息*/
-    private boolean isNeedBalance;
-
-    /**是否需要待结算金额*/
-    private boolean isNeedUnSettlementAmount;
-
-    /**交易类型 见枚举 TransType*/
+	/**交易类型 见枚举 TransType*/
     private String TransType;
 
     /**交易开始时间*/
@@ -24,39 +20,30 @@ public class AccountQuery extends BaseQuery {
     /**交易结束时间*/
     private String transEndDate;
     
-    public static EleAccountSingleQuery getEleAccountSingleQuery(AccountQuery query){
+    public static EleAccountSingleQuery getEleAccountSingleQuery(long userId){
     	
     	EleAccountSingleQuery queryDO = new EleAccountSingleQuery();
     	queryDO.setIsNeedBalance(true);
     	queryDO.setNeedUnSettlementAmount(true);
+    	queryDO.setUserId(userId);
     	return queryDO;
     }
     
-    public static EleAccBillDetailQuery getEleAccBillDetailQuery(AccountQuery query){
+    public static EleAccBillDetailQuery getEleAccBillDetailQuery(AccountQuery query, long userId){
     	
     	EleAccBillDetailQuery queryDO = new EleAccBillDetailQuery();
-    	queryDO.setTransType(Integer.parseInt(query.getTransType()));
-    	queryDO.setTransStartDate(DateUtil.parseDate(query.getTransStartDate()));
-    	queryDO.setTransEndDate(DateUtil.parseDate(query.getTransEndDate()));
+    	if(StringUtils.isNotEmpty(query.getTransType())){
+    		queryDO.setTransType(Integer.parseInt(query.getTransType()));
+    	}
+    	if(StringUtils.isNotEmpty(query.getTransStartDate())){
+    		queryDO.setTransStartDate(DateUtil.parseDate(query.getTransStartDate()));
+    	}
+    	if(StringUtils.isNotEmpty(query.getTransEndDate())){
+    		queryDO.setTransEndDate(DateUtil.parseDate(query.getTransEndDate()));
+    	}
+    	queryDO.setUserId(userId);
     	return queryDO;
     }
-
-	public boolean isNeedBalance() {
-		return isNeedBalance;
-	}
-
-	public void setNeedBalance(boolean isNeedBalance) {
-		this.isNeedBalance = isNeedBalance;
-	}
-
-	public boolean isNeedUnSettlementAmount() {
-		return isNeedUnSettlementAmount;
-	}
-
-	public void setNeedUnSettlementAmount(boolean isNeedUnSettlementAmount) {
-		this.isNeedUnSettlementAmount = isNeedUnSettlementAmount;
-	}
-
 	public String getTransType() {
 		return TransType;
 	}

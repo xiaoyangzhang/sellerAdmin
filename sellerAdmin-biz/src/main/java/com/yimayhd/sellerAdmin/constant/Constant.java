@@ -112,4 +112,6 @@ public class Constant {
 	 */
 	public static final int JX_ITEM_ROOT = 200;
 	public static final int LAYER_NUM = 5;
+	
+	public static final String WITHDRAWAL_ACCOUNT_BALANCE_IS_ZERO = "账户余额为0，不能提现";
 }

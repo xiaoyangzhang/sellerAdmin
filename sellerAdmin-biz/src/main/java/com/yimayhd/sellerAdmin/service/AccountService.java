@@ -13,7 +13,7 @@ public interface AccountService {
      * @param query
      * @return
      */
-	public EleAccountInfoVO querySingleEleAccount(AccountQuery query) throws Exception;
+	public EleAccountInfoVO querySingleEleAccount(long userId) throws Exception;
     
     /**
      * 账户提现
@@ -27,5 +27,5 @@ public interface AccountService {
      * @param query
      * @return
      */
-	public PageVO<EleAccountBillVO> queryEleAccBillDetail(AccountQuery query) throws Exception;
+	public PageVO<EleAccountBillVO> queryEleAccBillDetail(AccountQuery query, long userId) throws Exception;
 }

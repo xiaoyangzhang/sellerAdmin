@@ -25,7 +25,6 @@ import com.yimayhd.sellerAdmin.model.WithdrawalVO;
 import com.yimayhd.sellerAdmin.model.query.AccountQuery;
 import com.yimayhd.sellerAdmin.repo.AccountRepo;
 import com.yimayhd.sellerAdmin.service.AccountService;
-import com.yimayhd.user.session.manager.SessionManager;
 
 /**
  * Created by hongfei.guo on 2016/07/25.
@@ -36,17 +35,14 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
 	private AccountRepo accountRepo;
-	@Autowired
-	private SessionManager sessionManager;
 	
 	@Override
-	public EleAccountInfoVO querySingleEleAccount(AccountQuery query) throws Exception {
-		EleAccountSingleQuery queryDO = AccountQuery.getEleAccountSingleQuery(query);
-		queryDO.setUserId(sessionManager.getUserId());
+	public EleAccountInfoVO querySingleEleAccount(long userId) throws Exception {
 		
+		EleAccountSingleQuery queryDO = AccountQuery.getEleAccountSingleQuery(userId);
 		EleAccountInfoResult result = accountRepo.querySingleEleAccount(queryDO);
 		if(result == null){
-			log.error("accountRepo.querySingleEleAccount return value is null and param: {}", JSON.toJSONString(query));
+			log.error("accountRepo.querySingleEleAccount return value is null and param: {}", JSON.toJSONString(queryDO));
 			throw new BaseException("查询用户账户，返回结果错误");
 		}
 
@@ -58,8 +54,6 @@ public class AccountServiceImpl implements AccountService {
 	public boolean withdrawal(WithdrawalVO withdrawalVO) throws Exception {
 		
 		WithdrawalDTO dto = WithdrawalVO.getWithdrawalDTO(withdrawalVO);
-		dto.setUserId(sessionManager.getUserId());
-		
 		ResultSupport result = accountRepo.withdrawal(dto);
 		if(null == result){
             log.error("AccountServiceImpl.withdrawal--accountRepo.withdrawal return value is null and parame: {}", JSON.toJSONString(dto));
@@ -73,10 +67,9 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public PageVO<EleAccountBillVO> queryEleAccBillDetail(AccountQuery query) throws Exception {
+	public PageVO<EleAccountBillVO> queryEleAccBillDetail(AccountQuery query, long userId) throws Exception {
 		
-		EleAccBillDetailQuery queryDO = AccountQuery.getEleAccBillDetailQuery(query);
-		queryDO.setUserId(sessionManager.getUserId());
+		EleAccBillDetailQuery queryDO = AccountQuery.getEleAccBillDetailQuery(query, userId);
 		
 		PayPageResultDTO<EleAccountBillDTO> result = accountRepo.queryEleAccBillDetail(queryDO);
 		if(null == result){
@@ -99,6 +92,4 @@ public class AccountServiceImpl implements AccountService {
 		
 		return new PageVO<EleAccountBillVO>(query.getPageNo(), query.getPageSize(), result.getTotalCount(), retList);
 	}
-
-	
 }
