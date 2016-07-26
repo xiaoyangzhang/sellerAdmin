@@ -21,15 +21,15 @@ import com.yimayhd.sellerAdmin.util.RepoUtils;
  *
  */
 public class CategoryRepo {
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private static final Logger log = LoggerFactory.getLogger("CategoryRepo");
 	@Autowired
 	private CategoryService categoryServiceRef;
 
 	@MethodLogger
 	public CategoryDO getCategoryById(long id) {
-		RepoUtils.requestLog(log, "categoryServiceRef.getCategory", id);
+//		RepoUtils.requestLog(log, "categoryServiceRef.getCategory", id);
 		CategoryResult categoryResult = categoryServiceRef.getCategory(id);
-		RepoUtils.resultLog(log, "categoryServiceRef.getCategory", categoryResult);
+//		RepoUtils.resultLog(log, "categoryServiceRef.getCategory", categoryResult);
 		return categoryResult.getCategroyDO();
 	}
 
@@ -41,7 +41,7 @@ public class CategoryRepo {
 	 */
 	@MethodLogger(isPrintResult=false)
 	public CategoryDO getCategoryByDomainId(int domainId){
-		RepoUtils.requestLog(log, "categoryServiceRef.getCategoryTreeByDomain", domainId);
+//		RepoUtils.requestLog(log, "categoryServiceRef.getCategoryTreeByDomain", domainId);
 		CategoryTreeResult ret = categoryServiceRef.getCategoryTreeByDomain(domainId);
 //		RepoUtils.resultLog(log, "categoryServiceRef.getCategoryTreeByDomain", ret);
 		return ret.getTree();
@@ -51,11 +51,11 @@ public class CategoryRepo {
 	 * 获取二级类目
 	 * @return
 	 */
-	@MethodLogger
+	@MethodLogger(isPrintResult=false)
 	public List<CategoryDO> getCategoryChildrenByDomain(int domain){
-		RepoUtils.requestLog(log, "categoryServiceRef.getCategoryChildrenByDomain", domain);
+//		RepoUtils.requestLog(log, "categoryServiceRef.getCategoryChildrenByDomain", domain);
 		CategoryQryResult ret = categoryServiceRef.getCategoryChildrenByDomain(domain);
-		RepoUtils.resultLog(log, "categoryServiceRef.getCategoryChildrenByDomain", ret);
+//		RepoUtils.resultLog(log, "categoryServiceRef.getCategoryChildrenByDomain", ret);
 		return ret.getCategroyDOList();
 	}
 }
