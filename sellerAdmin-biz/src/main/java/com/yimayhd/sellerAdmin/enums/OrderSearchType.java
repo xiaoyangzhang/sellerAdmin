@@ -10,7 +10,7 @@ import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 public enum OrderSearchType {
 	TOUR_LINE(OrderBizType.TOUR_LINE,"国内跟团游"),
 	FREE_LINE(OrderBizType.FREE_LINE,"国内自由行"),
-	TOUR_LINE_ABOARD(OrderBizType.TOUR_LINE_ABOARD),
+	TOUR_LINE_ABOARD(OrderBizType.TOUR_LINE_ABOARD,"境外跟团游"),
 	FREE_LINE_ABOARD(OrderBizType.FREE_LINE_ABOARD,"境外自由行"),
 	CITY_ACTIVITY(OrderBizType.CITY_ACTIVITY,"国内当地玩乐"),
 	SPOTS(OrderBizType.SPOTS,"国内景点门票"),
