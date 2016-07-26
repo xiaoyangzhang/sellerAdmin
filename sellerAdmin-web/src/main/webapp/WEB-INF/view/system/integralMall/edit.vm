@@ -427,7 +427,9 @@
 	        if($('.maxPoint').val() < 100) {
 		            return '积分必须大于100';
 	        }
-            if($('.priceY').val()*100 < $('.maxPoint').val()){
+	        var priceY_ = Math.ceil(parseFloat($('.priceY').val()) * 100);
+        	var maxPoint_ = parseInt($('.maxPoint').val());
+            if(priceY_ < maxPoint_){
             	return '最多可用积分不得超过商品价格';
             }
             if(!$('.stockNum').val() || !/^(0|[1-9]\d{0,5})$/.test($('.stockNum').val())){
