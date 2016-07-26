@@ -13,6 +13,9 @@ import org.yimayhd.sellerAdmin.entity.ItemManagement;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
 import org.yimayhd.sellerAdmin.result.ItemApiResult;
 
+import com.alibaba.dubbo.rpc.Result;
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.ic.client.model.result.item.ItemPageResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.biz.PublishItemBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -27,6 +30,27 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	public boolean publishService(int appId, int domainId,
 			long deviceId, long userId, int versionCode,
 			PublishServiceDO publishServiceDO) {
+		if (userId <= 0 || publishServiceDO == null) {
+			log.error("params:userId={},PublishServiceDO={}",userId,JSON.toJSONString(publishServiceDO));
+			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
+			return false;
+		}
+		WebResult<Boolean> result = null;
+		if (publishServiceDO.id <= 0) {
+			
+			result = publishItemBiz.addItem(publishServiceDO);
+		}else if (publishServiceDO.id > 0) {
+			result = publishItemBiz.updateItem(publishServiceDO);
+		}
+		if (result == null ) {
+			log.error("params:PublishServiceDO={},result:{}",JSON.toJSONString(publishServiceDO),result);
+			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
+			return false;
+		}else if (!result.isSuccess()) {
+			log.error("params:PublishServiceDO={},result:{}",JSON.toJSONString(publishServiceDO),JSON.toJSONString(result));
+			DubboExtProperty.setErrorCode(SellerReturnCode.ADD_ITEM_ERROR);
+			return false;
+		}
 		return true;
 	}
 
@@ -34,7 +58,18 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	public ItemApiResult getGoodsManagementInfo(int appId, int domainId,
 			long deviceId, long userId, int versionCode,
 			ItemListPage itemListPage) {
-		return null;
+		if (userId <= 0 || itemListPage == null || itemListPage.pageNo <= 0 || itemListPage.pageSize <= 0) {
+			log.error("params:userId={},itemListPage={}",userId,JSON.toJSONString(itemListPage));
+			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
+			return null;
+		}
+		ItemApiResult itemApiResult = publishItemBiz.getItemList(itemListPage);
+		if (itemApiResult == null ) {
+			log.error("params:ItemListPage={},result:{}",JSON.toJSONString(itemListPage),itemApiResult);
+			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
+			return null;
+		}
+		return itemApiResult;
 	}
 
 	@Override
@@ -46,6 +81,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	@Override
 	public boolean checkWhiteList(int appId, int domainId, long deviceId,
 			long userId, int versionCode) {
+		log.info("--------------------------------------------------");
 		if (userId <= 0 || domainId <= 0) {
 			log.error("params:userId={},domainId={}",userId,domainId);
 			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
@@ -55,6 +91,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 		query.setDomainId(domainId);
 		query.setSellerId(userId);
 		WebResult<Boolean> checkResult = publishItemBiz.checkWhiteList(query);
+		log.info("--------------------------------------------------"+JSON.toJSONString(checkResult));
 		if (checkResult == null || !checkResult.isSuccess()) {
 			
 			return false;

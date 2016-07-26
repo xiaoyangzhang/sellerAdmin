@@ -68,5 +68,5 @@
 	<bean id ="scenicManageService" class="com.yimayhd.sellerAdmin.service.hotelManage.impl.ScenicManageServiceImpl" />
 	<bean id="serviceTemplate" class="com.yimayhd.sellerAdmin.base.template.ServiceTemplateImpl" />
 	<!-- 发布商品 -->
-	<bean  class="com.yimayhd.sellerAdmin.service.api.PublishItemApiImpl" />
+	<bean id="publishItemApi"  class="com.yimayhd.sellerAdmin.service.api.PublishItemApiImpl" />
 </beans>

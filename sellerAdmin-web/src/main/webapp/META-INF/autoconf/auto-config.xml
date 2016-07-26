@@ -52,6 +52,8 @@
 		<property name="dubbo.retries" defaultValue="0" description="#" />
 		<property name="consumer.dubbo.timeout" defaultValue="4000" description="#" />
 		<property name="consumer.dubbo.check" defaultValue="false" description="#" />
+		<property name="export.dubbo.timeout" defaultValue="5000" description="#" />
+		<property name="export.dubbo.version" defaultValue="1.0.0.test" description="#" />
 
 		<property name="consumer.dubbo.item.version" defaultValue="1.0.0.test" description="#" />
 		<property name="consumer.dubbo.user.version" defaultValue="1.0.0.test" description="#" />

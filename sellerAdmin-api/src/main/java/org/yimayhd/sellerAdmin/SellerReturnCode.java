@@ -31,4 +31,6 @@ public class SellerReturnCode extends AbstractReturnCode implements Serializable
     public static final SellerReturnCode OFF_SALE_SUCCESS = new SellerReturnCode(SYSTEM_ERROR_C, "下架成功");
     public static final int DELETE_SUCCESS_C = 24005007;
     public static final SellerReturnCode DELETE_SUCCESS = new SellerReturnCode(SYSTEM_ERROR_C, "删除成功");
+    public static final int ADD_ITEM_ERROR_C = 24005008;
+    public static final SellerReturnCode ADD_ITEM_ERROR = new SellerReturnCode(ADD_ITEM_ERROR_C, "发布失败");
 }

@@ -6,7 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
+import org.yimayhd.sellerAdmin.entity.ItemListPage;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
+import org.yimayhd.sellerAdmin.result.ItemApiResult;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
@@ -17,6 +19,7 @@ import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemDeleteResult;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
+import com.yimayhd.ic.client.model.result.item.SingleItemQueryResult;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -96,10 +99,9 @@ public class PublishItemBiz {
 		return result;
 	}
 	
-	public WebResult<ItemPageResult> getItemList() {
+	public ItemApiResult getItemList(ItemListPage listPage) {
 		//log.info("param:PublishServiceDO={}",JSON.toJSONString(publishServiceDO));
-		WebResult<ItemPageResult> result = new WebResult<ItemPageResult>();
-		
+		ItemApiResult result = new ItemApiResult();
 		return result;
 	}
 	
@@ -189,7 +191,16 @@ public class PublishItemBiz {
 		return result;
 	}
 	
-//	public PublishServiceDO getPublishItemById() {
-//		
-//	}
+	public PublishServiceDO getPublishItemById(ItemCategoryQuery query) {
+		log.info("param:ItemCategoryQuery={}",JSON.toJSONString(query));
+		PublishServiceDO publishService = new PublishServiceDO();
+		SingleItemQueryResult queryResult = publishItemRepo.queryPublishItem(query);
+		if (queryResult == null || !queryResult.isSuccess() || queryResult.getItemDO() == null) {
+			log.error("param:ItemCategoryQuery={},result:{}",JSON.toJSONString(query),queryResult);
+			return null;
+		}
+		publishService.avater = queryResult.getItemDO().getPicUrlsString();
+		//publishService.discountPrice = queryResult.getItemDO().get
+		return publishService;
+	}
 }
