@@ -87,7 +87,8 @@ public interface PublishItemApi {
 			@ApiAutowired(CommonParameter.deviceId) long deviceId,
 			@ApiAutowired(CommonParameter.userId) long userId,
 			@ApiAutowired(CommonParameter.versionCode) int versionCode,
-			@ApiParameter(required = true,name="publishService",desc="编辑商品")PublishServiceDO publishService
+			@ApiParameter(required = true,name="itemId",desc="商品id")long itemId,
+			@ApiParameter(required = true,name="categoryId",desc="类目id")long categoryId
 			
 			);
 	

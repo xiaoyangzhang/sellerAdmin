@@ -107,10 +107,9 @@ public class PublishItemApiImpl implements PublishItemApi  {
 
 	@Override
 	public PublishServiceDO getPublishItemInfo(int appId, int domainId,
-			long deviceId, long userId, int versionCode,
-			PublishServiceDO publishService) {
-		if (userId <= 0 || publishService == null || publishService.id <= 0) {
-			log.error("params:userId={},domainId={}",userId,domainId);
+			long deviceId, long userId, int versionCode,long itemId,long categoryId) {
+		if (userId <= 0 || itemId <= 0 || categoryId <= 0) {
+			log.error("params:userId={},domainId={},itemId={},categoryId={}",userId,domainId,itemId,categoryId);
 			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
 			return null;
 		}
