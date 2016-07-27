@@ -46,7 +46,7 @@
                 <td>1050.00</td>
                 <td>10.50</td>
                 <td>1039.50</td>
-                <td class="td-details"><a href="$!utilWebconfig.getActionDefaultFontPath()/settlement/detail">详情</a></td>
+                <td class="td-details"><a href="$!utilWebconfig.getActionDefaultFontPath()/settlement/detail?reqDate=2016-04-13&settlementId=JS001230">详情</a></td>
             </tr>
             <tr>
                 <td>JS001230</td>

@@ -14,7 +14,7 @@
                 <li class=" first on">结算查询</li>
             </ul>
         </div>
-        <h3 class="search-date">4月10日已结算详情－JS120323</h3>
+        <h3 class="search-date">$!query.reqDateWithOutYear已结算详情－$!query.settlementId</h3>
         <div class="table-box">
             <table class="search-table">
                 <thead>

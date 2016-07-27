@@ -19,11 +19,11 @@
             <h3>资金</h3>
             <ul>
                 <li class="withdrawal">
-                    <p class="price">800.00  $!{accountInfo}</p>
+                    <p class="price">$!{accountInfo.accountBalanceYuan}</p>
                     <p>可提现资金</p>
                 </li>
                 <li class="settle">
-                    <p class="price">800.00</p>
+                    <p class="price">$!{accountInfo.unSettlementAmountYuan}</p>
                     <p>待结算资金</p>
                 </li>
             </ul>

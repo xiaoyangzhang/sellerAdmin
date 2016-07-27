@@ -16,12 +16,12 @@
         </div>
         <div class="payment-info-box">
             <div class="payment-bank-info">
-                <p class="w445"><span class="fl">企业名称：<i>北京九休信息科技有限公司</i></span><span class="fr">* 仅支持提现到公司对公户</span></p>
-                <p>对公账户：<i>1010 0001 001021</i></p>
-                <p>开&ensp;户&ensp;行：<i>中国建设银行北京望京SOHO分行</i></p>
+                <p class="w445"><span class="fl">企业名称：<i>$!{accountInfo.corpName}</i></span><span class="fr">* 仅支持提现到公司对公户</span></p>
+                <p>对公账户：<i>$!{accountInfo.openAcctNo}</i></p>
+                <p>开&ensp;户&ensp;行：<i>$!{accountInfo.openBankName}</i></p>
             </div>
             <div class="payment-balance">
-                <p class="w445"><span class="fl">可提现余额：<i>99999.00</i>元</span><span class="fr">* 对公提现仅支持全额提现</span></p>
+                <p class="w445"><span class="fl">可提现余额：<i>$!{accountInfo.accountBalanceYuan}</i>元</span><span class="fr">* 对公提现仅支持全额提现</span></p>
             </div>
         </div>
         <a href="javascript:;" class="submit btn-withdrawal">确认提交</a>

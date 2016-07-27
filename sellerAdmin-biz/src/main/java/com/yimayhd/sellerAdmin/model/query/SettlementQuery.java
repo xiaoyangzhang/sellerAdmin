@@ -14,8 +14,14 @@ public class SettlementQuery extends BaseQuery {
 
 	/** 结算单号 */
     private String settlementId;
-
-    /** 结算日期-开始日期,格式：yyyy-MM-dd */
+    
+    /** 结算日期,格式：yyyy-MM-dd */
+    private String reqDate;
+    
+    /** 结算日期,格式：MM月dd日 */
+    private String reqDateWithOutYear;
+	
+	/** 结算日期-开始日期,格式：yyyy-MM-dd */
     private String reqDateStart;
 
     /** 结算日期-结束日期,格式：yyyy-MM-dd */
@@ -29,6 +35,9 @@ public class SettlementQuery extends BaseQuery {
     	queryDO.setSellerId(userId);
     	if(StringUtils.isNotEmpty(query.getSettlementId())){
     		queryDO.setSettlementId(Long.parseLong(query.getSettlementId()));
+    	}
+    	if(StringUtils.isNotEmpty(query.getReqDate())){
+    		queryDO.setReqDate(query.getReqDate());
     	}
     	if(StringUtils.isNotEmpty(query.getReqDateStart())){
     		queryDO.setReqDateStart(query.getReqDateStart());
@@ -62,6 +71,18 @@ public class SettlementQuery extends BaseQuery {
 	}
 	public void setReqDateEnd(String reqDateEnd) {
 		this.reqDateEnd = reqDateEnd;
+	}
+	public String getReqDate() {
+		return reqDate;
+	}
+	public void setReqDate(String reqDate) {
+		this.reqDate = reqDate;
+	}
+	public String getReqDateWithOutYear() {
+		return reqDateWithOutYear;
+	}
+	public void setReqDateWithOutYear(String reqDateWithOutYear) {
+		this.reqDateWithOutYear = reqDateWithOutYear;
 	}
 }
 

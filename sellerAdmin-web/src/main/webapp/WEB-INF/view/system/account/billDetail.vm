@@ -12,24 +12,24 @@
             <li class=" first on">收支明细</li>
         </ul>
     </div>
+    <form action="$!utilWebconfig.getActionDefaultFontPath()/account/billDetail" method="GET" role="form">
     <div class="search-wrap">
         <div class="date-box">
             <p class="w84 fl lh34">起止日期：</p>
-            <input id="getstartime" class = "date-wrap fl" name="getstartime" title="开始时间" readonly="readonly">
+            <input id="getstartime" class = "date-wrap fl" name="transStartDate" title="开始时间" readonly="readonly" value="$!query.transStartDate" >
             <span class="w26 fl lh34">至</span>
-            <input id="getendtime" class = "date-wrap fl" name="getendtime" title="结束时间"   readonly="readonly">
+            <input id="getendtime" class = "date-wrap fl" name="transEndDate" title="结束时间"   readonly="readonly" value="$!query.transEndDate" >
         </div>
         <div class="order-number-box">
             <p class="w84 fl lh34">交易类型：</p>
-
-            <select id="select-type" class="flm select-type"/>
-            <option value="0">全部</option>
-            <option value="1">提现</option>
-            <option value="2">结算</option>
-
+            <select id="transType" name="transType" class="flm select-type"/>
+	            <option value="">全部</option>
+	            <option value="3" #if($query.transType == 3) selected="selected" #end >提现</option>
+	            <option value="7" #if($query.transType == 7) selected="selected" #end >结算</option>
             </select>
         </div>
         <a href="javascript:;" class="btn-search">查询</a>
+        <button type="submit" class="btn-search">查询</button>
     </div>
     <div class="table-box">
         <table class="search-table mt10">
@@ -42,30 +42,25 @@
                 <td>账户余额</td>
             </tr>
             </thead>
+            #foreach($item in $pageVo.resultList)
             <tr>
-                <td>JS001230</td>
-                <td>2016-04-13</td>
-                <td>结算</td>
-                <td class="income">+1200.0</td>
-                <td>0.00</td>
+                <td>$!item.transSn</td>
+                <td>$!{utilDate.date2String($item.transTime)}</td>
+                <td>#TRANS_TYPE($!{item.transType})</td>
+                <td 
+                	#if($query.transType == 3) 
+                		class="cost"
+                	#elseif($query.transType == 7)
+                		class="income"
+                	#end
+                >$!item.transAmount</td>
+                <td>$!item.accountBalance</td>
             </tr>
-            <tr>
-                <td>JS001230</td>
-                <td>2016-04-13</td>
-                <td>结算</td>
-                <td class="cost">-800.0</td>
-                <td>0.00</td>
-            </tr>
-            <tr>
-                <td>JS001230</td>
-                <td>2016-04-13</td>
-                <td>结算</td>
-                <td>+1200.0</td>
-                <td>0.00</td>
-            </tr>
+        	#end
         </table>
     </div>
     #parse("/page_jiuniu.vm")
+    </form>
 </div>
 
 #parse("layout/layout-js.vm")

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.model.SettlementDetailVO;
@@ -35,9 +36,12 @@ public class SettlementController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET) 
 	public String list(Model model, SettlementQuery query) throws Exception {
-		long userId = sessionManager.getUserId();
+		
+		//FIXME
+		long userId = 15000 ;//sessionManager.getUserId();
 //		PageVO<SettlementVO> pageVo = settlementService.queryMerchantSettlements(query, userId);
 //		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("query", query);
 		return "/system/settlement/list";
 	}
 	
@@ -46,9 +50,20 @@ public class SettlementController extends BaseController {
 	 */
 	@RequestMapping(value = "/detail", method = RequestMethod.GET) 
 	public String details(Model model, SettlementQuery query) throws Exception {
-		long userId = sessionManager.getUserId();
+		
+		//FIXME
+		long userId = 15000 ;//sessionManager.getUserId();
 //		PageVO<SettlementDetailVO> pageVo = settlementService.queryMerchantSettlementDetails(query, userId);
 //		model.addAttribute("pageVo", pageVo);
+		
+		String reqDate = query.getReqDate();
+		int subIndexNum = 6;
+		if(StringUtils.isNotEmpty(reqDate) && reqDate.length() > subIndexNum){
+			String reqDateWithOutYear = reqDate.substring(subIndexNum, reqDate.length());
+			query.setReqDateWithOutYear(reqDateWithOutYear.replace("-", "月")+"日");
+		}
+		
+		model.addAttribute("query", query);
 		return "/system/settlement/detail";
 	}
 	
@@ -57,9 +72,11 @@ public class SettlementController extends BaseController {
 	 */
 	@RequestMapping(value = "/pendingList", method = RequestMethod.GET) 
 	public String unList(Model model, SettlementQuery query) throws Exception {
-		long userId = sessionManager.getUserId();
+		//FIXME
+		long userId = 15000 ;//sessionManager.getUserId();
 //		PageVO<SettlementVO> pageVo = settlementService.queryMerchantUnsettlements(query, userId);
 //		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("query", query);
 		return "/system/settlement/pendingList";
 	}
 }

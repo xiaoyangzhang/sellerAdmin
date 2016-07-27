@@ -13,7 +13,7 @@ public class AccountQuery extends BaseQuery {
 	private static final long serialVersionUID = 1L;
 
 	/**交易类型 见枚举 TransType*/
-    private String TransType;
+    private String transType;
 
     /**交易开始时间*/
     private String transStartDate;
@@ -41,15 +41,16 @@ public class AccountQuery extends BaseQuery {
     	if(StringUtils.isNotEmpty(query.getTransEndDate())){
     		queryDO.setTransEndDate(DateUtil.parseDate(query.getTransEndDate()));
     	}
+    	queryDO.setNeedCount(true);
     	queryDO.setUserId(userId);
     	return queryDO;
     }
 	public String getTransType() {
-		return TransType;
+		return transType;
 	}
 
 	public void setTransType(String transType) {
-		TransType = transType;
+		this.transType = transType;
 	}
 
 	public String getTransStartDate() {
