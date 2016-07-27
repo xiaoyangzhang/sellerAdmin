@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.service.api;
 
+import net.pocrd.annotation.ApiParameter;
 import net.pocrd.dubboext.DubboExtProperty;
 
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.yimayhd.sellerAdmin.entity.ItemDetail;
 import org.yimayhd.sellerAdmin.entity.ItemListPage;
 import org.yimayhd.sellerAdmin.entity.ItemManagement;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
+import org.yimayhd.sellerAdmin.query.ItemQueryParam;
 import org.yimayhd.sellerAdmin.result.ItemApiResult;
 
 import com.alibaba.dubbo.rpc.Result;
@@ -20,6 +22,7 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.biz.PublishItemBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.query.ItemCategoryQuery;
+import com.yimayhd.sellerAdmin.model.query.ItemQueryDTO;
 
 public class PublishItemApiImpl implements PublishItemApi  {
 
@@ -38,9 +41,9 @@ public class PublishItemApiImpl implements PublishItemApi  {
 		WebResult<Boolean> result = null;
 		if (publishServiceDO.id <= 0) {
 			
-			result = publishItemBiz.addItem(publishServiceDO);
+			result = publishItemBiz.addItem(publishServiceDO,userId);
 		}else if (publishServiceDO.id > 0) {
-			result = publishItemBiz.updateItem(publishServiceDO);
+			result = publishItemBiz.updateItem(publishServiceDO,userId);
 		}
 		if (result == null ) {
 			log.error("params:PublishServiceDO={},result:{}",JSON.toJSONString(publishServiceDO),result);
@@ -57,15 +60,19 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	@Override
 	public ItemApiResult getGoodsManagementInfo(int appId, int domainId,
 			long deviceId, long userId, int versionCode,
-			ItemListPage itemListPage) {
-		if (userId <= 0 || itemListPage == null || itemListPage.pageNo <= 0 || itemListPage.pageSize <= 0) {
-			log.error("params:userId={},itemListPage={}",userId,JSON.toJSONString(itemListPage));
+			 ItemQueryParam itemQueryParam) {
+		if (userId <= 0 || itemQueryParam == null || itemQueryParam.pageNo <= 0 || itemQueryParam.pageSize <= 0) {
+			log.error("params:userId={},itemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
 			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
 			return null;
 		}
-		ItemApiResult itemApiResult = publishItemBiz.getItemList(itemListPage);
+		ItemCategoryQuery itemCategoryQuery = new ItemCategoryQuery(); 
+		itemCategoryQuery.setSellerId(userId);
+		itemCategoryQuery.setItemQueryParam(itemQueryParam);
+		itemCategoryQuery.setCategoryId(241);
+		ItemApiResult itemApiResult = publishItemBiz.getItemList(itemCategoryQuery);
 		if (itemApiResult == null ) {
-			log.error("params:ItemListPage={},result:{}",JSON.toJSONString(itemListPage),itemApiResult);
+			log.error("params:ItemListPage={},result:{}",JSON.toJSONString(itemQueryParam),itemApiResult);
 			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
 			return null;
 		}
@@ -74,8 +81,22 @@ public class PublishItemApiImpl implements PublishItemApi  {
 
 	@Override
 	public ItemApiResult getGoodsDetailInfo(int appId, int domainId,
-			long deviceId, long userId, int versionCode, ItemDetail goodsDetail) {
-		return null;
+			long deviceId, long userId, int versionCode, ItemQueryParam itemQueryParam) {
+		if (userId <= 0 || itemQueryParam == null || itemQueryParam.id <= 0) {
+			log.error("params:userId={},ItemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
+			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
+			return null;
+		}
+		ItemCategoryQuery query = new ItemCategoryQuery();
+		query.setSellerId(userId);
+		query.setItemId(itemQueryParam.id);
+		ItemApiResult itemApiResult = publishItemBiz.getPublishItemById(query);
+		if (itemApiResult == null ) {
+			log.error("params:userId={},ItemQueryParam={},result:{}",userId,JSON.toJSONString(itemQueryParam),JSON.toJSONString(itemApiResult));
+			return null;
+			
+		}
+		return itemApiResult;
 	}
 
 	@Override
@@ -101,19 +122,52 @@ public class PublishItemApiImpl implements PublishItemApi  {
 
 	@Override
 	public boolean updateState(int appId, int domainId, long deviceId,
-			long userId, int versionCode, ItemManagement goodsManagement) {
-		return false;
+			long userId, int versionCode, ItemQueryParam itemQueryParam) {
+		log.info("param:userId={},ItemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
+		if (userId <= 0 || itemQueryParam == null || itemQueryParam.id <= 0 || itemQueryParam.state <2) {
+			log.error("params:userId={},ItemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
+			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
+			return false;
+		}
+		ItemQueryDTO dto = new ItemQueryDTO();
+		dto.setDomainId(domainId);
+		dto.setItemId(itemQueryParam.id);
+		dto.setSellerId(userId);
+		dto.setState(itemQueryParam.state);
+		log.info("param:ItemQueryDTO={}",JSON.toJSONString(dto));
+		WebResult<Boolean> updateStateResult = publishItemBiz.updateItemState(dto);
+		if (updateStateResult == null || !updateStateResult.isSuccess()) {
+			log.error("param:ItemQueryParam={},ItemQueryDTO={},result:{}",JSON.toJSONString(itemQueryParam),JSON.toJSONString(dto),JSON.toJSONString(updateStateResult));
+			DubboExtProperty.setErrorCode(SellerReturnCode.UPDATE_ITEM_ERROR);
+			return false;
+		}
+		log.info("result:{}",JSON.toJSONString(updateStateResult));
+		
+		return true;
 	}
 
 	@Override
 	public PublishServiceDO getPublishItemInfo(int appId, int domainId,
-			long deviceId, long userId, int versionCode,long itemId,long categoryId) {
-		if (userId <= 0 || itemId <= 0 || categoryId <= 0) {
-			log.error("params:userId={},domainId={},itemId={},categoryId={}",userId,domainId,itemId,categoryId);
+			long deviceId, long userId, int versionCode,/*long itemId,long categoryId*/ItemQueryParam itemQueryParam) {
+		log.info("param:ItemQueryParam={}",JSON.toJSONString(itemQueryParam));
+		if (userId <= 0 || itemQueryParam == null || itemQueryParam.id <= 0 || itemQueryParam.categoryId <= 0) {
+			log.error("params:userId={},domainId={},itemId={},categoryId={}",userId,domainId,itemQueryParam.id,itemQueryParam.categoryId);
 			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
 			return null;
 		}
-		return null;
+		ItemCategoryQuery query = new ItemCategoryQuery();
+		query.setDomainId(domainId);
+		query.setItemId(itemQueryParam.id);
+		query.setSellerId(userId);
+		log.info("param:ItemCategoryQuery={}",JSON.toJSONString(query));
+		ItemApiResult itemApiResult = publishItemBiz.getPublishItemById(query);
+		log.info("result:ItemApiResult={}",JSON.toJSONString(itemApiResult));
+		if (itemApiResult == null ) {
+			log.error("params:userId={},ItemQueryParam={},result:{}",userId,JSON.toJSONString(itemQueryParam),JSON.toJSONString(itemApiResult));
+			return null;
+			
+		}
+		return itemApiResult.itemDetail.itemManagement.publishServiceDO;
 	}
 
 }

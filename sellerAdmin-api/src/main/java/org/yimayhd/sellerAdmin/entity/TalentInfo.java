@@ -14,6 +14,6 @@ public class TalentInfo implements Serializable {
 	public String avater;
 	@Description("昵称")
 	public String nickName;
-	@Description("身份认证状态")
+	@Description("身份认证状态0:未认证1：已认证")
 	public int certificateSate;
 }

@@ -20,9 +20,9 @@ public class PublishServiceDO implements Serializable {
 	@Description("类目")
 	public int categoryType;
 	@Description("服务区域")
-	public List<TagRelationInfoVO> TagRelationInfoVOs;
+	public List<ServiceArea> ServiceAreas;
 	@Description("图文详情")
-	public List<PictureTextItemVo> pictureTextItems;
+	public List<PictureTextItem> pictureTextItems;
 	@Description("费用说明")
 	public String feeDesc;
 	@Description("预定说明")
@@ -30,13 +30,13 @@ public class PublishServiceDO implements Serializable {
 	@Description("退改规定")
 	public String refundRule;
 	@Description("原价")
-	public int oldPrice;
+	public long oldPrice;
 	@Description("原价时间")
 	public int oldTime;
 	@Description("优惠价")
-	public int discountPrice;
+	public long discountPrice;
 	@Description("优惠时间")
 	public int discountTime;
-	@Description("商品发布状态1:已发布2:待发布")
+	@Description("商品发布状态2:已发布3:待发布")
 	public int serviceState;
 }

@@ -20,11 +20,11 @@ public class ItemApiResult implements Serializable {
 //	@Description("发布是商品详情")
 //	public PublishServiceDO publishServiceDO;
 	@Description("商品管理列表")
-	public List<ItemManagement> ItemManagements;
+	public List<ItemManagement> itemManagements;
 	@Description("商品详情")
-	public ItemDetail ItemDetail;
+	public ItemDetail itemDetail;
 	@Description("达人信息")
 	public TalentInfo talentInfo;
-	@Description("评价")
-	public EvaluateInfo evaluateInfo;
+//	@Description("评价")
+//	public EvaluateInfo evaluateInfo;
 }

@@ -11,7 +11,7 @@ import net.pocrd.annotation.Description;
  *
  */
 @Description("评价中的图文信息")
-public class PictureTextItemVo implements Serializable{
+public class PictureTextItem implements Serializable{
 	private static final long serialVersionUID = -6988747828375320041L;
 	@Description("图文类型")
 	public String type;

@@ -11,7 +11,7 @@ public class ItemDetail implements Serializable {
 	*/
 	private static final long serialVersionUID = 3886089390572328400L;
 	@Description("商品管理")
-	public ItemManagement goodsManagement;
+	public ItemManagement itemManagement;
 	@Description("商品id")
 	public long id;
 //	@Description("商品信息")

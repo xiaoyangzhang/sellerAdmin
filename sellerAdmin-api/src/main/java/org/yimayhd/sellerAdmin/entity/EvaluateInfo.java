@@ -20,5 +20,5 @@ public class EvaluateInfo implements Serializable {
 	@Description("评价时间")
 	public String dateTime;
 	@Description("评价信息")
-	public List<PictureTextItemVo> PictureTextItems;
+	public List<PictureTextItem> PictureTextItems;
 }

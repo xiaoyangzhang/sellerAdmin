@@ -7,6 +7,7 @@ import org.yimayhd.sellerAdmin.entity.ItemManagement;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
 
 
+import org.yimayhd.sellerAdmin.query.ItemQueryParam;
 import org.yimayhd.sellerAdmin.result.ItemApiResult;
 
 import net.pocrd.annotation.ApiAutowired;
@@ -40,10 +41,10 @@ public interface PublishItemApi {
 			@ApiAutowired(CommonParameter.deviceId) long deviceId,
 			@ApiAutowired(CommonParameter.userId) long userId,
 			@ApiAutowired(CommonParameter.versionCode) int versionCode,
-			@ApiParameter(required = true, name = "itemListPage", desc = "商品管理列表") ItemListPage itemListPage
+			@ApiParameter(required = true, name = "itemQueryParam", desc = "商品查询参数") ItemQueryParam itemQueryParam
 			);
 	
-	@HttpApi(name = "sellerAdmin.getGoodsDetailInfo", desc = "获取商品详情页面信息", security = SecurityType.UserLogin, owner = "zhangxy")
+	@HttpApi(name = "sellerAdmin.getGoodsDetailInfo", desc = "商品查询参数", security = SecurityType.UserLogin, owner = "zhangxy")
 	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C})
 	public ItemApiResult getGoodsDetailInfo(
 			@ApiAutowired(CommonParameter.applicationId) int appId,
@@ -51,7 +52,7 @@ public interface PublishItemApi {
 			@ApiAutowired(CommonParameter.deviceId) long deviceId,
 			@ApiAutowired(CommonParameter.userId) long userId,
 			@ApiAutowired(CommonParameter.versionCode) int versionCode,
-			@ApiParameter(required = true, name = "goodsDetail", desc = "商品详情页面信息") ItemDetail goodsDetail
+			@ApiParameter(required = true, name = "itemQueryParam", desc = "商品查询参数") ItemQueryParam itemQueryParam
 			);
 	
 	@HttpApi(name = "sellerAdmin.checkWhiteList", desc = "发布服务白名单", security = SecurityType.UserLogin, owner = "zhangxy")
@@ -75,7 +76,7 @@ public interface PublishItemApi {
 			@ApiAutowired(CommonParameter.deviceId) long deviceId,
 			@ApiAutowired(CommonParameter.userId) long userId,
 			@ApiAutowired(CommonParameter.versionCode) int versionCode,
-			@ApiParameter(required = true,name="goodsManagement",desc="更新商品状态")ItemManagement goodsManagement
+			@ApiParameter(required = true, name = "itemQueryParam", desc = "商品查询参数") ItemQueryParam itemQueryParam
 			
 			);
 	
@@ -87,8 +88,9 @@ public interface PublishItemApi {
 			@ApiAutowired(CommonParameter.deviceId) long deviceId,
 			@ApiAutowired(CommonParameter.userId) long userId,
 			@ApiAutowired(CommonParameter.versionCode) int versionCode,
-			@ApiParameter(required = true,name="itemId",desc="商品id")long itemId,
-			@ApiParameter(required = true,name="categoryId",desc="类目id")long categoryId
+			/*@ApiParameter(required = true,name="itemId",desc="商品id")long itemId,
+			@ApiParameter(required = true,name="categoryId",desc="类目id")long categoryId*/
+			@ApiParameter(required = true, name = "itemQueryParam", desc = "商品查询参数") ItemQueryParam itemQueryParam
 			
 			);
 	

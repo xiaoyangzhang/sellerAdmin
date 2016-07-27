@@ -1,17 +1,26 @@
 package com.yimayhd.sellerAdmin.converter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
 
 import com.sun.tools.classfile.Annotation.element_value;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.domain.item.ItemDTO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
+import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.param.item.ConsultPublishAddDTO;
 import com.yimayhd.ic.client.model.param.item.ConsultPublishUpdateDTO;
+import com.yimayhd.ic.client.model.param.item.ItemPubUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
+import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
+import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.model.query.ItemCategoryQuery;
 import com.yimayhd.sellerAdmin.model.query.ItemQueryDTO;
 import com.yimayhd.user.session.manager.SessionManager;
 
@@ -29,43 +38,75 @@ public class PublishItemConverter {
 		ConsultPublishAddDTO dto = new ConsultPublishAddDTO();
 		ItemDO itemDO = new ItemDO();
 		//服务咨询类
-		itemDO.setCategoryId(241);
+		itemDO.setCategoryId(Constant.CONSULT_SERVICE);
 		itemDO.setTitle(publishServiceDO.title);
-		if (publishServiceDO.serviceState == 1) {
+		if (publishServiceDO.serviceState == Constant.PUBLISHED) {
 			
 			itemDO.setStatus(ItemStatus.valid.getValue());
-		}else if (publishServiceDO.serviceState == 2) {
+		}else if (publishServiceDO.serviceState == Constant.TO_BE_PUBLISHED) {
 			itemDO.setStatus(ItemStatus.invalid.getValue());
 			
 		}
 		itemDO.setSellerId(sellerId);
 		itemDO.setDomain(Constant.DOMAIN_JIUXIU);
-		itemDO.setPicUrlsString(publishServiceDO.avater);
+		itemDO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS, publishServiceDO.avater);
+		itemDO.setPrice(publishServiceDO.discountPrice);
+		itemDO.setOriginalPrice(publishServiceDO.oldPrice);
 		ItemFeature itemFeature = new ItemFeature(null);
 		itemFeature.put(ItemFeatureKey.CONSULT_TIME, publishServiceDO.oldTime);
 		itemDO.setItemFeature(itemFeature);
+		List<ItemSkuPVPair> itemSkuPVPairs = new ArrayList<ItemSkuPVPair>(); 
+		ItemSkuPVPair skuPVPair = new ItemSkuPVPair();
+		skuPVPair.setPId(61);
+		skuPVPair.setPTxt("费用包含");
+		skuPVPair.setPType(1);
+		itemSkuPVPairs.add(skuPVPair);
+		ItemSkuPVPair skuPVPair2 = new ItemSkuPVPair();
+		skuPVPair.setPId(57);
+		skuPVPair.setPTxt("预定时间");
+		skuPVPair.setPType(1);
+		itemSkuPVPairs.add(skuPVPair2);
+		ItemSkuPVPair skuPVPair3 = new ItemSkuPVPair();
+		skuPVPair.setPId(62);
+		skuPVPair.setPTxt("退票说明");
+		skuPVPair.setPType(1);
+		itemSkuPVPairs.add(skuPVPair3);
+		itemDO.setItemPropertyList(itemSkuPVPairs);
+		dto.setItemDO(itemDO);
 		return dto;
 	}
 	public static ConsultPublishUpdateDTO converterLocal2UpdatePublishConsult(PublishServiceDO publishServiceDO,long sellerId) {
 		ConsultPublishUpdateDTO dto = new ConsultPublishUpdateDTO();
-		ItemDO itemDO = new ItemDO();
-		itemDO.setId(publishServiceDO.id);
+		ItemPubUpdateDTO itemDTO = new ItemPubUpdateDTO();
+		itemDTO.setId(publishServiceDO.id);
 		//服务咨询类
-		itemDO.setCategoryId(241);
-		itemDO.setTitle(publishServiceDO.title);
-		if (publishServiceDO.serviceState == 1) {
-			
-			itemDO.setStatus(ItemStatus.valid.getValue());
-		}else if (publishServiceDO.serviceState == 2) {
-			itemDO.setStatus(ItemStatus.invalid.getValue());
-			
-		}
-		itemDO.setSellerId(sellerId);
-		itemDO.setDomain(Constant.DOMAIN_JIUXIU);
-		itemDO.setPicUrlsString(publishServiceDO.avater);
+		
+		itemDTO.setTitle(publishServiceDO.title);
+		
+		itemDTO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS, publishServiceDO.avater);
+		itemDTO.setPrice((long)(publishServiceDO.discountPrice));
+		itemDTO.setOriginalPrice((long)(publishServiceDO.oldPrice));
 		ItemFeature itemFeature = new ItemFeature(null);
 		itemFeature.put(ItemFeatureKey.CONSULT_TIME, publishServiceDO.oldTime);
-		itemDO.setItemFeature(itemFeature);
+		itemDTO.setItemFeature(itemFeature);
+		List<ItemSkuPVPair> itemSkuPVPairs = new ArrayList<ItemSkuPVPair>(); 
+		ItemSkuPVPair skuPVPair = new ItemSkuPVPair();
+		skuPVPair.setPId(61);
+		skuPVPair.setPTxt("费用包含");
+		skuPVPair.setPType(1);
+		itemSkuPVPairs.add(skuPVPair);
+		ItemSkuPVPair skuPVPair2 = new ItemSkuPVPair();
+		skuPVPair.setPId(57);
+		skuPVPair.setPTxt("预定时间");
+		skuPVPair.setPType(1);
+		itemSkuPVPairs.add(skuPVPair2);
+		ItemSkuPVPair skuPVPair3 = new ItemSkuPVPair();
+		skuPVPair.setPId(62);
+		skuPVPair.setPTxt("退票说明");
+		skuPVPair.setPType(1);
+		itemSkuPVPairs.add(skuPVPair3);
+		itemDTO.setItemPropertyList(itemSkuPVPairs);
+		dto.setItemDTO(itemDTO);
 		return dto;
 	}
 	
@@ -74,5 +115,20 @@ public class PublishItemConverter {
 		itemPublishDTO.setItemId(dto.getItemId());
 		itemPublishDTO.setSellerId(dto.getSellerId());
 		return itemPublishDTO;
+	}
+	
+	public static ItemQryDTO converterLocal2ItemQueryDTO(ItemCategoryQuery query) {
+		ItemQryDTO dto = new ItemQryDTO();
+		dto.setPageNo(query.getItemListPage().pageNo);
+		dto.setPageSize(query.getItemListPage().pageSize);
+		dto.setSellerId(query.getSellerId());
+		List<Integer> domains = new ArrayList<Integer>();
+		domains.add(query.getDomainId());
+		dto.setDomains(domains);
+		List<Integer> statuses = new ArrayList<Integer>();
+		statuses.add(query.getItemListPage().ItemManagement.publishServiceDO.serviceState);
+		dto.setStatus(statuses);
+		dto.setCategoryId(query.getCategoryId());
+		return dto;
 	}
 }

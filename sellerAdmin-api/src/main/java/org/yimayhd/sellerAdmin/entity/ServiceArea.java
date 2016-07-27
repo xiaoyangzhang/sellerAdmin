@@ -6,7 +6,7 @@ import java.util.List;
 
 import net.pocrd.annotation.Description;
 @Description("服务区域")
-public class TagRelationInfoVO implements Serializable {
+public class ServiceArea implements Serializable {
 
 	/**
 	* @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)

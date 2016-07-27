@@ -2,6 +2,9 @@ package com.yimayhd.sellerAdmin.model.query;
 
 import java.io.Serializable;
 
+import org.yimayhd.sellerAdmin.entity.ItemListPage;
+import org.yimayhd.sellerAdmin.query.ItemQueryParam;
+
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 
 public class ItemCategoryQuery implements Serializable {
@@ -14,7 +17,30 @@ public class ItemCategoryQuery implements Serializable {
 	private int domainId;
 	private long sellerId;
 	private long itemId;
+	private long categoryId;
+	private ItemQueryParam itemQueryParam;
+	
+	public long getCategoryId() {
+		return categoryId;
+	}
+	public void setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
+	}
+	public ItemQueryParam getItemQueryParam() {
+		return itemQueryParam;
+	}
+	public void setItemQueryParam(ItemQueryParam itemQueryParam) {
+		this.itemQueryParam = itemQueryParam;
+	}
 	private ItemOptionDTO itemOptionDTO = new ItemOptionDTO();
+	private ItemListPage itemListPage;
+	
+	public ItemListPage getItemListPage() {
+		return itemListPage;
+	}
+	public void setItemListPage(ItemListPage itemListPage) {
+		this.itemListPage = itemListPage;
+	}
 	public ItemOptionDTO getItemOptionDTO(long userId) {
 		itemOptionDTO.setUserId(userId);
 		return itemOptionDTO;

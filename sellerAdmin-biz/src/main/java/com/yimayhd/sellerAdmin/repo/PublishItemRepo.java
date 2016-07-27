@@ -62,13 +62,13 @@ public class PublishItemRepo {
 		
 	}
 	
-	public ItemPageResult getItem(ItemQryDTO dto) {
+	public ItemPageResult getItemList(ItemQryDTO dto) {
 		log.info("param:ItemQryDTO={}",JSON.toJSONString(dto));
-		ItemPageResult item = itemQueryService.getItem(dto);
-		if (item != null) {
-		log.info("result:ItemPageResult={}",JSON.toJSONString(item));
+		ItemPageResult itemPageResult = itemQueryService.getItem(dto);
+		if (itemPageResult != null) {
+		log.info("result:ItemPageResult={}",JSON.toJSONString(itemPageResult));
 		}
-		return item;
+		return itemPageResult;
 	}
 	
 	public ItemPubResult publishItem(ItemPublishDTO dto) {
