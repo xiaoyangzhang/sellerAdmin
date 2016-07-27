@@ -1,0 +1,74 @@
+
+#set($layout = "/layout/layout-jiuxiu.vm")
+
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>已结算查询</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/payment.css">
+</head>
+<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/js/jquery.js"></script>
+
+<div class = "payment-right">
+    <div class="payment-info clearfix">
+        <ul>
+            <li class=" first on">结算查询</li>
+        </ul>
+    </div>
+   <form id="queryForm" action="" class="form-signin" role="form">
+   <div class="search-wrap">
+        <div class="date-box">
+            <p class="w84 fl lh34">结算日期：</p>
+            <input id="getstartime" class = "date-wrap fl" name="getstartime" title="开始时间" readonly="readonly">
+            <span class="w26 fl lh34">至</span>
+            <input id="getendtime" class = "date-wrap fl" name="getendtime" title="结束时间"   readonly="readonly">
+        </div>
+        <div class="order-number-box">
+            <p class="w84 fl lh34">结算单号：</p>
+           	<input type="text" class="statement-text"/>
+        </div>
+       <a href="javascript:;" class="btn-search">查询</a>
+   </div>
+   <div class="table-box">
+        <table class="search-table mt10">
+            <thead>
+            <tr>
+                <td>交易订单号</td>
+                <td>交易完成时间</td>
+                <td>支付金额</td>
+                <td>服务费</td>
+                <td>实际结算</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tr>
+                <td>JS001230</td>
+                <td>2016-04-13</td>
+                <td>1050.00</td>
+                <td>10.50</td>
+                <td>1039.50</td>
+                <td class="td-details"><a href="$!utilWebconfig.getActionDefaultFontPath()/settlement/detail">详情</a></td>
+            </tr>
+            <tr>
+                <td>JS001230</td>
+                <td>2016-04-13</td>
+                <td>1050.00</td>
+                <td>10.50</td>
+                <td>1039.50</td>
+                <td class="td-details"><a href="">详情</a></td>
+            </tr>
+            <tr>
+                <td>JS001230</td>
+                <td>2016-04-13</td>
+                <td>1050.00</td>
+                <td>10.50</td>
+                <td>1039.50</td>
+                <td class="td-details"><a href="">详情</a></td>
+            </tr>
+        </table>
+   </div>
+   #parse("/page_jiuniu.vm")
+   </form>
+</div>
+       
+#parse("layout/layout-js.vm")
+<script>seajs.use("payment");</script>	

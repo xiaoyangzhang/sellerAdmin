@@ -93,20 +93,21 @@ public class AccountController extends BaseController {
 	 * 我的钱包
 	 */
 	@RequestMapping(value = "/toMyWallet", method = RequestMethod.GET) 
-	public String toMyWallet(Model model) throws Exception {
-
-		long userId = sessionManager.getUserId();
-		EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
-		model.addAttribute("accountInfo", accountInfo);
-		return "/system/account/wallet";
+	public ModelAndView toMyWallet(Model model) throws Exception {
+		
+		//FIXME
+		long userId = 15000 ;//sessionManager.getUserId();
+//		EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
+//		model.addAttribute("accountInfo", accountInfo);
+		return new ModelAndView("/system/account/myWallet");
 	}
 	
 	/**
 	 * 到提现页面
 	 */
 	@RequestMapping(value = "/toWithdrawal", method = RequestMethod.GET) 
-	public String toWithdrawal(Model model) throws Exception {
-		return "/system/account/withdrawal";
+	public ModelAndView toWithdrawal(Model model) throws Exception {
+		return new ModelAndView("/system/account/withdrawal");
 	}
 	
 	/**
@@ -116,20 +117,19 @@ public class AccountController extends BaseController {
 	@ResponseBody
 	public ResponseVo withdrawal(Model model){
 		try {
-			long userId = sessionManager.getUserId();
-			
-			EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
-			
-			WithdrawalVO vo = new WithdrawalVO();
-			vo.setUserId(userId);
-			vo.setBankCardId(Long.parseLong(accountInfo.getOpenAcctNo()));
-			vo.setWithdrawalAmount(accountInfo.getAccountBalance());
-			vo.setEleAccountType(EleAccountType.UNION_ELE_ACCOUNT.getType());
-			if(accountInfo.getAccountBalance() <= 0 ){
-				throw new NoticeException(Constant.WITHDRAWAL_ACCOUNT_BALANCE_IS_ZERO);
-			}
-			
-			accountService.withdrawal(vo);
+//			long userId = sessionManager.getUserId();
+//			
+//			EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
+//			
+//			WithdrawalVO vo = new WithdrawalVO();
+//			vo.setUserId(userId);
+//			vo.setWithdrawalAmount(accountInfo.getAccountBalance());
+//			vo.setEleAccountType(EleAccountType.UNION_ELE_ACCOUNT.getType());
+//			if(accountInfo.getAccountBalance() <= 0 ){
+//				throw new NoticeException(Constant.WITHDRAWAL_ACCOUNT_BALANCE_IS_ZERO);
+//			}
+//			
+//			accountService.withdrawal(vo);
 			return ResponseVo.success();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -138,13 +138,22 @@ public class AccountController extends BaseController {
 	}
 	
 	/**
+	 * 提现结果
+	 */
+	@RequestMapping(value = "/withdrawalResult", method = RequestMethod.GET) 
+	@ResponseBody
+	public ModelAndView withdrawalResult(Model model){
+		return new ModelAndView("/system/account/withdrawalResult");
+	}
+	
+	/**
 	 * 收支明细
 	 */
-	@RequestMapping(value = "/billDetail", method = RequestMethod.POST) 
-	public String billDetail(Model model, AccountQuery query) throws Exception {
+	@RequestMapping(value = "/billDetail", method = RequestMethod.GET) 
+	public ModelAndView billDetail(Model model, AccountQuery query) throws Exception {
 		long userId = sessionManager.getUserId();
 		PageVO<EleAccountBillVO> pageVo = accountService.queryEleAccBillDetail(query, userId);
 		model.addAttribute("pageVo", pageVo);
-		return "/system/account/billDetail";
+		return new ModelAndView("/system/account/billDetail");
 	}
 }

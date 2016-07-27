@@ -1,0 +1,47 @@
+
+#set($layout = "/layout/layout-jiuxiu.vm")
+
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>待结算查询</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/payment.css">
+</head>
+<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/js/jquery.js"></script>
+
+<div class = "payment-right">
+    <div class="payment-info clearfix">
+        <ul>
+            <li class=" first on">待结算查询</li>
+        </ul>
+    </div>
+    <div class="table-box">
+        <table class="search-table">
+            <thead>
+            <tr>
+                <td>交易订单号</td>
+                <td>交易完成时间</td>
+                <td>支付金额</td>
+            </tr>
+            </thead>
+            <tr>
+                <td>JX12312313131313</td>
+                <td>2016-04-13  14:12:23</td>
+                <td>1050.00</td>
+            </tr>
+            <tr>
+                <td>JX12312313131313</td>
+                <td>2016-04-13  14:12:23</td>
+                <td>1050.00</td>
+            </tr>
+            <tr>
+                <td>JX12312313131313</td>
+                <td>2016-04-13  14:12:23</td>
+                <td>1050.00</td>
+            </tr>
+        </table>
+    </div>
+	#parse("/page_jiuniu.vm")
+</div>
+
+#parse("layout/layout-js.vm")
+<script>seajs.use("payment");</script>	

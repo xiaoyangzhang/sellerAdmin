@@ -1,0 +1,24 @@
+#set($layout = "/layout/layout-jiuxiu.vm")
+
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>提现成功</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/payment.css">
+</head>
+
+<div class = "payment-right">
+    <div class="payment-info clearfix">
+        <ul>
+            <li class=" first on">提现成功</li>
+        </ul>
+    </div>
+    <div class="success-box">
+        <i class="icon-succPass"></i>
+        <h3>提现申请成功！</h3>
+        <p>提现申请成功，预计今日24时前到账。</p>
+        <p>3秒后返回到钱包首页！</p>
+    </div>
+</div>
+    
+#parse("layout/layout-js.vm")
+<script>seajs.use("password");</script>	
