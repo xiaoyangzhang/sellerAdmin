@@ -9,7 +9,9 @@ import org.yimayhd.sellerAdmin.api.PublishItemApi;
 import org.yimayhd.sellerAdmin.entity.PictureTextItem;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
 import org.yimayhd.sellerAdmin.entity.ServiceArea;
+import org.yimayhd.sellerAdmin.query.ItemQueryParam;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.BaseTest;
 
 public class PulishItemTest extends BaseTest {
@@ -19,7 +21,9 @@ public class PulishItemTest extends BaseTest {
 	
 	@Test
 	public void testPublishItem() {
-		publishItem();
+//		publishItem();
+//		testWhiteList();
+		testGetPublishItem();
 	}
 
 	private void publishItem() {
@@ -45,12 +49,24 @@ public class PulishItemTest extends BaseTest {
 		serviceArea.areaCode = 1000410;
 		serviceArea.areaName = "北京";
 		serviceArea.domain = 1200;
-		serviceArea.outId = 21219;
+		serviceArea.outId = 21220;
 		serviceArea.outType = 12;
 		serviceAreas.add(serviceArea);
 		publishServiceDO.pictureTextItems = pictureTextItems;
 		publishServiceDO.ServiceAreas = serviceAreas;
-		boolean publishService = publishItemApi.publishService(0, 1200, 0, 21219, 0, publishServiceDO);
+		boolean publishService = publishItemApi.publishService(0, 1200, 0, 21220, 0, publishServiceDO);
 		System.out.println(publishService);
+	}
+	
+	private void testWhiteList() {
+		boolean checkWhiteList = publishItemApi.checkWhiteList(0, 1200, 0, 21219, 0);
+	}
+	
+	private void testGetPublishItem() {
+		ItemQueryParam itemQueryParam = new ItemQueryParam();
+		itemQueryParam.id = 110801;
+		itemQueryParam.categoryId = 241;
+		PublishServiceDO publishItemInfo = publishItemApi.getPublishItemInfo(0, 1200, 0, 21220, 0, itemQueryParam);
+		System.out.println("======================"+JSON.toJSONString(publishItemInfo));
 	}
 }

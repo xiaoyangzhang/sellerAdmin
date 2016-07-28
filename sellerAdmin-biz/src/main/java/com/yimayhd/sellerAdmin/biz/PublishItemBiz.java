@@ -1,6 +1,7 @@
 package com.yimayhd.sellerAdmin.biz;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -111,7 +112,9 @@ public class PublishItemBiz {
 					
 				}
 			}
+			
 			ConsultPublishAddDTO dto = PublishItemConverter.converterLocal2AddPublishConsult(publishServiceDO, sellerId);
+			//dto.getItemDO().setId(11111);
 			ItemPubResult addItemResult = publishItemRepo.addItem(dto);
 			//FIXME 重复代码
 			//保存图文详情
@@ -124,7 +127,7 @@ public class PublishItemBiz {
 				pictureTextItemVos.add(vo);
 			}
 			pictureTextVO.setPictureTextItems(pictureTextItemVos);
-			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(sellerId, PictureText.FOOD, pictureTextVO);
+			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(sellerId, PictureText.EXPERTPUBLISH, pictureTextVO);
 			
 			pictureTextRepo.editPictureText(comentEditDTO);
 			//TODO 结果判断
@@ -138,6 +141,7 @@ public class PublishItemBiz {
 			tagRelationInfo.setList(codeList);
 			tagRelationInfo.setOutId(sellerId);
 			tagRelationInfo.setOutType(TagType.DESTPLACE.getType());
+			tagRelationInfo.setOrderTime(new Date());
 			BaseResult<Boolean> addResult = comCenterServiceRef.addTagRelationInfo(tagRelationInfo);
 			//TODO 结果判断
 			if (addItemResult == null) {
@@ -201,7 +205,7 @@ public class PublishItemBiz {
 				pictureTextItemVos.add(vo);
 			}
 			pictureTextVO.setPictureTextItems(pictureTextItemVos);
-			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(sellerId, PictureText.FOOD, pictureTextVO);
+			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(sellerId, PictureText.EXPERTPUBLISH, pictureTextVO);
 			
 			pictureTextRepo.editPictureText(comentEditDTO);
 			//TODO 结果判断
