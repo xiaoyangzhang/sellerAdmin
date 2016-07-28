@@ -1,5 +1,9 @@
 #set($layout = "/layout/layout-jiuxiu.vm")
 
+##选中菜单
+#set( $selectMenu = "/account/toMyWallet" )
+#set( $locations = ["我的钱包", "提现"] )
+
 <head>
 	#parse("layout/layout-meta.vm")
 	<title>提现</title>

@@ -30,7 +30,7 @@ public class SettlementRepo {
      */
     public PayPageResultDTO<SettlementDTO> queryMerchantSettlements(SettlementQuery query){
 		RepoUtils.requestLog(log, "settlementServiceRef.queryMerchantSettlements", query);
-		PayPageResultDTO<SettlementDTO> result = null;//settlementServiceRef.queryMerchantSettlements(query);
+		PayPageResultDTO<SettlementDTO> result = settlementServiceRef.queryMerchantSettlements(query);
 		RepoUtils.resultLog(log, "settlementServiceRef.queryMerchantSettlements", result);
 		return result;
 	}
@@ -42,7 +42,7 @@ public class SettlementRepo {
      */
     public PayPageResultDTO<SettlementDetailDTO> queryMerchantSettlementDetails(SettlementQuery query){
 		RepoUtils.requestLog(log, "settlementServiceRef.queryMerchantSettlementDetails", query);
-		PayPageResultDTO<SettlementDetailDTO> result = null;//settlementServiceRef.queryMerchantSettlementDetails(query);
+		PayPageResultDTO<SettlementDetailDTO> result = settlementServiceRef.queryMerchantSettlementDetails(query);
 		RepoUtils.resultLog(log, "settlementServiceRef.queryMerchantSettlementDetails", result);
 		return result;
 	}
@@ -54,7 +54,7 @@ public class SettlementRepo {
      */
     public PayPageResultDTO<SettlementDTO> queryMerchantUnsettlements(SettlementQuery query){
 		RepoUtils.requestLog(log, "settlementServiceRef.queryMerchantUnsettlements", query);
-		PayPageResultDTO<SettlementDTO> result = null;//settlementServiceRef.queryMerchantUnsettlements(query);
+		PayPageResultDTO<SettlementDTO> result = settlementServiceRef.queryMerchantUnsettlements(query);
 		RepoUtils.resultLog(log, "settlementServiceRef.queryMerchantUnsettlements", result);
 		return result;
 	}
