@@ -32,38 +32,24 @@
         <table class="search-table mt10">
             <thead>
             <tr>
-                <td>交易订单号</td>
-                <td>交易完成时间</td>
+                <td>结算单号</td>
+                <td>结算时间</td>
                 <td>支付金额</td>
                 <td>服务费</td>
                 <td>实际结算</td>
                 <td>操作</td>
             </tr>
             </thead>
+            #foreach($item in $pageVo.resultList)
             <tr>
-                <td>JS001230</td>
-                <td>2016-04-13</td>
-                <td>1050.00</td>
-                <td>10.50</td>
-                <td>1039.50</td>
-                <td class="td-details"><a href="$!utilWebconfig.getActionDefaultFontPath()/settlement/detail?reqDate=2016-04-13&settlementId=JS001230">详情</a></td>
+                <td>$!item.settlementId</td>
+                <td>$!item.reqDate</td>
+                <td>$!item.tradeAmountYuan</td>
+                <td>$!item.serviceFeeYuan</td>
+                <td>$!item.settlementAmountYuan</td>
+                <td class="td-details"><a href="$!utilWebconfig.getActionDefaultFontPath()/settlement/detail?reqDate=$!item.reqDate&settlementId=$!item.settlementId">详情</a></td>
             </tr>
-            <tr>
-                <td>JS001230</td>
-                <td>2016-04-13</td>
-                <td>1050.00</td>
-                <td>10.50</td>
-                <td>1039.50</td>
-                <td class="td-details"><a href="">详情</a></td>
-            </tr>
-            <tr>
-                <td>JS001230</td>
-                <td>2016-04-13</td>
-                <td>1050.00</td>
-                <td>10.50</td>
-                <td>1039.50</td>
-                <td class="td-details"><a href="">详情</a></td>
-            </tr>
+        	#end
         </table>
    </div>
    #parse("/page_jiuniu.vm")

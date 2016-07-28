@@ -23,21 +23,13 @@
                 <td>支付金额</td>
             </tr>
             </thead>
+            #foreach($item in $pageVo.resultList)
             <tr>
-                <td>JX12312313131313</td>
-                <td>2016-04-13  14:12:23</td>
-                <td>1050.00</td>
+                <td>$!item.settlementId</td>
+                <td>$!item.reqDate</td>
+                <td>$!item.tradeAmountYuan</td>
             </tr>
-            <tr>
-                <td>JX12312313131313</td>
-                <td>2016-04-13  14:12:23</td>
-                <td>1050.00</td>
-            </tr>
-            <tr>
-                <td>JX12312313131313</td>
-                <td>2016-04-13  14:12:23</td>
-                <td>1050.00</td>
-            </tr>
+        	#end
         </table>
     </div>
 	#parse("/page_jiuniu.vm")
