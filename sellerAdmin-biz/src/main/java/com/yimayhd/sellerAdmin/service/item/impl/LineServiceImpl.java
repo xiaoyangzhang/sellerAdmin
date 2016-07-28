@@ -272,7 +272,7 @@ public class LineServiceImpl implements LineService {
 				return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
 			}
 			long itemId = line.getBaseInfo().getItemId();
-			convertToIcSubjcet(line);
+//			convertToIcSubjcet(line);
 			
 			//FIXME 
 			LinePubUpdateDTO linePublishDTOForUpdate = LineConverter.toLinePublishDTOForUpdate(sellerId, line);
@@ -351,7 +351,7 @@ public class LineServiceImpl implements LineService {
 			//查询主题标签的中文描述
 			BaseInfoVO baseInfo = line.getBaseInfo();
 			List<Long> themeIds = baseInfo.getThemes();
-			convertToIcSubjcet(line);
+//			convertToIcSubjcet(line);
 			
 			LinePubAddDTO linePublishDTOForSave = LineConverter.toLinePublishDTOForSave(sellerId, line);
 			LinePublishResult publishLine = lineRepo.saveLine(linePublishDTOForSave);
