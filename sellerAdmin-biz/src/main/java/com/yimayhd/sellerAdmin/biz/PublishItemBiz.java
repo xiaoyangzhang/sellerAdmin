@@ -58,6 +58,9 @@ import com.yimayhd.sellerAdmin.model.query.ItemQueryDTO;
 import com.yimayhd.sellerAdmin.repo.PictureTextRepo;
 import com.yimayhd.sellerAdmin.repo.PublishItemRepo;
 import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.domain.UserTalentDO;
+import com.yimayhd.user.client.enums.UserOptions;
+import com.yimayhd.user.client.service.TalentService;
 import com.yimayhd.user.client.service.UserService;
 
 /**
@@ -84,6 +87,8 @@ public class PublishItemBiz {
 	private ComCenterService comCenterServiceRef;
 	@Autowired
 	private DestinationService destinationServiceRef;
+	@Autowired
+	private TalentService talentServiceRef;
 	public WebResult<Boolean> addItem(PublishServiceDO publishServiceDO,long sellerId) {
 		log.info("param:PublishServiceDO={}",JSON.toJSONString(publishServiceDO));
 		WebResult<Boolean> result = new WebResult<Boolean>();
@@ -92,6 +97,20 @@ public class PublishItemBiz {
 			return result;
 		}
 		try {
+			//TODO 结果判断
+			UserDO userDO = userServiceRef.getUserDOById(sellerId);
+			long option = userDO.getOptions();
+			boolean isTalentA = UserOptions.CERTIFICATED.has(option);
+			boolean isTalentB = UserOptions.USER_TALENT.has(option);
+			if (!isTalentB && !isTalentA ) {
+				UserTalentDO talentDO = new UserTalentDO();
+				talentDO.setUserId(sellerId);
+				com.yimayhd.user.client.result.BaseResult<Boolean> insertTalent = talentServiceRef.insertTalent(talentDO);
+				//TODO 结果处理
+				if (insertTalent == null || !insertTalent.isSuccess()) {
+					
+				}
+			}
 			ConsultPublishAddDTO dto = PublishItemConverter.converterLocal2AddPublishConsult(publishServiceDO, sellerId);
 			ItemPubResult addItemResult = publishItemRepo.addItem(dto);
 			//FIXME 重复代码

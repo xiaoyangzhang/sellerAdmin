@@ -63,4 +63,36 @@
             </plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>api</id>
+			
+			<build>
+				<plugins>
+					<plugin>
+		                <groupId>org.apache.maven.plugins</groupId>
+		                <artifactId>maven-surefire-plugin</artifactId>
+		                <configuration>
+		                <skip>false</skip>
+		                </configuration>
+		            </plugin>
+		            <plugin>
+			            <groupId>org.codehaus.mojo</groupId>
+						<artifactId>wagon-maven-plugin</artifactId>
+						<configuration>
+							<serverId>default</serverId>
+							<fromFile>target/sellerAdmin-api</fromFile>
+							<url>scp://192.168.0.36/root/api/api</url>
+							<commands>
+								<command>sh /usr/local/tomcat/bin/shutdown.sh</command>
+								<command>ps -ef|grep tomcat|grep -v grep|cut -c 9-15|xargs kill -9</command>
+								<command>sh /usr/local/tomcat/bin/start.sh</command>
+							</commands>
+						</configuration>
+		            </plugin>
+	            </plugins>
+			</build>
+		</profile>
+		
+	</profiles>
 </project>

@@ -21,7 +21,7 @@
 		<itemcenter.client.version>1.0.12-SNAPSHOT</itemcenter.client.version>
 		<jackson.version>2.6.3</jackson.version>
 		<session.manager.version>1.7.1-SNAPSHOT</session.manager.version>
-		<user.client.version>1.8.1-SNAPSHOT</user.client.version>
+		<user.client.version>1.8.6-SNAPSHOT</user.client.version>
 		<spring.version>4.1.6.RELEASE</spring.version>
 		<spring.session.version>1.0.2.RELEASE</spring.session.version>
 		<snscenter.client.version>1.0.2-SNAPSHOT</snscenter.client.version>
@@ -783,6 +783,30 @@
 							</goals>
 						</execution>
 					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>wagon-maven-plugin</artifactId>
+					<version>1.0</version>
+					<configuration>
+				<displayCommandOutputs>true</displayCommandOutputs>
+					</configuration>
+					<executions>
+						<execution>
+							<phase>deploy</phase>
+							<goals>
+								<goal>upload-single</goal>
+								<goal>sshexec</goal>
+							</goals>
+						</execution>
+					</executions>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.maven.wagon</groupId>
+							<artifactId>wagon-ssh</artifactId>
+							<version>2.10</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 			</plugins>
 		</pluginManagement>
