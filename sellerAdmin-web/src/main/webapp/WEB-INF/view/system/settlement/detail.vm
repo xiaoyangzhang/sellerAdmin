@@ -15,6 +15,8 @@
             </ul>
         </div>
         <h3 class="search-date">$!query.reqDateWithOutYear已结算详情－$!query.settlementId</h3>
+        
+        <form id="queryForm" action="$!utilWebconfig.getActionDefaultFontPath()/settlement/detail?reqDate=$!query.reqDate&settlementId=$!query.settlementId" method="GET" role="form">
         <div class="table-box">
             <table class="search-table">
                 <thead>
@@ -29,19 +31,18 @@
                     <td>2016-04-13  14:12:23</td>
                     <td>1050.00</td>
                 </tr>
-                <tr>
-                    <td>JX12312313131313</td>
-                    <td>2016-04-13  14:12:23</td>
-                    <td>1050.00</td>
-                </tr>
-                <tr>
-                    <td>JX12312313131313</td>
-                    <td>2016-04-13  14:12:23</td>
-                    <td>1050.00</td>
-                </tr>
+                #foreach($item in $pageVo.resultList)
+	            <tr>
+	                <td>$!item.bizOrderId</td>
+	                <td>$!item.tradeFinishedTime</td>
+	                <td>$!item.tradeAmountYuan</td>
+	            </tr>
+	        	#end
             </table>
         </div>
-
+		#parse("/page_jiuniu.vm")
+		</form>
+		
         <a href="$!utilWebconfig.getActionDefaultFontPath()/settlement/list" class="btn-prev-page">返回</a>
     </div>
 
