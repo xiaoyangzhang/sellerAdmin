@@ -45,6 +45,12 @@ public class SettlementQuery extends BaseQuery {
     	if(StringUtils.isNotEmpty(query.getReqDateEnd())){
     		queryDO.setReqDateEnd(query.getReqDateEnd());
     	}
+    	if(query.getPageNo() != null){
+    		queryDO.setPageNo(query.getPageNo());
+    	}
+    	if(query.getPageSize() != null){
+    		queryDO.setPageSize(query.getPageSize());
+    	}
     	queryDO.setNeedCount(true);
     	return queryDO;
     }

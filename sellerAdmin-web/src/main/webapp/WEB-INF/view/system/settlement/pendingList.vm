@@ -14,6 +14,7 @@
             <li class=" first on">待结算查询</li>
         </ul>
     </div>
+    <form id="queryForm" action="$!utilWebconfig.getActionDefaultFontPath()/settlement/pendingList" method="GET" role="form">
     <div class="table-box">
         <table class="search-table">
             <thead>
@@ -33,6 +34,7 @@
         </table>
     </div>
 	#parse("/page_jiuniu.vm")
+	</form>
 </div>
 
 #parse("layout/layout-js.vm")
