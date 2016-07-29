@@ -58,7 +58,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	}
 
 	@Override
-	public ItemApiResult getGoodsManagementInfo(int appId, int domainId,
+	public ItemApiResult getItemList(int appId, int domainId,
 			long deviceId, long userId, int versionCode,
 			 ItemQueryParam itemQueryParam) {
 		if (userId <= 0 || itemQueryParam == null || itemQueryParam.pageNo <= 0 || itemQueryParam.pageSize <= 0) {
@@ -81,7 +81,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	}
 
 	@Override
-	public ItemApiResult getGoodsDetailInfo(int appId, int domainId,
+	public ItemApiResult getItemDetailInfo(int appId, int domainId,
 			long deviceId, long userId, int versionCode, ItemQueryParam itemQueryParam) {
 		if (userId <= 0 || itemQueryParam == null || itemQueryParam.id <= 0) {
 			log.error("params:userId={},ItemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
