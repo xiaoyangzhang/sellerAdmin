@@ -44,8 +44,17 @@ public class SettlementServiceImpl implements SettlementService {
             throw new NoticeException(result.getResultMsg());
         }
 		
-		List<SettlementVO> list = transformSettlementList(result);
-		return new PageVO<SettlementVO>(query.getPageNo(), query.getPageSize(), result.getTotalCount(), list);
+		List<SettlementVO> retList = new ArrayList<SettlementVO>();
+		List<SettlementDTO> list = result.getList();
+		if(CollectionUtils.isNotEmpty(list)){
+			SettlementDTO dto = null;
+			for(int i = 0; i < list.size(); i++){
+				dto = list.get(i);
+				retList.add(SettlementVO.getSettlementVO(dto));
+			}
+		}
+		
+		return new PageVO<SettlementVO>(query.getPageNo(), query.getPageSize(), result.getTotalCount(), retList);
 	}
 
 	@Override
@@ -61,24 +70,15 @@ public class SettlementServiceImpl implements SettlementService {
             throw new NoticeException(result.getResultMsg());
         }
 		
-		List<SettlementDetailVO> retList = new ArrayList<SettlementDetailVO>();
-		List<SettlementDetailDTO> list = result.getList();
-		if(CollectionUtils.isNotEmpty(list)){
-			SettlementDetailDTO dto = null;
-			for(int i = 0; i < list.size(); i++){
-				dto = list.get(i);
-				retList.add(SettlementDetailVO.getSettlementDetailVO(dto));
-			}
-		}
-		
+		List<SettlementDetailVO> retList = transformSettlementList(result);
 		return new PageVO<SettlementDetailVO>(query.getPageNo(), query.getPageSize(), result.getTotalCount(), retList);
 	}
 
 	@Override
-	public PageVO<SettlementVO> queryMerchantUnsettlements(SettlementQuery query, long userId) throws Exception {
+	public PageVO<SettlementDetailVO> queryMerchantUnsettlements(SettlementQuery query, long userId) throws Exception {
 		
 		com.yimayhd.pay.client.model.query.settlement.SettlementQuery queryDO = SettlementQuery.getSettlementQuery(query, userId);
-		PayPageResultDTO<SettlementDTO> result = settlementRepo.queryMerchantUnsettlements(queryDO);
+		PayPageResultDTO<SettlementDetailDTO> result = settlementRepo.queryMerchantUnsettlements(queryDO);
 		if(null == result){
             log.error("queryMerchantSettlements.queryMerchantUnsettlements--settlementRepo.queryMerchantUnsettlements return value is null and parame: {}", JSON.toJSONString(queryDO));
             throw new BaseException("查询用户账户，返回结果错误");
@@ -87,22 +87,22 @@ public class SettlementServiceImpl implements SettlementService {
             throw new NoticeException(result.getResultMsg());
         }
 		
-		List<SettlementVO> list = transformSettlementList(result);
-		return new PageVO<SettlementVO>(query.getPageNo(), query.getPageSize(), result.getTotalCount(), list);
+		List<SettlementDetailVO> retList = transformSettlementList(result);
+		return new PageVO<SettlementDetailVO>(query.getPageNo(), query.getPageSize(), result.getTotalCount(), retList);
 	}
 	
-	private List<SettlementVO> transformSettlementList(PayPageResultDTO<SettlementDTO> result){
-		List<SettlementVO> retList = new ArrayList<SettlementVO>();
+	private List<SettlementDetailVO> transformSettlementList(PayPageResultDTO<SettlementDetailDTO> result){
+		List<SettlementDetailVO> retList = new ArrayList<SettlementDetailVO>();
 		if(result == null){
 			return retList;
 		}
 		
-		List<SettlementDTO> list = result.getList();
+		List<SettlementDetailDTO> list = result.getList();
 		if(CollectionUtils.isNotEmpty(list)){
-			SettlementDTO dto = null;
+			SettlementDetailDTO dto = null;
 			for(int i = 0; i < list.size(); i++){
 				dto = list.get(i);
-				retList.add(SettlementVO.getSettlementVO(dto));
+				retList.add(SettlementDetailVO.getSettlementDetailVO(dto));
 			}
 		}
 		return retList;

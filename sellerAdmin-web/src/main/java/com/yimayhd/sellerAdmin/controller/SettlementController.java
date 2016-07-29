@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.yimayhd.sellerAdmin.base.BaseController;
@@ -74,7 +73,7 @@ public class SettlementController extends BaseController {
 	public String unList(Model model, SettlementQuery query) throws Exception {
 		//FIXME
 		long userId = 1300 ;//sessionManager.getUserId();
-		PageVO<SettlementVO> pageVo = settlementService.queryMerchantUnsettlements(query, userId);
+		PageVO<SettlementDetailVO> pageVo = settlementService.queryMerchantUnsettlements(query, userId);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("query", query);
 		return "/system/settlement/pendingList";

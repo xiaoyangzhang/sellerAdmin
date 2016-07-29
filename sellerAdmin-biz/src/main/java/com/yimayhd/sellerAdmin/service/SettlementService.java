@@ -26,5 +26,5 @@ public interface SettlementService {
      * @param query
      * @return
      */
-    public PageVO<SettlementVO> queryMerchantUnsettlements(SettlementQuery query, long userId) throws Exception;
+    public PageVO<SettlementDetailVO> queryMerchantUnsettlements(SettlementQuery query, long userId) throws Exception;
 }

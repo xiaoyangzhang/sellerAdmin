@@ -52,9 +52,9 @@ public class SettlementRepo {
      * @param query
      * @return
      */
-    public PayPageResultDTO<SettlementDTO> queryMerchantUnsettlements(SettlementQuery query){
+    public PayPageResultDTO<SettlementDetailDTO> queryMerchantUnsettlements(SettlementQuery query){
 		RepoUtils.requestLog(log, "settlementServiceRef.queryMerchantUnsettlements", query);
-		PayPageResultDTO<SettlementDTO> result = settlementServiceRef.queryMerchantUnsettlements(query);
+		PayPageResultDTO<SettlementDetailDTO> result = settlementServiceRef.queryMerchantUnsettlements(query);
 		RepoUtils.resultLog(log, "settlementServiceRef.queryMerchantUnsettlements", result);
 		return result;
 	}

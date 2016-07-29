@@ -45,6 +45,7 @@ public class SettlementQuery extends BaseQuery {
     	if(StringUtils.isNotEmpty(query.getReqDateEnd())){
     		queryDO.setReqDateEnd(query.getReqDateEnd());
     	}
+    	queryDO.setNeedCount(true);
     	return queryDO;
     }
     

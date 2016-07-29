@@ -14,19 +14,19 @@
             <li class=" first on">结算查询</li>
         </ul>
     </div>
-   <form id="queryForm" action="" class="form-signin" role="form">
+   <form id="queryForm" action="$!utilWebconfig.getActionDefaultFontPath()/settlement/list" method="GET" role="form">
    <div class="search-wrap">
         <div class="date-box">
             <p class="w84 fl lh34">结算日期：</p>
-            <input id="getstartime" class = "date-wrap fl" name="getstartime" title="开始时间" readonly="readonly">
+            <input id="getstartime" class = "date-wrap fl" name="reqDateStart" title="开始时间" readonly="readonly" value="$!query.reqDateStart">
             <span class="w26 fl lh34">至</span>
-            <input id="getendtime" class = "date-wrap fl" name="getendtime" title="结束时间"   readonly="readonly">
+            <input id="getendtime" class = "date-wrap fl" name="reqDateEnd" title="结束时间"   readonly="readonly" value="$!query.reqDateEnd">
         </div>
         <div class="order-number-box">
             <p class="w84 fl lh34">结算单号：</p>
-           	<input type="text" class="statement-text"/>
+           	<input type="text" class="statement-text" name="settlementId" value="$!query.settlementId"/>
         </div>
-       <a href="javascript:;" class="btn-search">查询</a>
+       <button type="submit" class="btn-search">查询</button>
    </div>
    <div class="table-box">
         <table class="search-table mt10">

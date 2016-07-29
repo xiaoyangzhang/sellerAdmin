@@ -25,8 +25,8 @@
             </thead>
             #foreach($item in $pageVo.resultList)
             <tr>
-                <td>$!item.settlementId</td>
-                <td>$!item.reqDate</td>
+                <td>$!item.bizOrderId</td>
+                <td>$!item.tradeFinishedTime</td>
                 <td>$!item.tradeAmountYuan</td>
             </tr>
         	#end
