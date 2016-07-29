@@ -24,9 +24,9 @@ public class PulishItemTest extends BaseTest {
 	@Test
 	public void testPublishItem() {
 //		publishItem();
-//		testWhiteList();
+		testWhiteList();
 //		testGetPublishItem();
-		testGetItemManagementList();
+//		testGetItemManagementList();
 	}
 
 	private void publishItem() {
@@ -56,13 +56,14 @@ public class PulishItemTest extends BaseTest {
 		serviceArea.outType = 12;
 		serviceAreas.add(serviceArea);
 		publishServiceDO.pictureTextItems = pictureTextItems;
-		publishServiceDO.ServiceAreas = serviceAreas;
+		publishServiceDO.serviceAreas = serviceAreas;
 		boolean publishService = publishItemApi.publishService(0, 1200, 0, 21220, 0, publishServiceDO);
 		System.out.println(publishService);
 	}
 	
 	private void testWhiteList() {
 		boolean checkWhiteList = publishItemApi.checkWhiteList(0, 1200, 0, 21219, 0);
+		System.out.println(checkWhiteList);
 	}
 	
 	private void testGetPublishItem() {

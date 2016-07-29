@@ -135,7 +135,7 @@ public class PublishItemBiz {
 			//保存服务区域
 			TagRelationInfoDTO tagRelationInfo = new TagRelationInfoDTO();
 			List<Long> codeList = new ArrayList<Long>();
-			for (ServiceArea sa : publishServiceDO.ServiceAreas) {
+			for (ServiceArea sa : publishServiceDO.serviceAreas) {
 				codeList.add(sa.areaCode);
 			}
 			tagRelationInfo.setDomain(Constant.DOMAIN_JIUXIU);
@@ -213,7 +213,7 @@ public class PublishItemBiz {
 			//保存服务区域
 			TagRelationInfoDTO tagRelationInfo = new TagRelationInfoDTO();
 			List<Long> codeList = new ArrayList<Long>();
-			for (ServiceArea sa : publishServiceDO.ServiceAreas) {
+			for (ServiceArea sa : publishServiceDO.serviceAreas) {
 				codeList.add(sa.areaCode);
 			}
 			tagRelationInfo.setDomain(Constant.DOMAIN_JIUXIU);
@@ -270,7 +270,7 @@ public class PublishItemBiz {
 				publishService.title = item.getTitle();
 				publishService.discountPrice = item.getPrice();
 				publishService.discountTime = item.getItemFeature().getConsultTime();
-				publishService.ServiceAreas = serviceAreas;
+				publishService.serviceAreas = serviceAreas;
 				itemManagement.publishServiceDO = publishService;
 				itemManagement.itemId = item.getId();
 				itemManagement.saleVolume = item.getSales();
@@ -403,7 +403,7 @@ public class PublishItemBiz {
 			publishService.title = itemDO.getTitle();
 			publishService.discountPrice = itemDO.getPrice();
 			publishService.discountTime = itemDO.getItemFeature().getConsultTime();
-			publishService.ServiceAreas = serviceAreas;
+			publishService.serviceAreas = serviceAreas;
 			ItemManagement itemManagement = new ItemManagement();
 			itemManagement.saleVolume = itemDO.getSales();
 			itemManagement.publishServiceDO = publishService;

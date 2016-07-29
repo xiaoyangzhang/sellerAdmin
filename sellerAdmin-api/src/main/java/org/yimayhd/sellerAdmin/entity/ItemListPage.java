@@ -17,5 +17,5 @@ public class ItemListPage implements Serializable {
 	@Description("每页显示条数")
 	public int pageSize;
 	@Description("商品管理")
-	public ItemManagement ItemManagement;
+	public ItemManagement itemManagement;
 }
