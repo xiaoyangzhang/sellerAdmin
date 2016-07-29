@@ -6,10 +6,12 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.yimayhd.sellerAdmin.api.PublishItemApi;
+import org.yimayhd.sellerAdmin.entity.ItemListPage;
 import org.yimayhd.sellerAdmin.entity.PictureTextItem;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
 import org.yimayhd.sellerAdmin.entity.ServiceArea;
 import org.yimayhd.sellerAdmin.query.ItemQueryParam;
+import org.yimayhd.sellerAdmin.result.ItemApiResult;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.BaseTest;
@@ -23,7 +25,8 @@ public class PulishItemTest extends BaseTest {
 	public void testPublishItem() {
 //		publishItem();
 //		testWhiteList();
-		testGetPublishItem();
+//		testGetPublishItem();
+		testGetItemManagementList();
 	}
 
 	private void publishItem() {
@@ -68,5 +71,19 @@ public class PulishItemTest extends BaseTest {
 		itemQueryParam.categoryId = 241;
 		PublishServiceDO publishItemInfo = publishItemApi.getPublishItemInfo(0, 1200, 0, 21220, 0, itemQueryParam);
 		System.out.println("======================"+JSON.toJSONString(publishItemInfo));
+	}
+	
+	private void testGetItemManagementList() {
+//		ItemListPage itemListPage = new ItemListPage();
+//		itemListPage.pageNo = 1;
+//		itemListPage.pageSize = 10;
+		ItemQueryParam itemQueryParam = new ItemQueryParam();
+		itemQueryParam.categoryId = 241;
+		itemQueryParam.pageNo = 1;
+		itemQueryParam.pageSize = 10;
+		itemQueryParam.serviceState = 2;
+		ItemApiResult goodsManagementInfo = publishItemApi.getGoodsManagementInfo(0, 1200, 0, 21220, 0, itemQueryParam);
+		System.out.println("------------------"+JSON.toJSONString(goodsManagementInfo));
+		
 	}
 }

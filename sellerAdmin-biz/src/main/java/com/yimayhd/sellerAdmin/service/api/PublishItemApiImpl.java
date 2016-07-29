@@ -70,6 +70,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 		itemCategoryQuery.setSellerId(userId);
 		itemCategoryQuery.setItemQueryParam(itemQueryParam);
 		itemCategoryQuery.setCategoryId(241);
+		itemCategoryQuery.setDomainId(domainId);
 		ItemApiResult itemApiResult = publishItemBiz.getItemList(itemCategoryQuery);
 		if (itemApiResult == null ) {
 			log.error("params:ItemListPage={},result:{}",JSON.toJSONString(itemQueryParam),itemApiResult);

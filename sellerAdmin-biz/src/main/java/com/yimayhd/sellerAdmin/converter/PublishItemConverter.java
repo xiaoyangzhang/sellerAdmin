@@ -138,14 +138,14 @@ public class PublishItemConverter {
 	
 	public static ItemQryDTO converterLocal2ItemQueryDTO(ItemCategoryQuery query) {
 		ItemQryDTO dto = new ItemQryDTO();
-		dto.setPageNo(query.getItemListPage().pageNo);
-		dto.setPageSize(query.getItemListPage().pageSize);
+		dto.setPageNo(query.getItemQueryParam().pageNo);
+		dto.setPageSize(query.getItemQueryParam().pageSize);
 		dto.setSellerId(query.getSellerId());
 		List<Integer> domains = new ArrayList<Integer>();
 		domains.add(query.getDomainId());
 		dto.setDomains(domains);
 		List<Integer> statuses = new ArrayList<Integer>();
-		statuses.add(query.getItemListPage().ItemManagement.publishServiceDO.serviceState);
+		statuses.add(query.getItemQueryParam().serviceState);
 		dto.setStatus(statuses);
 		dto.setCategoryId(query.getCategoryId());
 		return dto;

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
+import org.yimayhd.sellerAdmin.entity.ItemDetail;
 import org.yimayhd.sellerAdmin.entity.ItemManagement;
 import org.yimayhd.sellerAdmin.entity.PictureTextItem;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
@@ -244,7 +245,7 @@ public class PublishItemBiz {
 			ItemApiResult apiResult = new ItemApiResult();
 			List<ItemManagement> itemManagements = new ArrayList<ItemManagement>();
 			List<ServiceArea> serviceAreas = new ArrayList<ServiceArea>();
-			BaseResult<List<ComTagDO>> tagInfoResult = comCenterServiceRef.getTagInfoByOutIdAndType(query.getSellerId(),String.valueOf(TagType.DESTPLACE.getType()));
+			BaseResult<List<ComTagDO>> tagInfoResult = comCenterServiceRef.getTagInfoByOutIdAndType(query.getSellerId(),TagType.DESTPLACE.name());
 			log.info("comCenterServiceRef.getTagInfoByOutIdAndType ,param:{},result:{}",query.getSellerId(),String.valueOf(TagType.DESTPLACE.getType()),JSON.toJSONString(tagInfoResult));
 			//TODO 结果处理
 			List<Long> codeList = new ArrayList<Long>();
@@ -271,10 +272,12 @@ public class PublishItemBiz {
 				publishService.discountTime = item.getItemFeature().getConsultTime();
 				publishService.ServiceAreas = serviceAreas;
 				itemManagement.publishServiceDO = publishService;
+				itemManagement.itemId = item.getId();
 				itemManagement.saleVolume = item.getSales();
 				itemManagements.add(itemManagement);
 			}
 			apiResult.itemManagements = itemManagements;
+			return apiResult;
 		} catch (Exception e) {
 			log.error("param:ItemCategoryQuery={} , error:{}",JSON.toJSONString(query),e);
 		}
@@ -377,7 +380,7 @@ public class PublishItemBiz {
 		try {
 			//FIXME 重复代码
 			List<ServiceArea> serviceAreas = new ArrayList<ServiceArea>();
-			BaseResult<List<ComTagDO>> tagInfoResult = comCenterServiceRef.getTagInfoByOutIdAndType(query.getSellerId(),String.valueOf(TagType.DESTPLACE.getType()));
+			BaseResult<List<ComTagDO>> tagInfoResult = comCenterServiceRef.getTagInfoByOutIdAndType(query.getSellerId(),TagType.DESTPLACE.name());
 			log.info("comCenterServiceRef.getTagInfoByOutIdAndType ,param:{},result:{}",query.getSellerId(),String.valueOf(TagType.DESTPLACE.getType()),JSON.toJSONString(tagInfoResult));
 			//TODO 结果处理
 			List<Long> codeList = new ArrayList<Long>();
@@ -404,6 +407,9 @@ public class PublishItemBiz {
 			ItemManagement itemManagement = new ItemManagement();
 			itemManagement.saleVolume = itemDO.getSales();
 			itemManagement.publishServiceDO = publishService;
+			itemManagement.itemId = itemDO.getId();
+			ItemDetail itemDetail = new ItemDetail();
+			apiResult.itemDetail = itemDetail;
 			apiResult.itemDetail.itemManagement = itemManagement;
 			InfoQueryDTO examineQueryDTO = new InfoQueryDTO();
 			examineQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
@@ -427,7 +433,7 @@ public class PublishItemBiz {
 				apiResult.talentInfo = talentInfo;
 			}
 			return apiResult;
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
 			log.error("param:ItemQueryDTO={},error:{}",JSON.toJSONString(query),e);
 		}
 		return null;
