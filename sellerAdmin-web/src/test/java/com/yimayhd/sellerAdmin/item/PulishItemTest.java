@@ -83,7 +83,7 @@ public class PulishItemTest extends BaseTest {
 		itemQueryParam.pageNo = 1;
 		itemQueryParam.pageSize = 10;
 		itemQueryParam.serviceState = 2;
-		ItemApiResult goodsManagementInfo = publishItemApi.getGoodsManagementInfo(0, 1200, 0, 21220, 0, itemQueryParam);
+		ItemApiResult goodsManagementInfo = publishItemApi.getItemList(0, 1200, 0, 21220, 0, itemQueryParam);
 		System.out.println("------------------"+JSON.toJSONString(goodsManagementInfo));
 		
 	}
