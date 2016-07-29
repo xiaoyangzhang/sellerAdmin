@@ -91,4 +91,22 @@ public class WebReturnCode implements Serializable {
 	public final static WebReturnCode OFF_SALE_ERROR = new WebReturnCode(24004001, "下架失败");
 	public final static WebReturnCode DELETE_ERROR = new WebReturnCode(24004002, "删除失败");
 	public final static WebReturnCode NO_AUTHORITY = new WebReturnCode(24004003, "没有该权限");
+
+	/***************************************** 优惠劵相关 ********************************************************/
+	public final static WebReturnCode VOUVHER_TITLE_ERROR = new WebReturnCode(24003020, "优惠劵名称长度不正确");
+	public final static WebReturnCode VOUVHER_REQUERMENT_ERROR = new WebReturnCode(24003021, "优惠劵满减金额不正确");
+	public final static WebReturnCode VOUVHER_COUNT_ERROR = new WebReturnCode(24003022, "优惠劵个人领取数量不正确");
+	public final static WebReturnCode VOUVHER_TOTAL_NUM_ERROR = new WebReturnCode(24003023, "优惠劵发劵数量不正确");
+	public final static WebReturnCode VOUVHER_PUT_TIME_ERROR = new WebReturnCode(24003024, "优惠劵发劵时间不正确");
+	public final static WebReturnCode VOUVHER_USE_TIME_ERROR = new WebReturnCode(24003025, "优惠劵使用时间不正确");
+	public final static WebReturnCode VOUVHER_USE_PUT_TIME_ERROR = new WebReturnCode(24003026, "优惠劵使用开始或结束时间必须大于等于发放开始时间或结束时间");
+	public final static WebReturnCode VOUVHER_ADD_ERROR = new WebReturnCode(24003027, "优惠劵添加异常");
+	public final static WebReturnCode VOUVHER_EDIT_ERROR = new WebReturnCode(24003028, "优惠劵修改异常");
+	public final static WebReturnCode VOUVHER_ADD_REPET_ERROR = new WebReturnCode(24003029, "优惠劵重复添加");
+	public final static WebReturnCode VOUVHER_DEL_ERROR = new WebReturnCode(24003030, "优惠劵删除异常");
+	public final static WebReturnCode VOUVHER_PUT_ERROR = new WebReturnCode(24003031, "优惠劵上架异常");
+	public final static WebReturnCode VOUVHER_GET_ERROR = new WebReturnCode(24003032, "优惠劵下架异常");
+	public final static WebReturnCode VOUVHER_LIMIT_ERROR = new WebReturnCode(24003033, "当前上架优惠劵已超过5张");
+	public final static WebReturnCode VOUVHER_PUT_SET_ERROR = new WebReturnCode(24003034, "优惠劵发布数量不能小于已领取数量！");
+	
 }

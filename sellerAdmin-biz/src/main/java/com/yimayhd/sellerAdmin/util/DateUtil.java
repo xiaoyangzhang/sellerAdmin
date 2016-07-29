@@ -8,6 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import com.yimayhd.ic.client.model.enums.ItemType;
+
 //import org.apache.logging.log4j.LogManager;
 //import org.apache.logging.log4j.Logger;
 
@@ -1075,8 +1077,14 @@ public class DateUtil {
 		Date end = DateUtil.formatMaxTimeForDate(endDate);
 		return (end.getTime() - begin.getTime()) / (24 * 60 * 60 * 1000);
 	}
+	
+	public static long daySubtraction(Date beginDate, Date endDate) throws Exception {
+		Date begin = beginDate;
+		Date end = endDate;
+		return (end.getTime() - begin.getTime()) / (24 * 60 * 60 * 1000);
+	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		System.out.println(dateToString(new Date(), "yyyy-MM-dd"));
 		Calendar calendar = Calendar.getInstance();
 		Calendar calendar2 = Calendar.getInstance();
@@ -1084,5 +1092,7 @@ public class DateUtil {
 		System.out.println(calendar.getTime());
 		System.out.println(calendar2.getTime());
 		System.out.println(calendar.compareTo(calendar2));
+		
+		System.out.println(daySubtraction(calendar.getTime(), calendar2.getTime()));
 	}
 }

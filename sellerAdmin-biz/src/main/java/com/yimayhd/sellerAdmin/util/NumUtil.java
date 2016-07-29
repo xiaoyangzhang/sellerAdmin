@@ -1,6 +1,9 @@
 package com.yimayhd.sellerAdmin.util;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Created by Administrator on 2015/10/27.
@@ -49,5 +52,19 @@ public class NumUtil {
     public static long doubleToLong(double d){
        return Math.round(d * 100);
     }
-
+    
+    /**
+     * double整数时去0
+     * @param d
+     * @return
+     */
+    public static String doubleDelZero(double d){
+    	NumberFormat nf = new DecimalFormat("#");
+    	if(d % 1 == 0){
+    		return nf.format(d);
+    	}else{
+    		return String.valueOf(d);
+    	}
+    	
+    }
 }

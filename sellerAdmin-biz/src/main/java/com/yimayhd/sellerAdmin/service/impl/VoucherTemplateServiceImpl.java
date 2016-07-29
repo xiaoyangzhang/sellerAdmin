@@ -82,3 +82,4 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
         return voucherTemplateVO;
     }
 }
+

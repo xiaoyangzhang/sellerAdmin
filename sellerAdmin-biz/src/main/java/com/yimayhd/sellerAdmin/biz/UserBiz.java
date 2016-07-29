@@ -2,6 +2,8 @@ package com.yimayhd.sellerAdmin.biz;
 
 import java.util.UUID;
 
+import com.yimayhd.sellerAdmin.repo.MenuRepo;
+import com.yimayhd.sellerAdmin.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,8 @@ public class UserBiz {
 	private UserRepo userRepo;
 	@Autowired
 	private SessionManager sessionManager;
-	
+	@Autowired
+	private MenuRepo menuRepo;
 	@Autowired
 	private MenuBiz menuBiz ;
 
@@ -49,7 +52,13 @@ public class UserBiz {
 				&& result.getValue() != null
 				&& result.getValue().getValue() != null) {
 			long userId = result.getValue().getValue().getId();
-			menuBiz.cacheUserMenus2Tair(userId);
+			//menuBiz.cacheUserMenus2Tair(userId);
+			//权限整合
+			try {
+				menuRepo.cacheMenuListByUserId(result.getValue().getToken());
+			} catch (Exception e) {
+				LOGGER.error("cacheMenuListByUserId  getUser(token) failed  token={}",result);
+			}
 		}
 		return result;
 	}

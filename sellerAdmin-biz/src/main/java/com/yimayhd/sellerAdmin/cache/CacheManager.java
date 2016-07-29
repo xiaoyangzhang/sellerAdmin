@@ -1,9 +1,13 @@
 package com.yimayhd.sellerAdmin.cache;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.taobao.tair.DataEntry;
@@ -180,6 +184,33 @@ public class CacheManager {
 			return 0;
 		}
 	}
+	
+
+	public <T> Map<String, T> getBatchFormTair(List<String> keys) {
+		Result<List<DataEntry>> result = null;
+		try {
+			result = tairManager.mget(namespace, keys);
+		} catch (Exception e) {
+			log.error("get data from tair fail!    keys={}", JSON.toJSONString(keys) ,  e);
+		}
+		if (result != null) {
+			if ( ResultCode.SUCCESS == result.getRc() || ResultCode.PARTSUCC == result.getRc() ) {
+				List<DataEntry> entries = result.getValue();
+				if( !CollectionUtils.isEmpty(entries) ){
+					Map<String, T> map = new HashMap<String, T>();
+					for( DataEntry entry : entries ){
+						String key = (String) entry.getKey() ;
+						T t = (T) entry.getValue() ;
+						map.put(key, t);
+					}
+					return map ;
+				}
+			}
+		}
+		return null;
+	}
+
+	
 
 	public TairManager getTairManager() {
 		return tairManager;

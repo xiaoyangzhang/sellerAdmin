@@ -59,7 +59,7 @@ public class ScenicManageVO implements Serializable
     private List<BizCategoryInfo> bizCategoryInfoList;// 动态列表参数\
     private String UUID ;//uuid
     private Integer page =1;
-    private Integer pageSize =8 ;
+    private Integer pageSize =10 ;
 
 
     public long getSellerId() {

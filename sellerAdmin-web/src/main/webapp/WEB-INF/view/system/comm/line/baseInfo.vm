@@ -15,8 +15,9 @@
 		<tr>
 			<td>商品代码：</td>
 			<td>
-				<input type="text" value="$!{baseInfo.code}" class="form-control item-code" placeholder="请输入商品编号" maxlength="20"/>
+				<input type="text" value="$!{baseInfo.code}" class="form-control item-code w300" placeholder="请输入商品编号" maxlength="20"/>
 				<span class="limit">20字</span>
+				<span class="ml10">注：商品代码供商家管理商品使用，不会展示给用户</span>
 			</td>
 		</tr>
 		<tr>
@@ -87,7 +88,7 @@
 			<td><span class="red">*</span>商品图：</td>
 			<td>
 				<div class="uploadbox clearfix">
-                    <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionUploadFilePath()}" />
+                    <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file_string" />
                     <input type="hidden" class="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />	
 					<div class="imgbox">												
 						<div class="dimg">

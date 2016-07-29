@@ -20,6 +20,8 @@ import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 public class CategoryVO extends CategoryDO {
     private List<CategoryPropertyValueVO> sellCategoryPropertyVOs;
     private List<ItemSkuVO> itemSkuVOListAll;//所有组合的list
+    
+    private String integralType;//积分商品类型
 
     /**
      * 根据categoryDO转化为categoryVO
@@ -136,4 +138,13 @@ public class CategoryVO extends CategoryDO {
     public void setItemSkuVOListAll(List<ItemSkuVO> itemSkuVOListAll) {
         this.itemSkuVOListAll = itemSkuVOListAll;
     }
+
+	public String getIntegralType() {
+		return integralType;
+	}
+
+	public void setIntegralType(String integralType) {
+		this.integralType = integralType;
+	}
+    
 }

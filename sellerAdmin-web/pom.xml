@@ -284,7 +284,7 @@
 		                <configuration>
 		                	<charset>UTF-8</charset>
 		                	<dest>../target/sellerAdmin.war</dest>
-		                	<userProperties>src/main/resources/config/test.properties</userProperties>
+		                	<userProperties>../run/test.properties</userProperties>
 		                </configuration>
 		            </plugin>
 	            </plugins>
@@ -299,7 +299,7 @@
 		                <artifactId>autoconfig-maven-plugin</artifactId>
 		                <configuration>
 		                	<dest>../target/sellerAdmin.war</dest>
-		                	<userProperties>src/main/resources/config/stest.properties</userProperties>
+		                	<userProperties>../run/test-second.properties</userProperties>
 		                </configuration>
 		            </plugin>
 	            </plugins>

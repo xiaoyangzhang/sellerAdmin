@@ -2,6 +2,8 @@ package com.yimayhd.sellerAdmin.repo;
 
 import java.util.List;
 
+import net.pocrd.entity.AbstractReturnCode;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.client.service.examine.MerchantApplyService;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.query.MerchantQuery;
 import com.yimayhd.user.client.result.BaseResult;
@@ -138,5 +141,21 @@ public class MerchantApplyRepo {
 	@MethodLogger
 	public MemResult<Boolean> changeExamineStatus(InfoQueryDTO examInfoQueryDTO) {
 		return examineDealService.changeExamineStatusIntoIng(examInfoQueryDTO);
+	}
+	/**
+	 * 根据用户id获取商户信息
+	 * @param userId
+	 * @return
+	 */
+	public BaseResult<MerchantDO> getMerchantBySellerId(long userId){
+		if(userId < 0){
+			return null;
+		}
+		BaseResult<MerchantDO> result = merchantService.getMerchantBySellerId(userId, Constant.DOMAIN_JIUXIU);
+		if(null==result || !result.isSuccess() || null==result.getValue()){
+			log.error("getMerchantBySellerId failed!  userId={}  Result={}", JSON.toJSON(userId), JSON.toJSON(result));
+			return null ;
+		}
+		return result;
 	}
 }

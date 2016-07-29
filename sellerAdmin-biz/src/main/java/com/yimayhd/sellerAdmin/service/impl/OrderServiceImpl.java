@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.dto.RatePageListDTO;
 import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.ComRateResult;
@@ -18,6 +19,8 @@ import com.yimayhd.commentcenter.client.service.ComRateService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
+import com.yimayhd.lgcenter.client.service.LgService;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -30,6 +33,7 @@ import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
 import com.yimayhd.sellerAdmin.service.OrderService;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.order.VoucherInfo;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderExtFeatureKey;
 import com.yimayhd.tradecenter.client.model.enums.CloseOrderReason;
 import com.yimayhd.tradecenter.client.model.enums.FinishOrderSource;
@@ -80,6 +84,8 @@ public class OrderServiceImpl implements OrderService {
 	private ComRateService comRateServiceRef;
 	@Autowired
 	private ItemQueryService itemQueryService;
+	@Autowired
+	private LgService lgService;
 	
 	@Override
 	public PageVO<MainOrder> getOrderList(OrderListQuery orderListQuery)
@@ -171,6 +177,14 @@ public class OrderServiceImpl implements OrderService {
 					UserDO user = userServiceRef.getUserDOById(tcMainOrder
 							.getBizOrder().getBuyerId());
 					mo.setUser(user);
+					
+					//获取优惠劵优惠金额
+					VoucherInfo voucherInfo = BizOrderUtil.getVoucherInfo(tcMainOrder.getBizOrder().getBizOrderDO());
+					if(null!=voucherInfo){
+						mo.setRequirement(voucherInfo.getRequirement());
+						mo.setValue(voucherInfo.getValue());
+					}
+					
 					// 卖家备注
 					// 获取卖家备注
 					BizOrderDO bizOrderDO = new BizOrderDO();
@@ -180,6 +194,8 @@ public class OrderServiceImpl implements OrderService {
 									: tcMainOrder.getBizOrder().getBizOrderId());
 					mo.setCustomerServiceNote(BizOrderUtil
 							.getSellerMemo(bizOrderDO));
+//					//添加主订单实付款
+//					mo.setItemPrice_(tcMainOrder.getBizOrder().getActualTotalFee());
 					mainOrderList.add(mo);
 				}
 			}
@@ -209,6 +225,16 @@ public class OrderServiceImpl implements OrderService {
 						.orderVOConverter(tcSingleQueryResult.getTcMainOrder());
 				mainOrder = OrderConverter.mainOrderStatusConverter(mainOrder,
 						tcSingleQueryResult.getTcMainOrder());
+				//添加主订单原价
+				mainOrder.setItemPrice_(BizOrderUtil.getMainOrderTotalFee(tcSingleQueryResult.getTcMainOrder().getBizOrder().getBizOrderDO()));
+				//获取优惠劵优惠金额
+				VoucherInfo voucherInfo = BizOrderUtil.getVoucherInfo(tcSingleQueryResult.getTcMainOrder().getBizOrder().getBizOrderDO());
+				if(null!=voucherInfo){
+					mainOrder.setRequirement(voucherInfo.getRequirement());
+					mainOrder.setValue(voucherInfo.getValue());
+				}
+				//获取使用的积分
+				mainOrder.setUserPointNum(BizOrderUtil.getUsePointNum(tcSingleQueryResult.getTcMainOrder().getBizOrder().getBizOrderDO()));
 				orderDetails.setMainOrder(mainOrder);
 				TcMainOrder tcMainOrder = mainOrder.getTcMainOrder();
 				TcBizOrder tcBizOrder = tcMainOrder.getBizOrder();
@@ -442,5 +468,24 @@ public class OrderServiceImpl implements OrderService {
 					comRateResults.getTotalCount(), resultList);
 			return orderPageVO;
 		}
+	}
+	
+	public List<ExpressCodeRelationDO> selectAllExpressCode(){
+		List<ExpressCodeRelationDO> list = lgService.selectAllExpressCode();
+		return list;
+	}
+	
+	public boolean sendGoods(SellerSendGoodsDTO sellerSendGoodsDTO){
+		SellerSendGoodsResult result = tcTradeServiceRef.sellerSendGoods(sellerSendGoodsDTO);
+		if(null == result || !result.isSuccess()){
+			log.error("tcTradeServiceRef.sellerSendGoods is error;param=" + JSON.toJSONString(sellerSendGoodsDTO)+"|||result="+JSON.toJSONString(result));
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public  TcSingleQueryResult searchOrderById(long bizOrderId) {
+		return tcBizQueryServiceRef.querySingle(bizOrderId, new OrderQueryOption());
 	}
 }

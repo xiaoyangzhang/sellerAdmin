@@ -12,6 +12,8 @@ public class SubOrder {
     private long executeTime;
     private String activityTime;
     private String vTxt;
+    //优惠后的金额
+    private long itemPrice_;
 
     public SubOrder(){}
 
@@ -77,4 +79,13 @@ public class SubOrder {
     public void setvTxt(String vTxt) {
         this.vTxt = vTxt;
     }
+
+	public long getItemPrice_() {
+		return itemPrice_;
+	}
+
+	public void setItemPrice_(long itemPrice_) {
+		this.itemPrice_ = itemPrice_;
+	}
+    
 }

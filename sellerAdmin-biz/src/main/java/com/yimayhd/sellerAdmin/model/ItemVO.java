@@ -5,7 +5,9 @@ import java.util.*;
 
 import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextVO;
 import com.yimayhd.sellerAdmin.util.DateFormat;
+
 import net.pocrd.util.StringUtil;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -17,6 +19,7 @@ import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
+import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.enums.ReduceType;
 import com.yimayhd.ic.client.model.param.item.CommonItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
@@ -63,6 +66,8 @@ public class ItemVO extends ItemDO {
 	private List<String>		itemMainPics;										// 商品图列表
 	private Double				longitudeVO;										// 经度
 	private Double				latitudeVO;											// 纬度
+	
+	private long maxPoint;//最大可用积分
 
 	// 新增商品提交时调用
 	public static ItemDO getItemDO(ItemVO itemVO) throws Exception {
@@ -70,7 +75,6 @@ public class ItemVO extends ItemDO {
 		BeanUtils.copyProperties(itemVO, itemDO);
 		// 元转分
 		itemDO.setPrice(NumUtil.doubleToLong(itemVO.getPriceY()));
-
 		// 新增的时候设置skuDOList（注：修改时走setItemSkuDOListCommonItemPublishDTO）
 		if (CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListByStr())) {
 			List<ItemSkuDO> itemSkuDOList = new ArrayList<ItemSkuDO>();
@@ -113,6 +117,12 @@ public class ItemVO extends ItemDO {
 		if (CollectionUtils.isNotEmpty(itemVO.getOpenTimeList())) {
 			itemFeature.put(ItemFeatureKey.LATEST_ARRIVE_TIME, itemVO.getOpenTimeList());
 		}
+		
+		//添加最大可用积分
+		if (itemVO.getMaxPoint() > 0) {
+			itemFeature.put(ItemFeatureKey.MAX_POINT, itemVO.getMaxPoint());
+		}
+		
 		// picUrls转换
 		if (StringUtils.isNotBlank(itemVO.getSmallListPic())) {
 			itemDO.addPicUrls(ItemPicUrlsKey.SMALL_LIST_PIC, itemVO.getSmallListPic());
@@ -251,6 +261,10 @@ public class ItemVO extends ItemDO {
 			itemVO.setReduceType(itemVO.getItemFeature().getReduceType());
 			// 最晚到店时间列表(暂时只有酒店用)
 			itemVO.setOpenTimeList(itemVO.getItemFeature().getLatestArriveTime());
+			//如果是积分商品，那么获取最大可用积分
+			if(ItemType.POINT_MALL.name().equals(categoryVO.getIntegralType())){
+				itemVO.setMaxPoint(itemVO.getItemFeature().getMaxPoint());
+			}
 
 		}
 		// picUrls转对应的list
@@ -601,4 +615,15 @@ public class ItemVO extends ItemDO {
 	public void setLongitudeVO(Double longitudeVO) {
 		this.longitudeVO = longitudeVO;
 	}
+
+	public long getMaxPoint() {
+		return maxPoint;
+	}
+
+	public void setMaxPoint(long maxPoint) {
+		this.maxPoint = maxPoint;
+	}
+
+
+	
 }

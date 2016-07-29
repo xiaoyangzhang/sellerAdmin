@@ -5,15 +5,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
 
 import javax.servlet.http.HttpServletRequest;
-
-import com.sun.tools.classfile.Annotation.element_value;
-import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
-import com.yimayhd.membercenter.client.result.MemResult;
-import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
-import com.yimayhd.sellerAdmin.constant.Constant;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
@@ -30,12 +23,16 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
+import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.enums.BizItemStatus;
 import com.yimayhd.sellerAdmin.enums.BizItemType;
 import com.yimayhd.sellerAdmin.model.item.ItemListItemVO;
@@ -145,6 +142,10 @@ public class ItemController extends BaseController {
 					}
 				}
 			}
+            
+            //Set itemCategoryIds 
+            //for  categoryTreeResult
+            
             Set<CategoryDO> fillMerchantItemCategory = fillMerchantItemCategory(categoryList, categoryOfMerchantList,layerNum);
             for (CategoryVO categoryVO : list) {
                 for (CategoryDO categoryDO : fillMerchantItemCategory) {
@@ -300,7 +301,9 @@ public class ItemController extends BaseController {
             return redirect("/hotel/addHotelMessageVOByDataView?categoryId=" + categoryId);
         } else if (ItemType.SPOTS.equals(itemType)) {
             return redirect("/scenic/addScenicManageView?categoryId=" + categoryId);
-        } else {
+        } else if (ItemType.POINT_MALL.equals(itemType)) {
+            return redirect("/integralMall/toAdd?categoryId=" + categoryId);
+        }  else {
             throw new BaseException("unsupport ItemType " + itemType.name());
         }
     }
@@ -524,6 +527,8 @@ public class ItemController extends BaseController {
             return redirect("/hotel/editHotelMessageView?operationFlag=update&itemId=" + itemId + "&categoryId=" + categoryId);
         } else if (ItemType.SPOTS.getValue() == itemType) {
             return redirect("/scenic/editScenicManageView?operationFlag=update&itemId=" + itemId + "&categoryId=" + categoryId);
+        } else if (ItemType.POINT_MALL.getValue()==itemType) {
+            return redirect("/integralMall/toEdit/" + itemId);
         } else {
             throw new BaseException("unsupport ItemType " + itemType);
         }
@@ -544,6 +549,8 @@ public class ItemController extends BaseController {
             return redirect("/hotel/editHotelMessageView?operationFlag=detail&itemId=" + itemId + "&categoryId=" + categoryId);
         } else if (ItemType.SPOTS.getValue() == itemType) {
             return redirect("/scenic/editScenicManageView?operationFlag=detail&itemId=" + itemId + "&categoryId=" + categoryId);
+        } else if (ItemType.POINT_MALL.getValue()==itemType) {
+            return redirect("/integralMall/view/" + itemId);
         } else {
             throw new BaseException("unsupport ItemType " + itemType);
         }

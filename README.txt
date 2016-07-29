@@ -15,7 +15,7 @@ mvn deploy  -Dmaven.test.skip=true
 autoconfig   /data/app/selleradmin/target/sellerAdmin.war -u  /data/app/selleradmin/run/latest.properties
 
 开发联调
-url: http://selleradmin.dev.jiuxiulvxing.com/sellerAdmin/
+url: http://selleradmin.secondtest.jiuxiulvxing.com/sellerAdmin/
 mvn clean install  -Dmaven.test.skip=true
 mvn deploy  -Dmaven.test.skip=true
 autoconfig   /data/app/selleradmin/target/sellerAdmin.war -u  /data/app/selleradmin/run/ladev.properties

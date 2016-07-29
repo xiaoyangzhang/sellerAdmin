@@ -104,7 +104,7 @@ public interface CommodityService {
 	void batchClose(long sellerId, List<Long> idList);
 
 	/**
-	 * 新增普通商品
+	 * 新增普通商品或积分商品
 	 * 
 	 * @param itemVO
 	 *            普通商品表单对象
@@ -113,7 +113,7 @@ public interface CommodityService {
 	void addCommonItem(ItemVO itemVO) throws Exception;
 
 	/**
-	 * 修改普通商品
+	 * 修改普通商品或积分商品
 	 * 
 	 * @param itemVO
 	 *            普通商品表单对象
