@@ -46,7 +46,7 @@ public class Constant {
 	
 	public static final int MERCHANT_TYPE_HALF = 4;
 	// 达人基本信息店铺头图数量
-	public static final int TALENT_SHOP_PICNUM = 5;
+	public static final int TALENT_SHOP_PICNUM = 1;
 
 	public static final String MERCHANT_NAME_CN = "商户";
 

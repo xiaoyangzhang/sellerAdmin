@@ -232,7 +232,7 @@
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>税务登记号：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" maxlength="25"  value="$!examineInfo.taxRegisterNumber" placeholder="税务登记号码" name="taxRegisterNumber" id="" class="txt01 taxL"/></td>
+       	    	   				<td class="rigcontent"><input type="text" maxlength="25"  value="$!examineInfo.taxRegisterNumber" placeholder="可填写统一社会信用代码" name="taxRegisterNumber" id="" class="txt01 taxL"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业地址：</label></td>
@@ -249,6 +249,19 @@
 					<div class="six">
 						<table>
 						<tr>	
+								<td class="rigtxt"><span>*</span><label class="">账户类型：</label></td>
+								<td class="rigcontent"><select id="accountType" class="selectlist" name="accountType">
+								
+									  
+									#foreach ($account in $accountTypes)
+										
+									  <option  #if ($examineInfo.accountType == $account.type) selected="selected" #end value="$!account.type" >$account.name</option>
+									#end
+									  
+									</select>
+								</td>
+							</tr>
+						<tr>	
 								<td class="rigtxt"><span>*</span><label class="">开户银行：</label></td>
 								<td class="rigcontent"><select id="bank" class="selectlist" name="financeOpenBankId">
 								
@@ -264,6 +277,14 @@
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">开户名称：</label></td>
 								<td class="rigcontent"><input type="text" datatype="*" maxlength="60"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" maxlength="60" class="txt01"  placeholder="请输入开户名称"></td>
+							</tr>
+							<tr>
+								<td class="rigtxt"><span>*</span><label class="">开户人身份证：</label></td>
+								<td class="rigcontent"><input type="text" datatype="*" maxlength="60"  value="$!examineInfo.openerCard" id="openerCard_" name="openerCard" maxlength="60" class="txt01"  placeholder=""></td>
+							</tr>
+							<tr>
+								<td class="rigtxt"><span>*</span><label class="">结算联行号：</label></td>
+								<td class="rigcontent"><input type="text" datatype="*" maxlength="60"  value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" maxlength="60" class="txt01"  placeholder=""></td>
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">结算账号：</label></td>

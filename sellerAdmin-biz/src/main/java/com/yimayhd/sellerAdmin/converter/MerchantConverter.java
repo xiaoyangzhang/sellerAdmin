@@ -82,6 +82,10 @@ public class MerchantConverter {
 		dto.setSaleLicenseNumber(vo.getSaleLicenseNumber());
 		dto.setTaxRegisterNumber(vo.getTaxRegisterNumber());
 		dto.setMerchantName(vo.getMerchantName());
+		//2.0
+		dto.setAccountType(String.valueOf(vo.getAccountType()));
+		dto.setOpenerCard(vo.getOpenerCard());
+		dto.setSettlementCard(vo.getSettlementCard());
 //		dto.setAmusementParkReport(vo.getAmusementParkReport());
 //		dto.setWildlifeSale(vo.getWildlifeSale());
 //		dto.setWaterWildlifeSale(vo.getWaterWildlifeSale());
@@ -183,6 +187,9 @@ public class MerchantConverter {
 		vo.setSaleLicenseNumber(examineInfoDTO.getSaleLicenseNumber());
 		vo.setTaxRegisterNumber(examineInfoDTO.getTaxRegisterNumber());
 		vo.setExaminStatus(examineInfoDTO.getExaminStatus());
+		vo.setAccountType(Integer.parseInt(examineInfoDTO.getAccountType()));
+		vo.setOpenerCard(examineInfoDTO.getOpenerCard());
+		vo.setSettlementCard(examineInfoDTO.getSettlementCard());
 		return vo;
 	}
 	
