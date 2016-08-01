@@ -6,6 +6,7 @@ import net.pocrd.dubboext.DubboExtProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.yimayhd.sellerAdmin.SellerReturnCode;
 import org.yimayhd.sellerAdmin.api.PublishItemApi;
 import org.yimayhd.sellerAdmin.entity.ItemDetail;
@@ -69,12 +70,15 @@ public class PublishItemApiImpl implements PublishItemApi  {
 		ItemCategoryQuery itemCategoryQuery = new ItemCategoryQuery(); 
 		itemCategoryQuery.setSellerId(userId);
 		itemCategoryQuery.setItemQueryParam(itemQueryParam);
-		itemCategoryQuery.setCategoryId(241);
+		itemCategoryQuery.setCategoryId(Constant.CONSULT_SERVICE);
 		itemCategoryQuery.setDomainId(domainId);
 		ItemApiResult itemApiResult = publishItemBiz.getItemList(itemCategoryQuery);
 		if (itemApiResult == null ) {
 			log.error("params:ItemQueryParam={},result:{}",JSON.toJSONString(itemQueryParam),itemApiResult);
-			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
+			DubboExtProperty.setErrorCode(SellerReturnCode.SYSTEM_ERROR);
+			return null;
+		}
+		if (CollectionUtils.isEmpty(itemApiResult.itemManagements)) {
 			return null;
 		}
 		return itemApiResult;
@@ -94,6 +98,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 		ItemApiResult itemApiResult = publishItemBiz.getPublishItemById(query);
 		if (itemApiResult == null ) {
 			log.error("params:userId={},ItemQueryParam={},result:{}",userId,JSON.toJSONString(itemQueryParam),JSON.toJSONString(itemApiResult));
+			DubboExtProperty.setErrorCode(SellerReturnCode.SYSTEM_ERROR);
 			return null;
 			
 		}

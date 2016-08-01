@@ -31,7 +31,7 @@ public class PulishItemTest extends BaseTest {
 
 	private void publishItem() {
 		PublishServiceDO publishServiceDO = new PublishServiceDO();
-		publishServiceDO.avater = "11111111111";
+		publishServiceDO.avater = "2222222222222222222222";
 		publishServiceDO.bookingTip = "bookingTip";
 		publishServiceDO.categoryType = 241;
 		publishServiceDO.discountPrice = 1000;
@@ -41,7 +41,7 @@ public class PulishItemTest extends BaseTest {
 		publishServiceDO.oldTime = 10;
 		publishServiceDO.refundRule = "refundRule";
 		publishServiceDO.serviceState = 2;
-		publishServiceDO.title = "title";
+		publishServiceDO.title = "2222222222222222222222";
 		List<PictureTextItem> pictureTextItems = new ArrayList<>();
 		PictureTextItem pictureTextItem = new PictureTextItem();
 		pictureTextItem.type =  "img";
@@ -52,12 +52,12 @@ public class PulishItemTest extends BaseTest {
 		serviceArea.areaCode = 1000410;
 		serviceArea.areaName = "北京";
 		serviceArea.domain = 1200;
-		serviceArea.outId = 21220;
+		serviceArea.outId = 1303209;
 		serviceArea.outType = 12;
 		serviceAreas.add(serviceArea);
 		publishServiceDO.pictureTextItems = pictureTextItems;
 		publishServiceDO.serviceAreas = serviceAreas;
-		boolean publishService = publishItemApi.publishService(0, 1200, 0, 21220, 0, publishServiceDO);
+		boolean publishService = publishItemApi.publishService(0, 1200, 0, 1303209, 0, publishServiceDO);
 		System.out.println(publishService);
 	}
 	
@@ -70,7 +70,7 @@ public class PulishItemTest extends BaseTest {
 		ItemQueryParam itemQueryParam = new ItemQueryParam();
 		itemQueryParam.id = 110801;
 		itemQueryParam.categoryId = 241;
-		PublishServiceDO publishItemInfo = publishItemApi.getPublishItemInfo(0, 1200, 0, 21220, 0, itemQueryParam);
+		PublishServiceDO publishItemInfo = publishItemApi.getPublishItemInfo(0, 1200, 0, 1303209, 0, itemQueryParam);
 		System.out.println("======================"+JSON.toJSONString(publishItemInfo));
 	}
 	
@@ -83,7 +83,7 @@ public class PulishItemTest extends BaseTest {
 		itemQueryParam.pageNo = 1;
 		itemQueryParam.pageSize = 10;
 		itemQueryParam.serviceState = 2;
-		ItemApiResult goodsManagementInfo = publishItemApi.getItemList(0, 1200, 0, 21219, 0, itemQueryParam);
+		ItemApiResult goodsManagementInfo = publishItemApi.getItemList(0, 1200, 0, 1311543, 0, itemQueryParam);
 		System.out.println("------------------"+JSON.toJSONString(goodsManagementInfo));
 		
 	}

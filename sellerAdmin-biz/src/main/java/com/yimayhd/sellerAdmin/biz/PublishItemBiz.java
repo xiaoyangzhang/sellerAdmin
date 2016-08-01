@@ -236,14 +236,16 @@ public class PublishItemBiz {
 		log.info("param:ItemCategoryQuery={}",JSON.toJSONString(query));
 		
 		try {
+			ItemApiResult apiResult = new ItemApiResult();
 			ItemQryDTO itemQryDTO = PublishItemConverter.converterLocal2ItemQueryDTO(query);
 			ItemPageResult itemPageResult = publishItemRepo.getItemList(itemQryDTO);
-			if (itemPageResult == null || !itemPageResult.isSuccess() || CollectionUtils.isEmpty(itemPageResult.getItemDOList())) {
+			if (itemPageResult == null || !itemPageResult.isSuccess() ) {
 				log.error("param:ItemCategoryQuery={},result:itemPageResult={}",JSON.toJSONString(query),JSON.toJSONString(itemPageResult));
 				return null;
 			}
-			
-			ItemApiResult apiResult = new ItemApiResult();
+			if (CollectionUtils.isEmpty(itemPageResult.getItemDOList())) {
+				return apiResult;
+			}
 			List<ItemManagement> itemManagements = new ArrayList<ItemManagement>();
 			List<ServiceArea> serviceAreas = new ArrayList<ServiceArea>();
 			BaseResult<List<ComTagDO>> tagInfoResult = comCenterServiceRef.getTagInfoByOutIdAndType(query.getSellerId(),TagType.DESTPLACE.name());
