@@ -23,10 +23,10 @@ public class PulishItemTest extends BaseTest {
 	
 	@Test
 	public void testPublishItem() {
-//		publishItem();
+		publishItem();
 //		testWhiteList();
 //		testGetPublishItem();
-		testGetItemManagementList();
+//		testGetItemManagementList();
 	}
 
 	private void publishItem() {
@@ -40,7 +40,7 @@ public class PulishItemTest extends BaseTest {
 		publishServiceDO.oldPrice = 1200;
 		publishServiceDO.oldTime = 10;
 		publishServiceDO.refundRule = "refundRule";
-		publishServiceDO.serviceState = 2;
+		publishServiceDO.serviceState = 3;
 		publishServiceDO.title = "2222222222222222222222";
 		List<PictureTextItem> pictureTextItems = new ArrayList<>();
 		PictureTextItem pictureTextItem = new PictureTextItem();
@@ -52,12 +52,12 @@ public class PulishItemTest extends BaseTest {
 		serviceArea.areaCode = 1000410;
 		serviceArea.areaName = "北京";
 		serviceArea.domain = 1200;
-		serviceArea.outId = 1303209;
+		serviceArea.outId = 1311543;
 		serviceArea.outType = 12;
 		serviceAreas.add(serviceArea);
 		publishServiceDO.pictureTextItems = pictureTextItems;
 		publishServiceDO.serviceAreas = serviceAreas;
-		boolean publishService = publishItemApi.publishService(0, 1200, 0, 1303209, 0, publishServiceDO);
+		boolean publishService = publishItemApi.publishService(0, 1200, 0, 1311543, 0, publishServiceDO);
 		System.out.println(publishService);
 	}
 	
