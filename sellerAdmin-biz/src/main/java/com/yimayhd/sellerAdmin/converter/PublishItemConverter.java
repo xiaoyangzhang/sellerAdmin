@@ -68,7 +68,6 @@ public class PublishItemConverter {
 		//服务咨询类
 		
 		itemDTO.setTitle(publishServiceDO.title);
-		
 		itemDTO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS, publishServiceDO.avater);
 		itemDTO.setPrice((long)(publishServiceDO.discountPrice));
 		itemDTO.setOriginalPrice((long)(publishServiceDO.oldPrice));

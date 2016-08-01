@@ -31,6 +31,7 @@ public class PulishItemTest extends BaseTest {
 
 	private void publishItem() {
 		PublishServiceDO publishServiceDO = new PublishServiceDO();
+		publishServiceDO.id = 110801;
 		publishServiceDO.avater = "2222222222222222222222";
 		publishServiceDO.bookingTip = "bookingTip";
 		publishServiceDO.categoryType = 241;
@@ -52,12 +53,12 @@ public class PulishItemTest extends BaseTest {
 		serviceArea.areaCode = 1000410;
 		serviceArea.areaName = "北京";
 		serviceArea.domain = 1200;
-		serviceArea.outId = 1311543;
+		serviceArea.outId = 21220;
 		serviceArea.outType = 12;
 		serviceAreas.add(serviceArea);
 		publishServiceDO.pictureTextItems = pictureTextItems;
 		publishServiceDO.serviceAreas = serviceAreas;
-		boolean publishService = publishItemApi.publishService(0, 1200, 0, 1311543, 0, publishServiceDO);
+		boolean publishService = publishItemApi.publishService(0, 1200, 0, 21220, 0, publishServiceDO);
 		System.out.println(publishService);
 	}
 	
@@ -83,7 +84,7 @@ public class PulishItemTest extends BaseTest {
 		itemQueryParam.pageNo = 1;
 		itemQueryParam.pageSize = 10;
 		itemQueryParam.serviceState = 2;
-		ItemApiResult goodsManagementInfo = publishItemApi.getItemList(0, 1200, 0, 1311543, 0, itemQueryParam);
+		ItemApiResult goodsManagementInfo = publishItemApi.getItemList(0, 1200, 0, 21220, 0, itemQueryParam);
 		System.out.println("------------------"+JSON.toJSONString(goodsManagementInfo));
 		
 	}
