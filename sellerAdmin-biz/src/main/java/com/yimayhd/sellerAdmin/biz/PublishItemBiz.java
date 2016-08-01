@@ -264,7 +264,7 @@ public class PublishItemBiz {
 				serviceAreas.add(serviceArea);
 			}
 			for (ItemDO item : itemPageResult.getItemDOList()) {
-				ItemApiResult result = new ItemApiResult();
+				//ItemApiResult result = new ItemApiResult();
 				ItemManagement itemManagement = new ItemManagement();
 				PublishServiceDO publishService = new PublishServiceDO();
 				publishService.avater = item.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);

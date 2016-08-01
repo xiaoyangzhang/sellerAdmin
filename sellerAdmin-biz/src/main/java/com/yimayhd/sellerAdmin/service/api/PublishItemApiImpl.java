@@ -73,7 +73,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 		itemCategoryQuery.setDomainId(domainId);
 		ItemApiResult itemApiResult = publishItemBiz.getItemList(itemCategoryQuery);
 		if (itemApiResult == null ) {
-			log.error("params:ItemListPage={},result:{}",JSON.toJSONString(itemQueryParam),itemApiResult);
+			log.error("params:ItemQueryParam={},result:{}",JSON.toJSONString(itemQueryParam),itemApiResult);
 			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
 			return null;
 		}
