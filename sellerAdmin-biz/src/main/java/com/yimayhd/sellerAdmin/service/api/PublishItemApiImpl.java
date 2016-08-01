@@ -95,7 +95,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 		ItemCategoryQuery query = new ItemCategoryQuery();
 		query.setSellerId(userId);
 		query.setItemId(itemQueryParam.id);
-		ItemApiResult itemApiResult = publishItemBiz.getPublishItemById(query);
+		ItemApiResult itemApiResult = publishItemBiz.getItemDetail(query);
 		if (itemApiResult == null ) {
 			log.error("params:userId={},ItemQueryParam={},result:{}",userId,JSON.toJSONString(itemQueryParam),JSON.toJSONString(itemApiResult));
 			DubboExtProperty.setErrorCode(SellerReturnCode.SYSTEM_ERROR);

@@ -313,7 +313,7 @@ public class PublishItemBiz {
 		return result;
 	}
 	
-	public ItemApiResult getPublishItemById(ItemCategoryQuery query) {
+	public ItemApiResult getItemDetail(ItemCategoryQuery query) {
 		log.info("param:ItemCategoryQuery={}",JSON.toJSONString(query));
 		ItemApiResult apiResult = new ItemApiResult();
 		SingleItemQueryResult queryResult = publishItemRepo.queryPublishItem(query);
@@ -370,6 +370,51 @@ public class PublishItemBiz {
 				
 				apiResult.talentInfo = talentInfo;
 			}
+			return apiResult;
+		} catch (Exception e) {
+			log.error("param:ItemQueryDTO={},error:{}",JSON.toJSONString(query),e);
+		}
+		return null;
+	}
+	public ItemApiResult getPublishItemById(ItemCategoryQuery query) {
+		log.info("param:ItemCategoryQuery={}",JSON.toJSONString(query));
+		ItemApiResult apiResult = new ItemApiResult();
+		SingleItemQueryResult queryResult = publishItemRepo.queryPublishItem(query);
+		if (queryResult == null || !queryResult.isSuccess() || queryResult.getItemDO() == null) {
+			log.error("param:ItemCategoryQuery={},result:{}",JSON.toJSONString(query),JSON.toJSONString(queryResult));
+			return null;
+		}
+		try {
+			List<ServiceArea> serviceAreas = getServiceAreas(query);
+			ItemDO itemDO = queryResult.getItemDO();
+			PublishServiceDO publishService = new PublishServiceDO();
+			publishService.avater = itemDO.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);
+			publishService.title = itemDO.getTitle();
+			publishService.discountPrice = itemDO.getPrice();
+			publishService.discountTime = itemDO.getItemFeature().getConsultTime();
+			publishService.serviceAreas = serviceAreas;
+			publishService.id = itemDO.getId();
+			publishService.categoryType = Constant.CONSULT_SERVICE;
+			publishService.oldPrice = itemDO.getOriginalPrice();
+			publishService.oldTime = itemDO.getItemFeature().getConsultTime();
+			List<ItemSkuPVPair> itemPropertyList = itemDO.getItemPropertyList();
+			for (ItemSkuPVPair itemSkuPVPair : itemPropertyList) {
+				if (itemSkuPVPair.getPId() == Constant.FEE_DESC) {
+					publishService.feeDesc = itemSkuPVPair.getVTxt();
+				}else if (itemSkuPVPair.getPId() == Constant.BOOKING_TIP) {
+					publishService.bookingTip = itemSkuPVPair.getVTxt();
+				}else if (itemSkuPVPair.getPId() == Constant.REFUND_RULE) {
+					publishService.refundRule = itemSkuPVPair.getVTxt();
+				}
+			}
+			ItemManagement itemManagement = new ItemManagement();
+			itemManagement.saleVolume = itemDO.getSales();
+			itemManagement.publishServiceDO = publishService;
+			itemManagement.itemId = itemDO.getId();
+			ItemDetail itemDetail = new ItemDetail();
+			apiResult.itemDetail = itemDetail;
+			apiResult.itemDetail.itemManagement = itemManagement;
+			
 			return apiResult;
 		} catch (Exception e) {
 			log.error("param:ItemQueryDTO={},error:{}",JSON.toJSONString(query),e);
