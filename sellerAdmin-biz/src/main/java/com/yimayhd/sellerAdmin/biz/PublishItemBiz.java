@@ -211,7 +211,8 @@ public class PublishItemBiz {
 				publishService.discountPrice = item.getPrice();
 				publishService.discountTime = item.getItemFeature().getConsultTime();
 				publishService.serviceAreas = serviceAreas;
-				
+				publishService.id = item.getId();
+				publishService.categoryType = Constant.CONSULT_SERVICE;
 				itemManagement.publishServiceDO = publishService;
 				itemManagement.itemId = item.getId();
 				itemManagement.saleVolume = item.getSales();

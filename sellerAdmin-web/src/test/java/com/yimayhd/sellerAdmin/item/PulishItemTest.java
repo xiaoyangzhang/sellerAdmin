@@ -23,9 +23,9 @@ public class PulishItemTest extends BaseTest {
 	
 	@Test
 	public void testPublishItem() {
-		publishItem();
+//		publishItem();
 //		testWhiteList();
-//		testGetPublishItem();
+		testGetPublishItem();
 //		testGetItemManagementList();
 	}
 
@@ -71,7 +71,7 @@ public class PulishItemTest extends BaseTest {
 		ItemQueryParam itemQueryParam = new ItemQueryParam();
 		itemQueryParam.id = 110801;
 		itemQueryParam.categoryId = 241;
-		PublishServiceDO publishItemInfo = publishItemApi.getPublishItemInfo(0, 1200, 0, 1303209, 0, itemQueryParam);
+		PublishServiceDO publishItemInfo = publishItemApi.getPublishItemInfo(0, 1200, 0, 21220, 0, itemQueryParam);
 		System.out.println("======================"+JSON.toJSONString(publishItemInfo));
 	}
 	
