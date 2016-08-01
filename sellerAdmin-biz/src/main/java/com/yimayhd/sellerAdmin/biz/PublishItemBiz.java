@@ -32,6 +32,7 @@ import com.yimayhd.ic.client.model.param.item.ConsultPublishAddDTO;
 import com.yimayhd.ic.client.model.param.item.ConsultPublishUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
+import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemDeleteResult;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
@@ -271,6 +272,7 @@ public class PublishItemBiz {
 				publishService.discountPrice = item.getPrice();
 				publishService.discountTime = item.getItemFeature().getConsultTime();
 				publishService.serviceAreas = serviceAreas;
+				
 				itemManagement.publishServiceDO = publishService;
 				itemManagement.itemId = item.getId();
 				itemManagement.saleVolume = item.getSales();
@@ -404,6 +406,16 @@ public class PublishItemBiz {
 			publishService.discountPrice = itemDO.getPrice();
 			publishService.discountTime = itemDO.getItemFeature().getConsultTime();
 			publishService.serviceAreas = serviceAreas;
+			List<ItemSkuPVPair> itemPropertyList = itemDO.getItemPropertyList();
+			for (ItemSkuPVPair itemSkuPVPair : itemPropertyList) {
+				if (itemSkuPVPair.getPId() == Constant.FEE_DESC) {
+					publishService.feeDesc = itemSkuPVPair.getVTxt();
+				}else if (itemSkuPVPair.getPId() == Constant.BOOKING_TIP) {
+					publishService.bookingTip = itemSkuPVPair.getVTxt();
+				}else if (itemSkuPVPair.getPId() == Constant.REFUND_RULE) {
+					publishService.refundRule = itemSkuPVPair.getVTxt();
+				}
+			}
 			ItemManagement itemManagement = new ItemManagement();
 			itemManagement.saleVolume = itemDO.getSales();
 			itemManagement.publishServiceDO = publishService;

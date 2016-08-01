@@ -23,10 +23,10 @@ public class PulishItemTest extends BaseTest {
 	
 	@Test
 	public void testPublishItem() {
-		publishItem();
+//		publishItem();
 //		testWhiteList();
 //		testGetPublishItem();
-//		testGetItemManagementList();
+		testGetItemManagementList();
 	}
 
 	private void publishItem() {
