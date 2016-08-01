@@ -329,6 +329,8 @@ public class PublishItemBiz {
 			publishService.discountPrice = itemDO.getPrice();
 			publishService.discountTime = itemDO.getItemFeature().getConsultTime();
 			publishService.serviceAreas = serviceAreas;
+			publishService.id = itemDO.getId();
+			publishService.categoryType = Constant.CONSULT_SERVICE;
 			List<ItemSkuPVPair> itemPropertyList = itemDO.getItemPropertyList();
 			for (ItemSkuPVPair itemSkuPVPair : itemPropertyList) {
 				if (itemSkuPVPair.getPId() == Constant.FEE_DESC) {
