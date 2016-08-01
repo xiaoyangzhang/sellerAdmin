@@ -361,7 +361,7 @@ public class PublishItemBiz {
 				TalentInfo talentInfo = new TalentInfo();
 				talentInfo.avater = userDO.getAvatar();
 				talentInfo.nickName = userDO.getNickname();
-				if (StringUtils.isNoneBlank(talentInfoResult.getValue().getPrincipleCardDown()) && StringUtils.isNoneBlank(talentInfoResult.getValue().getPrincipleCardUp())) {
+				if (StringUtils.isNotBlank(talentInfoResult.getValue().getPrincipleCardDown()) && StringUtils.isNotBlank(talentInfoResult.getValue().getPrincipleCardUp())) {
 					talentInfo.certificateSate = 1;
 				}
 				
