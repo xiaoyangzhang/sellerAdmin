@@ -91,6 +91,7 @@ public class WebReturnCode implements Serializable {
 	public final static WebReturnCode OFF_SALE_ERROR = new WebReturnCode(24004001, "下架失败");
 	public final static WebReturnCode DELETE_ERROR = new WebReturnCode(24004002, "删除失败");
 	public final static WebReturnCode NO_AUTHORITY = new WebReturnCode(24004003, "没有该权限");
+	public final static WebReturnCode ADD_TALENT_ERROR = new WebReturnCode(24004004, "添加达人失败");
 
 	/***************************************** 优惠劵相关 ********************************************************/
 	public final static WebReturnCode VOUVHER_TITLE_ERROR = new WebReturnCode(24003020, "优惠劵名称长度不正确");

@@ -60,6 +60,7 @@ import com.yimayhd.sellerAdmin.model.query.ItemCategoryQuery;
 import com.yimayhd.sellerAdmin.model.query.ItemQueryDTO;
 import com.yimayhd.sellerAdmin.repo.PictureTextRepo;
 import com.yimayhd.sellerAdmin.repo.PublishItemRepo;
+import com.yimayhd.tradecenter.client.validator.Check.recursion;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserTalentDO;
 import com.yimayhd.user.client.enums.UserOptions;
@@ -100,7 +101,6 @@ public class PublishItemBiz {
 			return result;
 		}
 		try {
-			//TODO 结果判断
 			UserDO userDO = userServiceRef.getUserDOById(sellerId);
 			long option = userDO.getOptions();
 			boolean isTalentA = UserOptions.CERTIFICATED.has(option);
@@ -109,43 +109,19 @@ public class PublishItemBiz {
 				UserTalentDO talentDO = new UserTalentDO();
 				talentDO.setUserId(sellerId);
 				com.yimayhd.user.client.result.BaseResult<Boolean> insertTalent = talentServiceRef.insertTalent(talentDO);
-				//TODO 结果处理
 				if (insertTalent == null || !insertTalent.isSuccess()) {
-					
+					log.error("talentServiceRef.insertTalent,param:talentDO={},result:{}",JSON.toJSONString(talentDO),JSON.toJSONString(insertTalent));
+					result.setWebReturnCode(WebReturnCode.ADD_TALENT_ERROR);
+					return result;
 				}
 			}
 			
 			ConsultPublishAddDTO dto = PublishItemConverter.converterLocal2AddPublishConsult(publishServiceDO, sellerId);
-			//dto.getItemDO().setId(11111);
 			ItemPubResult addItemResult = publishItemRepo.addItem(dto);
-			//FIXME 重复代码
 			//保存图文详情
-			PictureTextVO pictureTextVO = new PictureTextVO();
-			List<PictureTextItemVo> pictureTextItemVos = new ArrayList<PictureTextItemVo>();
-			for (PictureTextItem pictureTextItem : publishServiceDO.pictureTextItems) {
-				PictureTextItemVo vo = new PictureTextItemVo();
-				vo.setType(pictureTextItem.type);
-				vo.setValue(pictureTextItem.value);
-				pictureTextItemVos.add(vo);
-			}
-			pictureTextVO.setPictureTextItems(pictureTextItemVos);
-			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(sellerId, PictureText.EXPERTPUBLISH, pictureTextVO);
-			
-			pictureTextRepo.editPictureText(comentEditDTO);
-			//TODO 结果判断
+			boolean savePicTextResult = savePicText(publishServiceDO, sellerId);
 			//保存服务区域
-			TagRelationInfoDTO tagRelationInfo = new TagRelationInfoDTO();
-			List<Long> codeList = new ArrayList<Long>();
-			for (ServiceArea sa : publishServiceDO.serviceAreas) {
-				codeList.add(sa.areaCode);
-			}
-			tagRelationInfo.setDomain(Constant.DOMAIN_JIUXIU);
-			tagRelationInfo.setList(codeList);
-			tagRelationInfo.setOutId(sellerId);
-			tagRelationInfo.setOutType(TagType.DESTPLACE.getType());
-			tagRelationInfo.setOrderTime(new Date());
-			BaseResult<Boolean> addResult = comCenterServiceRef.addTagRelationInfo(tagRelationInfo);
-			//TODO 结果判断
+			BaseResult<Boolean> saveServiceAreaResult = saveServiceArea(publishServiceDO, sellerId);
 			if (addItemResult == null) {
 				log.error("result:ItemPubResult={}",addItemResult);
 				result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
@@ -161,6 +137,7 @@ public class PublishItemBiz {
 		}
 		return result;
 	}
+	
 	public WebResult<Boolean> updateItem(PublishServiceDO publishServiceDO,long sellerId) {
 		log.info("param:PublishServiceDO={}",JSON.toJSONString(publishServiceDO));
 		WebResult<Boolean> result = new WebResult<Boolean>();
@@ -197,32 +174,10 @@ public class PublishItemBiz {
 					 
 				}
 			}
-			//保存图文详情
-			PictureTextVO pictureTextVO = new PictureTextVO();
-			List<PictureTextItemVo> pictureTextItemVos = new ArrayList<PictureTextItemVo>();
-			for (PictureTextItem pictureTextItem : publishServiceDO.pictureTextItems) {
-				PictureTextItemVo vo = new PictureTextItemVo();
-				vo.setType(pictureTextItem.type);
-				vo.setValue(pictureTextItem.value);
-				pictureTextItemVos.add(vo);
-			}
-			pictureTextVO.setPictureTextItems(pictureTextItemVos);
-			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(sellerId, PictureText.EXPERTPUBLISH, pictureTextVO);
-			
-			pictureTextRepo.editPictureText(comentEditDTO);
-			//TODO 结果判断
+			//保存图文
+			savePicText(publishServiceDO, sellerId);
 			//保存服务区域
-			TagRelationInfoDTO tagRelationInfo = new TagRelationInfoDTO();
-			List<Long> codeList = new ArrayList<Long>();
-			for (ServiceArea sa : publishServiceDO.serviceAreas) {
-				codeList.add(sa.areaCode);
-			}
-			tagRelationInfo.setDomain(Constant.DOMAIN_JIUXIU);
-			tagRelationInfo.setList(codeList);
-			tagRelationInfo.setOutId(sellerId);
-			tagRelationInfo.setOutType(TagType.DESTPLACE.getType());
-			BaseResult<Boolean> addResult = comCenterServiceRef.addTagRelationInfo(tagRelationInfo);
-			//TODO 结果判断
+			BaseResult<Boolean> saveServiceAreaResult = saveServiceArea(publishServiceDO, sellerId);
 			result.setValue(Boolean.TRUE);
 			log.info("result:ItemPubResult={}",JSON.toJSONString(updateItemResult));
 		} catch (Exception e) {
@@ -247,26 +202,8 @@ public class PublishItemBiz {
 				return apiResult;
 			}
 			List<ItemManagement> itemManagements = new ArrayList<ItemManagement>();
-			List<ServiceArea> serviceAreas = new ArrayList<ServiceArea>();
-			BaseResult<List<ComTagDO>> tagInfoResult = comCenterServiceRef.getTagInfoByOutIdAndType(query.getSellerId(),TagType.DESTPLACE.name());
-			log.info("comCenterServiceRef.getTagInfoByOutIdAndType ,param:{},result:{}",query.getSellerId(),String.valueOf(TagType.DESTPLACE.getType()),JSON.toJSONString(tagInfoResult));
-			//TODO 结果处理
-			List<Long> codeList = new ArrayList<Long>();
-			for (ComTagDO tag : tagInfoResult.getValue()) {
-				codeList.add(Long.parseLong(tag.getName()));
-			}
-			DestinationQueryDTO  dto = new DestinationQueryDTO();
-			dto.setOutType(DestinationOutType.SERVICE.getCode());
-			RcResult<List<DestinationDO>> destinationListResult = destinationServiceRef.queryDestinationList(dto);
-			//TODO 结果处理
-			for (DestinationDO des : destinationListResult.getT()) {
-				ServiceArea serviceArea = new ServiceArea();
-				serviceArea.areaCode = des.getCode();
-				serviceArea.areaName = des.getName();
-				serviceAreas.add(serviceArea);
-			}
+			List<ServiceArea> serviceAreas = getServiceAreas(query);
 			for (ItemDO item : itemPageResult.getItemDOList()) {
-				//ItemApiResult result = new ItemApiResult();
 				ItemManagement itemManagement = new ItemManagement();
 				PublishServiceDO publishService = new PublishServiceDO();
 				publishService.avater = item.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);
@@ -287,6 +224,8 @@ public class PublishItemBiz {
 		}
 		return null;
 	}
+
+	
 	
 	public WebResult<Boolean> updateItemState(ItemQueryDTO dto) {
 		WebResult<Boolean> result = new WebResult<Boolean>();
@@ -382,25 +321,7 @@ public class PublishItemBiz {
 			return null;
 		}
 		try {
-			//FIXME 重复代码
-			List<ServiceArea> serviceAreas = new ArrayList<ServiceArea>();
-			BaseResult<List<ComTagDO>> tagInfoResult = comCenterServiceRef.getTagInfoByOutIdAndType(query.getSellerId(),TagType.DESTPLACE.name());
-			log.info("comCenterServiceRef.getTagInfoByOutIdAndType ,param:{},result:{}",query.getSellerId(),String.valueOf(TagType.DESTPLACE.getType()),JSON.toJSONString(tagInfoResult));
-			//TODO 结果处理
-			List<Long> codeList = new ArrayList<Long>();
-			for (ComTagDO tag : tagInfoResult.getValue()) {
-				codeList.add(Long.parseLong(tag.getName()));
-			}
-			DestinationQueryDTO  dto = new DestinationQueryDTO();
-			dto.setOutType(DestinationOutType.SERVICE.getCode());
-			RcResult<List<DestinationDO>> destinationListResult = destinationServiceRef.queryDestinationList(dto);
-			//TODO 结果处理
-			for (DestinationDO des : destinationListResult.getT()) {
-				ServiceArea serviceArea = new ServiceArea();
-				serviceArea.areaCode = des.getCode();
-				serviceArea.areaName = des.getName();
-				serviceAreas.add(serviceArea);
-			}
+			List<ServiceArea> serviceAreas = getServiceAreas(query);
 			ItemDO itemDO = queryResult.getItemDO();
 			PublishServiceDO publishService = new PublishServiceDO();
 			publishService.avater = itemDO.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);
@@ -451,5 +372,69 @@ public class PublishItemBiz {
 			log.error("param:ItemQueryDTO={},error:{}",JSON.toJSONString(query),e);
 		}
 		return null;
+	}
+	
+	private BaseResult<Boolean> saveServiceArea(PublishServiceDO publishServiceDO,
+			long sellerId) {
+		try {
+			TagRelationInfoDTO tagRelationInfo = new TagRelationInfoDTO();
+			List<Long> codeList = new ArrayList<Long>();
+			for (ServiceArea sa : publishServiceDO.serviceAreas) {
+				codeList.add(sa.areaCode);
+			}
+			tagRelationInfo.setDomain(Constant.DOMAIN_JIUXIU);
+			tagRelationInfo.setList(codeList);
+			tagRelationInfo.setOutId(sellerId);
+			tagRelationInfo.setOutType(TagType.DESTPLACE.getType());
+			tagRelationInfo.setOrderTime(new Date());
+			BaseResult<Boolean> addResult = comCenterServiceRef.addTagRelationInfo(tagRelationInfo);
+			return addResult;
+		} catch (Exception e) {
+			log.error("param:PublishServiceDO={},userId={},error:{}",JSON.toJSONString(publishServiceDO),sellerId,e);
+		}
+		return null;
+	}
+	private boolean savePicText(PublishServiceDO publishServiceDO, long sellerId) {
+		try {
+			PictureTextVO pictureTextVO = new PictureTextVO();
+			List<PictureTextItemVo> pictureTextItemVos = new ArrayList<PictureTextItemVo>();
+			for (PictureTextItem pictureTextItem : publishServiceDO.pictureTextItems) {
+				PictureTextItemVo vo = new PictureTextItemVo();
+				vo.setType(pictureTextItem.type);
+				vo.setValue(pictureTextItem.value);
+				pictureTextItemVos.add(vo);
+			}
+			pictureTextVO.setPictureTextItems(pictureTextItemVos);
+			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(sellerId, PictureText.EXPERTPUBLISH, pictureTextVO);
+			
+			pictureTextRepo.editPictureText(comentEditDTO);
+			return true;
+		} catch (Exception e) {
+			log.error("param:PublishServiceDO={},userId={},error:{}",JSON.toJSONString(publishServiceDO),sellerId,e);
+			return false;
+		}
+	}
+	private List<ServiceArea> getServiceAreas(ItemCategoryQuery query) {
+		List<ServiceArea> serviceAreas = new ArrayList<ServiceArea>();
+		BaseResult<List<ComTagDO>> tagInfoResult = comCenterServiceRef.getTagInfoByOutIdAndType(query.getSellerId(),TagType.DESTPLACE.name());
+		log.info("comCenterServiceRef.getTagInfoByOutIdAndType ,param:{},result:{}",query.getSellerId(),String.valueOf(TagType.DESTPLACE.getType()),JSON.toJSONString(tagInfoResult));
+		if (tagInfoResult == null || CollectionUtils.isEmpty(tagInfoResult.getValue())) {
+			log.error("comCenterServiceRef.getTagInfoByOutIdAndType,param:userId={},outType:{},result:{}",query.getSellerId(),TagType.DESTPLACE.name(),JSON.toJSONString(tagInfoResult));
+			return null;
+		}
+		List<Long> codeList = new ArrayList<Long>();
+		for (ComTagDO tag : tagInfoResult.getValue()) {
+			codeList.add(Long.parseLong(tag.getName()));
+		}
+		DestinationQueryDTO  dto = new DestinationQueryDTO();
+		dto.setOutType(DestinationOutType.SERVICE.getCode());
+		RcResult<List<DestinationDO>> destinationListResult = destinationServiceRef.queryDestinationList(dto);
+		for (DestinationDO des : destinationListResult.getT()) {
+			ServiceArea serviceArea = new ServiceArea();
+			serviceArea.areaCode = des.getCode();
+			serviceArea.areaName = des.getName();
+			serviceAreas.add(serviceArea);
+		}
+		return serviceAreas;
 	}
 }
