@@ -79,7 +79,7 @@ public class HotelManageRepo {
 				modelList.add(domain.doToModel(_do));
 			}
 		}
-		PageVO<HotelMessageVO> pageModel = new PageVO<HotelMessageVO>(hotelMessageVO.getPageNo(), hotelMessageVO.getPageSize(), callBack.getTotalCount(), modelList);
+		PageVO<HotelMessageVO> pageModel = new PageVO<HotelMessageVO>(hotelMessageVO.getPage(), hotelMessageVO.getPageSize(), callBack.getTotalCount(), modelList);
 		result.setValue(pageModel);
 
 		return result;

@@ -70,7 +70,7 @@ public class HotelManageDomainChecker {
         if (hotelMessageVO == null) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR);
         }
-        if (hotelMessageVO.getPageNo() == null || hotelMessageVO.getPageSize() == null) {
+        if (hotelMessageVO.getPage() == null || hotelMessageVO.getPageSize() == null) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "分页数据错误");
         }
 
@@ -100,7 +100,7 @@ public class HotelManageDomainChecker {
             hotelPageQuery.setLocationTownId(Long.valueOf(hotelMessageVO.getLocationTownId()));
         }
 
-        hotelPageQuery.setPageNo(hotelMessageVO.getPageNo());
+        hotelPageQuery.setPageNo(hotelMessageVO.getPage());
         hotelPageQuery.setPageSize(hotelMessageVO.getPageSize());
         return hotelPageQuery;
 
