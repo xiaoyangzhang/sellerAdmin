@@ -49,6 +49,7 @@ import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.resourcecenter.domain.DestinationDO;
 import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
+import com.yimayhd.resourcecenter.model.enums.DestinationUseType;
 import com.yimayhd.resourcecenter.model.query.DestinationQueryDTO;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.resourcecenter.service.DestinationService;
@@ -486,12 +487,16 @@ public class PublishItemBiz {
 			log.error("comCenterServiceRef.getTagInfoByOutIdAndType,param:userId={},outType:{},result:{}",query.getSellerId(),TagType.DESTPLACE.name(),JSON.toJSONString(tagInfoResult));
 			return null;
 		}
-		List<Long> codeList = new ArrayList<Long>();
-		for (ComTagDO tag : tagInfoResult.getValue()) {
-			codeList.add(Long.parseLong(tag.getName()));
+		List<Integer> codeList = new ArrayList<Integer>();
+		List<ComTagDO> comTagDOs = tagInfoResult.getValue();
+		for (ComTagDO tag : comTagDOs) {
+			codeList.add(Integer.parseInt(tag.getName()));
 		}
 		DestinationQueryDTO  dto = new DestinationQueryDTO();
 		dto.setOutType(DestinationOutType.SERVICE.getCode());
+		dto.setCodeList(codeList);
+		dto.setDomain(Constant.DOMAIN_JIUXIU);
+		dto.setUseType(DestinationUseType.APP_SHOW.getCode());
 		RcResult<List<DestinationDO>> destinationListResult = destinationServiceRef.queryDestinationList(dto);
 		for (DestinationDO des : destinationListResult.getT()) {
 			ServiceArea serviceArea = new ServiceArea();
