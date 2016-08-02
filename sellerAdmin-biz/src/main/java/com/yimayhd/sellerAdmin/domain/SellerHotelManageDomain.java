@@ -30,7 +30,7 @@ public class SellerHotelManageDomain {
         if (hotelMessageVO == null) {
             return SellerBaseCodeEnum.NULL_ERROR;
         }
-        if (hotelMessageVO.getPage() == null || hotelMessageVO.getPageSize() == null) {
+        if (hotelMessageVO.getPageNo() == null || hotelMessageVO.getPageSize() == null) {
             return SellerBaseCodeEnum.PAGE_PARAM_INVALID;
         }
 

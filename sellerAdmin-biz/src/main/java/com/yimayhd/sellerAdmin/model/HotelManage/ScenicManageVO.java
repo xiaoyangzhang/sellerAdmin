@@ -58,7 +58,7 @@ public class ScenicManageVO implements Serializable
     private String  dynamicEntry;//列表参数  json
     private List<BizCategoryInfo> bizCategoryInfoList;// 动态列表参数\
     private String UUID ;//uuid
-    private Integer page =1;
+    private Integer pageNo =1;
     private Integer pageSize =8 ;
 
 
@@ -270,12 +270,12 @@ public class ScenicManageVO implements Serializable
         this.subjectName = subjectName;
     }
 
-    public Integer getPage() {
-        return page;
+    public Integer getPageNo() {
+        return pageNo;
     }
 
-    public void setPage(Integer page) {
-        this.page = page;
+    public void setPageNo(Integer pageNo) {
+        this.pageNo = pageNo;
     }
 
     public Integer getPageSize() {

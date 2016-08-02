@@ -68,7 +68,7 @@ public class ScenicManageDomainChecker {
         if (scenicManageVO == null) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR);
         }
-        if (scenicManageVO.getPage() == null || scenicManageVO.getPageSize() == null) {
+        if (scenicManageVO.getPageNo() == null || scenicManageVO.getPageSize() == null) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "分页数据错误");
         }
 
@@ -96,7 +96,7 @@ public class ScenicManageDomainChecker {
         if(scenicManageVO.getLocationTownId()>0){
             scenicPageQuery.setLocationTownId(Long.valueOf(scenicManageVO.getLocationTownId()));
         }
-        scenicPageQuery.setPageNo(scenicManageVO.getPage());
+        scenicPageQuery.setPageNo(scenicManageVO.getPageNo());
         scenicPageQuery.setPageSize(scenicManageVO.getPageSize());
         return  scenicPageQuery;
     }

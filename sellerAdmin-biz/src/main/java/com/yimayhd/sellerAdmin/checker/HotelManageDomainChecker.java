@@ -1,7 +1,5 @@
 package com.yimayhd.sellerAdmin.checker;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
@@ -19,7 +17,6 @@ import com.yimayhd.sellerAdmin.model.HotelManage.RoomMessageVO;
 import com.yimayhd.sellerAdmin.model.HotelManage.SupplierCalendarTemplate;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import com.yimayhd.sellerAdmin.util.DateCommon;
-import com.yimayhd.sellerAdmin.util.DateUtil;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -73,7 +70,7 @@ public class HotelManageDomainChecker {
         if (hotelMessageVO == null) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR);
         }
-        if (hotelMessageVO.getPage() == null || hotelMessageVO.getPageSize() == null) {
+        if (hotelMessageVO.getPageNo() == null || hotelMessageVO.getPageSize() == null) {
             return WebResult.failure(WebReturnCode.PARAM_ERROR, "分页数据错误");
         }
 
@@ -103,7 +100,7 @@ public class HotelManageDomainChecker {
             hotelPageQuery.setLocationTownId(Long.valueOf(hotelMessageVO.getLocationTownId()));
         }
 
-        hotelPageQuery.setPageNo(hotelMessageVO.getPage());
+        hotelPageQuery.setPageNo(hotelMessageVO.getPageNo());
         hotelPageQuery.setPageSize(hotelMessageVO.getPageSize());
         return hotelPageQuery;
 

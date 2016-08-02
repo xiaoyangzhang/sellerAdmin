@@ -75,7 +75,7 @@ public class ScenicManageRepo {
 				resultList.add(domain.doToModel(_do));
 			}
 		}
-		PageVO<ScenicManageVO> pageModel = new PageVO<ScenicManageVO>(scenicManageVO.getPage(),scenicManageVO.getPageSize(),callBack.getTotalCount(),resultList);
+		PageVO<ScenicManageVO> pageModel = new PageVO<ScenicManageVO>(scenicManageVO.getPageNo(),scenicManageVO.getPageSize(),callBack.getTotalCount(),resultList);
 		result.setValue(pageModel);
 		return result;
 	}
