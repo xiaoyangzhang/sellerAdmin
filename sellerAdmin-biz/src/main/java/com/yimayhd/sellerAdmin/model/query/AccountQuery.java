@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.model.query;
 
+import java.text.ParseException;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.yimayhd.pay.client.model.query.eleaccount.EleAccBillDetailQuery;
@@ -29,17 +31,17 @@ public class AccountQuery extends BaseQuery {
     	return queryDO;
     }
     
-    public static EleAccBillDetailQuery getEleAccBillDetailQuery(AccountQuery query, long userId){
+    public static EleAccBillDetailQuery getEleAccBillDetailQuery(AccountQuery query, long userId) throws ParseException{
     	
     	EleAccBillDetailQuery queryDO = new EleAccBillDetailQuery();
     	if(StringUtils.isNotEmpty(query.getTransType())){
     		queryDO.setTransType(Integer.parseInt(query.getTransType()));
     	}
     	if(StringUtils.isNotEmpty(query.getTransStartDate())){
-    		queryDO.setTransStartDate(DateUtil.parseDate(query.getTransStartDate()));
+    		queryDO.setTransStartDate(DateUtil.formatMinTimeForDate(query.getTransStartDate()));
     	}
     	if(StringUtils.isNotEmpty(query.getTransEndDate())){
-    		queryDO.setTransEndDate(DateUtil.parseDate(query.getTransEndDate()));
+    		queryDO.setTransEndDate(DateUtil.formatMaxTimeForDate(query.getTransEndDate()));
     	}
     	queryDO.setNeedCount(true);
     	queryDO.setUserId(userId);

@@ -55,8 +55,8 @@
                 	#elseif($query.transType == 7)
                 		class="income"
                 	#end
-                >$!item.transAmount</td>
-                <td>$!item.accountBalance</td>
+                >$!item.transAmountYuan</td>
+                <td>$!item.accountBalanceYuan</td>
             </tr>
         	#end
         </table>
