@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.controller.draft;
 import java.util.List;
 import java.util.UUID;
 
+import com.yimayhd.sellerAdmin.model.query.DraftQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -65,19 +66,21 @@ public class DraftController extends BaseDraftController {
 	 * @createTime 2016年6月15日
 	 */
 	@RequestMapping(value = "/list")
-	public String list(Model model, DraftListQuery query) {
+	public String list(Model model, DraftQuery query) {
 		try {
 			long sellerId = getCurrentUserId();
 			if (sellerId <= 0) {
 				log.warn("未登录");
 				throw new BaseException("请登陆后重试");
 			}
-			query.setDomainId(Constant.DOMAIN_JIUXIU);
-			query.setAccountId(sellerId);
-			query.setMainType(query.getMainType());
-			query.setSubType(query.getSubType());
-			query.setPage(query.getPage());
-			WebResult<PageVO<DraftVO>> result = draftService.getDraftList(sellerId, query);
+			DraftListQuery draftListQuery = new DraftListQuery();
+			draftListQuery.setDomainId(Constant.DOMAIN_JIUXIU);
+			draftListQuery.setAccountId(sellerId);
+			draftListQuery.setMainType(query.getMainType());
+			draftListQuery.setSubType(query.getSubType());
+			draftListQuery.setPage(query.getPageNo());
+			draftListQuery.setPageSize(query.getPageSize());
+			WebResult<PageVO<DraftVO>> result = draftService.getDraftList(sellerId, draftListQuery);
 			PageVO<DraftVO> pageResult = result.getValue();
 			int totalPage = 0;
 			if (pageResult.getTotalCount() % pageResult.getPageSize() > 0) {
