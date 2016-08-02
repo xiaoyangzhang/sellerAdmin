@@ -19,11 +19,13 @@ import org.yimayhd.sellerAdmin.result.ItemApiResult;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.domain.PicTextDO;
 import com.yimayhd.commentcenter.client.dto.ComentEditDTO;
 import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
 import com.yimayhd.commentcenter.client.enums.PictureText;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
+import com.yimayhd.commentcenter.client.result.PicTextResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
@@ -43,6 +45,7 @@ import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
+import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.resourcecenter.domain.DestinationDO;
 import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
@@ -63,6 +66,7 @@ import com.yimayhd.sellerAdmin.repo.PublishItemRepo;
 import com.yimayhd.tradecenter.client.validator.Check.recursion;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserTalentDO;
+import com.yimayhd.user.client.dto.TalentDTO;
 import com.yimayhd.user.client.enums.UserOptions;
 import com.yimayhd.user.client.service.TalentService;
 import com.yimayhd.user.client.service.UserService;
@@ -349,27 +353,28 @@ public class PublishItemBiz {
 			ItemDetail itemDetail = new ItemDetail();
 			apiResult.itemDetail = itemDetail;
 			apiResult.itemDetail.itemManagement = itemManagement;
-			InfoQueryDTO examineQueryDTO = new InfoQueryDTO();
-			examineQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
-			examineQueryDTO.setType(MerchantType.TALENT.getType());
-			examineQueryDTO.setSellerId(query.getSellerId());
-			
-			log.info("param:InfoQueryDTO  ={}",JSON.toJSONString(examineQueryDTO));
-			//TODO 结果处理
-			MemResult<ExamineInfoDTO> talentInfoResult = examineDealService.queryMerchantExamineInfoBySellerId(examineQueryDTO);
-			log.info("result:MemResult<ExamineInfoDTO> ={}",JSON.toJSONString(talentInfoResult));
-			//TODO  结果处理
-			UserDO userDO = userServiceRef.getUserDOById(query.getSellerId());
-			if (talentInfoResult != null && talentInfoResult.isSuccess() && talentInfoResult.getValue() != null) {
+			com.yimayhd.user.client.result.BaseResult<TalentDTO> queryTalentInfoResult = talentServiceRef. queryTalentInfo(query.getSellerId());
+			if (queryTalentInfoResult != null && queryTalentInfoResult.getValue() != null) {
+				
 				TalentInfo talentInfo = new TalentInfo();
-				talentInfo.avater = userDO.getAvatar();
-				talentInfo.nickName = userDO.getNickname();
-				if (StringUtils.isNotBlank(talentInfoResult.getValue().getPrincipleCardDown()) && StringUtils.isNotBlank(talentInfoResult.getValue().getPrincipleCardUp())) {
+				talentInfo.avater = queryTalentInfoResult.getValue().getUserDTO().getAvatar();
+				talentInfo.nickName = queryTalentInfoResult.getValue().getUserDTO().getNickname();
+				InfoQueryDTO examineQueryDTO = new InfoQueryDTO();
+				examineQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+				examineQueryDTO.setType(MerchantType.TALENT.getType());
+				examineQueryDTO.setSellerId(query.getSellerId());
+				
+				log.info("param:InfoQueryDTO  ={}",JSON.toJSONString(examineQueryDTO));
+				MemResult<ExamineInfoDTO> talentInfoResult = examineDealService.queryMerchantExamineInfoBySellerId(examineQueryDTO);
+				log.info("result:MemResult<ExamineInfoDTO> ={}",JSON.toJSONString(talentInfoResult));
+				if (talentInfoResult != null && talentInfoResult.isSuccess() && talentInfoResult.getValue() != null) {
+				if (StringUtils.isNotBlank(talentInfoResult.getValue().getPrincipleCardDown()) && StringUtils.isNotBlank(talentInfoResult.getValue().getPrincipleCardUp()) && talentInfoResult.getValue().getExaminStatus() == ExamineStatus.EXAMIN_OK.getStatus()) {
 					talentInfo.certificateSate = 1;
 				}
-				
+				}
 				apiResult.talentInfo = talentInfo;
 			}
+				
 			return apiResult;
 		} catch (Exception e) {
 			log.error("param:ItemQueryDTO={},error:{}",JSON.toJSONString(query),e);
@@ -406,6 +411,17 @@ public class PublishItemBiz {
 				}else if (itemSkuPVPair.getPId() == Constant.REFUND_RULE) {
 					publishService.refundRule = itemSkuPVPair.getVTxt();
 				}
+			}
+			PicTextResult pictureTextResult = pictureTextRepo.getPictureText(query.getSellerId(), PictureText.EXPERTPUBLISH);
+			if (pictureTextResult != null && !CollectionUtils.isEmpty(pictureTextResult.getList())) {
+				List<PictureTextItem> pictureTextItems = new ArrayList<PictureTextItem>();
+				for (PicTextDO picText : pictureTextResult.getList()) {
+					PictureTextItem pictureTextItem = new PictureTextItem();
+					pictureTextItem.type =String.valueOf(picText.getType());
+					pictureTextItem.value = picText.getValue();
+					pictureTextItems.add(pictureTextItem);
+				}
+				publishService.pictureTextItems = pictureTextItems;
 			}
 			ItemManagement itemManagement = new ItemManagement();
 			itemManagement.saleVolume = itemDO.getSales();

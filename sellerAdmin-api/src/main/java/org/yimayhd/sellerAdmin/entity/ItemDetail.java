@@ -14,6 +14,6 @@ public class ItemDetail implements Serializable {
 	public ItemManagement itemManagement;
 	@Description("商品id")
 	public long id;
-//	@Description("商品信息")
-//	public PublishServiceDO publishServiceDO;
+	@Description("线路id")
+	public long routeId;
 }
