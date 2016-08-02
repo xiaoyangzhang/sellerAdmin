@@ -59,13 +59,13 @@ import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.PictureTextConverter;
 import com.yimayhd.sellerAdmin.converter.PublishItemConverter;
+import com.yimayhd.sellerAdmin.model.enums.PictureTextItemType;
 import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextItemVo;
 import com.yimayhd.sellerAdmin.model.line.pictxt.PictureTextVO;
 import com.yimayhd.sellerAdmin.model.query.ItemCategoryQuery;
 import com.yimayhd.sellerAdmin.model.query.ItemQueryDTO;
 import com.yimayhd.sellerAdmin.repo.PictureTextRepo;
 import com.yimayhd.sellerAdmin.repo.PublishItemRepo;
-import com.yimayhd.tradecenter.client.validator.Check.recursion;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserTalentDO;
 import com.yimayhd.user.client.dto.TalentDTO;
@@ -250,7 +250,7 @@ public class PublishItemBiz {
 					log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),pubResult);
 					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
 					return result;
-				}else if (!pubResult.isSuccess() || pubResult.getItemId() <= 0) {
+				}else if (!pubResult.isSuccess()) {
 					log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),JSON.toJSONString(pubResult));
 					result.setWebReturnCode(WebReturnCode.ON_SALE_ERROR);
 					return result;
@@ -472,7 +472,13 @@ public class PublishItemBiz {
 			List<PictureTextItemVo> pictureTextItemVos = new ArrayList<PictureTextItemVo>();
 			for (PictureTextItem pictureTextItem : publishServiceDO.pictureTextItems) {
 				PictureTextItemVo vo = new PictureTextItemVo();
-				vo.setType(pictureTextItem.type);
+				if (FeatureType.COMENT.name() == pictureTextItem.type) {
+					
+					vo.setType(PictureTextItemType.TEXT.name());
+				}else if (FeatureType.IMAGE.name() == pictureTextItem.type) {
+					vo.setType(PictureTextItemType.IMG.name());
+					
+				}
 				vo.setValue(pictureTextItem.value);
 				pictureTextItemVos.add(vo);
 			}

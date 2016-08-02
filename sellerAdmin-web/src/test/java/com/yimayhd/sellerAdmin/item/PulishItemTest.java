@@ -24,11 +24,12 @@ public class PulishItemTest extends BaseTest {
 	
 	@Test
 	public void testPublishItem() {
-		publishItem();
+//		publishItem();
 //		testWhiteList();
 //		testGetPublishItem();
 //		testGetItemManagementList();
 //		getItemDetail();
+		testUpdateState();
 	}
 
 	private void publishItem() {
@@ -106,5 +107,14 @@ public class PulishItemTest extends BaseTest {
 	@Test
 	public void testPicText() {
 		System.out.println(FeatureType.getByType(1).name());
+	}
+	
+	private void testUpdateState() {
+		ItemQueryParam itemQueryParam = new ItemQueryParam();
+		itemQueryParam.id = 111027;
+		itemQueryParam.categoryId = 241;
+		itemQueryParam.state = 2;
+		//itemQueryParam.
+		boolean updateState = publishItemApi.updateState(0, 1200, 0, 21220, 0, itemQueryParam);
 	}
 }
