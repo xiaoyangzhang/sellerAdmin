@@ -22,6 +22,7 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.domain.PicTextDO;
 import com.yimayhd.commentcenter.client.dto.ComentEditDTO;
 import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
+import com.yimayhd.commentcenter.client.enums.FeatureType;
 import com.yimayhd.commentcenter.client.enums.PictureText;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
@@ -418,7 +419,13 @@ public class PublishItemBiz {
 				List<PictureTextItem> pictureTextItems = new ArrayList<PictureTextItem>();
 				for (PicTextDO picText : pictureTextResult.getList()) {
 					PictureTextItem pictureTextItem = new PictureTextItem();
-					pictureTextItem.type =String.valueOf(picText.getType());
+					if (picText.getType() == FeatureType.COMENT.getType()) {
+						
+						pictureTextItem.type = FeatureType.getByType(FeatureType.COMENT.getType()).name();
+					}else if (picText.getType() == FeatureType.IMAGE.getType()) {
+						pictureTextItem.type = FeatureType.getByType(FeatureType.IMAGE.getType()).name();
+						
+					}
 					pictureTextItem.value = picText.getValue();
 					pictureTextItems.add(pictureTextItem);
 				}
@@ -452,7 +459,7 @@ public class PublishItemBiz {
 			tagRelationInfo.setOutId(sellerId);
 			tagRelationInfo.setOutType(TagType.DESTPLACE.getType());
 			tagRelationInfo.setOrderTime(new Date());
-			BaseResult<Boolean> addResult = comCenterServiceRef.addTagRelationInfo(tagRelationInfo);
+			BaseResult<Boolean> addResult = comCenterServiceRef.addLineTagRelationInfo(tagRelationInfo);
 			return addResult;
 		} catch (Exception e) {
 			log.error("param:PublishServiceDO={},userId={},error:{}",JSON.toJSONString(publishServiceDO),sellerId,e);
