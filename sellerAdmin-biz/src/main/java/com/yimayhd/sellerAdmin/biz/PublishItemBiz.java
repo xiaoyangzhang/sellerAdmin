@@ -421,9 +421,9 @@ public class PublishItemBiz {
 					PictureTextItem pictureTextItem = new PictureTextItem();
 					if (picText.getType() == FeatureType.COMENT.getType()) {
 						
-						pictureTextItem.type = FeatureType.getByType(FeatureType.COMENT.getType()).name();
+						pictureTextItem.type = FeatureType.COMENT.name();
 					}else if (picText.getType() == FeatureType.IMAGE.getType()) {
-						pictureTextItem.type = FeatureType.getByType(FeatureType.IMAGE.getType()).name();
+						pictureTextItem.type = FeatureType.IMAGE.name();
 						
 					}
 					pictureTextItem.value = picText.getValue();
