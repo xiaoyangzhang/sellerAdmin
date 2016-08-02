@@ -3,12 +3,9 @@ package com.yimayhd.sellerAdmin.converter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
 
-import com.sun.tools.classfile.Annotation.element_value;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
-import com.yimayhd.ic.client.model.domain.item.ItemDTO;
 import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
@@ -23,7 +20,6 @@ import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.query.ItemCategoryQuery;
 import com.yimayhd.sellerAdmin.model.query.ItemQueryDTO;
-import com.yimayhd.user.session.manager.SessionManager;
 
 /**
  * 
