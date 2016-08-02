@@ -52,6 +52,31 @@ public class PublishItemConverter {
 		ItemFeature itemFeature = new ItemFeature(null);
 		itemFeature.put(ItemFeatureKey.CONSULT_TIME, publishServiceDO.oldTime);
 		itemDO.setItemFeature(itemFeature);
+		List<ItemSkuPVPair> itemSkuPVPairs = createItemSkuPVPair(publishServiceDO);
+		itemDO.setItemPropertyList(itemSkuPVPairs);
+		dto.setItemDO(itemDO);
+		return dto;
+	}
+	public static ConsultPublishUpdateDTO converterLocal2UpdatePublishConsult(PublishServiceDO publishServiceDO,long sellerId) {
+		ConsultPublishUpdateDTO dto = new ConsultPublishUpdateDTO();
+		ItemPubUpdateDTO itemDTO = new ItemPubUpdateDTO();
+		itemDTO.setId(publishServiceDO.id);
+		//服务咨询类
+		
+		itemDTO.setTitle(publishServiceDO.title);
+		itemDTO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS, publishServiceDO.avater);
+		itemDTO.setPrice((long)(publishServiceDO.discountPrice));
+		itemDTO.setOriginalPrice((long)(publishServiceDO.oldPrice));
+		ItemFeature itemFeature = new ItemFeature(null);
+		itemFeature.put(ItemFeatureKey.CONSULT_TIME, publishServiceDO.oldTime);
+		itemDTO.setItemFeature(itemFeature);
+		List<ItemSkuPVPair> itemSkuPVPairs = createItemSkuPVPair(publishServiceDO);
+		itemDTO.setItemPropertyList(itemSkuPVPairs);
+		dto.setItemDTO(itemDTO);
+		return dto;
+	}
+	private static List<ItemSkuPVPair> createItemSkuPVPair(
+			PublishServiceDO publishServiceDO) {
 		List<ItemSkuPVPair> itemSkuPVPairs = new ArrayList<ItemSkuPVPair>(); 
 		ItemSkuPVPair skuPVPair = new ItemSkuPVPair();
 		skuPVPair.setPId(61);
@@ -77,52 +102,7 @@ public class PublishItemConverter {
 		skuPVPair3.setVId(-3);
 		skuPVPair3.setVTxt(publishServiceDO.refundRule);
 		itemSkuPVPairs.add(skuPVPair3);
-		itemDO.setItemPropertyList(itemSkuPVPairs);
-		dto.setItemDO(itemDO);
-		return dto;
-	}
-	public static ConsultPublishUpdateDTO converterLocal2UpdatePublishConsult(PublishServiceDO publishServiceDO,long sellerId) {
-		ConsultPublishUpdateDTO dto = new ConsultPublishUpdateDTO();
-		ItemPubUpdateDTO itemDTO = new ItemPubUpdateDTO();
-		itemDTO.setId(publishServiceDO.id);
-		//服务咨询类
-		
-		itemDTO.setTitle(publishServiceDO.title);
-		
-		itemDTO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS, publishServiceDO.avater);
-		itemDTO.setPrice((long)(publishServiceDO.discountPrice));
-		itemDTO.setOriginalPrice((long)(publishServiceDO.oldPrice));
-		ItemFeature itemFeature = new ItemFeature(null);
-		itemFeature.put(ItemFeatureKey.CONSULT_TIME, publishServiceDO.oldTime);
-		itemDTO.setItemFeature(itemFeature);
-		List<ItemSkuPVPair> itemSkuPVPairs = new ArrayList<ItemSkuPVPair>(); 
-		ItemSkuPVPair skuPVPair = new ItemSkuPVPair();
-		skuPVPair.setPId(61);
-		skuPVPair.setPTxt("费用包含");
-		skuPVPair.setPType(1);
-		skuPVPair.setVType(ValueType.DEFAULT.getType());
-		skuPVPair.setVTxt(publishServiceDO.feeDesc);
-		skuPVPair.setVId(-1);
-		itemSkuPVPairs.add(skuPVPair);
-		ItemSkuPVPair skuPVPair2 = new ItemSkuPVPair();
-		skuPVPair.setPId(57);
-		skuPVPair.setPTxt("预定时间");
-		skuPVPair.setPType(1);
-		skuPVPair2.setVTxt(publishServiceDO.bookingTip);
-		skuPVPair2.setVType(ValueType.DEFAULT.getType());
-		skuPVPair2.setVId(-2);
-		itemSkuPVPairs.add(skuPVPair2);
-		ItemSkuPVPair skuPVPair3 = new ItemSkuPVPair();
-		skuPVPair.setPId(62);
-		skuPVPair.setPTxt("退票说明");
-		skuPVPair.setPType(1);
-		skuPVPair3.setVType(ValueType.DEFAULT.getType());
-		skuPVPair3.setVId(-3);
-		skuPVPair3.setVTxt(publishServiceDO.refundRule);
-		itemSkuPVPairs.add(skuPVPair3);
-		itemDTO.setItemPropertyList(itemSkuPVPairs);
-		dto.setItemDTO(itemDTO);
-		return dto;
+		return itemSkuPVPairs;
 	}
 	
 	public static ItemPublishDTO converterLocal2ItemPublishDTO(ItemQueryDTO dto) {

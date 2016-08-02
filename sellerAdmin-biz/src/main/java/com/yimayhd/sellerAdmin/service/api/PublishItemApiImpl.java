@@ -6,6 +6,7 @@ import net.pocrd.dubboext.DubboExtProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.yimayhd.sellerAdmin.SellerReturnCode;
 import org.yimayhd.sellerAdmin.api.PublishItemApi;
 import org.yimayhd.sellerAdmin.entity.ItemDetail;
@@ -58,7 +59,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	}
 
 	@Override
-	public ItemApiResult getGoodsManagementInfo(int appId, int domainId,
+	public ItemApiResult getItemList(int appId, int domainId,
 			long deviceId, long userId, int versionCode,
 			 ItemQueryParam itemQueryParam) {
 		if (userId <= 0 || itemQueryParam == null || itemQueryParam.pageNo <= 0 || itemQueryParam.pageSize <= 0) {
@@ -69,19 +70,22 @@ public class PublishItemApiImpl implements PublishItemApi  {
 		ItemCategoryQuery itemCategoryQuery = new ItemCategoryQuery(); 
 		itemCategoryQuery.setSellerId(userId);
 		itemCategoryQuery.setItemQueryParam(itemQueryParam);
-		itemCategoryQuery.setCategoryId(241);
+		itemCategoryQuery.setCategoryId(Constant.CONSULT_SERVICE);
 		itemCategoryQuery.setDomainId(domainId);
 		ItemApiResult itemApiResult = publishItemBiz.getItemList(itemCategoryQuery);
 		if (itemApiResult == null ) {
-			log.error("params:ItemListPage={},result:{}",JSON.toJSONString(itemQueryParam),itemApiResult);
-			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
+			log.error("params:ItemQueryParam={},result:{}",JSON.toJSONString(itemQueryParam),itemApiResult);
+			DubboExtProperty.setErrorCode(SellerReturnCode.SYSTEM_ERROR);
+			return null;
+		}
+		if (CollectionUtils.isEmpty(itemApiResult.itemManagements)) {
 			return null;
 		}
 		return itemApiResult;
 	}
 
 	@Override
-	public ItemApiResult getGoodsDetailInfo(int appId, int domainId,
+	public ItemApiResult getItemDetailInfo(int appId, int domainId,
 			long deviceId, long userId, int versionCode, ItemQueryParam itemQueryParam) {
 		if (userId <= 0 || itemQueryParam == null || itemQueryParam.id <= 0) {
 			log.error("params:userId={},ItemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
@@ -91,9 +95,10 @@ public class PublishItemApiImpl implements PublishItemApi  {
 		ItemCategoryQuery query = new ItemCategoryQuery();
 		query.setSellerId(userId);
 		query.setItemId(itemQueryParam.id);
-		ItemApiResult itemApiResult = publishItemBiz.getPublishItemById(query);
+		ItemApiResult itemApiResult = publishItemBiz.getItemDetail(query);
 		if (itemApiResult == null ) {
 			log.error("params:userId={},ItemQueryParam={},result:{}",userId,JSON.toJSONString(itemQueryParam),JSON.toJSONString(itemApiResult));
+			DubboExtProperty.setErrorCode(SellerReturnCode.SYSTEM_ERROR);
 			return null;
 			
 		}

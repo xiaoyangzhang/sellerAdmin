@@ -33,9 +33,9 @@ public interface PublishItemApi {
             @ApiParameter(required = true, name = "publishServiceDO", desc = "发布的服务信息") PublishServiceDO publishServiceDO
     );
 	
-	@HttpApi(name = "sellerAdmin.getGoodsManagementInfo", desc = "获取商品管理列表", security = SecurityType.UserLogin, owner = "zhangxy")
+	@HttpApi(name = "sellerAdmin.getItemList", desc = "获取商品管理列表", security = SecurityType.UserLogin, owner = "zhangxy")
 	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C})
-	public ItemApiResult getGoodsManagementInfo(
+	public ItemApiResult getItemList(
 			@ApiAutowired(CommonParameter.applicationId) int appId,
 			@ApiAutowired(CommonParameter.domainId) int domainId,
 			@ApiAutowired(CommonParameter.deviceId) long deviceId,
@@ -44,9 +44,9 @@ public interface PublishItemApi {
 			@ApiParameter(required = true, name = "itemQueryParam", desc = "商品查询参数") ItemQueryParam itemQueryParam
 			);
 	
-	@HttpApi(name = "sellerAdmin.getGoodsDetailInfo", desc = "商品查询参数", security = SecurityType.UserLogin, owner = "zhangxy")
+	@HttpApi(name = "sellerAdmin.getItemDetailInfo", desc = "商品查询参数", security = SecurityType.UserLogin, owner = "zhangxy")
 	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C})
-	public ItemApiResult getGoodsDetailInfo(
+	public ItemApiResult getItemDetailInfo(
 			@ApiAutowired(CommonParameter.applicationId) int appId,
 			@ApiAutowired(CommonParameter.domainId) int domainId,
 			@ApiAutowired(CommonParameter.deviceId) long deviceId,

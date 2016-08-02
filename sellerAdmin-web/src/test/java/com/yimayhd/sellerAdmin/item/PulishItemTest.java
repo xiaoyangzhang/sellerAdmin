@@ -14,6 +14,7 @@ import org.yimayhd.sellerAdmin.query.ItemQueryParam;
 import org.yimayhd.sellerAdmin.result.ItemApiResult;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.commentcenter.client.enums.FeatureType;
 import com.yimayhd.sellerAdmin.BaseTest;
 
 public class PulishItemTest extends BaseTest {
@@ -24,32 +25,39 @@ public class PulishItemTest extends BaseTest {
 	@Test
 	public void testPublishItem() {
 //		publishItem();
-		testWhiteList();
+//		testWhiteList();
 //		testGetPublishItem();
 //		testGetItemManagementList();
+//		getItemDetail();
+		testUpdateState();
 	}
 
 	private void publishItem() {
 		PublishServiceDO publishServiceDO = new PublishServiceDO();
-		publishServiceDO.avater = "11111111111";
-		publishServiceDO.bookingTip = "bookingTip";
+		//publishServiceDO.id = 110801;
+		publishServiceDO.avater = "2222222222222222222222";
+		publishServiceDO.bookingTip = "bookingTip1";
 		publishServiceDO.categoryType = 241;
 		publishServiceDO.discountPrice = 1000;
 		publishServiceDO.discountTime = 10;
-		publishServiceDO.feeDesc = "feeDesc";
+		publishServiceDO.feeDesc = "feeDesc1";
 		publishServiceDO.oldPrice = 1200;
 		publishServiceDO.oldTime = 10;
-		publishServiceDO.refundRule = "refundRule";
-		publishServiceDO.serviceState = 2;
-		publishServiceDO.title = "title";
+		publishServiceDO.refundRule = "refundRule1";
+		publishServiceDO.serviceState = 3;
+		publishServiceDO.title = "2222222222222222222222";
 		List<PictureTextItem> pictureTextItems = new ArrayList<>();
 		PictureTextItem pictureTextItem = new PictureTextItem();
-		pictureTextItem.type =  "img";
+		pictureTextItem.type =  "IMAGE";
 		pictureTextItem.value = "jfosifjosdafjiosd";
+		PictureTextItem pictureTextItem2 = new PictureTextItem();
+		pictureTextItem.type =  "COMENT";
+		pictureTextItem.value = "111111111111111";
 		pictureTextItems.add(pictureTextItem);
+		pictureTextItems.add(pictureTextItem2);
 		List<ServiceArea> serviceAreas = new ArrayList<>();
 		ServiceArea serviceArea = new ServiceArea();
-		serviceArea.areaCode = 1000410;
+		serviceArea.areaCode = 532600;
 		serviceArea.areaName = "北京";
 		serviceArea.domain = 1200;
 		serviceArea.outId = 21220;
@@ -83,8 +91,30 @@ public class PulishItemTest extends BaseTest {
 		itemQueryParam.pageNo = 1;
 		itemQueryParam.pageSize = 10;
 		itemQueryParam.serviceState = 2;
-		ItemApiResult goodsManagementInfo = publishItemApi.getGoodsManagementInfo(0, 1200, 0, 21220, 0, itemQueryParam);
+		ItemApiResult goodsManagementInfo = publishItemApi.getItemList(0, 1200, 0, 21220, 0, itemQueryParam);
 		System.out.println("------------------"+JSON.toJSONString(goodsManagementInfo));
 		
+	}
+	
+	private void getItemDetail() {
+		ItemQueryParam itemQueryParam = new ItemQueryParam();
+		itemQueryParam.id = 110801;
+		itemQueryParam.categoryId = 241;
+		 ItemApiResult itemDetailInfo = publishItemApi.getItemDetailInfo(0, 1200, 0, 21220, 0, itemQueryParam);
+		System.out.println("======================"+JSON.toJSONString(itemDetailInfo));
+	}
+	
+	@Test
+	public void testPicText() {
+		System.out.println(FeatureType.getByType(1).name());
+	}
+	
+	private void testUpdateState() {
+		ItemQueryParam itemQueryParam = new ItemQueryParam();
+		itemQueryParam.id = 111027;
+		itemQueryParam.categoryId = 241;
+		itemQueryParam.state = 2;
+		//itemQueryParam.
+		boolean updateState = publishItemApi.updateState(0, 1200, 0, 21220, 0, itemQueryParam);
 	}
 }

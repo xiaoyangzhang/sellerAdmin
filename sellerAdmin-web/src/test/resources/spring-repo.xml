@@ -34,6 +34,7 @@
 	<bean id="merchantApplyRepo" class="com.yimayhd.sellerAdmin.repo.MerchantApplyRepo" />
 	<bean id="draftRepo" class="com.yimayhd.sellerAdmin.repo.DraftRepo" />
 	<bean id="publishItemRepo" class="com.yimayhd.sellerAdmin.repo.PublishItemRepo" />
+	<bean id="jixiuVoucherRepo" class="com.yimayhd.sellerAdmin.repo.JixiuVoucherRepo" />
 
 
 </beans>

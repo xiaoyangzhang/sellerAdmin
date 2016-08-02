@@ -65,34 +65,44 @@
 	</build>
 	<profiles>
 		<profile>
+			<!-- 调用条件 -P tomcat -->
 			<id>api</id>
-			
 			<build>
 				<plugins>
 					<plugin>
-		                <groupId>org.apache.maven.plugins</groupId>
-		                <artifactId>maven-surefire-plugin</artifactId>
-		                <configuration>
-		                <skip>false</skip>
-		                </configuration>
-		            </plugin>
-		            <plugin>
-			            <groupId>org.codehaus.mojo</groupId>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<!-- 必须执行单元测试 -->
+						<configuration>
+							<skip>false</skip>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>wagon-maven-plugin</artifactId>
 						<configuration>
-							<serverId>default</serverId>
-							<fromFile>target/sellerAdmin-api</fromFile>
+							<!-- 跳过 -->
+							<!-- <skip>true</skip> -->
+							<!-- maven中settings.xml配置的server，包含认证信息 -->
+							<serverId>test-default</serverId>
+							<!-- 需要上传的文件 -->
+							<fromFile>target/sellerAdmin-api.jar</fromFile>
+							<!-- 使用scp协议上传 -->
 							<url>scp://192.168.0.36/root/api/api</url>
+							<!-- 上传后要执行的ssh命令， 不要换行-->
 							<commands>
+								<!-- shutdown tomcat -->
 								<command>sh /usr/local/tomcat/bin/shutdown.sh</command>
+								<!-- kill tomcat process -->
 								<command>ps -ef|grep tomcat|grep -v grep|cut -c 9-15|xargs kill -9</command>
-								<command>sh /usr/local/tomcat/bin/start.sh</command>
+								<!-- startup tomcat -->
+								<command>sh /usr/local/tomcat/bin/startup.sh</command>
 							</commands>
 						</configuration>
-		            </plugin>
-	            </plugins>
+					</plugin>
+				</plugins>
 			</build>
 		</profile>
-		
 	</profiles>
+
 </project>

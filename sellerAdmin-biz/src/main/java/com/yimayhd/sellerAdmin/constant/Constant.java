@@ -143,6 +143,17 @@ public class Constant {
 	 * 待发布
 	 */
 	public static final int TO_BE_PUBLISHED = 3;
-	
+	/**
+	 * 费用描述
+	 */
+	public static final int FEE_DESC = 61; 
+	/**
+	 * 预定说明
+	 */
+	public static final int BOOKING_TIP = 57; 
+	/**
+	 * 退改规定
+	 */
+	public static final int REFUND_RULE = 62; 
 	
 }
