@@ -26,10 +26,10 @@ public class PulishItemTest extends BaseTest {
 	public void testPublishItem() {
 //		publishItem();
 //		testWhiteList();
-//		testGetPublishItem();
+		testGetPublishItem();
 //		testGetItemManagementList();
 //		getItemDetail();
-		testUpdateState();
+//		testUpdateState();
 	}
 
 	private void publishItem() {
@@ -51,21 +51,20 @@ public class PulishItemTest extends BaseTest {
 		pictureTextItem.type =  "IMAGE";
 		pictureTextItem.value = "jfosifjosdafjiosd";
 		PictureTextItem pictureTextItem2 = new PictureTextItem();
-		pictureTextItem.type =  "COMENT";
-		pictureTextItem.value = "111111111111111";
+		pictureTextItem2.type =  "COMENT";
+		pictureTextItem2.value = "111111111111111";
 		pictureTextItems.add(pictureTextItem);
 		pictureTextItems.add(pictureTextItem2);
 		List<ServiceArea> serviceAreas = new ArrayList<>();
 		ServiceArea serviceArea = new ServiceArea();
-		serviceArea.areaCode = 532600;
-		serviceArea.areaName = "北京";
+		serviceArea.areaCode = 532500;
 		serviceArea.domain = 1200;
-		serviceArea.outId = 21220;
+		serviceArea.outId = 21227;
 		serviceArea.outType = 12;
 		serviceAreas.add(serviceArea);
 		publishServiceDO.pictureTextItems = pictureTextItems;
 		publishServiceDO.serviceAreas = serviceAreas;
-		boolean publishService = publishItemApi.publishService(0, 1200, 0, 21220, 0, publishServiceDO);
+		boolean publishService = publishItemApi.publishService(0, 1200, 0, 21227, 0, publishServiceDO);
 		System.out.println(publishService);
 	}
 	
@@ -78,7 +77,7 @@ public class PulishItemTest extends BaseTest {
 		ItemQueryParam itemQueryParam = new ItemQueryParam();
 		itemQueryParam.id = 110801;
 		itemQueryParam.categoryId = 241;
-		PublishServiceDO publishItemInfo = publishItemApi.getPublishItemInfo(0, 1200, 0, 21220, 0, itemQueryParam);
+		PublishServiceDO publishItemInfo = publishItemApi.getPublishItemInfo(0, 1200, 0, 21227, 0, itemQueryParam);
 		System.out.println("======================"+JSON.toJSONString(publishItemInfo));
 	}
 	
@@ -91,7 +90,7 @@ public class PulishItemTest extends BaseTest {
 		itemQueryParam.pageNo = 1;
 		itemQueryParam.pageSize = 10;
 		itemQueryParam.serviceState = 2;
-		ItemApiResult goodsManagementInfo = publishItemApi.getItemList(0, 1200, 0, 21220, 0, itemQueryParam);
+		ItemApiResult goodsManagementInfo = publishItemApi.getItemList(0, 1200, 0, 21227, 0, itemQueryParam);
 		System.out.println("------------------"+JSON.toJSONString(goodsManagementInfo));
 		
 	}
@@ -100,7 +99,7 @@ public class PulishItemTest extends BaseTest {
 		ItemQueryParam itemQueryParam = new ItemQueryParam();
 		itemQueryParam.id = 110801;
 		itemQueryParam.categoryId = 241;
-		 ItemApiResult itemDetailInfo = publishItemApi.getItemDetailInfo(0, 1200, 0, 21220, 0, itemQueryParam);
+		 ItemApiResult itemDetailInfo = publishItemApi.getItemDetailInfo(0, 1200, 0, 21227, 0, itemQueryParam);
 		System.out.println("======================"+JSON.toJSONString(itemDetailInfo));
 	}
 	
@@ -115,6 +114,6 @@ public class PulishItemTest extends BaseTest {
 		itemQueryParam.categoryId = 241;
 		itemQueryParam.state = 2;
 		//itemQueryParam.
-		boolean updateState = publishItemApi.updateState(0, 1200, 0, 21220, 0, itemQueryParam);
+		boolean updateState = publishItemApi.updateState(0, 1200, 0, 21227, 0, itemQueryParam);
 	}
 }
