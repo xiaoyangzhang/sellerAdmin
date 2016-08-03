@@ -15,7 +15,7 @@
             <li class=" first on">收支明细</li>
         </ul>
     </div>
-    <form action="$!utilWebconfig.getActionDefaultFontPath()/account/billDetail" method="GET" role="form">
+    <form id="queryForm" action="$!utilWebconfig.getActionDefaultFontPath()/account/billDetail" method="GET" role="form">
     <div class="search-wrap">
         <div class="date-box">
             <p class="w84 fl lh34">起止日期：</p>
@@ -49,13 +49,15 @@
                 <td>$!item.transSn</td>
                 <td>$!{utilDate.date2String($item.transTime)}</td>
                 <td>#TRANS_TYPE($!{item.transType})</td>
-                <td 
-                	#if($query.transType == 3) 
-                		class="cost"
-                	#elseif($query.transType == 7)
-                		class="income"
-                	#end
-                >$!item.transAmountYuan</td>
+                <td
+	            	#if($item.transType == $!WITHDRAW) 
+	            		 class="cost">-$!item.transAmountYuan
+	            	#elseif($item.transType == $!SETTLEMENT)
+	            		class="income">+$!item.transAmountYuan</td>
+	            	#else
+	            		>
+	            	#end
+                </td>
                 <td>$!item.accountBalanceYuan</td>
             </tr>
         	#end

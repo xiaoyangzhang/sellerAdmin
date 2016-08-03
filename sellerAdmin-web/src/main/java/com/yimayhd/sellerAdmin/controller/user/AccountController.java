@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yimayhd.pay.client.model.enums.TransType;
 import com.yimayhd.pay.client.model.enums.eleaccount.EleAccountType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
@@ -125,17 +126,17 @@ public class AccountController extends BaseController {
 			//FIXME
 			long userId = 15000 ;//sessionManager.getUserId();
 			
-			EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
-			
-			WithdrawalVO vo = new WithdrawalVO();
-			vo.setUserId(userId);
-			vo.setWithdrawalAmount(accountInfo.getAccountBalance());
-			vo.setEleAccountType(EleAccountType.UNION_ELE_ACCOUNT.getType());
-			if(accountInfo.getAccountBalance() <= 0 ){
-				throw new NoticeException(Constant.WITHDRAWAL_ACCOUNT_BALANCE_IS_ZERO);
-			}
-			
-			accountService.withdrawal(vo);
+//			EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
+//			
+//			WithdrawalVO vo = new WithdrawalVO();
+//			vo.setUserId(userId);
+//			vo.setWithdrawalAmount(accountInfo.getAccountBalance());
+//			vo.setEleAccountType(EleAccountType.UNION_ELE_ACCOUNT.getType());
+//			if(accountInfo.getAccountBalance() <= 0 ){
+//				throw new NoticeException(Constant.WITHDRAWAL_ACCOUNT_BALANCE_IS_ZERO);
+//			}
+//			
+//			accountService.withdrawal(vo);
 			return ResponseVo.success();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -162,6 +163,8 @@ public class AccountController extends BaseController {
 		PageVO<EleAccountBillVO> pageVo = accountService.queryEleAccBillDetail(query, userId);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("query", query);
+		model.addAttribute("WITHDRAW", TransType.WITHDRAW.getType());
+		model.addAttribute("SETTLEMENT", TransType.SETTLEMENT.getType());
 		return new ModelAndView("/system/account/billDetail");
 	}
 }

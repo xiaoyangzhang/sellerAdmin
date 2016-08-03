@@ -17,6 +17,9 @@
         <h3 class="search-date">$!query.reqDateWithOutYear已结算详情－$!query.settlementId</h3>
         
         <form id="queryForm" action="$!utilWebconfig.getActionDefaultFontPath()/settlement/detail?reqDate=$!query.reqDate&settlementId=$!query.settlementId" method="GET" role="form">
+        <input type="hidden" name="reqDate" value="$!query.reqDate" />
+        <input type="hidden" name="settlementId" value="$!query.settlementId" />
+        
         <div class="table-box">
             <table class="search-table">
                 <thead>

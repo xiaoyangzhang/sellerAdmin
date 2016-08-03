@@ -16,9 +16,20 @@
         <i class="icon-succPass"></i>
         <h3>提现申请成功！</h3>
         <p>提现申请成功，预计今日24时前到账。</p>
-        <p>3秒后返回到钱包首页！</p>
+        <p id="seconds">3秒后返回到钱包首页！</p>
     </div>
 </div>
     
 #parse("layout/layout-js.vm")
-<script>seajs.use("password");</script>	
+<script>seajs.use("password");</script>
+<script type="text/javascript">
+	var n=0, timer=null;
+	timer = setInterval(function(){
+		n++;
+		document.getElementById('seconds').innerHTML=(3-n)+'秒后返回到钱包首页！';
+		if(n==3){
+			clearInterval(timer);
+			window.location='$!utilWebconfig.getActionDefaultFontPath()/account/toMyWallet';
+		}
+	},1000);
+</script>		
