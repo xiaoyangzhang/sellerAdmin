@@ -40,13 +40,18 @@
 	    <div class="baseinfo ticketbaseinfo">
 	         <table>
 	                <tr class="notNull">
-	                    <td class="coltxt" ><span class="bred">*</span>门票类型：</td>
+	                    <td class="coltxt" ><span class="bred">*</span>票务种类：</td>
 	                    <td class="ticketType">
                             #foreach($multi in $multiList)
                             <label class="radio"><input type="radio" name="ticketId" tTitle="$!{multi.title}" value="$!{multi.id}" #if($multi.choiceNo) checked #end>$!{multi.title}</label>
                             #end
 	                     </td>
 	                </tr>
+
+                     <tr class="notNull">
+                         <td class="coltxt"><span class="bred">*</span>商品代码：</td>
+                         <td><input type="text" class="inputxt" maxlength="20" name="title" value="$!{scenicManageVO.code}"><span class="mark"><label class="cv">1</label><label>/20字</label></span></td>
+                     </tr>
 	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>商品标题：</td>
 	                    <td><input type="text" class="inputxt" maxlength="38" name="title" value="$!{scenicManageVO.title}"><span class="mark"><label class="cv">1</label><label>/38字</label></span></td>
