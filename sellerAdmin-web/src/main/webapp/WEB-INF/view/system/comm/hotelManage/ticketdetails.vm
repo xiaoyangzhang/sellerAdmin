@@ -34,8 +34,12 @@
         <div class="baseinfo ticketbaseinfo">
             <table>
                 <tr class="notNull">
-                    <td class="coltxt" >门票类型：</td>
+                    <td class="coltxt" >票务种类：</td>
                     <td class="ticketType">$!{scenicManageVO.ticketTitle}</td>
+                </tr>
+                <tr class="notNull">
+                    <td class="coltxt">商品代码：</td>
+                    <td>$!{scenicManageVO.code}</td>
                 </tr>
                 <tr class="notNull">
                     <td class="coltxt">商品标题：</td>
