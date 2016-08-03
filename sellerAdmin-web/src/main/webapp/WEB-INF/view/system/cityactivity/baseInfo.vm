@@ -61,7 +61,7 @@
             </tr>
 
             <tr>
-                <td><span class="red">*</span>详细地址：</td>
+                <td><span class="red">*</span>活动地址：</td>
                 <td><input type="text" class="form-control location-text" placeholder="" value="$!cityActivity.locationText"><span class="limit">38字</span></td>
             </tr>
             <tr>
