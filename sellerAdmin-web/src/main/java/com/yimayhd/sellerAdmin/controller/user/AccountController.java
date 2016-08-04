@@ -97,7 +97,7 @@ public class AccountController extends BaseController {
 	public ModelAndView toMyWallet(Model model) throws Exception {
 		
 		//FIXME
-		long userId = 15000 ;//sessionManager.getUserId();
+		long userId = 15000 ;//15000sessionManager.getUserId();
 		EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
 		model.addAttribute("accountInfo", accountInfo);
 		return new ModelAndView("/system/account/myWallet");
@@ -124,19 +124,19 @@ public class AccountController extends BaseController {
 		try {
 			
 			//FIXME
-			long userId = 15000 ;//sessionManager.getUserId();
+			long userId = 1300 ;//sessionManager.getUserId();
 			
-//			EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
-//			
-//			WithdrawalVO vo = new WithdrawalVO();
-//			vo.setUserId(userId);
-//			vo.setWithdrawalAmount(accountInfo.getAccountBalance());
-//			vo.setEleAccountType(EleAccountType.UNION_ELE_ACCOUNT.getType());
-//			if(accountInfo.getAccountBalance() <= 0 ){
-//				throw new NoticeException(Constant.WITHDRAWAL_ACCOUNT_BALANCE_IS_ZERO);
-//			}
-//			
-//			accountService.withdrawal(vo);
+			EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
+			
+			WithdrawalVO vo = new WithdrawalVO();
+			vo.setUserId(userId);
+			vo.setWithdrawalAmount(accountInfo.getAccountBalance());
+			vo.setEleAccountType(EleAccountType.UNION_ELE_ACCOUNT.getType());
+			if(accountInfo.getAccountBalance() <= 0 ){
+				throw new NoticeException(Constant.WITHDRAWAL_ACCOUNT_BALANCE_IS_ZERO);
+			}
+			
+			accountService.withdrawal(vo);
 			return ResponseVo.success();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
