@@ -464,7 +464,7 @@ public class PublishItemBiz {
 			BaseResult<Boolean> addResult = comCenterServiceRef.addLineTagRelationInfo(tagRelationInfo);
 			return addResult;
 		} catch (Exception e) {
-			log.error("param:PublishServiceDO={},userId={},error:{}",JSON.toJSONString(publishServiceDO),sellerId,e);
+			log.error("param:PublishServiceDO={},error:{}",JSON.toJSONString(publishServiceDO),e);
 		}
 		return null;
 	}
@@ -497,9 +497,9 @@ public class PublishItemBiz {
 	private List<ServiceArea> getServiceAreas(ItemCategoryQuery query) {
 		List<ServiceArea> serviceAreas = new ArrayList<ServiceArea>();
 		BaseResult<List<ComTagDO>> tagInfoResult = comCenterServiceRef.getTagInfoByOutIdAndType(query.getItemId(),TagType.DESTPLACE.name());
-		log.info("comCenterServiceRef.getTagInfoByOutIdAndType ,param:{},result:{}",query.getSellerId(),String.valueOf(TagType.DESTPLACE.getType()),JSON.toJSONString(tagInfoResult));
+		log.info("comCenterServiceRef.getTagInfoByOutIdAndType ,param:{},result:{}",query.getItemId(),String.valueOf(TagType.DESTPLACE.getType()),JSON.toJSONString(tagInfoResult));
 		if (tagInfoResult == null || CollectionUtils.isEmpty(tagInfoResult.getValue())) {
-			log.error("comCenterServiceRef.getTagInfoByOutIdAndType,param:userId={},outType:{},result:{}",query.getSellerId(),TagType.DESTPLACE.name(),JSON.toJSONString(tagInfoResult));
+			log.error("comCenterServiceRef.getTagInfoByOutIdAndType,param:itemId={},outType:{},result:{}",query.getItemId(),TagType.DESTPLACE.name(),JSON.toJSONString(tagInfoResult));
 			return null;
 		}
 		List<Integer> codeList = new ArrayList<Integer>();
