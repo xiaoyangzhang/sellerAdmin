@@ -71,9 +71,9 @@
                 #if(!${isReadonly})
                     <div class="btn-group">
                         <button type="btn" class="btn btn-primary save">全部保存</button>
-                        ## #if(${isDraft})
-                        ##   <button class="btn btn-primary savedraft">保存草稿</button>
-                        ## #end
+                         #if(${isDraft})
+                           <button class="btn btn-primary savedraft">保存草稿</button>
+                         #end
                     </div>
                 #end
             </div>
@@ -270,6 +270,13 @@
             minView: 1,
             format: "yyyy-mm-dd hh:00"
         });
+
+
+    $(document).on('click','.layui-layer-btn a:eq(0)',function(){
+        if($('.layui-layer-input').val().length==0)
+            alert('草稿名称不能为空！');
+    });
+
     $(".savedraft").click(function(){
 	 if($("#draftId").val()>0) {
 	 	var itemVO = getItemInfo();
@@ -298,22 +305,26 @@
 			id:$("#draftId").val()
 		};
 	    var url = "$!{utilWebconfig.getActionDefaultFontPath()}/draft/savecityactivity";
-	    $.post(url,params,function(data){
-			if(data.success) {
-				var index = layer.alert("保存草稿成功");
-                setTimeout(function(){
-                    layer.close(index);
-                }, 2000);
-			} else {
-				layer.alert("保存失败", {
-					icon : 2
-				});
-			}
-	    },"json");
+         $.post(url,params,function(data){
+             if(data.success) {
+                 var index = layer.alert("保存草稿成功");
+                 setTimeout(function(){
+                     layer.close(index);
+                 }, 2000);
+             } else {
+                 layer.alert("保存失败", {
+                     icon : 2
+                 });
+             }
+         },"json");
 	 } else {
-
          function inputDraftName() {
-             layer.prompt({title: '请输入草稿名称', formType: 0, maxlength:38}, function(text){
+             layer.prompt({title: '请输入草稿名称', formType: 0}, function(text){
+                 text=text.replace(/(^\s*)|(\s*$)/g, "");
+                 if(text.length<=0||text.length>38){
+                     alert('草稿名称长度1~38个字符(不包括前后空格)！');
+                     return;
+                 }
                  var itemVO = getItemInfo();
                  itemVO.itemSkuVOStr = JSON.stringify(skuPropertyAll);
                  var category = {

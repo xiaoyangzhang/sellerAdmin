@@ -111,7 +111,8 @@ public class PublishItemBiz {
 			long option = userDO.getOptions();
 			boolean isTalentA = UserOptions.CERTIFICATED.has(option);
 			boolean isTalentB = UserOptions.USER_TALENT.has(option);
-			if (!isTalentB && !isTalentA ) {
+			com.yimayhd.user.client.result.BaseResult<TalentDTO> queryTalentInfoResult = talentServiceRef.queryTalentInfo(sellerId);
+			if ((!isTalentB && !isTalentA) || queryTalentInfoResult == null || queryTalentInfoResult.getValue() == null ) {
 				UserTalentDO talentDO = new UserTalentDO();
 				talentDO.setUserId(sellerId);
 				com.yimayhd.user.client.result.BaseResult<Boolean> insertTalent = talentServiceRef.insertTalent(talentDO);
@@ -124,10 +125,6 @@ public class PublishItemBiz {
 			
 			ConsultPublishAddDTO dto = PublishItemConverter.converterLocal2AddPublishConsult(publishServiceDO, sellerId);
 			ItemPubResult addItemResult = publishItemRepo.addItem(dto);
-			//保存图文详情
-			boolean savePicTextResult = savePicText(publishServiceDO, sellerId);
-			//保存服务区域
-			BaseResult<Boolean> saveServiceAreaResult = saveServiceArea(publishServiceDO, sellerId);
 			if (addItemResult == null) {
 				log.error("result:ItemPubResult={}",addItemResult);
 				result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
@@ -135,6 +132,11 @@ public class PublishItemBiz {
 			}else if (!addItemResult.isSuccess() || addItemResult.getItemId() <= 0) {
 				log.error("result:ItemPubResult={}",JSON.toJSONString(addItemResult));
 			}
+			publishServiceDO.id = addItemResult.itemId;
+			//保存图文详情
+			boolean savePicTextResult = savePicText(publishServiceDO, sellerId);
+			//保存服务区域
+			BaseResult<Boolean> saveServiceAreaResult = saveServiceArea(publishServiceDO, sellerId);
 			result.setValue(Boolean.TRUE);
 			log.info("result:ItemPubResult={}",JSON.toJSONString(addItemResult));
 		} catch (Exception e) {
@@ -215,7 +217,7 @@ public class PublishItemBiz {
 				publishService.avater = item.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);
 				publishService.title = item.getTitle();
 				publishService.discountPrice = item.getPrice();
-				publishService.discountTime = item.getItemFeature().getConsultTime();
+				publishService.discountTime = (item.getItemFeature().getConsultTime())/60;
 				publishService.serviceAreas = serviceAreas;
 				publishService.id = item.getId();
 				publishService.categoryType = Constant.CONSULT_SERVICE;
@@ -334,7 +336,7 @@ public class PublishItemBiz {
 			publishService.avater = itemDO.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);
 			publishService.title = itemDO.getTitle();
 			publishService.discountPrice = itemDO.getPrice();
-			publishService.discountTime = itemDO.getItemFeature().getConsultTime();
+			publishService.discountTime = (itemDO.getItemFeature().getConsultTime())/60;
 			publishService.serviceAreas = serviceAreas;
 			publishService.id = itemDO.getId();
 			publishService.categoryType = Constant.CONSULT_SERVICE;
@@ -398,12 +400,12 @@ public class PublishItemBiz {
 			publishService.avater = itemDO.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);
 			publishService.title = itemDO.getTitle();
 			publishService.discountPrice = itemDO.getPrice();
-			publishService.discountTime = itemDO.getItemFeature().getConsultTime();
+			publishService.discountTime = ( itemDO.getItemFeature().getConsultTime())/60;
 			publishService.serviceAreas = serviceAreas;
 			publishService.id = itemDO.getId();
 			publishService.categoryType = Constant.CONSULT_SERVICE;
 			publishService.oldPrice = itemDO.getOriginalPrice();
-			publishService.oldTime = itemDO.getItemFeature().getConsultTime();
+			publishService.oldTime = (itemDO.getItemFeature().getConsultTime())/60;
 			List<ItemSkuPVPair> itemPropertyList = itemDO.getItemPropertyList();
 			for (ItemSkuPVPair itemSkuPVPair : itemPropertyList) {
 				if (itemSkuPVPair.getPId() == Constant.FEE_DESC) {
@@ -414,7 +416,7 @@ public class PublishItemBiz {
 					publishService.refundRule = itemSkuPVPair.getVTxt();
 				}
 			}
-			PicTextResult pictureTextResult = pictureTextRepo.getPictureText(query.getSellerId(), PictureText.EXPERTPUBLISH);
+			PicTextResult pictureTextResult = pictureTextRepo.getPictureText(query.getItemId(), PictureText.EXPERTPUBLISH);
 			if (pictureTextResult != null && !CollectionUtils.isEmpty(pictureTextResult.getList())) {
 				List<PictureTextItem> pictureTextItems = new ArrayList<PictureTextItem>();
 				for (PicTextDO picText : pictureTextResult.getList()) {
@@ -456,13 +458,13 @@ public class PublishItemBiz {
 			}
 			tagRelationInfo.setDomain(Constant.DOMAIN_JIUXIU);
 			tagRelationInfo.setList(codeList);
-			tagRelationInfo.setOutId(sellerId);
+			tagRelationInfo.setOutId(publishServiceDO.id);
 			tagRelationInfo.setOutType(TagType.DESTPLACE.getType());
 			tagRelationInfo.setOrderTime(new Date());
 			BaseResult<Boolean> addResult = comCenterServiceRef.addLineTagRelationInfo(tagRelationInfo);
 			return addResult;
 		} catch (Exception e) {
-			log.error("param:PublishServiceDO={},userId={},error:{}",JSON.toJSONString(publishServiceDO),sellerId,e);
+			log.error("param:PublishServiceDO={},error:{}",JSON.toJSONString(publishServiceDO),e);
 		}
 		return null;
 	}
@@ -472,10 +474,10 @@ public class PublishItemBiz {
 			List<PictureTextItemVo> pictureTextItemVos = new ArrayList<PictureTextItemVo>();
 			for (PictureTextItem pictureTextItem : publishServiceDO.pictureTextItems) {
 				PictureTextItemVo vo = new PictureTextItemVo();
-				if (FeatureType.COMENT.name() == pictureTextItem.type) {
+				if (FeatureType.COMENT.name() .equalsIgnoreCase(pictureTextItem.type)) {
 					
 					vo.setType(PictureTextItemType.TEXT.name());
-				}else if (FeatureType.IMAGE.name() == pictureTextItem.type) {
+				}else if (FeatureType.IMAGE.name() .equalsIgnoreCase(pictureTextItem.type)) {
 					vo.setType(PictureTextItemType.IMG.name());
 					
 				}
@@ -483,7 +485,7 @@ public class PublishItemBiz {
 				pictureTextItemVos.add(vo);
 			}
 			pictureTextVO.setPictureTextItems(pictureTextItemVos);
-			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(sellerId, PictureText.EXPERTPUBLISH, pictureTextVO);
+			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(publishServiceDO.id, PictureText.EXPERTPUBLISH, pictureTextVO);
 			
 			pictureTextRepo.editPictureText(comentEditDTO);
 			return true;
@@ -494,10 +496,10 @@ public class PublishItemBiz {
 	}
 	private List<ServiceArea> getServiceAreas(ItemCategoryQuery query) {
 		List<ServiceArea> serviceAreas = new ArrayList<ServiceArea>();
-		BaseResult<List<ComTagDO>> tagInfoResult = comCenterServiceRef.getTagInfoByOutIdAndType(query.getSellerId(),TagType.DESTPLACE.name());
-		log.info("comCenterServiceRef.getTagInfoByOutIdAndType ,param:{},result:{}",query.getSellerId(),String.valueOf(TagType.DESTPLACE.getType()),JSON.toJSONString(tagInfoResult));
+		BaseResult<List<ComTagDO>> tagInfoResult = comCenterServiceRef.getTagInfoByOutIdAndType(query.getItemId(),TagType.DESTPLACE.name());
+		log.info("comCenterServiceRef.getTagInfoByOutIdAndType ,param:{},result:{}",query.getItemId(),String.valueOf(TagType.DESTPLACE.getType()),JSON.toJSONString(tagInfoResult));
 		if (tagInfoResult == null || CollectionUtils.isEmpty(tagInfoResult.getValue())) {
-			log.error("comCenterServiceRef.getTagInfoByOutIdAndType,param:userId={},outType:{},result:{}",query.getSellerId(),TagType.DESTPLACE.name(),JSON.toJSONString(tagInfoResult));
+			log.error("comCenterServiceRef.getTagInfoByOutIdAndType,param:itemId={},outType:{},result:{}",query.getItemId(),TagType.DESTPLACE.name(),JSON.toJSONString(tagInfoResult));
 			return null;
 		}
 		List<Integer> codeList = new ArrayList<Integer>();

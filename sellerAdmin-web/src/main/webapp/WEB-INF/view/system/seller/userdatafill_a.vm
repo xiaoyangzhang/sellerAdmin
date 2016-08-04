@@ -280,11 +280,15 @@
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">开户人身份证：</label></td>
-								<td class="rigcontent"><input type="text" datatype="*" maxlength="60"  value="$!examineInfo.openerCard" id="openerCard_" name="openerCard" maxlength="60" class="txt01"  placeholder=""></td>
+								<td class="rigcontent"><input type="text" datatype="card" maxlength="18"  value="$!examineInfo.openerCard" id="openerCard_" name="openerCard" maxlength="60" class="txt01"  placeholder=""></td>
+							</tr>
+							<tr>
+								<td class="rigtxt"><span>*</span><label class="">开户人手机号：</label></td>
+								<td class="rigcontent"><input type="text" datatype="m" maxlength="11"  value="$!examineInfo.openerTel" id="openerTel_" name="openerTel" maxlength="60" class="txt01"  placeholder="银行预留手机号"></td>
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">结算联行号：</label></td>
-								<td class="rigcontent"><input type="text" datatype="*" maxlength="60"  value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" maxlength="60" class="txt01"  placeholder=""></td>
+								<td class="rigcontent"><input type="text" datatype="m" maxlength="12"  value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" maxlength="60" class="txt01"  placeholder=""></td>
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">结算账号：</label></td>

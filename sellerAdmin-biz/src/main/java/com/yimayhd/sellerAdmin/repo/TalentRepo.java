@@ -152,26 +152,6 @@ public class TalentRepo {
 
 		WebResult<Boolean> result = new WebResult<Boolean>();
 		try {
-			
-			
-//			MerchantQuery merchantQuery = new MerchantQuery();
-//			merchantQuery.setDomainId(Constant.DOMAIN_JIUXIU);
-//			merchantQuery.setName(vo.getMerchantName());
-//			WebResult<List<MerchantDO>> queryMerchantResult = merchantApplyRepo.queryMerchant(merchantQuery);
-//			if (queryMerchantResult == null || !queryMerchantResult.isSuccess()  ) {
-//				result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
-//				return result;
-//			}
-//			List<MerchantDO> merchantDOs = queryMerchantResult.getValue()	;
-//			
-//			if (null != merchantDOs && merchantDOs.size() > 0) {
-//				for (MerchantDO merchantDO : merchantDOs) {
-//					if (merchantDO.getSellerId() != userId) {
-//					result.setWebReturnCode(WebReturnCode.MERCHANT_NAME_EXIST);
-//						return result;
-//					}
-//				}
-//			}
 			ExamineInfoDTO dto = MerchantConverter.convertVO2DTO(vo, userId);
 			
 			dto.setType(ExamineType.TALENT.getType());
@@ -187,21 +167,7 @@ public class TalentRepo {
 				}else {
 					result.setWebReturnCode(WebReturnCode.TALENT_INFO_SAVE_FAILURE);
 				}
-				//return WebResult.failure(WebReturnCode.TALENT_INFO_SAVE_FAILURE, ExamineInfoResult.getErrorMsg());
 			}
-//			if(ExamineInfoResult == null || !ExamineInfoResult.isSuccess()) {
-//				result2.setErrorCode(errorCode);
-//				int code = ExamineInfoResult.getErrorCode() ;
-//				if(MemberReturnCode.DB_MERCHANTNAME_FAILED.getCode() == code ) {
-//					result.setWebReturnCode( WebReturnCode.TALENT_MERCHANT_NAME_EXIST );
-//				}else if( MemberReturnCode.DB_EXAMINE_FAILED.getCode() == code ){
-//					result.setWebReturnCode(WebReturnCode.APPROVE_PASSED_DISABLE_MODIFY);
-//				}else{
-//					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
-//				}
-//			}
-			//return result;
-			
 		} catch (Exception e) {
 			log.error("param :ExamineInfoVO={} error:{}",vo,e);
 			result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
