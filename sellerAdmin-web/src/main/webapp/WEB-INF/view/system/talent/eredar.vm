@@ -79,8 +79,9 @@
 							
 							
 						</span>
-						</label><!--
-						<label class="inblock">
+						</label>
+
+					#*	<label class="inblock">
 						<span class="imgbox mr5 cnat">
 							<div class="canclick">
 							
@@ -136,7 +137,9 @@
 							<input type="hidden" name="imgpath" value="$!talentInfo.talentInfoDO.pictures[4]">
 							
 						</span>
-						</label> --></div>
+						</label>*#
+
+					</div>
 						<p class = "lab spelab">图片大小不超过500K，建议图片尺寸为：800*450</p>
 					</td>
 				</tr>
