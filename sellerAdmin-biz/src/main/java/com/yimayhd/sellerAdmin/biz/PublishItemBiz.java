@@ -217,7 +217,7 @@ public class PublishItemBiz {
 				publishService.avater = item.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);
 				publishService.title = item.getTitle();
 				publishService.discountPrice = item.getPrice();
-				publishService.discountTime = item.getItemFeature().getConsultTime();
+				publishService.discountTime = (item.getItemFeature().getConsultTime())/60;
 				publishService.serviceAreas = serviceAreas;
 				publishService.id = item.getId();
 				publishService.categoryType = Constant.CONSULT_SERVICE;
@@ -336,7 +336,7 @@ public class PublishItemBiz {
 			publishService.avater = itemDO.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);
 			publishService.title = itemDO.getTitle();
 			publishService.discountPrice = itemDO.getPrice();
-			publishService.discountTime = itemDO.getItemFeature().getConsultTime();
+			publishService.discountTime = (itemDO.getItemFeature().getConsultTime())/60;
 			publishService.serviceAreas = serviceAreas;
 			publishService.id = itemDO.getId();
 			publishService.categoryType = Constant.CONSULT_SERVICE;
@@ -400,12 +400,12 @@ public class PublishItemBiz {
 			publishService.avater = itemDO.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);
 			publishService.title = itemDO.getTitle();
 			publishService.discountPrice = itemDO.getPrice();
-			publishService.discountTime = itemDO.getItemFeature().getConsultTime();
+			publishService.discountTime = ( itemDO.getItemFeature().getConsultTime())/60;
 			publishService.serviceAreas = serviceAreas;
 			publishService.id = itemDO.getId();
 			publishService.categoryType = Constant.CONSULT_SERVICE;
 			publishService.oldPrice = itemDO.getOriginalPrice();
-			publishService.oldTime = itemDO.getItemFeature().getConsultTime();
+			publishService.oldTime = (itemDO.getItemFeature().getConsultTime())/60;
 			List<ItemSkuPVPair> itemPropertyList = itemDO.getItemPropertyList();
 			for (ItemSkuPVPair itemSkuPVPair : itemPropertyList) {
 				if (itemSkuPVPair.getPId() == Constant.FEE_DESC) {
