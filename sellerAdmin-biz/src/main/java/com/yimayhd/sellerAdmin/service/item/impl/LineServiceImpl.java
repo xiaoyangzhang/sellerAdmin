@@ -189,6 +189,7 @@ public class LineServiceImpl implements LineService {
 
 
 	@Override
+	//// FIXME: 2016/8/4 代码重复 TagServiceImpl
 	public WebResult<List<CityVO>> getAllLineDests() {
 		try {
 			List<ComTagDO> comTagDOs = commentRepo.getTagsByTagType(TagType.DESTPLACE);
@@ -398,6 +399,7 @@ public class LineServiceImpl implements LineService {
 		}
 	}
 
+	//// FIXME: 2016/8/4 方法没有调用了
 	private void convertToIcSubjcet(LineVO line) {
 		BaseInfoVO baseInfo = line.getBaseInfo();
 		List<CityVO> departs = baseInfo.getDeparts();
@@ -416,6 +418,7 @@ public class LineServiceImpl implements LineService {
 				departsIcs.add(icDestination);
 			}
 		}else {
+		    //// FIXME: 2016/8/4 代码重复
 			for (CityVO cityVO : departs) {
 				IcDestination icDestination = new IcDestination();
 				icDestination.setCode(cityVO.getCode());
