@@ -86,6 +86,7 @@ public class MerchantConverter {
 		dto.setAccountType(String.valueOf(vo.getAccountType()));
 		dto.setOpenerCard(vo.getOpenerCard());
 		dto.setSettlementCard(vo.getSettlementCard());
+		dto.setOpenerTel(vo.getOpenerTel());
 //		dto.setAmusementParkReport(vo.getAmusementParkReport());
 //		dto.setWildlifeSale(vo.getWildlifeSale());
 //		dto.setWaterWildlifeSale(vo.getWaterWildlifeSale());
@@ -190,6 +191,7 @@ public class MerchantConverter {
 		vo.setAccountType(Integer.parseInt(examineInfoDTO.getAccountType()));
 		vo.setOpenerCard(examineInfoDTO.getOpenerCard());
 		vo.setSettlementCard(examineInfoDTO.getSettlementCard());
+		vo.setOpenerTel(examineInfoDTO.getOpenerTel());
 		return vo;
 	}
 	
