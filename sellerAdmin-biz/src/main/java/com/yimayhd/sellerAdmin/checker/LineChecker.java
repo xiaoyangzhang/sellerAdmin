@@ -188,13 +188,13 @@ public class LineChecker {
 		}
 		if (!baseInfo.isAllDeparts() && CollectionUtils.isEmpty(baseInfo.getDeparts())) {
 			return WebCheckResult.error("出发地不能为空");
-		} else if (!baseInfo.isAllDeparts() && baseInfo.getDeparts().size() > 15) {
-			return WebCheckResult.error("出发地不能超过15个");
+		} else if (!baseInfo.isAllDeparts() && baseInfo.getDeparts().size() > 100) {
+			return WebCheckResult.error("出发地不能超过100个");
 		}
 		if (CollectionUtils.isEmpty(baseInfo.getDests())) {
 			return WebCheckResult.error("目的地不能为空");
 		} else if (baseInfo.getDests().size() > 15) {
-			return WebCheckResult.error("出发地不能超过15个");
+			return WebCheckResult.error("目的地不能超过15个");
 		}
 		if (baseInfo.getDays() <= 0) {
 			return WebCheckResult.error("请输入正确的行程天数[1-100]");
