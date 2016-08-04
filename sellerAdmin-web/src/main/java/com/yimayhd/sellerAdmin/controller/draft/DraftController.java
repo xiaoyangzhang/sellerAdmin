@@ -356,7 +356,7 @@ public class DraftController extends BaseDraftController {
                     categoryValueVO.setId(itemSkuPVPair.getVId());
                     categoryValueVO.setText(itemSkuPVPair.getVTxt());
                     categoryValueVO.setType(itemSkuPVPair.getPType());
-                    categoryValueVO.setChecked(true);
+                    categoryValueVO.setChecked(itemSkuVo.isChecked());
                     if(salesPropertyVOMap.containsKey(itemSkuPVPair.getPId())) {
                         CategoryPropertyVO propertyVO = salesPropertyVOMap.get(itemSkuPVPair.getPId()).getCategoryPropertyVO();
                         List<CategoryValueVO> categoryValueVOList = propertyVO.getCategoryValueVOs();
