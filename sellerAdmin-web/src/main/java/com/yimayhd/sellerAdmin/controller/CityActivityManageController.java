@@ -139,7 +139,6 @@ public class CityActivityManageController extends BaseController {
         	List<CityVO> allDests=destinationBiz.toCityVOWithDestinationNodeVOs(cityVos,result.getValue());
         	put("dests", allDests);
 		}
-        String temp = itemVO.getCategoryVO().getItemSkuVOListAllStr();
 
         model.addAttribute("category", itemVO.getCategoryVO());
     	model.addAttribute("item", itemVO.getItemVO());

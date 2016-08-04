@@ -9,6 +9,8 @@ import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemOptions;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.sellerAdmin.model.*;
+import com.yimayhd.sellerAdmin.model.line.*;
+import com.yimayhd.sellerAdmin.service.item.LineService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +39,6 @@ import com.yimayhd.sellerAdmin.converter.DraftConverter;
 import com.yimayhd.sellerAdmin.enums.BizDraftSubType;
 import com.yimayhd.sellerAdmin.model.draft.DraftDetailVO;
 import com.yimayhd.sellerAdmin.model.draft.DraftVO;
-import com.yimayhd.sellerAdmin.model.line.CityVO;
-import com.yimayhd.sellerAdmin.model.line.LineVO;
-import com.yimayhd.sellerAdmin.model.line.TagDTO;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
 import com.yimayhd.sellerAdmin.service.TagService;
 import com.yimayhd.sellerAdmin.service.draft.DraftService;
@@ -59,6 +58,8 @@ public class DraftController extends BaseDraftController {
     private TagService tagService;
     @Autowired
     private DestinationBiz destinationBiz;
+    @Autowired
+    private LineService lineService;
 
     /**
      * 草稿箱列表获取接口
@@ -273,10 +274,14 @@ public class DraftController extends BaseDraftController {
                 if (allThemes.isSuccess()) {
                     put("themes", allThemes.getValue());
                 }
-                WebResult<List<CityVO>> allDests = tagService.getAllDests();
-                if (allDests.isSuccess()) {
-                    put("dests", allDests.getValue());
+                WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree();
+                if (result.isSuccess()) {
+                    List<CityVO> cityVos = new ArrayList<CityVO>();
+                    List<CityVO> allDests=destinationBiz.toCityVOWithDestinationNodeVOs(cityVos,result.getValue());
+                    put("dests", allDests);
                 }
+                City city = new City(itemVO.getDest().getId()+"", "", "");
+                itemVO.getDest().setCity(city);
                 itemVO.getCategoryVO().setName(ItemType.CITY_ACTIVITY.getText());
                 put("category", itemVO.getCategoryVO());
                 put("item", itemVO.getItemVO());
