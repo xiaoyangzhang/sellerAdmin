@@ -24,7 +24,7 @@
 4、导服：当地中文导游服务、持全国导游资格证上岗；
 5、门票：景点首道大门票；
 6、保险：已含旅行社责任险，不含旅游人身意外保险（建议您积极购买旅游意外保险/航空保险、如出现意外将多一份保障）；
-7、儿童： 2-12周岁的儿童只含往返机票、车位、餐位，不含门票以及酒店住宿。</textarea>
+7、儿童：2-12周岁的儿童只含车位费、半价正餐；不占床，不含早，不含门票，在当地产生一切费用敬请自理。</textarea>
 				#elseif(!$product&&$utilItem.isAboardLine($itemType))
 					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">
 1、大交通：  __________—__________  往返经济舱机票（含税）；行程中往返旅游巴士；
@@ -33,7 +33,7 @@
 4、导服：当地中文/英文导游服务；
 5、门票：景点首道大门票；
 6、保险：已含旅行社责任险，不含旅游人身意外保险（建议您积极购买旅游意外保险/航空保险、如出现意外将多一份保障）；
-7、儿童： 2-12周岁的儿童只含往返机票、车位、餐位，不含门票以及酒店住宿。</textarea>
+7、儿童：2-12周岁的儿童只含车位费、半价正餐；不占床，不含早，不含门票，在当地产生一切费用敬请自理。</textarea>
 				#else
 					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">$!content</textarea>
 				#end
