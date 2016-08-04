@@ -280,10 +280,20 @@ public class DraftController extends BaseDraftController {
                     List<CityVO> allDests=destinationBiz.toCityVOWithDestinationNodeVOs(cityVos,result.getValue());
                     put("dests", allDests);
                 }
+                if(null==itemVO.getCategoryVO().getSellCategoryPropertyVOs()) {
+                    CategoryVO categoryVO = categoryService.getCategoryVOById(itemVO.getCategoryVO().getId());
+                    if(categoryVO == null) {
+                        log.warn("错误的类目");
+                        throw new BaseException("商品类目错误");
+                    }
+                    itemVO.getItemVO().setItemSkuVOListAll(new ArrayList<ItemSkuVO>());
+                    model.addAttribute("category", categoryVO);
+                } else {
+                    put("category", itemVO.getCategoryVO());
+                }
                 City city = new City(itemVO.getDest().getId()+"", "", "");
                 itemVO.getDest().setCity(city);
                 itemVO.getCategoryVO().setName(ItemType.CITY_ACTIVITY.getText());
-                put("category", itemVO.getCategoryVO());
                 put("item", itemVO.getItemVO());
                 put("cityActivity", itemVO.getCityActivityVO());
                 put("itemThemes", itemVO.getThemes());
@@ -334,51 +344,54 @@ public class DraftController extends BaseDraftController {
         ItemVO itemVO = cityActivityItemVO.getItemVO();
         ItemDO itemDO = ItemVO.getItemDO(itemVO);
         List<ItemSkuVO> itemSkuVOList = itemVO.getItemSkuVOListByStr();
-        itemVO.setItemSkuVOListAll(itemSkuVOList);
-        CategoryVO categoryVO = cityActivityItemVO.getCategoryVO();
-        fillItemDO(itemDO, categoryVO);
-        Map<Long, CategoryPropertyValueVO> salesPropertyVOMap = new HashMap<>();
-        for(ItemSkuVO itemSkuVo : itemSkuVOList) {
-            for (ItemSkuPVPair itemSkuPVPair : itemSkuVo.getItemSkuPVPairList()) {
-                CategoryValueVO categoryValueVO = new CategoryValueVO();
-                categoryValueVO.setId(itemSkuPVPair.getVId());
-                categoryValueVO.setText(itemSkuPVPair.getVTxt());
-                categoryValueVO.setType(itemSkuPVPair.getPType());
-                categoryValueVO.setChecked(true);
-                if(salesPropertyVOMap.containsKey(itemSkuPVPair.getPId())) {
-                    CategoryPropertyVO propertyVO = salesPropertyVOMap.get(itemSkuPVPair.getPId()).getCategoryPropertyVO();
-                    List<CategoryValueVO> categoryValueVOList = propertyVO.getCategoryValueVOs();
-                    if(!CollectionUtils.isEmpty(categoryValueVOList)) {
-                        boolean hasValue = false;
-                        for(CategoryValueVO categoryValue : categoryValueVOList) {
-                            if(categoryValue.getId()==itemSkuPVPair.getVId()) {
-                                hasValue = true;
-                                break;
+
+        if(!itemSkuVOList.isEmpty()) {
+            itemVO.setItemSkuVOListAll(itemSkuVOList);
+            CategoryVO categoryVO = cityActivityItemVO.getCategoryVO();
+            fillItemDO(itemDO, categoryVO);
+            Map<Long, CategoryPropertyValueVO> salesPropertyVOMap = new HashMap<>();
+            for(ItemSkuVO itemSkuVo : itemSkuVOList) {
+                for (ItemSkuPVPair itemSkuPVPair : itemSkuVo.getItemSkuPVPairList()) {
+                    CategoryValueVO categoryValueVO = new CategoryValueVO();
+                    categoryValueVO.setId(itemSkuPVPair.getVId());
+                    categoryValueVO.setText(itemSkuPVPair.getVTxt());
+                    categoryValueVO.setType(itemSkuPVPair.getPType());
+                    categoryValueVO.setChecked(true);
+                    if(salesPropertyVOMap.containsKey(itemSkuPVPair.getPId())) {
+                        CategoryPropertyVO propertyVO = salesPropertyVOMap.get(itemSkuPVPair.getPId()).getCategoryPropertyVO();
+                        List<CategoryValueVO> categoryValueVOList = propertyVO.getCategoryValueVOs();
+                        if(!CollectionUtils.isEmpty(categoryValueVOList)) {
+                            boolean hasValue = false;
+                            for(CategoryValueVO categoryValue : categoryValueVOList) {
+                                if(categoryValue.getId()==itemSkuPVPair.getVId()) {
+                                    hasValue = true;
+                                    break;
+                                }
+                            }
+                            if(!hasValue) {
+                                categoryValueVOList.add(categoryValueVO);
                             }
                         }
-                        if(!hasValue) {
-                            categoryValueVOList.add(categoryValueVO);
-                        }
+                    } else {
+                        CategoryPropertyValueVO categoryPropertyValueVO = new CategoryPropertyValueVO();
+                        CategoryPropertyVO propertyVO = new CategoryPropertyVO();
+                        propertyVO.setId(itemSkuPVPair.getPId());
+                        propertyVO.setText(itemSkuPVPair.getPTxt());
+                        propertyVO.setType(itemSkuPVPair.getPType());
+                        List<CategoryValueVO> categoryValueVOList = new ArrayList<>();
+                        categoryValueVOList.add(categoryValueVO);
+                        propertyVO.setCategoryValueVOs(categoryValueVOList);
+                        categoryPropertyValueVO.setCategoryPropertyVO(propertyVO);
+                        salesPropertyVOMap.put(itemSkuPVPair.getPId(), categoryPropertyValueVO);
                     }
-                } else {
-                    CategoryPropertyValueVO categoryPropertyValueVO = new CategoryPropertyValueVO();
-                    CategoryPropertyVO propertyVO = new CategoryPropertyVO();
-                    propertyVO.setId(itemSkuPVPair.getPId());
-                    propertyVO.setText(itemSkuPVPair.getPTxt());
-                    propertyVO.setType(itemSkuPVPair.getPType());
-                    List<CategoryValueVO> categoryValueVOList = new ArrayList<>();
-                    categoryValueVOList.add(categoryValueVO);
-                    propertyVO.setCategoryValueVOs(categoryValueVOList);
-                    categoryPropertyValueVO.setCategoryPropertyVO(propertyVO);
-                    salesPropertyVOMap.put(itemSkuPVPair.getPId(), categoryPropertyValueVO);
                 }
             }
+            if(!salesPropertyVOMap.isEmpty()) {
+                List<CategoryPropertyValueVO> categoryPropertyVOs = new ArrayList<>(salesPropertyVOMap.values());
+                categoryVO.setSellCategoryPropertyVOs(categoryPropertyVOs);
+            }
+            cityActivityItemVO.setCategoryVO(categoryVO);
         }
-        if(!salesPropertyVOMap.isEmpty()) {
-            List<CategoryPropertyValueVO> categoryPropertyVOs = new ArrayList<>(salesPropertyVOMap.values());
-            categoryVO.setSellCategoryPropertyVOs(categoryPropertyVOs);
-        }
-        cityActivityItemVO.setCategoryVO(categoryVO);
     }
 
     private void fillItemDO(ItemDO itemDO, CategoryVO categoryVO) {
