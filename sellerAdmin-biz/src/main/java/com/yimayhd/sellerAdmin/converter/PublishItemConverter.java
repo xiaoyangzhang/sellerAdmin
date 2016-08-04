@@ -54,6 +54,7 @@ public class PublishItemConverter {
 		itemDO.setItemFeature(itemFeature);
 		List<ItemSkuPVPair> itemSkuPVPairs = createItemSkuPVPair(publishServiceDO);
 		itemDO.setItemPropertyList(itemSkuPVPairs);
+		itemDO.setOrderNum(0);
 		dto.setItemDO(itemDO);
 		return dto;
 	}
@@ -73,6 +74,7 @@ public class PublishItemConverter {
 		List<ItemSkuPVPair> itemSkuPVPairs = createItemSkuPVPair(publishServiceDO);
 		itemDTO.setItemPropertyList(itemSkuPVPairs);
 		dto.setItemDTO(itemDTO);
+		
 		return dto;
 	}
 	private static List<ItemSkuPVPair> createItemSkuPVPair(

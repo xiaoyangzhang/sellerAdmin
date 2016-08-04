@@ -112,7 +112,7 @@ public class PublishItemBiz {
 			boolean isTalentA = UserOptions.CERTIFICATED.has(option);
 			boolean isTalentB = UserOptions.USER_TALENT.has(option);
 			com.yimayhd.user.client.result.BaseResult<TalentDTO> queryTalentInfoResult = talentServiceRef.queryTalentInfo(sellerId);
-			if (!isTalentB && !isTalentA || queryTalentInfoResult == null || queryTalentInfoResult.getValue() == null ) {
+			if ((!isTalentB && !isTalentA) || queryTalentInfoResult == null || queryTalentInfoResult.getValue() == null ) {
 				UserTalentDO talentDO = new UserTalentDO();
 				talentDO.setUserId(sellerId);
 				com.yimayhd.user.client.result.BaseResult<Boolean> insertTalent = talentServiceRef.insertTalent(talentDO);
