@@ -233,8 +233,8 @@
 			var dests = win.getSelected();
 			//console.log(JSON.stringify(dests));
 			if(dests.length == 0) return false;
-			if(dests.length > 100) {
-				layer.alert("目的地最多选择100个", {
+			if(dests.length > 15) {
+				layer.alert("目的地最多选择15个", {
     				icon : 2
     			});
 				return false;
