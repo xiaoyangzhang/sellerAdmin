@@ -83,6 +83,7 @@ public class BasicInfoController extends BaseController {
 				model.addAttribute("id", meResult.getValue().getId());
 				model.addAttribute("name",meResult.getValue().getName());
 				model.addAttribute("address",meResult.getValue().getAddress());
+				model.addAttribute("merchantName",meResult.getValue().getName());
 				if(null != meResult.getValue().getBackgroudImage()){
 					model.addAttribute("ttImage", meResult.getValue().getBackgroudImage());
 				}

@@ -149,7 +149,17 @@ public class ExamineInfoVO  implements Serializable  {
      * 结算联行号
      */
     private String settlementCard;
+    /**
+     * 开户人手机号
+     */
+    private String openerTel;
     
+	public String getOpenerTel() {
+		return openerTel;
+	}
+	public void setOpenerTel(String openerTel) {
+		this.openerTel = openerTel;
+	}
 	public int getAccountType() {
 		return accountType;
 	}
@@ -761,9 +771,10 @@ public class ExamineInfoVO  implements Serializable  {
 		dto.setAccountBankCityCode(vo.getCity());
 		//dto.setMerchantCategoryId(vo.getMerchantCategoryId());
 		//dto.setIsDirectSale(vo.getIsDirectSale());
-//		dto.setAccountType(String.valueOf(vo.getAccountType()));
-//		dto.setOpenerCard(vo.getOpenerCard());
-//		dto.setSettlementCard(vo.getSettlementCard());
+		dto.setAccountType(String.valueOf(vo.getAccountType()));
+		dto.setOpenerCard(vo.getOpenerCard());
+		dto.setSettlementCard(vo.getSettlementCard());
+		dto.setOpenerTel(vo.getOpenerTel());
 		return dto;
 		
 	}

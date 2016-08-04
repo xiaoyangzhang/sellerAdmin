@@ -2,8 +2,8 @@ package com.yimayhd.sellerAdmin.enums;
 
 public enum AccountType {
 
-	PUBLIC_ACCOUNT(1,"对公账户"),
-	PRIVATE_ACCOUNT(2,"对私账户");
+	PUBLIC_ACCOUNT(2,"对公账户"),
+	PRIVATE_ACCOUNT(1,"对私账户");
 	private int type;
 	private String name;
 	private AccountType(int type,String name) {
