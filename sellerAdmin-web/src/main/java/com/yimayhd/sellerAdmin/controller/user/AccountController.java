@@ -131,6 +131,8 @@ public class AccountController extends BaseController {
 			WithdrawalVO vo = new WithdrawalVO();
 			vo.setUserId(userId);
 			vo.setWithdrawalAmount(accountInfo.getAccountBalance());
+			//FIXME
+			accountInfo.setAccountBalance(0);;
 			vo.setEleAccountType(EleAccountType.UNION_ELE_ACCOUNT.getType());
 			if(accountInfo.getAccountBalance() <= 0 ){
 				throw new NoticeException(Constant.WITHDRAWAL_ACCOUNT_BALANCE_IS_ZERO);

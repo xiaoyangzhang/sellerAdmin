@@ -36,8 +36,7 @@ public class SettlementController extends BaseController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET) 
 	public String list(Model model, SettlementQuery query) throws Exception {
 		
-		//FIXME
-		long userId = 1300 ;//sessionManager.getUserId();
+		long userId = sessionManager.getUserId();
 		PageVO<SettlementVO> pageVo = settlementService.queryMerchantSettlements(query, userId);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("query", query);
@@ -50,8 +49,7 @@ public class SettlementController extends BaseController {
 	@RequestMapping(value = "/detail", method = RequestMethod.GET) 
 	public String details(Model model, SettlementQuery query) throws Exception {
 		
-		//FIXME
-		long userId = 1300 ;//sessionManager.getUserId();
+		long userId = sessionManager.getUserId();
 		PageVO<SettlementDetailVO> pageVo = settlementService.queryMerchantSettlementDetails(query, userId);
 		model.addAttribute("pageVo", pageVo);
 		
@@ -71,8 +69,7 @@ public class SettlementController extends BaseController {
 	 */
 	@RequestMapping(value = "/pendingList", method = RequestMethod.GET) 
 	public String unList(Model model, SettlementQuery query) throws Exception {
-		//FIXME
-		long userId = 1300 ;//sessionManager.getUserId();
+		long userId = sessionManager.getUserId();
 		PageVO<SettlementDetailVO> pageVo = settlementService.queryMerchantUnsettlements(query, userId);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("query", query);
