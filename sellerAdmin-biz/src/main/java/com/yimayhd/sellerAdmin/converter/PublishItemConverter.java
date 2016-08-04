@@ -50,7 +50,7 @@ public class PublishItemConverter {
 		itemDO.setPrice(publishServiceDO.discountPrice);
 		itemDO.setOriginalPrice(publishServiceDO.oldPrice);
 		ItemFeature itemFeature = new ItemFeature(null);
-		itemFeature.put(ItemFeatureKey.CONSULT_TIME, publishServiceDO.oldTime);
+		itemFeature.put(ItemFeatureKey.CONSULT_TIME, (publishServiceDO.oldTime)*60);
 		itemDO.setItemFeature(itemFeature);
 		List<ItemSkuPVPair> itemSkuPVPairs = createItemSkuPVPair(publishServiceDO);
 		itemDO.setItemPropertyList(itemSkuPVPairs);
@@ -69,7 +69,7 @@ public class PublishItemConverter {
 		itemDTO.setPrice((long)(publishServiceDO.discountPrice));
 		itemDTO.setOriginalPrice((long)(publishServiceDO.oldPrice));
 		ItemFeature itemFeature = new ItemFeature(null);
-		itemFeature.put(ItemFeatureKey.CONSULT_TIME, publishServiceDO.oldTime);
+		itemFeature.put(ItemFeatureKey.CONSULT_TIME, (publishServiceDO.oldTime)*60);
 		itemDTO.setItemFeature(itemFeature);
 		List<ItemSkuPVPair> itemSkuPVPairs = createItemSkuPVPair(publishServiceDO);
 		itemDTO.setItemPropertyList(itemSkuPVPairs);
