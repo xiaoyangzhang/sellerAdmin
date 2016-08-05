@@ -288,7 +288,7 @@
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">结算联行号：</label></td>
-								<td class="rigcontent"><input type="text" datatype="m" maxlength="12"  value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" maxlength="60" class="txt01"  placeholder=""></td>
+								<td class="rigcontent"><input type="text" datatype="n" maxlength="12"  value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" maxlength="60" class="txt01"  placeholder=""></td>
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">结算账号：</label></td>
