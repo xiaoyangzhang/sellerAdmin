@@ -16,6 +16,10 @@
 				#end
 				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">$!content</textarea>
 				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">2000字</span></div>
+				<span><i class="icon icon-question-sign ic-example"></i>点击可查看样例哦</span>
+				<div class="text-example" style="display: none;">
+					
+				</div>
 			</td>
 		</tr>
 		<tr class="need-know-item">
@@ -28,11 +32,15 @@
 					#set($length = $content.length())
 				#end
 				#if(!$content)
-					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">以上费用包含未提及的消费</textarea>
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder=""></textarea>
 				#else
 					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">$!content</textarea>
 				#end
 				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">500字</span></div>
+				<span><i class="icon icon-question-sign ic-example"></i>点击可查看样例哦</span>
+				<div class="text-example" style="display: none;">
+					以上费用包含未提及的消费					
+				</div>
 			</td>
 		</tr>
 		<tr class="need-know-item">
@@ -45,16 +53,19 @@
 					#set($length = $content.length())
 				#end
 				#if(!$content)
-					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">
-1、提前__________天进行预约
-2、活动时间（周六、周日）上午9:00—11:00   下午2:00—4:00
-3、限定人数：
-1）本次活动最低参与人数__________，未达最低参团人数，全额退还所缴款项，客服会与您联系；
-2）本次活动最高参团人数__________，若人数超出则延期至下一期，客服会提前__________天通知您。</textarea>
+					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder=""></textarea>
 				#else
 				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">$!content</textarea>
 				#end
 				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">2000字</span></div>
+				<span><i class="icon icon-question-sign ic-example"></i>点击可查看样例哦</span>
+				<div class="text-example" style="display: none;">
+					1、提前__________天进行预约<br />
+					2、活动时间（周六、周日）上午9:00—11:00   下午2:00—4:00<br />
+					3、限定人数：<br />
+					1）本次活动最低参与人数__________，未达最低参团人数，全额退还所缴款项，客服会与您联系；<br />
+					2）本次活动最高参团人数__________，若人数超出则延期至下一期，客服会提前__________天通知您。					
+				</div>
 			</td>
 		</tr>
 		<tr class="need-know-item">
@@ -66,16 +77,15 @@
 					#set($content = $needKnowItems.get(3).content)
 					#set($length = $content.length())
 				#end
-				#if(!$content)
-					<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">
-1、本次活动提前__________天/小时可免费退改。
-2、本次活动提前__________天提出修改或退订，需支付__________%损失费
-3、申请退款时间距离活动时间不足__________个小时/工作日，不予退款。
-4、因组织方原因活天气原因造成活动取消或无法进行的，组织方将在__________个工作日内将活动款项全额退给您。</textarea>
-				#else
 				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">$!content</textarea>
-				#end
 				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">500字</span></div>
+				<span><i class="icon icon-question-sign ic-example"></i>点击可查看样例哦</span>
+				<div class="text-example" style="display: none;">
+					1、本次活动提前__________天/小时可免费退改。<br />
+					2、本次活动提前__________天提出修改或退订，需支付__________%损失费<br />
+					3、申请退款时间距离活动时间不足__________个小时/工作日，不予退款。<br />
+					4、因组织方原因活天气原因造成活动取消或无法进行的，组织方将在__________个工作日内将活动款项全额退给您。					
+				</div>
 			</td>
 		</tr>
 	</tbody>
