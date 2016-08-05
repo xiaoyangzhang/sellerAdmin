@@ -230,7 +230,8 @@
             console.log(JSON.stringify(result.themes));
             console.log(JSON.stringify(result.dest));
             var params = {
-                json:JSON.stringify(result)
+                json:JSON.stringify(result),
+                draftId:$("#draftId").val()
             };
             var uuid = $("#uuid").val();
             var url = "$!{utilWebconfig.getActionDefaultFontPath()}/cityactivity/save?uuid="+uuid;
