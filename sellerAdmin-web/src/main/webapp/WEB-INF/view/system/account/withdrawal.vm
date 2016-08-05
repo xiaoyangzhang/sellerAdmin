@@ -31,6 +31,24 @@
         <a href="javascript:;" class="submit btn-withdrawal">确认提交</a>
     </div>
 </div>
+<table id="bill">
+    <tr>
+        <td class="field">企业名称：</td>
+        <td>$!{accountInfo.corpName}</td>
+    </tr>
+    <tr>
+        <td class="field">对公账户：</td>
+        <td>$!{accountInfo.openAcctNo}</td>
+    </tr>
+    <tr>
+        <td class="field">开 户 行：</td>
+        <td>$!{accountInfo.openBankName}</td>
+    </tr>
+    <tr>
+        <td class="field">可提现余额：</td>
+        <td><span>$!{accountInfo.accountBalanceYuan}</span>元</td>
+    </tr>
+</table>
 
 #parse("layout/layout-js.vm")
 <script>seajs.use("payment");</script>	
