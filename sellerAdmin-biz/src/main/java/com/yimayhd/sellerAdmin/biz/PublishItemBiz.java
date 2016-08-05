@@ -220,6 +220,19 @@ public class PublishItemBiz {
 				idList.add(item.getId());
 			}
 			Map<Long, List<ComTagDO>> comTagMaps = getComTagMapsByIdList(idList);
+			List<Integer> codeList = new ArrayList<Integer>();
+			for (Map.Entry<Long, List<ComTagDO>> map : comTagMaps.entrySet()) {
+				for (ComTagDO comTag : map.getValue()) {
+					codeList.add(Integer.parseInt(comTag.getName()));
+				}
+			}
+			
+			DestinationQueryDTO  dto = new DestinationQueryDTO();
+			dto.setOutType(DestinationOutType.SERVICE.getCode());
+			dto.setCodeList(codeList);
+			dto.setDomain(Constant.DOMAIN_JIUXIU);
+			dto.setUseType(DestinationUseType.APP_SHOW.getCode());
+			RcResult<List<DestinationDO>> destinationListResult = destinationServiceRef.queryDestinationList(dto);
 			for (ItemDO item : itemPageResult.getItemDOList()) {
 				ItemManagement itemManagement = new ItemManagement();
 				PublishServiceDO publishService = new PublishServiceDO();
@@ -227,7 +240,7 @@ public class PublishItemBiz {
 				publishService.title = item.getTitle();
 				publishService.discountPrice = item.getPrice();
 				publishService.discountTime = (item.getItemFeature().getConsultTime())/60;
-				publishService.serviceAreas = getServiceAreas(comTagMaps,item.getId());
+				publishService.serviceAreas = getServiceAreas(comTagMaps,item.getId(),destinationListResult.getT());
 				publishService.id = item.getId();
 				publishService.categoryType = Constant.CONSULT_SERVICE;
 				itemManagement.publishServiceDO = publishService;
@@ -245,42 +258,27 @@ public class PublishItemBiz {
 
 	
 	private List<ServiceArea> getServiceAreas(
-			Map<Long, List<ComTagDO>> comTagMaps,long itemId) {
-		if (CollectionUtils.isEmpty(comTagMaps) || itemId <= 0) {
-			log.error("param:comTagMaps={},itemId={}",JSON.toJSONString(comTagMaps),itemId);
+			Map<Long, List<ComTagDO>> comTagMaps,long itemId,List<DestinationDO> destinationList) {
+		if (CollectionUtils.isEmpty(comTagMaps) || itemId <= 0 || CollectionUtils.isEmpty(destinationList)) {
+			log.error("param:comTagMaps={},itemId={},destinationList={}",JSON.toJSONString(comTagMaps),itemId,JSON.toJSONString(destinationList));
 			return null;
 		}
 		List<ServiceArea> serviceAreas = new ArrayList<ServiceArea>();
 		serviceAreas.clear();
-		List<Integer> codeList = new ArrayList<Integer>();
 		for (Map.Entry<Long, List<ComTagDO>> map : comTagMaps.entrySet()) {
-			for (ComTagDO comTag : map.getValue()) {
-				codeList.add(Integer.parseInt(comTag.getName()));
-			}
-		}
-		
-		DestinationQueryDTO  dto = new DestinationQueryDTO();
-		dto.setOutType(DestinationOutType.SERVICE.getCode());
-		dto.setCodeList(codeList);
-		dto.setDomain(Constant.DOMAIN_JIUXIU);
-		dto.setUseType(DestinationUseType.APP_SHOW.getCode());
-		RcResult<List<DestinationDO>> destinationListResult = destinationServiceRef.queryDestinationList(dto);
-		for (Map.Entry<Long, List<ComTagDO>> map : comTagMaps.entrySet()) {
-			codeList.clear();
 			if (itemId == map.getKey()) {
 				for (ComTagDO comTag : map.getValue()) {
-					codeList.add(Integer.parseInt(comTag.getName()));
-				}
-				for (Integer code : codeList) {
 					ServiceArea serviceArea = new ServiceArea();
-					for (DestinationDO dest : destinationListResult.getT()) {
-						if (code == dest.getCode() ) {
-							serviceArea.areaCode = code;
+					for (DestinationDO dest : destinationList) {
+						if (Integer.parseInt(comTag.getName()) == dest.getCode() ) {
+							serviceArea.areaCode = dest.getCode();
 							serviceArea.areaName = dest.getName();
 							serviceAreas.add(serviceArea);
 						}
 					}
+					
 				}
+				
 				break;
 			}
 		}
