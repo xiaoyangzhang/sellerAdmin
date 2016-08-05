@@ -97,7 +97,7 @@ public class AccountController extends BaseController {
 	public ModelAndView toMyWallet(Model model) throws Exception {
 		
 		//FIXME
-		long userId = 15000 ;//15000sessionManager.getUserId();
+		long userId = 1600 ;//15000sessionManager.getUserId();
 		EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
 		model.addAttribute("accountInfo", accountInfo);
 		return new ModelAndView("/system/account/myWallet");
@@ -109,7 +109,7 @@ public class AccountController extends BaseController {
 	@RequestMapping(value = "/toWithdrawal", method = RequestMethod.GET) 
 	public ModelAndView toWithdrawal(Model model) throws Exception {
 		//FIXME
-		long userId = 15000 ;//sessionManager.getUserId();
+		long userId = 1600 ;//sessionManager.getUserId();
 		EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
 		model.addAttribute("accountInfo", accountInfo);
 		return new ModelAndView("/system/account/withdrawal");
@@ -124,15 +124,13 @@ public class AccountController extends BaseController {
 		try {
 			
 			//FIXME
-			long userId = 1300 ;//sessionManager.getUserId();
+			long userId = 1600 ;//sessionManager.getUserId();
 			
 			EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
 			
 			WithdrawalVO vo = new WithdrawalVO();
 			vo.setUserId(userId);
 			vo.setWithdrawalAmount(accountInfo.getAccountBalance());
-			//FIXME
-			accountInfo.setAccountBalance(0);;
 			vo.setEleAccountType(EleAccountType.UNION_ELE_ACCOUNT.getType());
 			if(accountInfo.getAccountBalance() <= 0 ){
 				throw new NoticeException(Constant.WITHDRAWAL_ACCOUNT_BALANCE_IS_ZERO);
@@ -161,7 +159,7 @@ public class AccountController extends BaseController {
 	@RequestMapping(value = "/billDetail", method = RequestMethod.GET) 
 	public ModelAndView billDetail(Model model, AccountQuery query) throws Exception {
 		//FIXME
-		long userId = 12800 ;//sessionManager.getUserId();
+		long userId = 1600 ;//sessionManager.getUserId();
 		PageVO<EleAccountBillVO> pageVo = accountService.queryEleAccBillDetail(query, userId);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("query", query);
