@@ -42,10 +42,8 @@
             <tr>
                 <td><span class="red">*</span>截止报名日期：</td>
                 <td>
-                    <div class="row input-group">
-                        <input type="text" class='form-control form-date dateInp end-date' placeholder='' readonly name="endDateStr" value="$!{item.endDateStr}">
-						<span class="ml10">注：超过截止报名日期，用户不可购买。长期销售的商品建议选择一年以上的截止报名日期 </span>
-				</div>
+                    <input type="text" class='form-control w200 form-date dateInp end-date' placeholder='' readonly name="endDateStr" value="$!{item.endDateStr}">
+               		<span class="ml10">注：超过截止报名日期，用户不可购买。长期销售的商品建议选择一年以上的截止报名日期</span>
                 </td>
             </tr>
             <tr>

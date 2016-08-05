@@ -24,11 +24,11 @@
 			<td><span class="red">*</span>出发地：</td>
 			 <td>
 				<div>
-					<label class="checkbox-inline">
+					<button type="button" class="btn btn-success select-departs"  #if($baseInfo.allDeparts) disabled="disabled" #end>选择出发地</button>
+					<label class="checkbox-inline ml20">
 						<input type="checkbox" class="all-departs" value="true" #if($baseInfo.allDeparts) checked #end/>全国
                     </label>
-					<button type="button" class="btn btn-success select-departs"  #if($baseInfo.allDeparts) disabled="disabled" #end>选择出发地</button>
-					<div id="departs-content">
+					<div id="departs-content" class="mt5">
 						#if(!$baseInfo.allDeparts)
 							#if(${isDraft})
 								#foreach($depart in $baseInfo.departs)
@@ -233,8 +233,8 @@
 			var dests = win.getSelected();
 			//console.log(JSON.stringify(dests));
 			if(dests.length == 0) return false;
-			if(dests.length > 100) {
-				layer.alert("目的地最多选择100个", {
+			if(dests.length > 15) {
+				layer.alert("目的地最多选择15个", {
     				icon : 2
     			});
 				return false;
