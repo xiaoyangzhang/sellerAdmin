@@ -44,6 +44,12 @@ public class AccountQuery extends BaseQuery {
     	if(StringUtils.isNotEmpty(query.getTransEndDate())){
     		queryDO.setTransEndDate(DateUtil.formatMaxTimeForDate(query.getTransEndDate()));
     	}
+    	if(query.getPageNo() != null){
+    		queryDO.setPageNo(query.getPageNo());
+    	}
+    	if(query.getPageSize() != null){
+    		queryDO.setPageSize(query.getPageSize());
+    	}
     	queryDO.setNeedCount(true);
     	queryDO.setUserId(userId);
     	return queryDO;

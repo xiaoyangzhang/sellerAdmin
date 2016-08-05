@@ -123,6 +123,7 @@ public class AccountController extends BaseController {
 		try {
 			
 			long userId = sessionManager.getUserId();
+			
 			EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
 			
 			WithdrawalVO vo = new WithdrawalVO();
