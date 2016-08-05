@@ -10,6 +10,8 @@ import com.yimayhd.pay.client.model.param.eleaccount.WithdrawalDTO;
 public class WithdrawalVO extends WithdrawalDTO{
 	
 	
+	private static final long serialVersionUID = 1L;
+
 	public static WithdrawalDTO getWithdrawalDTO(WithdrawalVO vo){
 		
 		WithdrawalDTO dto = new WithdrawalDTO();

@@ -28,6 +28,7 @@ public class AccountQuery extends BaseQuery {
     	queryDO.setIsNeedBalance(true);
     	queryDO.setNeedUnSettlementAmount(true);
     	queryDO.setUserId(userId);
+    	queryDO.setGetFromCache(false);
     	return queryDO;
     }
     

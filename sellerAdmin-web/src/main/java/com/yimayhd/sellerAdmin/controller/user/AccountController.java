@@ -96,8 +96,8 @@ public class AccountController extends BaseController {
 	@RequestMapping(value = "/toMyWallet", method = RequestMethod.GET) 
 	public ModelAndView toMyWallet(Model model) throws Exception {
 		
-		//FIXME
-		long userId = 1600 ;//15000sessionManager.getUserId();
+		
+		long userId = sessionManager.getUserId();
 		EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
 		model.addAttribute("accountInfo", accountInfo);
 		return new ModelAndView("/system/account/myWallet");
@@ -108,8 +108,7 @@ public class AccountController extends BaseController {
 	 */
 	@RequestMapping(value = "/toWithdrawal", method = RequestMethod.GET) 
 	public ModelAndView toWithdrawal(Model model) throws Exception {
-		//FIXME
-		long userId = 1600 ;//sessionManager.getUserId();
+		long userId = sessionManager.getUserId();
 		EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
 		model.addAttribute("accountInfo", accountInfo);
 		return new ModelAndView("/system/account/withdrawal");
@@ -123,9 +122,7 @@ public class AccountController extends BaseController {
 	public ResponseVo withdrawal(Model model){
 		try {
 			
-			//FIXME
-			long userId = 1600 ;//sessionManager.getUserId();
-			
+			long userId = sessionManager.getUserId();
 			EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
 			
 			WithdrawalVO vo = new WithdrawalVO();
@@ -158,8 +155,7 @@ public class AccountController extends BaseController {
 	 */
 	@RequestMapping(value = "/billDetail", method = RequestMethod.GET) 
 	public ModelAndView billDetail(Model model, AccountQuery query) throws Exception {
-		//FIXME
-		long userId = 1600 ;//sessionManager.getUserId();
+		long userId = sessionManager.getUserId();
 		PageVO<EleAccountBillVO> pageVo = accountService.queryEleAccBillDetail(query, userId);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("query", query);
