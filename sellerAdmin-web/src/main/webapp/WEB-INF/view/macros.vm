@@ -721,3 +721,11 @@
 	#end
 #end
 
+##交易类型
+#macro(TRANS_TYPE $type)
+    #if($type == '3')
+    提现
+    #elseif($type == '7')
+    结算
+    #end
+#end
