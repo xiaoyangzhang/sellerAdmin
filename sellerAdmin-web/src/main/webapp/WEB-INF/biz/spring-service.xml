@@ -70,4 +70,5 @@
 	
 	<bean id ="accountService" class="com.yimayhd.sellerAdmin.service.impl.AccountServiceImpl" />
 	<bean id ="settlementService" class="com.yimayhd.sellerAdmin.service.impl.SettlementServiceImpl" />
+	<bean id="jiuxiuVoucherTemplateService" class="com.yimayhd.sellerAdmin.service.impl.JiuxiuVoucherTemplateServiceImpl" />
 </beans>

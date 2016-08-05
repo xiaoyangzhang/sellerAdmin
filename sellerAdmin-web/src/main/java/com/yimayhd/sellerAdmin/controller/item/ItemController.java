@@ -142,6 +142,10 @@ public class ItemController extends BaseController {
 					}
 				}
 			}
+            
+            //Set itemCategoryIds 
+            //for  categoryTreeResult
+            
             Set<CategoryDO> fillMerchantItemCategory = fillMerchantItemCategory(categoryList, categoryOfMerchantList,layerNum);
             for (CategoryVO categoryVO : list) {
                 for (CategoryDO categoryDO : fillMerchantItemCategory) {
@@ -297,7 +301,9 @@ public class ItemController extends BaseController {
             return redirect("/hotel/addHotelMessageVOByDataView?categoryId=" + categoryId);
         } else if (ItemType.SPOTS.equals(itemType)) {
             return redirect("/scenic/addScenicManageView?categoryId=" + categoryId);
-        } else {
+        } else if (ItemType.POINT_MALL.equals(itemType)) {
+            return redirect("/integralMall/toAdd?categoryId=" + categoryId);
+        }  else {
             throw new BaseException("unsupport ItemType " + itemType.name());
         }
     }
@@ -521,6 +527,8 @@ public class ItemController extends BaseController {
             return redirect("/hotel/editHotelMessageView?operationFlag=update&itemId=" + itemId + "&categoryId=" + categoryId);
         } else if (ItemType.SPOTS.getValue() == itemType) {
             return redirect("/scenic/editScenicManageView?operationFlag=update&itemId=" + itemId + "&categoryId=" + categoryId);
+        } else if (ItemType.POINT_MALL.getValue()==itemType) {
+            return redirect("/integralMall/toEdit/" + itemId);
         } else {
             throw new BaseException("unsupport ItemType " + itemType);
         }
@@ -541,6 +549,8 @@ public class ItemController extends BaseController {
             return redirect("/hotel/editHotelMessageView?operationFlag=detail&itemId=" + itemId + "&categoryId=" + categoryId);
         } else if (ItemType.SPOTS.getValue() == itemType) {
             return redirect("/scenic/editScenicManageView?operationFlag=detail&itemId=" + itemId + "&categoryId=" + categoryId);
+        } else if (ItemType.POINT_MALL.getValue()==itemType) {
+            return redirect("/integralMall/view/" + itemId);
         } else {
             throw new BaseException("unsupport ItemType " + itemType);
         }

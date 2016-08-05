@@ -1,0 +1,17 @@
+#set($layout="layout/blank2.vm")
+<div class = "title distance sendgoodsWl">
+    <div class = "cont cont1a choose">
+        <input type="hidden" id="bizOrderId" value="$!bizOrderId">
+        <div class = "info first wl" style="padding:30px 40px;">物流公司：
+            <select id="choosewlId" style="width:300px">
+                <option value ="0">请选择</option>
+                #foreach($!ec in $!listExpress)
+                    <option value ="$!ec.tcCode">$!ec.name</option>
+                #end
+                </select>
+        </div>
+        <div class = "info dh" style="padding:0 40px;">物流单号：
+            <input type="text" id="wldhId" style="width:300px" value="" placeholder="10-20位字母或数字组成">
+        </div>
+    </div>
+</div>

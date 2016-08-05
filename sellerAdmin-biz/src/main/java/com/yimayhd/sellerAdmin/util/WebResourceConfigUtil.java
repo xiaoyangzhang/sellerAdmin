@@ -22,6 +22,8 @@ public class WebResourceConfigUtil {
 	private final static String RESOURCE_PATH_ADMIN = "resource.path.admin";
 //	private final static String RESOURCE_PATH = "resource.path";
 	private final static String JIUXIU_OFFICIAL_SITE = "jiuxiu.official.site";
+	private final static String FILEGW_DOMAIN = "filegw.domain";
+
 	private final static String filegwPath = "filegw.path";
 	private final static String JIUXIU_IM_SITE="jiuxiu.im.site";
 	public static String getIMPath() {
@@ -31,7 +33,10 @@ public class WebResourceConfigUtil {
 		return ResourceConfig.getInstance().getValueByKey(ROOT_PATH_KEY);
 	}
 	public static String getFilegwPath() {
-		return ResourceConfig.getInstance().getValueByKey(filegwPath);
+		return ResourceConfig.getInstance().getValueByKey(FILEGW_DOMAIN)+"/file/upload_string";
+	}
+	public static String getFilegwDomain() {
+		return ResourceConfig.getInstance().getValueByKey(FILEGW_DOMAIN);
 	}
 	public static String getJiuXiuOfficialSite() {
 		return ResourceConfig.getInstance().getValueByKey(JIUXIU_OFFICIAL_SITE);

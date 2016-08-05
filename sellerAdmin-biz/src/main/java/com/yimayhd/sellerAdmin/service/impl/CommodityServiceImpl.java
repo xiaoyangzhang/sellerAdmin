@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.yimayhd.ic.client.model.param.item.*;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -21,6 +22,8 @@ import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.enums.ItemType;
+import com.yimayhd.ic.client.model.enums.PayType;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
@@ -30,6 +33,8 @@ import com.yimayhd.ic.client.service.item.HotelService;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.ic.client.util.PicUrlsUtil;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
+import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -142,6 +147,14 @@ public class CommodityServiceImpl implements CommodityService {
 		ItemResultVO itemResultVO = new ItemResultVO();
 
 		itemResultVO.setCategoryVO(CategoryVO.getCategoryVO(itemResult.getCategory()));
+		//获取---是否积分商品
+		MemResult<MerchantItemCategoryDO> memResult = itemRepo.getMerchantItemCategory(Constant.DOMAIN_JIUXIU, itemResultVO.getCategoryVO().getId(), sellerId);
+		//memResult.getValue().getType()没有枚举，1表示是积分商品
+		if(null != memResult && memResult.isSuccess() && memResult.getValue().getType() == 1){
+			itemResultVO.getCategoryVO().setIntegralType(ItemType.POINT_MALL.name());
+		}
+		
+		
 		itemResultVO.setItemVO(ItemVO.getItemVO(itemResult.getItem(), itemResultVO.getCategoryVO()));
 		// 商品的排序字段
 		itemResultVO.getItemVO().setSort(itemResult.getSortNum());
@@ -341,6 +354,9 @@ public class CommodityServiceImpl implements CommodityService {
 		CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
 		removeEmptyProperty(itemVO);
 		ItemDO itemDO = ItemVO.getItemDO(itemVO);
+		if(itemVO.getMaxPoint() > 0){
+			itemDO.setItemType(ItemType.POINT_MALL.getValue());
+		}
 		itemDO.setDomain(Constant.DOMAIN_JIUXIU);
 		commonItemPublishDTO.setItemDO(itemDO);
 		commonItemPublishDTO.setItemSkuDOList(itemDO.getItemSkuDOList());
@@ -415,6 +431,8 @@ public class CommodityServiceImpl implements CommodityService {
 			itemDB.setItemPropertyList(itemVO.getItemPropertyList());
 			// 减库存方式
 			itemDB.getItemFeature().put(ItemFeatureKey.REDUCE_TYPE, itemVO.getReduceType());
+			// 最大可用积分
+			itemDB.getItemFeature().put(ItemFeatureKey.MAX_POINT, itemVO.getMaxPoint());
 			// 评分
 			if (null != itemVO.getGrade()) {
 				ItemFeature itemFeature = null;

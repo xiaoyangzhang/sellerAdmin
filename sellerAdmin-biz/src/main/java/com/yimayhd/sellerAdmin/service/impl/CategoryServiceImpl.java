@@ -10,10 +10,14 @@ import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.result.item.CategoryQryResult;
 import com.yimayhd.ic.client.model.result.item.CategoryResult;
 import com.yimayhd.ic.client.model.result.item.CategoryTreeResult;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
+import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 import com.yimayhd.sellerAdmin.repo.CategoryRepo;
+import com.yimayhd.sellerAdmin.repo.ItemRepo;
 import com.yimayhd.sellerAdmin.service.CategoryService;
 import com.yimayhd.sellerAdmin.util.RepoUtils;
 
@@ -26,6 +30,8 @@ public class CategoryServiceImpl implements CategoryService {
 	private com.yimayhd.ic.client.service.item.CategoryService categoryServiceRef;
 	@Autowired
 	private CategoryRepo categoryRepo;
+	@Autowired
+	private ItemRepo itemRepo;
 
 	@Override
 	public List<CategoryDO> getCategoryDOList() {
@@ -110,5 +116,11 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		result.setValue(categoryTreeResult.getTree());
 		return result;
+	}
+
+	@Override
+	public MemResult<MerchantItemCategoryDO> getMerchantItemCategory(
+			int domainId, long categoryId, long sellerId) {
+		return itemRepo.getMerchantItemCategory(domainId, categoryId, sellerId);
 	}
 }

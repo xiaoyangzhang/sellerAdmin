@@ -7,7 +7,9 @@ import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.sellerAdmin.enums.BizItemStatus;
 import com.yimayhd.sellerAdmin.enums.BizItemType;
+import com.yimayhd.sellerAdmin.enums.OrderSearchType;
 import com.yimayhd.sellerAdmin.model.enums.ItemOperate;
+import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 
 /**
  * 商品工具类
@@ -40,6 +42,17 @@ public class ItemUtil {
 			return null;
 		}
 		BizItemType it = BizItemType.get(itemType);
+		if (it != null) {
+			return it.getText();
+		}
+		return "未知类型";
+	}
+	
+	public static String getOrderItemName(int itemType) {
+		if (itemType <= 0) {
+			return null;
+		}
+		OrderSearchType it = OrderSearchType.get(itemType);
 		if (it != null) {
 			return it.getText();
 		}

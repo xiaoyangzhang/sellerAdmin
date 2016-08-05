@@ -36,5 +36,6 @@
 	
 	<bean id="accountRepo" class="com.yimayhd.sellerAdmin.repo.AccountRepo" />
 	<bean id="settlementRepo" class="com.yimayhd.sellerAdmin.repo.SettlementRepo" />
+	<bean id="jixiuVoucherRepo" class="com.yimayhd.sellerAdmin.repo.JixiuVoucherRepo" />
 
 </beans>

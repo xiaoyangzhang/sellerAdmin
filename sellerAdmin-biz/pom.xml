@@ -34,6 +34,10 @@
 			<artifactId>spring-jdbc</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.yimayhd.lgcenter</groupId>
+			<artifactId>lgcenter-client</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 		</dependency>

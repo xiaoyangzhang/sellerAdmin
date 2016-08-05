@@ -26,14 +26,9 @@
                 </span>
                 <select data-placeholder="请选择..." class="chosen-select form-control integer-field " tabindex="2" name="itemType">
                     <option value="0">全部</option>
-                    <option value="3100" #if($!orderListQuery.itemType == 3100) selected #end>国内跟团游</option>
-                    <option value="3200" #if($!orderListQuery.itemType == 3200) selected #end>国内自由行</option>
-                    <option value="3500" #if($!orderListQuery.itemType == 3500) selected #end>境外跟团游</option>
-                    <option value="3600" #if($!orderListQuery.itemType == 3600) selected #end>境外自由行</option>
-                    <option value="3300" #if($!orderListQuery.itemType == 3300) selected #end>国内当地玩乐</option>
-                    <option value="1200" #if($!orderListQuery.itemType == 1200) selected #end>国内景区门票</option>
-                    <option value="1100" #if($!orderListQuery.itemType == 1100) selected #end>酒店客栈</option>
-                    <option value="200" #if($!orderListQuery.itemType == 200) selected #end>特产商品</option>
+					#foreach($itemType in $orderTypeList)
+					<option value="$!{itemType.value}" #if($orderListQuery.itemType == $itemType.value) selected #end >$!{utilItem.getOrderItemName($itemType.value)}</option>
+					#end
                 </select>
             </div>
 
@@ -44,8 +39,8 @@
                 <select data-placeholder="请选择..." class="chosen-select form-control " tabindex="2" name="orderStat">
                     <option value="">全部</option>
                     <option value="WAITING_PAY" #if($!orderListQuery.orderStat == 'WAITING_PAY') selected #end>待付款</option>
-                    <option value="WAITING_DELIVERY" #if($!orderListQuery.orderStat == 'WAITING_DELIVERY') selected #end>处理中/待确认</option>
-                    <option value="SHIPPING" #if($!orderListQuery.orderStat == 'SHIPPING') selected #end>待出行/待使用/预定成功</option>
+                    <option value="WAITING_DELIVERY" #if($!orderListQuery.orderStat == 'WAITING_DELIVERY') selected #end>处理中/待确认/已付款</option>
+                    <option value="SHIPPING" #if($!orderListQuery.orderStat == 'SHIPPING') selected #end>待出行/待使用/预定成功/已发货</option>
                     <option value="CONFIRMED_CLOSE" #if($!orderListQuery.orderStat == 'CONFIRMED_CLOSE') selected #end>未入住（酒店客栈）</option>
                     <option value="FINISH" #if($!orderListQuery.orderStat == 'FINISH') selected #end>已完成</option>
                     <option value="CANCEL" #if($!orderListQuery.orderStat == 'CANCEL') selected #end>已取消</option>
@@ -146,45 +141,13 @@
                                              src="$!{utilWebconfig.getTfsRootPath()}$!{utilImg.getImgUrl($!{subOrder.tcDetailOrder.itemPic}, 160)}">
                                     </div>
                                     <div class="t-msg">
-                                        #if($!subOrder.tcDetailOrder.bizOrder.orderType == 3100 ||$!subOrder.tcDetailOrder.bizOrder.orderType == 3200 || $!subOrder.tcDetailOrder.bizOrder.orderType == 200 
-                                        || $!subOrder.tcDetailOrder.bizOrder.orderType == 3500 || $!subOrder.tcDetailOrder.bizOrder.orderType == 3600)
-                                           	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
-                                            <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.executeTime) 出发</div>
-                                            <div class="t-userType">$!subOrder.tcDetailOrder.linePackage</div>
-                                            <div class="t-userType">$!subOrder.vTxt</div>
-                                        #end
-                                        
-                                        #if($!subOrder.tcDetailOrder.bizOrder.orderType == 3300 )
-                                           	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
-                                            <div class="t-date">$!subOrder.tcDetailOrder.activityTime</div>
-                                    		<div class="t-date">$!subOrder.tcDetailOrder.activityContent</div>
-                                        #end
-                                        
-                                        #if($!subOrder.tcDetailOrder.bizOrder.orderType == 1200 )
-                                        	<div class="t-name">$!order.tcMainOrder.scenicTitle</div>
-                                        	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
-                                            <div class="t-date">$!date.format('yyyy-MM-dd',$!order.tcMainOrder.scenicEnterTime) 入园</div>
-                                            <div class="t-userType">$!order.tcMainOrder.ticketTitle</div>
-                                        #end
-                                        
-                                         #if($!subOrder.tcDetailOrder.bizOrder.orderType == 1100 || $!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
-                                        	<div class="t-name">$!order.tcMainOrder.hotelTitle</div>
-                                        	<div class="t-name">$!subOrder.tcDetailOrder.itemTitle</div>
-                                            <div class="t-date">$!date.format('yyyy-MM-dd',$!subOrder.tcDetailOrder.startDate)</div>
-                                            <div class="t-userType">$!order.tcMainOrder.roomTitle</div>
-                                            #if($!subOrder.tcDetailOrder.bizOrder.orderType == 1100)
-                                            	<div class="t-userType">在线付</div>
-                                            #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
-                                            	<div class="t-userType">到店付</div>
-                                            #end
-                                        #end
-                                        
+                                    	#ROUTE_ORDER_LIST_SKU($!subOrder.tcDetailOrder.bizOrder.orderType)
                                     </div>
                                 </div>
                             </td>
                             <td class="middle">
                                 <div class="order-price">
-                                    $!utilNum.moneyTransform($!subOrder.tcDetailOrder.itemPrice)
+                                    $!utilNum.moneyTransform($!subOrder.itemPrice_)
                                 </div>
                             </td>
 
@@ -196,25 +159,7 @@
 
                             <td class="middle">
                                 <div>
-                                    #if($!subOrder.tcDetailOrder.bizOrder.orderType == 3100)
-                                       国内 跟团游
-                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3200)
-                                        国内自由行
-                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3500)
-                                        境外跟团游
-                                     #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3600)
-                                       境外自由行
-                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3300)
-                                        国内当地玩乐
-                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 200)
-                                        特产商品
-                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 1200)
-                                       国内景区门票
-                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 1100)
-                                        酒店客栈
-                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
-                                        酒店客栈
-                                    #end
+                                	#ROUTE_ORDER_LIST_GOODS_TYPE($!subOrder.tcDetailOrder.bizOrder.orderType)
                                 </div>
                             </td>
 
@@ -222,57 +167,20 @@
                                 <td rowspan="$!size" class="middle">
                                     <div>
                                         <div class="txt">$!order.user.nickname</div>
-                                        <div class="txt">$!order.user.mobileNo</div>
+                                        <div class="txt">$!utilPhone.phoneFormat($!order.user.mobileNo)</div>
                                     </div>
                                 </td>
                                 <td rowspan="$!size" class="middle">
                                     <div class="">
-	                                    #if($!subOrder.tcDetailOrder.bizOrder.orderType == 3100 || $!subOrder.tcDetailOrder.bizOrder.orderType == 3200 
-	                                     	|| $!subOrder.tcDetailOrder.bizOrder.orderType == 3300 || $!subOrder.tcDetailOrder.bizOrder.orderType == 200 
-	                                     	|| $!subOrder.tcDetailOrder.bizOrder.orderType == 3500 || $!subOrder.tcDetailOrder.bizOrder.orderType == 3600)
-	                                    	    #if($order.orderStatus == 2)
-	                                          		待付款
-		                                        #elseif($order.orderStatus == 3)
-		                                           	 处理中
-		                                        #elseif($order.orderStatus == 6)
-		                                          	  待出行
-		                                        #elseif($order.orderStatus == 10)
-		                                          	  已完成
-		                                        #elseif($order.orderStatus == 8)
-		                                           	 已取消
-		                                        #end
-	                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 1200)
-	                                       		#if($order.orderStatus == 2)
-	                                          		待付款
-		                                        #elseif($order.orderStatus == 3)
-		                                           	待确认
-		                                        #elseif($order.orderStatus == 6)
-		                                          	  待使用
-		                                        #elseif($order.orderStatus == 10)
-		                                          	  已完成
-		                                        #elseif($order.orderStatus == 8)
-		                                           	 已取消
-		                                        #end
-	                                    #elseif($!subOrder.tcDetailOrder.bizOrder.orderType == 1100 || $!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
-	                                    		#if($order.orderStatus == 2)
-	                                          		待付款
-		                                        #elseif($order.orderStatus == 3)
-		                                           	待确认
-		                                        #elseif($order.orderStatus == 6)
-		                                          	 预订成功
-		                                        #elseif($order.orderStatus == 10)
-		                                          	  已完成
-		                                        #elseif($order.orderStatus == 8)
-		                                           	 已取消
-		                                        #elseif($order.orderStatus == 11)
-		                                           	 未入住
-		                                        #end
-	                                    #end
+                                    	#ROUTE_ORDER_LIST_ORDER_TYPE($!subOrder.tcDetailOrder.bizOrder.orderType)
                                     </div>
                                 </td>
                                 <td rowspan="$!size" class="middle">
                                     <div>
-                                        $!utilNum.moneyTransform($!order.tcMainOrder.totalFee)
+                                        $!utilNum.moneyTransform($!order.tcMainOrder.totalFee)<br/>
+                                      		#if($!order.value > 0) 
+                                      			<span class="fullCut">满$!utilNum.moneyTransform($!order.requirement)<br/>减$!utilNum.moneyTransform($!order.value)</span>
+                                      		#end
                                     </div>
                                 </td>
                                 <td rowspan="$!size" class="middle">
@@ -295,10 +203,17 @@
                                 </td>
                                 <td rowspan="$!size" class="middle">
                                     <a class="btn btn-mini btn-link addRefund detail" href="$!utilWebconfig.getActionDefaultFontPath()/order/$!order.tcMainOrder.bizOrder.bizOrderId/" target="_blank">详情</a><br/>
+                                    ##$order.orderStatus的枚举是BizOrderStatus，$!subOrder.tcDetailOrder.bizOrder.orderType的枚举是OrderBizType
                                     #if($order.orderStatus == 3)
-                                        <button type="button" class="btn btn-mini btn-link affirm"
-                                                data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">确认
-                                        </button>
+                                    	#if($!subOrder.tcDetailOrder.bizOrder.orderType == 200)
+                                    		<button type="button" class="btn btn-mini btn-link sendGoods"
+	                                                data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">发货
+	                                        </button>
+                                    	#else
+	                                        <button type="button" class="btn btn-mini btn-link affirm"
+	                                                data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">确认
+	                                        </button>
+                                    	#end
                                     #end
                                     #if($order.orderStatus == 10)
                                         <button type="button" class="btn btn-mini btn-link assessment"
@@ -505,6 +420,61 @@
 			});
         	
         });
+        
+        //发货
+        $(".sendGoods").click(function(){
+			var bizOrderId = $(this).attr("orderId");
+            layer.open({
+                type: 2,
+                btn: ['提交', '取消'],
+                title: '<label style="color:red;">发货提交后不可更改，请谨慎操作！</label>',
+                fix: false,
+                shadeClose: true,
+                maxmin: true,
+                area: ['800px', '230px'],
+                content: '$!utilWebconfig.getActionDefaultFontPath()/order/sendGoodsSearch?bizOrderId='+bizOrderId,
+                yes: function(index){
+					var dilog_iframe = $($(".layui-layer-content iframe")[0].contentWindow.document);
+
+                    var bizOrderId = dilog_iframe.find("#bizOrderId").val();
+                    var wlgs= dilog_iframe.find("#choosewlId option:selected").text();
+                    var wldh = dilog_iframe.find("#wldhId").val();
+
+					if("" == wlgs || null == wlgs || "请选择"==wlgs){
+                        layer.alert("请选择物流公司");
+                        return ;
+                    }else if(""==wldh||null == wldh ){
+                        layer.alert("请填写物流单号");
+                        return ;
+                    }else if(!/^[0-9A-Za-z]{10,20}$/.test(wldh)){
+                        layer.alert("物流单号由10-20位字母或数字组成");
+                        return ;
+					}
+
+                    $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/order/sendGoods/',
+							{'bizOrderId':bizOrderId,'expressCompany':wlgs,'expressNo':wldh} ,function(data){
+                        if(data.status == 200){
+                            layer.msg('操作成功', {
+		        				icon : 1,
+		        				time : 1000
+		        			});
+		    				window.location.reload();
+                        }else{
+                            layer.msg('操作失败', {
+		        				icon : 2,
+		        				time : 1000
+		        			});
+                        }
+						setTimeout(function(){
+							layer.close(index);
+						},1000);
+
+                    })
+
+                    
+                }
+            });
+		});
     
     //备注信息
     $('.td-bz .icon-bz').hover(function () {
