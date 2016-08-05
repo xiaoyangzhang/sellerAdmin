@@ -344,7 +344,8 @@ public class DraftController extends BaseDraftController {
         ItemVO itemVO = cityActivityItemVO.getItemVO();
         ItemDO itemDO = ItemVO.getItemDO(itemVO);
         List<ItemSkuVO> itemSkuVOList = itemVO.getItemSkuVOListByStr();
-
+        itemVO.setLongitude(itemDO.getLongitude());
+        itemVO.setLatitude(itemDO.getLatitude());
         if(!itemSkuVOList.isEmpty()) {
             itemVO.setItemSkuVOListAll(itemSkuVOList);
             CategoryVO categoryVO = cityActivityItemVO.getCategoryVO();

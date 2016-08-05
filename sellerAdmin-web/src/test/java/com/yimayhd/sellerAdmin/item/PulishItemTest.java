@@ -27,7 +27,7 @@ public class PulishItemTest extends BaseTest {
 		publishItem();
 //		testWhiteList();
 //		testGetPublishItem();
-//		testGetItemManagementList();
+		testGetItemManagementList();
 //		getItemDetail();
 //		testUpdateState();
 	}
@@ -91,7 +91,7 @@ public class PulishItemTest extends BaseTest {
 		
 		itemQueryParam.pageSize = 10;
 		itemQueryParam.serviceState = 2;
-		ItemApiResult goodsManagementInfo = publishItemApi.getItemList(0, 1200, 0, 1303209, 0, itemQueryParam);
+		ItemApiResult goodsManagementInfo = publishItemApi.getItemList(0, 1200, 0, 1336823, 0, itemQueryParam);
 		System.out.println("------------------"+JSON.toJSONString(goodsManagementInfo));
 		
 	}

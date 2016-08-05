@@ -150,21 +150,14 @@
 									</select>
 								</td>
 							</tr>
-							<tr>
+							<tr class="financeOpenName_">
 								<td class="tbtxt w280"><label class="bred">*</label><span>开户名称：</span></td>
 								<td><input class="inptxt" datatype="*" maxlength="60"   value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" ></td>
 							</tr>
-							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>开户人身份证：</span></td>
-								<td><input class="inptxt" datatype="card" maxlength="18"   value="$!examineInfo.openerCard" id="openerCard_" name="openerCard" ></td>
-							</tr>
-							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>开户人手机号：</span></td>
-								<td><input class="inptxt" datatype="m" maxlength="11"   value="$!examineInfo.openerTel" id="openerTel_" name="openerTel" placeholder="银行预留手机号" ></td>
-							</tr>
-							<tr>
+							
+							<tr class="settlementCard_">
 								<td class="tbtxt w280"><label class="bred">*</label><span>结算联行号：</span></td>
-								<td><input class="inptxt" datatype="m" maxlength="12"   value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" ></td>
+								<td><input class="inptxt" datatype="n" maxlength="12"   value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" ></td>
 							</tr>
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>结算账号：</span></td>
