@@ -161,6 +161,7 @@ public class ScenicManageDomainChecker {
         scenicManageVO.setItemId(itemDO.getId());
         scenicManageVO.setName(scenicDO.getName());
         scenicManageVO.setTitle(itemDO.getTitle());
+        scenicManageVO.setCode(itemDO.getCode());
         scenicManageVO.setCategoryId(itemDO.getCategoryId());//类目ID
         //scenicManageVO.setPrice(new BigDecimal(itemDO.getPrice()).divide(new BigDecimal(100)));
         scenicManageVO.setOriginalPrice(new BigDecimal(itemDO.getOriginalPrice()).divide(new BigDecimal(100)));
