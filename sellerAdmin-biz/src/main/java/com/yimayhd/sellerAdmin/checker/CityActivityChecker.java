@@ -96,23 +96,21 @@ public class CityActivityChecker {
 			return WebCheckResult.error("价格信息不能为空");
 		}
 		boolean hasChecked = false;
-		for( ItemSkuVO skuVO : skuVOs ){
-			boolean checked = skuVO.isChecked() ;
-			if( checked ){
+		for (ItemSkuVO skuVO : skuVOs) {
+			boolean checked = skuVO.isChecked();
+			if (checked) {
 				hasChecked = true;
 				break;
 			}
 		}
-		if( !hasChecked ){
+		if (!hasChecked) {
 			return WebCheckResult.error("活动的套餐不能为空");
 		}
 		return WebCheckResult.success();
 	}
 
 	public static WebCheckResult checkCityActivityInfo(CityActivityVO cityActivityVO) {
-		if (StringUtils.isBlank(cityActivityVO.getLocationText())) {
-			return WebCheckResult.error("详细地址不能为空");
-		} else if (cityActivityVO.getLocationText().length() > 38) {
+		if (cityActivityVO.getLocationText() != null && cityActivityVO.getLocationText().length() > 38) {
 			return WebCheckResult.error("详细地址不能超过38个字");
 		}
 		return WebCheckResult.success();
