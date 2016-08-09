@@ -30,7 +30,7 @@
 							<input type="hidden" name="filepath" value="$!talentInfo.talentInfoDO.avatar">
 						</span>
 						</label>
-						<label class = "lab">图片大小不超过500K，建议图片尺寸为：200*200</label>
+						<label class = "lab">图片大小不超过500K，建议图片尺寸为：120*120，格式为JPG,JPEG,PNG</label>
 					</td>
 				</tr>
 				<tr>
@@ -44,13 +44,13 @@
 				<tr>
 					<td class="tbtxt w280"><label class="bred">*</label><span>性别：</span></td>
 					<td>
-						<label><input type = "radio" name = "gender" value="2" #if ($!talentInfo.talentInfoDO.gender == 2)checked = "checked" #end id="male" class="pr1"> ：男</label>
+						<label><input type = "radio" checked="checked" name = "gender" value="2" #if ($!talentInfo.talentInfoDO.gender == 2)checked = "checked" #end id="male" class="pr1"> ：男</label>
 						<label><input type = "radio" name = "gender" value="3" #if ($!talentInfo.talentInfoDO.gender == 3)checked = "checked" #end id="female" class="pr1" datatype="*" errormsg="请选择性别！"> ：女</label>
 					</td>
 				</tr>
 				<tr>
 					<td class="tbtxt w280"><label class="bred">*</label><span>出生日期：</span></td>
-					<td><input class="field" id="tm" placeholder="1990-01-01" name="birthday" value="$!utilDate.date2StringByDay($!talentInfo.talentInfoDO.birthday)" title="开始时间" datatype="*" errormsg="亲选择时间呀" readonly="readonly"><span></span></td>
+					<td><input class="field" id="tm" placeholder="1990-01-01" name="birthday" value="$!utilDate.date2StringByDay($!talentInfo.talentInfoDO.birthday)" title="开始时间"  readonly="readonly"><span></span></td>
 				</tr>
 				<tr>
 					<td class="tbtxt w280"><label class="bred">*</label><span>所在城市：</span></td>
@@ -80,7 +80,8 @@
 							
 						</span>
 						</label>
-						<label class="inblock">
+
+					#*	<label class="inblock">
 						<span class="imgbox mr5 cnat">
 							<div class="canclick">
 							
@@ -136,8 +137,10 @@
 							<input type="hidden" name="imgpath" value="$!talentInfo.talentInfoDO.pictures[4]">
 							
 						</span>
-						</label></div>
-						<p class = "lab spelab">图片大小不超过500K，建议图片尺寸为：800*450，至少上传1张图片</p>
+						</label>*#
+
+					</div>
+						<p class = "lab spelab">图片大小不超过500K，建议图片尺寸为：750*360，格式为JPG,JPEG,PNG</p>
 					</td>
 				</tr>
 				<tr>
@@ -151,7 +154,7 @@
 					
 					
 					#foreach ($serviceType in $serviceTypes.value)
-					<input type = "checkbox" 
+					<input type = "checkbox" checked="checked"
 								
 						#if ($!talentInfo.talentInfoDO.serviceTypes)
 							#foreach ($st in $talentInfo.talentInfoDO.serviceTypes)
