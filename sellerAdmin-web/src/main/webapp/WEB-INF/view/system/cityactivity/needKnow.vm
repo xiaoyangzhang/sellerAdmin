@@ -16,10 +16,6 @@
 				#end
 				<textarea class="form-control textarea-count need-know-item-value" rows="5" placeholder="">$!content</textarea>
 				<div class="word-num"><span class="num-a">0</span>/<span class="num-b">2000字</span></div>
-				<span><i class="icon icon-question-sign ic-example"></i>点击可查看样例哦</span>
-				<div class="text-example" style="display: none;">
-					
-				</div>
 			</td>
 		</tr>
 		<tr class="need-know-item">
