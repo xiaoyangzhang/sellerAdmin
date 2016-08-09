@@ -224,10 +224,11 @@ public class CityActivityManageController extends BaseController {
         		if (!rs) {
                     return WebOperateResult.failure(WebReturnCode.REPEAT_ERROR);
                 }
-                if(result.isSuccess()&&!StringUtils.isEmpty(draftId)) {
-                    WebOperateResult deleteDraft = draftService.deleteDraft(Long.parseLong(draftId), sellerId);
+                WebResultSupport resultSupport = cityActivityService.addCityActivityItem(itemVO);
+                if(resultSupport.isSuccess()&&!StringUtils.isEmpty(draftId)) {
+                    draftService.deleteDraft(Long.parseLong(draftId), sellerId);
                 }
-                return cityActivityService.addCityActivityItem(itemVO);
+                return resultSupport;
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);

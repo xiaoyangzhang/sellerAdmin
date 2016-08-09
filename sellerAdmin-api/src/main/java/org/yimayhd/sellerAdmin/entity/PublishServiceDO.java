@@ -32,11 +32,11 @@ public class PublishServiceDO implements Serializable {
 	@Description("原价")
 	public long oldPrice;
 	@Description("原价时间")
-	public int oldTime;
+	public long oldTime;
 	@Description("优惠价")
 	public long discountPrice;
 	@Description("优惠时间")
-	public int discountTime;
+	public long discountTime;
 	@Description("商品发布状态2:已发布3:待发布")
 	public int serviceState;
 }

@@ -358,22 +358,22 @@ public class DraftController extends BaseDraftController {
                     categoryValueVO.setText(itemSkuPVPair.getVTxt());
                     categoryValueVO.setType(itemSkuPVPair.getPType());
                     categoryValueVO.setChecked(itemSkuVo.isChecked());
-                    if(salesPropertyVOMap.containsKey(itemSkuPVPair.getPId())) {
+                    if (salesPropertyVOMap.containsKey(itemSkuPVPair.getPId())&&itemSkuVo.isChecked()) {
                         CategoryPropertyVO propertyVO = salesPropertyVOMap.get(itemSkuPVPair.getPId()).getCategoryPropertyVO();
                         List<CategoryValueVO> categoryValueVOList = propertyVO.getCategoryValueVOs();
-                        if(!CollectionUtils.isEmpty(categoryValueVOList)) {
+                        if (!CollectionUtils.isEmpty(categoryValueVOList)) {
                             boolean hasValue = false;
-                            for(CategoryValueVO categoryValue : categoryValueVOList) {
-                                if(categoryValue.getId()==itemSkuPVPair.getVId()) {
+                            for (CategoryValueVO categoryValue : categoryValueVOList) {
+                                if (categoryValue.getId() == itemSkuPVPair.getVId()) {
                                     hasValue = true;
                                     break;
                                 }
                             }
-                            if(!hasValue) {
+                            if (!hasValue) {
                                 categoryValueVOList.add(categoryValueVO);
                             }
                         }
-                    } else {
+                    } else if (itemSkuVo.isChecked()) {
                         CategoryPropertyValueVO categoryPropertyValueVO = new CategoryPropertyValueVO();
                         CategoryPropertyVO propertyVO = new CategoryPropertyVO();
                         propertyVO.setId(itemSkuPVPair.getPId());
