@@ -126,18 +126,7 @@
 					<div class="tit gray6 f16">财务信息</div>
 					<div class="fm_md_four fm_md">
 						<table>
-							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>账户类型：</span></td>
-								<td><select id="accountType" class="selectlist" name="accountType">
-									  
-									#foreach ($account in $accountTypes)
-										
-									  <option  #if ($examineInfo.accountType == $account.type) selected="selected" #end value="$!account.type" >$account.name</option>
-									#end
-									  
-									</select>
-								</td>
-							</tr>
+							
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>开户银行：</span></td>
 								<td><select id="bank" class="selectlist" name="financeOpenBankId">
@@ -150,22 +139,12 @@
 									</select>
 								</td>
 							</tr>
-							<tr>
+							<tr class="financeOpenName_">
 								<td class="tbtxt w280"><label class="bred">*</label><span>开户名称：</span></td>
 								<td><input class="inptxt" datatype="*" maxlength="60"   value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" ></td>
 							</tr>
-							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>开户人身份证：</span></td>
-								<td><input class="inptxt" datatype="card" maxlength="18"   value="$!examineInfo.openerCard" id="openerCard_" name="openerCard" ></td>
-							</tr>
-							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>开户人手机号：</span></td>
-								<td><input class="inptxt" datatype="m" maxlength="11"   value="$!examineInfo.openerTel" id="openerTel_" name="openerTel" placeholder="银行预留手机号" ></td>
-							</tr>
-							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>结算联行号：</span></td>
-								<td><input class="inptxt" datatype="m" maxlength="12"   value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" ></td>
-							</tr>
+							
+							
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>结算账号：</span></td>
 								<td><input class="inptxt finance" maxlength="25"  name="accountNum" datatype="n8-25" value="$!examineInfo.accountNum" placeholder="请输入结算账号"></td>
@@ -191,6 +170,24 @@
 				</div>
 			</form>
 		</div>
+	</div>
+	<div class="public" style="display:none">
+	<table><tr>
+			<td class="tbtxt w280"><label class="bred">*</label><span>结算联行号：</span></td>
+			<td><input class="inptxt" datatype="n" maxlength="12"   value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" ></td>
+	</tr></table>
+	</div>
+	<div class="private_card" style="display:none">
+	<table><tr>
+			<td class="tbtxt w280"><label class="bred">*</label><span>开户人身份证：</span></td>
+			<td><input class="inptxt" datatype="card" maxlength="18"    value="$!examineInfo.openerCard" id="openerCard_" name="openerCard" ></td>
+	</tr></table>
+	</div>
+	<div class="private_tel" style="display:none">
+	<table><tr>
+			<td class="tbtxt w280"><label class="bred">*</label><span>开户人手机号：</span></td>
+			<td><input class="inptxt" datatype="m" maxlength="11"    value="$!examineInfo.openerTel" id="openerTel_" name="openerTel" placeholder="银行预留手机号" ></td>
+	</tr></table>
 	</div>
 	<script  type='text/temple' id='province-tpl'>
 	    <option value="">--请选择--</option>
