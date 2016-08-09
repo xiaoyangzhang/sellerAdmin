@@ -126,18 +126,7 @@
 					<div class="tit gray6 f16">财务信息</div>
 					<div class="fm_md_four fm_md">
 						<table>
-							<tr>
-								<td class="tbtxt w280"><label class="bred">*</label><span>账户类型：</span></td>
-								<td><select id="accountType" class="selectlist" name="accountType">
-									  
-									#foreach ($account in $accountTypes)
-										
-									  <option  #if ($examineInfo.accountType == $account.type) selected="selected" #end value="$!account.type" >$account.name</option>
-									#end
-									  
-									</select>
-								</td>
-							</tr>
+							
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>开户银行：</span></td>
 								<td><select id="bank" class="selectlist" name="financeOpenBankId">
@@ -155,10 +144,7 @@
 								<td><input class="inptxt" datatype="*" maxlength="60"   value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" ></td>
 							</tr>
 							
-							<tr class="settlementCard_">
-								<td class="tbtxt w280"><label class="bred">*</label><span>结算联行号：</span></td>
-								<td><input class="inptxt" datatype="n" maxlength="12"   value="$!examineInfo.settlementCard"  name="settlementCard" ></td>
-							</tr>
+							
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>结算账号：</span></td>
 								<td><input class="inptxt finance" maxlength="25"  name="accountNum" datatype="n8-25" value="$!examineInfo.accountNum" placeholder="请输入结算账号"></td>

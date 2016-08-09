@@ -248,19 +248,7 @@
                	<div class="infor-title">财务信息</div>
 					<div class="six">
 						<table>
-						<tr>	
-								<td class="rigtxt"><span>*</span><label class="">账户类型：</label></td>
-								<td class="rigcontent"><select id="accountType" class="selectlist" name="accountType">
-								
-									  
-									#foreach ($account in $accountTypes)
-										
-									  <option  #if ($examineInfo.accountType == $account.type) selected="selected" #end value="$!account.type" >$account.name</option>
-									#end
-									  
-									</select>
-								</td>
-							</tr>
+						
 						<tr>	
 								<td class="rigtxt"><span>*</span><label class="">开户银行：</label></td>
 								<td class="rigcontent"><select id="bank" class="selectlist" name="financeOpenBankId">
@@ -279,10 +267,7 @@
 								<td class="rigcontent"><input type="text" datatype="*" maxlength="60"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" maxlength="60" class="txt01"  placeholder="请输入开户名称"></td>
 							</tr>
 							
-							<tr class="settlementCard_">
-								<td class="rigtxt"><span>*</span><label class="">结算联行号：</label></td>
-								<td class="rigcontent"><input type="text" datatype="n" maxlength="12"  value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" maxlength="60" class="txt01"  placeholder=""></td>
-							</tr>
+							
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">结算账号：</label></td>
 								<td class="rigcontent"><input type="text" datatype="n8-25" name="accountNum" value="$!examineInfo.accountNum" maxlength="25" class="txt01"  placeholder="请输入结算账号"></td>
