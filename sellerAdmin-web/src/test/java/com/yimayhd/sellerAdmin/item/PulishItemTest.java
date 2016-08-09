@@ -24,10 +24,10 @@ public class PulishItemTest extends BaseTest {
 	
 	@Test
 	public void testPublishItem() {
-//		publishItem();
+		publishItem();
 //		testWhiteList();
 //		testGetPublishItem();
-		testGetItemManagementList();
+//		testGetItemManagementList();
 //		getItemDetail();
 //		testUpdateState();
 	}
@@ -39,10 +39,10 @@ public class PulishItemTest extends BaseTest {
 		publishServiceDO.bookingTip = "bookingTip1";
 		publishServiceDO.categoryType = 241;
 		publishServiceDO.discountPrice = 1000;
-		publishServiceDO.discountTime = 10;
+		publishServiceDO.discountTime = 999999999;
 		publishServiceDO.feeDesc = "feeDesc1";
 		publishServiceDO.oldPrice = 1200;
-		publishServiceDO.oldTime = 10;
+		publishServiceDO.oldTime = 999999999;
 		publishServiceDO.refundRule = "refundRule1";
 		publishServiceDO.serviceState = 3;
 		publishServiceDO.title = "2222222222222222222222";
