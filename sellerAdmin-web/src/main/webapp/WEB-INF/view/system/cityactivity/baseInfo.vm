@@ -1,7 +1,7 @@
     <div class="createClubTable">
         <table class="table tab-inputgroup base-info">
             <tr>
-                <td><span class="red">*</span>分类：</td>
+                <td><span class="red">*</span>商品类型：</td>
                 <td>
                     $!{category.name}
                 </td>
