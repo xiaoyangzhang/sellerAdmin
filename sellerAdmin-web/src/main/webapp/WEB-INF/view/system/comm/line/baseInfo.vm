@@ -24,8 +24,8 @@
 			<td><span class="red">*</span>出发地：</td>
 			 <td>
 				<div>
-					<button type="button" class="btn btn-success select-departs"  #if($baseInfo.allDeparts) disabled="disabled" #end>选择出发地</button>
-					<label class="checkbox-inline ml20">
+					<button type="button" class="btn btn-success select-departs"  #if($baseInfo.allDeparts) disabled="disabled" #end>请选择出发地</button>
+					<label class="checkbox-inline ml50">
 						<input type="checkbox" class="all-departs" value="true" #if($baseInfo.allDeparts) checked #end/>全国
                     </label>
 					<div id="departs-content" class="mt5">
@@ -48,7 +48,7 @@
 			<td><span class="red">*</span>目的地：</td>
 			<td>
 				<div>
-					<button type="button" class="btn btn-success select-dests">选择目的地</button>
+					<button type="button" class="btn btn-success select-dests">请选择目的地</button>
 					<div id="dests-content">
 						#if(${isDraft})
 							#foreach($dest in $baseInfo.dests)
