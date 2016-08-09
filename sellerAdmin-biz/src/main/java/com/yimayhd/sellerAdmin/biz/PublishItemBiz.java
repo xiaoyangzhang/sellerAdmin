@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.biz;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.domain.PicTextDO;
 import com.yimayhd.commentcenter.client.dto.ComentEditDTO;
+import com.yimayhd.commentcenter.client.dto.TagInfoByOutIdDTO;
 import com.yimayhd.commentcenter.client.dto.TagRelationInfoDTO;
 import com.yimayhd.commentcenter.client.enums.FeatureType;
 import com.yimayhd.commentcenter.client.enums.PictureText;
@@ -28,6 +30,7 @@ import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.result.PicTextResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
+import com.yimayhd.commentcenter.client.service.ComTagCenterService;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
@@ -99,6 +102,8 @@ public class PublishItemBiz {
 	private DestinationService destinationServiceRef;
 	@Autowired
 	private TalentService talentServiceRef;
+	@Autowired
+	private ComTagCenterService comTagCenterServiceRef;
 	public WebResult<Boolean> addItem(PublishServiceDO publishServiceDO,long sellerId) {
 		log.info("param:PublishServiceDO={}",JSON.toJSONString(publishServiceDO));
 		WebResult<Boolean> result = new WebResult<Boolean>();
@@ -111,7 +116,8 @@ public class PublishItemBiz {
 			long option = userDO.getOptions();
 			boolean isTalentA = UserOptions.CERTIFICATED.has(option);
 			boolean isTalentB = UserOptions.USER_TALENT.has(option);
-			if (!isTalentB && !isTalentA ) {
+			com.yimayhd.user.client.result.BaseResult<TalentDTO> queryTalentInfoResult = talentServiceRef.queryTalentInfo(sellerId);
+			if ((!isTalentB && !isTalentA) || queryTalentInfoResult == null || queryTalentInfoResult.getValue() == null ) {
 				UserTalentDO talentDO = new UserTalentDO();
 				talentDO.setUserId(sellerId);
 				com.yimayhd.user.client.result.BaseResult<Boolean> insertTalent = talentServiceRef.insertTalent(talentDO);
@@ -124,10 +130,6 @@ public class PublishItemBiz {
 			
 			ConsultPublishAddDTO dto = PublishItemConverter.converterLocal2AddPublishConsult(publishServiceDO, sellerId);
 			ItemPubResult addItemResult = publishItemRepo.addItem(dto);
-			//保存图文详情
-			boolean savePicTextResult = savePicText(publishServiceDO, sellerId);
-			//保存服务区域
-			BaseResult<Boolean> saveServiceAreaResult = saveServiceArea(publishServiceDO, sellerId);
 			if (addItemResult == null) {
 				log.error("result:ItemPubResult={}",addItemResult);
 				result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
@@ -135,6 +137,11 @@ public class PublishItemBiz {
 			}else if (!addItemResult.isSuccess() || addItemResult.getItemId() <= 0) {
 				log.error("result:ItemPubResult={}",JSON.toJSONString(addItemResult));
 			}
+			publishServiceDO.id = addItemResult.itemId;
+			//保存图文详情
+			boolean savePicTextResult = savePicText(publishServiceDO, sellerId);
+			//保存服务区域
+			BaseResult<Boolean> saveServiceAreaResult = saveServiceArea(publishServiceDO, sellerId);
 			result.setValue(Boolean.TRUE);
 			log.info("result:ItemPubResult={}",JSON.toJSONString(addItemResult));
 		} catch (Exception e) {
@@ -208,15 +215,32 @@ public class PublishItemBiz {
 				return apiResult;
 			}
 			List<ItemManagement> itemManagements = new ArrayList<ItemManagement>();
-			List<ServiceArea> serviceAreas = getServiceAreas(query);
+			List<Long> idList = new ArrayList<Long>(); 
+			for (ItemDO item : itemPageResult.getItemDOList()) {
+				idList.add(item.getId());
+			}
+			Map<Long, List<ComTagDO>> comTagMaps = getComTagMapsByIdList(idList);
+			List<Integer> codeList = new ArrayList<Integer>();
+			for (Map.Entry<Long, List<ComTagDO>> map : comTagMaps.entrySet()) {
+				for (ComTagDO comTag : map.getValue()) {
+					codeList.add(Integer.parseInt(comTag.getName()));
+				}
+			}
+			
+			DestinationQueryDTO  dto = new DestinationQueryDTO();
+			dto.setOutType(DestinationOutType.SERVICE.getCode());
+			dto.setCodeList(codeList);
+			dto.setDomain(Constant.DOMAIN_JIUXIU);
+			dto.setUseType(DestinationUseType.APP_SHOW.getCode());
+			RcResult<List<DestinationDO>> destinationListResult = destinationServiceRef.queryDestinationList(dto);
 			for (ItemDO item : itemPageResult.getItemDOList()) {
 				ItemManagement itemManagement = new ItemManagement();
 				PublishServiceDO publishService = new PublishServiceDO();
 				publishService.avater = item.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);
 				publishService.title = item.getTitle();
 				publishService.discountPrice = item.getPrice();
-				publishService.discountTime = item.getItemFeature().getConsultTime();
-				publishService.serviceAreas = serviceAreas;
+				publishService.discountTime = (item.getItemFeature().getConsultTime())/60;
+				publishService.serviceAreas = getServiceAreas(comTagMaps,item.getId(),destinationListResult.getT());
 				publishService.id = item.getId();
 				publishService.categoryType = Constant.CONSULT_SERVICE;
 				itemManagement.publishServiceDO = publishService;
@@ -233,7 +257,58 @@ public class PublishItemBiz {
 	}
 
 	
-	
+	private List<ServiceArea> getServiceAreas(
+			Map<Long, List<ComTagDO>> comTagMaps,long itemId,List<DestinationDO> destinationList) {
+		if (CollectionUtils.isEmpty(comTagMaps) || itemId <= 0 || CollectionUtils.isEmpty(destinationList)) {
+			log.error("param:comTagMaps={},itemId={},destinationList={}",JSON.toJSONString(comTagMaps),itemId,JSON.toJSONString(destinationList));
+			return null;
+		}
+		List<ServiceArea> serviceAreas = new ArrayList<ServiceArea>();
+		serviceAreas.clear();
+		for (Map.Entry<Long, List<ComTagDO>> map : comTagMaps.entrySet()) {
+			if (itemId == map.getKey()) {
+				for (ComTagDO comTag : map.getValue()) {
+					ServiceArea serviceArea = new ServiceArea();
+					for (DestinationDO dest : destinationList) {
+						if (Integer.parseInt(comTag.getName()) == dest.getCode() ) {
+							serviceArea.areaCode = dest.getCode();
+							serviceArea.areaName = dest.getName();
+							serviceAreas.add(serviceArea);
+						}
+					}
+					
+				}
+				
+				break;
+			}
+		}
+		return serviceAreas;
+	}
+
+	/**
+	 * 
+	* created by zhangxiaoyang
+	* @date 2016年8月5日
+	* @Title: getServiceAreasByIdList 
+	* @Description: 根据商品id集合批量查询服务区域
+	* @param @param idList
+	* @param @return    设定文件 
+	* @return List<ServiceArea>    返回类型 
+	* @throws
+	 */
+	private Map<Long, List<ComTagDO>> getComTagMapsByIdList(List<Long> idList) {
+		TagInfoByOutIdDTO tagInfoByOutIdDTO = new TagInfoByOutIdDTO();
+		tagInfoByOutIdDTO.setDomain(Constant.DOMAIN_JIUXIU);
+		tagInfoByOutIdDTO.setIdList(idList);
+		tagInfoByOutIdDTO.setOutType(TagType.DESTPLACE.name());
+		BaseResult<Map<Long, List<ComTagDO>>> comTagResult = comTagCenterServiceRef.getComTag(tagInfoByOutIdDTO);
+		if (comTagResult == null || CollectionUtils.isEmpty(comTagResult.getValue()) ) {
+			log.error("comTagCenterServiceRef.getComTag param:tagInfoByOutIdDTO={},result:{}",JSON.toJSONString(tagInfoByOutIdDTO),JSON.toJSONString(comTagResult));
+			return null;
+		}
+		return comTagResult.getValue();
+	}
+
 	public WebResult<Boolean> updateItemState(ItemQueryDTO dto) {
 		WebResult<Boolean> result = new WebResult<Boolean>();
 		if (dto == null || dto.getDomainId() <= 0 || dto.getItemId() <= 0 ) {
@@ -334,7 +409,7 @@ public class PublishItemBiz {
 			publishService.avater = itemDO.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);
 			publishService.title = itemDO.getTitle();
 			publishService.discountPrice = itemDO.getPrice();
-			publishService.discountTime = itemDO.getItemFeature().getConsultTime();
+			publishService.discountTime = (itemDO.getItemFeature().getConsultTime())/60;
 			publishService.serviceAreas = serviceAreas;
 			publishService.id = itemDO.getId();
 			publishService.categoryType = Constant.CONSULT_SERVICE;
@@ -398,12 +473,12 @@ public class PublishItemBiz {
 			publishService.avater = itemDO.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);
 			publishService.title = itemDO.getTitle();
 			publishService.discountPrice = itemDO.getPrice();
-			publishService.discountTime = itemDO.getItemFeature().getConsultTime();
+			publishService.discountTime = ( itemDO.getItemFeature().getConsultTime())/60;
 			publishService.serviceAreas = serviceAreas;
 			publishService.id = itemDO.getId();
 			publishService.categoryType = Constant.CONSULT_SERVICE;
 			publishService.oldPrice = itemDO.getOriginalPrice();
-			publishService.oldTime = itemDO.getItemFeature().getConsultTime();
+			publishService.oldTime = (itemDO.getItemFeature().getConsultTime())/60;
 			List<ItemSkuPVPair> itemPropertyList = itemDO.getItemPropertyList();
 			for (ItemSkuPVPair itemSkuPVPair : itemPropertyList) {
 				if (itemSkuPVPair.getPId() == Constant.FEE_DESC) {
@@ -414,7 +489,7 @@ public class PublishItemBiz {
 					publishService.refundRule = itemSkuPVPair.getVTxt();
 				}
 			}
-			PicTextResult pictureTextResult = pictureTextRepo.getPictureText(query.getSellerId(), PictureText.EXPERTPUBLISH);
+			PicTextResult pictureTextResult = pictureTextRepo.getPictureText(query.getItemId(), PictureText.EXPERTPUBLISH);
 			if (pictureTextResult != null && !CollectionUtils.isEmpty(pictureTextResult.getList())) {
 				List<PictureTextItem> pictureTextItems = new ArrayList<PictureTextItem>();
 				for (PicTextDO picText : pictureTextResult.getList()) {
@@ -456,13 +531,13 @@ public class PublishItemBiz {
 			}
 			tagRelationInfo.setDomain(Constant.DOMAIN_JIUXIU);
 			tagRelationInfo.setList(codeList);
-			tagRelationInfo.setOutId(sellerId);
+			tagRelationInfo.setOutId(publishServiceDO.id);
 			tagRelationInfo.setOutType(TagType.DESTPLACE.getType());
 			tagRelationInfo.setOrderTime(new Date());
 			BaseResult<Boolean> addResult = comCenterServiceRef.addLineTagRelationInfo(tagRelationInfo);
 			return addResult;
 		} catch (Exception e) {
-			log.error("param:PublishServiceDO={},userId={},error:{}",JSON.toJSONString(publishServiceDO),sellerId,e);
+			log.error("param:PublishServiceDO={},error:{}",JSON.toJSONString(publishServiceDO),e);
 		}
 		return null;
 	}
@@ -472,10 +547,10 @@ public class PublishItemBiz {
 			List<PictureTextItemVo> pictureTextItemVos = new ArrayList<PictureTextItemVo>();
 			for (PictureTextItem pictureTextItem : publishServiceDO.pictureTextItems) {
 				PictureTextItemVo vo = new PictureTextItemVo();
-				if (FeatureType.COMENT.name() == pictureTextItem.type) {
+				if (FeatureType.COMENT.name() .equalsIgnoreCase(pictureTextItem.type)) {
 					
 					vo.setType(PictureTextItemType.TEXT.name());
-				}else if (FeatureType.IMAGE.name() == pictureTextItem.type) {
+				}else if (FeatureType.IMAGE.name() .equalsIgnoreCase(pictureTextItem.type)) {
 					vo.setType(PictureTextItemType.IMG.name());
 					
 				}
@@ -483,7 +558,7 @@ public class PublishItemBiz {
 				pictureTextItemVos.add(vo);
 			}
 			pictureTextVO.setPictureTextItems(pictureTextItemVos);
-			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(sellerId, PictureText.EXPERTPUBLISH, pictureTextVO);
+			ComentEditDTO comentEditDTO = PictureTextConverter.toComentEditDTO(publishServiceDO.id, PictureText.EXPERTPUBLISH, pictureTextVO);
 			
 			pictureTextRepo.editPictureText(comentEditDTO);
 			return true;
@@ -494,10 +569,10 @@ public class PublishItemBiz {
 	}
 	private List<ServiceArea> getServiceAreas(ItemCategoryQuery query) {
 		List<ServiceArea> serviceAreas = new ArrayList<ServiceArea>();
-		BaseResult<List<ComTagDO>> tagInfoResult = comCenterServiceRef.getTagInfoByOutIdAndType(query.getSellerId(),TagType.DESTPLACE.name());
-		log.info("comCenterServiceRef.getTagInfoByOutIdAndType ,param:{},result:{}",query.getSellerId(),String.valueOf(TagType.DESTPLACE.getType()),JSON.toJSONString(tagInfoResult));
+		BaseResult<List<ComTagDO>> tagInfoResult = comCenterServiceRef.getTagInfoByOutIdAndType(query.getItemId(),TagType.DESTPLACE.name());
+		log.info("comCenterServiceRef.getTagInfoByOutIdAndType ,param:{},result:{}",query.getItemId(),TagType.DESTPLACE.name(),JSON.toJSONString(tagInfoResult));
 		if (tagInfoResult == null || CollectionUtils.isEmpty(tagInfoResult.getValue())) {
-			log.error("comCenterServiceRef.getTagInfoByOutIdAndType,param:userId={},outType:{},result:{}",query.getSellerId(),TagType.DESTPLACE.name(),JSON.toJSONString(tagInfoResult));
+			log.error("comCenterServiceRef.getTagInfoByOutIdAndType,param:itemId={},outType:{},result:{}",query.getItemId(),TagType.DESTPLACE.name(),JSON.toJSONString(tagInfoResult));
 			return null;
 		}
 		List<Integer> codeList = new ArrayList<Integer>();

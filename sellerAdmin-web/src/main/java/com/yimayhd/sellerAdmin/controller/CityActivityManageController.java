@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import com.yimayhd.sellerAdmin.service.draft.DraftService;
 import net.pocrd.util.StringUtil;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -68,6 +69,8 @@ public class CityActivityManageController extends BaseController {
 	private LineService lineService;
     @Autowired
     private DestinationBiz destinationBiz;
+    @Autowired
+    private DraftService draftService;
 	
 	/**
 	 * 新增活动商品
@@ -139,7 +142,6 @@ public class CityActivityManageController extends BaseController {
         	List<CityVO> allDests=destinationBiz.toCityVOWithDestinationNodeVOs(cityVos,result.getValue());
         	put("dests", allDests);
 		}
-        String temp = itemVO.getCategoryVO().getItemSkuVOListAllStr();
 
         model.addAttribute("category", itemVO.getCategoryVO());
     	model.addAttribute("item", itemVO.getItemVO());
@@ -199,7 +201,7 @@ public class CityActivityManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public @ResponseBody WebResultSupport edit(String json,String uuid) throws Exception {
+    public @ResponseBody WebResultSupport edit(String json,String uuid, String draftId) throws Exception {
         long sellerId = getCurrentUserId();
         if (sellerId <= 0) {
             log.warn("未登录");
@@ -221,6 +223,9 @@ public class CityActivityManageController extends BaseController {
         		boolean rs = cacheManager.addToTair(key, true , 2, 24*60*60);
         		if (!rs) {
                     return WebOperateResult.failure(WebReturnCode.REPEAT_ERROR);
+                }
+                if(result.isSuccess()&&!StringUtils.isEmpty(draftId)) {
+                    WebOperateResult deleteDraft = draftService.deleteDraft(Long.parseLong(draftId), sellerId);
                 }
                 return cityActivityService.addCityActivityItem(itemVO);
             }
