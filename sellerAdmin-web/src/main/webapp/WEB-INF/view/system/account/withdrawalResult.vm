@@ -15,7 +15,7 @@
     <div class="success-box">
         <i class="icon-succPass"></i>
         <h3>提现申请成功！</h3>
-        <p>提现申请成功，预计今日24时前到账。</p>
+        <p>提现申请成功，预计24小时内到账。</p>
         <p id="seconds">3秒后返回到钱包首页！</p>
     </div>
 </div>
