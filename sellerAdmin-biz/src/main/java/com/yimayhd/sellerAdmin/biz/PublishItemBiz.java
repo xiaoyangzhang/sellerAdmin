@@ -2,8 +2,10 @@ package com.yimayhd.sellerAdmin.biz;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -220,13 +222,15 @@ public class PublishItemBiz {
 				idList.add(item.getId());
 			}
 			Map<Long, List<ComTagDO>> comTagMaps = getComTagMapsByIdList(idList);
-			List<Integer> codeList = new ArrayList<Integer>();
+			Set<Integer> codeSet = new HashSet<Integer>();
 			for (Map.Entry<Long, List<ComTagDO>> map : comTagMaps.entrySet()) {
 				for (ComTagDO comTag : map.getValue()) {
-					codeList.add(Integer.parseInt(comTag.getName()));
+					codeSet.add(Integer.parseInt(comTag.getName()));
 				}
 			}
 			
+			List<Integer> codeList = new ArrayList<Integer>();
+			codeList.addAll(codeSet);
 //			DestinationQueryDTO  dto = new DestinationQueryDTO();
 //			dto.setOutType(DestinationOutType.SERVICE.getCode());
 //			dto.setCodeList(codeList);
