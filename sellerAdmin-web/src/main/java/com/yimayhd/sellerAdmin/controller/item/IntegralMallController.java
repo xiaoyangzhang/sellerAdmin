@@ -61,7 +61,6 @@ public class IntegralMallController extends BaseController {
 		 /**categoryId 权限验证**/
         MemResultSupport memResultSupport =merchantItemCategoryService.checkCategoryPrivilege(Constant.DOMAIN_JIUXIU, categoryId, sellerId);
         if(!memResultSupport.isSuccess()){
-			logger.error("checkCategoryPrivilege:"+memResultSupport.getErrorMsg()+"user_id="+sellerId+"categoryId="+categoryId);
         	 return "/system/error/lackPermission";
         }
         
@@ -70,7 +69,6 @@ public class IntegralMallController extends BaseController {
   		if(null!=result && result.isSuccess() && result.getValue().getType() ==1){
   			model.addAttribute("integralType", result.getValue().getType());
   		}else{
-			logger.error("getMerchantItemCategory:"+memResultSupport.getErrorMsg()+"user_id="+sellerId+"categoryId="+categoryId);
   			return "/system/error/lackPermission";
   		}
       		
