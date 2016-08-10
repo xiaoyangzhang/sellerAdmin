@@ -31,10 +31,10 @@ public class EleAccountInfoVO {
     private long unSettlementAmount;
     
     /**账户余额 - 元*/
-    private double accountBalanceYuan;
+    private String accountBalanceYuan;
     
     /**待结算资金 - 元*/
-    private double unSettlementAmountYuan;
+    private String unSettlementAmountYuan;
 
     /**机构名称*/
     private String corpName;
@@ -54,8 +54,8 @@ public class EleAccountInfoVO {
 		EleAccountInfoVO vo = new EleAccountInfoVO();
 		BeanUtils.copyProperties(result, vo);
 		 //分转元
-        vo.setAccountBalanceYuan(NumUtil.moneyTransformDouble(vo.getAccountBalance()));
-        vo.setUnSettlementAmountYuan(NumUtil.moneyTransformDouble(vo.getUnSettlementAmount()));
+        vo.setAccountBalanceYuan(NumUtil.moneyTransform(vo.getAccountBalance()));
+        vo.setUnSettlementAmountYuan(NumUtil.moneyTransform(vo.getUnSettlementAmount()));
 		return vo;
 	}
 
@@ -139,16 +139,16 @@ public class EleAccountInfoVO {
     public void setStatus(int status) {
         this.status = status;
     }
-    public double getAccountBalanceYuan() {
+    public String getAccountBalanceYuan() {
 		return accountBalanceYuan;
 	}
-	public void setAccountBalanceYuan(double accountBalanceYuan) {
+	public void setAccountBalanceYuan(String accountBalanceYuan) {
 		this.accountBalanceYuan = accountBalanceYuan;
 	}
-	public double getUnSettlementAmountYuan() {
+	public String getUnSettlementAmountYuan() {
 		return unSettlementAmountYuan;
 	}
-	public void setUnSettlementAmountYuan(double unSettlementAmountYuan) {
+	public void setUnSettlementAmountYuan(String unSettlementAmountYuan) {
 		this.unSettlementAmountYuan = unSettlementAmountYuan;
 	}
 	public long getAccountBalance() {
