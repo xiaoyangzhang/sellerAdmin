@@ -31,7 +31,7 @@
         <div class="money-handle">
             <h3>钱包操作</h3>
             <p>	
-            	#if($accountInfo.accountBalanceYuan > 0)
+            	#if($accountInfo.accountBalanceYuan != '0.00')
             		<a href="$!utilWebconfig.getActionDefaultFontPath()/account/toWithdrawal" >提现</a>	
             	#else
             		<a href="javascript:void()" style="background:#ccc;">提现</a>
