@@ -38,8 +38,7 @@ public class DestinationRepo {
 		RepoUtils.resultLog(log, "destinationServiceRef.queryOverseaDestinationTree", baseResult);
 		return baseResult.getT();
 	}
-	public List<DestinationNode> queryInlandDestinationTree() {
-		int code = DestinationOutType.LINE.getCode();
+	public List<DestinationNode> queryInlandDestinationTree(int code) {
 		int domainJiuxiu = Constant.DOMAIN_JIUXIU;
 		RepoUtils.requestLog(log, "destinationServiceRef.queryInlandDestinationTree", code,domainJiuxiu);
 		RcResult<List<DestinationNode>> baseResult = destinationServiceRef.queryInlandDestinationTree(code,domainJiuxiu);

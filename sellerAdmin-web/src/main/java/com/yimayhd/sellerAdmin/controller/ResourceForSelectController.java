@@ -13,6 +13,7 @@ import java.util.TreeMap;
 
 import javax.annotation.Resource;
 
+import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -165,7 +166,8 @@ public class ResourceForSelectController extends BaseController {
 			WebResult<List<DestinationNodeVO>> result = null;
 			HashMap<String, Object> hashMap = new HashMap<String, Object>();
 			if (itemType.equals(ItemType.TOUR_LINE) || itemType.equals(ItemType.FREE_LINE)) {
-				result = commLineService.queryInlandDestinationTree();
+                int code = DestinationOutType.GROUP_LINE.getCode();
+                result = commLineService.queryInlandDestinationTree(code);
 				hashMap.put("type", "inland");
 			} else {
 				result = commLineService.queryOverseaDestinationTree();

@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
 import com.yimayhd.sellerAdmin.service.draft.DraftService;
 import net.pocrd.util.StringUtil;
 
@@ -101,7 +102,8 @@ public class CityActivityManageController extends BaseController {
             put("themes", allThemes.getValue());
         }
 //        WebResult<List<CityVO>> allDests = tagService.getAllDests();
-        WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree();
+        int code = DestinationOutType.URBAN_LINE.getCode();
+        WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree(code);
         if (result.isSuccess()) {
         	List<CityVO> cityVos = new ArrayList<CityVO>();
         	List<CityVO> allDests=destinationBiz.toCityVOWithDestinationNodeVOs(cityVos,result.getValue());
@@ -136,7 +138,8 @@ public class CityActivityManageController extends BaseController {
         if (allThemes.isSuccess()) {
             put("themes", allThemes.getValue());
         }
-        WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree();
+        int code = DestinationOutType.URBAN_LINE.getCode();
+        WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree(code);
         if (result.isSuccess()) {
         	List<CityVO> cityVos = new ArrayList<CityVO>();
         	List<CityVO> allDests=destinationBiz.toCityVOWithDestinationNodeVOs(cityVos,result.getValue());
@@ -176,7 +179,8 @@ public class CityActivityManageController extends BaseController {
         if (allThemes.isSuccess()) {
             put("themes", allThemes.getValue());
         }
-        WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree();
+        int code = DestinationOutType.URBAN_LINE.getCode();
+        WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree(code);
         if (result.isSuccess()) {
         	List<CityVO> cityVos = new ArrayList<CityVO>();
         	List<CityVO> allDests=destinationBiz.toCityVOWithDestinationNodeVOs(cityVos,result.getValue());

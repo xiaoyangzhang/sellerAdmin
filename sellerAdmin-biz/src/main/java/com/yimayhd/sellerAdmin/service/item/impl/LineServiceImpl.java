@@ -201,9 +201,9 @@ public class LineServiceImpl implements LineService {
 	}
 
 	@Override
-	public WebResult<List<DestinationNodeVO>> queryInlandDestinationTree() {
+	public WebResult<List<DestinationNodeVO>> queryInlandDestinationTree(int code) {
 		try {
-			List<DestinationNode> destinationNodes = destinationRepo.queryInlandDestinationTree();
+			List<DestinationNode> destinationNodes = destinationRepo.queryInlandDestinationTree(code);
 			return WebResult.success(LineConverter.toDestinationNodeVO(destinationNodes));
 		} catch (Exception e) {
 			log.error("LineService.getAllLineDeparts error", e);

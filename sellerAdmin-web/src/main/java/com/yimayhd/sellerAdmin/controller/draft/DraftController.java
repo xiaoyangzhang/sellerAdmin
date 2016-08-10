@@ -8,6 +8,7 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemOptions;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
+import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
 import com.yimayhd.sellerAdmin.model.*;
 import com.yimayhd.sellerAdmin.model.line.*;
 import com.yimayhd.sellerAdmin.service.item.LineService;
@@ -274,7 +275,8 @@ public class DraftController extends BaseDraftController {
                 if (allThemes.isSuccess()) {
                     put("themes", allThemes.getValue());
                 }
-                WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree();
+                int code = DestinationOutType.URBAN_LINE.getCode();
+                WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree(code);
                 if (result.isSuccess()) {
                     List<CityVO> cityVos = new ArrayList<CityVO>();
                     List<CityVO> allDests=destinationBiz.toCityVOWithDestinationNodeVOs(cityVos,result.getValue());

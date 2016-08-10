@@ -82,7 +82,7 @@ public interface LineService {
 	 * 2016年5月30日下午2:19:29
 	 * @return
 	 */
-	WebResult<List<DestinationNodeVO>> queryInlandDestinationTree();
+	WebResult<List<DestinationNodeVO>> queryInlandDestinationTree(int code);
 
 	/**
 	 * 根据旅游商品类型获取境外全部目的地
