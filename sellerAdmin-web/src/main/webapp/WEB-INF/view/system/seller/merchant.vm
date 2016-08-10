@@ -19,7 +19,7 @@
 				<input type="hidden" name="id" #if("$!id" == "") value="0" #else value="$!id" #end/>
 			   <div class = "eredar-list eredar-list1 merchant-list1">
 				    <p>	
-						<em><font>*</font>昵称  :</em>
+						<em><font>*</font>客服昵称  :</em>
 						<span>
 							<input type="text" value="$!nickName" name="nickName" class="inputxt niname" />
 						</span>
