@@ -251,13 +251,8 @@
 						<tr>	
 								<td class="rigtxt"><span>*</span><label class="">账户类型：</label></td>
 								<td class="rigcontent"><select id="accountType" class="selectlist" name="accountType">
-								
-									  
-									#foreach ($account in $accountTypes)
-										
-									  <option  #if ($examineInfo.accountType == $account.type) selected="selected" #end value="$!account.type" >$account.name</option>
-									#end
-									  
+									  <option #if ($examineInfo.accountType == 2) selected="selected" #end value="2">对公账户</option>
+									  <option #if ($examineInfo.accountType == 1) selected="selected" #end value="1">对私账户</option>
 									</select>
 								</td>
 							</tr>
@@ -281,7 +276,7 @@
 							
 							<tr class="settlementCard_">
 								<td class="rigtxt"><span>*</span><label class="">结算联行号：</label></td>
-								<td class="rigcontent"><input type="text" datatype="n" maxlength="12"  value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" maxlength="60" class="txt01"  placeholder=""></td>
+								<td class="rigcontent"><input type="text" datatype="n" maxlength="12"  value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" class="txt01"  placeholder=""></td>
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">结算账号：</label></td>
@@ -497,20 +492,20 @@
 </div>
 	<div class="public" style="display:none">
 	<table><tr>
-			<td class="tbtxt w280"><label class="bred">*</label><span>结算联行号：</span></td>
-			<td><input class="inptxt" datatype="n" maxlength="12"   value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" ></td>
-	</tr></table>
+			<td class="rigtxt"><span>*</span><label class="">结算联行号：</label></td>
+			<td class="rigcontent"><input type="text" datatype="n" maxlength="12"  value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" class="txt01"  placeholder=""></td>
+		   </tr></table>
 	</div>
 	<div class="private_card" style="display:none">
 	<table><tr>
-			<td class="tbtxt w280"><label class="bred">*</label><span>开户人身份证：</span></td>
-			<td><input class="inptxt" datatype="card" maxlength="18"    value="$!examineInfo.openerCard" id="openerCard_" name="openerCard" ></td>
+			<td class="rigtxt"><span>*</span><label class="">开户人身份证：</label></td>
+			<td class="rigcontent"><input type="text" class="txt01" datatype="card" maxlength="18"    value="$!examineInfo.openerCard" id="openerCard_" name="openerCard" ></td>
 	</tr></table>
 	</div>
 	<div class="private_tel" style="display:none">
 	<table><tr>
-			<td class="tbtxt w280"><label class="bred">*</label><span>开户人手机号：</span></td>
-			<td><input class="inptxt" datatype="m" maxlength="11"    value="$!examineInfo.openerTel" id="openerTel_" name="openerTel" placeholder="银行预留手机号" ></td>
+			<td class="rigtxt"><span>*</span><label class="">开户人手机号：</label></td>
+			<td><input type="text" class="txt01" datatype="m" maxlength="11"    value="$!examineInfo.openerTel" id="openerTel_" name="openerTel" placeholder="银行预留手机号" ></td>
 	</tr></table>
 	</div>
 <script  type='text/temple' id='province-tpl'>

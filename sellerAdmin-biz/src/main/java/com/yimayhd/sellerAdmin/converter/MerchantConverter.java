@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,7 +84,7 @@ public class MerchantConverter {
 		dto.setTaxRegisterNumber(vo.getTaxRegisterNumber());
 		dto.setMerchantName(vo.getMerchantName());
 		//2.0
-		dto.setAccountType(String.valueOf(vo.getAccountType()));
+		dto.setAccountType(vo.getAccountType() == 0 ? "0":String.valueOf(vo.getAccountType()));
 		dto.setOpenerCard(vo.getOpenerCard());
 		dto.setSettlementCard(vo.getSettlementCard());
 		dto.setOpenerTel(vo.getOpenerTel());
@@ -158,7 +159,13 @@ public class MerchantConverter {
 		vo.setSaleLicenseNumber(examineInfoDTO.getSaleLicenseNumber());
 		vo.setTaxRegisterNumber(examineInfoDTO.getTaxRegisterNumber());
 		vo.setExaminStatus(examineInfoDTO.getExaminStatus());
-		vo.setAccountType(Integer.parseInt(examineInfoDTO.getAccountType()));
+		if (StringUtils.isBlank(examineInfoDTO.getAccountType())) {
+			
+			vo.setAccountType(0);
+		}else {
+			
+			vo.setAccountType(Integer.parseInt(examineInfoDTO.getAccountType()));
+		}
 		vo.setOpenerCard(examineInfoDTO.getOpenerCard());
 		vo.setSettlementCard(examineInfoDTO.getSettlementCard());
 		vo.setOpenerTel(examineInfoDTO.getOpenerTel());

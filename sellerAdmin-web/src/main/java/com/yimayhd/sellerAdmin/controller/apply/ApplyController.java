@@ -41,6 +41,7 @@ import com.yimayhd.sellerAdmin.biz.MerchantApplyBiz;
 import com.yimayhd.sellerAdmin.biz.MerchantBiz;
 import com.yimayhd.sellerAdmin.biz.TalentBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.enums.AccountType;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.QualificationVO;
 import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
@@ -311,6 +312,8 @@ public class ApplyController extends BaseController {
 //		if(null != judgeRest){
 //			return judgeRest;
 //		}
+		
+		//model.addAttribute("accountTypes", AccountType.values());
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
 		model.addAttribute("bankList", talentBiz.getBankList());
 		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
@@ -548,6 +551,7 @@ public class ApplyController extends BaseController {
 				}
 			}
 		}
+		//model.addAttribute("accountTypes", AccountType.values());
 		model.addAttribute("bankList", talentBiz.getBankList());
 		return "/system/seller/userdatafill_a";
 	}
@@ -969,4 +973,6 @@ public class ApplyController extends BaseController {
 		}
 		
 	}
+	
+	
 }
