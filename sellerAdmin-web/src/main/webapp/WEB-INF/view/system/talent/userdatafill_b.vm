@@ -129,12 +129,8 @@
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>账户类型：</span></td>
 								<td><select id="accountType" class="selectlist" name="accountType">
-									  
-									#foreach ($account in $accountTypes)
-										
-									  <option  #if ($examineInfo.accountType == $account.type) selected="selected" #end value="$!account.type" >$account.name</option>
-									#end
-									  
+									  <option #if ($examineInfo.accountType == 1) selected="selected" #end value="1">对私账户</option>
+									  <option #if ($examineInfo.accountType == 2) selected="selected" #end value="2">对公账户</option>
 									</select>
 								</td>
 							</tr>
