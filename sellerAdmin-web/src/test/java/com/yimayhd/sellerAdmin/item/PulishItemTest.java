@@ -24,9 +24,9 @@ public class PulishItemTest extends BaseTest {
 	
 	@Test
 	public void testPublishItem() {
-		publishItem();
+//		publishItem();
 //		testWhiteList();
-//		testGetPublishItem();
+		testGetPublishItem();
 //		testGetItemManagementList();
 //		getItemDetail();
 //		testUpdateState();
@@ -49,22 +49,34 @@ public class PulishItemTest extends BaseTest {
 		List<PictureTextItem> pictureTextItems = new ArrayList<>();
 		PictureTextItem pictureTextItem = new PictureTextItem();
 		pictureTextItem.type =  "IMAGE";
-		pictureTextItem.value = "jfosifjosdafjiosd";
+		pictureTextItem.value = "11111111";
+		PictureTextItem pictureTextItem3 = new PictureTextItem();
+		pictureTextItem3.type =  "IMAGE";
+		pictureTextItem3.value = "3333333";
+		PictureTextItem pictureTextItem4 = new PictureTextItem();
+		pictureTextItem4.type =  "IMAGE";
+		pictureTextItem4.value = "444444";
+		PictureTextItem pictureTextItem5 = new PictureTextItem();
+		pictureTextItem5.type =  "IMAGE";
+		pictureTextItem5.value = "555555";
 		PictureTextItem pictureTextItem2 = new PictureTextItem();
 		pictureTextItem2.type =  "COMENT";
-		pictureTextItem2.value = "111111111111111";
+		pictureTextItem2.value = "2222222";
 		pictureTextItems.add(pictureTextItem);
 		pictureTextItems.add(pictureTextItem2);
+		pictureTextItems.add(pictureTextItem3);
+		pictureTextItems.add(pictureTextItem4);
+		pictureTextItems.add(pictureTextItem5);
 		List<ServiceArea> serviceAreas = new ArrayList<>();
 		ServiceArea serviceArea = new ServiceArea();
 		serviceArea.areaCode = 532500;
 		serviceArea.domain = 1200;
-		serviceArea.outId = 1303209;
+		serviceArea.outId = 1311543;
 		serviceArea.outType = 12;
 		serviceAreas.add(serviceArea);
 		publishServiceDO.pictureTextItems = pictureTextItems;
 		publishServiceDO.serviceAreas = serviceAreas;
-		boolean publishService = publishItemApi.publishService(0, 1200, 0, 1303209, 0, publishServiceDO);
+		boolean publishService = publishItemApi.publishService(0, 1200, 0, 1311543, 0, publishServiceDO);
 		System.out.println(publishService);
 	}
 	
@@ -75,9 +87,9 @@ public class PulishItemTest extends BaseTest {
 	
 	private void testGetPublishItem() {
 		ItemQueryParam itemQueryParam = new ItemQueryParam();
-		itemQueryParam.id = 111522;
+		itemQueryParam.id = 111599;
 		itemQueryParam.categoryId = 241;
-		PublishServiceDO publishItemInfo = publishItemApi.getPublishItemInfo(0, 1200, 0, 1303209, 0, itemQueryParam);
+		PublishServiceDO publishItemInfo = publishItemApi.getPublishItemInfo(0, 1200, 0, 1311543, 0, itemQueryParam);
 		System.out.println("======================"+JSON.toJSONString(publishItemInfo));
 	}
 	

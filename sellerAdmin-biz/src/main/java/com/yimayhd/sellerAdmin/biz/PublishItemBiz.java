@@ -227,12 +227,13 @@ public class PublishItemBiz {
 				}
 			}
 			
-			DestinationQueryDTO  dto = new DestinationQueryDTO();
-			dto.setOutType(DestinationOutType.SERVICE.getCode());
-			dto.setCodeList(codeList);
-			dto.setDomain(Constant.DOMAIN_JIUXIU);
-			dto.setUseType(DestinationUseType.APP_SHOW.getCode());
-			RcResult<List<DestinationDO>> destinationListResult = destinationServiceRef.queryDestinationList(dto);
+//			DestinationQueryDTO  dto = new DestinationQueryDTO();
+//			dto.setOutType(DestinationOutType.SERVICE.getCode());
+//			dto.setCodeList(codeList);
+//			dto.setDomain(Constant.DOMAIN_JIUXIU);
+//			dto.setUseType(DestinationUseType.APP_SHOW.getCode());
+			RcResult<List<DestinationDO>> destinationListResult = destinationServiceRef.queryDestinationsByCodeList(Constant.DOMAIN_JIUXIU,
+					DestinationUseType.APP_SHOW.getCode(),DestinationOutType.SERVICE.getCode(),codeList);
 			for (ItemDO item : itemPageResult.getItemDOList()) {
 				ItemManagement itemManagement = new ItemManagement();
 				PublishServiceDO publishService = new PublishServiceDO();
@@ -580,12 +581,13 @@ public class PublishItemBiz {
 		for (ComTagDO tag : comTagDOs) {
 			codeList.add(Integer.parseInt(tag.getName()));
 		}
-		DestinationQueryDTO  dto = new DestinationQueryDTO();
-		dto.setOutType(DestinationOutType.SERVICE.getCode());
-		dto.setCodeList(codeList);
-		dto.setDomain(Constant.DOMAIN_JIUXIU);
-		dto.setUseType(DestinationUseType.APP_SHOW.getCode());
-		RcResult<List<DestinationDO>> destinationListResult = destinationServiceRef.queryDestinationList(dto);
+//		DestinationQueryDTO  dto = new DestinationQueryDTO();
+//		dto.setOutType(DestinationOutType.SERVICE.getCode());
+//		dto.setCodeList(codeList);
+//		dto.setDomain(Constant.DOMAIN_JIUXIU);
+//		dto.setUseType(DestinationUseType.APP_SHOW.getCode());
+		RcResult<List<DestinationDO>> destinationListResult = destinationServiceRef.queryDestinationsByCodeList(Constant.DOMAIN_JIUXIU,
+				DestinationUseType.APP_SHOW.getCode(),DestinationOutType.SERVICE.getCode(),codeList);
 		for (DestinationDO des : destinationListResult.getT()) {
 			ServiceArea serviceArea = new ServiceArea();
 			serviceArea.areaCode = des.getCode();
