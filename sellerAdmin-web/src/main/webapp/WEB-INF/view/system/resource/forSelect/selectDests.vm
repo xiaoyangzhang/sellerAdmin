@@ -12,7 +12,7 @@
             .choosecity label{margin-bottom: 10px; font-size:14px;line-height:14px;color:#666;display:inline-block;margin-right:10px;cursor:pointer;}
             .choosecity input.ck{height:14px;margin-bottom:2px;margin-right:5px;cursor:pointer;}
 
-            .destlistbox{font-size: 16px; overflow: hidden;}
+            .destlistbox{padding:20px 25px;font-size: 16px; overflow: hidden;}
             .destlistbox .destbox{float: left; position:relative;width:235px;height: 345px;overflow-y: auto; margin-right: 20px; border: 1px solid #e5e5e5;border-top: 3px solid #ffab00;}
             .destlistbox .destbox ul li{position: relative;height: 40px;line-height: 40px;padding: 0 15px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; border-bottom: 1px solid #e5e5e5;}
             .destlistbox .destbox ul li:first-child{background: #fff9ec;color:#ffaf00;}
