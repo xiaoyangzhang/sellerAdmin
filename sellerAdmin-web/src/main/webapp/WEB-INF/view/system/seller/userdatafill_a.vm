@@ -493,7 +493,7 @@
 	<div class="public" style="display:none">
 	<table><tr>
 			<td class="rigtxt"><span>*</span><label class="">结算联行号：</label></td>
-			<td class="rigcontent"><input type="text" datatype="n" maxlength="12"  value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" class="txt01"  placeholder=""></td>
+			<td class="rigcontent"><input type="text" datatype="n" maxlength="12"  value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" class="txt01"   placeholder=""></td>
 		   </tr></table>
 	</div>
 	<div class="private_card" style="display:none">
