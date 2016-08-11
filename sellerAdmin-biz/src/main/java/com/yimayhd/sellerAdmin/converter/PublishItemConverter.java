@@ -37,13 +37,13 @@ public class PublishItemConverter {
 		//服务咨询类
 		itemDO.setCategoryId(Constant.CONSULT_SERVICE);
 		itemDO.setTitle(publishServiceDO.title);
-		if (publishServiceDO.serviceState == Constant.PUBLISHED) {
+//		if (publishServiceDO.serviceState == Constant.PUBLISHED) {
+//			
+//			itemDO.setStatus(ItemStatus.valid.getValue());
+//		}else if (publishServiceDO.serviceState == Constant.TO_BE_PUBLISHED) {
+		itemDO.setStatus(ItemStatus.invalid.getValue());
 			
-			itemDO.setStatus(ItemStatus.valid.getValue());
-		}else if (publishServiceDO.serviceState == Constant.TO_BE_PUBLISHED) {
-			itemDO.setStatus(ItemStatus.invalid.getValue());
-			
-		}
+		//}
 		itemDO.setSellerId(sellerId);
 		itemDO.setDomain(Constant.DOMAIN_JIUXIU);
 		itemDO.addPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS, publishServiceDO.avater);

@@ -144,6 +144,11 @@ public class PublishItemBiz {
 			boolean savePicTextResult = savePicText(publishServiceDO, sellerId);
 			//保存服务区域
 			BaseResult<Boolean> saveServiceAreaResult = saveServiceArea(publishServiceDO, sellerId);
+			//商品上架
+			ItemPublishDTO itemPublishDTO = new ItemPublishDTO();
+			itemPublishDTO.setItemId(addItemResult.itemId);
+			itemPublishDTO.setSellerId(sellerId);
+			ItemPubResult publishItemResult = publishItemRepo.publishItem(itemPublishDTO);
 			result.setValue(Boolean.TRUE);
 			log.info("result:ItemPubResult={}",JSON.toJSONString(addItemResult));
 		} catch (Exception e) {
@@ -162,6 +167,11 @@ public class PublishItemBiz {
 		}
 		try {
 			ConsultPublishUpdateDTO dto = PublishItemConverter.converterLocal2UpdatePublishConsult(publishServiceDO, sellerId);
+			//保存图文
+			savePicText(publishServiceDO, sellerId);
+			//保存服务区域
+			BaseResult<Boolean> saveServiceAreaResult = saveServiceArea(publishServiceDO, sellerId);
+			//更新服务
 			ItemPubResult updateItemResult = publishItemRepo.updateItem(dto);
 			if (updateItemResult == null) {
 				log.error("result:ItemPubResult={}",updateItemResult);
@@ -189,10 +199,7 @@ public class PublishItemBiz {
 					 
 				}
 			}
-			//保存图文
-			savePicText(publishServiceDO, sellerId);
-			//保存服务区域
-			BaseResult<Boolean> saveServiceAreaResult = saveServiceArea(publishServiceDO, sellerId);
+			
 			result.setValue(Boolean.TRUE);
 			log.info("result:ItemPubResult={}",JSON.toJSONString(updateItemResult));
 		} catch (Exception e) {
