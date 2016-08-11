@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+        >
+
+	<bean id="QueryPayOrderServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.pay.client.service.QueryPayOrderService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
+        <property name="version" value="${consumer.dubbo.paycore.version}"/>
+    </bean>
+    
+    <bean id="eleAccInfoServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.pay.client.service.eleaccount.EleAccInfoService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
+        <property name="version" value="${consumer.dubbo.paycore.version}"/>
+    </bean>
+    
+    <bean id="eleAccHandlerServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.pay.client.service.eleaccount.EleAccHandlerService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
+        <property name="version" value="${consumer.dubbo.paycore.version}"/>
+    </bean>
+    
+    <bean id="eleAccBillServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.pay.client.service.eleaccount.EleAccBillService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
+        <property name="version" value="${consumer.dubbo.paycore.version}"/>
+    </bean>
+    
+    <bean id="settlementServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.pay.client.service.settlement.SettlementService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+		<property name="timeout" value="${consumer.dubbo.timeout}"/>
+		<property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
+        <property name="version" value="${consumer.dubbo.paycore.version}"/>
+    </bean>
+</beans>
