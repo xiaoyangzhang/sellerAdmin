@@ -154,7 +154,7 @@
 					
 					
 					#foreach ($serviceType in $serviceTypes.value)
-					<input type = "checkbox" checked="checked"
+					<input type = "checkbox" 
 								
 						#if ($!talentInfo.talentInfoDO.serviceTypes)
 							#foreach ($st in $talentInfo.talentInfoDO.serviceTypes)

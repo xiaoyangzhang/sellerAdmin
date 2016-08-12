@@ -18,6 +18,7 @@ import org.yimayhd.sellerAdmin.entity.PictureTextItem;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
 import org.yimayhd.sellerAdmin.entity.ServiceArea;
 import org.yimayhd.sellerAdmin.entity.TalentInfo;
+import org.yimayhd.sellerAdmin.enums.ServiceState;
 import org.yimayhd.sellerAdmin.result.ItemApiResult;
 
 import com.alibaba.fastjson.JSON;
@@ -145,10 +146,12 @@ public class PublishItemBiz {
 			//保存服务区域
 			BaseResult<Boolean> saveServiceAreaResult = saveServiceArea(publishServiceDO, sellerId);
 			//商品上架
-			ItemPublishDTO itemPublishDTO = new ItemPublishDTO();
-			itemPublishDTO.setItemId(addItemResult.itemId);
-			itemPublishDTO.setSellerId(sellerId);
-			ItemPubResult publishItemResult = publishItemRepo.publishItem(itemPublishDTO);
+			if (publishServiceDO.serviceState == ServiceState.ON_SALE.getState()) {
+				ItemPublishDTO itemPublishDTO = new ItemPublishDTO();
+				itemPublishDTO.setItemId(addItemResult.itemId);
+				itemPublishDTO.setSellerId(sellerId);
+				ItemPubResult publishItemResult = publishItemRepo.publishItem(itemPublishDTO);
+			}
 			result.setValue(Boolean.TRUE);
 			log.info("result:ItemPubResult={}",JSON.toJSONString(addItemResult));
 		} catch (Exception e) {
