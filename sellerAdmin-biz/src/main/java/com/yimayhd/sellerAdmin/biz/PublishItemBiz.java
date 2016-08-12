@@ -229,22 +229,27 @@ public class PublishItemBiz {
 				idList.add(item.getId());
 			}
 			Map<Long, List<ComTagDO>> comTagMaps = getComTagMapsByIdList(idList);
-			Set<Integer> codeSet = new HashSet<Integer>();
-			for (Map.Entry<Long, List<ComTagDO>> map : comTagMaps.entrySet()) {
-				for (ComTagDO comTag : map.getValue()) {
-					codeSet.add(Integer.parseInt(comTag.getName()));
-				}
-			}
-			
-			List<Integer> codeList = new ArrayList<Integer>();
-			codeList.addAll(codeSet);
-//			DestinationQueryDTO  dto = new DestinationQueryDTO();
+			//			DestinationQueryDTO  dto = new DestinationQueryDTO();
 //			dto.setOutType(DestinationOutType.SERVICE.getCode());
 //			dto.setCodeList(codeList);
 //			dto.setDomain(Constant.DOMAIN_JIUXIU);
 //			dto.setUseType(DestinationUseType.APP_SHOW.getCode());
-			RcResult<List<DestinationDO>> destinationListResult = destinationServiceRef.queryDestinationsByCodeList(Constant.DOMAIN_JIUXIU,
-					DestinationUseType.APP_SHOW.getCode(),DestinationOutType.SERVICE.getCode(),codeList);
+			RcResult<List<DestinationDO>> destinationListResult = null;
+			if (!CollectionUtils.isEmpty(comTagMaps)) {
+				Set<Integer> codeSet = new HashSet<Integer>();
+				for (Map.Entry<Long, List<ComTagDO>> map : comTagMaps
+						.entrySet()) {
+					for (ComTagDO comTag : map.getValue()) {
+						codeSet.add(Integer.parseInt(comTag.getName()));
+					}
+				}
+				List<Integer> codeList = new ArrayList<Integer>();
+				codeList.addAll(codeSet);
+				destinationListResult = destinationServiceRef
+						.queryDestinationsByCodeList(Constant.DOMAIN_JIUXIU,
+								DestinationUseType.APP_SHOW.getCode(),
+								DestinationOutType.SERVICE.getCode(), codeList);
+			}
 			for (ItemDO item : itemPageResult.getItemDOList()) {
 				ItemManagement itemManagement = new ItemManagement();
 				PublishServiceDO publishService = new PublishServiceDO();
@@ -252,7 +257,10 @@ public class PublishItemBiz {
 				publishService.title = item.getTitle();
 				publishService.discountPrice = item.getPrice();
 				publishService.discountTime = (item.getItemFeature().getConsultTime())/60;
-				publishService.serviceAreas = getServiceAreas(comTagMaps,item.getId(),destinationListResult.getT());
+				if (destinationListResult != null) {
+					
+					publishService.serviceAreas = getServiceAreas(comTagMaps,item.getId(),destinationListResult.getT());
+				}
 				publishService.id = item.getId();
 				publishService.categoryType = Constant.CONSULT_SERVICE;
 				itemManagement.publishServiceDO = publishService;
