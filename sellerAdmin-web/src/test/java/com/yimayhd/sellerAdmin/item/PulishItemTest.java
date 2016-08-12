@@ -27,9 +27,9 @@ public class PulishItemTest extends BaseTest {
 //		publishItem();
 //		testWhiteList();
 //		testGetPublishItem();
-		testGetItemManagementList();
+//		testGetItemManagementList();
 //		getItemDetail();
-//		testUpdateState();
+		testUpdateState();
 	}
 
 	private void publishItem() {
@@ -123,10 +123,10 @@ public class PulishItemTest extends BaseTest {
 	
 	private void testUpdateState() {
 		ItemQueryParam itemQueryParam = new ItemQueryParam();
-		itemQueryParam.id = 111027;
+		itemQueryParam.id = 111540;
 		itemQueryParam.categoryId = 241;
 		itemQueryParam.state = 2;
 		//itemQueryParam.
-		boolean updateState = publishItemApi.updateState(0, 1200, 0, 1303209, 0, itemQueryParam);
+		boolean updateState = publishItemApi.updateState(0, 1200, 0, 1309500, 0, itemQueryParam);
 	}
 }

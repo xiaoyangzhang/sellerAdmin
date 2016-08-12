@@ -219,6 +219,8 @@ public class PublishItemBiz {
 			ItemApiResult apiResult = new ItemApiResult();
 			ItemQryDTO itemQryDTO = PublishItemConverter.converterLocal2ItemQueryDTO(query);
 			ItemPageResult itemPageResult = publishItemRepo.getItemList(itemQryDTO);
+			
+			log.error("param:ItemCategoryQuery={},result:itemPageResult={}",JSON.toJSONString(query),JSON.toJSONString(itemPageResult));
 			if (itemPageResult == null || !itemPageResult.isSuccess() ) {
 				log.error("param:ItemCategoryQuery={},result:itemPageResult={}",JSON.toJSONString(query),JSON.toJSONString(itemPageResult));
 				return null;
@@ -272,6 +274,7 @@ public class PublishItemBiz {
 				itemManagements.add(itemManagement);
 			}
 			apiResult.itemManagements = itemManagements;
+			log.error("param:ItemCategoryQuery={} , apiResult:{}",JSON.toJSONString(query),JSON.toJSONString(apiResult));
 			return apiResult;
 		} catch (Exception e) {
 			log.error("param:ItemCategoryQuery={} , error:{}",JSON.toJSONString(query),e);
@@ -344,6 +347,7 @@ public class PublishItemBiz {
 		try {
 			if (dto.getState() == ItemStatus.valid.getValue()) {
 				ItemPubResult pubResult = publishItemRepo.publishItem(itemPublishDTO);
+				log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),JSON.toJSONString(pubResult));
 				if (pubResult == null) {
 					log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),pubResult);
 					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
@@ -356,18 +360,21 @@ public class PublishItemBiz {
 				return result;
 			}else if (dto.getState() == ItemStatus.invalid.getValue()) {
 				ItemCloseResult closeResult = publishItemRepo.closeItem(itemPublishDTO);
+				log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),JSON.toJSONString(closeResult));
 				if (closeResult == null) {
 					log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),closeResult);
 					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
 					return result;
 				}else if (!closeResult.isSuccess() ) {
 					log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),JSON.toJSONString(closeResult));
+					
 					result.setWebReturnCode(WebReturnCode.OFF_SALE_ERROR);
 					return result;
 				}
 				return result;
 			}else if (dto.getState() == ItemStatus.deleted.getValue()) {
 				ItemDeleteResult deleteResult = publishItemRepo.deleteItem(itemPublishDTO);
+				log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),JSON.toJSONString(deleteResult));
 				if (deleteResult == null) {
 					log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),deleteResult);
 					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
