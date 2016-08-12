@@ -67,7 +67,7 @@ public class DestinationBiz {
      * date:2016年6月28日
      * author:xmn
      */
-	public List<CityVO> toCityVODestWithTags(List<ComTagDO> destTags) {
+	public List<CityVO> toCityVODestWithTags(List<ComTagDO> destTags,int type) {
 		if (CollectionUtils.isEmpty(destTags)) {
 			return new ArrayList<CityVO>(0);
 		}
@@ -89,10 +89,9 @@ public class DestinationBiz {
 			return new ArrayList<CityVO>(0);
 		}
 		HashSet<Integer> hashSet = new HashSet<Integer>();
-		int code = DestinationOutType.GROUP_LINE.getCode();
 		int domainJiuxiu = Constant.DOMAIN_JIUXIU;
 		DestinationQueryDTO destinationQueryDTO=new DestinationQueryDTO();
-		destinationQueryDTO.setOutType(code);
+		destinationQueryDTO.setOutType(type);
 		destinationQueryDTO.setCodeList(codes);
 		destinationQueryDTO.setDomain(domainJiuxiu);
 		List<DestinationDO> destinationDOs = destinationRepo.queryDestinationList(destinationQueryDTO);
