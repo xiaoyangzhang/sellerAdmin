@@ -99,7 +99,7 @@
 	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.fullName</td>
 	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.mobilePhone</td>
 	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.post</td>
-	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.prov $!order.mainOrder.tcMainOrder.logisticsOrderDO.city</td>
+	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.prov $!order.mainOrder.tcMainOrder.logisticsOrderDO.city $!order.mainOrder.tcMainOrder.logisticsOrderDO.area</td>
 	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.address</td>
 	            </tr>
 	        </table>
