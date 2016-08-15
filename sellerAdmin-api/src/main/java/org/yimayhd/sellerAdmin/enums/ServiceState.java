@@ -4,8 +4,8 @@ import org.apache.commons.lang.StringUtils;
 
 public enum ServiceState {
 
-	ON_SALE(1,"ONSALE","已发布"),
-	OFF_SALE(2,"OFFSALE","待发布");
+	ON_SALE(2,"ONSALE","已发布"),
+	OFF_SALE(3,"OFFSALE","待发布");
 	
 	private int state;
 	private String code;
