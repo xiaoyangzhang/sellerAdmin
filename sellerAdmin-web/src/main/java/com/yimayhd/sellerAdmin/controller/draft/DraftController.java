@@ -211,6 +211,7 @@ public class DraftController extends BaseDraftController {
                 || ItemType.TOUR_LINE.getValue() == itemType.getValue()
                 || ItemType.TOUR_LINE_ABOARD.getValue() == itemType.getValue()
                 || ItemType.FREE_LINE_ABOARD.getValue() == itemType.getValue()) {
+            put("itemType",itemType);
             return editLineDraft(model, id);
         } else if (ItemType.CITY_ACTIVITY.getValue() == itemType.getValue()) {
             return editCityactivityDraft(model, id);
