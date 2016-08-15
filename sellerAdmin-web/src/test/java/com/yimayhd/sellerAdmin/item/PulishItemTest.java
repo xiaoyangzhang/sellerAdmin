@@ -27,9 +27,9 @@ public class PulishItemTest extends BaseTest {
 //		publishItem();
 //		testWhiteList();
 //		testGetPublishItem();
-//		testGetItemManagementList();
+		testGetItemManagementList();
 //		getItemDetail();
-		testUpdateState();
+//		testUpdateState();
 	}
 
 	private void publishItem() {
