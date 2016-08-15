@@ -129,8 +129,8 @@
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>账户类型：</span></td>
 								<td><select id="accountType" class="selectlist" name="accountType">
-									  <option #if ($examineInfo.accountType == 1) selected="selected" #end value="1">对私账户</option>
-									  <option #if ($examineInfo.accountType == 2) selected="selected" #end value="2">对公账户</option>
+									  <option #if ($examineInfo.accountType == "1") selected="selected" #end value="1">对私账户</option>
+									  <option #if ($examineInfo.accountType == "2") selected="selected" #end value="2">对公账户</option>
 									</select>
 								</td>
 							</tr>
@@ -150,7 +150,7 @@
 								<td class="tbtxt w280"><label class="bred">*</label><span>开户名称：</span></td>
 								<td><input class="inptxt" datatype="*" maxlength="60"   value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" ></td>
 							</tr>
-							#if($examineInfo.accountType == 1)
+							#if($examineInfo.accountType == "1")
 							<tr class="openerCard_">
 									<td class="tbtxt w280"><label class="bred">*</label><span>开户人身份证：</span></td>
 									<td><input class="inptxt" datatype="card" maxlength="18"    value="$!examineInfo.openerCard" id="openerCard_" name="openerCard" nullmsg="请输入身份证号" errormsg="请输入正确的身份证信息" ></td>
@@ -159,7 +159,7 @@
 									<td class="tbtxt w280"><label class="bred">*</label><span>开户人手机号：</span></td>
 									<td><input class="inptxt" datatype="m" maxlength="11"    value="$!examineInfo.openerTel" id="openerTel_" name="openerTel" placeholder="银行预留手机号" nullmsg="请输入手机号" errormsg="请输入正确的手机号" ></td>
 							</tr>
-							#elseif($examineInfo.accountType == 2) 
+							#elseif($examineInfo.accountType == "2") 
 							<tr class="settlementCard_">
 									<td class="tbtxt w280"><label class="bred">*</label><span>结算联行号：</span></td>
 									<td><input class="inptxt" datatype="n" maxlength="12"   value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" nullmsg="请输入信息" errormsg="请输入数字"  ></td>

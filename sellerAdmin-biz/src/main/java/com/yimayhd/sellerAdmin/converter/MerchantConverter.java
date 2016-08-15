@@ -84,7 +84,7 @@ public class MerchantConverter {
 		dto.setTaxRegisterNumber(vo.getTaxRegisterNumber());
 		dto.setMerchantName(vo.getMerchantName());
 		//2.0
-		dto.setAccountType(vo.getAccountType() == 0 ? "0":String.valueOf(vo.getAccountType()));
+		dto.setAccountType(vo.getAccountType());
 		dto.setOpenerCard(vo.getOpenerCard());
 		dto.setSettlementCard(vo.getSettlementCard());
 		dto.setOpenerTel(vo.getOpenerTel());
@@ -161,10 +161,10 @@ public class MerchantConverter {
 		vo.setExaminStatus(examineInfoDTO.getExaminStatus());
 		if (StringUtils.isBlank(examineInfoDTO.getAccountType())) {
 			
-			vo.setAccountType(0);
+			vo.setAccountType("0");
 		}else {
 			
-			vo.setAccountType(Integer.parseInt(examineInfoDTO.getAccountType()));
+			vo.setAccountType(examineInfoDTO.getAccountType());
 		}
 		vo.setOpenerCard(examineInfoDTO.getOpenerCard());
 		vo.setSettlementCard(examineInfoDTO.getSettlementCard());

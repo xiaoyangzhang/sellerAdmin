@@ -140,7 +140,7 @@ public class ExamineInfoVO  implements Serializable  {
     /**
      *账户类型
      */
-    private int accountType;
+    private String accountType;
     /**
      * 开户人身份证
      */
@@ -160,10 +160,10 @@ public class ExamineInfoVO  implements Serializable  {
 	public void setOpenerTel(String openerTel) {
 		this.openerTel = openerTel;
 	}
-	public int getAccountType() {
+	public String getAccountType() {
 		return accountType;
 	}
-	public void setAccountType(int accountType) {
+	public void setAccountType(String accountType) {
 		this.accountType = accountType;
 	}
 	public String getOpenerCard() {
