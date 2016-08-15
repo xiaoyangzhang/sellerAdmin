@@ -24,10 +24,10 @@ public class PulishItemTest extends BaseTest {
 	
 	@Test
 	public void testPublishItem() {
-//		publishItem();
+		publishItem();
 //		testWhiteList();
 //		testGetPublishItem();
-		testGetItemManagementList();
+//		testGetItemManagementList();
 //		getItemDetail();
 //		testUpdateState();
 	}
@@ -35,7 +35,7 @@ public class PulishItemTest extends BaseTest {
 	private void publishItem() {
 		PublishServiceDO publishServiceDO = new PublishServiceDO();
 		//publishServiceDO.id = 110801;
-		publishServiceDO.avater = "2222222222222222222222";
+		publishServiceDO.avater = "33333333333333333";
 		publishServiceDO.bookingTip = "bookingTip1";
 		publishServiceDO.categoryType = 241;
 		publishServiceDO.discountPrice = 1000;
@@ -44,8 +44,8 @@ public class PulishItemTest extends BaseTest {
 		publishServiceDO.oldPrice = 1200;
 		publishServiceDO.oldTime = 999999999;
 		publishServiceDO.refundRule = "refundRule1";
-		publishServiceDO.serviceState = 3;
-		publishServiceDO.title = "2222222222222222222222";
+		publishServiceDO.serviceState = 2;
+		publishServiceDO.title = "3333333333333333333333";
 		List<PictureTextItem> pictureTextItems = new ArrayList<>();
 		PictureTextItem pictureTextItem = new PictureTextItem();
 		pictureTextItem.type =  "IMAGE";
@@ -71,12 +71,12 @@ public class PulishItemTest extends BaseTest {
 		ServiceArea serviceArea = new ServiceArea();
 		serviceArea.areaCode = 532500;
 		serviceArea.domain = 1200;
-		serviceArea.outId = 1311543;
-		serviceArea.outType = 12;
+//		serviceArea.outId = 1309500;
+//		serviceArea.outType = 12;
 		serviceAreas.add(serviceArea);
 		publishServiceDO.pictureTextItems = pictureTextItems;
 		publishServiceDO.serviceAreas = serviceAreas;
-		boolean publishService = publishItemApi.publishService(0, 1200, 0, 1311543, 0, publishServiceDO);
+		boolean publishService = publishItemApi.publishService(0, 1200, 0, 1309500, 0, publishServiceDO);
 		System.out.println(publishService);
 	}
 	
