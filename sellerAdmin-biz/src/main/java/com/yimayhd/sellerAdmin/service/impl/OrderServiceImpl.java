@@ -221,6 +221,7 @@ public class OrderServiceImpl implements OrderService {
 					.querySingle(id, orderQueryOption);
 			if (tcSingleQueryResult.isSuccess()) {
 				OrderDetails orderDetails = new OrderDetails();
+				TcMainOrder tcMainOrder = tcSingleQueryResult.getTcMainOrder();
 				MainOrder mainOrder = OrderConverter
 						.orderVOConverter(tcSingleQueryResult.getTcMainOrder());
 				mainOrder = OrderConverter.mainOrderStatusConverter(mainOrder,
@@ -236,7 +237,8 @@ public class OrderServiceImpl implements OrderService {
 				//获取使用的积分
 				mainOrder.setUserPointNum(BizOrderUtil.getUsePointNum(tcSingleQueryResult.getTcMainOrder().getBizOrder().getBizOrderDO()));
 				orderDetails.setMainOrder(mainOrder);
-				TcMainOrder tcMainOrder = mainOrder.getTcMainOrder();
+				//FIXME 上面将tcMainOrder转成了MainOrder，这里又用MainOrder获取TcMainOrder？
+				//TcMainOrder tcMainOrder = mainOrder.getTcMainOrder();
 				TcBizOrder tcBizOrder = tcMainOrder.getBizOrder();
 
 				if (tcBizOrder != null) {
