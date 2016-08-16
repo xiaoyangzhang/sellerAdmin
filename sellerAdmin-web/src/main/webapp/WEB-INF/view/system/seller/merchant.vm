@@ -81,6 +81,13 @@
 						<label class="lab">图片大小不超过500K,建议图片尺寸为：80*80,仅限于JPG,JPEG,PNG格式</label>
 			           </div>
 					</div>
+			    	<div class="merchant-shop">
+						<label class="mt">商家简介:</label>
+						<div class="bigbox">
+							<textarea cols="10" rows="30" name="merchantDesc">$!merchantDesc</textarea>
+			           </div>
+					</div>
+					
 				</div>
 			</form>
 			<div class = "eredar-list merchant-list2">
