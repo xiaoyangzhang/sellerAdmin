@@ -221,6 +221,7 @@ public class OrderServiceImpl implements OrderService {
 					.querySingle(id, orderQueryOption);
 			if (tcSingleQueryResult.isSuccess()) {
 				OrderDetails orderDetails = new OrderDetails();
+				TcMainOrder tcMainOrder = tcSingleQueryResult.getTcMainOrder();
 				MainOrder mainOrder = OrderConverter
 						.orderVOConverter(tcSingleQueryResult.getTcMainOrder());
 				mainOrder = OrderConverter.mainOrderStatusConverter(mainOrder,
@@ -236,7 +237,7 @@ public class OrderServiceImpl implements OrderService {
 				//获取使用的积分
 				mainOrder.setUserPointNum(BizOrderUtil.getUsePointNum(tcSingleQueryResult.getTcMainOrder().getBizOrder().getBizOrderDO()));
 				orderDetails.setMainOrder(mainOrder);
-				TcMainOrder tcMainOrder = mainOrder.getTcMainOrder();
+				//TcMainOrder tcMainOrder = mainOrder.getTcMainOrder();
 				TcBizOrder tcBizOrder = tcMainOrder.getBizOrder();
 
 				if (tcBizOrder != null) {
@@ -251,6 +252,8 @@ public class OrderServiceImpl implements OrderService {
 						orderDetails.setPayChannel(TcPayChannel.getPayChannel(
 								tcMainOrder.getPayChannel()).getDesc());
 					}
+//					int payChannel = BizOrderUtil.getPayChannel(tcBizOrder.getBizOrderDO());
+//					orderDetails.setPayChannel(TcPayChannel.getPayChannel(payChannel).getDesc());
 				}
 				// orderDetails.setTotalFee(tcMainOrder.getTotalFee());
 				orderDetails.setActualTotalFee(tcMainOrder.getTotalFee());
