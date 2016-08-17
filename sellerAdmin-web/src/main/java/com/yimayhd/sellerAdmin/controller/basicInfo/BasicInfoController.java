@@ -86,7 +86,7 @@ public class BasicInfoController extends BaseController {
 			info.setDomainId(Constant.DOMAIN_JIUXIU);
 			info.setSellerId(user.getId());
 			MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
-			if (merchantInfoResult == null || !merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() == MerchantType.TALENT.getType()) {
+			if (merchantInfoResult == null || !merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() != MerchantType.MERCHANT.getType()) {
 				String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
 				response.sendRedirect(url);
 			}
@@ -112,7 +112,6 @@ public class BasicInfoController extends BaseController {
 			return "/system/seller/merchant";
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			//model.addAttribute("服务器出现错误，请稍后重新登录");
 			return "/system/error/500";
 		}
 		
@@ -125,25 +124,49 @@ public class BasicInfoController extends BaseController {
 	 */
 	@RequestMapping(value = "/merchant/saveBasic",method=RequestMethod.POST)
 	@ResponseBody
-	public WebResultSupport saveBusinessBasic(MerchantInfoVo basicInfo){
+	public BizResult<String> saveBusinessBasic(MerchantInfoVo basicInfo,HttpServletResponse response){
+		BizResult<String> result = new BizResult<String>();
+		InfoQueryDTO info = new InfoQueryDTO();
+		info.setDomainId(Constant.DOMAIN_JIUXIU);
+		info.setSellerId(sessionManager.getUserId());
+		MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
+		if (merchantInfoResult == null || !merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() != MerchantType.MERCHANT.getType()) {
+			String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
+				result.setSuccess(false);
+				result.setValue(url);
+				return result;
+		}
 		UserDTO userDTO = new UserDTO();
 		userDTO.setId(sessionManager.getUserId());
 		userDTO.setNickname(basicInfo.getNickName());
 
-		WebResultSupport result = merchantBiz.updateUser(userDTO);
-		if (result.isSuccess()) {
+		 WebResultSupport updateUserResult = merchantBiz.updateUser(userDTO);
+		if (updateUserResult.isSuccess()) {
 			if (basicInfo.getId() == 0) {// 新增
 				WebResultSupport merChantResult = merchantBiz
 						.saveMerchant(basicInfo);
-				return merChantResult;
+				if (merChantResult == null || !merChantResult.isSuccess()) {
+					result.setSuccess(false);
+					result.setMsg("修改商户信息失败");
+					return result;
+				}
+				//return merChantResult;
 			} else {// 修改
 				WebResultSupport updateResult = merchantBiz
 						.updateMerchantInfo(basicInfo);
-				return updateResult;
+				if (updateResult == null || !updateResult.isSuccess()) {
+					result.setSuccess(false);
+					result.setMsg("修改商户信息失败");
+					return result;
+				}
+				//return updateResult;
 			}
-		} else {
 			return result;
-		}
+		} 
+		result.setSuccess(false);
+		result.setMsg("修改用户信息失败");
+		return result;
+		
 	}
 	/**
 	 * 编辑达人基本信息
@@ -162,7 +185,7 @@ public class BasicInfoController extends BaseController {
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
 		MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
-		if (merchantInfoResult == null || !merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() == MerchantType.MERCHANT.getType()) {
+		if (merchantInfoResult == null || !merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() != MerchantType.TALENT.getType()) {
 			String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
 			try {
 				response.sendRedirect(url);
@@ -208,20 +231,36 @@ public class BasicInfoController extends BaseController {
 	@RequestMapping(value="/talent/saveTalentInfo",method=RequestMethod.POST)
 	@ResponseBody
 	public BizResult<String> addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
-			BizResult<String> bizResult = new BizResult<>();
-			WebResult<Boolean> addTalentInfoResult = talentBiz.addTalentInfo(vo);
-			if (addTalentInfoResult == null) {
-				bizResult.init(false, -1, "保存失败");
+		BizResult<String> bizResult = new BizResult<>();
+		InfoQueryDTO info = new InfoQueryDTO();
+		info.setDomainId(Constant.DOMAIN_JIUXIU);
+		info.setSellerId(sessionManager.getUserId());
+		MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
+		if (merchantInfoResult == null || !merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() != MerchantType.TALENT.getType()) {
+			String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
+			try {
+				//request.getRequestDispatcher("/error/lackPermission").forward(request, response);
+				//response.sendRedirect(url);
+				bizResult.setSuccess(false);
+				bizResult.setValue(url);
 				return bizResult;
+			} catch (Exception e) {
+				log.error("merchantBiz.queryMerchantExamineInfoBySellerId param:InfoQueryDTO={} ,error:{}",JSON.toJSONString(info),e);
 			}
-			if (addTalentInfoResult.isSuccess()) {
-				bizResult.setValue("/toAddTalentInfo");
-			}
-			else {
-				bizResult.init(false, addTalentInfoResult.getErrorCode(),
-						addTalentInfoResult.getResultMsg());
-			}
+		}
+		WebResult<Boolean> addTalentInfoResult = talentBiz.addTalentInfo(vo);
+		if (addTalentInfoResult == null) {
+			bizResult.init(false, -1, "保存失败");
 			return bizResult;
+		}
+		if (addTalentInfoResult.isSuccess()) {
+			bizResult.setValue("/toAddTalentInfo");
+		}
+		else {
+			bizResult.init(false, addTalentInfoResult.getErrorCode(),
+					addTalentInfoResult.getResultMsg());
+		}
+		return bizResult;
 		
 		
 	}
