@@ -150,15 +150,8 @@
 								<td class="tbtxt w280"><label class="bred">*</label><span>开户名称：</span></td>
 								<td><input class="inptxt" datatype="*" maxlength="60"   value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" ></td>
 							</tr>
-							<tr class="openerCard_">
-									<td class="tbtxt w280"><label class="bred">*</label><span>开户人身份证：</span></td>
-									<td><input class="inptxt" datatype="card" maxlength="18"    value="$!examineInfo.openerCard" id="openerCard_" name="openerCard" nullmsg="请输入身份证号" errormsg="请输入正确的身份证信息" ></td>
-							</tr>
-							<tr class="openerTel_">
-									<td class="tbtxt w280"><label class="bred">*</label><span>开户人手机号：</span></td>
-									<td><input class="inptxt" datatype="m" maxlength="11"    value="$!examineInfo.openerTel" id="openerTel_" name="openerTel" placeholder="银行预留手机号" nullmsg="请输入手机号" errormsg="请输入正确的手机号" ></td>
-							</tr>
-							#if($examineInfo.accountType == "1")
+							
+							#if($examineInfo.accountType == "1" || !${examineInfo.accountType})
 							<tr class="openerCard_">
 									<td class="tbtxt w280"><label class="bred">*</label><span>开户人身份证：</span></td>
 									<td><input class="inptxt" datatype="card" maxlength="18"    value="$!examineInfo.openerCard" id="openerCard_" name="openerCard" nullmsg="请输入身份证号" errormsg="请输入正确的身份证信息" ></td>

@@ -273,11 +273,8 @@
 								<td class="rigtxt"><span>*</span><label class="">开户名称：</label></td>
 								<td class="rigcontent"><input type="text" datatype="*" maxlength="60"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" maxlength="60" class="txt01"  placeholder="请输入开户名称"></td>
 							</tr>
-							<tr class="settlementCard_">
-								<td class="rigtxt"><span>*</span><label class="">结算联行号：</label></td>
-								<td class="rigcontent"><input type="text" datatype="n" maxlength="12"  value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" class="txt01"  placeholder="" nullmsg="请输入信息" errormsg="请输入数字" ></td>
-							</tr>
-							#if($examineInfo.accountType == "2")
+							
+							#if($examineInfo.accountType == "2" || !${examineInfo.accountType})
 							<tr class="settlementCard_">
 								<td class="rigtxt"><span>*</span><label class="">结算联行号：</label></td>
 								<td class="rigcontent"><input type="text" datatype="n" maxlength="12"  value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" class="txt01"  placeholder="" nullmsg="请输入信息" errormsg="请输入数字" ></td>
