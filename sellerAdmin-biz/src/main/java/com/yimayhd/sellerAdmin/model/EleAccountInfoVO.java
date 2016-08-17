@@ -40,7 +40,9 @@ public class EleAccountInfoVO {
     private String corpName;
     /**对公帐号*/
     private String openAcctNo;
-    /**开户银行名称*/
+    /**开户账户名*/
+    private String openAccName;
+	/**开户银行名称*/
     private String openBankName;
 
     /**状态*/
@@ -162,5 +164,11 @@ public class EleAccountInfoVO {
 	}
 	public void setUnSettlementAmount(long unSettlementAmount) {
 		this.unSettlementAmount = unSettlementAmount;
+	}
+	public String getOpenAccName() {
+		return openAccName;
+	}
+	public void setOpenAccName(String openAccName) {
+		this.openAccName = openAccName;
 	}
 }

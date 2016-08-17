@@ -20,7 +20,7 @@
         </div>
         <div class="payment-info-box">
             <div class="payment-bank-info">
-                <p class="w445"><span class="fl">账户名称：<i>$!{accountInfo.corpName}</i></span><span class="fr">* 仅支持提现到结算账户</span></p>
+                <p class="w445"><span class="fl">账户名称：<i>$!{accountInfo.openAccName}</i></span><span class="fr">* 仅支持提现到结算账户</span></p>
                 <p>账户号码：<i>$!{accountInfo.openAcctNo}</i></p>
                 <p>开&ensp;户&ensp;行：<i>$!{accountInfo.openBankName}</i></p>
             </div>
@@ -38,7 +38,7 @@
     </tr>
     <tr>
         <td class="field">账户名称：</td>
-        <td>$!{accountInfo.corpName}</td>
+        <td>$!{accountInfo.openAccName}</td>
     </tr>
     <tr>
         <td class="field">账户号码：</td>
