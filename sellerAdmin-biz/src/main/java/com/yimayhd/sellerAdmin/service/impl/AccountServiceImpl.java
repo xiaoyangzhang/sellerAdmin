@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.pay.client.model.enums.ErrorCode;
 import com.yimayhd.pay.client.model.param.eleaccount.WithdrawalDTO;
 import com.yimayhd.pay.client.model.query.eleaccount.EleAccBillDetailQuery;
 import com.yimayhd.pay.client.model.query.eleaccount.EleAccountSingleQuery;
@@ -18,6 +19,7 @@ import com.yimayhd.pay.client.model.result.eleaccount.EleAccountInfoResult;
 import com.yimayhd.pay.client.model.result.eleaccount.dto.EleAccountBillDTO;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.exception.NoticeException;
 import com.yimayhd.sellerAdmin.model.EleAccountBillVO;
 import com.yimayhd.sellerAdmin.model.EleAccountInfoVO;
@@ -57,9 +59,13 @@ public class AccountServiceImpl implements AccountService {
 		ResultSupport result = accountRepo.withdrawal(dto);
 		if(null == result){
             log.error("AccountServiceImpl.withdrawal--accountRepo.withdrawal return value is null and parame: {}", JSON.toJSONString(dto));
-            throw new BaseException("提现失败");
+            throw new NoticeException(Constant.WITHDRAWAL_FAIL);
         }else if(!result.isSuccess()){
             log.error("AccountServiceImpl.withdrawal--accountRepo.withdrawal return value error ! returnValue : {} and parame: {}", JSON.toJSONString(result), JSON.toJSONString(dto));
+            ErrorCode errorCode = result.getErrorCode();
+            if(errorCode != null && errorCode.getCode() == ErrorCode.NOT_VERIFY_ELE_ACCOUNT.getCode()){
+            	throw new NoticeException(Constant.WITHDRAWAL_COMPLETE_ACCOUNT_INFO);
+            }
             throw new NoticeException(result.getResultMsg());
         }
 		

@@ -133,6 +133,11 @@ public class Constant {
 	public static final int LAYER_NUM = 5;
 	
 	public static final String WITHDRAWAL_ACCOUNT_BALANCE_IS_ZERO = "账户余额为0，不能提现";
+	
+	public static final String WITHDRAWAL_FAIL = "提现失败";
+	
+	public static final String WITHDRAWAL_COMPLETE_ACCOUNT_INFO = "请联系平台，完善提现账户信息";
+	
 	/**
 	 * 发布咨询服务类目id
 	 */
