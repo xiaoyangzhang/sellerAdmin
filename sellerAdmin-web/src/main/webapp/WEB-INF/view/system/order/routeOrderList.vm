@@ -476,12 +476,13 @@
             });
 		});
     
-    //备注信息
-    $('.td-bz .icon-bz').hover(function () {
-    		$(this).find('.bz-box').show();
-    },function () {
-    		$(this).find('.bz-box').hide();
-    });
+	    //备注信息
+	    $('.td-bz:last').addClass('bz-last');
+	    $('.td-bz .icon-bz').hover(function () {
+	    		$(this).find('.bz-box').show();
+	    },function () {
+	    		$(this).find('.bz-box').hide();
+	    });
 
     });
 </script>

@@ -86,7 +86,13 @@ public class WebReturnCode implements Serializable {
 	/***************************************** 美食相关 ********************************************************/
 	public final static WebReturnCode ADD_FAILURE = new WebReturnCode(24003002, "新增失败");
 	public final static WebReturnCode QUERY_FAILURE = new WebReturnCode(24003003, "查询失败");
-	
+	/***************************************** 发布商品********************************************************/
+	public final static WebReturnCode ON_SALE_ERROR = new WebReturnCode(24004000, "上架失败");
+	public final static WebReturnCode OFF_SALE_ERROR = new WebReturnCode(24004001, "下架失败");
+	public final static WebReturnCode DELETE_ERROR = new WebReturnCode(24004002, "删除失败");
+	public final static WebReturnCode NO_AUTHORITY = new WebReturnCode(24004003, "没有该权限");
+	public final static WebReturnCode ADD_TALENT_ERROR = new WebReturnCode(24004004, "添加达人失败");
+
 	/***************************************** 优惠劵相关 ********************************************************/
 	public final static WebReturnCode VOUVHER_TITLE_ERROR = new WebReturnCode(24003020, "优惠劵名称长度不正确");
 	public final static WebReturnCode VOUVHER_REQUERMENT_ERROR = new WebReturnCode(24003021, "优惠劵满减金额不正确");

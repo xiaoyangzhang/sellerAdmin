@@ -141,6 +141,7 @@ public class ExamineInfoVO  implements Serializable  {
      *账户类型
      */
     private String accountType;
+
     /**
      * 开户人身份证
      */
@@ -164,6 +165,7 @@ public class ExamineInfoVO  implements Serializable  {
 		return accountType;
 	}
 	public void setAccountType(String accountType) {
+
 		this.accountType = accountType;
 	}
 	public String getOpenerCard() {

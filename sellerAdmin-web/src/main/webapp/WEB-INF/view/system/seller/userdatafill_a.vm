@@ -248,6 +248,7 @@
                	<div class="infor-title">财务信息</div>
 					<div class="six">
 						<table>
+						
 						<tr>	
 								<td class="rigtxt"><span>*</span><label class="">账户类型：</label></td>
 								<td class="rigcontent"><select id="accountType" class="selectlist" name="accountType">
@@ -273,11 +274,8 @@
 								<td class="rigtxt"><span>*</span><label class="">开户名称：</label></td>
 								<td class="rigcontent"><input type="text" datatype="*" maxlength="60"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" maxlength="60" class="txt01"  placeholder="请输入开户名称"></td>
 							</tr>
-							<tr class="settlementCard_">
-								<td class="rigtxt"><span>*</span><label class="">结算联行号：</label></td>
-								<td class="rigcontent"><input type="text" datatype="n" maxlength="12"  value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" class="txt01"  placeholder="" nullmsg="请输入信息" errormsg="请输入数字" ></td>
-							</tr>
-							#if($examineInfo.accountType == "2")
+							
+							#if($examineInfo.accountType == "2" || !${examineInfo.accountType})
 							<tr class="settlementCard_">
 								<td class="rigtxt"><span>*</span><label class="">结算联行号：</label></td>
 								<td class="rigcontent"><input type="text" datatype="n" maxlength="12"  value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" class="txt01"  placeholder="" nullmsg="请输入信息" errormsg="请输入数字" ></td>
@@ -292,6 +290,7 @@
 									<td><input type="text" class="txt01" datatype="m" maxlength="11"    value="$!examineInfo.openerTel" id="openerTel_" name="openerTel" placeholder="银行预留手机号" nullmsg="请输入手机号" errormsg="请输入正确的手机号" ><span class="Validform_checktip"></span></td>
 							</tr>
 							#end
+							
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">结算账号：</label></td>
 								<td class="rigcontent"><input type="text" datatype="n8-25" name="accountNum" value="$!examineInfo.accountNum" maxlength="25" class="txt01"  placeholder="请输入结算账号" ></td>
@@ -516,6 +515,7 @@
 			<td class="rigcontent"><input type="text" class="txt01" datatype="card" maxlength="18"    value="$!examineInfo.openerCard" id="openerCard_" name="openerCard" nullmsg="请输入身份证信息" errormsg="请输入正确的身份证信息" ><span class="Validform_checktip"></span></td>
 	</tr></table>
 	</div>
+	
 	<div class="private_tel" style="display:none">
 	<table><tr>
 			<td class="rigtxt"><span>*</span><label class="">开户人手机号：</label></td>

@@ -38,8 +38,7 @@ public class DestinationRepo {
 		RepoUtils.resultLog(log, "destinationServiceRef.queryOverseaDestinationTree", baseResult);
 		return baseResult.getT();
 	}
-	public List<DestinationNode> queryInlandDestinationTree() {
-		int code = DestinationOutType.LINE.getCode();
+	public List<DestinationNode> queryInlandDestinationTree(int code) {
 		int domainJiuxiu = Constant.DOMAIN_JIUXIU;
 		RepoUtils.requestLog(log, "destinationServiceRef.queryInlandDestinationTree", code,domainJiuxiu);
 		RcResult<List<DestinationNode>> baseResult = destinationServiceRef.queryInlandDestinationTree(code,domainJiuxiu);
@@ -54,16 +53,22 @@ public class DestinationRepo {
 		RepoUtils.resultLog(log, "destinationServiceRef.queryOverseaDestinationTree", baseResult);
 		return baseResult.getT();
 	}
-	public List<DestinationDO> queryDestinationList(List<Integer> codeList) {
-		int code = DestinationOutType.LINE.getCode();
-		int domainJiuxiu = Constant.DOMAIN_JIUXIU;
-		DestinationQueryDTO destinationQueryDTO=new DestinationQueryDTO();
-		destinationQueryDTO.setOutType(code);
-		destinationQueryDTO.setCodeList(codeList);
-		destinationQueryDTO.setDomain(domainJiuxiu);
-		RepoUtils.requestLog(log, "destinationServiceRef.queryDestinationList", code,domainJiuxiu,codeList);
+	public List<DestinationDO> queryDestinationList(DestinationQueryDTO destinationQueryDTO) {
+		RepoUtils.requestLog(log, "destinationServiceRef.queryDestinationList", destinationQueryDTO);
 		RcResult<List<DestinationDO>> baseResult = destinationServiceRef.queryDestinationList(destinationQueryDTO);
 		RepoUtils.resultLog(log, "destinationServiceRef.queryDestinationList", baseResult);
 		return baseResult.getT();
 	}
+//	public List<DestinationDO> queryDestinationList(List<Integer> codeList) {
+//		int code = DestinationOutType.LINE.getCode();
+//		int domainJiuxiu = Constant.DOMAIN_JIUXIU;
+//		DestinationQueryDTO destinationQueryDTO=new DestinationQueryDTO();
+//		destinationQueryDTO.setOutType(code);
+//		destinationQueryDTO.setCodeList(codeList);
+//		destinationQueryDTO.setDomain(domainJiuxiu);
+//		RepoUtils.requestLog(log, "destinationServiceRef.queryDestinationList", code,domainJiuxiu,codeList);
+//		RcResult<List<DestinationDO>> baseResult = destinationServiceRef.queryDestinationList(destinationQueryDTO);
+//		RepoUtils.resultLog(log, "destinationServiceRef.queryDestinationList", baseResult);
+//		return baseResult.getT();
+//	}
 }

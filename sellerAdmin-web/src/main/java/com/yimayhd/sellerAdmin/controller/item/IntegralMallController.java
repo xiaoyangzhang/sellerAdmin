@@ -3,6 +3,8 @@ package com.yimayhd.sellerAdmin.controller.item;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +39,7 @@ import com.yimayhd.sellerAdmin.service.CommodityService;
 @Controller
 @RequestMapping("/integralMall")
 public class IntegralMallController extends BaseController {
+	private static final Logger logger = LoggerFactory.getLogger(IntegralMallController.class);
 	@Autowired
 	private CommodityService	commodityService;
 	@Autowired

@@ -161,6 +161,7 @@ public class ScenicManageDomainChecker {
         scenicManageVO.setItemId(itemDO.getId());
         scenicManageVO.setName(scenicDO.getName());
         scenicManageVO.setTitle(itemDO.getTitle());
+        scenicManageVO.setCode(itemDO.getCode());
         scenicManageVO.setCategoryId(itemDO.getCategoryId());//类目ID
         //scenicManageVO.setPrice(new BigDecimal(itemDO.getPrice()).divide(new BigDecimal(100)));
         scenicManageVO.setOriginalPrice(new BigDecimal(itemDO.getOriginalPrice()).divide(new BigDecimal(100)));
@@ -194,6 +195,7 @@ public class ScenicManageDomainChecker {
         itemDO.setOutId(scenicManageVO.getScenicId());//酒店ID
         itemDO.setSellerId(scenicManageVO.getSellerId());//商家ID
         itemDO.setTitle(scenicManageVO.getTitle());
+        itemDO.setCode(scenicManageVO.getCode());
         //itemDO.setPrice(scenicManageVO.getPrice().multiply(new BigDecimal(100)).longValue());//价格
         //FIXME 缺少非空判断
         itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice().multiply(new BigDecimal(100)).longValue());//门市价
@@ -225,6 +227,7 @@ public class ScenicManageDomainChecker {
         /***基本信息**/
         itemDO.setId(scenicManageVO.getItemId());
         itemDO.setOutId(scenicManageVO.getScenicId());//酒店ID
+        itemDO.setCode(scenicManageVO.getCode());
         itemDO.setTitle(scenicManageVO.getTitle());
         itemDO.setOriginalPrice(scenicManageVO.getOriginalPrice().multiply(new BigDecimal(100)).longValue());//门市价
 

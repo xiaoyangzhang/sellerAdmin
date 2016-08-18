@@ -13,6 +13,7 @@
 	</div>
 	<div class = "eredar-list eredar-list1">
 		 <form class="registerform" method="post" action="saveTalentInfo">
+		 
 			<table width='100%'>
 				<tr>
 					<td class="tbtxt w280"><label class="bred">*</label><span>头像：</span></td>

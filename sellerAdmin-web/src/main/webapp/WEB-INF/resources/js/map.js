@@ -24,6 +24,8 @@ function openBaiduMap(pointX,pointY,callback){   //获取经纬度，pointX初�
         document.getElementById("txtPointX").value=e.point.lng;
         document.getElementById("txtPointY").value=e.point.lat;
     });
+
+
     local = new BMap.LocalSearch("全国", {
         renderOptions: {
             map: map,
@@ -32,8 +34,13 @@ function openBaiduMap(pointX,pointY,callback){   //获取经纬度，pointX初�
             selectFirstResult: false
         }
     });
+    local.setInfoHtmlSetCallback(function(e){
+        document.getElementById("txtPointX").value=e.point.lng;
+        document.getElementById("txtPointY").value=e.point.lat;
+    });
 
-    layer.open({
+
+        layer.open({
         type : 1, title : '地图', closeBtn : false,
         area : [ '880px', '450px' ], shadeClose : false,
         content : $('#baiduMap'),

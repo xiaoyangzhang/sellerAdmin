@@ -68,12 +68,11 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
 
     @Override
     public boolean add(VoucherTemplateVO entity) throws Exception {
-        VcBaseResult<Long> result = voucherClientServiceRef.publishVoucherTemplate(entity);
-        if(result.isSuccess()){
-        	return true;
-        }else{
-        	return false;
-        }
+       VcBaseResult<Long> publishVoucherTemplateResult = voucherClientServiceRef.publishVoucherTemplate(entity);
+       if (publishVoucherTemplateResult != null) {
+		return publishVoucherTemplateResult.isSuccess();
+	}
+       return false;
     }
 
     @Override
@@ -83,3 +82,4 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
         return voucherTemplateVO;
     }
 }
+

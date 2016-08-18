@@ -38,4 +38,8 @@
 	<bean id="settlementRepo" class="com.yimayhd.sellerAdmin.repo.SettlementRepo" />
 	<bean id="jixiuVoucherRepo" class="com.yimayhd.sellerAdmin.repo.JixiuVoucherRepo" />
 
+	<bean id="publishItemRepo" class="com.yimayhd.sellerAdmin.repo.PublishItemRepo" />
+
+
+
 </beans>
