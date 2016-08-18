@@ -137,7 +137,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 			}
 			return true;
 		} catch (Exception e) {
-			log.error("param:ItemQueryParam={},error:{}",JSON.toJSONString(itemQueryParam),e);
+			log.error("error:{}",e);
 			return false;
 		}
 	}
