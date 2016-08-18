@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -237,7 +238,7 @@ public class PublishItemBiz {
 			Map<Long, List<ComTagDO>> comTagMaps = getComTagMapsByIdList(idList);
 			RcResult<List<DestinationDO>> destinationListResult = null;
 			if (!CollectionUtils.isEmpty(comTagMaps)) {
-				Set<Integer> codeSet = new HashSet<Integer>();
+				Set<Integer> codeSet = new TreeSet<Integer>();
 				Set<Entry<Long, List<ComTagDO>>> entrySet = comTagMaps.entrySet();
 				for (Map.Entry<Long, List<ComTagDO>> map : entrySet) {
 					 List<ComTagDO> comTagDOs = map.getValue();
