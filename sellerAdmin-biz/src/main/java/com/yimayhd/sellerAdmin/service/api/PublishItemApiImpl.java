@@ -62,6 +62,8 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	public ItemApiResult getItemList(int appId, int domainId,
 			long deviceId, long userId, int versionCode,
 			 ItemQueryParam itemQueryParam) {
+		log.error("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
 		if (userId <= 0 || itemQueryParam == null || itemQueryParam.pageNo <= 0 || itemQueryParam.pageSize <= 0) {
 			log.error("params:userId={},itemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
 			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
@@ -155,6 +157,8 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	@Override
 	public PublishServiceDO getPublishItemInfo(int appId, int domainId,
 			long deviceId, long userId, int versionCode,/*long itemId,long categoryId*/ItemQueryParam itemQueryParam) {
+		
+		log.error("----------------------------------------------------------------------------------------");
 		log.info("param:ItemQueryParam={}",JSON.toJSONString(itemQueryParam));
 		if (userId <= 0 || itemQueryParam == null || itemQueryParam.id <= 0 || itemQueryParam.categoryId <= 0) {
 			log.error("params:userId={},domainId={},itemId={},categoryId={}",userId,domainId,itemQueryParam.id,itemQueryParam.categoryId);
