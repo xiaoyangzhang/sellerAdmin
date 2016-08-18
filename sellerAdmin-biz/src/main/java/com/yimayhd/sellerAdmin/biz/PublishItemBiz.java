@@ -57,7 +57,6 @@ import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.resourcecenter.domain.DestinationDO;
 import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
 import com.yimayhd.resourcecenter.model.enums.DestinationUseType;
-import com.yimayhd.resourcecenter.model.query.DestinationQueryDTO;
 import com.yimayhd.resourcecenter.model.result.RcResult;
 import com.yimayhd.resourcecenter.service.DestinationService;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -234,11 +233,6 @@ public class PublishItemBiz {
 				idList.add(item.getId());
 			}
 			Map<Long, List<ComTagDO>> comTagMaps = getComTagMapsByIdList(idList);
-			//			DestinationQueryDTO  dto = new DestinationQueryDTO();
-//			dto.setOutType(DestinationOutType.SERVICE.getCode());
-//			dto.setCodeList(codeList);
-//			dto.setDomain(Constant.DOMAIN_JIUXIU);
-//			dto.setUseType(DestinationUseType.APP_SHOW.getCode());
 			RcResult<List<DestinationDO>> destinationListResult = null;
 			if (!CollectionUtils.isEmpty(comTagMaps)) {
 				Set<Integer> codeSet = new HashSet<Integer>();
@@ -253,7 +247,7 @@ public class PublishItemBiz {
 				destinationListResult = destinationServiceRef
 						.queryDestinationsByCodeList(Constant.DOMAIN_JIUXIU,
 								DestinationUseType.APP_SHOW.getCode(),
-								DestinationOutType.SERVICE.getCode(), codeList);
+								DestinationOutType.PUBLISH_SERVICE.getCode(), codeList);
 			}
 			for (ItemDO item : itemPageResult.getItemDOList()) {
 				ItemManagement itemManagement = new ItemManagement();
@@ -610,13 +604,8 @@ public class PublishItemBiz {
 		for (ComTagDO tag : comTagDOs) {
 			codeList.add(Integer.parseInt(tag.getName()));
 		}
-//		DestinationQueryDTO  dto = new DestinationQueryDTO();
-//		dto.setOutType(DestinationOutType.SERVICE.getCode());
-//		dto.setCodeList(codeList);
-//		dto.setDomain(Constant.DOMAIN_JIUXIU);
-//		dto.setUseType(DestinationUseType.APP_SHOW.getCode());
 		RcResult<List<DestinationDO>> destinationListResult = destinationServiceRef.queryDestinationsByCodeList(Constant.DOMAIN_JIUXIU,
-				DestinationUseType.APP_SHOW.getCode(),DestinationOutType.SERVICE.getCode(),codeList);
+				DestinationUseType.APP_SHOW.getCode(),DestinationOutType.PUBLISH_SERVICE.getCode(),codeList);
 		for (DestinationDO des : destinationListResult.getT()) {
 			ServiceArea serviceArea = new ServiceArea();
 			serviceArea.areaCode = des.getCode();
