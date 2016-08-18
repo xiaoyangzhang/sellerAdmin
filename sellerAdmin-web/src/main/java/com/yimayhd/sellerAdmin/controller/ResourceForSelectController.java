@@ -75,7 +75,6 @@ import com.yimayhd.user.client.enums.UserOptions;
 @Controller
 @RequestMapping("/resourceForSelect")
 public class ResourceForSelectController extends BaseController {
-<<<<<<< HEAD
     @Autowired
     private UserRPCService userService;
     @Autowired
@@ -96,28 +95,29 @@ public class ResourceForSelectController extends BaseController {
     @RequestMapping(value = "/selectDeparts")
     public String selectDeparts() {
         //put("item", getItemLineInfo(itmeId));
-        WebResult<List<CityVO>> result = commLineService.getAllLineDeparts();
-        if (result.isSuccess()) {
-            Map<String, List<CityVO>> departMap = new TreeMap<String, List<CityVO>>();
-            List<CityVO> allLineDeparts = result.getValue();
-            if (CollectionUtils.isNotEmpty(allLineDeparts)) {
-                for (CityVO cityVO : allLineDeparts) {
-                    City city = cityVO.getCity();
-                    String firstLetter = city.getFirstLetter();
-                    if (departMap.containsKey(firstLetter)) {
-                        departMap.get(firstLetter).add(cityVO);
-                    } else {
-                        List<CityVO> cityVOs = new ArrayList<CityVO>();
-                        cityVOs.add(cityVO);
-                        departMap.put(firstLetter, cityVOs);
-                    }
-                }
-            }
-            put("departMap", departMap);
-            return "/system/resource/forSelect/selectDeparts";
-        } else {
-            throw new BaseException("选择出发地失败");
-        }
+//        WebResult<List<CityVO>> result = commLineService.getAllLineDeparts();
+//        if (result.isSuccess()) {
+//            Map<String, List<CityVO>> departMap = new TreeMap<String, List<CityVO>>();
+//            List<CityVO> allLineDeparts = result.getValue();
+//            if (CollectionUtils.isNotEmpty(allLineDeparts)) {
+//                for (CityVO cityVO : allLineDeparts) {
+//                    City city = cityVO.getCity();
+//                    String firstLetter = city.getFirstLetter();
+//                    if (departMap.containsKey(firstLetter)) {
+//                        departMap.get(firstLetter).add(cityVO);
+//                    } else {
+//                        List<CityVO> cityVOs = new ArrayList<CityVO>();
+//                        cityVOs.add(cityVO);
+//                        departMap.put(firstLetter, cityVOs);
+//                    }
+//                }
+//            }
+//            put("departMap", departMap);
+//            return "/system/resource/forSelect/selectDeparts";
+//        } else {
+//            throw new BaseException("选择出发地失败");
+//        }
+        return "/system/resource/forSelect/selectDeparts";
     }
 
     /**
@@ -131,7 +131,8 @@ public class ResourceForSelectController extends BaseController {
     @ResponseBody
     public ResponseVo selectInlandDeparts(@RequestParam(value = "selectedIds", required = false) List<String> selectedIds) {
         try {
-            WebResult<List<DestinationNodeVO>> result = commLineService.queryInlandDestinationTree();
+            int code = DestinationOutType.GROUP_LINE.getCode();
+            WebResult<List<DestinationNodeVO>> result = commLineService.queryInlandDestinationTree(code);
             if (result.isSuccess()) {
                 List<DestinationNodeVO> destinationNodeVOs = result.getValue();
                 LineConverter.fillDestinationesSelectedInfo(destinationNodeVOs, selectedIds);
@@ -199,7 +200,8 @@ public class ResourceForSelectController extends BaseController {
             WebResult<List<DestinationNodeVO>> result = null;
             HashMap<String, Object> hashMap = new HashMap<String, Object>();
             if (itemType.equals(ItemType.TOUR_LINE) || itemType.equals(ItemType.FREE_LINE)) {
-                result = commLineService.queryInlandDestinationTree();
+                int code = DestinationOutType.GROUP_LINE.getCode();
+                result = commLineService.queryInlandDestinationTree(code);
                 hashMap.put("type", "inland");
             } else {
                 result = commLineService.queryOverseaDestinationTree();
@@ -221,121 +223,6 @@ public class ResourceForSelectController extends BaseController {
         }
         return "/system/resource/forSelect/selectDests";
     }
-=======
-	@Autowired
-	private UserRPCService		userService;
-	@Autowired
-	private CommodityService	commodityService;
-	@Autowired
-	private TripService			tripService;
-	@Resource
-	private LineService			commLineService;
-	@Autowired
-	private ActivityService		activityService;
-	/**
-	 * 选择出发地
-	 *
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/selectDeparts")
-	public String selectDeparts() {
-		//put("item", getItemLineInfo(itmeId));
-		WebResult<List<CityVO>> result = commLineService.getAllLineDeparts();
-		if (result.isSuccess()) {
-			Map<String, List<CityVO>> departMap = new TreeMap<String, List<CityVO>>();
-			List<CityVO> allLineDeparts = result.getValue();
-			if (CollectionUtils.isNotEmpty(allLineDeparts)) {
-				for (CityVO cityVO : allLineDeparts) {
-					City city = cityVO.getCity();
-					String firstLetter = city.getFirstLetter();
-					if (departMap.containsKey(firstLetter)) {
-						departMap.get(firstLetter).add(cityVO);
-					} else {
-						List<CityVO> cityVOs = new ArrayList<CityVO>();
-						cityVOs.add(cityVO);
-						departMap.put(firstLetter, cityVOs);
-					}
-				}
-			}
-			put("departMap", departMap);
-			return "/system/resource/forSelect/selectDeparts";
-		} else {
-			throw new BaseException("选择出发地失败");
-		}
-	}
-
-	/**
-	 * 选择景区
-	 *
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/selectDests")
-	public String selectDests() {
-		//put("item", getItemLineInfo(itmeId));
-		WebResult<List<CityVO>> result = commLineService.getAllLineDests();
-		
-		if (result.isSuccess()) {
-			Map<String, List<CityVO>> destMap = new TreeMap<String, List<CityVO>>();
-			List<CityVO> allLineDests = result.getValue();
-			if (CollectionUtils.isNotEmpty(allLineDests)) {
-				for (CityVO cityVO : allLineDests) {
-					City city = cityVO.getCity();
-					String firstLetter = city.getFirstLetter();
-					if (destMap.containsKey(firstLetter)) {
-						destMap.get(firstLetter).add(cityVO);
-					} else {
-						List<CityVO> cityVOs = new ArrayList<CityVO>();
-						cityVOs.add(cityVO);
-						destMap.put(firstLetter, cityVOs);
-					}
-				}
-			}
-			put("destMap", destMap);
-			return "/system/resource/forSelect/selectDests";
-		} else {
-			throw new BaseException("选择出发地失败");
-		}
-	}
-	
-	/**
-	 * 根据itemType确定目的地数据
-	 * @author xiemingna
-	 * 2016年5月30日上午11:14:03
-	 * @return
-	 */
-	@RequestMapping(value = "/selectDests/{itemType}")
-	public String selectDestsByItemType(@PathVariable(value = "itemType") ItemType itemType,
-			@RequestParam(value = "selectedIds", required = false) List<String> selectedIds) {
-		try {
-			WebResult<List<DestinationNodeVO>> result = null;
-			HashMap<String, Object> hashMap = new HashMap<String, Object>();
-			if (itemType.equals(ItemType.TOUR_LINE) || itemType.equals(ItemType.FREE_LINE)) {
-                int code = DestinationOutType.GROUP_LINE.getCode();
-                result = commLineService.queryInlandDestinationTree(code);
-				hashMap.put("type", "inland");
-			} else {
-				result = commLineService.queryOverseaDestinationTree();
-				hashMap.put("type", "oversea");
-			}
-			List<DestinationNodeVO> destinationNodeVOs = result.getValue();
-			LineConverter.fillDestinationesSelectedInfo(destinationNodeVOs, selectedIds);
-			if (result.isSuccess()) {
-				ObjectMapper mapper = new ObjectMapper();
-				hashMap.put("destinationNodeVOs", destinationNodeVOs);
-				orderByFirstLetter(destinationNodeVOs);
-				String valueAsString = mapper.writeValueAsString(hashMap);
-				put("destMap", valueAsString);
-			} else {
-				throw new BaseException("选择目的地失败");
-			}
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		return "/system/resource/forSelect/selectDests";
-	}
->>>>>>> v_1_4_0_20160818
 
 //	private LineVO getItemLineInfo(Long id) {
 //		if (id == null ) {

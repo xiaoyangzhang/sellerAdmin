@@ -2,9 +2,6 @@ package com.yimayhd.sellerAdmin.controller.draft;
 
 import java.util.*;
 
-<<<<<<< HEAD
-import com.yimayhd.sellerAdmin.model.query.DraftQuery;
-=======
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
@@ -16,7 +13,6 @@ import com.yimayhd.sellerAdmin.model.*;
 import com.yimayhd.sellerAdmin.model.line.*;
 import com.yimayhd.sellerAdmin.service.item.LineService;
 import org.apache.commons.collections.CollectionUtils;
->>>>>>> v_1_4_0_20160818
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -135,54 +131,7 @@ public class DraftController extends BaseDraftController {
             json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
             LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
 
-<<<<<<< HEAD
-	/**
-	 * 草稿箱列表获取接口
-	 * 
-	 * @param query
-	 *            查询条件
-	 * @return 草稿箱列表
-	 * @author liuxp
-	 * @createTime 2016年6月15日
-	 */
-	@RequestMapping(value = "/list")
-	public String list(Model model, DraftQuery query) {
-		try {
-			long sellerId = getCurrentUserId();
-			if (sellerId <= 0) {
-				log.warn("未登录");
-				throw new BaseException("请登陆后重试");
-			}
-			DraftListQuery draftListQuery = new DraftListQuery();
-			draftListQuery.setDomainId(Constant.DOMAIN_JIUXIU);
-			draftListQuery.setAccountId(sellerId);
-			draftListQuery.setMainType(query.getMainType());
-			draftListQuery.setSubType(query.getSubType());
-			draftListQuery.setPage(query.getPageNo());
-			draftListQuery.setPageSize(query.getPageSize());
-			WebResult<PageVO<DraftVO>> result = draftService.getDraftList(sellerId, draftListQuery);
-			PageVO<DraftVO> pageResult = result.getValue();
-			int totalPage = 0;
-			if (pageResult.getTotalCount() % pageResult.getPageSize() > 0) {
-				totalPage += pageResult.getTotalCount() / pageResult.getPageSize() + 1;
-			} else {
-				totalPage += pageResult.getTotalCount() / pageResult.getPageSize();
-			}
-			BizDraftSubType[] draftSubTypes = BizDraftSubType.values();
-			put("query", query);
-			put("draftTypeList", draftSubTypes);
-			model.addAttribute("pageVo", pageResult);
-			model.addAttribute("totalPage", totalPage);
-			model.addAttribute("totalCount", pageResult.getPaginator().getTotalItems());
-			return "/system/draft/list";
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			throw new BaseException("系统错误");
-		}
-	}
-=======
             return saveDraft(json, draftVO, sellerId);
->>>>>>> v_1_4_0_20160818
 
         } catch (Exception e) {
             log.error(e.getMessage(), e);
