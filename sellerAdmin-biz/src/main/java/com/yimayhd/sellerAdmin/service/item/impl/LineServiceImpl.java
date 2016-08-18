@@ -291,10 +291,14 @@ public class LineServiceImpl implements LineService {
 					}
 				} else {
 					List<CityVO> departs = baseInfo.getDeparts();
-					for (TagDTO tagDTO : departs) {
-						departIds.add(tagDTO.getId());
+//					for (TagDTO tagDTO : departs) {
+//						departIds.add(tagDTO.getId());
+//					}
+//					commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
+					for (CityVO city : departs) {
+						departIds.add(Long.parseLong(city.getCode()));
 					}
-					commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
+					commentRepo.addLineTagRelationInfo(itemId, TagType.DEPARTPLACE, departIds);
 				}
 				List<CityVO> dests = baseInfo.getDests();
 				List<Long> destIds = new ArrayList<Long>();
@@ -351,11 +355,16 @@ public class LineServiceImpl implements LineService {
 					}
 				} else {
 					List<CityVO> departs = baseInfo.getDeparts();
-					for (TagDTO tagDTO : departs) {
-						departIds.add(tagDTO.getId());
-						departNames.add(tagDTO.getName());
+//					for (TagDTO tagDTO : departs) {
+//						departIds.add(tagDTO.getId());
+//						departNames.add(tagDTO.getName());
+//					}
+//					List<Long> destIds = new ArrayList<Long>();
+//					commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
+					for (CityVO cityVOs : departs) {
+						departIds.add(Long.parseLong(cityVOs.getCode()));
 					}
-					commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
+					commentRepo.addLineTagRelationInfo(itemId, TagType.DESTPLACE, departIds);
 				}
 				List<CityVO> dests = baseInfo.getDests();
 				List<Long> destIds = new ArrayList<Long>();
@@ -382,47 +391,47 @@ public class LineServiceImpl implements LineService {
 	}
 
 	//// FIXME: 2016/8/4 方法没有调用了
-	private void convertToIcSubjcet(LineVO line) {
-		BaseInfoVO baseInfo = line.getBaseInfo();
-		List<CityVO> departs = baseInfo.getDeparts();
-		List<CityVO> dests = baseInfo.getDests();
-		BaseResult<List<ComTagDO>> selectTagsIn = comCenterServiceRef.selectTagsIn(baseInfo.getThemes());
-		List<ComTagDO> comTagDOs = selectTagsIn.getValue();
-		ArrayList<IcSubject> themesIcs = new ArrayList<IcSubject>();
-		ArrayList<IcDestination> departsIcs = new ArrayList<IcDestination>();
-		ArrayList<IcDestination> destsIcs = new ArrayList<IcDestination>();
-		if (baseInfo.isAllDeparts()) {
-			ComTagDO tagByName = commentRepo.getTagByName(TagType.DEPARTPLACE, Constant.ALL_PLACE_CODE);
-			if (tagByName != null) {
-				IcDestination icDestination = new IcDestination();
-				icDestination.setCode(tagByName.getName());//出发地为全国
-				icDestination.setTxt("全国");
-				departsIcs.add(icDestination);
-			}
-		}else {
-		    //// FIXME: 2016/8/4 代码重复
-			for (CityVO cityVO : departs) {
-				IcDestination icDestination = new IcDestination();
-				icDestination.setCode(cityVO.getCode());
-				icDestination.setTxt(cityVO.getName());
-				departsIcs.add(icDestination);
-			}
-		}
-		for (ComTagDO tag : comTagDOs) {
-			IcSubject icSubject = new IcSubject();
-			icSubject.setId(tag.getId());
-			icSubject.setTxt(tag.getName());
-			themesIcs.add(icSubject);
-		}
-		for (CityVO cityVO : dests) {
-			IcDestination icDestination = new IcDestination();
-			icDestination.setCode(cityVO.getCode());
-			icDestination.setTxt(cityVO.getName());
-			destsIcs.add(icDestination);
-		}
-		baseInfo.setThemesIcs(themesIcs);
-		baseInfo.setDepartsIcs(departsIcs);
-		baseInfo.setDestsIcs(destsIcs);
-	}
+//	private void convertToIcSubjcet(LineVO line) {
+//		BaseInfoVO baseInfo = line.getBaseInfo();
+//		List<CityVO> departs = baseInfo.getDeparts();
+//		List<CityVO> dests = baseInfo.getDests();
+//		BaseResult<List<ComTagDO>> selectTagsIn = comCenterServiceRef.selectTagsIn(baseInfo.getThemes());
+//		List<ComTagDO> comTagDOs = selectTagsIn.getValue();
+//		ArrayList<IcSubject> themesIcs = new ArrayList<IcSubject>();
+//		ArrayList<IcDestination> departsIcs = new ArrayList<IcDestination>();
+//		ArrayList<IcDestination> destsIcs = new ArrayList<IcDestination>();
+//		if (baseInfo.isAllDeparts()) {
+//			ComTagDO tagByName = commentRepo.getTagByName(TagType.DEPARTPLACE, Constant.ALL_PLACE_CODE);
+//			if (tagByName != null) {
+//				IcDestination icDestination = new IcDestination();
+//				icDestination.setCode(tagByName.getName());//出发地为全国
+//				icDestination.setTxt("全国");
+//				departsIcs.add(icDestination);
+//			}
+//		}else {
+//		    //// FIXME: 2016/8/4 代码重复
+//			for (CityVO cityVO : departs) {
+//				IcDestination icDestination = new IcDestination();
+//				icDestination.setCode(cityVO.getCode());
+//				icDestination.setTxt(cityVO.getName());
+//				departsIcs.add(icDestination);
+//			}
+//		}
+//		for (ComTagDO tag : comTagDOs) {
+//			IcSubject icSubject = new IcSubject();
+//			icSubject.setId(tag.getId());
+//			icSubject.setTxt(tag.getName());
+//			themesIcs.add(icSubject);
+//		}
+//		for (CityVO cityVO : dests) {
+//			IcDestination icDestination = new IcDestination();
+//			icDestination.setCode(cityVO.getCode());
+//			icDestination.setTxt(cityVO.getName());
+//			destsIcs.add(icDestination);
+//		}
+//		baseInfo.setThemesIcs(themesIcs);
+//		baseInfo.setDepartsIcs(departsIcs);
+//		baseInfo.setDestsIcs(destsIcs);
+//	}
 
 }
