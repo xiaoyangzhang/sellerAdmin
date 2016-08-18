@@ -61,7 +61,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	public ItemApiResult getItemList(int appId, int domainId,
 			long deviceId, long userId, int versionCode,
 			 ItemQueryParam itemQueryParam) {
-		//log.error("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		log.info("ItemApiResult.getItemList============================");
 
 		if (userId <= 0 || itemQueryParam == null || itemQueryParam.pageNo <= 0 || itemQueryParam.pageSize <= 0) {
 			log.error("params:userId={},itemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
