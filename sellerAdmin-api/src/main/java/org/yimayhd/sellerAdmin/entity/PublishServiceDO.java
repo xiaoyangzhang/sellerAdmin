@@ -2,7 +2,6 @@ package org.yimayhd.sellerAdmin.entity;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 import net.pocrd.annotation.Description;
 @Description("发布服务的信息")
@@ -21,7 +20,7 @@ public class PublishServiceDO implements Serializable {
 	@Description("类目")
 	public int categoryType;
 	@Description("服务区域")
-	public Set<ServiceArea> serviceAreas;
+	public List<ServiceArea> serviceAreas;
 	@Description("图文详情")
 	public List<PictureTextItem> pictureTextItems;
 	@Description("费用说明")

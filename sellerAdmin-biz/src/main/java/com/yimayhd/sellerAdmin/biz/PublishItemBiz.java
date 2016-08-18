@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -238,7 +237,7 @@ public class PublishItemBiz {
 			Map<Long, List<ComTagDO>> comTagMaps = getComTagMapsByIdList(idList);
 			RcResult<List<DestinationDO>> destinationListResult = null;
 			if (!CollectionUtils.isEmpty(comTagMaps)) {
-				Set<Integer> codeSet = new TreeSet<Integer>();
+				Set<Integer> codeSet = new HashSet<Integer>();
 				Set<Entry<Long, List<ComTagDO>>> entrySet = comTagMaps.entrySet();
 				for (Map.Entry<Long, List<ComTagDO>> map : entrySet) {
 					 List<ComTagDO> comTagDOs = map.getValue();
@@ -280,13 +279,13 @@ public class PublishItemBiz {
 	}
 
 	
-	private Set<ServiceArea> getServiceAreas(
+	private List<ServiceArea> getServiceAreas(
 			Map<Long, List<ComTagDO>> comTagMaps,long itemId,List<DestinationDO> destinationList) {
 		if (CollectionUtils.isEmpty(comTagMaps) || itemId <= 0 || CollectionUtils.isEmpty(destinationList)) {
 			log.error("param:comTagMaps={},itemId={},destinationList={}",JSON.toJSONString(comTagMaps),itemId,JSON.toJSONString(destinationList));
 			return null;
 		}
-		Set<ServiceArea> serviceAreas = new TreeSet<ServiceArea>();
+		List<ServiceArea> serviceAreas = new ArrayList<ServiceArea>();
 		serviceAreas.clear();
 		Set<Entry<Long, List<ComTagDO>>> entrySet = comTagMaps.entrySet();
 		for (Map.Entry<Long, List<ComTagDO>> map :entrySet ) {
@@ -432,7 +431,7 @@ public class PublishItemBiz {
 			return null;
 		}
 		try {
-			Set<ServiceArea> serviceAreas = getServiceAreas(query);
+			List<ServiceArea> serviceAreas = getServiceAreas(query);
 			ItemDO itemDO = queryResult.getItemDO();
 			PublishServiceDO publishService = new PublishServiceDO();
 			publishService.avater = itemDO.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);
@@ -496,7 +495,7 @@ public class PublishItemBiz {
 			return null;
 		}
 		try {
-			Set<ServiceArea> serviceAreas = getServiceAreas(query);
+			List<ServiceArea> serviceAreas = getServiceAreas(query);
 			ItemDO itemDO = queryResult.getItemDO();
 			PublishServiceDO publishService = new PublishServiceDO();
 			publishService.avater = itemDO.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);
@@ -596,8 +595,8 @@ public class PublishItemBiz {
 			return false;
 		}
 	}
-	private Set<ServiceArea> getServiceAreas(ItemCategoryQuery query) {
-		Set<ServiceArea> serviceAreas = new TreeSet<ServiceArea>();
+	private List<ServiceArea> getServiceAreas(ItemCategoryQuery query) {
+		List<ServiceArea> serviceAreas = new ArrayList<ServiceArea>();
 		BaseResult<List<ComTagDO>> tagInfoResult = comCenterServiceRef.getTagInfoByOutIdAndType(query.getItemId(),TagType.DESTPLACE.name());
 		log.info("comCenterServiceRef.getTagInfoByOutIdAndType ,param:{},result:{}",query.getItemId(),TagType.DESTPLACE.name(),JSON.toJSONString(tagInfoResult));
 		if (tagInfoResult == null || CollectionUtils.isEmpty(tagInfoResult.getValue())) {

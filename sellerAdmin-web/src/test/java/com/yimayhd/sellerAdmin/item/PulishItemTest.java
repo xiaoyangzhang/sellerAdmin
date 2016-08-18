@@ -77,7 +77,7 @@ public class PulishItemTest extends BaseTest {
 //		serviceArea.outType = 12;
 		serviceAreas.add(serviceArea);
 		publishServiceDO.pictureTextItems = pictureTextItems;
-		publishServiceDO.serviceAreas = serviceAreas;
+		//publishServiceDO.serviceAreas = serviceAreas;
 		boolean publishService = publishItemApi.publishService(0, 1200, 0, 1309500, 0, publishServiceDO);
 		System.out.println(publishService);
 	}
