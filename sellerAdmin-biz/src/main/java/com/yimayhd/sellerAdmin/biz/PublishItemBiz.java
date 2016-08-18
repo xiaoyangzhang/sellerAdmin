@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -219,7 +220,7 @@ public class PublishItemBiz {
 			ItemQryDTO itemQryDTO = PublishItemConverter.converterLocal2ItemQueryDTO(query);
 			ItemPageResult itemPageResult = publishItemRepo.getItemList(itemQryDTO);
 			
-			log.error("param:ItemCategoryQuery={},result:itemPageResult={}",JSON.toJSONString(query),JSON.toJSONString(itemPageResult));
+			//log.error("param:ItemCategoryQuery={},result:itemPageResult={}",JSON.toJSONString(query),JSON.toJSONString(itemPageResult));
 			if (itemPageResult == null || !itemPageResult.isSuccess() ) {
 				log.error("param:ItemCategoryQuery={},result:itemPageResult={}",JSON.toJSONString(query),JSON.toJSONString(itemPageResult));
 				return null;
@@ -229,27 +230,28 @@ public class PublishItemBiz {
 			}
 			List<ItemManagement> itemManagements = new ArrayList<ItemManagement>();
 			List<Long> idList = new ArrayList<Long>(); 
-			for (ItemDO item : itemPageResult.getItemDOList()) {
+			List<ItemDO> itemDOList = itemPageResult.getItemDOList();
+			for (ItemDO item : itemDOList) {
 				idList.add(item.getId());
 			}
 			Map<Long, List<ComTagDO>> comTagMaps = getComTagMapsByIdList(idList);
 			RcResult<List<DestinationDO>> destinationListResult = null;
 			if (!CollectionUtils.isEmpty(comTagMaps)) {
 				Set<Integer> codeSet = new HashSet<Integer>();
-				for (Map.Entry<Long, List<ComTagDO>> map : comTagMaps
-						.entrySet()) {
-					for (ComTagDO comTag : map.getValue()) {
+				Set<Entry<Long, List<ComTagDO>>> entrySet = comTagMaps.entrySet();
+				for (Map.Entry<Long, List<ComTagDO>> map : entrySet) {
+					 List<ComTagDO> comTagDOs = map.getValue();
+					for (ComTagDO comTag :comTagDOs) {
 						codeSet.add(Integer.parseInt(comTag.getName()));
 					}
 				}
 				List<Integer> codeList = new ArrayList<Integer>();
 				codeList.addAll(codeSet);
-				destinationListResult = destinationServiceRef
-						.queryDestinationsByCodeList(Constant.DOMAIN_JIUXIU,
-								DestinationUseType.APP_SHOW.getCode(),
+				destinationListResult = destinationServiceRef.queryDestinationsByCodeList(Constant.DOMAIN_JIUXIU,DestinationUseType.APP_SHOW.getCode(),
 								DestinationOutType.PUBLISH_SERVICE.getCode(), codeList);
 			}
-			for (ItemDO item : itemPageResult.getItemDOList()) {
+			
+			for (ItemDO item : itemDOList) {
 				ItemManagement itemManagement = new ItemManagement();
 				PublishServiceDO publishService = new PublishServiceDO();
 				publishService.avater = item.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);
@@ -268,7 +270,7 @@ public class PublishItemBiz {
 				itemManagements.add(itemManagement);
 			}
 			apiResult.itemManagements = itemManagements;
-			log.error("param:ItemCategoryQuery={} , apiResult:{}",JSON.toJSONString(query),JSON.toJSONString(apiResult));
+			//log.error("param:ItemCategoryQuery={} , apiResult:{}",JSON.toJSONString(query),JSON.toJSONString(apiResult));
 			return apiResult;
 		} catch (Exception e) {
 			log.error("param:ItemCategoryQuery={} , error:{}",JSON.toJSONString(query),e);
@@ -285,9 +287,11 @@ public class PublishItemBiz {
 		}
 		List<ServiceArea> serviceAreas = new ArrayList<ServiceArea>();
 		serviceAreas.clear();
-		for (Map.Entry<Long, List<ComTagDO>> map : comTagMaps.entrySet()) {
+		Set<Entry<Long, List<ComTagDO>>> entrySet = comTagMaps.entrySet();
+		for (Map.Entry<Long, List<ComTagDO>> map :entrySet ) {
 			if (itemId == map.getKey()) {
-				for (ComTagDO comTag : map.getValue()) {
+				List<ComTagDO> comTagDOs = map.getValue();
+				for (ComTagDO comTag : comTagDOs) {
 					ServiceArea serviceArea = new ServiceArea();
 					for (DestinationDO dest : destinationList) {
 						if (Integer.parseInt(comTag.getName()) == dest.getCode() ) {
@@ -341,7 +345,7 @@ public class PublishItemBiz {
 		try {
 			if (dto.getState() == ItemStatus.valid.getValue()) {
 				ItemPubResult pubResult = publishItemRepo.publishItem(itemPublishDTO);
-				log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),JSON.toJSONString(pubResult));
+				//log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),JSON.toJSONString(pubResult));
 				if (pubResult == null) {
 					log.error("params:ItemQueryDTO={},result:{}",JSON.toJSONString(dto),pubResult);
 					result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);

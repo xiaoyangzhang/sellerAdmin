@@ -1,6 +1,5 @@
 package com.yimayhd.sellerAdmin.service.api;
 
-import net.pocrd.annotation.ApiParameter;
 import net.pocrd.dubboext.DubboExtProperty;
 
 import org.slf4j.Logger;
@@ -9,16 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.yimayhd.sellerAdmin.SellerReturnCode;
 import org.yimayhd.sellerAdmin.api.PublishItemApi;
-import org.yimayhd.sellerAdmin.entity.ItemDetail;
-import org.yimayhd.sellerAdmin.entity.ItemListPage;
-import org.yimayhd.sellerAdmin.entity.ItemManagement;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
 import org.yimayhd.sellerAdmin.query.ItemQueryParam;
 import org.yimayhd.sellerAdmin.result.ItemApiResult;
 
-import com.alibaba.dubbo.rpc.Result;
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.ic.client.model.result.item.ItemPageResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.biz.PublishItemBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
