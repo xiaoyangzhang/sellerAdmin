@@ -2,6 +2,8 @@ package com.yimayhd.sellerAdmin.item;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +69,7 @@ public class PulishItemTest extends BaseTest {
 		pictureTextItems.add(pictureTextItem3);
 		pictureTextItems.add(pictureTextItem4);
 		pictureTextItems.add(pictureTextItem5);
-		List<ServiceArea> serviceAreas = new ArrayList<>();
+		Set<ServiceArea> serviceAreas = new TreeSet<>();
 		ServiceArea serviceArea = new ServiceArea();
 		serviceArea.areaCode = 532500;
 		serviceArea.domain = 1200;

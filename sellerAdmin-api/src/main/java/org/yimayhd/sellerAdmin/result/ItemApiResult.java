@@ -3,10 +3,8 @@ package org.yimayhd.sellerAdmin.result;
 import java.io.Serializable;
 import java.util.List;
 
-import org.yimayhd.sellerAdmin.entity.EvaluateInfo;
 import org.yimayhd.sellerAdmin.entity.ItemDetail;
 import org.yimayhd.sellerAdmin.entity.ItemManagement;
-import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
 import org.yimayhd.sellerAdmin.entity.TalentInfo;
 
 import net.pocrd.annotation.Description;

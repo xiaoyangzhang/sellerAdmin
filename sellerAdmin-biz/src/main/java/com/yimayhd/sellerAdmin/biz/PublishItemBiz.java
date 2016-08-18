@@ -280,13 +280,13 @@ public class PublishItemBiz {
 	}
 
 	
-	private List<ServiceArea> getServiceAreas(
+	private Set<ServiceArea> getServiceAreas(
 			Map<Long, List<ComTagDO>> comTagMaps,long itemId,List<DestinationDO> destinationList) {
 		if (CollectionUtils.isEmpty(comTagMaps) || itemId <= 0 || CollectionUtils.isEmpty(destinationList)) {
 			log.error("param:comTagMaps={},itemId={},destinationList={}",JSON.toJSONString(comTagMaps),itemId,JSON.toJSONString(destinationList));
 			return null;
 		}
-		List<ServiceArea> serviceAreas = new ArrayList<ServiceArea>();
+		Set<ServiceArea> serviceAreas = new TreeSet<ServiceArea>();
 		serviceAreas.clear();
 		Set<Entry<Long, List<ComTagDO>>> entrySet = comTagMaps.entrySet();
 		for (Map.Entry<Long, List<ComTagDO>> map :entrySet ) {
@@ -432,7 +432,7 @@ public class PublishItemBiz {
 			return null;
 		}
 		try {
-			List<ServiceArea> serviceAreas = getServiceAreas(query);
+			Set<ServiceArea> serviceAreas = getServiceAreas(query);
 			ItemDO itemDO = queryResult.getItemDO();
 			PublishServiceDO publishService = new PublishServiceDO();
 			publishService.avater = itemDO.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);
@@ -496,7 +496,7 @@ public class PublishItemBiz {
 			return null;
 		}
 		try {
-			List<ServiceArea> serviceAreas = getServiceAreas(query);
+			Set<ServiceArea> serviceAreas = getServiceAreas(query);
 			ItemDO itemDO = queryResult.getItemDO();
 			PublishServiceDO publishService = new PublishServiceDO();
 			publishService.avater = itemDO.getPicUrls(ItemPicUrlsKey.ITEM_MAIN_PICS);
@@ -596,8 +596,8 @@ public class PublishItemBiz {
 			return false;
 		}
 	}
-	private List<ServiceArea> getServiceAreas(ItemCategoryQuery query) {
-		List<ServiceArea> serviceAreas = new ArrayList<ServiceArea>();
+	private Set<ServiceArea> getServiceAreas(ItemCategoryQuery query) {
+		Set<ServiceArea> serviceAreas = new TreeSet<ServiceArea>();
 		BaseResult<List<ComTagDO>> tagInfoResult = comCenterServiceRef.getTagInfoByOutIdAndType(query.getItemId(),TagType.DESTPLACE.name());
 		log.info("comCenterServiceRef.getTagInfoByOutIdAndType ,param:{},result:{}",query.getItemId(),TagType.DESTPLACE.name(),JSON.toJSONString(tagInfoResult));
 		if (tagInfoResult == null || CollectionUtils.isEmpty(tagInfoResult.getValue())) {
