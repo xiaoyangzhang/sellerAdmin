@@ -7,14 +7,20 @@
         <meta name="description" content=""></meta>
 		#parse("layout/base-link.vm")
         <style>
-            .choosecity{padding-top:20px;}
-            .choosecity label,.choosecity input,.choosecity span{vertical-align:middle;margin:0;padding:0;outline:none;}
-            .choosecity label{font-size:14px;line-height:14px;color:#666;display:inline-block;margin-right:10px;cursor:pointer;}
-            .choosecity input.ck{height:14px;margin-bottom:2px;margin-right:5px;cursor:pointer;}
+        	.startlistbox{padding: 20px 25px;font-size: 16px; overflow: hidden;}
+            .startlistbox label,.startlistbox input,.startlistbox span{vertical-align:middle;margin:0;padding:0;outline:none;}
+            .startlistbox label{font-size:14px;line-height:14px;color:#666;display:inline-block;margin-right:10px;cursor:pointer;}
+            .startlistbox input.ck{height:14px;margin-bottom:2px;margin-right:5px;cursor:pointer;}
+			.table .tdl{width: 50px;font-weight: 700;}
+			.table .tdp{width: 160px;font-weight: 700;}
+			
         </style>
     </head>
     <body>
-        #foreach($entry in $departMap.entrySet())  
+    	<div class="destlistbox">
+			<input type="hidden" name="destData" value='$!destMap' />
+		</div><br>
+        <!--#foreach($entry in $departMap.entrySet())  
         <div id="$!{entry.key}" class="choosecity">
         	<label>$!{entry.key}:</label>
         	#foreach($depart in $entry.value)  
@@ -22,7 +28,7 @@
         	#end
         </div>
         #end
-        <br><br><br>
+        <br><br><br>-->
 		#parse("layout/base-js.vm")
         <script>
             function getSelected() {
@@ -38,8 +44,42 @@
             	return result;
             }
             $(function(){
+            	$.ajax({
+            		type:"get",
+            		url:"$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectInlandDeparts",
+            		success:function (data) {
+            			if (data.status==200) {
+						    if (destDataObj.type=='inland') {
+				      			var inlandProArr = destDataObj.destinationNodeVOs;
+								var $html = '';
+								$html += '<table class="table"><tbody>'
+								for (var i=65;i<91;i++ ) {
+									var myLetter = String.fromCharCode(i);								
+									var sameProArr = inlandProArr.filter(function(a){if(a.destinationVO.simpleCode==myLetter) return a;});									
+									for (var j=0;j<sameProArr.length;j++){
+										$html += '<tr>';
+										if (j == 0) $html += '<td rowspan='+sameProArr.length+' class="tdl">'+myLetter+'</td>';
+										$html += '<td class="tdp">'+sameProArr[j].destinationVO.name+'</td>';									
+										var cityArr = sameProArr[j].child;
+										$html += '<td>';									
+										for (var k=0;k<cityArr.length;k++) {
+											var singleCity = cityArr[k].destinationVO;
+											$html += '<label><input type="checkbox" class="city ck"  dest-id='+ singleCity.id +' dest-code='+ singleCity.code +' dest-name='+ singleCity.name +'>'+ singleCity.name +'</label>';
+										};
+										$html += '</td>';
+										$html += '</tr>';
+									};
+								};
+								$html += '</tbody></table>';
+								$('.destlistbox').append($html);
+				      		};            	           			           				
+            			} else{
+            				layer.msg('请求失败，请稍后重试',{icon:2});
+            			}
+            		}
+            	});
             	var selectedDeparts = parent.getBaseInfo().departs;
-            	console.log(selectedDeparts);
+            	//console.log(selectedDeparts);
             	$("input:checkbox").each(function(){
             		for(var j=0;j<selectedDeparts.length;j++) {
             			if($(this).attr("depart-id")==selectedDeparts[j].id){
