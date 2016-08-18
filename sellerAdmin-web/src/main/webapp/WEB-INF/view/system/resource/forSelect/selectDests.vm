@@ -9,10 +9,10 @@
 		<style>
             .choosecity{padding-top:10px;}
             .choosecity label,.choosecity input,.choosecity span{vertical-align:middle;margin:0;padding:0;outline:none;}
-            .choosecity label{font-size:14px;line-height:14px;color:#666;display:inline-block;margin-right:10px;cursor:pointer;}
+            .choosecity label{margin-bottom: 10px; font-size:14px;line-height:14px;color:#666;display:inline-block;margin-right:10px;cursor:pointer;}
             .choosecity input.ck{height:14px;margin-bottom:2px;margin-right:5px;cursor:pointer;}
 
-            .destlistbox{padding: 20px 25px;font-size: 16px; overflow: hidden;}
+            .destlistbox{padding:20px 25px;font-size: 16px; overflow: hidden;}
             .destlistbox .destbox{float: left; position:relative;width:235px;height: 345px;overflow-y: auto; margin-right: 20px; border: 1px solid #e5e5e5;border-top: 3px solid #ffab00;}
             .destlistbox .destbox ul li{position: relative;height: 40px;line-height: 40px;padding: 0 15px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; border-bottom: 1px solid #e5e5e5;}
             .destlistbox .destbox ul li:first-child{background: #fff9ec;color:#ffaf00;}
@@ -123,20 +123,23 @@
             	//国内
           		if (destDataObj.type=='inland') {
  					var inlandCityArr = destDataObj.destinationNodeVOs[0].child;
+ 					var inlandProArr = destDataObj.destinationNodeVOs;
 					for (var i=65;i<91;i++ ) {
 						var myLetter = String.fromCharCode(i);
 						var $html = '';
 						var flagNum = false;
 						$html += '<div id='+ myLetter +' class="choosecity">';
 						$html += '<label>'+ myLetter +':</label>';
-
-						for (var j=0;j<inlandCityArr.length;j++) {
-							var singleCity = inlandCityArr[j].destinationVO;
-							if (myLetter == singleCity.simpleCode) {
-								$html += '<label><input type="checkbox" class="city ck"  dest-id='+ singleCity.id +' dest-code='+ singleCity.code +' dest-name='+ singleCity.name +'>'+ singleCity.name +'</label>';
-								flagNum = true;
-							};
-						};
+						
+						for (var k=0;k<inlandProArr.length;k++) {
+							for (var j=0;j<inlandProArr[k].child.length;j++) {
+								var singleCity = inlandProArr[k].child[j].destinationVO;
+								if (myLetter == singleCity.simpleCode) {
+									$html += '<label><input type="checkbox" class="city ck"  dest-id='+ singleCity.id +' dest-code='+ singleCity.code +' dest-name='+ singleCity.name +'>'+ singleCity.name +'</label>';
+									flagNum = true;
+								};
+							};							
+						}
 						if (flagNum) {
 							$html += '</div>';
 							$('.destlistbox').append($html);

@@ -6,6 +6,9 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
+import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
+import com.yimayhd.resourcecenter.model.query.DestinationQueryDTO;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,35 +31,35 @@ public class DestinationBiz {
     @Autowired
     private DestinationRepo destinationRepo;
 
-    public List<CityVO> toCityVOForDest(List<ComTagDO> destTags) {
-        if (CollectionUtils.isEmpty(destTags)) {
-            return new ArrayList<CityVO>(0);
-        }
-        List<Integer> codes = new ArrayList<Integer>();
-        for (ComTagDO comTagDO : destTags) {
-            int tagCode = 0;
-            try {
-                tagCode = Integer.parseInt(comTagDO.getName());
-            } catch (NumberFormatException e) {
-                //数据有问题
-                LOGGER.error("comTag NumberFormatException,tagId={},tagName={}", comTagDO.getId(), comTagDO.getName());
-            }
-            if (tagCode > 0) {
-                codes.add(tagCode);
-            }
-        }
-        List<CityVO> dests = new ArrayList<CityVO>();
-        if (codes.size() > 0) {
-            List<DestinationDO> destinationDOs = destinationRepo.queryDestinationList(codes);
-            for (DestinationDO destinationDO : destinationDOs) {
-                City city = new City(String.valueOf(destinationDO.getCode()), destinationDO.getName(), destinationDO.getSimpleCode());
-                CityVO cityVO = new CityVO(destinationDO.getId(), destinationDO.getName(), city);
-                cityVO.setCode(destinationDO.getSimpleCode());
-                dests.add(cityVO);
-            }
-        }
-        return dests;
-    }
+//    public List<CityVO> toCityVOForDest(List<ComTagDO> destTags) {
+//        if (CollectionUtils.isEmpty(destTags)) {
+//            return new ArrayList<CityVO>(0);
+//        }
+//        List<Integer> codes = new ArrayList<Integer>();
+//        for (ComTagDO comTagDO : destTags) {
+//            int tagCode = 0;
+//            try {
+//                tagCode = Integer.parseInt(comTagDO.getName());
+//            } catch (NumberFormatException e) {
+//                //数据有问题
+//                LOGGER.error("comTag NumberFormatException,tagId={},tagName={}", comTagDO.getId(), comTagDO.getName());
+//            }
+//            if (tagCode > 0) {
+//                codes.add(tagCode);
+//            }
+//        }
+//        List<CityVO> dests = new ArrayList<CityVO>();
+//        if (codes.size() > 0) {
+//            List<DestinationDO> destinationDOs = destinationRepo.queryDestinationList(codes);
+//            for (DestinationDO destinationDO : destinationDOs) {
+//                City city = new City(String.valueOf(destinationDO.getCode()), destinationDO.getName(), destinationDO.getSimpleCode());
+//                CityVO cityVO = new CityVO(destinationDO.getId(), destinationDO.getName(), city);
+//                cityVO.setCode(destinationDO.getSimpleCode());
+//                dests.add(cityVO);
+//            }
+//        }
+//        return dests;
+//    }
     /**
      * 目的地回显编辑
      * @param destTags
@@ -64,7 +67,7 @@ public class DestinationBiz {
      * date:2016年6月28日
      * author:xmn
      */
-	public List<CityVO> toCityVODestWithTags(List<ComTagDO> destTags) {
+	public List<CityVO> toCityVODestWithTags(List<ComTagDO> destTags,int type) {
 		if (CollectionUtils.isEmpty(destTags)) {
 			return new ArrayList<CityVO>(0);
 		}
@@ -86,7 +89,12 @@ public class DestinationBiz {
 			return new ArrayList<CityVO>(0);
 		}
 		HashSet<Integer> hashSet = new HashSet<Integer>();
-		List<DestinationDO> destinationDOs = destinationRepo.queryDestinationList(codes);
+		int domainJiuxiu = Constant.DOMAIN_JIUXIU;
+		DestinationQueryDTO destinationQueryDTO=new DestinationQueryDTO();
+		destinationQueryDTO.setOutType(type);
+		destinationQueryDTO.setCodeList(codes);
+		destinationQueryDTO.setDomain(domainJiuxiu);
+		List<DestinationDO> destinationDOs = destinationRepo.queryDestinationList(destinationQueryDTO);
 		for (DestinationDO dest1 : destinationDOs) {
 			
 			for (DestinationDO dest2 : destinationDOs) {
@@ -136,7 +144,13 @@ public class DestinationBiz {
 			return new ArrayList<CityVO>(0);
 		}
 		HashSet<Integer> hashSet = new HashSet<Integer>();
-		List<DestinationDO> destinationDOs = destinationRepo.queryDestinationList(codes);
+		int code = DestinationOutType.GROUP_LINE.getCode();
+		int domainJiuxiu = Constant.DOMAIN_JIUXIU;
+		DestinationQueryDTO destinationQueryDTO=new DestinationQueryDTO();
+		destinationQueryDTO.setOutType(code);
+		destinationQueryDTO.setCodeList(codes);
+		destinationQueryDTO.setDomain(domainJiuxiu);
+		List<DestinationDO> destinationDOs = destinationRepo.queryDestinationList(destinationQueryDTO);
 		for (DestinationDO dest1 : destinationDOs) {
 			
 			for (DestinationDO dest2 : destinationDOs) {

@@ -19,7 +19,7 @@
         		<span class="input-group-addon" block-name="$!{persionPropertyValue.text}">$!{persionPropertyValue.text}：</span>
         		<input type="text" class="form-control double-only item-$!{persionPropertyValue.id}-1" block-type="$!{persionPropertyValue.id}" id="item_$!{persionPropertyValue.id}_1" placeholder="请输入价格">
         		<span class="input-group-addon">库存：</span>
-        		<input type="text" class="form-control int-only item-$!{persionPropertyValue.id}-2" block-type="$!{persionPropertyValue.id}" id="item_$!{persionPropertyValue.id}_2" placeholder="请输入库存">
+        		<input type="text" class="form-control int-only item-$!{persionPropertyValue.id}-2" block-type="$!{persionPropertyValue.id}" id="item_$!{persionPropertyValue.id}_2" placeholder="请输入库存" #if($!{persionPropertyValue.type}==3) value="999" #end>
         	</div>
         	#end
         </div>

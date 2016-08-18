@@ -587,8 +587,9 @@ public class LineConverter {
 		ItemFeature itemFeature = new ItemFeature(null);
 		itemFeature.put(ItemFeatureKey.START_BOOK_TIME_LIMIT, priceInfo.getLimitBySecond());
 		itemFeature.put(ItemFeatureKey.SUBJECTS, baseInfo.getThemesIcs());
-		itemFeature.put(ItemFeatureKey.START_CITIES, baseInfo.getDepartsIcs());
-		itemFeature.put(ItemFeatureKey.DEST_CITIES, baseInfo.getDestsIcs());
+		//取消冗余目的地出发地数据到item
+		//itemFeature.put(ItemFeatureKey.START_CITIES, baseInfo.getDepartsIcs());
+		//itemFeature.put(ItemFeatureKey.DEST_CITIES, baseInfo.getDestsIcs());
 		itemDO.setItemFeature(itemFeature);
 		return itemDO;
 	}
@@ -607,8 +608,8 @@ public class LineConverter {
 		itemUpdateDTO.setItemMainPics(baseInfo.getPicUrls());
 		itemUpdateDTO.setStartBookTimeLimit(startBookTimeLimit);
 		itemUpdateDTO.setDays(baseInfo.getDays());
-		itemUpdateDTO.setStartCityList(baseInfo.getDepartsIcs());
-		itemUpdateDTO.setDestCityList(baseInfo.getDestsIcs());
+//		itemUpdateDTO.setStartCityList(baseInfo.getDepartsIcs());
+//		itemUpdateDTO.setDestCityList(baseInfo.getDestsIcs());
 		itemUpdateDTO.setSubjectList(baseInfo.getThemesIcs());
 		return itemUpdateDTO;
 	}

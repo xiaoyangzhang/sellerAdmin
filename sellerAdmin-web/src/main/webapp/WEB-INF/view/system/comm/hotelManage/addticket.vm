@@ -40,17 +40,26 @@
 	    <div class="baseinfo ticketbaseinfo">
 	         <table>
 	                <tr class="notNull">
-	                    <td class="coltxt" ><span class="bred">*</span>门票类型：</td>
+	                    <td class="coltxt" ><span class="bred">*</span>票务种类：</td>
 	                    <td class="ticketType">
                             #foreach($multi in $multiList)
                             <label class="radio"><input type="radio" name="ticketId" tTitle="$!{multi.title}" value="$!{multi.id}" #if($multi.choiceNo) checked #end>$!{multi.title}</label>
                             #end
 	                     </td>
 	                </tr>
+
 	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>商品标题：</td>
 	                    <td><input type="text" class="inputxt" maxlength="38" name="title" value="$!{scenicManageVO.title}"><span class="mark"><label class="cv">1</label><label>/38字</label></span></td>
 	                </tr>
+                     <tr>
+                         <td class="coltxt vt">商品代码：</td>
+                         <td>
+                             <input type="text" class="inputxt allownull" maxlength="20" name="code" value="$!{scenicManageVO.code}">
+                             <span class="mark"><label class="cv">0</label><label>/20字</label></span>
+                             <br/><span class="ml10">注：商品代码供商家管理商品使用，不会展示给用户</span>
+                         </td>
+                     </tr>
 	                <tr class="notNull">
 	                    <td class="coltxt"><span class="bred">*</span>门市价：</td>
 	                    <td><input type="text" class="inputxt" name="originalPrice" value="$!{scenicManageVO.originalPrice}" ></td>

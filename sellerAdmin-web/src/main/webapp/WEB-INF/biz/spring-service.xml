@@ -70,5 +70,8 @@
 	
 	<bean id ="accountService" class="com.yimayhd.sellerAdmin.service.impl.AccountServiceImpl" />
 	<bean id ="settlementService" class="com.yimayhd.sellerAdmin.service.impl.SettlementServiceImpl" />
+	<!-- 发布商品 -->
+	<bean id="publishItemApi"  class="com.yimayhd.sellerAdmin.service.api.PublishItemApiImpl" />
+
 	<bean id="jiuxiuVoucherTemplateService" class="com.yimayhd.sellerAdmin.service.impl.JiuxiuVoucherTemplateServiceImpl" />
 </beans>

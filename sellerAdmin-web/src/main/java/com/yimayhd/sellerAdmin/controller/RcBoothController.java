@@ -262,7 +262,7 @@ public class RcBoothController extends BaseController {
 			showcaseQuery.setBoothId(Long.parseLong(boothId));
 		}
 		if(StringUtils.isNotEmpty(appVersionCode)){
-			showcaseQuery.setAppVersionCode(Long.parseLong(appVersionCode));
+			showcaseQuery.setAppVersionCode(Integer.parseInt(appVersionCode));
 		}
 		showcaseQuery.setPageNo(pageNumber);
 		showcaseQuery.setPageSize(10);
@@ -308,7 +308,7 @@ public class RcBoothController extends BaseController {
 			showcaseQuery.setStatus(Integer.parseInt(status));
 		}
 		if (StringUtils.isNotEmpty(appVersion)){
-			showcaseQuery.setAppVersionCode(Long.parseLong(appVersion));
+			showcaseQuery.setAppVersionCode(Integer.parseInt(appVersion));
 		}
 		if (StringUtils.isNotEmpty(showType)){
 			showcaseQuery.setShowType(Integer.parseInt(showType));

@@ -551,7 +551,6 @@ public class ApplyController extends BaseController {
 				}
 			}
 		}
-		//model.addAttribute("accountTypes", AccountType.values());
 		model.addAttribute("bankList", talentBiz.getBankList());
 		return "/system/seller/userdatafill_a";
 	}
