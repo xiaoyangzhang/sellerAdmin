@@ -136,7 +136,7 @@ public class Constant {
 	
 	public static final String WITHDRAWAL_FAIL = "提现失败";
 	
-	public static final String WITHDRAWAL_COMPLETE_ACCOUNT_INFO = "请联系平台，完善提现账户信息";
+	public static final String WITHDRAWAL_COMPLETE_ACCOUNT_INFO = "您入住时所填写的财务结算信息有误，请联系客服修改后重新提现。";
 	
 	/**
 	 * 发布咨询服务类目id

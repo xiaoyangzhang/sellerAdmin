@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.pay.client.model.enums.ErrorCode;
 import com.yimayhd.pay.client.model.param.eleaccount.WithdrawalDTO;
 import com.yimayhd.pay.client.model.query.eleaccount.EleAccBillDetailQuery;
 import com.yimayhd.pay.client.model.query.eleaccount.EleAccountSingleQuery;
@@ -62,10 +61,6 @@ public class AccountServiceImpl implements AccountService {
             throw new NoticeException(Constant.WITHDRAWAL_FAIL);
         }else if(!result.isSuccess()){
             log.error("AccountServiceImpl.withdrawal--accountRepo.withdrawal return value error ! returnValue : {} and parame: {}", JSON.toJSONString(result), JSON.toJSONString(dto));
-            ErrorCode errorCode = result.getErrorCode();
-            if(errorCode != null && errorCode.getCode() == ErrorCode.NOT_VERIFY_ELE_ACCOUNT.getCode()){
-            	throw new NoticeException(Constant.WITHDRAWAL_COMPLETE_ACCOUNT_INFO);
-            }
             throw new NoticeException(result.getResultMsg());
         }
 		
