@@ -13,6 +13,7 @@ import java.util.TreeMap;
 
 import javax.annotation.Resource;
 
+import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,28 +95,29 @@ public class ResourceForSelectController extends BaseController {
     @RequestMapping(value = "/selectDeparts")
     public String selectDeparts() {
         //put("item", getItemLineInfo(itmeId));
-        WebResult<List<CityVO>> result = commLineService.getAllLineDeparts();
-        if (result.isSuccess()) {
-            Map<String, List<CityVO>> departMap = new TreeMap<String, List<CityVO>>();
-            List<CityVO> allLineDeparts = result.getValue();
-            if (CollectionUtils.isNotEmpty(allLineDeparts)) {
-                for (CityVO cityVO : allLineDeparts) {
-                    City city = cityVO.getCity();
-                    String firstLetter = city.getFirstLetter();
-                    if (departMap.containsKey(firstLetter)) {
-                        departMap.get(firstLetter).add(cityVO);
-                    } else {
-                        List<CityVO> cityVOs = new ArrayList<CityVO>();
-                        cityVOs.add(cityVO);
-                        departMap.put(firstLetter, cityVOs);
-                    }
-                }
-            }
-            put("departMap", departMap);
-            return "/system/resource/forSelect/selectDeparts";
-        } else {
-            throw new BaseException("选择出发地失败");
-        }
+//        WebResult<List<CityVO>> result = commLineService.getAllLineDeparts();
+//        if (result.isSuccess()) {
+//            Map<String, List<CityVO>> departMap = new TreeMap<String, List<CityVO>>();
+//            List<CityVO> allLineDeparts = result.getValue();
+//            if (CollectionUtils.isNotEmpty(allLineDeparts)) {
+//                for (CityVO cityVO : allLineDeparts) {
+//                    City city = cityVO.getCity();
+//                    String firstLetter = city.getFirstLetter();
+//                    if (departMap.containsKey(firstLetter)) {
+//                        departMap.get(firstLetter).add(cityVO);
+//                    } else {
+//                        List<CityVO> cityVOs = new ArrayList<CityVO>();
+//                        cityVOs.add(cityVO);
+//                        departMap.put(firstLetter, cityVOs);
+//                    }
+//                }
+//            }
+//            put("departMap", departMap);
+//            return "/system/resource/forSelect/selectDeparts";
+//        } else {
+//            throw new BaseException("选择出发地失败");
+//        }
+        return "/system/resource/forSelect/selectDeparts";
     }
 
     /**
@@ -129,7 +131,8 @@ public class ResourceForSelectController extends BaseController {
     @ResponseBody
     public ResponseVo selectInlandDeparts(@RequestParam(value = "selectedIds", required = false) List<String> selectedIds) {
         try {
-            WebResult<List<DestinationNodeVO>> result = commLineService.queryInlandDestinationTree();
+            int code = DestinationOutType.GROUP_LINE.getCode();
+            WebResult<List<DestinationNodeVO>> result = commLineService.queryInlandDestinationTree(code);
             if (result.isSuccess()) {
                 List<DestinationNodeVO> destinationNodeVOs = result.getValue();
                 LineConverter.fillDestinationesSelectedInfo(destinationNodeVOs, selectedIds);
@@ -197,7 +200,8 @@ public class ResourceForSelectController extends BaseController {
             WebResult<List<DestinationNodeVO>> result = null;
             HashMap<String, Object> hashMap = new HashMap<String, Object>();
             if (itemType.equals(ItemType.TOUR_LINE) || itemType.equals(ItemType.FREE_LINE)) {
-                result = commLineService.queryInlandDestinationTree();
+                int code = DestinationOutType.GROUP_LINE.getCode();
+                result = commLineService.queryInlandDestinationTree(code);
                 hashMap.put("type", "inland");
             } else {
                 result = commLineService.queryOverseaDestinationTree();

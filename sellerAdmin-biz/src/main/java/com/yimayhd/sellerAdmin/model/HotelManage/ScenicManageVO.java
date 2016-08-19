@@ -17,6 +17,7 @@ public class ScenicManageVO implements Serializable
     private long scenicId;//景区资源
     private long itemId ;// '自增id',
     private String name ;// '景点名称'
+    private String code;//商品代码
     private String title;//标题
     private BigDecimal price;//价格
     private BigDecimal originalPrice;//门市价格
@@ -300,5 +301,13 @@ public class ScenicManageVO implements Serializable
 
     public void setLevelStr(String levelStr) {
         this.levelStr = levelStr;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

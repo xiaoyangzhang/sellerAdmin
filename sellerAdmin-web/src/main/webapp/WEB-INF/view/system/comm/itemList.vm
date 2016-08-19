@@ -113,6 +113,7 @@
 										$!{item.itemScenicVO.name}<br>
 										$!{item.name}<br>
 										$!{item.itemTicketVO.title}<br>
+										商品代码:$!{item.code}
 									#else
 										$!{item.name}<br>
 										商品代码:$!{item.code}

@@ -48,7 +48,7 @@ public class Constant {
 	
 	public static final int MERCHANT_TYPE_HALF = 4;
 	// 达人基本信息店铺头图数量
-	public static final int TALENT_SHOP_PICNUM = 5;
+	public static final int TALENT_SHOP_PICNUM = 1;
 
 	public static final String MERCHANT_NAME_CN = "商户";
 
@@ -133,4 +133,34 @@ public class Constant {
 	public static final int LAYER_NUM = 5;
 	
 	public static final String WITHDRAWAL_ACCOUNT_BALANCE_IS_ZERO = "账户余额为0，不能提现";
+	
+	public static final String WITHDRAWAL_FAIL = "提现失败";
+	
+	public static final String WITHDRAWAL_COMPLETE_ACCOUNT_INFO = "您入驻时所填写的财务结算信息有误，请联系客服修改后重新提现。";
+	
+	/**
+	 * 发布咨询服务类目id
+	 */
+	public static final int CONSULT_SERVICE = 241;
+	/**
+	 * 已发布
+	 */
+	public static final int PUBLISHED = 2;
+	/**
+	 * 待发布
+	 */
+	public static final int TO_BE_PUBLISHED = 3;
+	/**
+	 * 费用描述
+	 */
+	public static final int FEE_DESC = 61; 
+	/**
+	 * 预定说明
+	 */
+	public static final int BOOKING_TIP = 57; 
+	/**
+	 * 退改规定
+	 */
+	public static final int REFUND_RULE = 62; 
+	
 }

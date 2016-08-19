@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
+import com.yimayhd.sellerAdmin.service.draft.DraftService;
 import net.pocrd.util.StringUtil;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -68,6 +70,8 @@ public class CityActivityManageController extends BaseController {
 	private LineService lineService;
     @Autowired
     private DestinationBiz destinationBiz;
+    @Autowired
+    private DraftService draftService;
 	
 	/**
 	 * 新增活动商品
@@ -98,7 +102,8 @@ public class CityActivityManageController extends BaseController {
             put("themes", allThemes.getValue());
         }
 //        WebResult<List<CityVO>> allDests = tagService.getAllDests();
-        WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree();
+        int code = DestinationOutType.URBAN_LINE.getCode();
+        WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree(code);
         if (result.isSuccess()) {
         	List<CityVO> cityVos = new ArrayList<CityVO>();
         	List<CityVO> allDests=destinationBiz.toCityVOWithDestinationNodeVOs(cityVos,result.getValue());
@@ -133,13 +138,14 @@ public class CityActivityManageController extends BaseController {
         if (allThemes.isSuccess()) {
             put("themes", allThemes.getValue());
         }
-        WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree();
+        int code = DestinationOutType.URBAN_LINE.getCode();
+        WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree(code);
         if (result.isSuccess()) {
         	List<CityVO> cityVos = new ArrayList<CityVO>();
         	List<CityVO> allDests=destinationBiz.toCityVOWithDestinationNodeVOs(cityVos,result.getValue());
         	put("dests", allDests);
 		}
-        
+
         model.addAttribute("category", itemVO.getCategoryVO());
     	model.addAttribute("item", itemVO.getItemVO());
         model.addAttribute("cityActivity", itemVO.getCityActivityVO());
@@ -173,12 +179,14 @@ public class CityActivityManageController extends BaseController {
         if (allThemes.isSuccess()) {
             put("themes", allThemes.getValue());
         }
-        WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree();
+        int code = DestinationOutType.URBAN_LINE.getCode();
+        WebResult<List<DestinationNodeVO>> result = lineService.queryInlandDestinationTree(code);
         if (result.isSuccess()) {
         	List<CityVO> cityVos = new ArrayList<CityVO>();
         	List<CityVO> allDests=destinationBiz.toCityVOWithDestinationNodeVOs(cityVos,result.getValue());
         	put("dests", allDests);
 		}
+
         model.addAttribute("category", itemVO.getCategoryVO());
         model.addAttribute("item", itemVO.getItemVO());
         model.addAttribute("cityActivity", itemVO.getCityActivityVO());
@@ -197,7 +205,7 @@ public class CityActivityManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public @ResponseBody WebResultSupport edit(String json,String uuid) throws Exception {
+    public @ResponseBody WebResultSupport edit(String json,String uuid, String draftId) throws Exception {
         long sellerId = getCurrentUserId();
         if (sellerId <= 0) {
             log.warn("未登录");
@@ -220,7 +228,11 @@ public class CityActivityManageController extends BaseController {
         		if (!rs) {
                     return WebOperateResult.failure(WebReturnCode.REPEAT_ERROR);
                 }
-                return cityActivityService.addCityActivityItem(itemVO);
+                WebResultSupport resultSupport = cityActivityService.addCityActivityItem(itemVO);
+                if(resultSupport.isSuccess()&&!StringUtils.isEmpty(draftId)) {
+                    draftService.deleteDraft(Long.parseLong(draftId), sellerId);
+                }
+                return resultSupport;
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);

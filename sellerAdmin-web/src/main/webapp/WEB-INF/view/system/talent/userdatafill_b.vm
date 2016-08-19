@@ -126,6 +126,7 @@
 					<div class="tit gray6 f16">财务信息</div>
 					<div class="fm_md_four fm_md">
 						<table>
+							
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>账户类型：</span></td>
 								<td><select id="accountType" class="selectlist" name="accountType">
@@ -166,6 +167,7 @@
 									<td><input class="inptxt" datatype="n" maxlength="12"   value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" nullmsg="请输入信息" errormsg="请输入数字"  ></td>
 							</tr>
 							#end
+							
 							<tr>
 								<td class="tbtxt w280"><label class="bred">*</label><span>结算账号：</span></td>
 								<td><input class="inptxt finance" maxlength="25"  name="accountNum" datatype="n8-25" value="$!examineInfo.accountNum" placeholder="请输入结算账号"></td>
