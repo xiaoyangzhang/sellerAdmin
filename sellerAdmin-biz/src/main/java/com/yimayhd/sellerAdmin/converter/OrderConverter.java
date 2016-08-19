@@ -15,6 +15,7 @@ import com.yimayhd.tradecenter.client.util.SkuUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.bouncycastle.jcajce.provider.asymmetric.dsa.DSASigner.stdDSA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -36,6 +37,7 @@ import com.yimayhd.tradecenter.client.model.enums.BizOrderStatus;
 import com.yimayhd.tradecenter.client.model.enums.LogisticsStatus;
 import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
+import com.yimayhd.tradecenter.client.model.enums.OrderStatus;
 import com.yimayhd.tradecenter.client.model.enums.PayStatus;
 import com.yimayhd.tradecenter.client.model.enums.RateStatus;
 import com.yimayhd.tradecenter.client.model.enums.RefundStatus;
@@ -189,9 +191,20 @@ public class OrderConverter {
 
         //订单状态
         mainOrder.setOrderStatus(tcBizOrder.getOrderStatus());
+        
+        for (BizOrderStatus bizOrderStatus : BizOrderStatus.values()) {
+        	if(tcBizOrder.getOrderStatus() == bizOrderStatus.getCode()){
+        		mainOrder.setOrderStatusStr(bizOrderStatus.name());
+        	}
+		}
         //订单类型
         mainOrder.setOrderType(tcBizOrder.getOrderType());
         
+        for (OrderBizType orderBizType : OrderBizType.values()) {
+        	if(tcBizOrder.getOrderType() == orderBizType.getBizType()){
+        		mainOrder.setOrderTypeStr(orderBizType.name());
+        	}
+		}
 //        if (payStatus == PayStatus.NOT_PAY.getStatus()){
 //            mainOrder.setOrderShowState(OrderShowStatus.NOTING.getStatus());//待付款
 //            if(tcBizOrder.getOrderType() == OrderBizType.NORMAL.getBizType()){
@@ -259,6 +272,18 @@ public class OrderConverter {
                 	long act = total/tcDetailOrder.getBizOrder().getBuyAmount();
                 	subOrder.setItemPrice_(act);
                 }
+                //订单状态str
+				for (BizOrderStatus bizOrderStatus : BizOrderStatus.values()) {
+		        	if(tcMainOrder.getBizOrder().getOrderStatus() == bizOrderStatus.getCode()){
+		        		subOrder.setOrderStatusStr(bizOrderStatus.name());
+		        	}
+				}
+		        //订单类型str
+		        for (OrderBizType orderBizType : OrderBizType.values()) {
+		        	if(tcMainOrder.getBizOrder().getOrderType() == orderBizType.getBizType()){
+		        		subOrder.setOrderTypeStr(orderBizType.name());
+		        	}
+				}
                 BizOrderUtil.getSubOrderTotalFee(tcDetailOrder.getBizOrder().getBizOrderDO());
                 
                 subOrderList.add(subOrder);

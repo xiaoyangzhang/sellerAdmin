@@ -141,7 +141,7 @@
                                              src="$!{utilWebconfig.getTfsRootPath()}$!{utilImg.getImgUrl($!{subOrder.tcDetailOrder.itemPic}, 160)}">
                                     </div>
                                     <div class="t-msg">
-                                    	#ROUTE_ORDER_LIST_SKU($!subOrder.tcDetailOrder.bizOrder.orderType)
+                                    	#ROUTE_ORDER_LIST_SKU($!subOrder.orderTypeStr)
                                     </div>
                                 </div>
                             </td>
@@ -159,7 +159,7 @@
 
                             <td class="middle">
                                 <div>
-                                	#ROUTE_ORDER_LIST_GOODS_TYPE($!subOrder.tcDetailOrder.bizOrder.orderType)
+                                	#ROUTE_ORDER_LIST_GOODS_TYPE($!subOrder.orderTypeStr)
                                 </div>
                             </td>
 
@@ -172,7 +172,7 @@
                                 </td>
                                 <td rowspan="$!size" class="middle">
                                     <div class="">
-                                    	#ROUTE_ORDER_LIST_ORDER_TYPE($!subOrder.tcDetailOrder.bizOrder.orderType)
+                                    	#ROUTE_ORDER_LIST_ORDER_TYPE($!subOrder.orderTypeStr)
                                     </div>
                                 </td>
                                 <td rowspan="$!size" class="middle">
@@ -204,8 +204,8 @@
                                 <td rowspan="$!size" class="middle">
                                     <a class="btn btn-mini btn-link addRefund detail" href="$!utilWebconfig.getActionDefaultFontPath()/order/$!order.tcMainOrder.bizOrder.bizOrderId/" target="_blank">详情</a><br/>
                                     ##$order.orderStatus的枚举是BizOrderStatus，$!subOrder.tcDetailOrder.bizOrder.orderType的枚举是OrderBizType
-                                    #if($order.orderStatus == 3)
-                                    	#if($!subOrder.tcDetailOrder.bizOrder.orderType == 200)
+                                    #if($order.orderStatusStr == 'WAITING_DELIVERY')
+                                    	#if($!subOrder.orderTypeStr == 'NORMAL')
                                     		<button type="button" class="btn btn-mini btn-link sendGoods"
 	                                                data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">发货
 	                                        </button>
@@ -215,12 +215,12 @@
 	                                        </button>
                                     	#end
                                     #end
-                                    #if($order.orderStatus == 10)
+                                    #if($order.orderStatusStr == 'FINISH')
                                         <button type="button" class="btn btn-mini btn-link assessment"
                                                 data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">查看评价
                                         </button>
                                     #end
-                                    #if($order.orderStatus == 6 && $!subOrder.tcDetailOrder.bizOrder.orderType == 3400)
+                                    #if($order.orderStatusStr == 'SHIPPING' && $!subOrder.orderTypeStr == 'HOTEL_OFFLINE')
                                         <button type="button" class="btn btn-mini btn-link isCheck"
                                                 data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">是否入驻
                                         </button>
