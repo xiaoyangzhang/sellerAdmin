@@ -35,6 +35,7 @@ import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.VoucherInfo;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderExtFeatureKey;
+import com.yimayhd.tradecenter.client.model.enums.BizOrderStatus;
 import com.yimayhd.tradecenter.client.model.enums.CloseOrderReason;
 import com.yimayhd.tradecenter.client.model.enums.FinishOrderSource;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
@@ -178,6 +179,19 @@ public class OrderServiceImpl implements OrderService {
 							.getBizOrder().getBuyerId());
 					mo.setUser(user);
 					
+					//订单状态str
+					for (BizOrderStatus bizOrderStatus : BizOrderStatus.values()) {
+			        	if(tcMainOrder.getBizOrder().getOrderStatus() == bizOrderStatus.getCode()){
+			        		mo.setOrderStatusStr(bizOrderStatus.name());
+			        	}
+					}
+			        //订单类型str
+			        for (OrderBizType orderBizType : OrderBizType.values()) {
+			        	if(tcMainOrder.getBizOrder().getOrderType() == orderBizType.getBizType()){
+			        		mo.setOrderTypeStr(orderBizType.name());
+			        	}
+					}
+					
 					//获取优惠劵优惠金额
 					VoucherInfo voucherInfo = BizOrderUtil.getVoucherInfo(tcMainOrder.getBizOrder().getBizOrderDO());
 					if(null!=voucherInfo){
@@ -244,9 +258,11 @@ public class OrderServiceImpl implements OrderService {
 					long buyerId = tcBizOrder.getBuyerId();
 					UserDO buyer = userServiceRef.getUserDOById(buyerId);
 					orderDetails.setSellerId(tcBizOrder.getSellerId());
-					orderDetails.setBuyerName(buyer.getName());
-					orderDetails.setBuyerNiceName(buyer.getNickname());
-					orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
+					if(null != buyer){
+						orderDetails.setBuyerName(buyer.getName());
+						orderDetails.setBuyerNiceName(buyer.getNickname());
+						orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
+					}
 					// 付款方式
 					if (tcMainOrder.getPayChannel() != 0) {
 						orderDetails.setPayChannel(TcPayChannel.getPayChannel(
