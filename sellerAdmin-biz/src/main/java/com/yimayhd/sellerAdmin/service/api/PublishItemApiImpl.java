@@ -211,8 +211,19 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	@Override
 	public ConsultCategoryInfo getConsultItemProperties(int appId, int domainId,
 			long deviceId, long userId, int versionCode) {
-		
-		return null;
+		try {
+			ConsultCategoryInfo consultItemProperties = publishItemBiz.getConsultItemProperties();
+			if (consultItemProperties == null || CollectionUtils.isEmpty(consultItemProperties.itemProperties)) {
+				log.error("result:{}",JSON.toJSONString(consultItemProperties));
+				DubboExtProperty.setErrorCode(SellerReturnCode.QUERY_PROPERTY_ERROR);
+				return null;
+			}
+			return consultItemProperties;
+		} catch (Exception e) {
+			log.error("error:{}",e);
+			DubboExtProperty.setErrorCode(SellerReturnCode.SYSTEM_ERROR);
+			return null;
+		}
 	}
 
 }

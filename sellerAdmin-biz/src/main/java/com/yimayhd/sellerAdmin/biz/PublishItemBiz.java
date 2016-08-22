@@ -13,8 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
+import org.yimayhd.sellerAdmin.entity.ConsultCategoryInfo;
 import org.yimayhd.sellerAdmin.entity.ItemDetail;
 import org.yimayhd.sellerAdmin.entity.ItemManagement;
+import org.yimayhd.sellerAdmin.entity.ItemProperty;
 import org.yimayhd.sellerAdmin.entity.PictureTextItem;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
 import org.yimayhd.sellerAdmin.entity.ServiceArea;
@@ -35,10 +37,12 @@ import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.result.PicTextResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.commentcenter.client.service.ComTagCenterService;
+import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.enums.PropertyType;
 import com.yimayhd.ic.client.model.param.item.ConsultPublishAddDTO;
 import com.yimayhd.ic.client.model.param.item.ConsultPublishUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
@@ -444,8 +448,6 @@ public class PublishItemBiz {
 			publishService.id = itemDO.getId();
 			publishService.categoryType = Constant.CONSULT_SERVICE;
 			List<ItemSkuPVPair> itemPropertyList = itemDO.getItemPropertyList();
-//			CategoryResult categoryResult = publishItemRepo.getItemProperties(241);
-//			List<CategoryPropertyValueDO> keyItemProperties = categoryResult.getCategroyDO().getKeyCategoryPropertyDOs();
 			for (ItemSkuPVPair itemSkuPVPair : itemPropertyList) {
 				
 				if (itemSkuPVPair.getPId() == Constant.FEE_DESC) {
@@ -513,15 +515,24 @@ public class PublishItemBiz {
 			publishService.oldPrice = itemDO.getOriginalPrice();
 			publishService.oldTime = (itemDO.getItemFeature().getConsultTime())/60;
 			List<ItemSkuPVPair> itemPropertyList = itemDO.getItemPropertyList();
+			
+			List<ItemProperty> itemProperties = new ArrayList<ItemProperty>();
 			for (ItemSkuPVPair itemSkuPVPair : itemPropertyList) {
-				if (itemSkuPVPair.getPId() == Constant.FEE_DESC) {
-					publishService.feeDesc = itemSkuPVPair.getVTxt();
-				}else if (itemSkuPVPair.getPId() == Constant.BOOKING_TIP) {
-					publishService.bookingTip = itemSkuPVPair.getVTxt();
-				}else if (itemSkuPVPair.getPId() == Constant.REFUND_RULE) {
-					publishService.refundRule = itemSkuPVPair.getVTxt();
-				}
+				ItemProperty itemProperty = new ItemProperty();
+				itemProperty.id = itemSkuPVPair.getPId();
+				itemProperty.text = itemSkuPVPair.getPTxt();
+				itemProperty.type = String.valueOf(itemSkuPVPair.getPType());
+				itemProperty.value = itemSkuPVPair.getVTxt();
+//				if (itemSkuPVPair.getPId() == Constant.FEE_DESC) {
+//					publishService.feeDesc = itemSkuPVPair.getVTxt();
+//				}else if (itemSkuPVPair.getPId() == Constant.BOOKING_TIP) {
+//					publishService.bookingTip = itemSkuPVPair.getVTxt();
+//				}else if (itemSkuPVPair.getPId() == Constant.REFUND_RULE) {
+//					publishService.refundRule = itemSkuPVPair.getVTxt();
+//				}
+				itemProperties.add(itemProperty);
 			}
+			publishService.itemProperties = itemProperties;
 			PicTextResult pictureTextResult = pictureTextRepo.getPictureText(query.getItemId(), PictureText.EXPERTPUBLISH);
 			if (pictureTextResult != null && !CollectionUtils.isEmpty(pictureTextResult.getList())) {
 				List<PictureTextItem> pictureTextItems = new ArrayList<PictureTextItem>();
@@ -622,5 +633,46 @@ public class PublishItemBiz {
 			serviceAreas.add(serviceArea);
 		}
 		return serviceAreas;
+	}
+	
+	public ConsultCategoryInfo getConsultItemProperties() {
+		ConsultCategoryInfo consultCategoryInfo = new ConsultCategoryInfo();
+		List<ItemProperty> itemProperties = new ArrayList<ItemProperty>();
+		CategoryResult categoryResult = publishItemRepo.getItemProperties(241);
+		List<CategoryPropertyValueDO> keyItemProperties = categoryResult.getCategroyDO().getKeyCategoryPropertyDOs();
+		if (!CollectionUtils.isEmpty(keyItemProperties)) {
+		for (CategoryPropertyValueDO categoryPropertyValueDO : keyItemProperties) {
+			CategoryPropertyDO categoryPropertyDO = categoryPropertyValueDO.getCategoryPropertyDO();
+			ItemProperty itemProperty = new ItemProperty();
+			PropertyType propertyType = PropertyType.getByType(categoryPropertyDO.getType());
+			if (propertyType == null) {
+				continue;
+			}
+			itemProperty.type = propertyType.name();
+			itemProperty.id =categoryPropertyDO.getId();
+			itemProperty.text = categoryPropertyDO.getText();
+			itemProperty.defaultDesc = categoryPropertyValueDO.getHint();
+			itemProperties.add(itemProperty);
+		}
+		}
+		List<CategoryPropertyValueDO> nonKeyItemProperties = categoryResult.getCategroyDO().getNonKeyCategoryPropertyDOs();
+		if (!CollectionUtils.isEmpty(nonKeyItemProperties)) {
+			
+			for (CategoryPropertyValueDO categoryPropertyValueDO : nonKeyItemProperties) {
+				CategoryPropertyDO categoryPropertyDO = categoryPropertyValueDO.getCategoryPropertyDO();
+				ItemProperty itemProperty = new ItemProperty();
+				PropertyType propertyType = PropertyType.getByType(categoryPropertyDO.getType());
+				if (propertyType == null) {
+					continue;
+				}
+				itemProperty.type = propertyType.name();
+				itemProperty.id = categoryPropertyDO.getId();
+				itemProperty.text = categoryPropertyDO.getText();
+				itemProperty.defaultDesc = categoryPropertyValueDO.getHint();
+				itemProperties.add(itemProperty);
+			}
+		}
+		consultCategoryInfo.itemProperties = itemProperties;
+		return consultCategoryInfo;
 	}
 }

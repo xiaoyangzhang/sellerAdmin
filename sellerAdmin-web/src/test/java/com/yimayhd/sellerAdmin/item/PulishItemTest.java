@@ -8,6 +8,7 @@ import java.util.TreeSet;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.yimayhd.sellerAdmin.api.PublishItemApi;
+import org.yimayhd.sellerAdmin.entity.ConsultCategoryInfo;
 import org.yimayhd.sellerAdmin.entity.ItemListPage;
 import org.yimayhd.sellerAdmin.entity.PictureTextItem;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
@@ -120,7 +121,8 @@ public class PulishItemTest extends BaseTest {
 	
 	@Test
 	public void testPicText() {
-		System.out.println(FeatureType.getByType(1).name());
+//		System.out.println(FeatureType.getByType(1).name());
+		testItemProperties();
 	}
 	
 	private void testUpdateState() {
@@ -130,5 +132,10 @@ public class PulishItemTest extends BaseTest {
 		itemQueryParam.state = 2;
 		//itemQueryParam.
 		boolean updateState = publishItemApi.updateState(0, 1200, 0, 1309500, 0, itemQueryParam);
+	}
+	
+	private void testItemProperties() {
+		ConsultCategoryInfo consultItemProperties = publishItemApi.getConsultItemProperties(0, 1200, 0, 0, 0);
+		System.out.println("----------------------------"+JSON.toJSONString(consultItemProperties));
 	}
 }
