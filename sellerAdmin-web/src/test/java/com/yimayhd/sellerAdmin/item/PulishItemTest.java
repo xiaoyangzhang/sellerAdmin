@@ -38,14 +38,14 @@ public class PulishItemTest extends BaseTest {
 		PublishServiceDO publishServiceDO = new PublishServiceDO();
 		//publishServiceDO.id = 110801;
 		publishServiceDO.avater = "33333333333333333";
-		publishServiceDO.bookingTip = "bookingTip1";
+		//publishServiceDO.bookingTip = "bookingTip1";
 		publishServiceDO.categoryType = 241;
 		publishServiceDO.discountPrice = 1000;
 		publishServiceDO.discountTime = 999999999;
-		publishServiceDO.feeDesc = "feeDesc1";
+		//publishServiceDO.feeDesc = "feeDesc1";
 		publishServiceDO.oldPrice = 1200;
 		publishServiceDO.oldTime = 999999999;
-		publishServiceDO.refundRule = "refundRule1";
+		//publishServiceDO.refundRule = "refundRule1";
 		publishServiceDO.serviceState = 2;
 		publishServiceDO.title = "3333333333333333333333";
 		List<PictureTextItem> pictureTextItems = new ArrayList<>();

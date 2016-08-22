@@ -11,11 +11,13 @@ import com.yimayhd.ic.client.model.param.item.ConsultPublishAddDTO;
 import com.yimayhd.ic.client.model.param.item.ConsultPublishUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
+import com.yimayhd.ic.client.model.result.item.CategoryResult;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemDeleteResult;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
 import com.yimayhd.ic.client.model.result.item.ItemPubResult;
 import com.yimayhd.ic.client.model.result.item.SingleItemQueryResult;
+import com.yimayhd.ic.client.service.item.CategoryService;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
@@ -41,6 +43,8 @@ public class PublishItemRepo {
 	private ItemQueryService itemQueryService;
 	@Autowired
 	private MerchantItemCategoryService merchantItemCategoryService;
+	@Autowired
+	private CategoryService categoryServiceRef;
 	public ItemPubResult addItem(ConsultPublishAddDTO dto) {
 		log.info("param:ConsultPublishAddDTO={}",JSON.toJSONString(dto));
 		ItemPubResult addPublishConsult = itemPublishService.addPublishConsult(dto);
@@ -117,5 +121,9 @@ public class PublishItemRepo {
 			log.info("param:SingleItemQueryResult={}",JSON.toJSONString(itemResult));
 		}
 		return itemResult;
+	}
+	
+	public CategoryResult getItemProperties(long categoryId) {
+		return categoryServiceRef.getCategory(categoryId);
 	}
 }

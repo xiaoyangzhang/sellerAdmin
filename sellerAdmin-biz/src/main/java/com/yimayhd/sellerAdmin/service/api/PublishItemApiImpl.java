@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.service.api;
 
+import java.util.List;
+
 import net.pocrd.dubboext.DubboExtProperty;
 
 import org.slf4j.Logger;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.yimayhd.sellerAdmin.SellerReturnCode;
 import org.yimayhd.sellerAdmin.api.PublishItemApi;
+import org.yimayhd.sellerAdmin.entity.ItemProperty;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
 import org.yimayhd.sellerAdmin.query.ItemQueryParam;
 import org.yimayhd.sellerAdmin.result.ItemApiResult;
@@ -61,7 +64,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	public ItemApiResult getItemList(int appId, int domainId,
 			long deviceId, long userId, int versionCode,
 			 ItemQueryParam itemQueryParam) {
-		log.info("ItemApiResult.getItemList============================");
+		//log.info("ItemApiResult.getItemList============================");
 
 		if (userId <= 0 || itemQueryParam == null || itemQueryParam.pageNo <= 0 || itemQueryParam.pageSize <= 0) {
 			log.error("params:userId={},itemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
@@ -202,6 +205,13 @@ public class PublishItemApiImpl implements PublishItemApi  {
 			log.error("param:ItemQueryParam={},error:{}",JSON.toJSONString(itemQueryParam),e);
 			return null;
 		}
+	}
+
+	@Override
+	public List<ItemProperty> getItemProperties(int appId, int domainId,
+			long deviceId, long userId, int versionCode) {
+		
+		return null;
 	}
 
 }

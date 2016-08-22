@@ -35,6 +35,7 @@ import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.result.PicTextResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
 import com.yimayhd.commentcenter.client.service.ComTagCenterService;
+import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
@@ -43,6 +44,7 @@ import com.yimayhd.ic.client.model.param.item.ConsultPublishUpdateDTO;
 import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
+import com.yimayhd.ic.client.model.result.item.CategoryResult;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemDeleteResult;
 import com.yimayhd.ic.client.model.result.item.ItemPageResult;
@@ -442,7 +444,10 @@ public class PublishItemBiz {
 			publishService.id = itemDO.getId();
 			publishService.categoryType = Constant.CONSULT_SERVICE;
 			List<ItemSkuPVPair> itemPropertyList = itemDO.getItemPropertyList();
+//			CategoryResult categoryResult = publishItemRepo.getItemProperties(241);
+//			List<CategoryPropertyValueDO> keyItemProperties = categoryResult.getCategroyDO().getKeyCategoryPropertyDOs();
 			for (ItemSkuPVPair itemSkuPVPair : itemPropertyList) {
+				
 				if (itemSkuPVPair.getPId() == Constant.FEE_DESC) {
 					publishService.feeDesc = itemSkuPVPair.getVTxt();
 				}else if (itemSkuPVPair.getPId() == Constant.BOOKING_TIP) {

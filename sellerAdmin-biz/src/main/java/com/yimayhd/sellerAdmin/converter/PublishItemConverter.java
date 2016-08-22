@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.yimayhd.sellerAdmin.entity.ItemProperty;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
 
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
@@ -10,6 +11,7 @@ import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.enums.PropertyType;
 import com.yimayhd.ic.client.model.enums.ValueType;
 import com.yimayhd.ic.client.model.param.item.ConsultPublishAddDTO;
 import com.yimayhd.ic.client.model.param.item.ConsultPublishUpdateDTO;
@@ -79,7 +81,18 @@ public class PublishItemConverter {
 	}
 	private static List<ItemSkuPVPair> createItemSkuPVPair(
 			PublishServiceDO publishServiceDO) {
+		//List<ItemProperty> itemProperties = publishServiceDO.itemProperties;
 		List<ItemSkuPVPair> itemSkuPVPairs = new ArrayList<ItemSkuPVPair>(); 
+//		for (ItemProperty itemProperty : itemProperties) {
+//			
+//			ItemSkuPVPair skuPVPair = new ItemSkuPVPair();
+//			skuPVPair.setPId(itemProperty.id);
+//			skuPVPair.setPTxt(itemProperty.text);
+//			skuPVPair.setVTxt(itemProperty.value);
+//			skuPVPair.setPType(PropertyType.TEXT.getType());
+//			//skuPVPair.setVId(0);
+//			itemSkuPVPairs.add(skuPVPair);
+//		}
 		ItemSkuPVPair skuPVPair = new ItemSkuPVPair();
 		skuPVPair.setPId(61);
 		skuPVPair.setPTxt("费用包含");
