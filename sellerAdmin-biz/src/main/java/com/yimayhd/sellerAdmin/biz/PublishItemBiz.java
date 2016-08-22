@@ -78,6 +78,7 @@ import com.yimayhd.sellerAdmin.model.query.ItemCategoryQuery;
 import com.yimayhd.sellerAdmin.model.query.ItemQueryDTO;
 import com.yimayhd.sellerAdmin.repo.PictureTextRepo;
 import com.yimayhd.sellerAdmin.repo.PublishItemRepo;
+import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.domain.UserTalentDO;
 import com.yimayhd.user.client.dto.TalentDTO;
@@ -269,7 +270,7 @@ public class PublishItemBiz {
 					publishService.serviceAreas = getServiceAreas(comTagMaps,item.getId(),destinationListResult.getT());
 				}
 				publishService.id = item.getId();
-				publishService.categoryType = Constant.CONSULT_SERVICE;
+				publishService.categoryType = Integer.parseInt(WebResourceConfigUtil.getConsultCategory());
 				itemManagement.publishServiceDO = publishService;
 				itemManagement.itemId = item.getId();
 				itemManagement.saleVolume = item.getSales();
@@ -411,7 +412,7 @@ public class PublishItemBiz {
 			}
 			int count = 0;
 			for (MerchantItemCategoryDO item : itemCaetgoryListResult.getValue()) {
-				if (item.getItemCategoryId() == Constant.CONSULT_SERVICE) {
+				if (item.getItemCategoryId() == Integer.parseInt(WebResourceConfigUtil.getConsultCategory())) {
 					count ++ ;
 				}
 			}
@@ -446,7 +447,7 @@ public class PublishItemBiz {
 			publishService.discountTime = (itemDO.getItemFeature().getConsultTime())/60;
 			publishService.serviceAreas = serviceAreas;
 			publishService.id = itemDO.getId();
-			publishService.categoryType = Constant.CONSULT_SERVICE;
+			publishService.categoryType = Integer.parseInt(WebResourceConfigUtil.getConsultCategory());
 			List<ItemSkuPVPair> itemPropertyList = itemDO.getItemPropertyList();
 			for (ItemSkuPVPair itemSkuPVPair : itemPropertyList) {
 				
@@ -511,7 +512,7 @@ public class PublishItemBiz {
 			publishService.discountTime = ( itemDO.getItemFeature().getConsultTime())/60;
 			publishService.serviceAreas = serviceAreas;
 			publishService.id = itemDO.getId();
-			publishService.categoryType = Constant.CONSULT_SERVICE;
+			publishService.categoryType = Integer.parseInt(WebResourceConfigUtil.getConsultCategory());
 			publishService.oldPrice = itemDO.getOriginalPrice();
 			publishService.oldTime = (itemDO.getItemFeature().getConsultTime())/60;
 			List<ItemSkuPVPair> itemPropertyList = itemDO.getItemPropertyList();
@@ -675,4 +676,6 @@ public class PublishItemBiz {
 		consultCategoryInfo.itemProperties = itemProperties;
 		return consultCategoryInfo;
 	}
+	
+	
 }

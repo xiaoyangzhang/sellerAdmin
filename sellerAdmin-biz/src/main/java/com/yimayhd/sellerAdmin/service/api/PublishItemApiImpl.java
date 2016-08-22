@@ -22,6 +22,7 @@ import com.yimayhd.sellerAdmin.biz.PublishItemBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.query.ItemCategoryQuery;
 import com.yimayhd.sellerAdmin.model.query.ItemQueryDTO;
+import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 
 public class PublishItemApiImpl implements PublishItemApi  {
 
@@ -76,7 +77,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 			ItemCategoryQuery itemCategoryQuery = new ItemCategoryQuery(); 
 			itemCategoryQuery.setSellerId(userId);
 			itemCategoryQuery.setItemQueryParam(itemQueryParam);
-			itemCategoryQuery.setCategoryId(Constant.CONSULT_SERVICE);
+			itemCategoryQuery.setCategoryId(Integer.parseInt(WebResourceConfigUtil.getConsultCategory()));
 			itemCategoryQuery.setDomainId(domainId);
 			ItemApiResult itemApiResult = publishItemBiz.getItemList(itemCategoryQuery);
 			if (itemApiResult == null ) {

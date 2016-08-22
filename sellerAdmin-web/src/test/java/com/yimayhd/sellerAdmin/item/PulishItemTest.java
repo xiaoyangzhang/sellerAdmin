@@ -19,6 +19,7 @@ import org.yimayhd.sellerAdmin.result.ItemApiResult;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.enums.FeatureType;
 import com.yimayhd.sellerAdmin.BaseTest;
+import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 
 public class PulishItemTest extends BaseTest {
 
@@ -122,7 +123,8 @@ public class PulishItemTest extends BaseTest {
 	@Test
 	public void testPicText() {
 //		System.out.println(FeatureType.getByType(1).name());
-		testItemProperties();
+		//testItemProperties();
+		testConsultCategory();
 	}
 	
 	private void testUpdateState() {
@@ -137,5 +139,11 @@ public class PulishItemTest extends BaseTest {
 	private void testItemProperties() {
 		ConsultCategoryInfo consultItemProperties = publishItemApi.getConsultItemProperties(0, 1200, 0, 0, 0);
 		System.out.println("----------------------------"+JSON.toJSONString(consultItemProperties));
+	}
+	
+	private void testConsultCategory() {
+		System.out.println("--------------------------------"+WebResourceConfigUtil.getRootPath());
+		System.out.println("--------------------------------"+WebResourceConfigUtil.getConsultCategory());
+		System.out.println("--------------------------------"+Integer.parseInt(WebResourceConfigUtil.getConsultCategory()));
 	}
 }

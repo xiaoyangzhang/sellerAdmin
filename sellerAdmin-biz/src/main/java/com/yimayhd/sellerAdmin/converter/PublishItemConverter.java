@@ -22,6 +22,7 @@ import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.query.ItemCategoryQuery;
 import com.yimayhd.sellerAdmin.model.query.ItemQueryDTO;
+import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 
 /**
  * 
@@ -37,7 +38,7 @@ public class PublishItemConverter {
 		ConsultPublishAddDTO dto = new ConsultPublishAddDTO();
 		ItemDO itemDO = new ItemDO();
 		//服务咨询类
-		itemDO.setCategoryId(Constant.CONSULT_SERVICE);
+		itemDO.setCategoryId(Integer.parseInt(WebResourceConfigUtil.getConsultCategory()));
 		itemDO.setTitle(publishServiceDO.title);
 //		if (publishServiceDO.serviceState == Constant.PUBLISHED) {
 //			
