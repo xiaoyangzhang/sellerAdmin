@@ -17,7 +17,7 @@ import org.yimayhd.sellerAdmin.entity.merchant.Qualification;
 public interface MerchantInfoApi {
 
 	@HttpApi(name = "sellerAdmin.queryHomePage", desc = "查询店铺主页信息", security = SecurityType.UserLogin, owner = "zhangxy")
-    @DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C})
+    @DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C,SellerReturnCode.QUERY_MERCHANT_ERROR_C})
     public HomePage queryHomePage(
             @ApiAutowired(CommonParameter.applicationId) int appId,
             @ApiAutowired(CommonParameter.domainId) int domainId,
@@ -27,7 +27,7 @@ public interface MerchantInfoApi {
             
     );
 	@HttpApi(name = "sellerAdmin.queryMerchantInfo", desc = "查询店铺信息", security = SecurityType.UserLogin, owner = "zhangxy")
-	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C})
+	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C,SellerReturnCode.QUERY_MERCHANT_ERROR_C})
 	public MerchantInfo queryMerchantInfo(
 			@ApiAutowired(CommonParameter.applicationId) int appId,
 			@ApiAutowired(CommonParameter.domainId) int domainId,
@@ -37,7 +37,7 @@ public interface MerchantInfoApi {
 			
 			);
 	@HttpApi(name = "sellerAdmin.queryMerchantDesc", desc = "查询店铺简介信息", security = SecurityType.UserLogin, owner = "zhangxy")
-	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C})
+	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C,SellerReturnCode.QUERY_MERCHANT_ERROR_C})
 	public MerchantDesc queryMerchantDesc(
 			@ApiAutowired(CommonParameter.applicationId) int appId,
 			@ApiAutowired(CommonParameter.domainId) int domainId,
@@ -47,7 +47,7 @@ public interface MerchantInfoApi {
 			
 			);
 	@HttpApi(name = "sellerAdmin.queryMerchantQualification", desc = "查询店铺资质信息", security = SecurityType.UserLogin, owner = "zhangxy")
-	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C})
+	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C,SellerReturnCode.QUERY_MERCHANT_QUALIFICATION_ERROR_C})
 	public Qualification queryMerchantQualification(
 			@ApiAutowired(CommonParameter.applicationId) int appId,
 			@ApiAutowired(CommonParameter.domainId) int domainId,
