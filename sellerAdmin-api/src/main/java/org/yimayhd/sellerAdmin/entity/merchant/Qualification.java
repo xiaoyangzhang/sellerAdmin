@@ -1,4 +1,4 @@
-package org.yimayhd.sellerAdmin.entity;
+package org.yimayhd.sellerAdmin.entity.merchant;
 
 import java.io.Serializable;
 

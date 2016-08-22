@@ -13,7 +13,9 @@ import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
+import com.yimayhd.sellerAdmin.model.MerchantVO;
 import com.yimayhd.sellerAdmin.model.QualificationVO;
+import com.yimayhd.user.client.domain.MerchantDO;
 
 
 
@@ -175,5 +177,12 @@ public class MerchantConverter {
 		vo.setTip(qualificationDO.getTip());
 		vo.setTitle(qualificationDO.getTitle());
 		return vo;
+	}
+	
+	public static MerchantDO convertMerchantVO2DO(MerchantVO merchantVO) {
+		MerchantDO merchantDO = new MerchantDO();
+		merchantDO.setDomainId(merchantVO.getDomainId());
+		merchantDO.setSellerId(merchantVO.getUserId());
+		return merchantDO;
 	}
 }

@@ -4,9 +4,12 @@ package org.sellerAdmin.api;
 import java.util.List;
 
 
+
 import org.junit.Assert;
 import org.junit.Test;
+import org.yimayhd.sellerAdmin.api.MerchantInfoApi;
 import org.yimayhd.sellerAdmin.api.PublishItemApi;
+
 
 
 import net.pocrd.core.ApiDocumentationHelper;
@@ -34,7 +37,8 @@ public class ApiDefinitionTest {
             manager.register(apis, ApiOpenState.OPEN_TO_CLIENT);
             System.out.println(apis.size());*/
 
-            testApi(manager,apiDoc, PublishItemApi.class);
+           // testApi(manager,apiDoc, PublishItemApi.class);
+            testApi(manager,apiDoc, MerchantInfoApi.class);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -9,16 +9,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantQualificationDO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
+import com.yimayhd.membercenter.client.query.QualificationQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.client.service.QualificationService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.converter.MerchantConverter;
+import com.yimayhd.sellerAdmin.model.MerchantVO;
 import com.yimayhd.sellerAdmin.result.BizResult;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.MerchantDTO;
+import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.dto.UserDTO;
 import com.yimayhd.user.client.enums.Gender;
 import com.yimayhd.user.client.query.MerchantQuery;
@@ -37,7 +43,8 @@ public class MerchantRepo {
 	
 	@Resource
 	private ExamineDealService examineDealService;
-	
+	@Autowired
+	private QualificationService qualificationService;
 	
 	public WebResult<List<MerchantDO>> queryMerchant(MerchantQuery merchantQuery){
 		WebResult<List<MerchantDO>> result = new WebResult<List<MerchantDO>>() ;
@@ -115,6 +122,32 @@ public class MerchantRepo {
 	public MemResult<Boolean> changeExamineStatusIntoIng(InfoQueryDTO nfoQueryDTO){
 		return examineDealService.changeExamineStatusIntoIng(nfoQueryDTO);
 	}
-	
-	
+	/**
+	 * 通过用户id获取用户的信息
+	* created by zhangxiaoyang
+	* @date 2016年8月22日
+	* @Title: queryMerchantBySellerId 
+	* @Description: TODO
+	* @param @param merchantVO
+	* @param @return    设定文件 
+	* @return BaseResult<MerchantDO>    返回类型 
+	* @throws
+	 */
+	public BaseResult<MerchantDO> queryMerchantBySellerId(MerchantVO merchantVO) {
+		return merchantService.getMerchantBySellerId(merchantVO.getUserId(), merchantVO.getDomainId());
+	}
+	/**
+	 * 查询店铺资质
+	* created by zhangxiaoyang
+	* @date 2016年8月22日
+	* @Title: queryMerchantQualification 
+	* @Description: TODO
+	* @param @param queryDTO
+	* @param @return    设定文件 
+	* @return MemResult<List<MerchantQualificationDO>>    返回类型 
+	* @throws
+	 */
+	public MemResult<List<MerchantQualificationDO>> queryMerchantQualification(QualificationQueryDTO queryDTO) {
+		return qualificationService.getMerchantQualification(queryDTO);
+	}
 }

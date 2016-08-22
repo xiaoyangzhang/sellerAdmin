@@ -155,5 +155,10 @@ public class Constant {
 	 * 退改规定
 	 */
 	public static final int REFUND_RULE = 62; 
+	/**
+	 * 营业执照代号
+	 */
+	public static final int SALE_LICENSE = 8; 
+	
 	
 }

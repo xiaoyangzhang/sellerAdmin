@@ -3,6 +3,8 @@ package org.yimayhd.sellerAdmin;
 import java.io.Serializable;
 
 
+
+
 import net.pocrd.entity.AbstractReturnCode;
 
 public class SellerReturnCode extends AbstractReturnCode implements Serializable {
@@ -35,4 +37,8 @@ public class SellerReturnCode extends AbstractReturnCode implements Serializable
     public static final SellerReturnCode ADD_ITEM_ERROR = new SellerReturnCode(ADD_ITEM_ERROR_C, "发布失败");
     public static final int UPDATE_ITEM_ERROR_C = 24005009;
     public static final SellerReturnCode UPDATE_ITEM_ERROR = new SellerReturnCode(UPDATE_ITEM_ERROR_C, "更新失败");
+    public static final int QUERY_MERCHANT_ERROR_C = 24005010;
+    public static final SellerReturnCode QUERY_MERCHANT_ERROR = new SellerReturnCode(QUERY_MERCHANT_ERROR_C, "获取该店铺信息失败");
+    public static final int QUERY_MERCHANT_QUALIFICATION_ERROR_C = 24005011;
+    public static final SellerReturnCode QUERY_MERCHANT_QUALIFICATION_ERROR = new SellerReturnCode(QUERY_MERCHANT_QUALIFICATION_ERROR_C, "获取该店铺信息失败");
 }
