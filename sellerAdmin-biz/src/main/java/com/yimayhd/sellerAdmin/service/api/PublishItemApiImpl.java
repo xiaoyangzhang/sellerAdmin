@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.yimayhd.sellerAdmin.SellerReturnCode;
 import org.yimayhd.sellerAdmin.api.PublishItemApi;
+import org.yimayhd.sellerAdmin.entity.ConsultCategoryInfo;
 import org.yimayhd.sellerAdmin.entity.ItemProperty;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
 import org.yimayhd.sellerAdmin.query.ItemQueryParam;
@@ -208,7 +209,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	}
 
 	@Override
-	public List<ItemProperty> getItemProperties(int appId, int domainId,
+	public ConsultCategoryInfo getConsultItemProperties(int appId, int domainId,
 			long deviceId, long userId, int versionCode) {
 		
 		return null;

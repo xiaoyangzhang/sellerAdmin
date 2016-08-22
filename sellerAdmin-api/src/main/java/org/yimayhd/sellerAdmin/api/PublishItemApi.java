@@ -3,6 +3,7 @@ package org.yimayhd.sellerAdmin.api;
 import java.util.List;
 
 import org.yimayhd.sellerAdmin.SellerReturnCode;
+import org.yimayhd.sellerAdmin.entity.ConsultCategoryInfo;
 import org.yimayhd.sellerAdmin.entity.ItemDetail;
 import org.yimayhd.sellerAdmin.entity.ItemListPage;
 import org.yimayhd.sellerAdmin.entity.ItemManagement;
@@ -97,9 +98,9 @@ public interface PublishItemApi {
 			
 			);
 	
-	@HttpApi(name = "sellerAdmin.getItemProperties", desc = "获取咨询商品属性", security = SecurityType.UserLogin, owner = "zhangxy")
+	@HttpApi(name = "sellerAdmin.getConsultItemProperties", desc = "获取咨询商品属性", security = SecurityType.UserLogin, owner = "zhangxy")
 	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C,SellerReturnCode.QUERY_PROPERTY_ERROR_C})
-	public List<ItemProperty> getItemProperties(
+	public ConsultCategoryInfo getConsultItemProperties(
 			@ApiAutowired(CommonParameter.applicationId) int appId,
 			@ApiAutowired(CommonParameter.domainId) int domainId,
 			@ApiAutowired(CommonParameter.deviceId) long deviceId,
