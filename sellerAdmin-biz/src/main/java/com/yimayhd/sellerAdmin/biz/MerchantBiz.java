@@ -283,6 +283,7 @@ public class MerchantBiz {
 		merchantDO.setBackgroudImage(basicInfo.getTtImage());
 		//店铺店标
 		merchantDO.setLogo(basicInfo.getDbImage());
+		merchantDO.setTitle(basicInfo.getMerchantDesc());
 		
 	}
 	
@@ -297,6 +298,7 @@ public class MerchantBiz {
 		merchantDTO.setBackgroundImage(basicInfo.getTtImage());;
 		//店铺店标
 		merchantDTO.setLogoImage(basicInfo.getDbImage());
+		merchantDTO.setTitle(basicInfo.getMerchantDesc());
 	}
 	
 	

@@ -12,15 +12,12 @@ import org.yimayhd.sellerAdmin.entity.merchant.MerchantDesc;
 import org.yimayhd.sellerAdmin.entity.merchant.MerchantInfo;
 import org.yimayhd.sellerAdmin.entity.merchant.Qualification;
 
-import com.yimayhd.membercenter.client.query.MerchantQueryDTO;
 import com.yimayhd.membercenter.client.query.QualificationQueryDTO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
-import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.biz.MerchantBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.MerchantVO;
 import com.yimayhd.user.client.domain.MerchantDO;
-import com.yimayhd.user.client.dto.MerchantUserDTO;
 
 public class MerchantInfoApiImpl implements MerchantInfoApi {
 

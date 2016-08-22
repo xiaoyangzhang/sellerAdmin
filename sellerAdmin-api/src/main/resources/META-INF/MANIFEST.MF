@@ -1,2 +1,2 @@
-Api-Export: org.yimayhd.sellerAdmin.api.PublishItemApi
+Api-Export: org.yimayhd.sellerAdmin.api.PublishItemApi org.yimayhd.sellerAdmin.api.MerchantInfoApi
 Api-Dependency-Type: dubbo

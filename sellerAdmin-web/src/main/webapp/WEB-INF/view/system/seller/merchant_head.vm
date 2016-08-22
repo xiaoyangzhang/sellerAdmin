@@ -1,0 +1,102 @@
+#set($layout = "/layout/layout-jiuxiu-home.vm")
+
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>基本信息</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/merchant2.1.css">
+</head>
+<!-- 面包屑 -->
+
+<!-- 主体部分 -->
+<div class="comwidth clearfix" id="eredar">
+	
+	<!-- 内容区域 -->
+	<div class="eredar-right">
+
+		<div class="eredar-info clearfix">
+			<i>!</i><span>填写完成基本信息才能发布商品，完善的资料会让用户对您的商品更感兴趣哦！</span>
+		</div>
+
+		<form class="registerform" method="post" action="" autocomplete="off">
+			<div class="eredar-list">
+				<p>
+					<em>店铺名称 :</em>
+					<span>$!merchantName</span>
+				</p>
+
+				<p>
+					<em><i>*</i>客服昵称：</em>
+					<input type="text" value="$!nickName" name="nickName" class="inputxt nickname"/>
+				</p>
+
+				<p>
+					<em>店铺负责人电话 :</em>
+					<input type="text" value="$!merchantPrincipalTel" name="merchantPrincipalTel" class="inputxt zetel"/>
+				</p>
+
+				<p>
+					<em><i>*</i>客服电话 :</em>
+					<input type="text" class="field inputxt phone fixdetel" value="$!serviceTel" name="serviceTel">
+				</p>
+
+				<p>
+					<em class="mt" style="vertical-align: top">店铺地址 :</em>
+                    <textarea tip="请在这里输入您的店铺地址。" altercss="gray" class="gray" name="address" value=""
+							  id="address">$!address</textarea>
+					<span><span id="addressLength">0</span>/100</span>
+				</p>
+
+				<div class="merchant-shop">
+					<label class="mt"><font>*</font>店铺头图 :</label>
+
+					<div class="bigbox">
+							<span class="imgbox">
+								<div class="canclick canclickL">
+									#if("$!ttImage" == "")
+									<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+									#else
+									<img src="$!tfs$!ttImage">
+									#end
+								</div><div class="plhd"></div><div class="del">删除图片</div>
+								<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile single"></a>
+								<input type="hidden" name="ttImage" value="$!ttImage">
+							</span>
+						<label class="lab">图片大小不超过500K,建议图片尺寸为：750*260,仅限于JPG,JPEG,PNG格式</label>
+					</div>
+				</div>
+				<div class="merchant-shop">
+					<label class="mt"><font>*</font>店铺店标 :</label>
+
+					<div class="bigbox">
+							<span class="imgbox">
+								<div class="canclick canclickL">
+									#if("$!dbImage" == "")
+									<img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+									#else
+									<img src="$!tfs$!dbImage">
+									#end
+								</div><div class="plhd"></div><div class="del">删除图片</div>
+								<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile single"></a>
+								<input type="hidden" name="dbImage" value="$!dbImage">
+							</span>
+						<label class="lab">图片大小不超过500K,建议图片尺寸为：80*80,仅限于JPG,JPEG,PNG格式</label>
+					</div>
+				</div>
+
+				<p>
+					<em class="mt" style="vertical-align: top">商家简介 :</em>
+					<textarea altercss="gray" class="gray h150" name="merchantDesc" value="" id="summary">$!merchantDesc</textarea>
+					<span><span id="summaryLength">0</span>/500</span>
+				</p>
+
+			</div>
+		</form>
+		<div class="eredar-button">
+			<button id="save">保存</button>
+		</div>
+	</div>
+</div>
+
+
+#parse("layout/layout-js.vm")
+<script>seajs.use("merchant2.1");</script>

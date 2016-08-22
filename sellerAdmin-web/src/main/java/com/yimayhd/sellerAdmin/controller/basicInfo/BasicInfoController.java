@@ -12,16 +12,19 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.membercenter.client.domain.talent.TalentInfoDO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
@@ -95,6 +98,7 @@ public class BasicInfoController extends BaseController {
 			
 			BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(user.getId(), Constant.DOMAIN_JIUXIU);
 			if(meResult.isSuccess() && null != meResult.getValue()){
+				
 				model.addAttribute("id", meResult.getValue().getId());
 				model.addAttribute("name",meResult.getValue().getName());
 				model.addAttribute("address",meResult.getValue().getAddress());
@@ -107,7 +111,10 @@ public class BasicInfoController extends BaseController {
 				}
 				model.addAttribute("merchantPrincipalTel", meResult.getValue().getMerchantPrincipalTel());
 				model.addAttribute("serviceTel", meResult.getValue().getServiceTel());
-				
+				model.addAttribute("merchantDesc", meResult.getValue().getTitle());
+				if (StringUtils.isBlank(meResult.getValue().getBackgroudImage()) || StringUtils.isBlank(meResult.getValue().getServiceTel()) || StringUtils.isBlank(meResult.getValue().getLogo()) ) {
+					return "/system/seller/merchant_head";
+				}
 			}
 			return "/system/seller/merchant";
 		} catch (Exception e) {
@@ -211,8 +218,14 @@ public class BasicInfoController extends BaseController {
 				pictures.add("");
 			}
 			model.addAttribute("talentInfo", talentInfoDTO);
+			TalentInfoDO talentInfoDO = talentInfoDTO.getTalentInfoDO();
+			if (StringUtils.isBlank(talentInfoDO.getAvatar()) || StringUtils.isBlank(talentInfoDO.getReallyName()) || StringUtils.isBlank(talentInfoDO.getServeDesc()) || 
+					talentInfoDO.getCityCode() <= 0 || talentInfoDO.getProvinceCode() <= 0 || talentInfoDO.getBirthday() == null || 
+					talentInfoDO.getGender() <= 0 || CollectionUtils.isEmpty(talentInfoDO.getPictures()) || 
+					CollectionUtils.isEmpty(talentInfoDO.getServiceTypes()) || talentInfoDTO.getPictureTextDTO() == null ) {
+				return "/system/talent/talent";
+			}
 		}
-		
 		return "system/talent/eredar";
 //		} catch (Exception e) {
 //			log.error(e.getMessage(),e);

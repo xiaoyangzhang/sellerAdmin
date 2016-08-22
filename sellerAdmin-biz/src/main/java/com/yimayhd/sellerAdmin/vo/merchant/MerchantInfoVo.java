@@ -34,6 +34,15 @@ public class MerchantInfoVo implements Serializable{
 //		public void setType(int type) {
 //			this.type = type;
 //		}
+		
+		private String merchantDesc;
+		
+		public String getMerchantDesc() {
+			return merchantDesc;
+		}
+		public void setMerchantDesc(String merchantDesc) {
+			this.merchantDesc = merchantDesc;
+		}
 		public String getNickName() {
 			return nickName;
 		}
