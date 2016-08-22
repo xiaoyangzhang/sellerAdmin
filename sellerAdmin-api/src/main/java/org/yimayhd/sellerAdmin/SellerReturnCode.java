@@ -35,4 +35,6 @@ public class SellerReturnCode extends AbstractReturnCode implements Serializable
     public static final SellerReturnCode ADD_ITEM_ERROR = new SellerReturnCode(ADD_ITEM_ERROR_C, "发布失败");
     public static final int UPDATE_ITEM_ERROR_C = 24005009;
     public static final SellerReturnCode UPDATE_ITEM_ERROR = new SellerReturnCode(UPDATE_ITEM_ERROR_C, "更新失败");
+    public static final int QUERY_PROPERTY_ERROR_C = 24005012;
+    public static final SellerReturnCode QUERY_PROPERTY_ERROR = new SellerReturnCode(QUERY_PROPERTY_ERROR_C, "获取属性失败");
 }
