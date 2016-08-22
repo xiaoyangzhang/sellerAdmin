@@ -1,15 +1,18 @@
 package com.yimayhd.sellerAdmin.item;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.bouncycastle.crypto.tls.HashAlgorithm;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.yimayhd.sellerAdmin.api.PublishItemApi;
 import org.yimayhd.sellerAdmin.entity.ConsultCategoryInfo;
 import org.yimayhd.sellerAdmin.entity.ItemListPage;
+import org.yimayhd.sellerAdmin.entity.ItemProperty;
 import org.yimayhd.sellerAdmin.entity.PictureTextItem;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
 import org.yimayhd.sellerAdmin.entity.ServiceArea;
@@ -39,7 +42,7 @@ public class PulishItemTest extends BaseTest {
 	private void publishItem() {
 		PublishServiceDO publishServiceDO = new PublishServiceDO();
 		//publishServiceDO.id = 110801;
-		publishServiceDO.avater = "33333333333333333";
+		publishServiceDO.avater = "44444444444444444444";
 		//publishServiceDO.bookingTip = "bookingTip1";
 		publishServiceDO.categoryType = 241;
 		publishServiceDO.discountPrice = 1000;
@@ -49,7 +52,27 @@ public class PulishItemTest extends BaseTest {
 		publishServiceDO.oldTime = 999999999;
 		//publishServiceDO.refundRule = "refundRule1";
 		publishServiceDO.serviceState = 2;
-		publishServiceDO.title = "3333333333333333333333";
+		publishServiceDO.title = "55555555555555555555555";
+		List<ItemProperty> itemProperties = new ArrayList<ItemProperty>();
+		ItemProperty itemProperty1 = new ItemProperty();
+		itemProperty1.id = 71;
+		itemProperty1.text = "费用描述";
+		itemProperty1.type = "1";
+		itemProperty1.value = "费用描述";
+		itemProperties.add(itemProperty1);
+		ItemProperty itemProperty2 = new ItemProperty();
+		itemProperty2.id = 72;
+		itemProperty2.text = "预定说明";
+		itemProperty2.type = "1";
+		itemProperty2.value = "预定说明";
+		itemProperties.add(itemProperty2);
+		ItemProperty itemProperty3 = new ItemProperty();
+		itemProperty3.id = 73;
+		itemProperty3.text = "退改规定";
+		itemProperty3.type = "1";
+		itemProperty3.value = "退改规定";
+		itemProperties.add(itemProperty3);
+		publishServiceDO.itemProperties = itemProperties;
 		List<PictureTextItem> pictureTextItems = new ArrayList<>();
 		PictureTextItem pictureTextItem = new PictureTextItem();
 		pictureTextItem.type =  "IMAGE";
@@ -71,13 +94,14 @@ public class PulishItemTest extends BaseTest {
 		pictureTextItems.add(pictureTextItem3);
 		pictureTextItems.add(pictureTextItem4);
 		pictureTextItems.add(pictureTextItem5);
-		Set<ServiceArea> serviceAreas = new TreeSet<>();
+		List<ServiceArea> serviceAreas = new ArrayList<>();
 		ServiceArea serviceArea = new ServiceArea();
 		serviceArea.areaCode = 532500;
 		serviceArea.domain = 1200;
 //		serviceArea.outId = 1309500;
 //		serviceArea.outType = 12;
 		serviceAreas.add(serviceArea);
+		publishServiceDO.serviceAreas = serviceAreas;
 		publishServiceDO.pictureTextItems = pictureTextItems;
 		//publishServiceDO.serviceAreas = serviceAreas;
 		boolean publishService = publishItemApi.publishService(0, 1200, 0, 1309500, 0, publishServiceDO);
@@ -91,9 +115,9 @@ public class PulishItemTest extends BaseTest {
 	
 	private void testGetPublishItem() {
 		ItemQueryParam itemQueryParam = new ItemQueryParam();
-		itemQueryParam.id = 112155;
+		itemQueryParam.id = 112422;
 		itemQueryParam.categoryId = 241;
-		PublishServiceDO publishItemInfo = publishItemApi.getPublishItemInfo(0, 1200, 0, 1338526, 0, itemQueryParam);
+		PublishServiceDO publishItemInfo = publishItemApi.getPublishItemInfo(0, 1200, 0, 1309500, 0, itemQueryParam);
 		System.out.println("======================"+JSON.toJSONString(publishItemInfo));
 	}
 	

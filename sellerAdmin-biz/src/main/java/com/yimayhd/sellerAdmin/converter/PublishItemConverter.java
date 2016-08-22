@@ -38,7 +38,7 @@ public class PublishItemConverter {
 		ConsultPublishAddDTO dto = new ConsultPublishAddDTO();
 		ItemDO itemDO = new ItemDO();
 		//服务咨询类
-		itemDO.setCategoryId(Integer.parseInt(WebResourceConfigUtil.getConsultCategory()));
+		itemDO.setCategoryId(241);
 		itemDO.setTitle(publishServiceDO.title);
 //		if (publishServiceDO.serviceState == Constant.PUBLISHED) {
 //			
@@ -90,7 +90,7 @@ public class PublishItemConverter {
 			skuPVPair.setPId(itemProperty.id);
 			skuPVPair.setPTxt(itemProperty.text);
 			skuPVPair.setVTxt(itemProperty.value);
-			skuPVPair.setPType(Integer.parseInt(itemProperty.type));
+			skuPVPair.setPType(PropertyType.getByNameWithDefault(itemProperty.type).getType());
 			itemSkuPVPairs.add(skuPVPair);
 		}
 //		ItemSkuPVPair skuPVPair = new ItemSkuPVPair();
