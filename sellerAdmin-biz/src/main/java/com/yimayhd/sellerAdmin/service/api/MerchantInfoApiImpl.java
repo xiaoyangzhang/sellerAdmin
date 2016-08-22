@@ -26,8 +26,8 @@ public class MerchantInfoApiImpl implements MerchantInfoApi {
 	private MerchantBiz merchantBiz;
 	@Override
 	public HomePage queryHomePage(int appId, int domainId, long deviceId,
-			long userId, int versionCode) {
-		boolean chkResult = chkParam(domainId, userId);
+			long userId, int versionCode,long sellerId) {
+		boolean chkResult = chkParam(domainId, sellerId,userId);
 		if (!chkResult) {
 			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
 			return null;
@@ -35,7 +35,7 @@ public class MerchantInfoApiImpl implements MerchantInfoApi {
 		try {
 			MerchantVO merchantVO = new MerchantVO();
 			merchantVO.setDomainId(domainId);
-			merchantVO.setUserId(userId);
+			merchantVO.setUserId(sellerId);
 			WebResult<MerchantDO> queryResult = merchantBiz.queryMerchantBySellerId(merchantVO);
 			if (queryResult == null || !queryResult.isSuccess() || queryResult.getValue() == null) {
 				DubboExtProperty.setErrorCode(SellerReturnCode.QUERY_MERCHANT_ERROR);
@@ -54,8 +54,8 @@ public class MerchantInfoApiImpl implements MerchantInfoApi {
 
 	@Override
 	public MerchantInfo queryMerchantInfo(int appId, int domainId,
-			long deviceId, long userId, int versionCode) {
-		boolean chkResult = chkParam(domainId, userId);
+			long deviceId, long userId, int versionCode,long sellerId) {
+		boolean chkResult = chkParam(domainId, sellerId,userId);
 		if (!chkResult) {
 			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
 			return null;
@@ -63,7 +63,7 @@ public class MerchantInfoApiImpl implements MerchantInfoApi {
 		try {
 			MerchantVO merchantVO = new MerchantVO();
 			merchantVO.setDomainId(domainId);
-			merchantVO.setUserId(userId);
+			merchantVO.setUserId(sellerId);
 			WebResult<MerchantDO> queryResult = merchantBiz.queryMerchantBySellerId(merchantVO);
 			if (queryResult == null || !queryResult.isSuccess() || queryResult.getValue() == null) {
 				DubboExtProperty.setErrorCode(SellerReturnCode.QUERY_MERCHANT_ERROR);
@@ -85,9 +85,9 @@ public class MerchantInfoApiImpl implements MerchantInfoApi {
 
 	@Override
 	public MerchantDesc queryMerchantDesc(int appId, int domainId,
-			long deviceId, long userId, int versionCode) {
+			long deviceId, long userId, int versionCode,long sellerId) {
 		
-		boolean chkResult = chkParam(domainId, userId);
+		boolean chkResult = chkParam(domainId, sellerId,userId);
 		if (!chkResult) {
 			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
 			return null;
@@ -95,7 +95,7 @@ public class MerchantInfoApiImpl implements MerchantInfoApi {
 		try {
 			MerchantVO merchantVO = new MerchantVO();
 			merchantVO.setDomainId(domainId);
-			merchantVO.setUserId(userId);
+			merchantVO.setUserId(sellerId);
 			WebResult<MerchantDO> queryResult = merchantBiz.queryMerchantBySellerId(merchantVO);
 			if (queryResult == null || !queryResult.isSuccess() || queryResult.getValue() == null) {
 				DubboExtProperty.setErrorCode(SellerReturnCode.QUERY_MERCHANT_ERROR);
@@ -113,8 +113,8 @@ public class MerchantInfoApiImpl implements MerchantInfoApi {
 
 	@Override
 	public Qualification queryMerchantQualification(int appId, int domainId,
-			long deviceId, long userId, int versionCode) {
-		boolean chkResult = chkParam(domainId, userId);
+			long deviceId, long userId, int versionCode,long sellerId) {
+		boolean chkResult = chkParam(domainId, sellerId,userId);
 		if (!chkResult) {
 			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
 			return null;
@@ -122,7 +122,8 @@ public class MerchantInfoApiImpl implements MerchantInfoApi {
 		try {
 			QualificationQueryDTO queryDTO = new QualificationQueryDTO();
 			queryDTO.setDomainId(domainId);
-			queryDTO.setSellerId(userId);
+			queryDTO.setSellerId(sellerId);
+			//TODO 硬编码
 			queryDTO.setQualificationId(Constant.SALE_LICENSE);
 			WebResult<Qualification> queryMerchantQualification = merchantBiz.queryMerchantQualification(queryDTO);
 			if (queryMerchantQualification == null || !queryMerchantQualification.isSuccess() || queryMerchantQualification.getValue() == null) {
@@ -136,8 +137,8 @@ public class MerchantInfoApiImpl implements MerchantInfoApi {
 		}
 	}
 
-	private boolean chkParam(int domainId,long userId) {
-		if (domainId <= 0 || userId <= 0) {
+	private boolean chkParam(int domainId,long sellerId,long userId) {
+		if (domainId <= 0 || sellerId <= 0 || userId <= 0) {
 			return false;
 		}
 		return true;

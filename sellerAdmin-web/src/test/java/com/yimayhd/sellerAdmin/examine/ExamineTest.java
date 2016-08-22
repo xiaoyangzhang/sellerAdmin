@@ -35,12 +35,12 @@ public class ExamineTest extends BaseTest {
 	}
 	
 	private void testHomePage() {
-		HomePage queryHomePage = merchantInfoApi.queryHomePage(0, 1200, 0, 1338820, 0);
+		HomePage queryHomePage = merchantInfoApi.queryHomePage(0, 1200, 0, 1338820, 0,0);
 		System.out.println("------------------------"+JSON.toJSONString(queryHomePage));
 	}
 	
 	private void testQualification() {
-		Qualification queryMerchantQualification = merchantInfoApi.queryMerchantQualification(0, 1200, 0, 1338820, 0);
+		Qualification queryMerchantQualification = merchantInfoApi.queryMerchantQualification(0, 1200, 0, 1338820, 0,0);
 		System.out.println("======================"+JSON.toJSONString(queryMerchantQualification));
 	}
 }

@@ -2,6 +2,7 @@ package org.yimayhd.sellerAdmin.api;
 
 import net.pocrd.annotation.ApiAutowired;
 import net.pocrd.annotation.ApiGroup;
+import net.pocrd.annotation.ApiParameter;
 import net.pocrd.annotation.DesignedErrorCode;
 import net.pocrd.annotation.HttpApi;
 import net.pocrd.define.CommonParameter;
@@ -12,6 +13,7 @@ import org.yimayhd.sellerAdmin.entity.merchant.HomePage;
 import org.yimayhd.sellerAdmin.entity.merchant.MerchantDesc;
 import org.yimayhd.sellerAdmin.entity.merchant.MerchantInfo;
 import org.yimayhd.sellerAdmin.entity.merchant.Qualification;
+import org.yimayhd.sellerAdmin.query.ItemQueryParam;
 
 @ApiGroup(name = "sellerAdmin", minCode = 23000000, maxCode = 25000000, codeDefine = SellerReturnCode.class, owner = "zhangxy")
 public interface MerchantInfoApi {
@@ -23,7 +25,8 @@ public interface MerchantInfoApi {
             @ApiAutowired(CommonParameter.domainId) int domainId,
             @ApiAutowired(CommonParameter.deviceId) long deviceId,
             @ApiAutowired(CommonParameter.userId) long userId,
-            @ApiAutowired(CommonParameter.versionCode) int versionCode
+            @ApiAutowired(CommonParameter.versionCode) int versionCode,
+            @ApiParameter(required = true, name = "sellerId", desc = "要查看的店铺的id") long sellerId
             
     );
 	@HttpApi(name = "sellerAdmin.queryMerchantInfo", desc = "查询店铺信息", security = SecurityType.UserLogin, owner = "zhangxy")
@@ -33,7 +36,8 @@ public interface MerchantInfoApi {
 			@ApiAutowired(CommonParameter.domainId) int domainId,
 			@ApiAutowired(CommonParameter.deviceId) long deviceId,
 			@ApiAutowired(CommonParameter.userId) long userId,
-			@ApiAutowired(CommonParameter.versionCode) int versionCode
+			@ApiAutowired(CommonParameter.versionCode) int versionCode,
+			 @ApiParameter(required = true, name = "sellerId", desc = "要查看的店铺的id") long sellerId
 			
 			);
 	@HttpApi(name = "sellerAdmin.queryMerchantDesc", desc = "查询店铺简介信息", security = SecurityType.UserLogin, owner = "zhangxy")
@@ -43,7 +47,8 @@ public interface MerchantInfoApi {
 			@ApiAutowired(CommonParameter.domainId) int domainId,
 			@ApiAutowired(CommonParameter.deviceId) long deviceId,
 			@ApiAutowired(CommonParameter.userId) long userId,
-			@ApiAutowired(CommonParameter.versionCode) int versionCode
+			@ApiAutowired(CommonParameter.versionCode) int versionCode,
+			 @ApiParameter(required = true, name = "sellerId", desc = "要查看的店铺的id") long sellerId
 			
 			);
 	@HttpApi(name = "sellerAdmin.queryMerchantQualification", desc = "查询店铺资质信息", security = SecurityType.UserLogin, owner = "zhangxy")
@@ -53,7 +58,8 @@ public interface MerchantInfoApi {
 			@ApiAutowired(CommonParameter.domainId) int domainId,
 			@ApiAutowired(CommonParameter.deviceId) long deviceId,
 			@ApiAutowired(CommonParameter.userId) long userId,
-			@ApiAutowired(CommonParameter.versionCode) int versionCode
+			@ApiAutowired(CommonParameter.versionCode) int versionCode,
+			 @ApiParameter(required = true, name = "sellerId", desc = "要查看的店铺的id") long sellerId
 			
 			);
 }
