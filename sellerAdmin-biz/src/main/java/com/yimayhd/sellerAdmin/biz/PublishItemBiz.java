@@ -270,7 +270,7 @@ public class PublishItemBiz {
 					publishService.serviceAreas = getServiceAreas(comTagMaps,item.getId(),destinationListResult.getT());
 				}
 				publishService.id = item.getId();
-				publishService.categoryType = 241;
+				publishService.categoryType = Integer.parseInt(WebResourceConfigUtil.getConsultCategory());
 				itemManagement.publishServiceDO = publishService;
 				itemManagement.itemId = item.getId();
 				itemManagement.saleVolume = item.getSales();
@@ -412,7 +412,7 @@ public class PublishItemBiz {
 			}
 			int count = 0;
 			for (MerchantItemCategoryDO item : itemCaetgoryListResult.getValue()) {
-				if (item.getItemCategoryId() == 241) {
+				if (item.getItemCategoryId() == Integer.parseInt(WebResourceConfigUtil.getConsultCategory())) {
 					count ++ ;
 				}
 			}
@@ -447,7 +447,7 @@ public class PublishItemBiz {
 			publishService.discountTime = (itemDO.getItemFeature().getConsultTime())/60;
 			publishService.serviceAreas = serviceAreas;
 			publishService.id = itemDO.getId();
-			publishService.categoryType = 241;
+			publishService.categoryType = Integer.parseInt(WebResourceConfigUtil.getConsultCategory());
 			List<ItemSkuPVPair> itemPropertyList = itemDO.getItemPropertyList();
 			for (ItemSkuPVPair itemSkuPVPair : itemPropertyList) {
 				
@@ -512,7 +512,7 @@ public class PublishItemBiz {
 			publishService.discountTime = ( itemDO.getItemFeature().getConsultTime())/60;
 			publishService.serviceAreas = serviceAreas;
 			publishService.id = itemDO.getId();
-			publishService.categoryType = 241;
+			publishService.categoryType = Integer.parseInt(WebResourceConfigUtil.getConsultCategory());
 			publishService.oldPrice = itemDO.getOriginalPrice();
 			publishService.oldTime = (itemDO.getItemFeature().getConsultTime())/60;
 			List<ItemSkuPVPair> itemPropertyList = itemDO.getItemPropertyList();
@@ -639,7 +639,7 @@ public class PublishItemBiz {
 	public ConsultCategoryInfo getConsultItemProperties() {
 		ConsultCategoryInfo consultCategoryInfo = new ConsultCategoryInfo();
 		List<ItemProperty> itemProperties = new ArrayList<ItemProperty>();
-		CategoryResult categoryResult = publishItemRepo.getItemProperties(241);
+		CategoryResult categoryResult = publishItemRepo.getItemProperties(Integer.parseInt(WebResourceConfigUtil.getConsultCategory()));
 		List<CategoryPropertyValueDO> keyItemProperties = categoryResult.getCategroyDO().getKeyCategoryPropertyDOs();
 		if (!CollectionUtils.isEmpty(keyItemProperties)) {
 		for (CategoryPropertyValueDO categoryPropertyValueDO : keyItemProperties) {
