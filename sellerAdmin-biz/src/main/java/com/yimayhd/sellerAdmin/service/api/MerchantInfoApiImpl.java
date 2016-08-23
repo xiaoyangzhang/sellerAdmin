@@ -24,7 +24,7 @@ public class MerchantInfoApiImpl implements MerchantInfoApi {
 	private static Logger log  = LoggerFactory.getLogger("MerchantInfoApiImpl");
 	@Autowired
 	private MerchantBiz merchantBiz;
-	@Override
+	/*@Override
 	public HomePage queryHomePage(int appId, int domainId, long deviceId,
 			long userId, int versionCode,long sellerId) {
 		boolean chkResult = chkParam(domainId, sellerId,userId);
@@ -50,7 +50,7 @@ public class MerchantInfoApiImpl implements MerchantInfoApi {
 			log.error("error:{}",e);
 			return null;
 		}
-	}
+	}*/
 
 	@Override
 	public MerchantInfo queryMerchantInfo(int appId, int domainId,
@@ -71,10 +71,10 @@ public class MerchantInfoApiImpl implements MerchantInfoApi {
 			}
 			MerchantDO merchantDO = queryResult.getValue();
 			MerchantInfo merchantInfo = new MerchantInfo();
-			HomePage homePage = new HomePage();
-			homePage.avater = merchantDO.getBackgroudImage();
-			homePage.merchantName = merchantDO.getName();
-			merchantInfo.homePage = homePage;
+//			HomePage homePage = new HomePage();
+//			homePage.avater = merchantDO.getBackgroudImage();
+//			homePage.merchantName = merchantDO.getName();
+			//merchantInfo.homePage = homePage;
 			merchantInfo.serviceTel = merchantDO.getServiceTel();
 			return merchantInfo;
 		} catch (Exception e) {

@@ -18,7 +18,7 @@ import org.yimayhd.sellerAdmin.query.ItemQueryParam;
 @ApiGroup(name = "sellerAdmin", minCode = 23000000, maxCode = 25000000, codeDefine = SellerReturnCode.class, owner = "zhangxy")
 public interface MerchantInfoApi {
 
-	@HttpApi(name = "sellerAdmin.queryHomePage", desc = "查询店铺主页信息", security = SecurityType.UserLogin, owner = "zhangxy")
+	/*@HttpApi(name = "sellerAdmin.queryHomePage", desc = "查询店铺主页信息", security = SecurityType.UserLogin, owner = "zhangxy")
     @DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C,SellerReturnCode.QUERY_MERCHANT_ERROR_C})
     public HomePage queryHomePage(
             @ApiAutowired(CommonParameter.applicationId) int appId,
@@ -28,7 +28,7 @@ public interface MerchantInfoApi {
             @ApiAutowired(CommonParameter.versionCode) int versionCode,
             @ApiParameter(required = true, name = "sellerId", desc = "要查看的店铺的id") long sellerId
             
-    );
+    );*/
 	@HttpApi(name = "sellerAdmin.queryMerchantInfo", desc = "查询店铺信息", security = SecurityType.UserLogin, owner = "zhangxy")
 	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C,SellerReturnCode.QUERY_MERCHANT_ERROR_C})
 	public MerchantInfo queryMerchantInfo(
