@@ -1,5 +1,10 @@
 package com.yimayhd.sellerAdmin.service.hotelManage.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.commentcenter.client.query.CategoryDetailQueryDTO;
+import com.yimayhd.commentcenter.client.result.BaseResult;
+import com.yimayhd.commentcenter.client.result.CategoryDetailResultDTO;
+import com.yimayhd.commentcenter.client.service.ComCategoryService;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.CallResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -28,7 +33,8 @@ import java.util.List;
 public class HotelManageServiceImpl extends AbstractBaseService implements HotelManageService {
 	@Autowired
 	private HotelManageRepo hotelManageRepo;
-
+	@Autowired
+	private ComCategoryService 	comCategoryService;
 	private static final Logger log = LoggerFactory.getLogger("hotelManage-business.log");
 
 	/**
@@ -42,8 +48,25 @@ public class HotelManageServiceImpl extends AbstractBaseService implements Hotel
 		WebResult<PageVO<HotelMessageVO>> result= new  WebResult<PageVO<HotelMessageVO>>();
 		domain.setPageResult(result);
 		domain.setHotelMessageVO(hotelMessageVO);
+
 		log.info("queryHotelMessageVOListByData:查询参数:"+ CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
 		try{
+			try{
+				CategoryDetailQueryDTO dto = new CategoryDetailQueryDTO();
+				dto.setCategoryId(110);
+				log.info("comCategoryService start "+dto.getCategoryId());
+				BaseResult<CategoryDetailResultDTO> testResult =  comCategoryService.getCategoryDetail(dto);
+				if(testResult==null||!testResult.isSuccess()){
+					log.error("comCategoryService error,testResult={}", JSON.toJSONString(testResult));
+					return null;
+				}
+			}catch(Exception e){
+				log.error("comCategoryService exception",e);
+				return null;
+			}
+
+
+
 			WebResult chekResult =  domain.checkHotelMessageVO();
 			if(!chekResult.isSuccess()){
 				log.error("HotelManageServiceImpl.queryHotelMessageVOListByData is fail. code={}, message={} ",
@@ -226,5 +249,6 @@ public class HotelManageServiceImpl extends AbstractBaseService implements Hotel
 
 		return callbackResult;
 	}
+
 
 }
