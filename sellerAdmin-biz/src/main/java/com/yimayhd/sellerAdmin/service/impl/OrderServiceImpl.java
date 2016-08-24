@@ -5,6 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.converter.OrderPriceConverter;
+import com.yimayhd.sellerAdmin.model.HotelManage.SupplierCalendarTemplate;
+import com.yimayhd.sellerAdmin.model.order.OrderPriceJsonTemplate;
+import com.yimayhd.sellerAdmin.model.order.OrderPriceQuery;
+import com.yimayhd.sellerAdmin.model.order.OrderPrizeDTO;
+import com.yimayhd.sellerAdmin.repo.TcTradeServiceRepo;
+import com.yimayhd.tradecenter.client.model.param.order.*;
+import com.yimayhd.tradecenter.client.model.result.order.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,20 +49,8 @@ import com.yimayhd.tradecenter.client.model.enums.CloseOrderReason;
 import com.yimayhd.tradecenter.client.model.enums.FinishOrderSource;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 import com.yimayhd.tradecenter.client.model.enums.TcPayChannel;
-import com.yimayhd.tradecenter.client.model.param.order.BuyerConfirmGoodsDTO;
-import com.yimayhd.tradecenter.client.model.param.order.CloseOrderDTO;
-import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
-import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
-import com.yimayhd.tradecenter.client.model.param.order.SellerConfirmCheckInDTO;
-import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
-import com.yimayhd.tradecenter.client.model.param.order.UpdateBizOrderExtFeatureDTO;
 import com.yimayhd.tradecenter.client.model.param.refund.RefundTradeDTO;
 import com.yimayhd.tradecenter.client.model.result.ResultSupport;
-import com.yimayhd.tradecenter.client.model.result.order.BatchBizQueryResult;
-import com.yimayhd.tradecenter.client.model.result.order.BuyerConfirmGoodsResult;
-import com.yimayhd.tradecenter.client.model.result.order.SellerConfirmCheckInResult;
-import com.yimayhd.tradecenter.client.model.result.order.SellerSendGoodsResult;
-import com.yimayhd.tradecenter.client.model.result.order.TcSingleQueryResult;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.tradecenter.client.service.trade.TcBizQueryService;
@@ -62,6 +60,7 @@ import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
+import org.yimayhd.sellerAdmin.SellerReturnCode;
 
 /**
  * 订单管理实现
@@ -86,6 +85,9 @@ public class OrderServiceImpl implements OrderService {
 	private ItemQueryService itemQueryService;
 	@Autowired
 	private LgService lgService;
+	@Autowired
+	private TcTradeServiceRepo tcTradeServiceRepo;
+
 	
 	@Override
 	public PageVO<MainOrder> getOrderList(OrderListQuery orderListQuery)
@@ -471,6 +473,7 @@ public class OrderServiceImpl implements OrderService {
 			return orderPageVO;
 		}
 	}
+
 	
 	public List<ExpressCodeRelationDO> selectAllExpressCode(){
 		List<ExpressCodeRelationDO> list = lgService.selectAllExpressCode();
@@ -489,5 +492,35 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public  TcSingleQueryResult searchOrderById(long bizOrderId) {
 		return tcBizQueryServiceRef.querySingle(bizOrderId, new OrderQueryOption());
+	}
+
+	/**
+	 * 订单改价
+	 * @param orderPriceQuery
+	 * @return
+     */
+	public WebResult<OrderPrizeDTO> orderChangePrice(final OrderPriceQuery orderPriceQuery){
+		WebResult<OrderPrizeDTO> result = new  WebResult<OrderPrizeDTO>();
+		OrderPriceConverter converter = new OrderPriceConverter();
+		try{
+			/**json参数转bean**/
+			OrderPriceJsonTemplate template = converter.getOrderPriceJsonTemplate(orderPriceQuery);
+			/**拼装改价repo参数**/
+			OrderChangePriceDTO orderChangePriceDTO  = converter.getOrderChangePriceDTO(template);
+
+			OrderChangePriceResult backResult = tcTradeServiceRepo.orderChangePrice(orderChangePriceDTO);
+			if(backResult==null||!backResult.isSuccess()){
+				log.error("call repo fail ,backResult={}",JSON.toJSONString(backResult));
+				result.setWebReturnCode(WebReturnCode.REMOTE_CALL_FAILED);
+				return result;
+			}
+			OrderPrizeDTO orderPrizeDTO = converter.getOrderPrizeDTO(backResult);//成功设置返回json
+			result.setValue(orderPrizeDTO);
+			return result;
+		}catch (Exception e){
+			log.error(" orderChangePrice exception ",e);
+			result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+		}
+		return result;
 	}
 }

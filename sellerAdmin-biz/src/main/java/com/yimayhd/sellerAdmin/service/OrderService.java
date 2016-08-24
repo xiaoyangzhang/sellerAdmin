@@ -90,4 +90,5 @@ public interface OrderService {
 	 */
 	TcSingleQueryResult searchOrderById(long bizOrderId);
 
+
 }
