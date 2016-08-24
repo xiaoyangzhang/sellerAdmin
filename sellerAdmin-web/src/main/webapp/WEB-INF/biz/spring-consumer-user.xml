@@ -69,14 +69,4 @@
 		<property name="dataCacheService" ref="dataCacheServiceRef" />
 	</bean>
 
-	<bean id="comCategoryService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
-		<property name="interface"
-				  value="com.yimayhd.commentcenter.client.service.ComCategoryService" />
-		<property name="application" ref="dubboApplicationConfig" />
-		<property name="registry" ref="dubboRegistryConfig" />
-		<property name="timeout" value="${consumer.dubbo.timeout}"/>
-		<property name="check" value="${consumer.dubbo.check}"/>
-		<property name="retries" value="${dubbo.retries}"/>
-		<property name="version" value="${consumer.dubbo.user.version}" />
-	</bean>
 </beans>
