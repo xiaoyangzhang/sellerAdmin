@@ -26,6 +26,10 @@ public class WebResourceConfigUtil {
 
 	private final static String filegwPath = "filegw.path";
 	private final static String JIUXIU_IM_SITE="jiuxiu.im.site";
+	private final static String CONSULT_CATEGORY="consult.catetory.id";
+	public static String getConsultCategory() {
+		return ResourceConfig.getInstance().getValueByKey(CONSULT_CATEGORY);
+	}
 	public static String getIMPath() {
 		return ResourceConfig.getInstance().getValueByKey(JIUXIU_IM_SITE);
 	}

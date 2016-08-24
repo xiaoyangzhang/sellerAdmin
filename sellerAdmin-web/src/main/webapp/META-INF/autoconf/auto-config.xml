@@ -42,6 +42,7 @@
 		<property name="jiuxiu.official.site" defaultValue="http://www.test.jiuxiulvxing.com" description="" />
 		<property name="domain" defaultValue=".jiuxiulvxing.com" description="domain" />
 		<property name="jiuxiu.im.site" defaultValue="http://s0.jiuxiulvxing.com" description="" />
+		<property name="consult.catetory.id" defaultValue="241" description="" />
 
 	</group>
 

@@ -141,7 +141,7 @@ public class Constant {
 	/**
 	 * 发布咨询服务类目id
 	 */
-	public static final int CONSULT_SERVICE = 241;
+	//public static final int CONSULT_SERVICE = 241;
 	/**
 	 * 已发布
 	 */
