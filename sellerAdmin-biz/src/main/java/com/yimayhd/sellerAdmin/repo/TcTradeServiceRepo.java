@@ -1,9 +1,6 @@
 package com.yimayhd.sellerAdmin.repo;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.sellerAdmin.base.result.WebResult;
-import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
-import com.yimayhd.sellerAdmin.model.order.OrderPrizeVO;
 import com.yimayhd.tradecenter.client.model.param.order.OrderChangePriceDTO;
 import com.yimayhd.tradecenter.client.model.result.order.OrderChangePriceResult;
 import com.yimayhd.tradecenter.client.service.trade.TcTradeService;

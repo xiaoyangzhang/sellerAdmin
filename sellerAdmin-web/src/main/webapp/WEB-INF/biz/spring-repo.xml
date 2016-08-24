@@ -36,6 +36,7 @@
 	<bean id="publishItemRepo" class="com.yimayhd.sellerAdmin.repo.PublishItemRepo" />
 
 	<bean id="jixiuVoucherRepo" class="com.yimayhd.sellerAdmin.repo.JixiuVoucherRepo" />
+	<bean id="tcTradeServiceRepo" class="com.yimayhd.sellerAdmin.repo.TcTradeServiceRepo" />
 
 
 </beans>
