@@ -18,7 +18,12 @@
 <body>
 	#parse("layout/layout-top.vm")
 
-		
+	<div class = "comwidth clearfix" id = "eredar">
+			
+			<div class = "eredar-right">
+		    	$screen_content
+			</div>
+		</div>
 	#parse("layout/layout-footer.vm")
 </body>
 
