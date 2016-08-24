@@ -83,10 +83,7 @@ public class MerchantConverter {
 		dto.setTaxRegisterNumber(vo.getTaxRegisterNumber());
 		dto.setMerchantName(vo.getMerchantName());
 		//2.0
-		dto.setAccountType(String.valueOf(vo.getAccountType()));
-		dto.setOpenerCard(vo.getOpenerCard());
-		dto.setSettlementCard(vo.getSettlementCard());
-		dto.setOpenerTel(vo.getOpenerTel());
+		
 		dto.setMerchantQualifications(vo.getMerchantQualifications());
 		List<MerchantScopeDO> merchantScopes = new ArrayList<MerchantScopeDO>(); 
 		if (vo.getScopeIds() != null && vo.getScopeIds().length() > 0 ) {
@@ -158,10 +155,7 @@ public class MerchantConverter {
 		vo.setSaleLicenseNumber(examineInfoDTO.getSaleLicenseNumber());
 		vo.setTaxRegisterNumber(examineInfoDTO.getTaxRegisterNumber());
 		vo.setExaminStatus(examineInfoDTO.getExaminStatus());
-		vo.setAccountType(Integer.parseInt(examineInfoDTO.getAccountType()));
-		vo.setOpenerCard(examineInfoDTO.getOpenerCard());
-		vo.setSettlementCard(examineInfoDTO.getSettlementCard());
-		vo.setOpenerTel(examineInfoDTO.getOpenerTel());
+		
 		return vo;
 	}
 	
