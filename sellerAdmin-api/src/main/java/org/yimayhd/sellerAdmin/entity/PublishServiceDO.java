@@ -29,6 +29,8 @@ public class PublishServiceDO implements Serializable {
 	public String bookingTip;
 	@Description("退改规定")
 	public String refundRule;
+	@Description("咨询商品属性")
+	public List<ItemProperty> itemProperties;
 	@Description("原价")
 	public long oldPrice;
 	@Description("原价时间")

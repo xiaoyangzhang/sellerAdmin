@@ -41,4 +41,6 @@ public class SellerReturnCode extends AbstractReturnCode implements Serializable
     public static final SellerReturnCode QUERY_MERCHANT_ERROR = new SellerReturnCode(QUERY_MERCHANT_ERROR_C, "获取该店铺信息失败");
     public static final int QUERY_MERCHANT_QUALIFICATION_ERROR_C = 24005011;
     public static final  SellerReturnCode QUERY_MERCHANT_QUALIFICATION_ERROR = new SellerReturnCode(QUERY_MERCHANT_QUALIFICATION_ERROR_C, "获取该店铺资质信息失败");
+    public static final int QUERY_PROPERTY_ERROR_C = 24005012;
+    public static final SellerReturnCode QUERY_PROPERTY_ERROR = new SellerReturnCode(QUERY_PROPERTY_ERROR_C, "获取属性失败");
 }

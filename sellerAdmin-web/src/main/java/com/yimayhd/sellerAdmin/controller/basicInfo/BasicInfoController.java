@@ -154,7 +154,7 @@ public class BasicInfoController extends BaseController {
 						.saveMerchant(basicInfo);
 				if (merChantResult == null || !merChantResult.isSuccess()) {
 					result.setSuccess(false);
-					result.setMsg("修改商户信息失败");
+					result.setMsg(merChantResult.getResultMsg());
 					return result;
 				}
 				//return merChantResult;
@@ -163,7 +163,7 @@ public class BasicInfoController extends BaseController {
 						.updateMerchantInfo(basicInfo);
 				if (updateResult == null || !updateResult.isSuccess()) {
 					result.setSuccess(false);
-					result.setMsg("修改商户信息失败");
+					result.setMsg(updateResult.getResultMsg());
 					return result;
 				}
 				//return updateResult;
@@ -171,7 +171,7 @@ public class BasicInfoController extends BaseController {
 			return result;
 		} 
 		result.setSuccess(false);
-		result.setMsg("修改用户信息失败");
+		result.setMsg(updateUserResult.getResultMsg());
 		return result;
 		
 	}

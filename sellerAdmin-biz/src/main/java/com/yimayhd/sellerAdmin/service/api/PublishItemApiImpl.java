@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.service.api;
 
+import java.util.List;
+
 import net.pocrd.dubboext.DubboExtProperty;
 
 import org.slf4j.Logger;
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.yimayhd.sellerAdmin.SellerReturnCode;
 import org.yimayhd.sellerAdmin.api.PublishItemApi;
+import org.yimayhd.sellerAdmin.entity.ConsultCategoryInfo;
+import org.yimayhd.sellerAdmin.entity.ItemProperty;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
 import org.yimayhd.sellerAdmin.query.ItemQueryParam;
 import org.yimayhd.sellerAdmin.result.ItemApiResult;
@@ -18,6 +22,7 @@ import com.yimayhd.sellerAdmin.biz.PublishItemBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.query.ItemCategoryQuery;
 import com.yimayhd.sellerAdmin.model.query.ItemQueryDTO;
+import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 
 public class PublishItemApiImpl implements PublishItemApi  {
 
@@ -61,7 +66,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	public ItemApiResult getItemList(int appId, int domainId,
 			long deviceId, long userId, int versionCode,
 			 ItemQueryParam itemQueryParam) {
-		log.info("ItemApiResult.getItemList============================");
+		//log.info("ItemApiResult.getItemList============================");
 
 		if (userId <= 0 || itemQueryParam == null || itemQueryParam.pageNo <= 0 || itemQueryParam.pageSize <= 0) {
 			log.error("params:userId={},itemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
@@ -72,7 +77,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 			ItemCategoryQuery itemCategoryQuery = new ItemCategoryQuery(); 
 			itemCategoryQuery.setSellerId(userId);
 			itemCategoryQuery.setItemQueryParam(itemQueryParam);
-			itemCategoryQuery.setCategoryId(Constant.CONSULT_SERVICE);
+			itemCategoryQuery.setCategoryId(Integer.parseInt(WebResourceConfigUtil.getConsultCategory()));
 			itemCategoryQuery.setDomainId(domainId);
 			ItemApiResult itemApiResult = publishItemBiz.getItemList(itemCategoryQuery);
 			if (itemApiResult == null ) {
@@ -200,6 +205,24 @@ public class PublishItemApiImpl implements PublishItemApi  {
 			return itemApiResult.itemDetail.itemManagement.publishServiceDO;
 		} catch (Exception e) {
 			log.error("param:ItemQueryParam={},error:{}",JSON.toJSONString(itemQueryParam),e);
+			return null;
+		}
+	}
+
+	@Override
+	public ConsultCategoryInfo getConsultItemProperties(int appId, int domainId,
+			long deviceId, long userId, int versionCode) {
+		try {
+			ConsultCategoryInfo consultItemProperties = publishItemBiz.getConsultItemProperties();
+			if (consultItemProperties == null || CollectionUtils.isEmpty(consultItemProperties.itemProperties)) {
+				log.error("result:{}",JSON.toJSONString(consultItemProperties));
+				DubboExtProperty.setErrorCode(SellerReturnCode.QUERY_PROPERTY_ERROR);
+				return null;
+			}
+			return consultItemProperties;
+		} catch (Exception e) {
+			log.error("error:{}",e);
+			DubboExtProperty.setErrorCode(SellerReturnCode.SYSTEM_ERROR);
 			return null;
 		}
 	}
