@@ -121,9 +121,11 @@
                     <th style="width:77px">备注</th>
                     <th width="8%">操作</th>
                 </tr>
+                </tbody>
                     #foreach($order in $orderList)
+                    <tbody orderid="$!order.tcMainOrder.bizOrder.bizOrderId">
                     <tr></tr>
-                    <tr>
+                    <tr >
                         <td><input class="subChecked" type="checkbox" value="$!order.tcMainOrder.bizOrder.bizOrderId"></td>
                         <td colspan="9" align="left">
                             订单编号：$!order.tcMainOrder.bizOrder.bizOrderId &nbsp;&nbsp;&nbsp;&nbsp;下单时间：$!date.format(
@@ -132,7 +134,7 @@
                     </tr>
                         #set( $size = $order.subOrderList.size())
                         #foreach($subOrder in $order.subOrderList)
-                        <tr>
+                        <tr sonorderid="" realprice="">
                             <td></td>
                             <td>
                                 <div class="goods-item">
@@ -176,7 +178,7 @@
                                     </div>
                                 </td>
                                 <td rowspan="$!size" class="middle">
-                                    <div>
+                                    <div class="main-order-price" price="$!utilNum.moneyTransform($!order.tcMainOrder.totalFee)">
                                         $!utilNum.moneyTransform($!order.tcMainOrder.totalFee)<br/>
                                       		#if($!order.value > 0) 
                                       			<span class="fullCut">满$!utilNum.moneyTransform($!order.requirement)<br/>减$!utilNum.moneyTransform($!order.value)</span>
@@ -225,12 +227,13 @@
                                                 data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">是否入驻
                                         </button>
                                     #end
+                                        <a href="javascript:void(0);" class="btn btn-mini btn-link change-price" orderid="$!order.tcMainOrder.bizOrder.bizOrderId">改价</a>
                                 </td>
                             #end
                         #end
                     </tr>
-                    #end
                 </tbody>
+                    #end
             </table>
         </div>
     #*分页*#
@@ -484,5 +487,87 @@
 	    		$(this).find('.bz-box').hide();
 	    });
 
+        $(".change-price").click(function() {
+            $("#refundModal").modal();
+            var orderid = $(this).attr("orderid");
+            var iframeWin;
+            layer.open({
+                type: 2,
+                btn: ['确定', '取消'],
+                title: "修改订单价格",
+                fix: false,
+                shadeClose: true,
+                maxmin: true,
+                area: ['800px', '500px'],
+                content: "changeprice.html?orderid=" + orderid + "&r=" + Math.random(),
+                success: function(layero, index) {
+                    iframeWin = window[layero.find('iframe')[0]['name']];
+                },
+                yes: function(index) {
+                    var result = iframeWin.page.isValid();
+                    if (!result.isValid) {
+                        layer.msg(result.msg, {
+                            icon: 2,
+                            time: 1500
+                        });
+                        return false;
+                    }
+                    var newOrder = iframeWin.page.getChangedResult();
+                    $.ajax({
+                        url: "asdasd",
+                        type: "post",
+                        data: newOrder,
+                        success: function(res) {
+                            if (res.success) {
+                                //刷新页面
+                                layer.msg("修改成功。",{
+                                    icon:1,
+                                    time:1500
+                                });
+                                window.location.reload();
+                            }else{
+                                layer.msg("修改订单价格失败。", {
+                                    icon: 2,
+                                    time: 1500
+                                });
+                            }
+                        },
+                        error: function() {
+                            layer.msg("修改订单价格失败。", {
+                                icon: 2,
+                                time: 1500
+                            });
+                        }
+                    });
+                    return false;
+                },
+                cancel: function(index) {
+                    layer.close(index);
+                }
+            });
+        });
+
     });
+
+    function getOrderInfo(orderid) {
+        var mainOrder = $("tbody[orderid='" + orderid + "']");
+        var order = {
+            main_order_id: mainOrder.attr("orderid"),
+            main_order_price: mainOrder.find(".main-order-price").attr("price"),
+            son_order_list: []
+        };
+
+        order.son_order_list = $.map(mainOrder.find("tr[sonorderid]"), function(tr) {
+            var sonOrder = $(tr);
+            return {
+                son_order_id: sonOrder.attr("sonorderid"),
+                son_order_product_name: sonOrder.find(".t-name").first().text().replace(/[\s\r\n]/g, ''),
+                son_order_price: sonOrder.find(".order-price").text().replace(/[\s\r\n]/g, ''),
+                son_order_real_price: sonOrder.attr("realprice"),
+                son_order_number: sonOrder.find(".order-number").text().replace(/[\s\r\n]/g, '')
+            };
+        });
+
+        return order;
+    }
 </script>
