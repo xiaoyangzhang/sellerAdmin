@@ -29,7 +29,7 @@ public interface MerchantInfoApi {
             @ApiParameter(required = true, name = "sellerId", desc = "要查看的店铺的id") long sellerId
             
     );*/
-	@HttpApi(name = "sellerAdmin.queryMerchantInfo", desc = "查询店铺信息", security = SecurityType.UserLogin, owner = "zhangxy")
+	@HttpApi(name = "sellerAdmin.queryMerchantInfo", desc = "查询店铺信息", security = SecurityType.None, owner = "zhangxy")
 	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C,SellerReturnCode.QUERY_MERCHANT_ERROR_C})
 	public MerchantInfo queryMerchantInfo(
 			@ApiAutowired(CommonParameter.applicationId) int appId,
@@ -40,7 +40,7 @@ public interface MerchantInfoApi {
 			 @ApiParameter(required = true, name = "sellerId", desc = "要查看的店铺的id") long sellerId
 			
 			);
-	@HttpApi(name = "sellerAdmin.queryMerchantDesc", desc = "查询店铺简介信息", security = SecurityType.UserLogin, owner = "zhangxy")
+	@HttpApi(name = "sellerAdmin.queryMerchantDesc", desc = "查询店铺简介信息", security = SecurityType.None, owner = "zhangxy")
 	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C,SellerReturnCode.QUERY_MERCHANT_ERROR_C})
 	public MerchantDesc queryMerchantDesc(
 			@ApiAutowired(CommonParameter.applicationId) int appId,
@@ -51,7 +51,7 @@ public interface MerchantInfoApi {
 			 @ApiParameter(required = true, name = "sellerId", desc = "要查看的店铺的id") long sellerId
 			
 			);
-	@HttpApi(name = "sellerAdmin.queryMerchantQualification", desc = "查询店铺资质信息", security = SecurityType.UserLogin, owner = "zhangxy")
+	@HttpApi(name = "sellerAdmin.queryMerchantQualification", desc = "查询店铺资质信息", security = SecurityType.None, owner = "zhangxy")
 	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C,SellerReturnCode.QUERY_MERCHANT_QUALIFICATION_ERROR_C})
 	public Qualification queryMerchantQualification(
 			@ApiAutowired(CommonParameter.applicationId) int appId,
