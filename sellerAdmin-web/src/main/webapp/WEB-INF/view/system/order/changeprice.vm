@@ -92,7 +92,8 @@
         }
         return null;
     }
-    var page = {
+    
+   var page = {
         init: function() {
             page.renderPage();
             page.attachEvent();
@@ -164,26 +165,41 @@
             var temp = [];
             var total = 0;
             var sonOrderLength = page.order.son_order_list.length;
+            //单个子订单  处理
             if (sonOrderLength == 1) {
                 total = $("#" + page.order.son_order_list[0].son_order_id).val();
                 if (total == '' || $("#" + page.order.son_order_list[0].son_order_id).hasClass("error")) {
                     total = page.order.main_order_price;
+                } else {
+                    total = parseFloat(total).toFixed(2) * page.order.son_order_list[0].son_order_number;
                 }
-                $(".real-price").html('<span>买家实付：</span><span class="price">￥' + parseFloat(total).toFixed(2) + '</span><span>元</span>');
+
+                $(".real-price").html('<span>买家实付：</span><span class="price">￥' + total + '</span><span>元</span>');
                 return;
             }
+
+            //多个子订单处理
             temp.push("<span>买家实付：</span>");
             for (var index = 0; index < sonOrderLength; index++) {
                 var sonOrder = page.order.son_order_list[index];
                 var input = $("#" + sonOrder.son_order_id);
                 var newPrice = input.val();
                 var hasError = input.hasClass("error");
-                var sonRealPrice = newPrice == "" || hasError ? parseFloat(sonOrder.son_order_real_price) : parseFloat(newPrice);
-                if (index == sonOrderLength - 1) {
-                    temp.push('<span>' + sonRealPrice.toFixed(2) + '</span>');
+
+                var sonRealPrice = 0;
+
+                if (newPrice == "" || hasError) {
+                    sonRealPrice = parseFloat(sonOrder.son_order_real_price);
                 } else {
-                    temp.push('<span>' + sonRealPrice.toFixed(2) + '</span><span>+</span>');
+                    sonRealPrice = parseFloat(newPrice) * sonOrder.son_order_number;
                 }
+
+                if (index == sonOrderLength - 1) {
+                    temp.push('<span>' + sonRealPrice + '</span>');
+                } else {
+                    temp.push('<span>' + sonRealPrice + '</span><span>+</span>');
+                }
+
                 total += sonRealPrice;
             }
             temp.push('<span>=</span><span class="price">￥' + total.toFixed(2) + '</span><span>元</span>');
@@ -215,15 +231,20 @@
             var newOrder = {};
             newOrder.main_order_id = page.order.main_order_id;
             newOrder.main_order_price = 0;
-            newOrder.son_order_list = $.map(page.order.son_order_list, function(son) {
+            newOrder.son_order_list = [];
+            $.each(page.order.son_order_list, function(i, son) {
                 var input = $("#" + son.son_order_id);
                 var newPrice = input.val();
-                newPrice = newPrice == ""? parseFloat(sonOrder.son_order_real_price) : parseFloat(newPrice);
-                newOrder.main_order_price += newPrice;
-                return {
-                    son_order_id: son.son_order_id,
-                    son_order_price: newPrice
-                };
+                if (newPrice.length > 0) {
+                    newOrder.son_order_list.push({
+                        son_order_id: son.son_order_id,
+                        son_order_number: son.son_order_number,
+                        son_order_price: parseFloat(newPrice)
+                    });
+                    newOrder.main_order_price += parseFloat(newPrice) * son.son_order_number;
+                } else {
+                    newOrder.main_order_price += parseFloat(son.son_order_real_price);
+                }
             });
 
             return newOrder;
