@@ -505,6 +505,11 @@ public class OrderServiceImpl implements OrderService {
 		try{
 			/**json参数转bean**/
 			OrderPriceJsonTemplate template = converter.getOrderPriceJsonTemplate(orderPriceQuery);
+			if(template.getMainOrderId()==null||template.getMainOrderId().longValue()==0){
+				log.error("template param fail ,template={}",JSON.toJSONString(template));
+				result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+				return result;
+			}
 			/**拼装改价repo参数**/
 			OrderChangePriceDTO orderChangePriceDTO  = converter.getOrderChangePriceDTO(template);
 

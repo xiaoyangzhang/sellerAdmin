@@ -13,8 +13,13 @@ import com.yimayhd.commentcenter.client.result.ComRateResult;
 import com.yimayhd.commentcenter.client.service.ComRateService;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
 
+import com.yimayhd.sellerAdmin.model.HotelManage.HotelMessageVO;
+import com.yimayhd.sellerAdmin.model.order.OrderPriceQuery;
+import com.yimayhd.sellerAdmin.model.order.OrderPrizeDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -302,7 +307,28 @@ public class OrderController extends BaseController {
 	}
 
 
-
+	/**
+	 * 订单改价
+	 * @param model
+	 * @param orderPriceQuery
+	 * @return
+	 * @throws Exception
+     */
+	@RequestMapping(value = "/orderChangePrice",method = RequestMethod.POST)
+	@ResponseBody
+	public WebResult<String> orderChangePrice(Model model, OrderPriceQuery orderPriceQuery) throws Exception {
+		WebResult<String> result = new WebResult<String>();
+		if(orderPriceQuery==null||StringUtils.isBlank(orderPriceQuery.getOrderJson())){
+			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+		}
+		WebResult<OrderPrizeDTO> orderResult = orderService.orderChangePrice(orderPriceQuery);
+		if(!orderResult.isSuccess()){
+			result.setWebReturnCode(orderResult.getWebReturnCode());
+		}
+		OrderPrizeDTO orderPrizeDTO = orderResult.getValue();
+		result.setValue(orderPrizeDTO.getOrderJson());
+		return result;
+	}
 
 
 
