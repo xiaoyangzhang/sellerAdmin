@@ -488,7 +488,6 @@
 	    });
 
         $(".change-price").click(function() {
-            $("#refundModal").modal();
             var orderid = $(this).attr("orderid");
             var iframeWin;
             layer.open({

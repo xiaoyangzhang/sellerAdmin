@@ -509,6 +509,11 @@ public class OrderServiceImpl implements OrderService {
 				result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
 				return result;
 			}
+			if(template.getOrderSonModel() ==null||template.getOrderSonModel().length==0){
+				log.error("orderSonModel param fail ,template={}",JSON.toJSONString(template));
+				result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+				return result;
+			}
 			/**拼装改价repo参数**/
 			OrderChangePriceDTO orderChangePriceDTO  = converter.getOrderChangePriceDTO(template);
 
