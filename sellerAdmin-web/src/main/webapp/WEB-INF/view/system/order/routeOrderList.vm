@@ -498,7 +498,7 @@
                 //shadeClose: true,
                 maxmin: true,
                 area: ['800px', '500px'],
-                content: "$utilWebconfig.getStaticResourcesPath()/view/system/order/changeprice1.html?orderid=" + orderid + "&r=" + Math.random(),
+                content: "$utilWebconfig.getStaticResourcesPath()/order/changepriceView?orderid=" + orderid + "&r=" + Math.random(),
                 success: function(layero, index) {
                     iframeWin = window[layero.find('iframe')[0]['name']];
                 },

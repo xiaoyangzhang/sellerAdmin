@@ -330,6 +330,21 @@ public class OrderController extends BaseController {
 		return result;
 	}
 
+	/**
+	 * 改价浮层
+	 * @param model
+	 * @param orderid
+     * @return
+     */
+	@RequestMapping(value = "/changepriceView",method = RequestMethod.GET)
+	public String changepriceView(Model model,long orderid){
+		if(orderid==0){
+			return "/system/error/404";
+		}
+		model.addAttribute("orderid",orderid);
+		return "/system/order/changeprice";
+	}
+
 
 
 
