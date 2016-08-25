@@ -756,8 +756,8 @@ public class LineConverter {
 			DestinationVO destinationVO = destinationNodeVO.getDestinationVO();
 			
 			//FIXME 非空判断
-			Long id = destinationVO.getId() ;
-			if (selectedIds.contains( id.toString() )) {
+			int code  = destinationVO.getCode() ;
+			if (selectedIds.contains( String.valueOf(code) )) {
 				destinationVO.setSelected(true);
 			}
 		}

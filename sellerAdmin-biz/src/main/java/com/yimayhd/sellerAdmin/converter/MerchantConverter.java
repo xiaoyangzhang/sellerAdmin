@@ -169,6 +169,7 @@ public class MerchantConverter {
 		vo.setOpenerCard(examineInfoDTO.getOpenerCard());
 		vo.setSettlementCard(examineInfoDTO.getSettlementCard());
 		vo.setOpenerTel(examineInfoDTO.getOpenerTel());
+
 		return vo;
 	}
 	

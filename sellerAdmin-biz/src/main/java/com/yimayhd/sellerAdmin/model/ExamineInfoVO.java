@@ -771,12 +771,7 @@ public class ExamineInfoVO  implements Serializable  {
 		dto.setType(ExamineType.TALENT.getType());
 		dto.setAccountBankProvinceCode(vo.getProvince());
 		dto.setAccountBankCityCode(vo.getCity());
-		//dto.setMerchantCategoryId(vo.getMerchantCategoryId());
-		//dto.setIsDirectSale(vo.getIsDirectSale());
-		dto.setAccountType(String.valueOf(vo.getAccountType()));
-		dto.setOpenerCard(vo.getOpenerCard());
-		dto.setSettlementCard(vo.getSettlementCard());
-		dto.setOpenerTel(vo.getOpenerTel());
+		
 		return dto;
 		
 	}
