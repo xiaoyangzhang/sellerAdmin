@@ -38,7 +38,10 @@ public class MainOrder {
     private long userPointNum;//使用的积分
     
     private long itemPrice_;//主订单实付金额
-    
+
+    private long mainOrderTotalFee;//主订单原价
+
+
 
 
 	public int getOrderType() {
@@ -157,5 +160,12 @@ public class MainOrder {
 	public void setItemPrice_(long itemPrice_) {
 		this.itemPrice_ = itemPrice_;
 	}
-    
+
+    public long getMainOrderTotalFee() {
+        return mainOrderTotalFee;
+    }
+
+    public void setMainOrderTotalFee(long mainOrderTotalFee) {
+        this.mainOrderTotalFee = mainOrderTotalFee;
+    }
 }

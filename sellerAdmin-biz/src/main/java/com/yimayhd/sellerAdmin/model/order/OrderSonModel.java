@@ -10,7 +10,8 @@ import java.math.BigDecimal;
 public class OrderSonModel implements Serializable {
 	private static final long serialVersionUID = -4778021633230936657L;
 	private Long sonOrderId;// 子订单ID
-	private BigDecimal sonOrderPrize;//子订单价格
+	private BigDecimal sonOrderPrize;//子订单实际价格
+	//private Long buyAmount;//购买数量
 
 	public Long getSonOrderId() {
 		return sonOrderId;
@@ -28,4 +29,5 @@ public class OrderSonModel implements Serializable {
 	public void setSonOrderPrize(BigDecimal sonOrderPrize) {
 		this.sonOrderPrize = sonOrderPrize;
 	}
+
 }

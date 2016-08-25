@@ -134,7 +134,7 @@
                     </tr>
                         #set( $size = $order.subOrderList.size())
                         #foreach($subOrder in $order.subOrderList)
-                        <tr sonorderid="" realprice="">
+                        <tr sonorderid="$subOrder.tcDetailOrder.bizOrder.bizOrderId"  realprice="$!utilNum.moneyTransform($!subOrder.itemPrice_)">
                             <td></td>
                             <td>
                                 <div class="goods-item">

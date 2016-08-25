@@ -167,10 +167,8 @@ public class OrderServiceImpl implements OrderService {
 		OrderQueryDTO orderQueryDTO = OrderConverter
 				.orderListQueryToOrderQueryDTO(orderListQuery, userId);
 		if (orderQueryDTO != null) {
-			BatchBizQueryResult batchBizQueryResult = tcBizQueryServiceRef
-					.queryOrderForSeller(orderQueryDTO);
-			List<TcMainOrder> tcMainOrderList = batchBizQueryResult
-					.getBizOrderDOList();
+			BatchBizQueryResult batchBizQueryResult = tcBizQueryServiceRef.queryOrderForSeller(orderQueryDTO);
+			List<TcMainOrder> tcMainOrderList = batchBizQueryResult.getBizOrderDOList();
 			if (!CollectionUtils.isEmpty(tcMainOrderList)) {
 				for (TcMainOrder tcMainOrder : tcMainOrderList) {
 					MainOrder mo = OrderConverter.orderVOConverter(tcMainOrder);
@@ -499,6 +497,7 @@ public class OrderServiceImpl implements OrderService {
 	 * @param orderPriceQuery
 	 * @return
      */
+	@Override
 	public WebResult<OrderPrizeDTO> orderChangePrice(final OrderPriceQuery orderPriceQuery){
 		WebResult<OrderPrizeDTO> result = new  WebResult<OrderPrizeDTO>();
 		OrderPriceConverter converter = new OrderPriceConverter();

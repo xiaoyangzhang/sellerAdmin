@@ -191,6 +191,8 @@ public class OrderConverter {
         mainOrder.setOrderStatus(tcBizOrder.getOrderStatus());
         //订单类型
         mainOrder.setOrderType(tcBizOrder.getOrderType());
+        long mainOrderTotalFee = BizOrderUtil.getMainOrderTotalFee(tcBizOrder.getBizOrderDO());//主订单金额
+        mainOrder.setMainOrderTotalFee(mainOrderTotalFee);
         
 //        if (payStatus == PayStatus.NOT_PAY.getStatus()){
 //            mainOrder.setOrderShowState(OrderShowStatus.NOTING.getStatus());//待付款
@@ -253,14 +255,14 @@ public class OrderConverter {
 
                 }
                 //订单实付总额
-                long total = BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder().getBizOrderDO());
+                long total = BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder().getBizOrderDO());//子订单实付金额
                 //获取子订单实付金额
                 if(tcDetailOrder.getBizOrder().getBuyAmount() > 0){
                 	long act = total/tcDetailOrder.getBizOrder().getBuyAmount();
                 	subOrder.setItemPrice_(act);
                 }
-                BizOrderUtil.getSubOrderTotalFee(tcDetailOrder.getBizOrder().getBizOrderDO());
-                
+                long subOrderTotalFee =BizOrderUtil.getSubOrderTotalFee(tcDetailOrder.getBizOrder().getBizOrderDO());//子订单原价
+                subOrder.setSubOrderTotalFee(subOrderTotalFee);
                 subOrderList.add(subOrder);
             }
             return new MainOrder(tcMainOrder,subOrderList);
