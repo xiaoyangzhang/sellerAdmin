@@ -84,7 +84,7 @@ public class MerchantConverter {
 		dto.setSaleLicenseNumber(vo.getSaleLicenseNumber());
 		dto.setTaxRegisterNumber(vo.getTaxRegisterNumber());
 		dto.setMerchantName(vo.getMerchantName());
-		//2.0
+
 		
 		dto.setMerchantQualifications(vo.getMerchantQualifications());
 		List<MerchantScopeDO> merchantScopes = new ArrayList<MerchantScopeDO>(); 
