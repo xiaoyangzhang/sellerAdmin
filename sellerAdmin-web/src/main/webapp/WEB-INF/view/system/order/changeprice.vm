@@ -1,7 +1,7 @@
-<!DOCTYPE html>
-<html>
-
 <head>
+    <title>订单列表</title>
+    #set($layout = "/layout/layout_non.vm")
+    <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/orderlist.css">
     <meta charset="UTF-8">
     <title>修改订单价格</title>
     <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/zui/css/zui.min.css?version=20160414">
@@ -40,7 +40,6 @@
     </style>
 </head>
 
-<body>
 <div id="page"></div>
 <script type="text/x-handlebars-template" id="tpl_change_price">
     <div class="change-price-modal">
@@ -254,6 +253,4 @@
         page.init();
     });
 </script>
-</body>
 
-</html>
