@@ -7,7 +7,34 @@
     <title>订单列表</title>
     #parse("layout/layout-meta.vm")
     <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/orderlist.css">
+<<<<<<< HEAD
     <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/fixlayerstyle.css">
+=======
+     <style type="text/css">
+    .my-layer-skin .layui-layer-setwin .layui-layer-close2 {
+            background: #fff url('$!utilWebconfig.getStaticResourcesPath()/resources/img/close.png') no-repeat center;
+        right: -15px;
+        top: -15px;
+    }
+    
+    .my-layer-skin .layui-layer-btn {
+        padding: 10px 10px 20px;
+        text-align: center;
+    }
+    
+    .my-layer-skin .layui-layer-btn a {
+        margin-right: 30px;
+        width: 150px;
+        height: 36px;
+        line-height: 36px;
+        border: none;
+        outline: none;
+        background: #ed6c44;
+        color: #fff;
+        font-size: 16px;
+    }
+    </style>
+>>>>>>> 80afac0a5e6ef689256e82ce8a140c15e387d7ec
 </head>
 
 
