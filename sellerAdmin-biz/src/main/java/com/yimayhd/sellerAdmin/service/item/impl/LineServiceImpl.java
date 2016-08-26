@@ -1,17 +1,5 @@
 package com.yimayhd.sellerAdmin.service.item.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.ComentEditDTO;
@@ -20,7 +8,6 @@ import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.result.PicTextResult;
 import com.yimayhd.commentcenter.client.service.ComCenterService;
-import com.yimayhd.ic.client.model.domain.CategoryPropertyDO;
 import com.yimayhd.ic.client.model.domain.CategoryPropertyValueDO;
 import com.yimayhd.ic.client.model.domain.CategoryValueDO;
 import com.yimayhd.ic.client.model.domain.LineDO;
@@ -29,13 +16,13 @@ import com.yimayhd.ic.client.model.domain.item.IcDestination;
 import com.yimayhd.ic.client.model.domain.item.IcSubject;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.PropertyType;
-import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.ic.client.model.param.item.line.LinePubAddDTO;
 import com.yimayhd.ic.client.model.param.item.line.LinePubUpdateDTO;
 import com.yimayhd.ic.client.model.query.LinePageQuery;
 import com.yimayhd.ic.client.model.result.item.LinePublishResult;
 import com.yimayhd.ic.client.model.result.item.LineResult;
 import com.yimayhd.resourcecenter.dto.DestinationNode;
+import com.yimayhd.resourcecenter.model.enums.DestinationOutType;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebOperateResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -45,22 +32,17 @@ import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.converter.LineConverter;
 import com.yimayhd.sellerAdmin.converter.PictureTextConverter;
 import com.yimayhd.sellerAdmin.converter.TagConverter;
-import com.yimayhd.sellerAdmin.model.line.City;
-import com.yimayhd.sellerAdmin.model.line.CityVO;
-import com.yimayhd.sellerAdmin.model.line.DestinationNodeVO;
-import com.yimayhd.sellerAdmin.model.line.LinePropertyConfig;
-import com.yimayhd.sellerAdmin.model.line.LineVO;
-import com.yimayhd.sellerAdmin.model.line.TagDTO;
+import com.yimayhd.sellerAdmin.model.line.*;
 import com.yimayhd.sellerAdmin.model.line.base.BaseInfoVO;
-import com.yimayhd.sellerAdmin.model.line.price.PriceInfoVO;
-import com.yimayhd.sellerAdmin.repo.CategoryRepo;
-import com.yimayhd.sellerAdmin.repo.CityRepo;
-import com.yimayhd.sellerAdmin.repo.CommentRepo;
-import com.yimayhd.sellerAdmin.repo.DestinationRepo;
-import com.yimayhd.sellerAdmin.repo.LineRepo;
-import com.yimayhd.sellerAdmin.repo.PictureTextRepo;
+import com.yimayhd.sellerAdmin.repo.*;
 import com.yimayhd.sellerAdmin.service.item.LineService;
 import com.yimayhd.user.client.dto.CityDTO;
+import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.*;
 
 public class LineServiceImpl implements LineService {
 	private Logger log = LoggerFactory.getLogger(getClass());
@@ -118,7 +100,7 @@ public class LineServiceImpl implements LineService {
 			lineResult.setItemSkuDOList(itemSkuDOList);
 			PicTextResult picTextResult = pictureTextRepo.getPictureText(itemId, PictureText.ITEM);
 			LineVO lineVO = LineConverter.toLineVO(lineResult, picTextResult, themes, toCityVO(departTags),
-					destinationBiz.toCityVODestWithTags(destTags));
+					destinationBiz.toCityVODestWithTags(destTags, DestinationOutType.GROUP_LINE.getCode()));
 			lineVO.getBaseInfo().setAllDeparts(allDeparts);
 			return WebResult.success(lineVO);
 		} catch (Exception e) {
@@ -189,6 +171,7 @@ public class LineServiceImpl implements LineService {
 
 
 	@Override
+	//// FIXME: 2016/8/4 代码重复 TagServiceImpl
 	public WebResult<List<CityVO>> getAllLineDests() {
 		try {
 			List<ComTagDO> comTagDOs = commentRepo.getTagsByTagType(TagType.DESTPLACE);
@@ -200,9 +183,9 @@ public class LineServiceImpl implements LineService {
 	}
 
 	@Override
-	public WebResult<List<DestinationNodeVO>> queryInlandDestinationTree() {
+	public WebResult<List<DestinationNodeVO>> queryInlandDestinationTree(int code) {
 		try {
-			List<DestinationNode> destinationNodes = destinationRepo.queryInlandDestinationTree();
+			List<DestinationNode> destinationNodes = destinationRepo.queryInlandDestinationTree(code);
 			return WebResult.success(LineConverter.toDestinationNodeVO(destinationNodes));
 		} catch (Exception e) {
 			log.error("LineService.getAllLineDeparts error", e);
@@ -272,7 +255,7 @@ public class LineServiceImpl implements LineService {
 				return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
 			}
 			long itemId = line.getBaseInfo().getItemId();
-			convertToIcSubjcet(line);
+//			convertToIcSubjcet(line);
 			
 			//FIXME 
 			LinePubUpdateDTO linePublishDTOForUpdate = LineConverter.toLinePublishDTOForUpdate(sellerId, line);
@@ -308,10 +291,14 @@ public class LineServiceImpl implements LineService {
 					}
 				} else {
 					List<CityVO> departs = baseInfo.getDeparts();
-					for (TagDTO tagDTO : departs) {
-						departIds.add(tagDTO.getId());
+//					for (TagDTO tagDTO : departs) {
+//						departIds.add(tagDTO.getId());
+//					}
+//					commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
+					for (CityVO city : departs) {
+						departIds.add(Long.parseLong(city.getCode()));
 					}
-					commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
+					commentRepo.addLineTagRelationInfo(itemId, TagType.DEPARTPLACE, departIds);
 				}
 				List<CityVO> dests = baseInfo.getDests();
 				List<Long> destIds = new ArrayList<Long>();
@@ -351,7 +338,7 @@ public class LineServiceImpl implements LineService {
 			//查询主题标签的中文描述
 			BaseInfoVO baseInfo = line.getBaseInfo();
 			List<Long> themeIds = baseInfo.getThemes();
-			convertToIcSubjcet(line);
+//			convertToIcSubjcet(line);
 			
 			LinePubAddDTO linePublishDTOForSave = LineConverter.toLinePublishDTOForSave(sellerId, line);
 			LinePublishResult publishLine = lineRepo.saveLine(linePublishDTOForSave);
@@ -368,11 +355,16 @@ public class LineServiceImpl implements LineService {
 					}
 				} else {
 					List<CityVO> departs = baseInfo.getDeparts();
-					for (TagDTO tagDTO : departs) {
-						departIds.add(tagDTO.getId());
-						departNames.add(tagDTO.getName());
+//					for (TagDTO tagDTO : departs) {
+//						departIds.add(tagDTO.getId());
+//						departNames.add(tagDTO.getName());
+//					}
+//					List<Long> destIds = new ArrayList<Long>();
+//					commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
+					for (CityVO cityVOs : departs) {
+						departIds.add(Long.parseLong(cityVOs.getCode()));
 					}
-					commentRepo.saveTagRelation(itemId, TagType.DEPARTPLACE, departIds);
+					commentRepo.addLineTagRelationInfo(itemId, TagType.DESTPLACE, departIds);
 				}
 				List<CityVO> dests = baseInfo.getDests();
 				List<Long> destIds = new ArrayList<Long>();
@@ -398,46 +390,48 @@ public class LineServiceImpl implements LineService {
 		}
 	}
 
-	private void convertToIcSubjcet(LineVO line) {
-		BaseInfoVO baseInfo = line.getBaseInfo();
-		List<CityVO> departs = baseInfo.getDeparts();
-		List<CityVO> dests = baseInfo.getDests();
-		BaseResult<List<ComTagDO>> selectTagsIn = comCenterServiceRef.selectTagsIn(baseInfo.getThemes());
-		List<ComTagDO> comTagDOs = selectTagsIn.getValue();
-		ArrayList<IcSubject> themesIcs = new ArrayList<IcSubject>();
-		ArrayList<IcDestination> departsIcs = new ArrayList<IcDestination>();
-		ArrayList<IcDestination> destsIcs = new ArrayList<IcDestination>();
-		if (baseInfo.isAllDeparts()) {
-			ComTagDO tagByName = commentRepo.getTagByName(TagType.DEPARTPLACE, Constant.ALL_PLACE_CODE);
-			if (tagByName != null) {
-				IcDestination icDestination = new IcDestination();
-				icDestination.setCode(tagByName.getName());//出发地为全国
-				icDestination.setTxt("全国");
-				departsIcs.add(icDestination);
-			}
-		}else {
-			for (CityVO cityVO : departs) {
-				IcDestination icDestination = new IcDestination();
-				icDestination.setCode(cityVO.getCode());
-				icDestination.setTxt(cityVO.getName());
-				departsIcs.add(icDestination);
-			}
-		}
-		for (ComTagDO tag : comTagDOs) {
-			IcSubject icSubject = new IcSubject();
-			icSubject.setId(tag.getId());
-			icSubject.setTxt(tag.getName());
-			themesIcs.add(icSubject);
-		}
-		for (CityVO cityVO : dests) {
-			IcDestination icDestination = new IcDestination();
-			icDestination.setCode(cityVO.getCode());
-			icDestination.setTxt(cityVO.getName());
-			destsIcs.add(icDestination);
-		}
-		baseInfo.setThemesIcs(themesIcs);
-		baseInfo.setDepartsIcs(departsIcs);
-		baseInfo.setDestsIcs(destsIcs);
-	}
+	//// FIXME: 2016/8/4 方法没有调用了
+//	private void convertToIcSubjcet(LineVO line) {
+//		BaseInfoVO baseInfo = line.getBaseInfo();
+//		List<CityVO> departs = baseInfo.getDeparts();
+//		List<CityVO> dests = baseInfo.getDests();
+//		BaseResult<List<ComTagDO>> selectTagsIn = comCenterServiceRef.selectTagsIn(baseInfo.getThemes());
+//		List<ComTagDO> comTagDOs = selectTagsIn.getValue();
+//		ArrayList<IcSubject> themesIcs = new ArrayList<IcSubject>();
+//		ArrayList<IcDestination> departsIcs = new ArrayList<IcDestination>();
+//		ArrayList<IcDestination> destsIcs = new ArrayList<IcDestination>();
+//		if (baseInfo.isAllDeparts()) {
+//			ComTagDO tagByName = commentRepo.getTagByName(TagType.DEPARTPLACE, Constant.ALL_PLACE_CODE);
+//			if (tagByName != null) {
+//				IcDestination icDestination = new IcDestination();
+//				icDestination.setCode(tagByName.getName());//出发地为全国
+//				icDestination.setTxt("全国");
+//				departsIcs.add(icDestination);
+//			}
+//		}else {
+//		    //// FIXME: 2016/8/4 代码重复
+//			for (CityVO cityVO : departs) {
+//				IcDestination icDestination = new IcDestination();
+//				icDestination.setCode(cityVO.getCode());
+//				icDestination.setTxt(cityVO.getName());
+//				departsIcs.add(icDestination);
+//			}
+//		}
+//		for (ComTagDO tag : comTagDOs) {
+//			IcSubject icSubject = new IcSubject();
+//			icSubject.setId(tag.getId());
+//			icSubject.setTxt(tag.getName());
+//			themesIcs.add(icSubject);
+//		}
+//		for (CityVO cityVO : dests) {
+//			IcDestination icDestination = new IcDestination();
+//			icDestination.setCode(cityVO.getCode());
+//			icDestination.setTxt(cityVO.getName());
+//			destsIcs.add(icDestination);
+//		}
+//		baseInfo.setThemesIcs(themesIcs);
+//		baseInfo.setDepartsIcs(departsIcs);
+//		baseInfo.setDestsIcs(destsIcs);
+//	}
 
 }

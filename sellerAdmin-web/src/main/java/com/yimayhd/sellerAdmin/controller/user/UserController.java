@@ -293,6 +293,13 @@ public class UserController extends BaseController {
 		return webResult;
 	}
 	
+	/**
+	 * @param mobile
+	 * 此接口已移到 palace 项目下 UserController 
+	 * @author hongfei.guo 	2016-07-11 
+	 * @return
+	 */
+	/**
 	@RequestMapping(value = "/getUserByMobile", method = RequestMethod.GET)
 	@ResponseBody
 	public WebResult<UserDO> getUserByMobile(String mobile) {
@@ -301,6 +308,7 @@ public class UserController extends BaseController {
 		result.setValue(userDO);
 		return result;
 	}
+	**/
 
 	private static final String TOKEN_SERVER = "token";
 	private static final String TOKEN_CLIENT = "token2";

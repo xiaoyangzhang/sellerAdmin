@@ -1,0 +1,79 @@
+#set($layout = "/layout/layout-jiuxiu.vm")
+#set( $selectMenu = "/jiuxiu/voucher/list" )
+#set( $locations = ["优惠劵管理", "#if($!editType=='edit')编辑#else添加#end优惠劵"] )
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>优惠劵管理</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/merchant.css">
+</head>
+
+<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/jquery-ui-1.10.4.custom.css">
+<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/conpon.css">
+
+	<input type="hidden" id="add"  value="$!root_path/jiuxiu/voucher/add">
+	<input type="hidden" id="edit"  value="$!root_path/jiuxiu/voucher/edit">
+	<input type="hidden" id="subpath"  value="$!root_path/jiuxiu/voucher/list?id=0&status=0&useStatus=0&putStatus=0&userId=0">
+	<div class = "eredar-info clearfix">
+		<ul>
+
+			<li class = " first on">优惠券管理</li>
+
+		</ul>
+	</div>
+	<div class = "coupon reW clearfix">
+		<p class = "add-tit"><font>#if($!editType=='edit')编辑#else添加#end满减券</font></p>
+	</div>
+	<div class = "coupon-list">
+		<form class = "addcouponForm" action = "">
+			<input type ="hidden" id ="uuid" name ="uuid" value ="$!UUID" />
+			<input type ="hidden" id ="voucherId" name ="voucherId" value ="$!voucherTemplate.id" />
+			<input type ="hidden" id ="edtType" name ="edtType" value ="$!edtType" />
+			<p>
+				<em><s>*</s>优惠券名称：</em>
+				<span><input type = "text" maxlength = "10" nullmsg = "请填写优惠券名称！" #if($!edtType=='ACTIVE') disabled="disabled" #end datatype = "*" class = "coupon-input" name = "title" value="$!voucherTemplate.title"/ ><a class = "dis2">10字</a></span>
+			</p>
+			<p>
+				<em><s>*</s>满减金额：</em>
+				<span class = "tip"><strong>满</strong><input #if($!edtType=='ACTIVE') disabled="disabled" #end type = "text" id = "starnum" maxlength="8" class = "coupon-num dis" name = "requirement_" value = "$!utilNum.doubleDelZero($!voucherTemplate.requirement_)"></input>
+					<strong class = "dis">减</strong><input #if($!edtType=='ACTIVE') disabled="disabled" #end type = "text" id = "emdnum" maxlength="8" class = "coupon-num dis" name = "value_" value="$!utilNum.doubleDelZero($!voucherTemplate.value_)"/>
+					<strong class = "dis">元</strong>
+				</span>
+			</p>
+			<p>
+				<em><s>*</s>投放时间：</em>
+				<span>
+					<input #if($!edtType=='ACTIVE') disabled="disabled" #end id="putstartime" class = "field coupon-input"  name="putStartTime" title="开始时间" value="$!date.format('yyyy-MM-dd',$!voucherTemplate.putStartTime)"   readonly="readonly">
+					<font class = "dis">至</font>
+					<input  id="putendtime" class = "field coupon-input dis" name="putEndTime" title="结束时间" value="$!date.format('yyyy-MM-dd',$!voucherTemplate.putEndTime)" readonly="readonly">
+					<a class = "dis2">最长为60天</a>
+				</span>
+			</p>
+			<p>
+				<em><s>*</s>使用时间：</em>
+				<span>
+					<input #if($!edtType=='ACTIVE') disabled="disabled" #end id="getstartime" class = "field coupon-input" name="startTime" title="开始时间" value="$!date.format('yyyy-MM-dd',$!voucherTemplate.startTime)"   readonly="readonly">
+					<font class = "dis">至</font>
+					<input #if($!edtType=='ACTIVE') disabled="disabled" #end id="getendtime" class = "field coupon-input dis" name="endTime" title="结束时间" value="$!date.format('yyyy-MM-dd',$!voucherTemplate.endTime)" readonly="readonly">
+					<a class = "dis2">最长为60天</a>
+				</span>
+			</p>
+			<p>
+				<em><s>*</s>领券限制：</em>
+				<span>
+					<strong>活动期间单人限领</strong><input #if($!edtType=='ACTIVE') disabled="disabled" #end id = "fill" type = "text" class = "coupon-num dis2" name = "voucherCount" value = "$!voucherTemplate.voucherCount"/>
+					<strong class = "dis">张</strong>
+					<a class = "dis2">最大限领10张</a>
+				</span>
+			</p>
+			<p>
+				<em><s>*</s>发券数量：</em>
+				<span>
+					<input type = "text" id = "part" class = "coupon-num" name = "totalNum" maxlength = "5"  value = "$!voucherTemplate.totalNum"/><strong class = "dis">份</strong>
+					<a class = "dis2">发券数量不能小于1</a>
+				</span>
+			</p> 
+			<p><a class = "savebtn">保存</a></p>
+		</form>
+	</div>
+	#parse("layout/layout-js.vm")
+	<script>seajs.use("coupon");</script>	

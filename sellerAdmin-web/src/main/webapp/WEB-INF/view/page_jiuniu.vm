@@ -3,7 +3,7 @@
     #set($pageVoNo = $pageVo.thisPageNo)
     #set($before=0)
     #set($after=0)
-    <input type="hidden" name="page" value="1">
+    <input type="hidden" name="pageNo" value="1">
     <ul class="pager" style="width: 100%;">
         #if($pageVo.hasPreviousPage)
             <li class="previous">

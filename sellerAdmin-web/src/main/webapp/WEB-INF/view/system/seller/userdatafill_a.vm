@@ -232,7 +232,7 @@
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>税务登记号：</label></td>
-       	    	   				<td class="rigcontent"><input type="text" maxlength="25"  value="$!examineInfo.taxRegisterNumber" placeholder="税务登记号码" name="taxRegisterNumber" id="" class="txt01 taxL"/></td>
+       	    	   				<td class="rigcontent"><input type="text" maxlength="25"  value="$!examineInfo.taxRegisterNumber" placeholder="可填写统一社会信用代码" name="taxRegisterNumber" id="" class="txt01 taxL"/></td>
        	    	   			</tr>
        	    	   			<tr>
        	    	   				<td class="rigtxt"><span>*</span><label>营业地址：</label></td>
@@ -248,6 +248,15 @@
                	<div class="infor-title">财务信息</div>
 					<div class="six">
 						<table>
+						
+						<tr>	
+								<td class="rigtxt"><span>*</span><label class="">账户类型：</label></td>
+								<td class="rigcontent"><select id="accountType" class="selectlist" name="accountType">
+									  <option #if ($examineInfo.accountType == "2") selected="selected" #end value="2">对公账户</option>
+									  <option #if ($examineInfo.accountType == "1") selected="selected" #end value="1">对私账户</option>
+									</select>
+								</td>
+							</tr>
 						<tr>	
 								<td class="rigtxt"><span>*</span><label class="">开户银行：</label></td>
 								<td class="rigcontent"><select id="bank" class="selectlist" name="financeOpenBankId">
@@ -261,13 +270,30 @@
 									</select>
 								</td>
 							</tr>
-							<tr>
+							<tr class="financeOpenName_">
 								<td class="rigtxt"><span>*</span><label class="">开户名称：</label></td>
 								<td class="rigcontent"><input type="text" datatype="*" maxlength="60"  value="$!examineInfo.financeOpenName" id="financeOpenName_" name="financeOpenName" maxlength="60" class="txt01"  placeholder="请输入开户名称"></td>
 							</tr>
+							
+							#if($examineInfo.accountType == "2" || !${examineInfo.accountType})
+							<tr class="settlementCard_">
+								<td class="rigtxt"><span>*</span><label class="">结算联行号：</label></td>
+								<td class="rigcontent"><input type="text" datatype="n" maxlength="12"  value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" class="txt01"  placeholder="" nullmsg="请输入信息" errormsg="请输入数字" ></td>
+							</tr>
+							#elseif($examineInfo.accountType == "1")
+							<tr class="openerCard_">
+									<td class="rigtxt"><span>*</span><label class="">开户人身份证：</label></td>
+									<td class="rigcontent"><input type="text" class="txt01" datatype="card" maxlength="18"    value="$!examineInfo.openerCard" id="openerCard_" name="openerCard" nullmsg="请输入身份证信息" errormsg="请输入正确的身份证信息" ><span class="Validform_checktip"></span></td>
+							</tr>
+							<tr class="openerTel_">
+									<td class="rigtxt"><span>*</span><label class="">开户人手机号：</label></td>
+									<td><input type="text" class="txt01" datatype="m" maxlength="11"    value="$!examineInfo.openerTel" id="openerTel_" name="openerTel" placeholder="银行预留手机号" nullmsg="请输入手机号" errormsg="请输入正确的手机号" ><span class="Validform_checktip"></span></td>
+							</tr>
+							#end
+							
 							<tr>
 								<td class="rigtxt"><span>*</span><label class="">结算账号：</label></td>
-								<td class="rigcontent"><input type="text" datatype="n8-25" name="accountNum" value="$!examineInfo.accountNum" maxlength="25" class="txt01"  placeholder="请输入结算账号"></td>
+								<td class="rigcontent"><input type="text" datatype="n8-25" name="accountNum" value="$!examineInfo.accountNum" maxlength="25" class="txt01"  placeholder="请输入结算账号" ></td>
 							</tr>
 							<tr>
 								<td class="rigtxt"><span>*<span/><label>结算开户行：</label></td>
@@ -477,7 +503,25 @@
 	</table>
 </div>
 </div>
+	<div class="public" style="display:none">
+	<table><tr>
+			<td class="rigtxt"><span>*</span><label class="">结算联行号：</label></td>
+			<td class="rigcontent"><input type="text" datatype="n" maxlength="12"  value="$!examineInfo.settlementCard" id="settlementCard_" name="settlementCard" class="txt01"   placeholder="" nullmsg="请输入信息" errormsg="请输入数字" ><span class="Validform_checktip"></span></td>
+		   </tr></table>
+	</div>
+	<div class="private_card" style="display:none">
+	<table><tr>
+			<td class="rigtxt"><span>*</span><label class="">开户人身份证：</label></td>
+			<td class="rigcontent"><input type="text" class="txt01" datatype="card" maxlength="18"    value="$!examineInfo.openerCard" id="openerCard_" name="openerCard" nullmsg="请输入身份证信息" errormsg="请输入正确的身份证信息" ><span class="Validform_checktip"></span></td>
+	</tr></table>
+	</div>
 	
+	<div class="private_tel" style="display:none">
+	<table><tr>
+			<td class="rigtxt"><span>*</span><label class="">开户人手机号：</label></td>
+			<td><input type="text" class="txt01" datatype="m" maxlength="11"    value="$!examineInfo.openerTel" id="openerTel_" name="openerTel" placeholder="银行预留手机号" nullmsg="请输入手机号" errormsg="请输入正确的手机号" ><span class="Validform_checktip"></span></td>
+	</tr></table>
+	</div>
 <script  type='text/temple' id='province-tpl'>
 	    <option value="">--请选择--</option>
 	    <# for(var j=0; j<province.length; j++) { #>

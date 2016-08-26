@@ -111,9 +111,9 @@ public class CityActivityChecker {
 
 	public static WebCheckResult checkCityActivityInfo(CityActivityVO cityActivityVO) {
 		if (StringUtils.isBlank(cityActivityVO.getLocationText())) {
-			return WebCheckResult.error("详细地址不能为空");
+			return WebCheckResult.error("请填写活动地址");
 		} else if (cityActivityVO.getLocationText().length() > 38) {
-			return WebCheckResult.error("详细地址不能超过38个字");
+			return WebCheckResult.error("活动地址不能超过38个字");
 		}
 		return WebCheckResult.success();
 	}

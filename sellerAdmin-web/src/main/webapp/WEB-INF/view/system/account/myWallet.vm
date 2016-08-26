@@ -1,0 +1,46 @@
+#set($layout = "/layout/layout-jiuxiu.vm")
+
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>我的钱包</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/payment.css">
+</head>
+
+
+<!-- 面包屑 -->
+<div class = "" id = "eredar">
+    <div class = "payment-right">
+        <div class="payment-info clearfix">
+            <ul>
+                <li class=" first on">我的钱包</li>
+            </ul>
+        </div>
+        <div class="money-box">
+            <h3>资金</h3>
+            <ul>
+                <li class="withdrawal">
+                    <p class="price">$!{accountInfo.accountBalanceYuan}</p>
+                    <p>可提现资金</p>
+                </li>
+                <li class="settle">
+                    <p class="price">$!{accountInfo.unSettlementAmountYuan}</p>
+                    <p>待结算资金</p>
+                </li>
+            </ul>
+        </div>
+        <div class="money-handle">
+            <h3>钱包操作</h3>
+            <p>	
+            	#if($accountInfo.accountBalanceYuan != '0.00')
+            		<a href="$!utilWebconfig.getActionDefaultFontPath()/account/toWithdrawal" >提现</a>	
+            	#else
+            		<a href="javascript:void()" style="background:#ccc;">提现</a>
+            	#end
+                <a href="$!utilWebconfig.getActionDefaultFontPath()/account/billDetail">收支明细</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+#parse("layout/layout-js.vm")
+<script>seajs.use("password");</script>	

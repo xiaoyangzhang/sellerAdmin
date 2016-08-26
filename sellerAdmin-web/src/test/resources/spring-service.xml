@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="com.yimayhd.sellerAdmin.service.impl.UserRPCServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.TradeServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.RefundServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.OrderServiceImpl"></bean>
+
+	<bean class="com.yimayhd.sellerAdmin.service.impl.ClubServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.ActivityServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.PointRuleServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.TravelOfficialImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.RegionServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.LiveServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.ThemeServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.TripServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.RecommendedServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.EvaluationServiceImpl"></bean>
+	<!-- 资源管理 -->
+	<bean class="com.yimayhd.sellerAdmin.service.impl.RestaurantServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.HotelRPCServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.FacilityIconServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.ScenicServiceImpl"></bean>
+
+	<!-- resources -->
+	<bean class="com.yimayhd.sellerAdmin.service.impl.RcBoothServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.RcOperationServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.RcShowcaseServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.PictureServiceImpl"></bean>
+	<!-- home config -->
+	<bean class="com.yimayhd.sellerAdmin.service.impl.HomeCfgServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.PeripheryCfgServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.DiscoveryCfgServiceImpl"></bean>
+	<!-- system -->
+	<!--<bean class="com.yimayhd.sellerAdmin.service.impl.SystemManageServiceImpl" />-->
+	<bean class="com.yimayhd.sellerAdmin.service.impl.TfsServiceImpl" />
+	<bean class="com.yimayhd.sellerAdmin.service.impl.LiveTagServiceImpl" />
+	<!-- commodity -->
+	<bean class="com.yimayhd.sellerAdmin.service.impl.CommodityServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.CategoryServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.DepartServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.CommScenicServiceImpl" />
+	<bean class="com.yimayhd.sellerAdmin.service.impl.CommActivityServiceImpl" />
+	<bean class="com.yimayhd.sellerAdmin.service.impl.FlightRPCServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.VoucherTemplateServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.PromotionCommServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.PromotionShopServiceImpl"></bean>
+
+
+	<bean class="com.yimayhd.sellerAdmin.service.item.impl.LineServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.item.impl.ItemServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.draft.impl.DraftServiceImpl"></bean>
+	
+	<!--GF商品-->
+	<bean class="com.yimayhd.gf.service.impl.CommodityServiceImpl"></bean>
+
+	<bean class="com.yimayhd.sellerAdmin.service.impl.UserServiceImpl"></bean>
+	<!-- 达人信息 -->
+ 	<!-- <bean class="com.yimayhd.sellerAdmin.service.impl.TalentInfoDealServiceImpl"></bean> -->
+	<bean class="com.yimayhd.sellerAdmin.service.impl.CityActivityServiceImpl"></bean>
+	<bean class="com.yimayhd.sellerAdmin.service.impl.TagServiceImpl"></bean>
+	<!--九牛二期 -->
+	<!--酒店商品管理-->
+	<bean id ="hotelManageService" class="com.yimayhd.sellerAdmin.service.hotelManage.impl.HotelManageServiceImpl" />
+	<!--景区商品管理-->
+	<bean id ="scenicManageService" class="com.yimayhd.sellerAdmin.service.hotelManage.impl.ScenicManageServiceImpl" />
+	<bean id="serviceTemplate" class="com.yimayhd.sellerAdmin.base.template.ServiceTemplateImpl" />
+	<!-- 发布商品 -->
+	<bean id="publishItemApi"  class="com.yimayhd.sellerAdmin.service.api.PublishItemApiImpl" />
+		<bean id="jiuxiuVoucherTemplateService" class="com.yimayhd.sellerAdmin.service.impl.JiuxiuVoucherTemplateServiceImpl" />
+	
+</beans>

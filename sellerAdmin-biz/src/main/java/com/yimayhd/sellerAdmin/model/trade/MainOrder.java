@@ -25,11 +25,23 @@ public class MainOrder {
     
     private int orderStatus;//订单状态
     
+    private String orderStatusStr;
+    
     private int orderType;//订单类型
+    
+    private String orderTypeStr;
 
     private UserDO user;
     
     private String customerServiceNote;//卖家备注
+    
+    private long requirement;
+
+    private long value;
+    
+    private long userPointNum;//使用的积分
+    
+    private long itemPrice_;//主订单实付金额
     
 
 
@@ -117,4 +129,53 @@ public class MainOrder {
         this.tcMainOrder = tcMainOrder;
         this.subOrderList = subOrderList;
     }
+
+	public long getRequirement() {
+		return requirement;
+	}
+
+	public void setRequirement(long requirement) {
+		this.requirement = requirement;
+	}
+
+	public long getValue() {
+		return value;
+	}
+
+	public void setValue(long value) {
+		this.value = value;
+	}
+
+	public long getUserPointNum() {
+		return userPointNum;
+	}
+
+	public void setUserPointNum(long userPointNum) {
+		this.userPointNum = userPointNum;
+	}
+
+	public long getItemPrice_() {
+		return itemPrice_;
+	}
+
+	public void setItemPrice_(long itemPrice_) {
+		this.itemPrice_ = itemPrice_;
+	}
+
+	public String getOrderStatusStr() {
+		return orderStatusStr;
+	}
+
+	public void setOrderStatusStr(String orderStatusStr) {
+		this.orderStatusStr = orderStatusStr;
+	}
+
+	public String getOrderTypeStr() {
+		return orderTypeStr;
+	}
+
+	public void setOrderTypeStr(String orderTypeStr) {
+		this.orderTypeStr = orderTypeStr;
+	}
+    
 }

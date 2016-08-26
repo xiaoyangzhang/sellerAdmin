@@ -27,6 +27,16 @@ public class TalentInfoVO implements Serializable {
 	
 	protected Logger log = LoggerFactory.getLogger(getClass());
 	private String pictureTextDOs;//图文详情
+//	private int type;
+//	
+//	public int getType() {
+//		return type;
+//	}
+//
+//	public void setType(int type) {
+//		this.type = type;
+//	}
+
 	public String getPictureTextDOs() {
 		return pictureTextDOs;
 	}

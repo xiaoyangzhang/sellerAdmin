@@ -134,7 +134,52 @@ public class ExamineInfoVO  implements Serializable  {
     private String cardInHand;
     private int type;//达人或者店铺
     
-	
+	/**
+	 * 2.0优化:
+	 */
+    /**
+     *账户类型
+     */
+    private String accountType;
+
+    /**
+     * 开户人身份证
+     */
+    private String openerCard;
+    /**
+     * 结算联行号
+     */
+    private String settlementCard;
+    /**
+     * 开户人手机号
+     */
+    private String openerTel;
+    
+	public String getOpenerTel() {
+		return openerTel;
+	}
+	public void setOpenerTel(String openerTel) {
+		this.openerTel = openerTel;
+	}
+	public String getAccountType() {
+		return accountType;
+	}
+	public void setAccountType(String accountType) {
+
+		this.accountType = accountType;
+	}
+	public String getOpenerCard() {
+		return openerCard;
+	}
+	public void setOpenerCard(String openerCard) {
+		this.openerCard = openerCard;
+	}
+	public String getSettlementCard() {
+		return settlementCard;
+	}
+	public void setSettlementCard(String settlementCard) {
+		this.settlementCard = settlementCard;
+	}
 	public int getType() {
 		return type;
 	}
@@ -726,8 +771,7 @@ public class ExamineInfoVO  implements Serializable  {
 		dto.setType(ExamineType.TALENT.getType());
 		dto.setAccountBankProvinceCode(vo.getProvince());
 		dto.setAccountBankCityCode(vo.getCity());
-		//dto.setMerchantCategoryId(vo.getMerchantCategoryId());
-		//dto.setIsDirectSale(vo.getIsDirectSale());
+		
 		return dto;
 		
 	}

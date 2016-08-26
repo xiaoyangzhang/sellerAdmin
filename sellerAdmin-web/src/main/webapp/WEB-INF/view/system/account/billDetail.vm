@@ -1,0 +1,71 @@
+#set($layout = "/layout/layout-jiuxiu.vm")
+##选中菜单
+#set( $selectMenu = "/account/toMyWallet" )
+#set( $locations = ["我的钱包", "收支明细"] )
+
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>收支明细</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/payment.css">
+</head>
+
+<div class = "payment-right">
+    <div class="payment-info clearfix">
+        <ul>
+            <li class=" first on">收支明细</li>
+        </ul>
+    </div>
+    <form id="queryForm" action="$!utilWebconfig.getActionDefaultFontPath()/account/billDetail" method="GET" role="form">
+    <div class="search-wrap">
+        <div class="date-box">
+            <p class="w84 fl lh34">起止日期：</p>
+            <input id="getstartime" class = "date-wrap fl" name="transStartDate" title="开始时间" readonly="readonly" value="$!query.transStartDate" >
+            <span class="w26 fl lh34">至</span>
+            <input id="getendtime" class = "date-wrap fl" name="transEndDate" title="结束时间"   readonly="readonly" value="$!query.transEndDate" >
+        </div>
+        <div class="order-number-box">
+            <p class="w84 fl lh34">交易类型：</p>
+            <select id="transType" name="transType" class="flm select-type"/>
+	            <option value="">全部</option>
+	            <option value="3" #if($query.transType == 3) selected="selected" #end >提现</option>
+	            <option value="7" #if($query.transType == 7) selected="selected" #end >结算</option>
+            </select>
+        </div>
+        <button type="submit" class="btn-search">查询</button>
+    </div>
+    <div class="table-box">
+        <table class="search-table mt10">
+            <thead>
+            <tr>
+                <td>交易流水号</td>
+                <td>交易时间</td>
+                <td>交易类型</td>
+                <td>收支金额</td>
+                <td>账户余额</td>
+            </tr>
+            </thead>
+            #foreach($item in $pageVo.resultList)
+            <tr>
+                <td>$!item.transSn</td>
+                <td>$!{utilDate.date2String($item.transTime)}</td>
+                <td>#TRANS_TYPE($!{item.transType})</td>
+                <td
+	            	#if($item.transType == $!WITHDRAW) 
+	            		 class="cost">-$!item.transAmountYuan
+	            	#elseif($item.transType == $!SETTLEMENT)
+	            		class="income">+$!item.transAmountYuan</td>
+	            	#else
+	            		>
+	            	#end
+                </td>
+                <td>$!item.accountBalanceYuan</td>
+            </tr>
+        	#end
+        </table>
+    </div>
+    #parse("/page_jiuniu.vm")
+    </form>
+</div>
+
+#parse("layout/layout-js.vm")
+<script>seajs.use("payment");</script>	

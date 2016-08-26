@@ -16,7 +16,8 @@ import com.yimayhd.sellerAdmin.service.VoucherTemplateService;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.voucher.client.domain.VoucherTemplateDO;
 import com.yimayhd.voucher.client.query.VoucherTemplateQuery;
-import com.yimayhd.voucher.client.result.BasePageResult;
+import com.yimayhd.voucher.client.result.VcBasePageResult;
+import com.yimayhd.voucher.client.result.VcBaseResult;
 import com.yimayhd.voucher.client.service.VoucherClientService;
 
 /**
@@ -41,7 +42,7 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
         voucherTemplateQuery.setPageNo(voucherListQuery.getPageNo());
         voucherTemplateQuery.setNeedCount(true);
 
-        BasePageResult<VoucherTemplateDO> result = voucherClientServiceRef.queryVoucherTemplates(voucherTemplateQuery);
+        VcBasePageResult<VoucherTemplateDO> result = voucherClientServiceRef.queryVoucherTemplates(voucherTemplateQuery);
         List<VoucherTemplateVO> voucherTemplateVOs = Lists.newArrayList();
         PageVO<VoucherTemplateVO> pageVO = null;
         if (result != null && result.isSuccess() && !CollectionUtils.isEmpty(result.getList())){
@@ -67,7 +68,11 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
 
     @Override
     public boolean add(VoucherTemplateVO entity) throws Exception {
-        return voucherClientServiceRef.publishVoucherTemplate(entity);
+       VcBaseResult<Long> publishVoucherTemplateResult = voucherClientServiceRef.publishVoucherTemplate(entity);
+       if (publishVoucherTemplateResult != null) {
+		return publishVoucherTemplateResult.isSuccess();
+	}
+       return false;
     }
 
     @Override
@@ -77,3 +82,4 @@ public class VoucherTemplateServiceImpl implements VoucherTemplateService {
         return voucherTemplateVO;
     }
 }
+

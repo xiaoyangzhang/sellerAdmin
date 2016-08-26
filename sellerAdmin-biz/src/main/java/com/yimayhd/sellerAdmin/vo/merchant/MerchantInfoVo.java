@@ -26,6 +26,14 @@ public class MerchantInfoVo implements Serializable{
 		private String ttImage;
 		//店铺店标
 		private String dbImage;
+//		private int type;
+//		
+//		public int getType() {
+//			return type;
+//		}
+//		public void setType(int type) {
+//			this.type = type;
+//		}
 		public String getNickName() {
 			return nickName;
 		}

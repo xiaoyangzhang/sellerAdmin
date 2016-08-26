@@ -1,7 +1,15 @@
 package com.yimayhd.sellerAdmin.repo;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.alibaba.dubbo.common.utils.CollectionUtils;
+import com.yimayhd.membercenter.client.enums.HaMenuProjectCode;
+import com.yimayhd.sellerAdmin.biz.helper.MenuHelper;
+import com.yimayhd.sellerAdmin.converter.MenuConverter;
+import com.yimayhd.sellerAdmin.model.vo.menu.MenuVO;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.session.manager.SessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +32,15 @@ public class MenuRepo {
 	@Autowired
 	private UserPermissionService userPermissionService;
 
+	@Autowired
+	private SessionManager sessionManager;
+
 	public WebResult<List<HaMenuDO>> getMenuListByUserId(long userId){
 		WebResult<List<HaMenuDO>> result = new WebResult<List<HaMenuDO>>();
 		UserMenuQuery userMenuQuery = new UserMenuQuery();
 		userMenuQuery.setUserId(userId);
 		userMenuQuery.setDomain(Constant.DOMAIN_JIUXIU);
+		userMenuQuery.setProjectCode(HaMenuProjectCode.SEELER.getCode());
 		UserMenuOptionDTO dto = new UserMenuOptionDTO();
 		dto.setContainUrl(true);
 		MemPageResult<HaMenuDO> queryResult = userPermissionService.getMenuListByUserId(userMenuQuery,dto);
@@ -56,5 +68,48 @@ public class MenuRepo {
 		List<HaMenuDO> menus = queryResult.getValue();
 		result.setValue(menus);
 		return result ;
+	}
+	/**
+	 * 更新用户菜单缓存
+	 *
+	 * @param token
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean cacheMenuListByUserId(String token) throws Exception {
+		UserDO userDO = sessionManager.getUser(token);
+		if (userDO != null) {
+			UserMenuQuery userMenuQuery = new UserMenuQuery();
+			userMenuQuery.setUserId(userDO.getId());
+			userMenuQuery.setDomain(Constant.DOMAIN_JIUXIU);
+			userMenuQuery.setProjectCode(HaMenuProjectCode.PALACE.getCode());
+			UserMenuOptionDTO dto = new UserMenuOptionDTO();
+			dto.setContainUrl(false);
+			boolean queryResult = userPermissionService.catchUserMenu(userMenuQuery, dto);
+
+			return queryResult;
+		} else {
+			logger.error("cacheMenuListByUserId  getUser(token) failed  token={}", token);
+			return false;
+		}
+	}
+
+	public List<MenuVO> getUserMenus(long userId) {
+		List<HaMenuDO> menuDOs = null;
+		try {
+			menuDOs =getMenuListByUserId(userId).getValue();
+		} catch (Exception e) {
+			logger.error("getUserMenus   failed  userId={}", userId);
+		}
+//		System.err.println(JSON.toJSONString(menuDOs));
+		if (!CollectionUtils.isEmpty(menuDOs)) {
+			List<MenuVO> menus = MenuConverter.do2MenuVOs(menuDOs);
+//		System.err.println(JSON.toJSONString(menus));
+			//分组
+			ArrayList<MenuVO> ms = MenuHelper.mergeMenus(menus);
+			return ms;
+		} else {
+			return null;
+		}
 	}
 }

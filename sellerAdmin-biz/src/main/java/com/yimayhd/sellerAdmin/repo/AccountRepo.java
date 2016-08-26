@@ -8,8 +8,10 @@ import org.slf4j.LoggerFactory;
 import com.yimayhd.pay.client.model.param.eleaccount.WithdrawalDTO;
 import com.yimayhd.pay.client.model.query.eleaccount.EleAccBillDetailQuery;
 import com.yimayhd.pay.client.model.query.eleaccount.EleAccountSingleQuery;
+import com.yimayhd.pay.client.model.result.PayPageResultDTO;
 import com.yimayhd.pay.client.model.result.ResultSupport;
 import com.yimayhd.pay.client.model.result.eleaccount.EleAccountInfoResult;
+import com.yimayhd.pay.client.model.result.eleaccount.dto.EleAccountBillDTO;
 import com.yimayhd.pay.client.service.eleaccount.EleAccBillService;
 import com.yimayhd.pay.client.service.eleaccount.EleAccHandlerService;
 import com.yimayhd.pay.client.service.eleaccount.EleAccInfoService;
@@ -61,9 +63,9 @@ public class AccountRepo {
      * @param eleAccBillDetailQuery
      * @return
      */
-	public ResultSupport queryEleAccBillDetail(EleAccBillDetailQuery query){
+	public PayPageResultDTO<EleAccountBillDTO> queryEleAccBillDetail(EleAccBillDetailQuery query){
 		RepoUtils.requestLog(log, "eleAccBillServiceRef.queryEleAccBillDetail", query);
-		ResultSupport result = eleAccBillServiceRef.queryEleAccBillDetail(query);
+		PayPageResultDTO<EleAccountBillDTO> result = eleAccBillServiceRef.queryEleAccBillDetail(query);
 		RepoUtils.resultLog(log, "eleAccBillServiceRef.queryEleAccBillDetail", result);
 		return result;
 	}

@@ -1,0 +1,48 @@
+#set($layout = "/layout/layout-jiuxiu.vm")
+
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>已结算查询</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/payment.css">
+</head>
+<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/js/jquery.js"></script>
+
+
+    <div class = "payment-right">
+        <div class="payment-info clearfix">
+            <ul>
+                <li class=" first on">结算查询</li>
+            </ul>
+        </div>
+        <h3 class="search-date">$!query.reqDateWithOutYear已结算详情－$!query.settlementId</h3>
+        
+        <form id="queryForm" action="$!utilWebconfig.getActionDefaultFontPath()/settlement/detail?reqDate=$!query.reqDate&settlementId=$!query.settlementId" method="GET" role="form">
+        <input type="hidden" name="reqDate" value="$!query.reqDate" />
+        <input type="hidden" name="settlementId" value="$!query.settlementId" />
+        
+        <div class="table-box">
+            <table class="search-table">
+                <thead>
+                <tr>
+                    <td>交易订单号</td>
+                    <td>交易完成时间</td>
+                    <td>支付金额</td>
+                </tr>
+                </thead>
+                #foreach($item in $pageVo.resultList)
+	            <tr>
+	                <td>$!item.bizOrderId</td>
+	                <td>$!item.tradeFinishedTime</td>
+	                <td>$!item.tradeAmountYuan</td>
+	            </tr>
+	        	#end
+            </table>
+        </div>
+		#parse("/page_jiuniu.vm")
+		</form>
+		
+        <a href="$!utilWebconfig.getActionDefaultFontPath()/settlement/list" class="btn-prev-page">返回</a>
+    </div>
+
+#parse("layout/layout-js.vm")
+<script type="text/javascript">seajs.use("payment");</script>

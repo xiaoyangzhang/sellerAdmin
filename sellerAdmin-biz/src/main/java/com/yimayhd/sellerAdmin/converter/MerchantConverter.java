@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,19 +83,11 @@ public class MerchantConverter {
 		dto.setSaleLicenseNumber(vo.getSaleLicenseNumber());
 		dto.setTaxRegisterNumber(vo.getTaxRegisterNumber());
 		dto.setMerchantName(vo.getMerchantName());
-//		dto.setAmusementParkReport(vo.getAmusementParkReport());
-//		dto.setWildlifeSale(vo.getWildlifeSale());
-//		dto.setWaterWildlifeSale(vo.getWaterWildlifeSale());
-//		dto.setSpecialSaleLicense(vo.getSpecialSaleLicense());
-//		dto.setSpecialSaleAuthorization(vo.getSpecialSaleAuthorization());
-//		dto.setSeaTransportationLicense(vo.getSeaTransportationLicense());
-//		dto.setScenicTicketUpScanning(vo.getScenicTicketUpScanning());
-//		dto.setScenicTicketDownScanning(vo.getScenicTicketDownScanning());
-//		dto.setScenicQualityLevel(vo.getScenicQualityLevel());
-//		dto.setScenicPriceRegister(vo.getScenicPriceRegister());
-//		dto.setScenicGoodsAuthorization(vo.getScenicGoodsAuthorization());
-//		dto.setRelationBetweenHotelAngGroup(vo.getRelationBetweenHotelAngGroup());
-//		dto.setHotelGoodsAuthorization(vo.getHotelGoodsAuthorization());
+		//2.0
+		dto.setAccountType(vo.getAccountType());
+		dto.setOpenerCard(vo.getOpenerCard());
+		dto.setSettlementCard(vo.getSettlementCard());
+		dto.setOpenerTel(vo.getOpenerTel());
 		dto.setMerchantQualifications(vo.getMerchantQualifications());
 		List<MerchantScopeDO> merchantScopes = new ArrayList<MerchantScopeDO>(); 
 		if (vo.getScopeIds() != null && vo.getScopeIds().length() > 0 ) {
@@ -162,27 +155,21 @@ public class MerchantConverter {
 		vo.setAccountBankProvinceCode(examineInfoDTO.getAccountBankProvinceCode());
 		vo.setMerchantCategoryId(examineInfoDTO.getMerchantCategoryId());
 		vo.setIsDirectSale(examineInfoDTO.getIsDirectSale());
-//		vo.setMerchantQualifications(examineInfoDTO.getMerchantQualifications());
-//		vo.setMerchantScopes(examineInfoDTO.getMerchantScopes());
-//		dto.setAmusementParkReport(vo.getAmusementParkReport());
-//		dto.setWildlifeSale(vo.getWildlifeSale());
-//		dto.setWaterWildlifeSale(vo.getWaterWildlifeSale());
-//		dto.setSpecialSaleLicense(vo.getSpecialSaleLicense());
-//		dto.setSpecialSaleAuthorization(vo.getSpecialSaleAuthorization());
-//		dto.setSeaTransportationLicense(vo.getSeaTransportationLicense());
-//		dto.setScenicTicketUpScanning(vo.getScenicTicketUpScanning());
-//		dto.setScenicTicketDownScanning(vo.getScenicTicketDownScanning());
-//		dto.setScenicQualityLevel(vo.getScenicQualityLevel());
-//		dto.setScenicPriceRegister(vo.getScenicPriceRegister());
-//		dto.setScenicGoodsAuthorization(vo.getScenicGoodsAuthorization());
-//		dto.setRelationBetweenHotelAngGroup(vo.getRelationBetweenHotelAngGroup());
-//		dto.setHotelGoodsAuthorization(vo.getHotelGoodsAuthorization());
-//		vo.setMerchantQualifications(examineInfoDTO.getMerchantQualifications());
-//		vo.setMerchantScopes(examineInfoDTO.getMerchantScopes());
 		vo.setLawPersonCard(examineInfoDTO.getLawPersonCard());
 		vo.setSaleLicenseNumber(examineInfoDTO.getSaleLicenseNumber());
 		vo.setTaxRegisterNumber(examineInfoDTO.getTaxRegisterNumber());
 		vo.setExaminStatus(examineInfoDTO.getExaminStatus());
+		if (StringUtils.isBlank(examineInfoDTO.getAccountType())) {
+			
+			vo.setAccountType("0");
+		}else {
+			
+			vo.setAccountType(examineInfoDTO.getAccountType());
+		}
+		vo.setOpenerCard(examineInfoDTO.getOpenerCard());
+		vo.setSettlementCard(examineInfoDTO.getSettlementCard());
+		vo.setOpenerTel(examineInfoDTO.getOpenerTel());
+
 		return vo;
 	}
 	

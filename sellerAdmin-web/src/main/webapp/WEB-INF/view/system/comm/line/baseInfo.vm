@@ -15,19 +15,20 @@
 		<tr>
 			<td>商品代码：</td>
 			<td>
-				<input type="text" value="$!{baseInfo.code}" class="form-control item-code" placeholder="请输入商品编号" maxlength="20"/>
+				<input type="text" value="$!{baseInfo.code}" class="form-control item-code w300" placeholder="请输入商品编号" maxlength="20"/>
 				<span class="limit">20字</span>
+				<span class="ml10">注：商品代码供商家管理商品使用，不会展示给用户</span>
 			</td>
 		</tr>
 		<tr>
 			<td><span class="red">*</span>出发地：</td>
 			 <td>
 				<div>
-					<label class="checkbox-inline">
+					<button type="button" class="btn btn-success select-departs"  #if($baseInfo.allDeparts) disabled="disabled" #end>请选择出发地</button>
+					<label class="checkbox-inline ml50">
 						<input type="checkbox" class="all-departs" value="true" #if($baseInfo.allDeparts) checked #end/>全国
                     </label>
-					<button type="button" class="btn btn-success select-departs"  #if($baseInfo.allDeparts) disabled="disabled" #end>选择出发地</button>
-					<div id="departs-content">
+					<div id="departs-content" class="mt5">
 						#if(!$baseInfo.allDeparts)
 							#if(${isDraft})
 								#foreach($depart in $baseInfo.departs)
@@ -47,7 +48,7 @@
 			<td><span class="red">*</span>目的地：</td>
 			<td>
 				<div>
-					<button type="button" class="btn btn-success select-dests">选择目的地</button>
+					<button type="button" class="btn btn-success select-dests">请选择目的地</button>
 					<div id="dests-content">
 						#if(${isDraft})
 							#foreach($dest in $baseInfo.dests)
@@ -87,7 +88,7 @@
 			<td><span class="red">*</span>商品图：</td>
 			<td>
 				<div class="uploadbox clearfix">
-                    <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionUploadFilePath()}" />
+                    <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file_string" />
                     <input type="hidden" class="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />	
 					<div class="imgbox">												
 						<div class="dimg">
@@ -204,8 +205,8 @@
 			var departs = win.getSelected() || [];
 			//console.log(JSON.stringify(departs));
 			if(departs.length == 0) return true;
-			if(departs.length > 15) {
-				layer.alert("出发地最多选择15个", {
+			if(departs.length > 100) {
+				layer.alert("出发地最多选择100个", {
     				icon : 2
     			});
 				return false;
@@ -226,7 +227,7 @@
 	$(".select-dests").click(function() {
 		var selIdArr = [];
 		$('#dests-content button').each(function () {
-			selIdArr.push($(this).attr('rid'));
+			selIdArr.push($(this).attr('rcode'));
 		});
 		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDests/$itemType?selectedIds='+selIdArr,'选择目的地 ',function() {
 			var dests = win.getSelected();
