@@ -322,7 +322,7 @@ public class OrderController extends BaseController {
 			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
 		}
 		WebResult<OrderPrizeDTO> orderResult = orderService.orderChangePrice(orderPriceQuery);
-		if(!orderResult.isSuccess()){
+		if(!orderResult.isSuccess()||orderResult.getValue()==null){
 			result.setWebReturnCode(orderResult.getWebReturnCode());
 		}
 		OrderPrizeDTO orderPrizeDTO = orderResult.getValue();
