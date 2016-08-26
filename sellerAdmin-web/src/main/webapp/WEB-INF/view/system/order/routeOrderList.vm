@@ -493,11 +493,11 @@
             var iframeWin;
             layer.open({
                 type: 2,
+                closeBtn: 1,
                 btn: ['确定', '取消'],
-                title: false,
                 fix: false,
-                //shadeClose: true,
-                maxmin: true,
+                title: false,
+                skin: "my-layer-skin",
                 area: '800px',
                 content: "$utilWebconfig.getStaticResourcesPath()/order/changepriceView?orderid=" + orderid + "&r=" + Math.random(),
                 success: function(layero, index) {
