@@ -514,7 +514,7 @@
                     }
                     var newOrder = iframeWin.page.getChangedResult();
                     $.ajax({
-                        url: "$!utilWebconfig.getActionDefaultFontPath()' + '/order/orderChangePrice/",
+                        url: '$!utilWebconfig.getActionDefaultFontPath()' + '/order/orderChangePrice/',
                         type: "post",
                         data: newOrder,
                         success: function(res) {
