@@ -129,9 +129,9 @@
             </div>
         </div>
     </script>
-    <script src="http://selleradmin.test.jiuxiulvxing.com/sellerAdmin/resources/js/jquery.js?version=20160414"></script>
-    <script src="http://selleradmin.test.jiuxiulvxing.com/sellerAdmin/resources/layer-v2.1/layer.js?version=20160414"></script>
-    <script src="handlebars.js"></script>
+    <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/jquery.js?version=20160414"></script>
+    <script src="$utilWebconfig.getStaticResourcesPath()/resources/layer-v2.1/layer.js?version=20160414"></script>
+    <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/handlebars.js"></script>
     <script>
     function getOrderId() {
         var reg = new RegExp('(^|&)orderid=([^&]*)(&|$)', 'i');
