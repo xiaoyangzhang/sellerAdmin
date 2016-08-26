@@ -1,6 +1,8 @@
 <head>
     <title>订单列表</title>
     #set($layout = "/layout/layout_non.vm")
+    #parse("layout/layout-meta.vm")
+    #parse("layout/layout-hidden.vm")
     <meta charset="UTF-8">
     <title>修改订单价格</title>
     <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/changeprice.css">
