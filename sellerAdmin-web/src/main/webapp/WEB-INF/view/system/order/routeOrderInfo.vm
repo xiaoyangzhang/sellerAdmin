@@ -115,7 +115,7 @@
 	            <tr>
 	                <td>$!order.mainOrder.tcMainOrder.contactInfo.contactName</td>
 	                <td>$!order.mainOrder.tcMainOrder.contactInfo.contactPhone</td>
-	                <td>$!order.mainOrder.tcMainOrder.contactInfo.contactEmail</td>
+	                <td>$!order.email</td>
 	            </tr>
 	        </table>
         #end
