@@ -579,7 +579,7 @@
                     son_order_product_name: sonOrder.find(".t-name").first().text().replace(/[\s\r\n]/g, ''),
                     son_order_price: sonOrder.attr("orderprice"),
                     son_order_real_price: sonOrder.attr("realprice"),
-                    son_order_number: sonOrder.attr(".ordernumber")
+                    son_order_number: sonOrder.attr("ordernumber")
                 };
             });
 
