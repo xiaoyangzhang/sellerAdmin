@@ -318,6 +318,7 @@ public class OrderController extends BaseController {
 	@ResponseBody
 	public WebResult<String> orderChangePrice(Model model, OrderPriceQuery orderPriceQuery) throws Exception {
 		WebResult<String> result = new WebResult<String>();
+		log.info("orderChangePrice controller");
 		if(orderPriceQuery==null||StringUtils.isBlank(orderPriceQuery.getOrderJson())){
 			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
 		}
