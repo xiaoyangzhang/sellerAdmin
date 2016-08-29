@@ -502,6 +502,7 @@ public class OrderServiceImpl implements OrderService {
 		WebResult<OrderPrizeDTO> result = new  WebResult<OrderPrizeDTO>();
 		OrderPriceConverter converter = new OrderPriceConverter();
 		log.info("orderChangePrice service");
+		log.info(orderPriceQuery.getOrderJson());
 		try{
 			/**json参数转bean**/
 			OrderPriceJsonTemplate template = converter.getOrderPriceJsonTemplate(orderPriceQuery);
