@@ -233,11 +233,13 @@ public class OrderServiceImpl implements OrderService {
 		try {
 			TcSingleQueryResult tcSingleQueryResult = tcBizQueryServiceRef
 					.querySingle(id, orderQueryOption);
+			log.error("--------------------"+JSON.toJSONString(tcSingleQueryResult));
 			if (tcSingleQueryResult.isSuccess()) {
 				OrderDetails orderDetails = new OrderDetails();
 				TcMainOrder tcMainOrder = tcSingleQueryResult.getTcMainOrder();
 				MainOrder mainOrder = OrderConverter
 						.orderVOConverter(tcSingleQueryResult.getTcMainOrder());
+				log.error("============================="+JSON.toJSONString(mainOrder));
 				mainOrder = OrderConverter.mainOrderStatusConverter(mainOrder,
 						tcSingleQueryResult.getTcMainOrder());
 				//添加主订单原价
