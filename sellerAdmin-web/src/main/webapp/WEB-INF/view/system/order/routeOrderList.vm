@@ -516,7 +516,7 @@
                     $.ajax({
                         url: '$!utilWebconfig.getActionDefaultFontPath()' + '/order/orderChangePrice/',
                         type: "post",
-                        data: {orderPriceQuery:{orderJosn:JSON.stringify(newOrder)}},
+                        data: {orderPriceQuery:{orderJson:'1231231'}},
                         success: function(res) {
                             if (res.success) {
                                 //刷新页面
