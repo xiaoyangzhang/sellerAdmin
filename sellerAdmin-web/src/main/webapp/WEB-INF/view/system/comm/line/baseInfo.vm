@@ -227,7 +227,7 @@
 	$(".select-dests").click(function() {
 		var selIdArr = [];
 		$('#dests-content button').each(function () {
-			selIdArr.push($(this).attr('rid'));
+			selIdArr.push($(this).attr('rcode'));
 		});
 		openModalForForm('$!{utilWebconfig.getActionDefaultFontPath()}/resourceForSelect/selectDests/$itemType?selectedIds='+selIdArr,'选择目的地 ',function() {
 			var dests = win.getSelected();

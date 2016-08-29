@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.yimayhd.sellerAdmin.entity.ItemProperty;
 import org.yimayhd.sellerAdmin.entity.PublishServiceDO;
 
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
@@ -10,6 +11,7 @@ import com.yimayhd.ic.client.model.domain.item.ItemFeature;
 import com.yimayhd.ic.client.model.enums.ItemFeatureKey;
 import com.yimayhd.ic.client.model.enums.ItemPicUrlsKey;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
+import com.yimayhd.ic.client.model.enums.PropertyType;
 import com.yimayhd.ic.client.model.enums.ValueType;
 import com.yimayhd.ic.client.model.param.item.ConsultPublishAddDTO;
 import com.yimayhd.ic.client.model.param.item.ConsultPublishUpdateDTO;
@@ -20,6 +22,7 @@ import com.yimayhd.ic.client.model.param.item.ItemSkuPVPair;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.query.ItemCategoryQuery;
 import com.yimayhd.sellerAdmin.model.query.ItemQueryDTO;
+import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 
 /**
  * 
@@ -35,7 +38,7 @@ public class PublishItemConverter {
 		ConsultPublishAddDTO dto = new ConsultPublishAddDTO();
 		ItemDO itemDO = new ItemDO();
 		//服务咨询类
-		itemDO.setCategoryId(Constant.CONSULT_SERVICE);
+		itemDO.setCategoryId(241);
 		itemDO.setTitle(publishServiceDO.title);
 //		if (publishServiceDO.serviceState == Constant.PUBLISHED) {
 //			
@@ -79,31 +82,41 @@ public class PublishItemConverter {
 	}
 	private static List<ItemSkuPVPair> createItemSkuPVPair(
 			PublishServiceDO publishServiceDO) {
+		List<ItemProperty> itemProperties = publishServiceDO.itemProperties;
 		List<ItemSkuPVPair> itemSkuPVPairs = new ArrayList<ItemSkuPVPair>(); 
-		ItemSkuPVPair skuPVPair = new ItemSkuPVPair();
-		skuPVPair.setPId(61);
-		skuPVPair.setPTxt("费用包含");
-		skuPVPair.setPType(1);
-		skuPVPair.setVType(ValueType.DEFAULT.getType());
-		skuPVPair.setVTxt(publishServiceDO.feeDesc);
-		skuPVPair.setVId(-1);
-		itemSkuPVPairs.add(skuPVPair);
-		ItemSkuPVPair skuPVPair2 = new ItemSkuPVPair();
-		skuPVPair2.setPId(57);
-		skuPVPair2.setPTxt("预定时间");
-		skuPVPair2.setPType(1);
-		skuPVPair2.setVTxt(publishServiceDO.bookingTip);
-		skuPVPair2.setVType(ValueType.DEFAULT.getType());
-		skuPVPair2.setVId(-2);
-		itemSkuPVPairs.add(skuPVPair2);
-		ItemSkuPVPair skuPVPair3 = new ItemSkuPVPair();
-		skuPVPair3.setPId(62);
-		skuPVPair3.setPTxt("退票说明");
-		skuPVPair3.setPType(1);
-		skuPVPair3.setVType(ValueType.DEFAULT.getType());
-		skuPVPair3.setVId(-3);
-		skuPVPair3.setVTxt(publishServiceDO.refundRule);
-		itemSkuPVPairs.add(skuPVPair3);
+		for (ItemProperty itemProperty : itemProperties) {
+			
+			ItemSkuPVPair skuPVPair = new ItemSkuPVPair();
+			skuPVPair.setPId(itemProperty.id);
+			skuPVPair.setPTxt(itemProperty.text);
+			skuPVPair.setVTxt(itemProperty.value);
+			skuPVPair.setPType(PropertyType.getByNameWithDefault(itemProperty.type).getType());
+			itemSkuPVPairs.add(skuPVPair);
+		}
+//		ItemSkuPVPair skuPVPair = new ItemSkuPVPair();
+//		skuPVPair.setPId(61);
+//		skuPVPair.setPTxt("费用包含");
+//		skuPVPair.setPType(1);
+//		skuPVPair.setVType(ValueType.DEFAULT.getType());
+//		skuPVPair.setVTxt(publishServiceDO.feeDesc);
+//		skuPVPair.setVId(-1);
+//		itemSkuPVPairs.add(skuPVPair);
+//		ItemSkuPVPair skuPVPair2 = new ItemSkuPVPair();
+//		skuPVPair2.setPId(57);
+//		skuPVPair2.setPTxt("预定时间");
+//		skuPVPair2.setPType(1);
+//		skuPVPair2.setVTxt(publishServiceDO.bookingTip);
+//		skuPVPair2.setVType(ValueType.DEFAULT.getType());
+//		skuPVPair2.setVId(-2);
+//		itemSkuPVPairs.add(skuPVPair2);
+//		ItemSkuPVPair skuPVPair3 = new ItemSkuPVPair();
+//		skuPVPair3.setPId(62);
+//		skuPVPair3.setPTxt("退票说明");
+//		skuPVPair3.setPType(1);
+//		skuPVPair3.setVType(ValueType.DEFAULT.getType());
+//		skuPVPair3.setVId(-3);
+//		skuPVPair3.setVTxt(publishServiceDO.refundRule);
+//		itemSkuPVPairs.add(skuPVPair3);
 		return itemSkuPVPairs;
 	}
 	
