@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.dto.RatePageListDTO;
@@ -317,11 +318,9 @@ public class OrderController extends BaseController {
      */
 	@RequestMapping(value = "/orderChangePrice",method = RequestMethod.POST)
 	@ResponseBody
-	public WebResult<String> orderChangePrice(Model model, OrderPriceQuery orderPriceQuery) throws Exception {
+	public WebResult<String> orderChangePrice(Model model, OrderPriceQuery orderPriceQuery, HttpServletResponse,HttpServletRequest) throws Exception {
 		WebResult<String> result = new WebResult<String>();
 		log.info("orderChangePrice controller");
-		log.info(("orderChangePrice :"+JSON.toJSONString(orderPriceQuery)));
-		log.info("orderChangePrice :"+orderPriceQuery.getOrderJson());
 		if(orderPriceQuery==null||StringUtils.isBlank(orderPriceQuery.getOrderJson())){
 			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
 			return result;

@@ -513,10 +513,11 @@
                         return false;
                     }
                     var newOrder = iframeWin.page.getChangedResult();
+                    var orderPriceQuery= {orderJson:JSON.stringify(newOrder)};
                     $.ajax({
                         url: '$!utilWebconfig.getActionDefaultFontPath()' + '/order/orderChangePrice/',
                         type: "post",
-                        data: {orderPriceQuery:JSON.stringify({orderJson:'1231231'})},
+                        data: orderPriceQuery,
                         success: function(res) {
                             if (res.success) {
                                 //刷新页面
