@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yimayhd.pay.client.model.enums.TransType;
+import com.yimayhd.pay.client.model.enums.eleaccount.EleAccountStatus;
 import com.yimayhd.pay.client.model.enums.eleaccount.EleAccountType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
@@ -99,7 +100,12 @@ public class AccountController extends BaseController {
 		
 		long userId = sessionManager.getUserId();
 		EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
+		if(accountInfo.getStatus() == EleAccountStatus.NOT_VERIFIED.getStatus()){
+			accountInfo.setTipMessage(Constant.WITHDRAWAL_COMPLETE_ACCOUNT_INFO);
+		}
+		
 		model.addAttribute("accountInfo", accountInfo);
+		model.addAttribute("ACCOUNT_NOT_VERIFIED", EleAccountStatus.NOT_VERIFIED.getStatus());
 		return new ModelAndView("/system/account/myWallet");
 	}
 	
@@ -109,7 +115,7 @@ public class AccountController extends BaseController {
 	@RequestMapping(value = "/toWithdrawal", method = RequestMethod.GET) 
 	public ModelAndView toWithdrawal(Model model) throws Exception {
 		long userId = sessionManager.getUserId();
-		EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
+		EleAccountInfoVO accountInfo = this.judgeAccountStatus(userId);
 		model.addAttribute("accountInfo", accountInfo);
 		return new ModelAndView("/system/account/withdrawal");
 	}
@@ -156,11 +162,23 @@ public class AccountController extends BaseController {
 	@RequestMapping(value = "/billDetail", method = RequestMethod.GET) 
 	public ModelAndView billDetail(Model model, AccountQuery query) throws Exception {
 		long userId = sessionManager.getUserId();
+		
+		//如果账户未认证，则抛出异常
+		this.judgeAccountStatus(userId);
+		
 		PageVO<EleAccountBillVO> pageVo = accountService.queryEleAccBillDetail(query, userId);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("query", query);
 		model.addAttribute("WITHDRAW", TransType.WITHDRAW.getType());
 		model.addAttribute("SETTLEMENT", TransType.SETTLEMENT.getType());
 		return new ModelAndView("/system/account/billDetail");
+	}
+	
+	private EleAccountInfoVO judgeAccountStatus(long userId) throws Exception {
+		EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
+		if(accountInfo.getStatus() == EleAccountStatus.NOT_VERIFIED.getStatus()){
+			throw new NoticeException(Constant.WITHDRAWAL_COMPLETE_ACCOUNT_INFO);
+		}
+		return accountInfo;
 	}
 }

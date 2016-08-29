@@ -31,16 +31,18 @@
         <div class="money-handle">
             <h3>钱包操作</h3>
             <p>	
+            	<input class="status" type="hidden" value="$!{accountInfo.status}" />
+            	<input class="tipMessage" type="hidden" value="$!{accountInfo.tipMessage}" />
             	#if($accountInfo.accountBalanceYuan != '0.00')
-            		<a href="$!utilWebconfig.getActionDefaultFontPath()/account/toWithdrawal" >提现</a>	
+            		<a href="javascript:void()" redirectUrl="$!utilWebconfig.getActionDefaultFontPath()/account/toWithdrawal" class="withdrawal" >提现</a>	
             	#else
-            		<a href="javascript:void()" style="background:#ccc;">提现</a>
+            		<a href="javascript:void()" style="background:#ccc;" class="withdrawal" >提现</a>
             	#end
-                <a href="$!utilWebconfig.getActionDefaultFontPath()/account/billDetail">收支明细</a>
+                <a href="javascript:void()" redirectUrl="$!utilWebconfig.getActionDefaultFontPath()/account/billDetail"  class="billDetail">收支明细</a>
             </p>
         </div>
     </div>
 </div>
 
 #parse("layout/layout-js.vm")
-<script>seajs.use("password");</script>	
+<script>seajs.use("payment");</script>	

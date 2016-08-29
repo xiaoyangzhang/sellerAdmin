@@ -47,7 +47,9 @@ public class EleAccountInfoVO {
 
     /**状态*/
     private int status;
-	
+    
+    private String tipMessage;
+
 	public static EleAccountInfoVO getEleAccountInfoVO(EleAccountInfoResult result){
 		if(result == null){
 			return null;
@@ -170,5 +172,11 @@ public class EleAccountInfoVO {
 	}
 	public void setOpenAccName(String openAccName) {
 		this.openAccName = openAccName;
+	}
+	public String getTipMessage() {
+		return tipMessage;
+	}
+	public void setTipMessage(String tipMessage) {
+		this.tipMessage = tipMessage;
 	}
 }
