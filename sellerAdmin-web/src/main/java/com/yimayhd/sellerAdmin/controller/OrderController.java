@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.dto.RatePageListDTO;
 import com.yimayhd.commentcenter.client.result.ComRateResult;
 import com.yimayhd.commentcenter.client.service.ComRateService;
@@ -319,6 +320,7 @@ public class OrderController extends BaseController {
 	public WebResult<String> orderChangePrice(Model model, OrderPriceQuery orderPriceQuery) throws Exception {
 		WebResult<String> result = new WebResult<String>();
 		log.info("orderChangePrice controller");
+		log.info(("orderChangePrice :"+JSON.toJSONString(orderPriceQuery)));
 		log.info("orderChangePrice :"+orderPriceQuery.getOrderJson());
 		if(orderPriceQuery==null||StringUtils.isBlank(orderPriceQuery.getOrderJson())){
 			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
