@@ -545,6 +545,7 @@
         <span>
            	 下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.createTime)
         </span>
+        <!-- xxx代付款-->
     #elseif($type == 3)
         <span>
         	#if($order.mainOrder.orderType == 1200 || $order.mainOrder.orderType == 1100)

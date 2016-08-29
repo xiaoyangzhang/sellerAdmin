@@ -228,7 +228,11 @@
                                                 data-target="#affirmModal" orderId="$!order.tcMainOrder.bizOrder.bizOrderId">是否入驻
                                         </button>
                                     #end
+
+                                    #if($order.orderStatus == 2)
                                         <a href="javascript:void(0);" class="btn btn-mini btn-link change-price" orderid="$!order.tcMainOrder.bizOrder.bizOrderId">改价</a>
+                                    #end
+
                                 </td>
                             #end
                         #end
