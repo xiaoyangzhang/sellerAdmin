@@ -321,10 +321,13 @@ public class OrderController extends BaseController {
 		log.info("orderChangePrice controller");
 		if(orderPriceQuery==null||StringUtils.isBlank(orderPriceQuery.getOrderJson())){
 			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+			return result;
 		}
 		WebResult<OrderPrizeDTO> orderResult = orderService.orderChangePrice(orderPriceQuery);
 		if(!orderResult.isSuccess()||orderResult.getValue()==null){
+			log.error(orderResult.getWebReturnCode().getErrorMsg());
 			result.setWebReturnCode(orderResult.getWebReturnCode());
+			return result;
 		}
 		OrderPrizeDTO orderPrizeDTO = orderResult.getValue();
 		result.setValue(orderPrizeDTO.getOrderJson());
