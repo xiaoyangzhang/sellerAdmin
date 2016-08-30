@@ -197,21 +197,21 @@
         },
         getChangedResult: function() {
             var newOrder = {};
-            newOrder.main_order_id = page.order.main_order_id;
-            newOrder.main_order_price = 0;
-            newOrder.son_order_list = [];
+            newOrder.mainOrderId = page.order.main_order_id;
+            newOrder.mainOrderPrice = 0;
+            newOrder.orderSonModel = [];
             $.each(page.order.son_order_list, function(i, son) {
                 var input = $("#" + son.son_order_id);
                 var newPrice = input.val();
                 if (newPrice.length > 0) {
-                    newOrder.son_order_list.push({
-                        son_order_id: son.son_order_id,
-                        son_order_number: son.son_order_number,
-                        son_order_price: parseFloat(newPrice)
+                    newOrder.orderSonModel.push({
+                        sonOrderId: son.son_order_id,
+                        sonOrderNumber: son.son_order_number,
+                        sonOrderPrice: parseFloat(newPrice)
                     });
-                    newOrder.main_order_price += parseFloat(newPrice) * son.son_order_number;
+                    newOrder.mainOrderPrice += parseFloat(newPrice) * son.son_order_number;
                 } else {
-                    newOrder.main_order_price += parseFloat(son.son_order_real_price);
+                    newOrder.mainOrderPrice += parseFloat(son.son_order_real_price);
                 }
             });
 
