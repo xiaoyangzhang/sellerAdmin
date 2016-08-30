@@ -42,7 +42,7 @@ public class OrderPriceConverter {
         /**** 子订单 添加**/
         for(int i=0;i<orderArr.length;i++){
             OrderSonModel order = orderArr[i];
-            orderchangeMap.put(order.getSonOrderId(),order.getSonOrderPrize().multiply(new BigDecimal(100)).longValue());
+            orderchangeMap.put(order.getSonOrderId(),order.getSonOrderPrice().multiply(new BigDecimal(100)).longValue());
         }
         dto.setOrderChangePriceMap(orderchangeMap);
         return dto;
@@ -74,14 +74,14 @@ public class OrderPriceConverter {
         OrderPrizeDTO dto = new OrderPrizeDTO();
         OrderPriceJsonTemplate template = new OrderPriceJsonTemplate();
         template.setMainOrderId(result.getBizOrderId());
-        template.setMainOrderPrize(new BigDecimal(result.getAfterAdjustActualTotalFee()));
+        template.setMainOrderPrice(new BigDecimal(result.getAfterAdjustActualTotalFee()));
         Map<Long,Long> changeMap = result.getResultOrderChangePriceMap();
         OrderSonModel[] orderArr = new OrderSonModel[changeMap.size()];
         int i=0;
         for(Map.Entry<Long,Long> entry :changeMap.entrySet()){
             OrderSonModel orderSonModel = new OrderSonModel();
             orderSonModel.setSonOrderId(entry.getKey());
-            orderSonModel.setSonOrderPrize(new BigDecimal(entry.getValue()==null?0:entry.getValue()));
+            orderSonModel.setSonOrderPrice(new BigDecimal(entry.getValue()==null?0:entry.getValue()));
             orderArr[i++] = orderSonModel;
         }
         template.setOrderSonModel(orderArr);
