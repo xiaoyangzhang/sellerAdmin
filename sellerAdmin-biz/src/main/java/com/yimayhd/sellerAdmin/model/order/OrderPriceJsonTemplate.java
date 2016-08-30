@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public class OrderPriceJsonTemplate implements Serializable {
 	private static final long serialVersionUID = 8796262401543744153L;
 	private Long mainOrderId;//主订单id
-	private BigDecimal mainOrderPrize;// 主订单实付金额
+	private BigDecimal mainOrderPrice;// 主订单实付金额
 	private OrderSonModel[] orderSonModel;// 子订单列表
 
 
@@ -22,12 +22,12 @@ public class OrderPriceJsonTemplate implements Serializable {
 		this.mainOrderId = mainOrderId;
 	}
 
-	public BigDecimal getMainOrderPrize() {
-		return mainOrderPrize;
+	public BigDecimal getMainOrderPrice() {
+		return mainOrderPrice==null?BigDecimal.ZERO:mainOrderPrice;
 	}
 
-	public void setMainOrderPrize(BigDecimal mainOrderPrize) {
-		this.mainOrderPrize = mainOrderPrize;
+	public void setMainOrderPrice(BigDecimal mainOrderPrice) {
+		this.mainOrderPrice = mainOrderPrice;
 	}
 
 	public OrderSonModel[] getOrderSonModel() {
