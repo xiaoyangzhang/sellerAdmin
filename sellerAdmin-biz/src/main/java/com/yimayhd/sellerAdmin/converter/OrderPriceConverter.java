@@ -21,8 +21,6 @@ import java.util.Map;
 public class OrderPriceConverter {
     private static final Logger logger = LoggerFactory.getLogger(OrderPriceConverter.class);
 
-    private OrderChangePriceDTO orderChangePriceDTO;
-    private OrderPriceJsonTemplate orderPriceJsonTemplate;
 
 
     /**
@@ -32,7 +30,7 @@ public class OrderPriceConverter {
      */
     public OrderChangePriceDTO getOrderChangePriceDTO(OrderPriceJsonTemplate template){
         OrderChangePriceDTO dto = new OrderChangePriceDTO();
-        if(orderPriceJsonTemplate==null){
+        if(template==null){
             return null;
         }
         dto.setBizOrderId(template.getMainOrderId());
@@ -90,19 +88,4 @@ public class OrderPriceConverter {
 
     }
 
-    public OrderChangePriceDTO getOrderChangePriceDTO() {
-        return orderChangePriceDTO;
-    }
-
-    public void setOrderChangePriceDTO(OrderChangePriceDTO orderChangePriceDTO) {
-        this.orderChangePriceDTO = orderChangePriceDTO;
-    }
-
-    public OrderPriceJsonTemplate getOrderPriceJsonTemplate() {
-        return orderPriceJsonTemplate;
-    }
-
-    public void setOrderPriceJsonTemplate(OrderPriceJsonTemplate orderPriceJsonTemplate) {
-        this.orderPriceJsonTemplate = orderPriceJsonTemplate;
-    }
 }
