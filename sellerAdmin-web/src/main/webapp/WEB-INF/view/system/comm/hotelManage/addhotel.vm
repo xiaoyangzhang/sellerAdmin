@@ -211,13 +211,21 @@
                 </td> 
             </tr>
             <tr class="tdweek">
-                <td>周日</td>
-                <td>周一</td>
-                <td>周二</td>
-                <td>周三</td>
-                <td>周四</td>
-                <td>周五</td>
-                <td>周六</td>
+                <td>
+                    <input type="checkbox" week="0">周日
+                </td>
+                <td>
+                    <input type="checkbox" week="1">周一</td>
+                <td>
+                    <input type="checkbox" week="2">周二</td>
+                <td>
+                    <input type="checkbox" week="3">周三</td>
+                <td>
+                    <input type="checkbox" week="4">周四</td>
+                <td>
+                    <input type="checkbox" week="5">周五</td>
+                <td>
+                    <input type="checkbox" week="6">周六</td>
             </tr>
         </table>
         <div class="setvalue fr">
