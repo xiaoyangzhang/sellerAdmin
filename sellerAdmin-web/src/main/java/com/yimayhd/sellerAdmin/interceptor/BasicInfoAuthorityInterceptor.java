@@ -51,10 +51,10 @@ public class BasicInfoAuthorityInterceptor extends HandlerInterceptorAdapter {
 		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
 		if (result != null && result.getValue() !=null ) {
 			ExamineInfoDTO examineInfoDTO = result.getValue();
-			WebResult<TalentInfoDTO> dtoResult = talentBiz.queryTalentInfoByUserId();
-			TalentInfoDTO talentInfoDTO = dtoResult.getValue();
-			TalentInfoDO talentInfoDO = talentInfoDTO.getTalentInfoDO();
 			if (examineInfoDTO.getType() == MerchantType.TALENT.getType()) {
+				WebResult<TalentInfoDTO> dtoResult = talentBiz.queryTalentInfoByUserId();
+				TalentInfoDTO talentInfoDTO = dtoResult.getValue();
+				TalentInfoDO talentInfoDO = talentInfoDTO.getTalentInfoDO();
 				
 				if (StringUtils.isBlank(talentInfoDO.getAvatar()) || StringUtils.isBlank(talentInfoDO.getReallyName()) || StringUtils.isBlank(talentInfoDO.getServeDesc()) || 
 						talentInfoDO.getCityCode() <= 0 || talentInfoDO.getProvinceCode() <= 0 || talentInfoDO.getBirthday() == null || 
@@ -75,8 +75,8 @@ public class BasicInfoAuthorityInterceptor extends HandlerInterceptorAdapter {
 				}
 			}
 		}
-		String url = UrlHelper.getUrl( rootPath, "/error/lackPermission") ;
-		response.sendRedirect(url);
-		return false;
+//		String url = UrlHelper.getUrl( rootPath, "/error/lackPermission") ;
+//		response.sendRedirect(url);
+		return true;
 	}
 }
