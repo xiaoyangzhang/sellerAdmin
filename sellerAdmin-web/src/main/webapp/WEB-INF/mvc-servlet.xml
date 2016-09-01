@@ -76,6 +76,11 @@
 			<mvc:mapping path="/apply/**"/>
 			<bean class="com.yimayhd.sellerAdmin.interceptor.ApplyAuthorityInterceptor"></bean>
 		</mvc:interceptor>
+		 <mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/apply/**"/>
+			<bean class="com.yimayhd.sellerAdmin.interceptor.BasicInfoAuthorityInterceptor"></bean>
+		</mvc:interceptor>
 	</mvc:interceptors>
 	<mvc:interceptors>
 		<mvc:interceptor>
