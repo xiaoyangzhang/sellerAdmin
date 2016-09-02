@@ -135,7 +135,7 @@
                     </tr>
                         #set( $size = $order.subOrderList.size())
                         #foreach($subOrder in $order.subOrderList)
-                        <tr sonorderid="$subOrder.tcDetailOrder.bizOrder.bizOrderId"  realprice="$!utilNum.moneyTransform($!subOrder.itemPrice_)">
+                        <tr sonorderid="$subOrder.tcDetailOrder.bizOrder.bizOrderId"  originprice="$!utilNum.moneyTransform($!subOrder.subOrderTotalFee)">
                             <td></td>
                             <td>
                                 <div class="goods-item">
@@ -567,8 +567,8 @@
             return {
                 son_order_id: sonOrder.attr("sonorderid"),
                 son_order_product_name: sonOrder.find(".t-name").first().text().replace(/[\s\r\n]/g, ''),
-                son_order_price: sonOrder.find(".order-price").text().replace(/[\s\r\n]/g, ''),
-                son_order_real_price: sonOrder.attr("realprice"),
+                son_order_real_price: sonOrder.find(".order-price").text().replace(/[\s\r\n]/g, ''),
+                son_order_price: sonOrder.attr("originprice"),
                 son_order_number: sonOrder.find(".order-number").text().replace(/[\s\r\n]/g, '')
             };
         });
