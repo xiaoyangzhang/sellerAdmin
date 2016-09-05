@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.yimayhd.sellerAdmin.model.line.CityVO;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -193,8 +194,17 @@ public class LineChecker {
 		}
 		if (CollectionUtils.isEmpty(baseInfo.getDests())) {
 			return WebCheckResult.error("目的地不能为空");
-		} else if (baseInfo.getDests().size() > 15) {
-			return WebCheckResult.error("目的地不能超过15个");
+		} else if (baseInfo.getDests().size() > 0) {
+			List<CityVO> dests = baseInfo.getDests();
+			List<CityVO> selected= new ArrayList<>();
+			for(CityVO cityVO:dests){
+				if(cityVO.isSelected()){
+					selected.add(cityVO);
+				}
+			}
+			if(selected.size()>15) {
+				return WebCheckResult.error("目的地不能超过15个");
+			}
 		}
 		if (baseInfo.getDays() <= 0) {
 			return WebCheckResult.error("请输入正确的行程天数[1-100]");

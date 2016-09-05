@@ -19,6 +19,8 @@ public class CityVO extends TagDTO {
 	private int pcode;
 	private String pname;
 
+	private boolean selected;//校验是否选中
+
 	public CityVO() {
 		super();
 	}
@@ -68,5 +70,11 @@ public class CityVO extends TagDTO {
 		this.pname = pname;
 	}
 
+	public boolean isSelected() {
+		return selected;
+	}
 
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
 }
