@@ -24,8 +24,8 @@ public class ExamineTest extends BaseTest {
 	public void test() {
 		//testQueryMerchantInfoResult();
 //		testHomePage();
-//		testQualification();
-		testMerchantDesc();
+		testQualification();
+//		testMerchantDesc();
 	}
 
 	private void testQueryMerchantInfoResult() {
@@ -42,9 +42,9 @@ public class ExamineTest extends BaseTest {
 	}
 	
 	private void testQualification() {
-		Qualification queryMerchantQualification = merchantInfoApi.queryMerchantQualification(0, 1200, 0, 1338820, 0,0);
+		Qualification queryMerchantQualification = merchantInfoApi.queryMerchantQualification(0, 1200, 0, 1338820, 0,1303504);
 		System.out.println("======================"+JSON.toJSONString(queryMerchantQualification));
-	}
+	} 
 	
 	@SuppressWarnings("unused")
 	private void testMerchantDesc() {
