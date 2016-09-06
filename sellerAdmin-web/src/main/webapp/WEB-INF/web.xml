@@ -133,7 +133,7 @@
 	<!--url映射 -->
 	<servlet-mapping>
 		<servlet-name>springmvc</servlet-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
 	<!-- 出错页面定义 -->
@@ -144,6 +144,7 @@
 	<error-page>   
         <error-code>500</error-code>   
         <location>/error/500</location>   
-    </error-page>  
+    </error-page>
+
 
 </web-app>
