@@ -37,8 +37,8 @@ public class ApiDefinitionTest {
             manager.register(apis, ApiOpenState.OPEN_TO_CLIENT);
             System.out.println(apis.size());*/
 
-           // testApi(manager,apiDoc, PublishItemApi.class);
-            testApi(manager,apiDoc, MerchantInfoApi.class);
+            testApi(manager,apiDoc, PublishItemApi.class);
+            //testApi(manager,apiDoc, MerchantInfoApi.class);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

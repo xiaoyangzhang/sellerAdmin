@@ -84,7 +84,7 @@
 			    	<div class="merchant-shop">
 						<em class="mt">商家简介  :</em>
 						<span>
-							<textarea cols="70" rows="10" name="merchantDesc">$!merchantDesc</textarea>
+							<textarea cols="70" rows="10" maxlength="500" name="merchantDesc">$!merchantDesc</textarea>
 			           </span>
 					</div>
 					
