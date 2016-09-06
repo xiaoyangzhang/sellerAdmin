@@ -17,7 +17,7 @@
               <property name="timeout" value="${export.dubbo.timeout}"/>
               <property name="retries" value="${dubbo.retries}"/>
        </bean>
-        <bean id="merchantInfoApiExport" class="com.alibaba.dubbo.config.spring.ServiceBean">
+       <bean id="merchantInfoApiExport" class="com.alibaba.dubbo.config.spring.ServiceBean">
               <property name="interface" value="org.yimayhd.sellerAdmin.api.MerchantInfoApi"/>
               <property name="ref" ref="merchantInfoApi"/>
               <property name="application" ref="dubboApplicationConfig"/>

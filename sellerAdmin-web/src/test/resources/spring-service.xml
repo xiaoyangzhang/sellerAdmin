@@ -69,7 +69,7 @@
 	<bean id="serviceTemplate" class="com.yimayhd.sellerAdmin.base.template.ServiceTemplateImpl" />
 	<!-- 发布商品 -->
 	<bean id="publishItemApi"  class="com.yimayhd.sellerAdmin.service.api.PublishItemApiImpl" />
-	<bean id="jiuxiuVoucherTemplateService" class="com.yimayhd.sellerAdmin.service.impl.JiuxiuVoucherTemplateServiceImpl" />
 	<bean id="merchantInfoApi"  class="com.yimayhd.sellerAdmin.service.api.MerchantInfoApiImpl" />
-	
+
+	<bean id="jiuxiuVoucherTemplateService" class="com.yimayhd.sellerAdmin.service.impl.JiuxiuVoucherTemplateServiceImpl" />
 </beans>

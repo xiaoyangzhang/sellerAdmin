@@ -25,7 +25,7 @@
         <property name="version" value="${consumer.resource.dubbo.version}"/>
     </bean>
     
-   <!--  <bean id="comCenterServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+    <!-- <bean id="comCenterServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.commentcenter.client.service.ComCenterService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
