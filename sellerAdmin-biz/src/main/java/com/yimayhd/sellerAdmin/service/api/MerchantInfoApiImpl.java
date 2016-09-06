@@ -126,7 +126,7 @@ public class MerchantInfoApiImpl implements MerchantInfoApi {
 			//TODO 硬编码
 			queryDTO.setQualificationId(Constant.SALE_LICENSE);
 			WebResult<Qualification> queryMerchantQualification = merchantBiz.queryMerchantQualification(queryDTO);
-			if (queryMerchantQualification == null || !queryMerchantQualification.isSuccess() || queryMerchantQualification.getValue() == null) {
+			if (queryMerchantQualification == null || !queryMerchantQualification.isSuccess() ) {
 				DubboExtProperty.setErrorCode(SellerReturnCode.QUERY_MERCHANT_QUALIFICATION_ERROR);
 				return null;
 			}

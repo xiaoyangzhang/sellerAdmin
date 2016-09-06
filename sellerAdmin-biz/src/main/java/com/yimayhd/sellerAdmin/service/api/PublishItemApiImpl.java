@@ -212,6 +212,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	@Override
 	public ConsultCategoryInfo getConsultItemProperties(int appId, int domainId,
 			long deviceId, long userId, int versionCode) {
+		log.error("----------------------------------------------------------------");
 		try {
 			ConsultCategoryInfo consultItemProperties = publishItemBiz.getConsultItemProperties();
 			if (consultItemProperties == null || CollectionUtils.isEmpty(consultItemProperties.itemProperties)) {
