@@ -941,16 +941,16 @@ public class ApplyController extends BaseController {
 			if (1 == fileType) {
 				newFileName = new String("九休开放平台总则.pdf".getBytes("UTF-8"),"ISO-8859-1");
 				tfsFileName = "L13NxTBXET1R4oIErK";
-			}else if (2 == fileType) {
+			}else if (4 == fileType) {
 				newFileName = new String("九休开放平台酒店管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
 				tfsFileName = "T1.XZTByCT1R4oIErK";
-			}else if (4 == fileType) {
+			}else if (6 == fileType) {
 				newFileName = new String("九休开放平台同城管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
 				tfsFileName = "T1pzZTByJT1R4oIErK";
 			}else if (5 == fileType) {
 				newFileName = new String("九休开放平台景区管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
 				tfsFileName = "T1ZFZTByhT1R4oIErK";
-			}else if (6 == fileType) {
+			}else if (3 == fileType) {
 				newFileName = new String("九休开放平台旅行社管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
 				tfsFileName = "T1IzxTBXdT1R4oIErK";
 			}
