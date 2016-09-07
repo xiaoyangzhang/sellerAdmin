@@ -12,6 +12,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
+import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
+import com.yimayhd.sellerAdmin.enums.MerchantNameType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +73,8 @@ public class BasicInfoController extends BaseController {
 	
 	@Resource
 	private TalentInfoDealService talentInfoDealService;
+	@Resource
+	private MerchantItemCategoryService merchantItemCategoryService;
 	
 	
 	
@@ -92,7 +97,6 @@ public class BasicInfoController extends BaseController {
 			}
 			//判断权限
 			model.addAttribute("nickName", user.getNickname());
-			
 			BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(user.getId(), Constant.DOMAIN_JIUXIU);
 			if(meResult.isSuccess() && null != meResult.getValue()){
 				model.addAttribute("id", meResult.getValue().getId());
@@ -107,8 +111,21 @@ public class BasicInfoController extends BaseController {
 				}
 				model.addAttribute("merchantPrincipalTel", meResult.getValue().getMerchantPrincipalTel());
 				model.addAttribute("serviceTel", meResult.getValue().getServiceTel());
-				
+				/**添加协议下载***/
+				ExamineInfoDTO examineInfoDTO  = merchantInfoResult.getValue();
+				MemResult<MerchantItemCategoryDO> merchantItemCategoryDOResult  =  merchantItemCategoryService.selectObjByCategoryIdAndSellerId(examineInfoDTO.getDomainId(),examineInfoDTO.getMerchantCategoryId(),examineInfoDTO.getSellerId());
+				if(!merchantItemCategoryDOResult.isSuccess()||merchantItemCategoryDOResult.getValue()==null){
+					log.error(merchantItemCategoryDOResult.getErrorMsg());
+					return "/system/seller/merchant";
+				}
+				MerchantItemCategoryDO merchantItemCategoryDO = merchantItemCategoryDOResult.getValue();
+				model.addAttribute("fileType", merchantItemCategoryDO.getType());
+				model.addAttribute("fileName", MerchantNameType.getByType(merchantItemCategoryDO.getType()).getScheme());
+
+
 			}
+
+			//type
 			return "/system/seller/merchant";
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -119,7 +136,7 @@ public class BasicInfoController extends BaseController {
 	
 	/**
 	 * 保存商户基本信息
-	 * @param merchantDO
+	 * @param
 	 * @return
 	 */
 	@RequestMapping(value = "/merchant/saveBasic",method=RequestMethod.POST)
