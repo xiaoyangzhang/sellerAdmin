@@ -277,7 +277,7 @@
 			if ($(this).attr('pid') && $(this).attr('pid')!=0 && $(this).attr('pid')!=$(this).prev('.dests').attr('pid')) {
 				dests.push({id:$(this).attr('pid'),name:$(this).attr('pname'),code:$(this).attr('pcode')})
 			}
-			dests.push({id:$(this).attr("rId"),name:$(this).text(),code:$(this).attr("rCode")});
+			dests.push({id:$(this).attr("rId"),name:$(this).text(),code:$(this).attr("rCode"),selected:true});
 		});
 		//去重
 		var dests_temp = [],arr_temp=[];

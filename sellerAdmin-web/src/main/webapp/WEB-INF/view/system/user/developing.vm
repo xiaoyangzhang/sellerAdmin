@@ -1,0 +1,22 @@
+#set($layout = "/layout/layout-account.vm")
+#set($title = "注册-九休卖家")
+#parse("/layout/layout-meta.vm")
+
+    <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/account.css">
+
+    <div id="developing">
+
+        <div class="location">
+            <a>首页</a>
+            <span class="divier">></span>
+            <span>支付页面</span>
+        </div>
+        <div class="content">
+        	<img src="$!rs_path_jiuxiu/img/weixing.png">
+        	<div class="tip">网站未取得国家相关资质，暂不允许充值！</div>
+        	<div class="button">
+        		<a href="$!utilWebconfig.getJiuXiuOfficialSite()">返回</a>
+        	</div>
+        </div>
+    </div>
+    

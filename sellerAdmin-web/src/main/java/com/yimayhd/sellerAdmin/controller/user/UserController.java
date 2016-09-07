@@ -1,6 +1,7 @@
 package com.yimayhd.sellerAdmin.controller.user;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -77,6 +78,21 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public WebResult<String> register(RegisterVo registerVo, HttpServletRequest request, HttpServletResponse response) {
 		WebResult<String> rs = new WebResult<String>();
+		//选中会员
+		if (registerVo.getVIP()) {
+			
+			String url = UrlHelper.getUrl(rootPath, "/user/developing") ;
+//			try {
+//				response.sendRedirect(url);
+//			} catch (IOException e) {
+//				log.error("redirect error");
+//				url = UrlHelper.getUrl(rootPath, "user/register") ;
+//				rs.setValue(url);
+//				return rs;
+//			}
+			rs.setValue(url);
+			return rs;
+		}
 		WebResultSupport checkResult = UserChecker.checkRegisterVo(registerVo);
 		if ( !checkResult.isSuccess() ) {
 			rs.setWebReturnCode(checkResult.getWebReturnCode());
@@ -113,6 +129,13 @@ public class UserController extends BaseController {
 		String loginUrl = UrlHelper.getUrl(rootPath, "/home");
 		model.addAttribute("loginUrl", loginUrl);
 		ModelAndView modelAndView = new ModelAndView("/system/user/regsuccess");
+		return modelAndView;
+	}
+	@RequestMapping(value="/developing", method = RequestMethod.GET)
+	public ModelAndView teveloping(Model model) {
+//		String loginUrl = UrlHelper.getUrl(rootPath, "/home");
+//		model.addAttribute("loginUrl", loginUrl);
+		ModelAndView modelAndView = new ModelAndView("/system/user/developing");
 		return modelAndView;
 	}
 	
