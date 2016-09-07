@@ -73,10 +73,7 @@ public class BasicInfoController extends BaseController {
 	
 	@Resource
 	private TalentInfoDealService talentInfoDealService;
-	@Resource
-	private MerchantItemCategoryService merchantItemCategoryService;
-	
-	
+
 	
 	/**
 	 * 跳转到商户基本信息页面
@@ -111,18 +108,6 @@ public class BasicInfoController extends BaseController {
 				}
 				model.addAttribute("merchantPrincipalTel", meResult.getValue().getMerchantPrincipalTel());
 				model.addAttribute("serviceTel", meResult.getValue().getServiceTel());
-				/**添加协议下载***/
-				ExamineInfoDTO examineInfoDTO  = merchantInfoResult.getValue();
-				MemResult<MerchantItemCategoryDO> merchantItemCategoryDOResult  =  merchantItemCategoryService.selectObjByCategoryIdAndSellerId(examineInfoDTO.getDomainId(),examineInfoDTO.getMerchantCategoryId(),examineInfoDTO.getSellerId());
-				if(!merchantItemCategoryDOResult.isSuccess()||merchantItemCategoryDOResult.getValue()==null){
-					log.error(merchantItemCategoryDOResult.getErrorMsg());
-					return "/system/seller/merchant";
-				}
-				MerchantItemCategoryDO merchantItemCategoryDO = merchantItemCategoryDOResult.getValue();
-				model.addAttribute("fileType", merchantItemCategoryDO.getType());
-				model.addAttribute("fileName", MerchantNameType.getByType(merchantItemCategoryDO.getType()).getScheme());
-
-
 			}
 
 			//type
