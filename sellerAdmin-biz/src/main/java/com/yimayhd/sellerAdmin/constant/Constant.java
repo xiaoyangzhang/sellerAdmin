@@ -158,7 +158,9 @@ public class Constant {
 	/**
 	 * 营业执照代号
 	 */
-	public static final int SALE_LICENSE = 8; 
+	public static final int SALE_LICENSE = 8;
+
+	public static final String APP_JIUXIU_CHANNEL = "merchant";//商户后台渠道号
 	
 	
 }

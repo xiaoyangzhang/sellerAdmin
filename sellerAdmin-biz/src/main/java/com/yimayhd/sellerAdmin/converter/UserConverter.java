@@ -62,8 +62,9 @@ public class UserConverter {
 		registerDTO.setVerifyCode(registerVo.getVerifyCode());
 		registerDTO.setDomainId(Constant.DOMAIN_JIUXIU);
 		//昵称自动生成
-		registerDTO.setNicknameAutoGen(true);;
+		registerDTO.setNicknameAutoGen(true);
 		registerDTO.setApplicationId(Constant.APPID_JIUXIU);
+		registerDTO.setChannel(Constant.APP_JIUXIU_CHANNEL);//新增渠道号
 		return registerDTO;
 
 	}
