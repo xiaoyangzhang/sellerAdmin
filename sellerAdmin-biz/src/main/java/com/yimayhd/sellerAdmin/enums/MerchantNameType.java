@@ -20,7 +20,7 @@ package com.yimayhd.sellerAdmin.enums;
  */
 public enum MerchantNameType {
 
-    TALENT("旅游线路达人", 1,""),
+    TALENT("旅游线路达人", 1,""),//达人没有
     MERCHANT("店铺", 2,""),
     TOUR_COR("旅游企业", 3,"《九休开放平台旅行社管理规定》"),
     HOTEL("酒店", 4,"《九休开放平台酒店管理规定》"),

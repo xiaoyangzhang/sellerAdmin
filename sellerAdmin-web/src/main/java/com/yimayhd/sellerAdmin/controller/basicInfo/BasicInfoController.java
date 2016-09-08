@@ -6,12 +6,17 @@ package com.yimayhd.sellerAdmin.controller.basicInfo;
  */
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
+import com.yimayhd.membercenter.client.query.MerchantCategoryQueryDTO;
+import com.yimayhd.membercenter.client.service.examine.MerchantApplyService;
 import org.apache.commons.lang3.StringUtils;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
 import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
@@ -77,7 +82,7 @@ public class BasicInfoController extends BaseController {
 	@Resource
 	private TalentInfoDealService talentInfoDealService;
 	@Resource
-	private MerchantItemCategoryService merchantItemCategoryService;
+	private MerchantApplyService merchantApplyService;
 	
 	
 	
@@ -120,15 +125,25 @@ public class BasicInfoController extends BaseController {
 					return "/system/seller/merchant_head";
 				}
 				/**添加协议下载***/
-				ExamineInfoDTO examineInfoDTO  = merchantInfoResult.getValue();
-				MemResult<MerchantItemCategoryDO> merchantItemCategoryDOResult  =  merchantItemCategoryService.selectObjByCategoryIdAndSellerId(examineInfoDTO.getDomainId(),examineInfoDTO.getMerchantCategoryId(),examineInfoDTO.getSellerId());
-				if(!merchantItemCategoryDOResult.isSuccess()||merchantItemCategoryDOResult.getValue()==null){
-					log.error(merchantItemCategoryDOResult.getErrorMsg()+"domainId:{},MerchantCategoryId:{},sellerId:{}",examineInfoDTO.getDomainId(),examineInfoDTO.getMerchantCategoryId(),examineInfoDTO.getSellerId());
+				ExamineInfoDTO examineInfoDTO = merchantInfoResult.getValue();
+				MerchantCategoryQueryDTO merchantCategoryQueryDTO = new MerchantCategoryQueryDTO();
+				merchantCategoryQueryDTO.setDomainId(examineInfoDTO.getDomainId());
+				merchantCategoryQueryDTO.setId(examineInfoDTO.getMerchantCategoryId());
+				MemResult<List<MerchantCategoryDO>> merchantCategoryDOListResult  =  merchantApplyService.getMerchantCategory(merchantCategoryQueryDTO);
+				if(!merchantCategoryDOListResult.isSuccess()||merchantCategoryDOListResult.getValue()==null){
+					log.error(merchantCategoryDOListResult.getErrorMsg()+"domainId:{},MerchantCategoryId:{},sellerId:{}",examineInfoDTO.getDomainId(),examineInfoDTO.getMerchantCategoryId(),examineInfoDTO.getSellerId());
 					return "/system/seller/merchant";
 				}
-				MerchantItemCategoryDO merchantItemCategoryDO = merchantItemCategoryDOResult.getValue();
-				model.addAttribute("fileType", merchantItemCategoryDO.getType());
-				model.addAttribute("fileName", MerchantNameType.getByType(merchantItemCategoryDO.getType()).getScheme());
+				MerchantCategoryDO merchantCategoryDO = merchantCategoryDOListResult.getValue().get(0);
+				if(MerchantNameType.TALENT.getType()!=merchantCategoryDO.getType()){
+					Map<Integer,String> merchantNameTypeMap = new HashMap<Integer,String>();
+					merchantNameTypeMap.put(MerchantNameType.TOUR_COR.getType(),MerchantNameType.TOUR_COR.getScheme());
+					merchantNameTypeMap.put(MerchantNameType.HOTEL.getType(),MerchantNameType.HOTEL.getScheme());
+					merchantNameTypeMap.put(MerchantNameType.SCENIC.getType(),MerchantNameType.SCENIC.getScheme());
+					merchantNameTypeMap.put(MerchantNameType.CITY_COR.getType(),MerchantNameType.CITY_COR.getScheme());
+					model.addAttribute("merchantNameTypeMap", merchantNameTypeMap);
+				}
+
 
 			}
 

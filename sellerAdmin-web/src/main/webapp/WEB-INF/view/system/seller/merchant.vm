@@ -87,9 +87,10 @@
 							<textarea cols="70" rows="10" maxlength="500" name="merchantDesc">$!merchantDesc</textarea>
 			           </span>
 					</div>
-                   <div class="rule-content">
-                       <a href="$!root_path/apply/download?fileType=$!fileType"> $!fileName</a>
-				   </div>
+                    <p>
+                       <em>商家链接 :</em>
+                       <a href="$!root_path/apply/download?fileType=$!fileType" class="ml20 blue">$!fileName</a>
+					</p>
 
 				</div>
 
