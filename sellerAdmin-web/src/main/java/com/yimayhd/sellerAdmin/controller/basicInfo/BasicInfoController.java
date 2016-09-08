@@ -123,7 +123,7 @@ public class BasicInfoController extends BaseController {
 				ExamineInfoDTO examineInfoDTO  = merchantInfoResult.getValue();
 				MemResult<MerchantItemCategoryDO> merchantItemCategoryDOResult  =  merchantItemCategoryService.selectObjByCategoryIdAndSellerId(examineInfoDTO.getDomainId(),examineInfoDTO.getMerchantCategoryId(),examineInfoDTO.getSellerId());
 				if(!merchantItemCategoryDOResult.isSuccess()||merchantItemCategoryDOResult.getValue()==null){
-					log.error(merchantItemCategoryDOResult.getErrorMsg());
+					log.error(merchantItemCategoryDOResult.getErrorMsg()+"domainId:{},MerchantCategoryId:{},sellerId:{}",examineInfoDTO.getDomainId(),examineInfoDTO.getMerchantCategoryId(),examineInfoDTO.getSellerId());
 					return "/system/seller/merchant";
 				}
 				MerchantItemCategoryDO merchantItemCategoryDO = merchantItemCategoryDOResult.getValue();
