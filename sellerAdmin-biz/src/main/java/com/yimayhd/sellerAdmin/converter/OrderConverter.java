@@ -222,7 +222,8 @@ public class OrderConverter {
 //        }else if (PayStatus.REFUNDED.getStatus() == payStatus || PayStatus.NOT_PAY_CLOSE.getStatus() == payStatus ){
 //            mainOrder.setOrderShowState(OrderShowStatus.TRADE_CLOSE.getStatus());//关闭
 //        }
-        String expressCompany  = tcMainOrder.getLogisticsOrderDO().getExpressCompany();
+
+        String expressCompany  = tcMainOrder.getLogisticsOrderDO()==null?"":tcMainOrder.getLogisticsOrderDO().getExpressCompany();
         if(StringUtils.isNotBlank(expressCompany)){
            boolean isOldInfo = MatcherUtil.isRegExpStr(Constant.EXPRESS_COMPANY_REG,expressCompany);
             if(isOldInfo){
