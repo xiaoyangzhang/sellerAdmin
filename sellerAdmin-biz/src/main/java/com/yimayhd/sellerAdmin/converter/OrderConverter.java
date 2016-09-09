@@ -227,8 +227,10 @@ public class OrderConverter {
            boolean isOldInfo = MatcherUtil.isRegExpStr(Constant.EXPRESS_COMPANY_REG,expressCompany);
             if(isOldInfo){
                 // 旧信息,EMS,中文名称
+                LOG.info(" is old company "+expressCompany);
                 mainOrder.setExpressCompanyName(tcMainOrder.getLogisticsOrderDO().getExpressCompany());
             }else{
+                LOG.info(" is new company "+expressCompany);
                 mainOrder.setExpressCompanyName(ExpressCompanyEnum.valueOfName(expressCompany).getDesc());//设置物流公司名称
             }
 
