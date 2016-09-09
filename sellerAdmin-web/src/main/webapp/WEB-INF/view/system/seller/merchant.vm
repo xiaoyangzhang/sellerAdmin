@@ -89,7 +89,10 @@
 					</div>
                     <p>
                        <em>商家链接 :</em>
-                       <a href="$!root_path/apply/download?fileType=$!fileType" class="ml20 blue">$!fileName</a>
+					   #foreach($merchantMap in $merchantNameTypeMap.entrySet())
+                           <a href="$!root_path/apply/download?fileType=$!merchantMap.key" class="ml20 blue">$!merchantMap.value</a>
+					   #end
+
 					</p>
 
 				</div>
