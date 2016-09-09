@@ -89,7 +89,7 @@
 					</div>
                     <p>
                        <em class="mt">商家链接 :</em>
-						<span >
+						<span class="seller-link">
 							#set($size = $merchantNameTypeMap.size())
 							#foreach($merchantMap in $merchantNameTypeMap.entrySet())
                                 <a href="$!root_path/apply/download?fileType=$!merchantMap.key" class="blue">$!merchantMap.value</a>
