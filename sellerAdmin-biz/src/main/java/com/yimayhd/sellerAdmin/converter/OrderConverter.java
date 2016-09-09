@@ -220,7 +220,11 @@ public class OrderConverter {
 //        }else if (PayStatus.REFUNDED.getStatus() == payStatus || PayStatus.NOT_PAY_CLOSE.getStatus() == payStatus ){
 //            mainOrder.setOrderShowState(OrderShowStatus.TRADE_CLOSE.getStatus());//关闭
 //        }
-        mainOrder.setExpressCompanyName(ExpressCompanyEnum.valueOfName(tcMainOrder.getLogisticsOrderDO().getExpressCompany()).getDesc());//设置物流公司名称
+        /*String expressCompany  = tcMainOrder.getLogisticsOrderDO().getExpressCompany();
+        if(StringUtils.isNotBlank(expressCompany)){
+            mainOrder.setExpressCompanyName(ExpressCompanyEnum.valueOfName(expressCompany).getDesc());//设置物流公司名称
+        }*/
+
 
         return mainOrder;
     }
