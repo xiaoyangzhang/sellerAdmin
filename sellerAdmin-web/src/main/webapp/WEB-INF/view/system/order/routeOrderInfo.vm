@@ -136,7 +136,8 @@
                 <table class="table table-hover">
                     <tr>
                         <td>物流公司：</td>
-                        <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.expressCompany</td>
+                        #*<td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.expressCompany</td>*#
+                        <td>$!order.mainOrder.expressCompanyName</td>
                     </tr>
                     <tr>
                         <td>运单编号：</td>

@@ -41,6 +41,8 @@ public class MainOrder {
 
     private long mainOrderTotalFee;//主订单原价
 
+    private String expressCompanyName;//物流公司名称
+
 
 
 
@@ -167,5 +169,13 @@ public class MainOrder {
 
     public void setMainOrderTotalFee(long mainOrderTotalFee) {
         this.mainOrderTotalFee = mainOrderTotalFee;
+    }
+
+    public String getExpressCompanyName() {
+        return expressCompanyName;
+    }
+
+    public void setExpressCompanyName(String expressCompanyName) {
+        this.expressCompanyName = expressCompanyName;
     }
 }

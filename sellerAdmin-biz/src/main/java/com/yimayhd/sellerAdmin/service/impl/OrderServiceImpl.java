@@ -222,10 +222,9 @@ public class OrderServiceImpl implements OrderService {
 			if (tcSingleQueryResult.isSuccess()) {
 				OrderDetails orderDetails = new OrderDetails();
 				TcMainOrder tcMainOrder = tcSingleQueryResult.getTcMainOrder();
-				MainOrder mainOrder = OrderConverter
-						.orderVOConverter(tcSingleQueryResult.getTcMainOrder());
+				MainOrder mainOrder = OrderConverter.orderVOConverter(tcMainOrder);
 				mainOrder = OrderConverter.mainOrderStatusConverter(mainOrder,
-						tcSingleQueryResult.getTcMainOrder());
+						tcMainOrder);
 				//添加主订单原价
 				mainOrder.setItemPrice_(BizOrderUtil.getMainOrderTotalFee(tcSingleQueryResult.getTcMainOrder().getBizOrder().getBizOrderDO()));
 				//获取优惠劵优惠金额

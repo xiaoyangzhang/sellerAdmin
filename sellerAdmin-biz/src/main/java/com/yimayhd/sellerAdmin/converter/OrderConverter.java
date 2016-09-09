@@ -8,6 +8,7 @@ import java.util.List;
 import com.yimayhd.commentcenter.client.dto.RatePageListDTO;
 import com.yimayhd.commentcenter.client.result.ComRateResult;
 import com.yimayhd.ic.client.model.enums.PropertyType;
+import com.yimayhd.sellerAdmin.enums.ExpressCompanyEnum;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
@@ -219,6 +220,8 @@ public class OrderConverter {
 //        }else if (PayStatus.REFUNDED.getStatus() == payStatus || PayStatus.NOT_PAY_CLOSE.getStatus() == payStatus ){
 //            mainOrder.setOrderShowState(OrderShowStatus.TRADE_CLOSE.getStatus());//关闭
 //        }
+        mainOrder.setExpressCompanyName(ExpressCompanyEnum.valueOfName(tcMainOrder.getLogisticsOrderDO().getExpressCompany()).getDesc());//设置物流公司名称
+
         return mainOrder;
     }
 
