@@ -8,7 +8,9 @@ import java.util.List;
 import com.yimayhd.commentcenter.client.dto.RatePageListDTO;
 import com.yimayhd.commentcenter.client.result.ComRateResult;
 import com.yimayhd.ic.client.model.enums.PropertyType;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.enums.ExpressCompanyEnum;
+import com.yimayhd.sellerAdmin.util.MatcherUtil;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
@@ -220,10 +222,18 @@ public class OrderConverter {
 //        }else if (PayStatus.REFUNDED.getStatus() == payStatus || PayStatus.NOT_PAY_CLOSE.getStatus() == payStatus ){
 //            mainOrder.setOrderShowState(OrderShowStatus.TRADE_CLOSE.getStatus());//关闭
 //        }
-        /*String expressCompany  = tcMainOrder.getLogisticsOrderDO().getExpressCompany();
+        String expressCompany  = tcMainOrder.getLogisticsOrderDO().getExpressCompany();
         if(StringUtils.isNotBlank(expressCompany)){
-            mainOrder.setExpressCompanyName(ExpressCompanyEnum.valueOfName(expressCompany).getDesc());//设置物流公司名称
-        }*/
+           boolean isOldInfo = MatcherUtil.isRegExpStr(Constant.EXPRESS_COMPANY_REG,expressCompany);
+            if(isOldInfo){
+                // 旧信息,EMS,中文名称
+                mainOrder.setExpressCompanyName(tcMainOrder.getLogisticsOrderDO().getExpressCompany());
+            }else{
+                mainOrder.setExpressCompanyName(ExpressCompanyEnum.valueOfName(expressCompany).getDesc());//设置物流公司名称
+            }
+
+
+        }
 
 
         return mainOrder;

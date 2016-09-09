@@ -161,6 +161,8 @@ public class Constant {
 	public static final int SALE_LICENSE = 8;
 
 	public static final String APP_JIUXIU_CHANNEL = "merchant";//商户后台渠道号
+
+	public static final String EXPRESS_COMPANY_REG="[A-Z\\u4e00-\\u9fa5]*";//中文,大写字母,大写字母+中文
 	
 	
 }
