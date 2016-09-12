@@ -949,7 +949,8 @@ public class ApplyController extends BaseController {
 				tfsFileName = "T1pzZTByJT1R4oIErK";
 			}else if (5 == fileType) {
 				newFileName = new String("九休开放平台景区管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
-				tfsFileName = "T1ZFZTByhT1R4oIErK";
+				//tfsFileName = "T1ZFZTByhT1R4oIErK";
+				tfsFileName = "T1CFATBXhT1R4oIErK.pdf";
 			}else if (3 == fileType) {
 				newFileName = new String("九休开放平台旅行社管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
 				tfsFileName = "T1IzxTBXdT1R4oIErK";
