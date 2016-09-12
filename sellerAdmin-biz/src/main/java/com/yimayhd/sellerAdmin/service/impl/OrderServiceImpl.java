@@ -479,6 +479,7 @@ public class OrderServiceImpl implements OrderService {
 	
 	public boolean sendGoods(SellerSendGoodsDTO sellerSendGoodsDTO){
 		SellerSendGoodsResult result = tcTradeServiceRef.sellerSendGoods(sellerSendGoodsDTO);
+		log.info("sellerSendGoodsDTO:"+JSON.toJSONString(sellerSendGoodsDTO));
 		if(null == result || !result.isSuccess()){
 			log.error("tcTradeServiceRef.sellerSendGoods is error;param=" + JSON.toJSONString(sellerSendGoodsDTO)+"|||result="+JSON.toJSONString(result));
 			return false;
