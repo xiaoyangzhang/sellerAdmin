@@ -74,6 +74,7 @@
 		</mvc:interceptor>
 		 <mvc:interceptor>
 			<mvc:mapping path="/apply/**"/>
+			<mvc:exclude-mapping path="/apply/download"/>
 			<bean class="com.yimayhd.sellerAdmin.interceptor.ApplyAuthorityInterceptor"></bean>
 		</mvc:interceptor>
 
