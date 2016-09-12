@@ -67,7 +67,7 @@ public class ItemController extends BaseController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/list",produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/list")
     public String list(ItemListQuery query) throws Exception {
         long sellerId = getCurrentUserId();
         if (sellerId <= 0) {

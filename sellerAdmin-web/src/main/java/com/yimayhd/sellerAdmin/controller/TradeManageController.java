@@ -53,7 +53,7 @@ public class TradeManageController extends BaseController {
 	 * @return 交易列表
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/order/list", method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+	@RequestMapping(value = "/order/list", method = RequestMethod.GET)
 	public String orderList(Model model, TradeListQuery tradeListQuery) throws Exception {
 		long sellerId = sessionManager.getUserId();
 		//long sellerId = 1;
