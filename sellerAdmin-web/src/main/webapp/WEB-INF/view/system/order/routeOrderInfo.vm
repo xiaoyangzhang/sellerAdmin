@@ -434,7 +434,7 @@
                         var wlgs= dilog_iframe.find("#choosewlId option:selected").val();
                         var wldh = dilog_iframe.find("#wldhId").val();
 
-                        if("" == wlgs || null == wlgs || "请选择"==wlgs){
+                        if("" == wlgs || null == wlgs || "0"==wlgs){
                             layer.alert("请选择物流公司");
                             return ;
                         }else if(""==wldh||null == wldh ){
