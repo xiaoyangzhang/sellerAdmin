@@ -119,10 +119,12 @@
                 <tr>
                     <td>姓名</td>
                     <td>手机号</td>
+                    <td>邮箱</td>
                 </tr>
                 <tr>
                     <td>$!order.mainOrder.tcMainOrder.contactInfo.contactName</td>
                     <td>$!order.mainOrder.tcMainOrder.contactInfo.contactPhone</td>
+                    <td>$!order.mainOrder.tcMainOrder.email</td>
                 </tr>
             </table>
         #end
