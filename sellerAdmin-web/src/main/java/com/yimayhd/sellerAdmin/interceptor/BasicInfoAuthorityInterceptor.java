@@ -17,6 +17,7 @@ import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
+import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.biz.TalentBiz;
@@ -52,6 +53,10 @@ public class BasicInfoAuthorityInterceptor extends HandlerInterceptorAdapter {
 		if (result != null && result.getValue() !=null ) {
 			ExamineInfoDTO examineInfoDTO = result.getValue();
 			if (examineInfoDTO.getType() == MerchantType.TALENT.getType()) {
+				if (examineInfoDTO.getExaminStatus() != ExamineStatus.EXAMIN_OK.getStatus()) {
+					response.sendRedirect(UrlHelper.getUrl(rootPath, "/apply/toChoosePage"));
+					return false;
+				}
 				WebResult<TalentInfoDTO> dtoResult = talentBiz.queryTalentInfoByUserId();
 				TalentInfoDTO talentInfoDTO = dtoResult.getValue();
 				TalentInfoDO talentInfoDO = talentInfoDTO.getTalentInfoDO();
