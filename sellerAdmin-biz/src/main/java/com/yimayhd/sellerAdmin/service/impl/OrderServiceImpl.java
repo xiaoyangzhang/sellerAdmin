@@ -242,11 +242,17 @@ public class OrderServiceImpl implements OrderService {
 
 				if (tcBizOrder != null) {
 					long buyerId = tcBizOrder.getBuyerId();
-					UserDO buyer = userServiceRef.getUserDOById(buyerId);
+					//UserDO buyer = userServiceRef.getUserDOById(buyerId);
+					BaseResult<UserDO> userDOResult = userServiceRef.getUserDOByUserId(buyerId);
+					if(userDOResult.isSuccess()||userDOResult.getValue()!=null){
+						UserDO buyer =userDOResult.getValue();
+						orderDetails.setBuyerName(buyer.getName());
+						orderDetails.setBuyerNiceName(buyer.getNickname());
+						//orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
+						orderDetails.setBuyerPhoneNum(buyer.getUnmaskMobile());// 明文
+					}
 					orderDetails.setSellerId(tcBizOrder.getSellerId());
-					orderDetails.setBuyerName(buyer.getName());
-					orderDetails.setBuyerNiceName(buyer.getNickname());
-					orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
+
 					// 付款方式
 					if (tcMainOrder.getPayChannel() != 0) {
 						orderDetails.setPayChannel(TcPayChannel.getPayChannel(
