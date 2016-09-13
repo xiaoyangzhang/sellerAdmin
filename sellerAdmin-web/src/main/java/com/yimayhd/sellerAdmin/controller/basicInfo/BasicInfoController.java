@@ -5,10 +5,7 @@ package com.yimayhd.sellerAdmin.controller.basicInfo;
  * @author zhangxy
  */
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -135,7 +132,12 @@ public class BasicInfoController extends BaseController {
 					return "/system/seller/merchant";
 				}
 				MerchantCategoryDO merchantCategoryDO = merchantCategoryDOListResult.getValue().get(0);*/
-				Map<Integer,String> merchantNameTypeMap = new HashMap<Integer,String>();
+				Map<Integer,String> merchantNameTypeMap = new TreeMap<Integer,String>(new Comparator<Integer>() {
+					public int compare(Integer obj1, Integer obj2) {
+						// 降序排序
+						return obj2.compareTo(obj1);
+					}
+				});
 				merchantNameTypeMap.put(MerchantNameType.ALL_USER.getType(),MerchantNameType.ALL_USER.getScheme());
 				merchantNameTypeMap.put(MerchantNameType.TOUR_COR.getType(),MerchantNameType.TOUR_COR.getScheme());
 				merchantNameTypeMap.put(MerchantNameType.HOTEL.getType(),MerchantNameType.HOTEL.getScheme());

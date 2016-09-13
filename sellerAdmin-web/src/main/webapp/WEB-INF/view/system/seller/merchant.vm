@@ -88,11 +88,12 @@
 			           </span>
 					</div>
                     <p>
-                       <em class="mt">平台管理规定: 点击查看 </em>
+                       <em class="mt">平台管理规定: </em>
 						<span class="seller-link">
+							点击查看
 							#set($size = $merchantNameTypeMap.size())
 							#foreach($merchantMap in $merchantNameTypeMap.entrySet())
-                                <a href="$!root_path/apply/download?fileType=$!merchantMap.key" class="blue">$!merchantMap.value</a>
+                                <a href="$!root_path/apply/download?fileType=$!merchantMap.key" class="red">$!merchantMap.value</a>
 								#if($size!=$velocityCount)、 #end
 							#end
 						</span>
