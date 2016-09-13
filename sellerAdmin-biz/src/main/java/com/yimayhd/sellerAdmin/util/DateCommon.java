@@ -60,6 +60,14 @@ public class DateCommon {
         calendar.setTimeInMillis(getMillis(date) +  ((long)  days)  *  24  *  3600  *  1000);
         return simpleDateFormat.format(calendar.getTime());
     }
+    public static Date addDay2Date(java.util.Date date,int days){
+    	if (date == null || days <= 0) {
+			return null;
+		}
+    	java.util.Calendar calendar = java.util.Calendar.getInstance();
+    	calendar.setTimeInMillis(getMillis(date) +  ((long)  days)  *  24  *  3600  *  1000);
+    	return calendar.getTime();
+    }
 
     /**
      * 日期相减，并按照要求日期格式输出 ,示例：20120305
