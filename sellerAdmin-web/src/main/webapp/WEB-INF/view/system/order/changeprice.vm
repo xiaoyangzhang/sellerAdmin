@@ -81,15 +81,14 @@
         attachEvent: function() {
             $(document).on("blur", ".input-text", function() {
                 var _this = $(this);
-                var val = _this.val();
+                var val = _this.val().replace(/\s/g,'');
                 if (val.length > 0) {
-                    var fval = parseFloat(val);
                     _this.removeClass("error");
                     var reg = /^((?!0)\d+(\.\d{1,2})?)$/;
-                    if (!reg.test(val) && isNaN(fval)) {
+                    if (!reg.test(val)) {
                         _this.addClass("error");
                     } else {
-                        _this.val(fval.toFixed(2));
+                        _this.val(parseFloat(val).toFixed(2));
                     }
                 }
 
