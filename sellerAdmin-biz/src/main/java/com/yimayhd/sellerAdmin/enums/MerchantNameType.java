@@ -28,7 +28,8 @@ public enum MerchantNameType {
     CITY_COR("同城活动企业", 6,"《九休开放平台同城管理规定》"),
     //以下为旅游企业类型的两个身份
     TRAVEL_AGENCY("旅行社", 7,""),
-    TRAVLE_SERVICE("旅游商务服务公司", 8,"")
+    TRAVLE_SERVICE("旅游商务服务公司", 8,""),
+    ALL_USER("所有身份", 99,"《九休开放平台总则》")
     ;
 
     private String name;

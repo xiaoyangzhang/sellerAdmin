@@ -938,7 +938,7 @@ public class ApplyController extends BaseController {
 		try {
 			String newFileName = "";
 			String tfsFileName = "";
-			if (1 == fileType) {
+			if (99 == fileType) {
 				newFileName = new String("九休开放平台总则.pdf".getBytes("UTF-8"),"ISO-8859-1");
 				tfsFileName = "L13NxTBXET1R4oIErK";
 			}else if (4 == fileType) {

@@ -136,6 +136,7 @@ public class BasicInfoController extends BaseController {
 				}
 				MerchantCategoryDO merchantCategoryDO = merchantCategoryDOListResult.getValue().get(0);*/
 				Map<Integer,String> merchantNameTypeMap = new HashMap<Integer,String>();
+				merchantNameTypeMap.put(MerchantNameType.ALL_USER.getType(),MerchantNameType.ALL_USER.getScheme());
 				merchantNameTypeMap.put(MerchantNameType.TOUR_COR.getType(),MerchantNameType.TOUR_COR.getScheme());
 				merchantNameTypeMap.put(MerchantNameType.HOTEL.getType(),MerchantNameType.HOTEL.getScheme());
 				merchantNameTypeMap.put(MerchantNameType.SCENIC.getType(),MerchantNameType.SCENIC.getScheme());
