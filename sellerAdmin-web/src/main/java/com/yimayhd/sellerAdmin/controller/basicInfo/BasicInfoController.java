@@ -125,7 +125,7 @@ public class BasicInfoController extends BaseController {
 					return "/system/seller/merchant_head";
 				}
 				/**添加协议下载***/
-				ExamineInfoDTO examineInfoDTO = merchantInfoResult.getValue();
+				/*ExamineInfoDTO examineInfoDTO = merchantInfoResult.getValue();
 				MerchantCategoryQueryDTO merchantCategoryQueryDTO = new MerchantCategoryQueryDTO();
 				merchantCategoryQueryDTO.setDomainId(examineInfoDTO.getDomainId());
 				merchantCategoryQueryDTO.setId(examineInfoDTO.getMerchantCategoryId());
@@ -134,15 +134,13 @@ public class BasicInfoController extends BaseController {
 					log.error(merchantCategoryDOListResult.getErrorMsg()+"domainId:{},MerchantCategoryId:{},sellerId:{}",examineInfoDTO.getDomainId(),examineInfoDTO.getMerchantCategoryId(),examineInfoDTO.getSellerId());
 					return "/system/seller/merchant";
 				}
-				MerchantCategoryDO merchantCategoryDO = merchantCategoryDOListResult.getValue().get(0);
-				if(MerchantNameType.TALENT.getType()!=merchantCategoryDO.getType()){
-					Map<Integer,String> merchantNameTypeMap = new HashMap<Integer,String>();
-					merchantNameTypeMap.put(MerchantNameType.TOUR_COR.getType(),MerchantNameType.TOUR_COR.getScheme());
-					merchantNameTypeMap.put(MerchantNameType.HOTEL.getType(),MerchantNameType.HOTEL.getScheme());
-					merchantNameTypeMap.put(MerchantNameType.SCENIC.getType(),MerchantNameType.SCENIC.getScheme());
-					merchantNameTypeMap.put(MerchantNameType.CITY_COR.getType(),MerchantNameType.CITY_COR.getScheme());
-					model.addAttribute("merchantNameTypeMap", merchantNameTypeMap);
-				}
+				MerchantCategoryDO merchantCategoryDO = merchantCategoryDOListResult.getValue().get(0);*/
+				Map<Integer,String> merchantNameTypeMap = new HashMap<Integer,String>();
+				merchantNameTypeMap.put(MerchantNameType.TOUR_COR.getType(),MerchantNameType.TOUR_COR.getScheme());
+				merchantNameTypeMap.put(MerchantNameType.HOTEL.getType(),MerchantNameType.HOTEL.getScheme());
+				merchantNameTypeMap.put(MerchantNameType.SCENIC.getType(),MerchantNameType.SCENIC.getScheme());
+				merchantNameTypeMap.put(MerchantNameType.CITY_COR.getType(),MerchantNameType.CITY_COR.getScheme());
+				model.addAttribute("merchantNameTypeMap", merchantNameTypeMap);
 
 
 			}

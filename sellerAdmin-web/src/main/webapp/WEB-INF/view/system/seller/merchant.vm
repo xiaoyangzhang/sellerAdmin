@@ -88,7 +88,7 @@
 			           </span>
 					</div>
                     <p>
-                       <em class="mt">商家链接 :</em>
+                       <em class="mt">平台管理规定: 点击查看 </em>
 						<span class="seller-link">
 							#set($size = $merchantNameTypeMap.size())
 							#foreach($merchantMap in $merchantNameTypeMap.entrySet())
