@@ -177,7 +177,7 @@ public class LineController extends BaseLineController {
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
 			WebCheckResult checkLine = LineChecker.checkLine(gt);
 			if (!checkLine.isSuccess()) {
-				log.warn(checkLine.getResultMsg());
+				log.error(checkLine.getResultMsg());
 				return checkLine;
 			}
 			long itemId = gt.getBaseInfo().getItemId();
