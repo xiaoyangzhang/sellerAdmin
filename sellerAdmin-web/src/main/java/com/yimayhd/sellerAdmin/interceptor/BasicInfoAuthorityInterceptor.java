@@ -52,18 +52,22 @@ public class BasicInfoAuthorityInterceptor extends HandlerInterceptorAdapter {
 		MemResult<ExamineInfoDTO> result = examineDealService.queryMerchantExamineInfoBySellerId(info);
 		if (result != null && result.getValue() !=null ) {
 			ExamineInfoDTO examineInfoDTO = result.getValue();
+			if (examineInfoDTO.getExaminStatus() != ExamineStatus.EXAMIN_OK.getStatus()) {
+				response.sendRedirect(UrlHelper.getUrl(rootPath, "/apply/toChoosePage"));
+				return false;
+			}
 			if (examineInfoDTO.getType() == MerchantType.TALENT.getType()) {
-				if (examineInfoDTO.getExaminStatus() != ExamineStatus.EXAMIN_OK.getStatus()) {
+				/*if (examineInfoDTO.getExaminStatus() != ExamineStatus.EXAMIN_OK.getStatus()) {
 					response.sendRedirect(UrlHelper.getUrl(rootPath, "/apply/toChoosePage"));
 					return false;
-				}
+				}*/
 				WebResult<TalentInfoDTO> dtoResult = talentBiz.queryTalentInfoByUserId();
 				TalentInfoDTO talentInfoDTO = dtoResult.getValue();
 				TalentInfoDO talentInfoDO = talentInfoDTO.getTalentInfoDO();
-				
-				if (StringUtils.isBlank(talentInfoDO.getAvatar()) || StringUtils.isBlank(talentInfoDO.getReallyName()) || StringUtils.isBlank(talentInfoDO.getServeDesc()) || 
-						talentInfoDO.getCityCode() <= 0 || talentInfoDO.getProvinceCode() <= 0 || talentInfoDO.getBirthday() == null || 
-						talentInfoDO.getGender() <= 0 || CollectionUtils.isEmpty(talentInfoDO.getPictures()) || 
+
+				if (StringUtils.isBlank(talentInfoDO.getAvatar()) || StringUtils.isBlank(talentInfoDO.getReallyName()) || StringUtils.isBlank(talentInfoDO.getServeDesc()) ||
+						talentInfoDO.getCityCode() <= 0 || talentInfoDO.getProvinceCode() <= 0 || talentInfoDO.getBirthday() == null ||
+						talentInfoDO.getGender() <= 0 || CollectionUtils.isEmpty(talentInfoDO.getPictures()) ||
 						CollectionUtils.isEmpty(talentInfoDO.getServiceTypes()) || talentInfoDTO.getPictureTextDTO() == null ) {
 					response.sendRedirect(UrlHelper.getUrl(rootPath, "/basicInfo/talent/toAddTalentInfo"));
 					return false;
@@ -73,6 +77,10 @@ public class BasicInfoAuthorityInterceptor extends HandlerInterceptorAdapter {
 				
 				BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(userDO.getId(), Constant.DOMAIN_JIUXIU);
 				if (meResult != null && meResult.getValue() != null) {
+					/*if (examineInfoDTO.getExaminStatus() != ExamineStatus.EXAMIN_OK.getStatus()) {
+						response.sendRedirect(UrlHelper.getUrl(rootPath, "/apply/toChoosePage"));
+						return false;
+					}*/
 					if (StringUtils.isBlank(meResult.getValue().getBackgroudImage()) || StringUtils.isBlank(meResult.getValue().getServiceTel()) || StringUtils.isBlank(meResult.getValue().getLogo()) ) {
 						response.sendRedirect(UrlHelper.getUrl(rootPath, "/basicInfo/merchant/toAddBasicPage"));
 						return false;
