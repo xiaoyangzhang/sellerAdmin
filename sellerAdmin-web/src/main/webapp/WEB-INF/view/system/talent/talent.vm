@@ -57,7 +57,7 @@
                                datatype="*" errormsg="亲选择时间呀" readonly="readonly"><span></span></td>
                 </tr>
                 <tr>
-                    <td class="tbtxt w280"><label class="bred">*</label><label
+                    <td class="tbtxt w280"><label
                             class="bred">*</label><span>所在城市：</span></td>
                     <td>
                         <input type="hidden" id="province_" value="">
