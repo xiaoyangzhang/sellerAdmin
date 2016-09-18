@@ -1,10 +1,5 @@
 package com.yimayhd.sellerAdmin.service.hotelManage.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.yimayhd.commentcenter.client.query.CategoryDetailQueryDTO;
-import com.yimayhd.commentcenter.client.result.BaseResult;
-import com.yimayhd.commentcenter.client.result.CategoryDetailResultDTO;
-import com.yimayhd.commentcenter.client.service.ComCategoryService;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.CallResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
