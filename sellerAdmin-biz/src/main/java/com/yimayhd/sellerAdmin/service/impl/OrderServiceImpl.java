@@ -244,7 +244,7 @@ public class OrderServiceImpl implements OrderService {
 					long buyerId = tcBizOrder.getBuyerId();
 					//UserDO buyer = userServiceRef.getUserDOById(buyerId);
 					BaseResult<UserDO> userDOResult = userServiceRef.getUserDOByUserId(buyerId);
-					if(userDOResult.isSuccess()||userDOResult.getValue()!=null){
+					if(userDOResult.isSuccess() && userDOResult.getValue()!=null){
 						UserDO buyer =userDOResult.getValue();
 						orderDetails.setBuyerName(buyer.getName());
 						orderDetails.setBuyerNiceName(buyer.getNickname());
