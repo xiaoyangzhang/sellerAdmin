@@ -97,7 +97,7 @@
                 <tr>
                     <td class="tbtxt w280"><span><label class="bred">*</label>店铺负责人电话：</span></td>
                     <td>
-			<input type="text" class="field inputxt phone" value="" name="tel" value="$!{talentInfo.talentInfoDO.telNum}">
+			<input type="text" class="field inputxt phone"  name="tel" value="$!{talentInfo.talentInfoDO.telNum}">
 			<span style="color: #999;">注：店铺负责人手机号用于接收商家短信通知</span>
                     </td>
                         
