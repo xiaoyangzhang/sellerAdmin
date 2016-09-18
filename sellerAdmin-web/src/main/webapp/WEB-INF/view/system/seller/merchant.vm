@@ -30,11 +30,10 @@
 						</span>
 					</p>
 					<p>
-						<em><i>*</i>店铺负责人电话  :</em>
+						<em><font>*</font>店铺负责人电话  :</em>
 						<span>
 							<input type="text" value="$!merchantPrincipalTel" datatype="m" errormsg="请输入正确的手机号码" name="merchantPrincipalTel" class="inputxt zetel"  />
 						</span>
-						
 						<span>注：店铺负责人手机号用于接收商家短信通知</span>
 					</p>
 					<p>
