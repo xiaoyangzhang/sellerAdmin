@@ -217,6 +217,17 @@
 						</div>
 					</td>
 				</tr>
+				<tr>
+				   <td class="tbtxt w280 abuteMe"><span>平台管理规定： </span></td>
+				    <td width='500px'><div>点击查看
+					#set($size = $merchantNameTypeMap.size())
+					#foreach($merchantMap in $merchantNameTypeMap.entrySet())
+					 <a href="$!root_path/apply/download?fileType=$!merchantMap.key" class="red">$!merchantMap.value</a>
+						#if($size!=$velocityCount)、 #end
+					#end
+					</div>
+				   </td>
+				</tr>
 			</table>
 		</form>
 		<button type= "button" class = "saveBtn" id = "saveBtnEredar">保存</button>

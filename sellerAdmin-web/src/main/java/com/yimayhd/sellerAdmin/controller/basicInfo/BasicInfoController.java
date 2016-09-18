@@ -259,6 +259,18 @@ public class BasicInfoController extends BaseController {
 				return "/system/talent/talent";
 			}
 		}
+		Map<Integer,String> merchantNameTypeMap = new TreeMap<Integer,String>(new Comparator<Integer>() {
+			public int compare(Integer obj1, Integer obj2) {
+				// 降序排序
+				return obj2.compareTo(obj1);
+			}
+		});
+		merchantNameTypeMap.put(MerchantNameType.ALL_USER.getType(),MerchantNameType.ALL_USER.getScheme());
+		merchantNameTypeMap.put(MerchantNameType.TOUR_COR.getType(),MerchantNameType.TOUR_COR.getScheme());
+		merchantNameTypeMap.put(MerchantNameType.HOTEL.getType(),MerchantNameType.HOTEL.getScheme());
+		merchantNameTypeMap.put(MerchantNameType.SCENIC.getType(),MerchantNameType.SCENIC.getScheme());
+		merchantNameTypeMap.put(MerchantNameType.CITY_COR.getType(),MerchantNameType.CITY_COR.getScheme());
+		model.addAttribute("merchantNameTypeMap", merchantNameTypeMap);
 		return "system/talent/eredar";
 //		} catch (Exception e) {
 //			log.error(e.getMessage(),e);
