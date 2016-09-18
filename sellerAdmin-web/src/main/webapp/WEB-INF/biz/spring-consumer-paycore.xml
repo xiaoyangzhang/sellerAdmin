@@ -44,8 +44,8 @@
         <property name="version" value="${consumer.dubbo.paycore.version}"/>
     </bean>
     
-    <bean id="settlementServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
-        <property name="interface" value="com.yimayhd.pay.client.service.settlement.SettlementService"/>
+    <bean id="querySettlementServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.pay.client.service.settlement.QuerySettlementService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
 		<property name="timeout" value="${consumer.dubbo.timeout}"/>
