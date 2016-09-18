@@ -33,15 +33,7 @@
         #elseif($order.mainOrder.orderType == 3400)
             #ORDER_BIZ_STATUS_D_HOTEL($order.mainOrder.orderStatus)
         #end
-	   <span>
-           <a href="javascript:void(0);"
-              class="btn btn-primary change-price"
-              id="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId"
-              orderprice="$!utilNum.moneyTransform($!order.actualTotalFee)"
-           >
-               改价
-           </a>
-       </span>
+	   
     </div>
     <br><br>
     <div>

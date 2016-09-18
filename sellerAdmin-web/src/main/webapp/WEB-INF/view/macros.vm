@@ -545,6 +545,15 @@
         <span>
            	 下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.createTime)
         </span>
+	<span>
+           <a href="javascript:void(0);"
+              class="btn btn-primary change-price"
+              id="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId"
+              orderprice="$!utilNum.moneyTransform($!order.actualTotalFee)"
+           >
+               改价
+           </a>
+       </span>
         <!-- xxx代付款-->
     #elseif($type == 3)
         <span>
