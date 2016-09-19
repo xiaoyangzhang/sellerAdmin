@@ -81,8 +81,7 @@ public class BasicInfoController extends BaseController {
 	@Resource
 	private MerchantApplyService merchantApplyService;
 	
-	
-	
+
 	/**
 	 * 跳转到商户基本信息页面
 	 * @param model
@@ -144,8 +143,6 @@ public class BasicInfoController extends BaseController {
 				merchantNameTypeMap.put(MerchantNameType.SCENIC.getType(),MerchantNameType.SCENIC.getScheme());
 				merchantNameTypeMap.put(MerchantNameType.CITY_COR.getType(),MerchantNameType.CITY_COR.getScheme());
 				model.addAttribute("merchantNameTypeMap", merchantNameTypeMap);
-
-
 			}
 
 			//type
