@@ -33,7 +33,6 @@
         #elseif($order.mainOrder.orderType == 3400)
             #ORDER_BIZ_STATUS_D_HOTEL($order.mainOrder.orderStatus)
         #end
-	   
     </div>
     <br><br>
     <div>
@@ -199,7 +198,7 @@
                     orderprice="$!utilNum.moneyTransform($!subOrder.tcDetailOrder.itemPrice)"
                     realprice="$!utilNum.moneyTransform($!subOrder.itemPrice_)"
                     ordernumber="$!subOrder.tcDetailOrder.bizOrder.buyAmount">
-                    <td></td>
+                    <td>#* <input type="hidden"  value="$!utilNum.moneyTransform($!subOrder.subOrderTotalFee)" />*#</td>
                     <td>
                         <div class="goods-item">
                             <div class="t-img">
@@ -217,7 +216,7 @@
                         </div>
                     </td>
                     <td>
-                        <div class="order-price">
+                        <div class="order-price real-price">
                             $!utilNum.moneyTransform($!subOrder.itemPrice_)
                         </div>
                     </td>
@@ -242,6 +241,7 @@
                         </div>
                     </td>
                 </tr>
+
             #end
         </table>
     </div>
@@ -286,11 +286,15 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary">确定</button>
+                    <button type="button" class="b
+                    tn btn-primary">确定</button>
+
+                    <hidden>
                 </div>
             </div>
         </div>
     </div>
+
 
 
     <script>
@@ -575,6 +579,7 @@
                     son_order_price: sonOrder.attr("orderprice"),
                     son_order_real_price: sonOrder.attr("realprice"),
                     son_order_number: sonOrder.attr("ordernumber")
+
                 };
             });
 
