@@ -135,7 +135,7 @@
                     </tr>
                         #set( $size = $order.subOrderList.size())
                         #foreach($subOrder in $order.subOrderList)
-                        <tr sonorderid="$subOrder.tcDetailOrder.bizOrder.bizOrderId"  originprice="$!utilNum.moneyTransform($!{subOrder.tcDetailOrder.itemPic}, 160)">
+                        <tr sonorderid="$subOrder.tcDetailOrder.bizOrder.bizOrderId"  originprice="$!utilNum.moneyTransform($!subOrder.tcDetailOrder.itemPrice)">
                             <td></td>
                             <td>
                                 <div class="goods-item">
