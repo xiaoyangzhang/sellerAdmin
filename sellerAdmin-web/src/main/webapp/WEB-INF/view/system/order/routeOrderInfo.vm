@@ -33,6 +33,15 @@
         #elseif($order.mainOrder.orderType == 3400)
             #ORDER_BIZ_STATUS_D_HOTEL($order.mainOrder.orderStatus)
         #end
+        <span>
+           <a href="javascript:void(0);"
+              class="btn btn-primary change-price"
+              id="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId"
+              orderprice="$!utilNum.moneyTransform($!order.actualTotalFee)"
+           >
+               改价
+           </a>
+       </span>
 	   
     </div>
     <br><br>
@@ -572,8 +581,8 @@
                 return {
                     son_order_id: sonOrder.attr("suborderid"),
                     son_order_product_name: sonOrder.find(".t-name").first().text().replace(/[\s\r\n]/g, ''),
-                    son_order_price: sonOrder.attr("orderprice"),
-                    son_order_real_price: sonOrder.attr("realprice"),
+                    son_order_real_price: sonOrder.find(".order-price").text().replace(/[\s\r\n]/g, ''),
+                    son_order_price: sonOrder.attr("originprice"),
                     son_order_number: sonOrder.attr("ordernumber")
                 };
             });
