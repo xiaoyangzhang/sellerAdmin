@@ -45,7 +45,8 @@
 					<p>
 						<em class="mt">店铺地址  :</em>
 						<span>
-							<textarea tip="请在这里输入您的店铺地址。" value="" id="textareaInpute"  altercss="gray" class="gray" name="address"  >$!address</textarea><label><span id="isUsed" >0</span><span class="fx">/</span> <span id="unUse" >100</span></label>
+							<textarea tip="请在这里输入您的店铺地址。" value="" id="textareaInpute"  altercss="gray" class="gray" name="address"  >$!address</textarea>
+							<label><span id="isUsed">0</span><span class="fx">/</span> <span id="unUse">100</span></label>
 						</span>
 					</p>
 					<div class="merchant-shop">
@@ -86,6 +87,7 @@
 						<em class="mt">商家简介  :</em>
 						<span>
 							<textarea cols="70" rows="10" maxlength="500" name="merchantDesc">$!merchantDesc</textarea>
+							<label><span class="isUsed" >0</span><span class="fx">/</span> <span class="unUse" >500</span></label>
 			           </span>
 					</div>
                     <p>

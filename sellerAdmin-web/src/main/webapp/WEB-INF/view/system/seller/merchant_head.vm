@@ -87,7 +87,7 @@
 
 				<p>
 					<em class="mt" style="vertical-align: top">商家简介 :</em>
-					<textarea altercss="gray" class="gray h150" maxlength="500" name="merchantDesc" value="" id="summary">$!merchantDesc</textarea>
+					<textarea altercss="gray" class="gray h150" name="merchantDesc" value="" id="summary">$!merchantDesc</textarea>
 					<span><span id="summaryLength">0</span>/500</span>
 				</p>
 

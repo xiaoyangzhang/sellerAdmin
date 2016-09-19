@@ -116,7 +116,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="tbtxt w280"><label class="bred">*</label><span>服务描述：</span></td>
+                    <td class="tbtxt w280"><label class="bred">*</label><span>服务描述：<br />（旅行宣言）</span></td>
                     <td><input type="text" id="serve" class="field inputxt" style="min-width:450px" value=""
                                name="describe" datatype="*" maxlength="30" errormsg="请输入30以内的描述">
                         <span></span><label class="lab">0/30</label>
