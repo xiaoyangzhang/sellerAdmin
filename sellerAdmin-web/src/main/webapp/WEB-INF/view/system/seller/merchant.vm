@@ -45,7 +45,7 @@
 					<p>
 						<em class="mt">店铺地址  :</em>
 						<span>
-							<textarea tip="请在这里输入您的店铺地址。" value="" id="textareaInpute"  altercss="gray" class="gray" name="address" class="address"  >$!address</textarea>
+							<textarea tip="请在这里输入您的店铺地址。" value="" id="textareaInpute"  altercss="gray" class="address gray" name="address">$!address</textarea>
 							<label><span id="addressLen" class="isUsed">0</span><span class="fx">/</span> <span class="unUse">100</span></label>
 						</span>
 					</p>
