@@ -198,7 +198,7 @@
                     orderprice="$!utilNum.moneyTransform($!subOrder.tcDetailOrder.itemPrice)"
                     realprice="$!utilNum.moneyTransform($!subOrder.itemPrice_)"
                     ordernumber="$!subOrder.tcDetailOrder.bizOrder.buyAmount">
-                    <td> <input type="hidden"  value="$!utilNum.moneyTransform($!subOrder.subOrderTotalFee)" /></td>
+                    <td>#* <input type="hidden"  value="$!utilNum.moneyTransform($!subOrder.subOrderTotalFee)" />*#</td>
                     <td>
                         <div class="goods-item">
                             <div class="t-img">
