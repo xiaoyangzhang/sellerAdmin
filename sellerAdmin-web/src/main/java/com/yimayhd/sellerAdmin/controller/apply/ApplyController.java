@@ -547,7 +547,7 @@ public class ApplyController extends BaseController {
 			if(null!=result.getValue() && (result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW || result.getValue().getExaminStatus() == Constant.MERCHANT_TYPE_HALF)){//审核不通过时
 				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
 				if(rest.isSuccess() && (null!=rest.getValue())){
-					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes()));
+					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :rest.getValue().getDealMes());
 				}
 			}
 		}
@@ -582,7 +582,7 @@ public class ApplyController extends BaseController {
 			if(null!=result.getValue() && (result.getValue().getExaminStatus()==Constant.MERCHANT_TYPE_NOTTHROW || result.getValue().getExaminStatus() == Constant.MERCHANT_TYPE_HALF)){//审核不通过时
 				MemResult<ExamineResultDTO> rest = examineDealService.queryExamineDealResult(info);
 				if(rest.isSuccess() && (null!=rest.getValue())){
-					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :Arrays.asList(rest.getValue().getDealMes()));
+					model.addAttribute("reason", rest.getValue().getDealMes() == null ? null :rest.getValue().getDealMes());
 				}
 			}
 
