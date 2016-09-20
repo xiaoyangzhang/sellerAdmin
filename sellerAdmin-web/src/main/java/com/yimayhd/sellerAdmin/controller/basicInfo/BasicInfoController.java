@@ -121,16 +121,6 @@ public class BasicInfoController extends BaseController {
 					return "/system/seller/merchant_head";
 				}
 				/**添加协议下载***/
-				/*ExamineInfoDTO examineInfoDTO = merchantInfoResult.getValue();
-				MerchantCategoryQueryDTO merchantCategoryQueryDTO = new MerchantCategoryQueryDTO();
-				merchantCategoryQueryDTO.setDomainId(examineInfoDTO.getDomainId());
-				merchantCategoryQueryDTO.setId(examineInfoDTO.getMerchantCategoryId());
-				MemResult<List<MerchantCategoryDO>> merchantCategoryDOListResult  =  merchantApplyService.getMerchantCategory(merchantCategoryQueryDTO);
-				if(!merchantCategoryDOListResult.isSuccess()||merchantCategoryDOListResult.getValue()==null){
-					log.error(merchantCategoryDOListResult.getErrorMsg()+"domainId:{},MerchantCategoryId:{},sellerId:{}",examineInfoDTO.getDomainId(),examineInfoDTO.getMerchantCategoryId(),examineInfoDTO.getSellerId());
-					return "/system/seller/merchant";
-				}
-				MerchantCategoryDO merchantCategoryDO = merchantCategoryDOListResult.getValue().get(0);*/
 				Map<Integer,String> merchantNameTypeMap = new TreeMap<Integer,String>(new Comparator<Integer>() {
 					public int compare(Integer obj1, Integer obj2) {
 						// 降序排序
@@ -166,14 +156,17 @@ public class BasicInfoController extends BaseController {
 		UserDO user = sessionManager.getUser(request);
 		if (user != null && user.getId() != basicInfo.getId()) {
 			
-			String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
-			try {
-				result.setSuccess(false);
-				result.setValue(url);
-				return result;
-			} catch (Exception e) {
-				log.error("no authority to operate");
-			}
+//			String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
+//			try {
+//				result.setSuccess(false);
+//				result.setValue(url);
+//				return result;
+//			} catch (Exception e) {
+//				log.error("no authority to operate");
+//			}
+			result.setSuccess(false);
+			result.setMsg("对不起，请先退出其他登录帐号再进行此操作");
+			return result;
 			
 		}
 		InfoQueryDTO info = new InfoQueryDTO();
@@ -303,14 +296,17 @@ public class BasicInfoController extends BaseController {
 		UserDO user = sessionManager.getUser(request);
 		if (user != null && user.getId() != vo.getId()) {
 			
-			String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
-			try {
-				bizResult.setSuccess(false);
-				bizResult.setValue(url);
-				return bizResult;
-			} catch (Exception e) {
-				log.error("no authority to operate");
-			}
+//			String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
+//			try {
+//				bizResult.setSuccess(false);
+//				bizResult.setValue(url);
+//				return bizResult;
+//			} catch (Exception e) {
+//				log.error("no authority to operate");
+//			}
+			bizResult.setSuccess(false);
+			bizResult.setMsg("对不起，请先退出其他登录帐号再进行此操作");
+			return bizResult;
 			
 		}
 		InfoQueryDTO info = new InfoQueryDTO();
