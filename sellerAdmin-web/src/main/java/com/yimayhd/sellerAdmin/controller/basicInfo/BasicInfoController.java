@@ -165,7 +165,7 @@ public class BasicInfoController extends BaseController {
 //				log.error("no authority to operate");
 //			}
 			result.setSuccess(false);
-			result.setMsg("对不起，请先退出其他登录帐号再进行此操作");
+			result.setMsg("对不起，请重新登录后再进行此操作");
 			return result;
 			
 		}
@@ -305,7 +305,7 @@ public class BasicInfoController extends BaseController {
 //				log.error("no authority to operate");
 //			}
 			bizResult.setSuccess(false);
-			bizResult.setMsg("对不起，请先退出其他登录帐号再进行此操作");
+			result.setMsg("对不起，请重新登录后再进行此操作");
 			return bizResult;
 			
 		}
