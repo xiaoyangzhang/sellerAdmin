@@ -47,21 +47,21 @@
                 <tr>
                     <td class="tbtxt w280"><label class="bred">*</label><span>性别：</span></td>
                     <td>
-                        <label><input type="radio" checked="checked" name="gender" value="2" id="male" class="pr1"> ：男</label>
-                        <label><input type="radio" name="gender" value="3" id="female" class="pr1" datatype="*" errormsg="请选择性别！"> ：女</label>
+                        <label><input type="radio" checked="checked" name="gender" value="2" #if ($!talentInfo.talentInfoDO.gender == 2)checked = "checked" #end id="male" class="pr1"> ：男</label>
+                        <label><input type="radio" name="gender" value="3" #if ($!talentInfo.talentInfoDO.gender == 3)checked = "checked" #end id="female" class="pr1" datatype="*" errormsg="请选择性别！"> ：女</label>
                     </td>
                 </tr>
                 <tr>
                     <td class="tbtxt w280"><label class="bred">*</label><span>出生日期：</span></td>
-                    <td><input class="field" id="tm" placeholder="1990-01-01" name="birthday" title="开始时间"
+                    <td><input class="field" id="tm" placeholder="1990-01-01" name="birthday" value="$!utilDate.date2StringByDay($!talentInfo.talentInfoDO.birthday)" title="开始时间"
                                datatype="*" errormsg="亲选择时间呀" readonly="readonly"><span></span></td>
                 </tr>
                 <tr>
                     <td class="tbtxt w280"><label
                             class="bred">*</label><span>所在城市：</span></td>
                     <td>
-                        <input type="hidden" id="province_" value="">
-                        <input type="hidden" id="city_" value="">
+                        <input type="hidden" id="province_" value="$!talentInfo.talentInfoDO.provinceCode">
+			<input type="hidden" id="city_" value="$!talentInfo.talentInfoDO.cityCode">
                         <select id="province">
                             <option value="">--请选择--</option>
                         </select>
@@ -83,8 +83,12 @@
                         <div class="groupimg">
                             <label class="inblock">
 									<span class="imgbox mr5 cnat">
+									#set ($picSize=$!talentInfo.talentInfoDO.pictures.size)
 										<div class="canclick">
-                                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+                                            #if ($!talentInfo.talentInfoDO.pictures[0].length()>0)
+							<img src="$!tfs/$!{talentInfo.talentInfoDO.pictures[0]}">
+							#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+							#end
                                         </div><div class="plhd"></div><div class="del">删除图片</div>
 										<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile mult"></a>
 										<input type="hidden" name="imgpath" value="$!talentInfo.talentInfoDO.pictures[0]">
@@ -105,19 +109,35 @@
                 <tr>
                     <td class="tbtxt w280"><label class="bred">*</label><span>服务类型：</span></td>
                     <td class="spe">
-                        <input type="checkbox" name="certificatess" id="shoppingsite21"  checked = "checked" value="1"><label
-                            class='mr15' for="shoppingsite21">结伴邀约</label>
-                        <input type="checkbox" name="certificatess" id="shoppingsite22"  checked = "checked" value="2"><label
-                            class='mr15' for="shoppingsite22">出行服务</label>
-                        <input type="checkbox" name="certificatess" id="shoppingsite23"  checked = "checked" value="3"><label
-                            class='mr15' for="shoppingsite23">在线咨询</label>
-                        <input type="checkbox" name="certificatess" id="shoppingsite24"  checked = "checked" value="4"><label
-                            class='mr15' for="shoppingsite24">行程规划</label>
+                        #set ($size=$serviceTypes.value.size)
+					
+					
+					#foreach ($serviceType in $serviceTypes.value)
+					<input type = "checkbox" 
+								
+						#if ($!talentInfo.talentInfoDO.serviceTypes)
+							#foreach ($st in $talentInfo.talentInfoDO.serviceTypes)
+								#if ($st.id == $serviceType.id) checked = "checked" #end
+							#end
+						#end 
+						name = "certificatess" id="shoppingsite2$!{velocityCount}"value="$!{serviceType.id}" datatype="*" errormsg="请选择您常去的购物网站！" >
+						<label style="margin-left:5px;margin-right:20px;" class='mr15' for="shoppingsite2$!{velocityCount}">
+							#if($!{serviceType.id} == "1")
+							结伴邀约
+							#elseif($!{serviceType.id} == "3")
+							在线咨询
+							#elseif($!{serviceType.id} == "4")
+							行程规划
+							#elseif($!{serviceType.id} == "2")
+							出行服务
+							#end
+						</label>
+					#end
                     </td>
                 </tr>
                 <tr>
                     <td class="tbtxt w280"><label class="bred">*</label><span>服务描述：<br />（旅行宣言）</span></td>
-                    <td><input type="text" id="serve" class="field inputxt" style="min-width:450px" value=""
+                    <td><input type="text" id="serve" class="field inputxt" style="min-width:450px" value="$!talentInfo.talentInfoDO.serveDesc"
                                name="describe" datatype="*" maxlength="30" errormsg="请输入30以内的描述">
                         <span></span><label class="lab">0/30</label>
                     </td>
@@ -128,6 +148,16 @@
                         <div id="editer">
 
                             <div class="bd">
+			    #foreach ($info in $talentInfo.pictureTextDTO.picTexts)
+									#if ($info.type == 1)
+									 	#set( $contentHtml = $info.value.replaceAll("\n","<br/>") )
+										<p class="text"><font>$!contentHtml</font></p>
+									#elseif ($info.type == 2)
+										<p class="pic">
+										<img src="$!tfs/$!info.value">
+								</p>
+									#end
+								#end
                             </div>
                             <textarea id="contentText" style="display:none;"></textarea>
 
