@@ -305,7 +305,7 @@ public class BasicInfoController extends BaseController {
 //				log.error("no authority to operate");
 //			}
 			bizResult.setSuccess(false);
-			result.setMsg("对不起，请重新登录后再进行此操作");
+			bizResult.setMsg("对不起，请重新登录后再进行此操作");
 			return bizResult;
 			
 		}
