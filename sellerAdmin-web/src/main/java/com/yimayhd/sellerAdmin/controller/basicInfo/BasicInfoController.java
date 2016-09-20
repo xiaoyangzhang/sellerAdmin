@@ -161,8 +161,21 @@ public class BasicInfoController extends BaseController {
 	 */
 	@RequestMapping(value = "/merchant/saveBasic",method=RequestMethod.POST)
 	@ResponseBody
-	public BizResult<String> saveBusinessBasic(MerchantInfoVo basicInfo,HttpServletResponse response){
+	public BizResult<String> saveBusinessBasic(MerchantInfoVo basicInfo,HttpServletResponse response,HttpServletRequest request){
 		BizResult<String> result = new BizResult<String>();
+		UserDO user = sessionManager.getUser(request);
+		if (user != null && user.getId() != basicInfo.getId()) {
+			
+			String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
+			try {
+				result.setSuccess(false);
+				result.setValue(url);
+				return result;
+			} catch (Exception e) {
+				log.error("no authority to operate");
+			}
+			
+		}
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
@@ -287,6 +300,19 @@ public class BasicInfoController extends BaseController {
 	@ResponseBody
 	public BizResult<String> addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
 		BizResult<String> bizResult = new BizResult<>();
+		UserDO user = sessionManager.getUser(request);
+		if (user != null && user.getId() != vo.getId()) {
+			
+			String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
+			try {
+				bizResult.setSuccess(false);
+				bizResult.setValue(url);
+				return bizResult;
+			} catch (Exception e) {
+				log.error("no authority to operate");
+			}
+			
+		}
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());

@@ -10,7 +10,7 @@
 <div class="eredar-list eredar-list1">
 
     <form class="registerform" method="post">
-
+	 <input type="hidden" name="id" value="$!talentInfo.talentInfoDO.id">
         <h1>个人信息</h1>
 
         <p class="tip clearfix"><i>!</i><span>填写完成基本信息才能发布商品，完善的资料会让用户对您的商品更感兴趣哦！</span></p>
