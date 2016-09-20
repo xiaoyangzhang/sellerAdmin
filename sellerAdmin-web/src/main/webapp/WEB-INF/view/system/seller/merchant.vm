@@ -17,7 +17,7 @@
 			</div>
 			<form class="registerform" method="post" autocomplete="off" action="">
 				<input type="hidden" name="id" #if("$!id" == "") value="0" #else value="$!id" #end/>
-				
+				<input type="hidden" name="sellerId"  value="$!sellerId"/>
 			   <div class = "eredar-list eredar-list1 merchant-list1">
 				    <p>	
 						<em><font>*</font>店铺名称  :</em>

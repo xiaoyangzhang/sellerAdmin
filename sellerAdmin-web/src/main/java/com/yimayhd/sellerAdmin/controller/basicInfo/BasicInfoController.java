@@ -105,6 +105,7 @@ public class BasicInfoController extends BaseController {
 			if(meResult.isSuccess() && null != meResult.getValue()){
 				
 				model.addAttribute("id", meResult.getValue().getId());
+				model.addAttribute("sellerId", meResult.getValue().getSellerId());
 				model.addAttribute("name",meResult.getValue().getName());
 				model.addAttribute("address",meResult.getValue().getAddress());
 				model.addAttribute("merchantName",meResult.getValue().getName());
@@ -154,7 +155,7 @@ public class BasicInfoController extends BaseController {
 	public BizResult<String> saveBusinessBasic(MerchantInfoVo basicInfo,HttpServletResponse response,HttpServletRequest request){
 		BizResult<String> result = new BizResult<String>();
 		UserDO user = sessionManager.getUser(request);
-		if (user != null && user.getId() != basicInfo.getId()) {
+		if (user != null && user.getId() != basicInfo.getSellerId()) {
 			
 //			String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
 //			try {
