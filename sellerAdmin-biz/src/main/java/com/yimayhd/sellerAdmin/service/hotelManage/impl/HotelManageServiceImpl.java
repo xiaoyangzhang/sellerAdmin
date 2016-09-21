@@ -28,7 +28,6 @@ import java.util.List;
 public class HotelManageServiceImpl extends AbstractBaseService implements HotelManageService {
 	@Autowired
 	private HotelManageRepo hotelManageRepo;
-
 	private static final Logger log = LoggerFactory.getLogger("hotelManage-business.log");
 
 	/**
@@ -42,6 +41,7 @@ public class HotelManageServiceImpl extends AbstractBaseService implements Hotel
 		WebResult<PageVO<HotelMessageVO>> result= new  WebResult<PageVO<HotelMessageVO>>();
 		domain.setPageResult(result);
 		domain.setHotelMessageVO(hotelMessageVO);
+
 		log.info("queryHotelMessageVOListByData:查询参数:"+ CommonJsonUtil.objectToJson(hotelMessageVO,HotelMessageVO.class));
 		try{
 			WebResult chekResult =  domain.checkHotelMessageVO();
@@ -226,5 +226,6 @@ public class HotelManageServiceImpl extends AbstractBaseService implements Hotel
 
 		return callbackResult;
 	}
+
 
 }

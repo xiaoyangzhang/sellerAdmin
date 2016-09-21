@@ -9,11 +9,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.yimayhd.sellerAdmin.entity.merchant.HomePage;
+import org.yimayhd.sellerAdmin.entity.merchant.MerchantInfo;
+import org.yimayhd.sellerAdmin.entity.merchant.Qualification;
 
+import com.alibaba.druid.support.logging.Log;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantQualificationDO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
+import com.yimayhd.membercenter.client.query.QualificationQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.enums.ExamineType;
@@ -21,12 +28,14 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.model.MerchantVO;
 import com.yimayhd.sellerAdmin.repo.MerchantRepo;
 import com.yimayhd.sellerAdmin.vo.merchant.MerchantInfoVo;
 import com.yimayhd.sellerAdmin.vo.merchant.UserDetailInfo;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.MerchantDTO;
+import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.dto.UserDTO;
 import com.yimayhd.user.client.enums.MerchantOption;
 import com.yimayhd.user.client.query.MerchantQuery;
@@ -274,6 +283,7 @@ public class MerchantBiz {
 		merchantDO.setBackgroudImage(basicInfo.getTtImage());
 		//店铺店标
 		merchantDO.setLogo(basicInfo.getDbImage());
+		merchantDO.setTitle(basicInfo.getMerchantDesc());
 		
 	}
 	
@@ -288,6 +298,7 @@ public class MerchantBiz {
 		merchantDTO.setBackgroundImage(basicInfo.getTtImage());;
 		//店铺店标
 		merchantDTO.setLogoImage(basicInfo.getDbImage());
+		merchantDTO.setTitle(basicInfo.getMerchantDesc());
 	}
 	
 	
@@ -339,5 +350,66 @@ public class MerchantBiz {
 		ex.setCooperation4(userDetailInfo.getCooperation4());
 		ex.setCooperation5(userDetailInfo.getCooperation5());
 		ex.setCardInHand(userDetailInfo.getCardInHand());
+	}
+	
+	/**
+	 * 通过用户id获取用户的信息
+	* created by zhangxiaoyang
+	* @date 2016年8月22日
+	* @Title: queryMerchantBySellerId 
+	* @Description: TODO
+	* @param @param merchantVO
+	* @param @return    设定文件 
+	* @return WebResult<MerchantDO>    返回类型 
+	* @throws
+	 */
+	public WebResult<MerchantDO> queryMerchantBySellerId(MerchantVO merchantVO) {
+		WebResult<MerchantDO> result = new WebResult<MerchantDO>();
+		if (merchantVO == null || merchantVO.getDomainId() <= 0 || merchantVO.getUserId() <= 0) {
+			LOGGER.error("param error:MerchantVO={}",JSON.toJSONString(merchantVO));
+			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+			return result;
+		}
+		LOGGER.debug("merchantRepo.queryMerchantBySellerId param:MerchantVO={}",JSON.toJSONString(merchantVO));
+		BaseResult<MerchantDO> queryMerchantResult = merchantRepo.queryMerchantBySellerId(merchantVO);
+		LOGGER.debug("merchantRepo.queryMerchantBySellerId result:{}",JSON.toJSONString(queryMerchantResult));
+		if (queryMerchantResult == null || !queryMerchantResult.isSuccess() || queryMerchantResult.getValue() == null) {
+			LOGGER.error("param:MerchantVO={},result:{}",JSON.toJSONString(merchantVO),JSON.toJSONString(queryMerchantResult));
+			result.setWebReturnCode(WebReturnCode.QUERY_MERCHANT_FAILED);
+			return result;
+		}
+		
+		result.setValue(queryMerchantResult.getValue());
+		return result;
+	}
+	/**
+	 * 查询店铺资质
+	* created by zhangxiaoyang
+	* @date 2016年8月22日
+	* @Title: queryMerchantQualification 
+	* @Description: TODO
+	* @param @param queryDTO
+	* @param @return    设定文件 
+	* @return WebResult<List<MerchantQualificationDO>>    返回类型 
+	* @throws
+	 */
+	public WebResult<Qualification> queryMerchantQualification(QualificationQueryDTO queryDTO) {
+		WebResult<Qualification> result = new WebResult<Qualification>();
+		if (queryDTO == null || queryDTO.getDomainId() <= 0 || queryDTO.getSellerId() <= 0 || queryDTO.getQualificationId() <= 0) {
+			LOGGER.error("param error:QualificationQueryDTO={}",JSON.toJSONString(queryDTO));
+			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+			return result;
+		}
+		MemResult<List<MerchantQualificationDO>> merchantQualificationResult = merchantRepo.queryMerchantQualification(queryDTO);
+		if (merchantQualificationResult == null || !merchantQualificationResult.isSuccess() || CollectionUtils.isEmpty(merchantQualificationResult.getValue())) {
+			LOGGER.error("param:QualificationQueryDTO={},result:{}",JSON.toJSONString(queryDTO),JSON.toJSONString(merchantQualificationResult));
+			result.setWebReturnCode(WebReturnCode.QUERY_MERCHANT_QUALIFICATION_FAILED);
+			return result;
+		}
+		List<MerchantQualificationDO> merchantQualification = merchantQualificationResult.getValue();
+		Qualification qualification = new Qualification();
+		qualification.saleLicensePic = merchantQualification.get(0).getContent();
+		result.setValue(qualification);
+		return result;
 	}
 }

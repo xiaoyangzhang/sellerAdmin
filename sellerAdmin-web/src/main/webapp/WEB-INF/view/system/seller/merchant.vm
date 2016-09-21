@@ -17,7 +17,7 @@
 			</div>
 			<form class="registerform" method="post" autocomplete="off" action="">
 				<input type="hidden" name="id" #if("$!id" == "") value="0" #else value="$!id" #end/>
-				
+				<input type="hidden" name="sellerId"  value="$!sellerId"/>
 			   <div class = "eredar-list eredar-list1 merchant-list1">
 				    <p>	
 						<em><font>*</font>店铺名称  :</em>
@@ -30,10 +30,11 @@
 						</span>
 					</p>
 					<p>
-						<em>店铺负责人电话  :</em>
+						<em><font>*</font>店铺负责人电话  :</em>
 						<span>
-							<input type="text" value="$!merchantPrincipalTel" name="merchantPrincipalTel" class="inputxt zetel"  />
+							<input type="text" value="$!merchantPrincipalTel" datatype="m" errormsg="请输入正确的手机号码" name="merchantPrincipalTel" class="inputxt zetel"  />
 						</span>
+						<span>注：店铺负责人手机号用于接收商家短信通知</span>
 					</p>
 					<p>
 						<em><font>*</font>客服电话  :</em>
@@ -44,7 +45,8 @@
 					<p>
 						<em class="mt">店铺地址  :</em>
 						<span>
-							<textarea tip="请在这里输入您的店铺地址。" value="" id="textareaInpute"  altercss="gray" class="gray" name="address"  >$!address</textarea><label><span id="isUsed" >0</span><span class="fx">/</span> <span id="unUse" >100</span></label>
+							<textarea tip="请在这里输入您的店铺地址。" value="" id="textareaInpute"  altercss="gray" class="address gray" name="address">$!address</textarea>
+							<label><span id="addressLen" class="isUsed">0</span><span class="fx">/</span> <span class="unUse">100</span></label>
 						</span>
 					</p>
 					<div class="merchant-shop">
@@ -81,7 +83,27 @@
 						<label class="lab">图片大小不超过500K,建议图片尺寸为：80*80,仅限于JPG,JPEG,PNG格式</label>
 			           </div>
 					</div>
+			    	<div class="merchant-shop">
+						<em class="mt">商家简介  :</em>
+						<span>
+							<textarea cols="70" rows="10" class="merchantDesc" name="merchantDesc">$!merchantDesc</textarea>
+							<label><span id="merchantLen" class="isUsed" >0</span><span class="fx">/</span> <span class="unUse" >500</span></label>
+			           </span>
+					</div>
+                    <p>
+                       <em class="mt">平台管理规定: </em>
+						<span class="seller-link">
+							点击查看
+							#set($size = $merchantNameTypeMap.size())
+							#foreach($merchantMap in $merchantNameTypeMap.entrySet())
+                                <a href="$!root_path/apply/download?fileType=$!merchantMap.key" class="red">$!merchantMap.value</a>
+								#if($size!=$velocityCount)、 #end
+							#end
+						</span>
+					</p>
+
 				</div>
+
 			</form>
 			<div class = "eredar-list merchant-list2">
 				<button id="save">保存</button>

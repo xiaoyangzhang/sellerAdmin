@@ -25,9 +25,10 @@
 						</span>
 					</p>
 					<p>
-						<em>店铺负责人电话  :</em>
+					<em>
+						店铺负责人电话 :</em>
 						<span>
-							<input type="text" value="$!merchantPrincipalTel" name="merchantPrincipalTel" class="inputxt zetel"  />
+							<input type="text" value="$!merchantPrincipalTel"  name="merchantPrincipalTel" class="inputxt zetel"  />
 						</span>
 					</p>
 					<p>

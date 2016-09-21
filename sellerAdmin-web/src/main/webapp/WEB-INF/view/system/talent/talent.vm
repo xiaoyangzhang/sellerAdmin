@@ -1,0 +1,200 @@
+#set($layout = "/layout/layout-jiuxiu-home.vm")
+<head>
+    #parse("layout/layout-meta.vm")
+    <title>基本信息</title>
+    <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/talent.css">
+</head>
+<!-- 面包屑 -->
+
+
+<div class="eredar-list eredar-list1">
+
+    <form class="registerform" method="post">
+	 <input type="hidden" name="id" value="$!talentInfo.talentInfoDO.id">
+        <h1>个人信息</h1>
+
+        <p class="tip clearfix"><i>!</i><span>填写完成基本信息才能发布商品，完善的资料会让用户对您的商品更感兴趣哦！</span></p>
+
+        <div style="margin-left: 60px;">
+            <table width='100%'>
+                <tr>
+                    <td class="tbtxt w280"><label class="bred">*</label><span>头像：</span></td>
+                    <td>
+                        <label class="inblock">
+								<span class="imgbox mr5">
+									<div class="canclick">
+                                        #if ($!talentInfo.talentInfoDO.avatar.length()>0)
+                                            <img src="$!tfs/$!talentInfo.talentInfoDO.avatar">
+                                        #else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+                                        #end
+                                    </div><div class="plhd"></div><div class="del">删除图片</div>
+									<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile mult"></a>
+									<input type="hidden" name="filepath" value="$!talentInfo.talentInfoDO.avatar">
+								</span>
+                        </label>
+                        <label class="lab">图片大小不超过500K，建议图片尺寸为：200*200</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tbtxt w280"><label class="bred">*</label><span>昵称：</span></td>
+                    <td><input id="nickName" class="field inputxt" type="text" value="$!talentInfo.talentInfoDO.nickName" name="nickName"></td>
+                </tr>
+                <tr>
+                    <td class="tbtxt w280"><label class="bred">*</label><span>真实姓名：</span></td>
+                    <td><input class="field inputxt" id="realName" type="text" name="peopleName" value="$!talentInfo.talentInfoDO.reallyName"><span></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tbtxt w280"><label class="bred">*</label><span>性别：</span></td>
+                    <td>
+                        <label><input type="radio" checked="checked" name="gender" value="2" #if ($!talentInfo.talentInfoDO.gender == 2)checked = "checked" #end id="male" class="pr1"> ：男</label>
+                        <label><input type="radio" name="gender" value="3" #if ($!talentInfo.talentInfoDO.gender == 3)checked = "checked" #end id="female" class="pr1" datatype="*" errormsg="请选择性别！"> ：女</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tbtxt w280"><label class="bred">*</label><span>出生日期：</span></td>
+                    <td><input class="field" id="tm" placeholder="1990-01-01" name="birthday" value="$!utilDate.date2StringByDay($!talentInfo.talentInfoDO.birthday)" title="开始时间"
+                               datatype="*" errormsg="亲选择时间呀" readonly="readonly"><span></span></td>
+                </tr>
+                <tr>
+                    <td class="tbtxt w280"><label
+                            class="bred">*</label><span>所在城市：</span></td>
+                    <td>
+                        <input type="hidden" id="province_" value="$!talentInfo.talentInfoDO.provinceCode">
+			<input type="hidden" id="city_" value="$!talentInfo.talentInfoDO.cityCode">
+                        <select id="province">
+                            <option value="">--请选择--</option>
+                        </select>
+                        <select id="city" class="ml10">
+                            <option value="">--请选择--</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <h1 style="margin-top: 30px;">店铺信息</h1>
+
+        <div style="margin-left: 60px;">
+            <table width='100%'>
+                <tr>
+                    <td class="tbtxt w280"><label class="bred">*</label><span>店铺头图：</span></td>
+                    <td>
+                        <div class="groupimg">
+                            <label class="inblock">
+									<span class="imgbox mr5 cnat">
+									#set ($picSize=$!talentInfo.talentInfoDO.pictures.size)
+										<div class="canclick">
+                                            #if ($!talentInfo.talentInfoDO.pictures[0].length()>0)
+							<img src="$!tfs/$!{talentInfo.talentInfoDO.pictures[0]}">
+							#else <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+							#end
+                                        </div><div class="plhd"></div><div class="del">删除图片</div>
+										<a class="upldclik"><input type="file" name="adpicfile" class="adpicfile mult"></a>
+										<input type="hidden" name="imgpath" value="$!talentInfo.talentInfoDO.pictures[0]">
+									</span>
+                            </label>
+                        </div>
+                        <p class="lab spelab">图片大小不超过500K，建议图片尺寸为：800*450，至少上传1张图片</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tbtxt w280"><span><label class="bred">*</label>店铺负责人电话：</span></td>
+                    <td>
+			<input type="text" class="field inputxt phone"  name="tel" value="$!{talentInfo.talentInfoDO.telNum}">
+			<span style="color: #999;">注：店铺负责人手机号用于接收商家短信通知</span>
+                    </td>
+                        
+                </tr>
+                <tr>
+                    <td class="tbtxt w280"><label class="bred">*</label><span>服务类型：</span></td>
+                    <td class="spe">
+                        #set ($size=$serviceTypes.value.size)
+					
+					
+					#foreach ($serviceType in $serviceTypes.value)
+					<input type = "checkbox" 
+								
+						#if ($!talentInfo.talentInfoDO.serviceTypes)
+							#foreach ($st in $talentInfo.talentInfoDO.serviceTypes)
+								#if ($st.id == $serviceType.id) checked = "checked" #end
+							#end
+						#end 
+						name = "certificatess" id="shoppingsite2$!{velocityCount}"value="$!{serviceType.id}" datatype="*" errormsg="请选择您常去的购物网站！" >
+						<label style="margin-left:5px;margin-right:20px;" class='mr15' for="shoppingsite2$!{velocityCount}">
+							#if($!{serviceType.id} == "1")
+							结伴邀约
+							#elseif($!{serviceType.id} == "3")
+							在线咨询
+							#elseif($!{serviceType.id} == "4")
+							行程规划
+							#elseif($!{serviceType.id} == "2")
+							出行服务
+							#end
+						</label>
+					#end
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tbtxt w280"><label class="bred">*</label><span>服务描述：<br />（旅行宣言）</span></td>
+                    <td><input type="text" id="serve" class="field inputxt" style="min-width:450px" value="$!talentInfo.talentInfoDO.serveDesc"
+                               name="describe" datatype="*" maxlength="30" errormsg="请输入30以内的描述">
+                        <span></span><label class="lab">0/30</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tbtxt w280 abuteMe"><label class="bred">*</label><span>关于我：</span></td>
+                    <td width='500px'>
+                        <div id="editer">
+
+                            <div class="bd">
+			    #foreach ($info in $talentInfo.pictureTextDTO.picTexts)
+									#if ($info.type == 1)
+									 	#set( $contentHtml = $info.value.replaceAll("\n","<br/>") )
+										<p class="text"><font>$!contentHtml</font></p>
+									#elseif ($info.type == 2)
+										<p class="pic">
+										<img src="$!tfs/$!info.value">
+								</p>
+									#end
+								#end
+                            </div>
+                            <textarea id="contentText" style="display:none;"></textarea>
+
+                            <div class="hd clearfix">
+                                <ul class="clearfix">
+                                    <li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
+                                    <li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <button type="button" class="saveBtn" id="saveBtnEredar">保存</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+
+
+<script type='text/temple' id='province-tpl'>
+	    <option value="">--请选择--</option>
+	    <# for(var j=0; j<province.length; j++) { #>
+	            <option value="<#= province[j].id#>"><#= province[j].name#></option>
+	    <# } #>
+
+</script>
+<script type='text/temple' id='city-tpl'>
+	    <option value="">--请选择--</option>
+	    <# for(var j=0; j<city.length; j++) { #>
+	            <option value="<#= city[j].id#>"><#= city[j].name#></option>
+	    <# } #>
+
+</script>
+#parse("layout/layout-js.vm")
+<script>seajs.use("talent");</script>

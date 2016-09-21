@@ -2,19 +2,18 @@ package com.yimayhd.sellerAdmin.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import com.yimayhd.commentcenter.client.dto.RatePageListDTO;
-import com.yimayhd.commentcenter.client.result.ComRateResult;
-import com.yimayhd.commentcenter.client.service.ComRateService;
-import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.constant.Constant;
 
+import com.yimayhd.sellerAdmin.model.order.OrderPriceQuery;
+import com.yimayhd.sellerAdmin.model.order.OrderPrizeDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -302,7 +301,47 @@ public class OrderController extends BaseController {
 	}
 
 
+	/**
+	 * 订单改价
+	 * @param model
+	 * @param orderPriceQuery
+	 * @return
+	 * @throws Exception
+     */
+	@RequestMapping(value = "/orderChangePrice",method = RequestMethod.POST)
+	@ResponseBody
+	public WebResult<String> orderChangePrice(Model model, OrderPriceQuery orderPriceQuery) throws Exception {
+		WebResult<String> result = new WebResult<String>();
+		log.info("orderChangePrice controller");
+		if(orderPriceQuery==null||StringUtils.isBlank(orderPriceQuery.getOrderJson())){
+			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
+			return result;
+		}
+		WebResult<OrderPrizeDTO> orderResult = orderService.orderChangePrice(orderPriceQuery);
+		if(!orderResult.isSuccess()||orderResult.getValue()==null){
+			log.error(orderResult.getWebReturnCode().getErrorMsg());
+			result.setWebReturnCode(orderResult.getWebReturnCode());
+			return result;
+		}
+		OrderPrizeDTO orderPrizeDTO = orderResult.getValue();
+		result.setValue(orderPrizeDTO.getOrderJson());
+		return result;
+	}
 
+	/**
+	 * 改价浮层
+	 * @param model
+	 * @param orderid
+     * @return
+     */
+	@RequestMapping(value = "/changepriceView",method = RequestMethod.GET)
+	public String changepriceView(Model model,long orderid){
+		if(orderid==0){
+			return "/system/error/404";
+		}
+		model.addAttribute("orderid",orderid);
+		return "/system/order/changeprice";
+	}
 
 
 

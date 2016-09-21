@@ -1,3 +1,4 @@
+
 ##选中菜单
 #set( $selectMenu = "/order/list" )
 
@@ -10,6 +11,7 @@
     <title>订单详情</title>
     #parse("layout/layout-meta.vm")
     <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/orderlist.css">
+    <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/fixlayerstyle.css">
 </head>
 
 <div>
@@ -18,6 +20,7 @@
 	   <span>
      		订单状态：
        </span>
+<<<<<<< HEAD
        #if($order.mainOrder.orderTypeStr == 'TOUR_LINE' || $order.mainOrder.orderTypeStr == 'FREE_LINE' 
         || $order.mainOrder.orderTypeStr == 'CITY_ACTIVITY' 
         || $order.mainOrder.orderTypeStr == 'TOUR_LINE_ABOARD' || $order.mainOrder.orderTypeStr == 'FREE_LINE_ABOARD')
@@ -33,12 +36,27 @@
 	        #ORDER_BIZ_STATUS_D_HOTEL($order.mainOrder.orderStatusStr)
 	   #end
 	      
+=======
+        #if($order.mainOrder.orderType == 3100 || $order.mainOrder.orderType == 3200 || $order.mainOrder.orderType == 3300
+        || $order.mainOrder.orderType == 3500 || $order.mainOrder.orderType == 3600)
+
+            #ORDER_BIZ_STATUS_M($order.mainOrder.orderStatus)
+        #elseif($order.mainOrder.orderType == 200)
+            #ORDER_BIZ_STATUS_M($order.mainOrder.orderStatus)
+        #elseif($order.mainOrder.orderType == 1200)
+            #ORDER_BIZ_STATUS_M($order.mainOrder.orderStatus)
+        #elseif($order.mainOrder.orderType == 1100)
+            #ORDER_BIZ_STATUS_M($order.mainOrder.orderStatus)
+        #elseif($order.mainOrder.orderType == 3400)
+            #ORDER_BIZ_STATUS_D_HOTEL($order.mainOrder.orderStatus)
+        #end
+>>>>>>> master
     </div>
     <br><br>
     <div>
         <div>买家备注：#if($!order.mainOrder.tcMainOrder.otherInfo =="") 无  #else $!order.mainOrder.tcMainOrder.otherInfo   #end</div>
         <form><div>卖家备注：<textarea name="customerServiceNote" id="customerServiceNote" maxlength="100"  rows="3" cols="50">$!order.mainOrder.tcMainOrder.sellerMemo</textarea>
-        <button class="btn btn-primary save" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">保存<tton></div>
+            <button class="btn btn-primary save" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">保存<tton></div>
 
         </form>
     </div>
@@ -62,128 +80,129 @@
                 <td>下单时间：</td>
                 <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.createTime)</td>
                 <td>
-                	#ROUTE_ORDER_DETAIL_DEPARTDATE($!order.mainOrder.orderTypeStr)
+                    #ROUTE_ORDER_DETAIL_DEPARTDATE($!order.mainOrder.tcMainOrder.bizOrder.orderType)
                 </td>
             </tr>
             <tr>
                 <td>付款时间：</td>
                 <td>
-                #if($!order.payChannel)
+                    #if($!order.payChannel)
                		#if($!order.mainOrder.tcMainOrder.bizOrder.payTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.bizOrder.payTime)#end
                 #end
                 </td>
                 <td>付款方式：</td>
                 <td>
-                	$!order.payChannel
-                 </td>
+                    $!order.payChannel
+                </td>
             </tr>
 
         </table>
     </div>
     <br><br>
-    
+
     <!-- 联系人信息 -->
     <div class="contacts">
-    	#if($order.mainOrder.orderTypeStr == 'NORMAL')
-        	<div>收货人信息</div>
-        	<table class="table table-hover">
-	            <tr>
-	            	<td>序号</td>
-	                <td>姓名</td>
-	                <td>手机号</td>
-	                <td>邮编</td>
-	                <td>所在地区</td>
-	                <td>详细地址</td>
-	            </tr>
-	            <tr>
-	            	<td>1</td>
-	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.fullName</td>
-	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.mobilePhone</td>
-	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.post</td>
-	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.prov $!order.mainOrder.tcMainOrder.logisticsOrderDO.city $!order.mainOrder.tcMainOrder.logisticsOrderDO.area</td>
-	                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.address</td>
-	            </tr>
-	        </table>
+        #if($order.mainOrder.orderType == 200)
+            <div>收货人信息</div>
+            <table class="table table-hover">
+                <tr>
+                    <td>序号</td>
+                    <td>姓名</td>
+                    <td>手机号</td>
+                    <td>邮编</td>
+                    <td>所在地区</td>
+                    <td>详细地址</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.fullName</td>
+                    <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.mobilePhone</td>
+                    <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.post</td>
+                    <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.prov $!order.mainOrder.tcMainOrder.logisticsOrderDO.city $!order.mainOrder.tcMainOrder.logisticsOrderDO.area</td>
+                    <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.address</td>
+                </tr>
+            </table>
         #else
-        	<div>联系人信息</div>
-        	<table class="table table-hover">
-	            <tr>
-	                <td>姓名</td>
-	                <td>手机号</td>
-	                <td>邮箱</td>
-	            </tr>
-	            <tr>
-	                <td>$!order.mainOrder.tcMainOrder.contactInfo.contactName</td>
-	                <td>$!order.mainOrder.tcMainOrder.contactInfo.contactPhone</td>
-	                <td>$!order.mainOrder.tcMainOrder.email</td>
-	            </tr>
-	        </table>
+            <div>联系人信息</div>
+            <table class="table table-hover">
+                <tr>
+                    <td>姓名</td>
+                    <td>手机号</td>
+                    <td>邮箱</td>
+                </tr>
+                <tr>
+                    <td>$!order.mainOrder.tcMainOrder.contactInfo.contactName</td>
+                    <td>$!order.mainOrder.tcMainOrder.contactInfo.contactPhone</td>
+                    <td>$!order.mainOrder.tcMainOrder.email</td>
+                </tr>
+            </table>
         #end
     </div>
     <br><br>
-    ##如果是特产商品并且是已发货、已完成，则显示发货信息
-    #if($order.mainOrder.orderTypeStr == 'NORMAL')
-    	#if($order.mainOrder.orderStatusStr == 'SHIPPING' || $order.mainOrder.orderStatusStr == 'FINISH')
-			<div class="contacts">
-		    	<div>物流信息</div>
-		        <table class="table table-hover">
-		            <tr>
-		                <td>物流公司：</td>
-		                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.expressCompany</td>
-		            </tr>
-		            <tr>
-		                <td>运单编号：</td>
-		                <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.expressNo</td>
-		            </tr>
-		        </table>
-		    </div>
-	    <br><br>
-	    #end
+##如果是特产商品并且是已发货、已完成，则显示发货信息
+    #if($order.mainOrder.orderType == 200)
+        #if($order.mainOrder.orderStatus == 6 || $order.mainOrder.orderStatus == 10)
+            <div class="contacts">
+                <div>物流信息</div>
+                <table class="table table-hover">
+                    <tr>
+                        <td>物流公司：</td>
+                       #* <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.expressCompany</td>*#
+                        <td>$!order.mainOrder.expressCompanyName</td>
+                    </tr>
+                    <tr>
+                        <td>运单编号：</td>
+                        <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.expressNo</td>
+                    </tr>
+                </table>
+            </div>
+            <br><br>
+        #end
     #else
-	    <!-- 游客信息 -->
-	    <div class="turistInfo">
-	        <div>游客信息</div>
-	        <table class="table table-hover">
-	            <thead>
-	            <tr>
-	                <td>序号</td>
-	                <td>姓名</td>
-	                <td>手机号</td>
-	                <td>证件类型</td>
-	                <td>证件号</td>
-	            </tr>
-	                #foreach($tourist in $!order.mainOrder.tcMainOrder.touristList)
-	                <tr>
-	                    <td>$velocityCount</td>
-	
-	                    <td>
-	                    	#if($!order.mainOrder.orderTypeStr == 'TOUR_LINE_ABOARD' ||$!order.mainOrder.orderTypeStr == 'FREE_LINE_ABOARD')
-	                    		$!tourist.contactName/$!tourist.firstName $!tourist.lastName 
-	                    	#else
-	                    		$!tourist.contactName
-	                    	#end
-	                    </td>
-	                    <td>$!tourist.contactPhone</td>
-	                    <td>
-	                    	#CERTIFICATES_TYPE($!tourist.certificatesType)
-	                    </td>
-	                    <td>$!tourist.certificatesNum</td>
-	                </tr>
-	                #end
-	        </table>
-	    </div>
-	    <br><br>
-	#end
-	
-	<!-- 订单商品信息 -->
+        <!-- 游客信息 -->
+        <div class="turistInfo">
+            <div>游客信息</div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <td>序号</td>
+                    <td>姓名</td>
+                    <td>手机号</td>
+                    <td>证件类型</td>
+                    <td>证件号</td>
+                </tr>
+                    #foreach($tourist in $!order.mainOrder.tcMainOrder.touristList)
+                    <tr>
+                        <td>$velocityCount</td>
+
+                        <td>
+                            #if($!order.mainOrder.tcMainOrder.bizOrder.orderType == 3500 ||$!order.mainOrder.tcMainOrder.bizOrder.orderType == 3600)
+                                $!tourist.contactName/$!tourist.firstName $!tourist.lastName
+                            #else
+                                $!tourist.contactName
+                            #end
+                        </td>
+                        <td>$!tourist.contactPhone</td>
+                        <td>
+                            #CERTIFICATES_TYPE($!tourist.certificatesType)
+                        </td>
+                        <td>$!tourist.certificatesNum</td>
+                    </tr>
+                    #end
+            </table>
+        </div>
+        <br><br>
+    #end
+
+    <!-- 订单商品信息 -->
     <div class="orderInfo">
-    	<div>订单商品信息</div>
-    	<div>
-    		<span>订单总额：￥$!utilNum.moneyTransform($!order.mainOrder.itemPrice_)</span>&nbsp;&nbsp;&nbsp;&nbsp;
-    		<span>已优惠：-￥$!utilNum.moneyTransform($!order.mainOrder.value)</span>&nbsp;&nbsp;&nbsp;&nbsp;
-    		<span>积分抵扣：-￥$!utilNum.moneyTransform($!order.mainOrder.userPointNum)</span>&nbsp;&nbsp;&nbsp;&nbsp;
-    		<span>实付金额：￥$!utilNum.moneyTransform($!order.actualTotalFee)</span>
-    	</div>
+        <div>订单商品信息</div>
+        <div>
+            <span>订单总额：￥$!utilNum.moneyTransform($!order.mainOrder.itemPrice_)</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span>已优惠：-￥$!utilNum.moneyTransform($!order.mainOrder.value)</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span>积分抵扣：-￥$!utilNum.moneyTransform($!order.mainOrder.userPointNum)</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span>实付金额：￥$!utilNum.moneyTransform($!order.actualTotalFee)</span>
+        </div>
         <table class="table table-hover">
             <tr>
                 <td colspan="2">商品</td>
@@ -192,17 +211,20 @@
                 <td>数量</td>
                 <td>交易状态</td>
             </tr>
-                #foreach($subOrder in $order.mainOrder.subOrderList)
-                <tr>
-                    <td></td>
+            #foreach($subOrder in $order.mainOrder.subOrderList)
+                <tr class="sub-order" suborderid="$subOrder.tcDetailOrder.bizOrder.bizOrderId"
+                    orderprice="$!utilNum.moneyTransform($!subOrder.tcDetailOrder.itemPrice)"
+                    realprice="$!utilNum.moneyTransform($!subOrder.itemPrice_)"
+                    ordernumber="$!subOrder.tcDetailOrder.bizOrder.buyAmount">
+                    <td>#* <input type="hidden"  value="$!utilNum.moneyTransform($!subOrder.subOrderTotalFee)" />*#</td>
                     <td>
                         <div class="goods-item">
                             <div class="t-img">
                                 <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!{utilImg.getImgUrl($!{subOrder.tcDetailOrder.itemPic}, 160)}">
                             </div>
                             <div class="t-msg">
-                                #ROUTE_ORDER_INFO_SKU($!order.mainOrder.orderTypeStr)
-                                
+                                #ROUTE_ORDER_INFO_SKU($!order.mainOrder.orderType)
+
                             </div>
                         </div>
                     </td>
@@ -212,7 +234,7 @@
                         </div>
                     </td>
                     <td>
-                        <div class="order-price">
+                        <div class="order-price real-price">
                             $!utilNum.moneyTransform($!subOrder.itemPrice_)
                         </div>
                     </td>
@@ -223,21 +245,22 @@
                     </td>
                     <td>
                         <div class="">
-                         	#if($!order.mainOrder.orderTypeStr == 'TOUR_LINE' || $!order.mainOrder.orderTypeStr == 'FREE_LINE' 
-                             	|| $!order.mainOrder.orderTypeStr == 'CITY_ACTIVITY'  
-                             	|| $!order.mainOrder.orderTypeStr == 'TOUR_LINE_ABOARD' || $!order.mainOrder.orderTypeStr == 'FREE_LINE_ABOARD')
-                         		#ORDER_BIZ_STATUS_LINE($order.mainOrder.orderStatusStr)
-                         	#elseif($!order.mainOrder.orderTypeStr == 'NORMAL')
-                            	#ORDER_BIZ_STATUS_NORMAL($order.mainOrder.orderStatusStr)
-                            #elseif($!order.mainOrder.orderTypeStr == 'SPOTS')
-                            	#ORDER_BIZ_STATUS_SPOTS($order.mainOrder.orderStatusStr)
-                            #elseif($!order.mainOrder.orderTypeStr == 'HOTEL' || $!order.mainOrder.orderTypeStr == 'HOTEL_OFFLINE')
-                            	#ORDER_BIZ_STATUS_HOTEL($order.mainOrder.orderStatusStr)
+                            #if($!order.mainOrder.orderType == 3100 || $!order.mainOrder.orderType == 3200
+                            || $!order.mainOrder.orderType == 3300
+                            || $!order.mainOrder.orderType == 3500 || $!order.mainOrder.orderType == 3600)
+                         		#ORDER_BIZ_STATUS_LINE($order.mainOrder.orderStatus)
+                         	#elseif($!order.mainOrder.orderType == 200)
+                                #ORDER_BIZ_STATUS_NORMAL($order.mainOrder.orderStatus)
+                            #elseif($!order.mainOrder.orderType == 1200)
+                                #ORDER_BIZ_STATUS_SPOTS($order.mainOrder.orderStatus)
+                            #elseif($!order.mainOrder.orderType == 1100 || $!order.mainOrder.orderType == 3400)
+                                #ORDER_BIZ_STATUS_HOTEL($order.mainOrder.orderStatus)
                             #end
                         </div>
                     </td>
                 </tr>
-                #end
+
+            #end
         </table>
     </div>
 
@@ -281,11 +304,15 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary">确定</button>
+                    <button type="button" class="b
+                    tn btn-primary">确定</button>
+
+                    <hidden>
                 </div>
             </div>
         </div>
     </div>
+
 
 
     <script>
@@ -327,138 +354,138 @@
             });
 
             //发货、确认
-		 $('.affirm').each(function () {
-            $(this).click(function () {
-            	var orderId = $(this).attr('orderId');
-	            layer.confirm('确认订单吗？', {icon: 3, title:'提示'}, function(index){
-	            	$.post('$!utilWebconfig.getActionDefaultFontPath()' + '/order/sellerSendGoods/', {'orderId': orderId},function(data) {
-		    			if(data.status == 200) {
-		    				layer.msg('操作成功', {
-		        				icon : 1,
-		        				time : 1000
-		        			});
-		    				window.location.reload();
-		    			} else {
-		    				layer.msg('操作失败', {
-		        				icon : 2,
-		        				time : 1000
-		        			});
-		    			}
-		    		},"json");
-					layer.close(index);
-	            
-	            });
+            $('.affirm').each(function () {
+                $(this).click(function () {
+                    var orderId = $(this).attr('orderId');
+                    layer.confirm('确认订单吗？', {icon: 3, title:'提示'}, function(index){
+                        $.post('$!utilWebconfig.getActionDefaultFontPath()' + '/order/sellerSendGoods/', {'orderId': orderId},function(data) {
+                            if(data.status == 200) {
+                                layer.msg('操作成功', {
+                                    icon : 1,
+                                    time : 1000
+                                });
+                                window.location.reload();
+                            } else {
+                                layer.msg('操作失败', {
+                                    icon : 2,
+                                    time : 1000
+                                });
+                            }
+                        },"json");
+                        layer.close(index);
+
+                    });
+                });
             });
-        });
-        
-        //查看评价
-        $('.assessment').each(function () {
-            $(this).click(function () {
-            	var orderId = $(this).attr('orderId');
-            	window.open(actionDefaultPath + '/order/assessmentList?orderNO=' + orderId) ;
+
+            //查看评价
+            $('.assessment').each(function () {
+                $(this).click(function () {
+                    var orderId = $(this).attr('orderId');
+                    window.open(actionDefaultPath + '/order/assessmentList?orderNO=' + orderId) ;
+                });
             });
-        });
-        
-        
-        //是否入驻
-        $('.isCheck').click(function () {
-        	var orderId = $(this).attr('orderId');
-        	
-        	layer.confirm('是否已入住？',{
-			  btn: ['确认入住','确认未入住'] //按钮
-			}, function(){
-                $.post('$!utilWebconfig.getActionDefaultFontPath()' + '/order/confirmCheckIn/', {'orderId': orderId},function(data) {
-		    			if(data.status == 200) {
-		    				layer.msg('操作成功', {
-		        				icon : 1,
-		        				time : 1000
-		        			});
-		    				window.location.reload();
-		    			} else {
-		    				layer.msg('操作失败', {
-		        				icon : 2,
-		        				time : 1000
-		        			});
-		    			}
-		    		},"json");
-					layer.close(index);
-				
-			}, function(){
-                 $.post('$!utilWebconfig.getActionDefaultFontPath()' + '/order/confirmCheckNot/', {'orderId': orderId},function(data) {
-		    			if(data.status == 200) {
-		    				layer.msg('操作成功', {
-		        				icon : 1,
-		        				time : 1000
-		        			});
-		    				window.location.reload();
-		    			} else {
-		    				layer.msg('操作失败', {
-		        				icon : 2,
-		        				time : 1000
-		        			});
-		    			}
-	    		},"json");
-				layer.close(index);
-			});
-        	
-        });
-        
-        
-        //发货
-        $(".sendGoods").click(function(){
-			var bizOrderId = $(this).attr("orderId");
-            layer.open({
-                type: 2,
-                btn: ['提交', '取消'],
-                title: '<label style="color:red;">发货提交后不可更改，请谨慎操作！</label>',
-                fix: false,
-                shadeClose: true,
-                maxmin: true,
-                area: ['800px', '230px'],
-                content: '$!utilWebconfig.getActionDefaultFontPath()/order/sendGoodsSearch?bizOrderId='+bizOrderId,
-                yes: function(index){
-					var dilog_iframe = $($(".layui-layer-content iframe")[0].contentWindow.document);
 
-                    var bizOrderId = dilog_iframe.find("#bizOrderId").val();
-                    var wlgs= dilog_iframe.find("#choosewlId option:selected").text();
-                    var wldh = dilog_iframe.find("#wldhId").val();
 
-					if("" == wlgs || null == wlgs || "请选择"==wlgs){
-                        layer.alert("请选择物流公司");
-                        return ;
-                    }else if(""==wldh||null == wldh ){
-                        layer.alert("请填写物流单号");
-                        return ;
-                    }else if(!/^[0-9A-Za-z]{10,20}$/.test(wldh)){
-                        layer.alert("物流单号由10-20位字母或数字组成");
-                        return ;
-					}
+            //是否入驻
+            $('.isCheck').click(function () {
+                var orderId = $(this).attr('orderId');
 
-                    $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/order/sendGoods/',
-							{'bizOrderId':bizOrderId,'expressCompany':wlgs,'expressNo':wldh} ,function(data){
-                        if(data.status == 200){
+                layer.confirm('是否已入住？',{
+                    btn: ['确认入住','确认未入住'] //按钮
+                }, function(){
+                    $.post('$!utilWebconfig.getActionDefaultFontPath()' + '/order/confirmCheckIn/', {'orderId': orderId},function(data) {
+                        if(data.status == 200) {
                             layer.msg('操作成功', {
-		        				icon : 1,
-		        				time : 1000
-		        			});
-		    				window.location.reload();
-                        }else{
+                                icon : 1,
+                                time : 1000
+                            });
+                            window.location.reload();
+                        } else {
                             layer.msg('操作失败', {
-		        				icon : 2,
-		        				time : 1000
-		        			});
+                                icon : 2,
+                                time : 1000
+                            });
                         }
-						setTimeout(function(){
-							layer.close(index);
-						},1000);
+                    },"json");
+                    layer.close(index);
 
-                    })
+                }, function(){
+                    $.post('$!utilWebconfig.getActionDefaultFontPath()' + '/order/confirmCheckNot/', {'orderId': orderId},function(data) {
+                        if(data.status == 200) {
+                            layer.msg('操作成功', {
+                                icon : 1,
+                                time : 1000
+                            });
+                            window.location.reload();
+                        } else {
+                            layer.msg('操作失败', {
+                                icon : 2,
+                                time : 1000
+                            });
+                        }
+                    },"json");
+                    layer.close(index);
+                });
 
-                    
-                }
             });
-		});
-        
+
+
+            //发货
+            $(".sendGoods").click(function(){
+                var bizOrderId = $(this).attr("orderId");
+                layer.open({
+                    type: 2,
+                    btn: ['提交', '取消'],
+                    title: '<label style="color:red;">发货提交后不可更改，请谨慎操作！</label>',
+                    fix: false,
+                    shadeClose: true,
+                    maxmin: true,
+                    area: ['800px', '230px'],
+                    content: '$!utilWebconfig.getActionDefaultFontPath()/order/sendGoodsSearch?bizOrderId='+bizOrderId,
+                    yes: function(index){
+                        var dilog_iframe = $($(".layui-layer-content iframe")[0].contentWindow.document);
+
+                        var bizOrderId = dilog_iframe.find("#bizOrderId").val();
+                        var wlgs= dilog_iframe.find("#choosewlId option:selected").val();
+                        var wldh = dilog_iframe.find("#wldhId").val();
+
+                        if("" == wlgs || null == wlgs || "0"==wlgs){
+                            layer.alert("请选择物流公司");
+                            return ;
+                        }else if(""==wldh||null == wldh ){
+                            layer.alert("请填写物流单号");
+                            return ;
+                        }else if(!/^[0-9A-Za-z]{10,20}$/.test(wldh)){
+                            layer.alert("物流单号由10-20位字母或数字组成");
+                            return ;
+                        }
+
+                        $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/order/sendGoods/',
+                                {'bizOrderId':bizOrderId,'expressCompany':wlgs,'expressNo':wldh} ,function(data){
+                                    if(data.status == 200){
+                                        layer.msg('操作成功', {
+                                            icon : 1,
+                                            time : 1000
+                                        });
+                                        window.location.reload();
+                                    }else{
+                                        layer.msg('操作失败', {
+                                            icon : 2,
+                                            time : 1000
+                                        });
+                                    }
+                                    setTimeout(function(){
+                                        layer.close(index);
+                                    },1000);
+
+                                })
+
+
+                    }
+                });
+            });
+
 
             //取消订单
             $(".cancel").click(function(){
@@ -477,10 +504,10 @@
                 })
             });
             //编辑卖家备注
-			 $(".save").click(function(){
-			 
+            $(".save").click(function(){
+
                 $.post('$!utilWebconfig.getActionDefaultFontPath()' + '/order/updateOrderDetail/', {orderId: $(this).attr('orderId'),sellerRemark:$("#customerServiceNote").val()}, function (data) {
-                   	
+
                     if(data.status == 200){
                         var msg = new $.zui.Messager('操作成功', {placement: 'center',type:'success',time:'1000'});
                         msg.show();
@@ -488,11 +515,93 @@
                         var msg = new $.zui.Messager('操作失败', {placement: 'center',type:'warning',time:'1000'});
                         msg.show();
                     }
-                    
+
                 })
-                   return false;
+                return false;
             });
 
+            $(".change-price").on("click",function() {
+                var orderid = $(this).attr("id");
+                var iframeWin;
+                layer.open({
+                    type: 2,
+                    closeBtn: 1,
+                    btn: ['确定', '取消'],
+                    fix: false,
+                    title: false,
+                    skin: "my-layer-skin",
+                    area: '800px',
+                    content: "$utilWebconfig.getStaticResourcesPath()/order/changepriceView?orderid=" + orderid + "&r=" + Math.random(),
+                    success: function(layero, index) {
+                        iframeWin = window[layero.find('iframe')[0]['name']];
+                    },
+                    yes: function(index) {
+                        var result = iframeWin.page.isValid();
+                        if (!result.isValid) {
+                            layer.msg(result.msg, {
+                                icon: 2,
+                                time: 1500
+                            });
+                            return false;
+                        }
+                        var newOrder = iframeWin.page.getChangedResult();
+                        var orderPriceQuery= {orderJson:JSON.stringify(newOrder)};
+                        $.ajax({
+                            url: '$!utilWebconfig.getActionDefaultFontPath()' + '/order/orderChangePrice/',
+                            type: "post",
+                            data: orderPriceQuery,
+                            success: function(res) {
+                                if (res.success) {
+                                    //刷新页面
+                                    layer.msg("修改成功。",{
+                                        icon:1,
+                                        time:1500
+                                    });
+                                    window.location.reload();
+                                }else{
+                                    layer.msg("修改订单价格失败。", {
+                                        icon: 2,
+                                        time: 1500
+                                    });
+                                }
+                            },
+                            error: function() {
+                                layer.msg("修改订单价格失败。", {
+                                    icon: 2,
+                                    time: 1500
+                                });
+                            }
+                        });
+                        return false;
+                    },
+                    cancel: function(index) {
+                        layer.close(index);
+                    }
+                });
+            });
         });
+
+        function getOrderInfo(orderid) {
+            var mainOrder = $("#"+orderid);
+            var order = {
+                main_order_id: mainOrder.attr("id"),
+                main_order_price: mainOrder.attr("orderprice"),
+                son_order_list: []
+            };
+
+            order.son_order_list = $.map($("tr.sub-order"), function(tr) {
+                var sonOrder = $(tr);
+                return {
+                    son_order_id: sonOrder.attr("suborderid"),
+                    son_order_product_name: sonOrder.find(".t-name").first().text().replace(/[\s\r\n]/g, ''),
+                    son_order_price: sonOrder.attr("orderprice"),
+                    son_order_real_price: sonOrder.attr("realprice"),
+                    son_order_number: sonOrder.attr("ordernumber")
+
+                };
+            });
+
+            return order;
+        }
     </script>
 </div>

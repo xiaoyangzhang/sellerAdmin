@@ -12,12 +12,14 @@ public class SubOrder {
     private long executeTime;
     private String activityTime;
     private String vTxt;
-    //优惠后的金额
+    //优惠后的金额(单价)
     private long itemPrice_;
     
     private String orderStatusStr;
     
     private String orderTypeStr;
+
+    private long subOrderTotalFee;//子订单原价
 
     public SubOrder(){}
 
@@ -108,4 +110,11 @@ public class SubOrder {
 		this.orderTypeStr = orderTypeStr;
 	}
     
+    public long getSubOrderTotalFee() {
+        return subOrderTotalFee;
+    }
+
+    public void setSubOrderTotalFee(long subOrderTotalFee) {
+        this.subOrderTotalFee = subOrderTotalFee;
+    }
 }

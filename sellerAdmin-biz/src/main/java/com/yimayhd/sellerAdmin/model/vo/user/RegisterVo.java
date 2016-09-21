@@ -24,6 +24,20 @@ public class RegisterVo implements Serializable {
 	private String password;
 	
 	private String verifyCode;
+	/**
+	 *是否会员
+	 */
+	private Boolean VIP;
+	
+	
+
+	public Boolean getVIP() {
+		return VIP;
+	}
+
+	public void setVIP(Boolean vIP) {
+		VIP = vIP;
+	}
 
 	public String getNickname() {
 		return nickname;

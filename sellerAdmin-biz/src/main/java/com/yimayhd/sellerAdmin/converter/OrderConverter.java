@@ -8,6 +8,9 @@ import java.util.List;
 import com.yimayhd.commentcenter.client.dto.RatePageListDTO;
 import com.yimayhd.commentcenter.client.result.ComRateResult;
 import com.yimayhd.ic.client.model.enums.PropertyType;
+import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.enums.ExpressCompanyEnum;
+import com.yimayhd.sellerAdmin.util.MatcherUtil;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
@@ -199,6 +202,8 @@ public class OrderConverter {
 		}
         //订单类型
         mainOrder.setOrderType(tcBizOrder.getOrderType());
+        long mainOrderTotalFee = BizOrderUtil.getMainOrderTotalFee(tcBizOrder.getBizOrderDO());//主订单金额
+        mainOrder.setMainOrderTotalFee(mainOrderTotalFee);
         
         for (OrderBizType orderBizType : OrderBizType.values()) {
         	if(tcBizOrder.getOrderType() == orderBizType.getBizType()){
@@ -230,6 +235,23 @@ public class OrderConverter {
 //        }else if (PayStatus.REFUNDED.getStatus() == payStatus || PayStatus.NOT_PAY_CLOSE.getStatus() == payStatus ){
 //            mainOrder.setOrderShowState(OrderShowStatus.TRADE_CLOSE.getStatus());//关闭
 //        }
+
+        String expressCompany  = tcMainOrder.getLogisticsOrderDO()==null?"":tcMainOrder.getLogisticsOrderDO().getExpressCompany();
+        if(StringUtils.isNotBlank(expressCompany)){
+           boolean isOldInfo = MatcherUtil.isRegExpStr(Constant.EXPRESS_COMPANY_REG,expressCompany);
+            if(isOldInfo){
+                // 旧信息,EMS,中文名称
+                LOG.info(" is old company "+expressCompany);
+                mainOrder.setExpressCompanyName(tcMainOrder.getLogisticsOrderDO().getExpressCompany());
+            }else{
+                LOG.info(" is new company "+expressCompany);
+                mainOrder.setExpressCompanyName(ExpressCompanyEnum.valueOfName(expressCompany).getDesc());//设置物流公司名称
+            }
+
+
+        }
+
+
         return mainOrder;
     }
 
@@ -266,7 +288,7 @@ public class OrderConverter {
 
                 }
                 //订单实付总额
-                long total = BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder().getBizOrderDO());
+                long total = BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder().getBizOrderDO());//子订单实付金额
                 //获取子订单实付金额
                 if(tcDetailOrder.getBizOrder().getBuyAmount() > 0){
                 	long act = total/tcDetailOrder.getBizOrder().getBuyAmount();
@@ -286,6 +308,8 @@ public class OrderConverter {
 				}
                 BizOrderUtil.getSubOrderTotalFee(tcDetailOrder.getBizOrder().getBizOrderDO());
                 
+                long subOrderTotalFee =BizOrderUtil.getSubOrderTotalFee(tcDetailOrder.getBizOrder().getBizOrderDO());//子订单原价
+                subOrder.setSubOrderTotalFee(subOrderTotalFee);
                 subOrderList.add(subOrder);
             }
             return new MainOrder(tcMainOrder,subOrderList);

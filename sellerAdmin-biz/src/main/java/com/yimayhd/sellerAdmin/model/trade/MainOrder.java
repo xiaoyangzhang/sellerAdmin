@@ -42,7 +42,12 @@ public class MainOrder {
     private long userPointNum;//使用的积分
     
     private long itemPrice_;//主订单实付金额
-    
+
+    private long mainOrderTotalFee;//主订单原价
+
+    private String expressCompanyName;//物流公司名称
+
+
 
 
 	public int getOrderType() {
@@ -178,4 +183,19 @@ public class MainOrder {
 		this.orderTypeStr = orderTypeStr;
 	}
     
+    public long getMainOrderTotalFee() {
+        return mainOrderTotalFee;
+    }
+
+    public void setMainOrderTotalFee(long mainOrderTotalFee) {
+        this.mainOrderTotalFee = mainOrderTotalFee;
+    }
+
+    public String getExpressCompanyName() {
+        return expressCompanyName;
+    }
+
+    public void setExpressCompanyName(String expressCompanyName) {
+        this.expressCompanyName = expressCompanyName;
+    }
 }

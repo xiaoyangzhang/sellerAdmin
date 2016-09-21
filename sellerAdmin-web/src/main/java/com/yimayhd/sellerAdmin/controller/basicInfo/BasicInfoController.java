@@ -5,23 +5,31 @@ package com.yimayhd.sellerAdmin.controller.basicInfo;
  * @author zhangxy
  */
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
+import com.yimayhd.membercenter.client.query.MerchantCategoryQueryDTO;
+import com.yimayhd.membercenter.client.service.examine.MerchantApplyService;
+import org.apache.commons.lang3.StringUtils;
+import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
+import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
+import com.yimayhd.sellerAdmin.enums.MerchantNameType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.membercenter.client.domain.talent.TalentInfoDO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
@@ -70,9 +78,10 @@ public class BasicInfoController extends BaseController {
 	
 	@Resource
 	private TalentInfoDealService talentInfoDealService;
+	@Resource
+	private MerchantApplyService merchantApplyService;
 	
-	
-	
+
 	/**
 	 * 跳转到商户基本信息页面
 	 * @param model
@@ -92,10 +101,11 @@ public class BasicInfoController extends BaseController {
 			}
 			//判断权限
 			model.addAttribute("nickName", user.getNickname());
-			
 			BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(user.getId(), Constant.DOMAIN_JIUXIU);
 			if(meResult.isSuccess() && null != meResult.getValue()){
+				
 				model.addAttribute("id", meResult.getValue().getId());
+				model.addAttribute("sellerId", meResult.getValue().getSellerId());
 				model.addAttribute("name",meResult.getValue().getName());
 				model.addAttribute("address",meResult.getValue().getAddress());
 				model.addAttribute("merchantName",meResult.getValue().getName());
@@ -107,8 +117,26 @@ public class BasicInfoController extends BaseController {
 				}
 				model.addAttribute("merchantPrincipalTel", meResult.getValue().getMerchantPrincipalTel());
 				model.addAttribute("serviceTel", meResult.getValue().getServiceTel());
-				
+				model.addAttribute("merchantDesc", meResult.getValue().getTitle());
+				if (StringUtils.isBlank(meResult.getValue().getBackgroudImage()) || StringUtils.isBlank(meResult.getValue().getServiceTel()) || StringUtils.isBlank(meResult.getValue().getLogo()) ) {
+					return "/system/seller/merchant_head";
+				}
+				/**添加协议下载***/
+				Map<Integer,String> merchantNameTypeMap = new TreeMap<Integer,String>(new Comparator<Integer>() {
+					public int compare(Integer obj1, Integer obj2) {
+						// 降序排序
+						return obj2.compareTo(obj1);
+					}
+				});
+				merchantNameTypeMap.put(MerchantNameType.ALL_USER.getType(),MerchantNameType.ALL_USER.getScheme());
+				merchantNameTypeMap.put(MerchantNameType.TOUR_COR.getType(),MerchantNameType.TOUR_COR.getScheme());
+				merchantNameTypeMap.put(MerchantNameType.HOTEL.getType(),MerchantNameType.HOTEL.getScheme());
+				merchantNameTypeMap.put(MerchantNameType.SCENIC.getType(),MerchantNameType.SCENIC.getScheme());
+				merchantNameTypeMap.put(MerchantNameType.CITY_COR.getType(),MerchantNameType.CITY_COR.getScheme());
+				model.addAttribute("merchantNameTypeMap", merchantNameTypeMap);
 			}
+
+			//type
 			return "/system/seller/merchant";
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -119,13 +147,29 @@ public class BasicInfoController extends BaseController {
 	
 	/**
 	 * 保存商户基本信息
-	 * @param merchantDO
+	 * @param
 	 * @return
 	 */
 	@RequestMapping(value = "/merchant/saveBasic",method=RequestMethod.POST)
 	@ResponseBody
-	public BizResult<String> saveBusinessBasic(MerchantInfoVo basicInfo,HttpServletResponse response){
+	public BizResult<String> saveBusinessBasic(MerchantInfoVo basicInfo,HttpServletResponse response,HttpServletRequest request){
 		BizResult<String> result = new BizResult<String>();
+		UserDO user = sessionManager.getUser(request);
+		if (user != null && user.getId() != basicInfo.getSellerId()) {
+			
+//			String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
+//			try {
+//				result.setSuccess(false);
+//				result.setValue(url);
+//				return result;
+//			} catch (Exception e) {
+//				log.error("no authority to operate");
+//			}
+			result.setSuccess(false);
+			result.setMsg("对不起，请重新登录后再进行此操作");
+			return result;
+			
+		}
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());
@@ -211,8 +255,26 @@ public class BasicInfoController extends BaseController {
 				pictures.add("");
 			}
 			model.addAttribute("talentInfo", talentInfoDTO);
+			TalentInfoDO talentInfoDO = talentInfoDTO.getTalentInfoDO();
+			if (StringUtils.isBlank(talentInfoDO.getAvatar()) || StringUtils.isBlank(talentInfoDO.getReallyName()) || StringUtils.isBlank(talentInfoDO.getServeDesc()) || 
+					talentInfoDO.getCityCode() <= 0 || talentInfoDO.getProvinceCode() <= 0 || talentInfoDO.getBirthday() == null || 
+					talentInfoDO.getGender() <= 0 || CollectionUtils.isEmpty(talentInfoDO.getPictures()) || 
+					CollectionUtils.isEmpty(talentInfoDO.getServiceTypes()) || talentInfoDTO.getPictureTextDTO() == null ) {
+				return "/system/talent/talent";
+			}
 		}
-		
+		Map<Integer,String> merchantNameTypeMap = new TreeMap<Integer,String>(new Comparator<Integer>() {
+			public int compare(Integer obj1, Integer obj2) {
+				// 降序排序
+				return obj2.compareTo(obj1);
+			}
+		});
+		merchantNameTypeMap.put(MerchantNameType.ALL_USER.getType(),MerchantNameType.ALL_USER.getScheme());
+		merchantNameTypeMap.put(MerchantNameType.TOUR_COR.getType(),MerchantNameType.TOUR_COR.getScheme());
+		merchantNameTypeMap.put(MerchantNameType.HOTEL.getType(),MerchantNameType.HOTEL.getScheme());
+		merchantNameTypeMap.put(MerchantNameType.SCENIC.getType(),MerchantNameType.SCENIC.getScheme());
+		merchantNameTypeMap.put(MerchantNameType.CITY_COR.getType(),MerchantNameType.CITY_COR.getScheme());
+		model.addAttribute("merchantNameTypeMap", merchantNameTypeMap);
 		return "system/talent/eredar";
 //		} catch (Exception e) {
 //			log.error(e.getMessage(),e);
@@ -232,6 +294,22 @@ public class BasicInfoController extends BaseController {
 	@ResponseBody
 	public BizResult<String> addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
 		BizResult<String> bizResult = new BizResult<>();
+		UserDO user = sessionManager.getUser(request);
+		if (user != null && user.getId() != vo.getId()) {
+			
+//			String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
+//			try {
+//				bizResult.setSuccess(false);
+//				bizResult.setValue(url);
+//				return bizResult;
+//			} catch (Exception e) {
+//				log.error("no authority to operate");
+//			}
+			bizResult.setSuccess(false);
+			bizResult.setMsg("对不起，请重新登录后再进行此操作");
+			return bizResult;
+			
+		}
 		InfoQueryDTO info = new InfoQueryDTO();
 		info.setDomainId(Constant.DOMAIN_JIUXIU);
 		info.setSellerId(sessionManager.getUserId());

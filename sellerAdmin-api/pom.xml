@@ -88,7 +88,9 @@
 							<!-- 需要上传的文件 -->
 							<fromFile>target/sellerAdmin-api.jar</fromFile>
 							<!-- 使用scp协议上传 -->
-							<url>scp://192.168.0.36/root/api/api</url>
+							<!-- <url>scp://192.168.0.36/root/api/api</url> -->
+							<!-- 2套 -->
+							<url>scp://192.168.1.50/home/admin/api</url>
 							<!-- 上传后要执行的ssh命令， 不要换行-->
 							<commands>
 								<!-- shutdown tomcat -->

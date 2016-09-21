@@ -40,6 +40,7 @@
 
 	<bean id="publishItemRepo" class="com.yimayhd.sellerAdmin.repo.PublishItemRepo" />
 
+	<bean id="tcTradeServiceRepo" class="com.yimayhd.sellerAdmin.repo.TcTradeServiceRepo" />
 
 
 </beans>

@@ -96,14 +96,14 @@
 					var $html = '';
 					$html += '<table class="table"><tbody>'
 					for (var i=65;i<91;i++ ) {
-						var myLetter = String.fromCharCode(i);								
-						var sameProArr = inlandProArr.filter(function(a){if(a.destinationVO.simpleCode==myLetter) return a;});									
+						var myLetter = String.fromCharCode(i);
+						var sameProArr = inlandProArr.filter(function(a){if(a.destinationVO.simpleCode==myLetter) return a;});
 						for (var j=0;j<sameProArr.length;j++){
 							$html += '<tr>';
 							if (j == 0) $html += '<td rowspan='+sameProArr.length+' class="tdl">'+myLetter+'</td>';
-							$html += '<td class="tdp">'+sameProArr[j].destinationVO.name+'</td>';									
+							$html += '<td class="tdp">'+sameProArr[j].destinationVO.name+'</td>';
 							var cityArr = sameProArr[j].child;
-							$html += '<td>';									
+							$html += '<td>';
 							for (var k=0;k<cityArr.length;k++) {
 								var singleCity = cityArr[k].destinationVO;
 								$html += '<label><input type="checkbox" class="city ck"  dest-id='+ singleCity.id +' dest-code='+ singleCity.code +' dest-name='+ singleCity.name +'>'+ singleCity.name +'</label>';

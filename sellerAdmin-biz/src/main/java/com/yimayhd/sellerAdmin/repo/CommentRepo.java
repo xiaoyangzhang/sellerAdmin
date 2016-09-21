@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.yimayhd.commentcenter.client.enums.BaseStatus;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -267,6 +268,7 @@ public class CommentRepo {
 		TagRelationDomainDTO tagRelationDomainDTO = new TagRelationDomainDTO();
 		tagRelationDomainDTO.setDomain(Constant.DOMAIN_JIUXIU);
 		tagRelationDomainDTO.setOutType(tagType.name());
+		tagRelationDomainDTO.setStatus(BaseStatus.AVAILABLE.getType());
 		RepoUtils.requestLog(log, "comTagCenterServiceRef.selectTagListByTagType", tagRelationDomainDTO);
 		BaseResult<List<ComTagDO>> baseResult = comTagCenterServiceRef.getTagListByTagType(tagRelationDomainDTO);
 		RepoUtils.resultLog(log, "comTagCenterServiceRef.selectTagListByTagType", baseResult);

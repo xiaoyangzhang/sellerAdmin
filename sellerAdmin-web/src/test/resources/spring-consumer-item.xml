@@ -23,8 +23,7 @@
 		<property name="check" value="${consumer.dubbo.check}"/>
         <property name="retries" value="${dubbo.retries}"/>
 		<property name="version" value="${consumer.dubbo.item.version}" />
-<!-- 		<property name="group" value="xujianjun" />
- -->	</bean>
+	</bean>
 	<bean id="itemPublishServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
 		<property name="interface"
 				  value="com.yimayhd.ic.client.service.item.ItemPublishService" />
@@ -34,7 +33,6 @@
 		<property name="check" value="${consumer.dubbo.check}"/>
         <property name="retries" value="${dubbo.retries}"/>
 		<property name="version" value="${consumer.dubbo.item.version}" />
-		<!-- <property name="group" value="xujianjun" /> -->
 	</bean>
 
 	<bean id="hotelServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">

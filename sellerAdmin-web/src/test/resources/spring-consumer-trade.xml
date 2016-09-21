@@ -54,6 +54,7 @@
         <property name="retries" value="${dubbo.retries}"/>
         <property name="version" value="${consumer.dubbo.trade.version}"/>
     </bean>
+    
     <bean id="lgService" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.lgcenter.client.service.LgService"/>
         <property name="application" ref="dubboApplicationConfig"/>

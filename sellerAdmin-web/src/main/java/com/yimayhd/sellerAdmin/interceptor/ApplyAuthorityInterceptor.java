@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
-import com.yimayhd.membercenter.enums.ExamineStatus;
 import com.yimayhd.sellerAdmin.biz.TalentBiz;
 import com.yimayhd.sellerAdmin.helper.AuthorityHelper;
 import com.yimayhd.sellerAdmin.helper.UrlHelper;
@@ -20,7 +18,7 @@ import com.yimayhd.user.session.manager.SessionManager;
 
 public class ApplyAuthorityInterceptor extends HandlerInterceptorAdapter {
 
-	private static final Logger logger = LoggerFactory.getLogger("UserContextInterceptor");
+	private static final Logger logger = LoggerFactory.getLogger("BasicInfoAuthorityInterceptor");
 
 	@Autowired
 	private SessionManager sessionManager;

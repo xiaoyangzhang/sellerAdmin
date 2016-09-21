@@ -66,6 +66,7 @@ public class WebReturnCode implements Serializable {
 	public final static WebReturnCode QUERY_MERCHANT_CATEGORY_SCOPE_FAILED = new WebReturnCode(24003006, "获取商家身份对应经营范围失败");
 	public final static WebReturnCode QUERY_MERCHANT_CATEGORY_QUALIFICATION_FAILED = new WebReturnCode(24003007, "获取商家身份对应的资质失败");
 	public final static WebReturnCode UPLOAD_QUALIFICATION_FAILED = new WebReturnCode(24003008, "请上传必填的资质");
+	public final static WebReturnCode QUERY_MERCHANT_FAILED = new WebReturnCode(24003009, "获取该店铺信息失败");
 	/***************************************** 达人相关 ********************************************************/
 	public static final WebReturnCode TALENT_BASIC_SAVE_FAILURE = new WebReturnCode(24002004, "达人基本信息保存失败");
 	public static final WebReturnCode TALENT_BASIC_EDIT_FAILURE = new WebReturnCode(24002005, "达人基本信息修改失败");

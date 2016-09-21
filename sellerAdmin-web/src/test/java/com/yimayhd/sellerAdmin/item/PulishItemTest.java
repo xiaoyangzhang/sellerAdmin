@@ -33,10 +33,11 @@ public class PulishItemTest extends BaseTest {
 	public void testPublishItem() {
 //		publishItem();
 //		testWhiteList();
-		testGetPublishItem();
+//		testGetPublishItem();
 //		testGetItemManagementList();
 //		getItemDetail();
 //		testUpdateState();
+		testItemProperties();
 	}
 
 	private void publishItem() {

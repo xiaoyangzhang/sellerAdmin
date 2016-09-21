@@ -5,6 +5,9 @@ import java.util.List;
 import com.yimayhd.commentcenter.client.result.ComRateResult;
 import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
 import com.yimayhd.sellerAdmin.base.PageVO;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.model.order.OrderPriceQuery;
+import com.yimayhd.sellerAdmin.model.order.OrderPrizeDTO;
 import com.yimayhd.sellerAdmin.model.query.AssessmentListQuery;
 import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
 import com.yimayhd.sellerAdmin.model.trade.JXComRateResult;
@@ -89,5 +92,13 @@ public interface OrderService {
 	 * @return
 	 */
 	TcSingleQueryResult searchOrderById(long bizOrderId);
+
+	/**
+	 * 订单改价
+	 * @param orderPriceQuery
+	 * @return
+     */
+	 WebResult<OrderPrizeDTO> orderChangePrice( OrderPriceQuery orderPriceQuery);
+
 
 }
