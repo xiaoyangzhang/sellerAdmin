@@ -20,8 +20,7 @@
 	   <span>
      		订单状态：
        </span>
-<<<<<<< HEAD
-       #if($order.mainOrder.orderTypeStr == 'TOUR_LINE' || $order.mainOrder.orderTypeStr == 'FREE_LINE' 
+       #if($order.mainOrder.orderTypeStr == 'TOUR_LINE' || $order.mainOrder.orderTypeStr == 'FREE_LINE'
         || $order.mainOrder.orderTypeStr == 'CITY_ACTIVITY' 
         || $order.mainOrder.orderTypeStr == 'TOUR_LINE_ABOARD' || $order.mainOrder.orderTypeStr == 'FREE_LINE_ABOARD')
         
@@ -36,21 +35,6 @@
 	        #ORDER_BIZ_STATUS_D_HOTEL($order.mainOrder.orderStatusStr)
 	   #end
 	      
-=======
-        #if($order.mainOrder.orderType == 3100 || $order.mainOrder.orderType == 3200 || $order.mainOrder.orderType == 3300
-        || $order.mainOrder.orderType == 3500 || $order.mainOrder.orderType == 3600)
-
-            #ORDER_BIZ_STATUS_M($order.mainOrder.orderStatus)
-        #elseif($order.mainOrder.orderType == 200)
-            #ORDER_BIZ_STATUS_M($order.mainOrder.orderStatus)
-        #elseif($order.mainOrder.orderType == 1200)
-            #ORDER_BIZ_STATUS_M($order.mainOrder.orderStatus)
-        #elseif($order.mainOrder.orderType == 1100)
-            #ORDER_BIZ_STATUS_M($order.mainOrder.orderStatus)
-        #elseif($order.mainOrder.orderType == 3400)
-            #ORDER_BIZ_STATUS_D_HOTEL($order.mainOrder.orderStatus)
-        #end
->>>>>>> master
     </div>
     <br><br>
     <div>
