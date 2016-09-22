@@ -137,8 +137,7 @@ public class OrderServiceImpl implements OrderService {
 		List<MainOrder> mainOrderList = new ArrayList<>();
 		long userId = 0;
 		if (StringUtils.isNotEmpty(orderListQuery.getBuyerPhone())) {
-			BaseResult<UserDO> result = userServiceRef
-					.getUserByMobile(orderListQuery.getBuyerPhone());
+			BaseResult<UserDO> result = userServiceRef.getUserByMobile(orderListQuery.getBuyerPhone());
 			if (result.getValue() != null) {
 				userId = result.getValue().getId();
 			} else {
@@ -148,8 +147,7 @@ public class OrderServiceImpl implements OrderService {
 		}
 		if (userId == 0
 				&& StringUtils.isNotEmpty(orderListQuery.getBuyerName())) {
-			BaseResult<List<UserDO>> result = userServiceRef
-					.getUserByNickname(orderListQuery.getBuyerName());
+			BaseResult<List<UserDO>> result = userServiceRef.getUserByNickname(orderListQuery.getBuyerName());
 			if (result.getValue() != null
 					&& !CollectionUtils.isEmpty(result.getValue())) {
 				List<UserDO> userDOList = result.getValue();

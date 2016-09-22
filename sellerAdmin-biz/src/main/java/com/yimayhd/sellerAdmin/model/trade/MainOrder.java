@@ -43,6 +43,7 @@ public class MainOrder {
 
     private String expressCompanyName;//物流公司名称
 
+    private long mainOrderTotalChangeFee;//异常流订单实付金额
 
 
 
@@ -177,5 +178,13 @@ public class MainOrder {
 
     public void setExpressCompanyName(String expressCompanyName) {
         this.expressCompanyName = expressCompanyName;
+    }
+
+    public long getMainOrderTotalChangeFee() {
+        return mainOrderTotalChangeFee;
+    }
+
+    public void setMainOrderTotalChangeFee(long mainOrderTotalChangeFee) {
+        this.mainOrderTotalChangeFee = mainOrderTotalChangeFee;
     }
 }

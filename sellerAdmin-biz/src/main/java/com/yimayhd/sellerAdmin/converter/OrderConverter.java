@@ -196,7 +196,8 @@ public class OrderConverter {
         mainOrder.setOrderType(tcBizOrder.getOrderType());
         long mainOrderTotalFee = BizOrderUtil.getMainOrderTotalFee(tcBizOrder.getBizOrderDO());//主订单金额
         mainOrder.setMainOrderTotalFee(mainOrderTotalFee);
-        
+        long mainOrderTotalChangeFee  = BizOrderUtil.getActualAmountPaid(tcBizOrder.getBizOrderDO());//订单实际支付金额
+        mainOrder.setMainOrderTotalChangeFee(mainOrderTotalChangeFee);
 //        if (payStatus == PayStatus.NOT_PAY.getStatus()){
 //            mainOrder.setOrderShowState(OrderShowStatus.NOTING.getStatus());//待付款
 //            if(tcBizOrder.getOrderType() == OrderBizType.NORMAL.getBizType()){

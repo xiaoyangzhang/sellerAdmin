@@ -118,7 +118,7 @@
                     <th width="10%">类型</th>
                     <th width="12%">买家</th>
                     <th width="9%">订单状态</th>
-                    <th width="8%">订单金额</th>
+                    <th width="8%">实收款</th>
                     <th style="width:77px">备注</th>
                     <th width="8%">操作</th>
                 </tr>
@@ -179,8 +179,9 @@
                                     </div>
                                 </td>
                                 <td rowspan="$!size" class="middle">
-                                    <div class="main-order-price" price="$!utilNum.moneyTransform($!order.tcMainOrder.totalFee)">
-                                        $!utilNum.moneyTransform($!order.tcMainOrder.totalFee)<br/>
+                                    <div class="main-order-price" price="$!utilNum.moneyTransform($!order.mainOrderTotalChangeFee)">
+                                        #*$!utilNum.moneyTransform($!order.tcMainOrder.totalFee)<br/>*#
+                                            $!utilNum.moneyTransform($!order.mainOrderTotalChangeFee)<br/>
                                       		#if($!order.value > 0) 
                                       			<span class="fullCut">满$!utilNum.moneyTransform($!order.requirement)<br/>减$!utilNum.moneyTransform($!order.value)</span>
                                       		#end
