@@ -161,13 +161,13 @@ public class MerchantConverter {
 		vo.setSaleLicenseNumber(examineInfoDTO.getSaleLicenseNumber());
 		vo.setTaxRegisterNumber(examineInfoDTO.getTaxRegisterNumber());
 		vo.setExaminStatus(examineInfoDTO.getExaminStatus());
-		if (StringUtils.isBlank(examineInfoDTO.getAccountType())) {
+//		if (StringUtils.isBlank(examineInfoDTO.getAccountType())) {
+//			
+//			vo.setAccountType("0");
+//		}else {
 			
-			vo.setAccountType("0");
-		}else {
-			
-			vo.setAccountType(examineInfoDTO.getAccountType());
-		}
+		vo.setAccountType(examineInfoDTO.getAccountType());
+		//}
 		vo.setOpenerCard(examineInfoDTO.getOpenerCard());
 		vo.setSettlementCard(examineInfoDTO.getSettlementCard());
 		vo.setOpenerTel(examineInfoDTO.getOpenerTel());
