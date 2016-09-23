@@ -223,7 +223,7 @@
 											
 										<i class="questionPrice">
                                         	<div class="question-box">
-                                            	实付金额与订单价格不符，订单价格¥xxx”，此处XXX为改价后价格
+                                            	实付金额与订单价格不符，订单价格¥$!utilNum.moneyTransform($!order.tcMainOrder.totalFee)
                                         	</div>
                                     	</i>
                                     </div>
@@ -533,7 +533,12 @@
 	    },function () {
 	    		$(this).find('.bz-box').hide();
 	    });
-
+        // 改价显示订单原价
+        $('.questionPrice').hover(function () {
+            $(this).find('.question-box').show();
+        },function () {
+            $(this).find('.question-box').hide();
+        });
         $(".change-price").click(function() {
             var orderid = $(this).attr("orderid");
             var iframeWin;
