@@ -207,7 +207,7 @@
                                 <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!{utilImg.getImgUrl($!{subOrder.tcDetailOrder.itemPic}, 160)}">
                             </div>
                             <div class="t-msg">
-                                #ROUTE_ORDER_INFO_SKU($!order.mainOrder.orderType)
+                                #ROUTE_ORDER_INFO_SKU($!order.mainOrder.orderTypeStr)
 
                             </div>
                         </div>
@@ -229,16 +229,16 @@
                     </td>
                     <td>
                         <div class="">
-                            #if($!order.mainOrder.orderType == 3100 || $!order.mainOrder.orderType == 3200
-                            || $!order.mainOrder.orderType == 3300
-                            || $!order.mainOrder.orderType == 3500 || $!order.mainOrder.orderType == 3600)
-                         		#ORDER_BIZ_STATUS_LINE($order.mainOrder.orderStatus)
-                         	#elseif($!order.mainOrder.orderType == 200)
-                                #ORDER_BIZ_STATUS_NORMAL($order.mainOrder.orderStatus)
-                            #elseif($!order.mainOrder.orderType == 1200)
-                                #ORDER_BIZ_STATUS_SPOTS($order.mainOrder.orderStatus)
-                            #elseif($!order.mainOrder.orderType == 1100 || $!order.mainOrder.orderType == 3400)
-                                #ORDER_BIZ_STATUS_HOTEL($order.mainOrder.orderStatus)
+                            #if($!order.mainOrder.orderTypeStr == 'TOUR_LINE' || $!order.mainOrder.orderTypeStr == 'FREE_LINE'
+                            || $!order.mainOrder.orderTypeStr == 'CITY_ACTIVITY'
+                            || $!order.mainOrder.orderTypeStr == 'TOUR_LINE_ABOARD' || $!order.mainOrder.orderTypeStr == 'FREE_LINE_ABOARD')
+                         		#ORDER_BIZ_STATUS_LINE($order.mainOrder.orderStatusStr)
+                         	#elseif($!order.mainOrder.orderTypeStr == 'NORMAL')
+                                #ORDER_BIZ_STATUS_NORMAL($order.mainOrder.orderStatusStr)
+                            #elseif($!order.mainOrder.orderTypeStr == 'SPOTS')
+                                #ORDER_BIZ_STATUS_SPOTS($order.mainOrder.orderStatusStr)
+                            #elseif($!order.mainOrder.orderTypeStr == 'HOTEL' || $!order.mainOrder.orderTypeStr == 'HOTEL_OFFLINE')
+                                #ORDER_BIZ_STATUS_HOTEL($order.mainOrder.orderStatusStr)
                             #end
                         </div>
                     </td>
