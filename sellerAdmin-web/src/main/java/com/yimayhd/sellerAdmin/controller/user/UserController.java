@@ -9,6 +9,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yimayhd.sellerAdmin.cache.CacheManager;
+import com.yimayhd.sellerAdmin.util.WebConfigUtil;
+import com.yimayhd.user.session.manager.SessionHelper;
+import com.yimayhd.user.session.manager.constant.SessionConstant;
+import com.yimayhd.user.session.manager.enums.TokenType;
+import com.yimayhd.user.session.manager.util.CodeUtil;
+import com.yimayhd.user.session.manager.verifycode.ValidateCode;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,6 +71,8 @@ public class UserController extends BaseController {
 	private VerifyCodeManager verifyCodeManager;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private CacheManager cacheManager ;
 	
 	@Value("${sellerAdmin.rootPath}")
 	private String rootPath;
@@ -168,7 +177,9 @@ public class UserController extends BaseController {
 			}
 			return result ;
 		}
-		String token = loginResult.getValue().getToken();
+		LoginResult loginResultValue = loginResult.getValue();
+		long userId = loginResultValue.getValue().getId();
+		String token = loginResultValue.getToken();
 		//SessionHelper.setCookies(response, token);
 		setCookies(response,request, token);
 		String targetUrl = null ;
@@ -180,6 +191,7 @@ public class UserController extends BaseController {
 			//判断用户身份，进入申请认证页面
 			targetUrl = UrlHelper.getUrl(rootPath, "/home");
 		}
+
 		result.setValue(targetUrl);
 		return result;
 	}
@@ -379,5 +391,111 @@ public class UserController extends BaseController {
 		response.addCookie(cookie2);
 		// response.addCookie(usernameCookie);
 
+	}
+
+	/**
+	 * 验证频繁登录
+	 * @param request
+	 * @return true:频繁登录;false 登录状态正常
+     */
+	public boolean checkFrequentLgoinIP(HttpServletRequest request){
+		int max_nm = Integer.valueOf(WebResourceConfigUtil.getLoginCheckIPCount()) ;
+		String srcIp = request.getHeader(Constant.CDN_SRC_IP);//访问者ip
+		if(StringUtils.isBlank(srcIp)){
+			srcIp = request.getRemoteAddr();
+		}
+		Object obj = cacheManager.getFormTair(Constant.LOGIN_FQ_IP_KEY_+srcIp);
+		int count = obj==null?0:(Integer)obj;
+		//失效时间默认十分钟,再次频繁登录时间为-1
+		cacheManager.incr(Constant.LOGIN_FQ_IP_KEY_+srcIp, 1 , count==0?Constant.LOGIN_COUNT_EXPIRETIME:-1);
+		log.info("ip={},count={}",srcIp,count);
+		if(count>max_nm){
+			log.info("此机器登录过于频繁,ip={},count={}",srcIp,count);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * 限制用户登录最大次数
+	 * @param userId
+	 * @param request
+     * @return
+     */
+	public boolean checkFrequentLgoinUserId(long userId ,HttpServletRequest request){
+		int max_nm = Integer.valueOf(WebResourceConfigUtil.getLoginCheckUserCount()) ;
+		Object obj = cacheManager.getFormTair(Constant.LOGIN_FQ_USER_KEY_+userId);
+		int count = obj==null?0:(Integer)obj;
+		//失效时间默认十分钟,再次频繁登录时间为-1
+		cacheManager.incr(Constant.LOGIN_FQ_USER_KEY_+userId, 1 , count==0?Constant.LOGIN_COUNT_EXPIRETIME:-1);
+		log.info("userId={},count={}",userId,count);
+		if(count>max_nm){
+			log.info("此用户登录过于频繁,userId={},count={}",userId,count);
+			return true;
+		}
+		return false;
+	}
+
+
+	/**
+	 * 频繁登录,验证验证码是否一致
+	 * @param verifyCode
+	 * @param request
+     * @return
+     */
+	public boolean checkVerifyCode(String verifyCode,HttpServletRequest request){
+		if(StringUtils.isBlank(verifyCode)){
+			log.error("verifyCode is null");
+			return false;
+		}
+		String token = SessionHelper.getTokenFromCookie(request, TokenType.VERIFY_CODE) ;
+		String key = getVerifyCodeKey(token);
+		Object obj = cacheManager.getFormTair(key);
+		String cache_verifyCode = obj==null?"":(String)obj;
+		if(!cache_verifyCode.equals(verifyCode)){
+			log.error("check code error ,verifyCode={},cache_verifyCode={}",verifyCode,cache_verifyCode);
+			return false;
+		}
+		return true;
+	}
+
+
+	/**
+	 * 输出验证码
+	 */
+	public void writeVerifyCode(HttpServletRequest request, HttpServletResponse reponse){
+		// 设置响应的类型格式为图片格式
+		reponse.setContentType("image/jpeg");
+		// 禁止图像缓存。
+		reponse.setHeader("Pragma", "no-cache");
+		reponse.setHeader("Cache-Control", "no-cache");
+		reponse.setDateHeader("Expires", 0);
+
+		String code = CodeUtil.getNumberCode(4);
+		ValidateCode validateCode = new ValidateCode(code);
+		String token = SessionHelper.getTokenFromCookie(request, TokenType.VERIFY_CODE) ;
+		if( token == null ){
+			token = CodeUtil.getToken();
+			Cookie cookie = new Cookie(TokenType.VERIFY_CODE.getKey(), token);
+			cookie.setHttpOnly(true);
+			cookie.setPath("/");
+			cookie.setMaxAge(Constant.TOKEN_EXPIRE_TIME);
+			reponse.addCookie(cookie);
+		}
+		addVerifyCode(token, code);
+		try {
+			validateCode.write(reponse.getOutputStream());
+		} catch (IOException e) {
+			log.error("writ verify code failed!  code={}, token={}",code, token, e);
+		}
+	}
+
+	public boolean addVerifyCode(String token, String verifyCode) {
+		String key = getVerifyCodeKey(token);
+		boolean addResult = cacheManager.addToTair(key, verifyCode, Constant.TOKEN_EXPIRE_TIME);
+		return addResult;
+	}
+	private String getVerifyCodeKey(String token) {
+		return SessionConstant.SESSION_KEY_PREFIX + "code_"+ token;
 	}
 }

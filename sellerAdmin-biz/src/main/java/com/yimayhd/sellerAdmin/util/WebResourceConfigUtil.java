@@ -27,6 +27,8 @@ public class WebResourceConfigUtil {
 	private final static String filegwPath = "filegw.path";
 	private final static String JIUXIU_IM_SITE="jiuxiu.im.site";
 	private final static String CONSULT_CATEGORY="consult.catetory.id";
+	private final static String LOGIN_CHECK_IP_COUNT="login.check.ip.count";
+	private final static String LOGIN_CHECK_USER_COUNT="login.check.user.count";
 	public static String getConsultCategory() {
 		return ResourceConfig.getInstance().getValueByKey(CONSULT_CATEGORY);
 	}
@@ -96,5 +98,11 @@ public class WebResourceConfigUtil {
 			return false;
 		}
 		return true;
+	}
+	public static String getLoginCheckIPCount() {
+		return ResourceConfig.getInstance().getValueByKey(LOGIN_CHECK_IP_COUNT);
+	}
+	public static String getLoginCheckUserCount() {
+		return ResourceConfig.getInstance().getValueByKey(LOGIN_CHECK_USER_COUNT);
 	}
 }
