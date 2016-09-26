@@ -30,6 +30,7 @@ public interface MerchantInfoApi {
             
     );*/
 	@HttpApi(name = "sellerAdmin.queryMerchantInfo", desc = "查询店铺信息", security = SecurityType.None, owner = "zhangxy")
+	//FIXME @DesignedErrorCode申明的错误应该是调用方需要处理的错误，他们处理不了SellerReturnCode.QUERY_MERCHANT_ERROR_C
 	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C,SellerReturnCode.QUERY_MERCHANT_ERROR_C})
 	public MerchantInfo queryMerchantInfo(
 			@ApiAutowired(CommonParameter.applicationId) int appId,
@@ -40,6 +41,8 @@ public interface MerchantInfoApi {
 			 @ApiParameter(required = true, name = "sellerId", desc = "要查看的店铺的id") long sellerId
 			
 			);
+	
+	//FIXME 为什么和queryMerchantInfo分开？
 	@HttpApi(name = "sellerAdmin.queryMerchantDesc", desc = "查询店铺简介信息", security = SecurityType.None, owner = "zhangxy")
 	@DesignedErrorCode({SellerReturnCode.PARAM_ERROR_C,SellerReturnCode.QUERY_MERCHANT_ERROR_C})
 	public MerchantDesc queryMerchantDesc(
