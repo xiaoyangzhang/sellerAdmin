@@ -12,6 +12,7 @@ import org.yimayhd.sellerAdmin.entity.merchant.MerchantDesc;
 import org.yimayhd.sellerAdmin.entity.merchant.MerchantInfo;
 import org.yimayhd.sellerAdmin.entity.merchant.Qualification;
 
+import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.membercenter.client.query.QualificationQueryDTO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.biz.MerchantBiz;
@@ -52,7 +53,8 @@ public class MerchantInfoApiImpl implements MerchantInfoApi {
 		}
 	}*/
 
-	@Override
+	//FIXME 对外暴露方法入口需要加日志, 举个例子吧：发现某一天的数据不对，如果让你找原因，你怎么找到问题？
+	@Override 
 	public MerchantInfo queryMerchantInfo(int appId, int domainId,
 			long deviceId, long userId, int versionCode,long sellerId) {
 		boolean chkResult = chkParam(domainId, sellerId);
@@ -78,6 +80,7 @@ public class MerchantInfoApiImpl implements MerchantInfoApi {
 			merchantInfo.serviceTel = merchantDO.getServiceTel();
 			return merchantInfo;
 		} catch (Exception e) {
+			//FIXME 输出重要参数信息
 			log.error("error:{}",e);
 			return null;
 		}

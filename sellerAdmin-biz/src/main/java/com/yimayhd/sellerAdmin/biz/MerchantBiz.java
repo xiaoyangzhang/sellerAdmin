@@ -370,6 +370,7 @@ public class MerchantBiz {
 			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
 			return result;
 		}
+		//FIXME 上面的参数错误的校验，应该放在merchantRepo.queryMerchantBySellerId中
 		LOGGER.debug("merchantRepo.queryMerchantBySellerId param:MerchantVO={}",JSON.toJSONString(merchantVO));
 		BaseResult<MerchantDO> queryMerchantResult = merchantRepo.queryMerchantBySellerId(merchantVO);
 		LOGGER.debug("merchantRepo.queryMerchantBySellerId result:{}",JSON.toJSONString(queryMerchantResult));
@@ -400,6 +401,7 @@ public class MerchantBiz {
 			result.setWebReturnCode(WebReturnCode.PARAM_ERROR);
 			return result;
 		}
+		//FIXME 上面的参数错误的校验，应该放在merchantRepo.queryMerchantQualification中
 		MemResult<List<MerchantQualificationDO>> merchantQualificationResult = merchantRepo.queryMerchantQualification(queryDTO);
 		if (merchantQualificationResult == null || !merchantQualificationResult.isSuccess() || CollectionUtils.isEmpty(merchantQualificationResult.getValue())) {
 			LOGGER.error("param:QualificationQueryDTO={},result:{}",JSON.toJSONString(queryDTO),JSON.toJSONString(merchantQualificationResult));
