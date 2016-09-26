@@ -175,7 +175,10 @@ public class RepoUtils {
 		} else if (!result.isSuccess()) {
 			log.error(RESULT_FAILURE, method, result.getErrorCode(), result.getResultMsg());
 			ErrorCode errorCode = result.getErrorCode();
-            if(errorCode != null && errorCode.getCode() == ErrorCode.NOT_VERIFY_ELE_ACCOUNT.getCode()){
+            if(errorCode != null && errorCode.getCode() == ErrorCode.INVALID_ELE_ACCOUNT.getCode()){
+            	return;
+            }
+			if(errorCode != null && errorCode.getCode() == ErrorCode.NOT_VERIFY_ELE_ACCOUNT.getCode()){
             	throw new NoticeException(Constant.WITHDRAWAL_COMPLETE_ACCOUNT_INFO);
             }
 			throw new BaseException(prefix + result.getResultMsg());

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.pay.client.model.enums.ErrorCode;
 import com.yimayhd.pay.client.model.param.settlement.SettlementDTO;
 import com.yimayhd.pay.client.model.param.settlement.SettlementDetailDTO;
 import com.yimayhd.pay.client.model.result.PayPageResultDTO;
@@ -41,7 +42,10 @@ public class SettlementServiceImpl implements SettlementService {
             throw new BaseException("查询用户账户，返回结果错误");
         }else if(!result.isSuccess()){
             log.error("queryMerchantSettlements.queryMerchantSettlements--settlementRepo.queryMerchantSettlements return value error ! returnValue : {} and parame: {}", JSON.toJSONString(result), JSON.toJSONString(queryDO));
-            throw new NoticeException(result.getResultMsg());
+            ErrorCode errorCode = result.getErrorCode();
+            if(errorCode == null || errorCode.getCode() != ErrorCode.INVALID_ELE_ACCOUNT.getCode()){
+            	throw new NoticeException(result.getResultMsg());
+            }
         }
 		
 		List<SettlementVO> retList = new ArrayList<SettlementVO>();

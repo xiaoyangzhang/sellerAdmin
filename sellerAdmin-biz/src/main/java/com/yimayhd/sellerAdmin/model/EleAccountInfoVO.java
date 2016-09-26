@@ -2,6 +2,8 @@ package com.yimayhd.sellerAdmin.model;
 
 import org.springframework.beans.BeanUtils;
 
+import com.yimayhd.pay.client.model.enums.ErrorCode;
+import com.yimayhd.pay.client.model.enums.eleaccount.EleAccountStatus;
 import com.yimayhd.pay.client.model.result.eleaccount.EleAccountInfoResult;
 import com.yimayhd.sellerAdmin.util.NumUtil;
 
@@ -60,6 +62,12 @@ public class EleAccountInfoVO {
 		 //分转元
         vo.setAccountBalanceYuan(NumUtil.moneyTransform(vo.getAccountBalance()));
         vo.setUnSettlementAmountYuan(NumUtil.moneyTransform(vo.getUnSettlementAmount()));
+        
+        ErrorCode errorCode = result.getErrorCode();
+        if(errorCode != null && errorCode.getCode() == ErrorCode.INVALID_ELE_ACCOUNT.getCode()){
+        	vo.setStatus(EleAccountStatus.NOT_VERIFIED.getStatus());
+        }
+        
 		return vo;
 	}
 
