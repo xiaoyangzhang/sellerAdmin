@@ -170,7 +170,7 @@ public class Constant {
 
 	public static final String CDN_SRC_IP = "Cdn-Src-Ip";//CDN ip
 
-	public static final int LOGIN_COUNT_EXPIRETIME = 10*60*60;//登录次数过期时间
+	public static final int LOGIN_COUNT_EXPIRETIME = 3*60*60;//登录次数过期时间
 
 	public static final int TOKEN_EXPIRE_TIME=3*60;//登录验证码失效时间
 

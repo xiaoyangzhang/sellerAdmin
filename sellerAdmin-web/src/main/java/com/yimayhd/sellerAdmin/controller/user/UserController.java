@@ -2,20 +2,22 @@ package com.yimayhd.sellerAdmin.controller.user;
 
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.cache.CacheManager;
-import com.yimayhd.sellerAdmin.util.WebConfigUtil;
+import com.yimayhd.sellerAdmin.validate.CodeUtil;
+import com.yimayhd.sellerAdmin.validate.ValidateCode;
 import com.yimayhd.user.session.manager.SessionHelper;
 import com.yimayhd.user.session.manager.constant.SessionConstant;
 import com.yimayhd.user.session.manager.enums.TokenType;
-import com.yimayhd.user.session.manager.util.CodeUtil;
-import com.yimayhd.user.session.manager.verifycode.ValidateCode;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -162,6 +164,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public WebResult<String> login(LoginVo loginVo, String callback, HttpServletResponse response, HttpServletRequest request) {
 		WebResult<String> result = new WebResult<String>();
+		Map<String,String> map = new HashMap<String,String>();
 		WebResultSupport checkResult = UserChecker.checkLogin(loginVo);
 		if( !checkResult.isSuccess() ){
 			result.setWebReturnCode(checkResult.getWebReturnCode());
@@ -175,8 +178,11 @@ public class UserController extends BaseController {
 			}else{
 				result.setWebReturnCode(loginResult.getWebReturnCode());
 			}
+			map.put("flag","true");
+			result.setValue(JSON.toJSONString(map));
 			return result ;
 		}
+
 		LoginResult loginResultValue = loginResult.getValue();
 		long userId = loginResultValue.getValue().getId();
 		String token = loginResultValue.getToken();
@@ -191,6 +197,7 @@ public class UserController extends BaseController {
 			//判断用户身份，进入申请认证页面
 			targetUrl = UrlHelper.getUrl(rootPath, "/home");
 		}
+
 
 		result.setValue(targetUrl);
 		return result;
@@ -305,7 +312,12 @@ public class UserController extends BaseController {
 	public void validateCode(HttpServletRequest request, HttpServletResponse response) {
 		verifyCodeManager.writeVerifyCode(request, response);
 	}
-	
+
+	@RequestMapping(value = "/getPerfectImgCode")
+	public void getPerfectImgCode(HttpServletRequest request, HttpServletResponse response) {
+		writeVerifyCode(request, response);
+	}
+
 	/**
 	 * 判断用户昵称是否存在
 	 * @return
@@ -394,7 +406,7 @@ public class UserController extends BaseController {
 	}
 
 	/**
-	 * 验证频繁登录
+	 * 验证频繁登录 (限制ip恶意访问)
 	 * @param request
 	 * @return true:频繁登录;false 登录状态正常
      */
@@ -411,6 +423,36 @@ public class UserController extends BaseController {
 		log.info("ip={},count={}",srcIp,count);
 		if(count>max_nm){
 			log.info("此机器登录过于频繁,ip={},count={}",srcIp,count);
+			return true;
+		}
+		return false;
+	}
+
+
+	/**
+	 * 登录失败,记录次数,失效时间3小时
+	 * @param request
+     */
+	public void failUserLogin(HttpServletRequest request){
+		String ip_key = getLoginFqIpKey(request);
+		Object obj = cacheManager.getFormTair(ip_key);
+		int count = obj==null?0:(Integer)obj;
+		cacheManager.incr(ip_key, 1 , count==0?Constant.LOGIN_COUNT_EXPIRETIME:-1);
+	}
+
+	/**
+	 * 是否弹出验证码 true:弹出;false 不弹出
+	 * @param request
+	 * @return
+     */
+	public boolean checkPopVerifyCode(HttpServletRequest request){
+		int max_nm = Integer.valueOf(WebResourceConfigUtil.getLoginCheckIPCount()) ;
+		String ip_key = getLoginFqIpKey(request);
+		Object obj = cacheManager.getFormTair(ip_key);
+		int count = obj==null?0:(Integer)obj;
+		log.info("ip_key={},count={}",ip_key,count);
+		if(count>max_nm){
+			log.info("此机器登录过于频繁,ip_key={},count={}",ip_key,count);
 			return true;
 		}
 		return false;
@@ -437,6 +479,8 @@ public class UserController extends BaseController {
 	}
 
 
+
+
 	/**
 	 * 频繁登录,验证验证码是否一致
 	 * @param verifyCode
@@ -458,6 +502,8 @@ public class UserController extends BaseController {
 		}
 		return true;
 	}
+
+
 
 
 	/**
@@ -495,7 +541,27 @@ public class UserController extends BaseController {
 		boolean addResult = cacheManager.addToTair(key, verifyCode, Constant.TOKEN_EXPIRE_TIME);
 		return addResult;
 	}
+
+	/**
+	 * 验证码key
+	 * @param token
+	 * @return
+     */
 	private String getVerifyCodeKey(String token) {
 		return SessionConstant.SESSION_KEY_PREFIX + "code_"+ token;
+	}
+
+	/**
+	 * 获取当前登录用户Ip key
+	 * @param request
+	 * @return
+	 */
+	public  String getLoginFqIpKey(HttpServletRequest request){
+		String srcIp = request.getHeader(Constant.CDN_SRC_IP);//访问者ip
+		if(StringUtils.isBlank(srcIp)){
+			srcIp = request.getRemoteAddr();
+		}
+		log.info("登录ip={}",srcIp);
+		return Constant.LOGIN_FQ_IP_KEY_+srcIp;
 	}
 }
