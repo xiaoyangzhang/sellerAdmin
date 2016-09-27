@@ -178,7 +178,8 @@ public class UserController extends BaseController {
 			}else{
 				result.setWebReturnCode(loginResult.getWebReturnCode());
 			}
-			map.put("flag","true");
+			failUserLogin(request);//登录失败记录,记录次数
+			map.put("flag",String.valueOf(checkPopVerifyCode(request)));
 			result.setValue(JSON.toJSONString(map));
 			return result ;
 		}
@@ -198,8 +199,10 @@ public class UserController extends BaseController {
 			targetUrl = UrlHelper.getUrl(rootPath, "/home");
 		}
 
-
-		result.setValue(targetUrl);
+		map.put("flag",String.valueOf(checkPopVerifyCode(request)));
+		map.put("url",targetUrl);
+		//result.setValue(targetUrl);
+		result.setValue(JSON.toJSONString(map));
 		return result;
 	}
 
