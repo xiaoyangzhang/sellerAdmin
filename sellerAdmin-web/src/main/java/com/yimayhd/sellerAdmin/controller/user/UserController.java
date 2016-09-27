@@ -438,7 +438,8 @@ public class UserController extends BaseController {
 		String ip_key = getLoginFqIpKey(request);
 		Object obj = cacheManager.getFormTair(ip_key);
 		int count = obj==null?0:(Integer)obj;
-		cacheManager.incr(ip_key, 1 , count==0?Constant.LOGIN_COUNT_EXPIRETIME:-1);
+		int num = cacheManager.incr(ip_key, 1 , count==0?Constant.LOGIN_COUNT_EXPIRETIME:-1);
+		log.info("ip_key={},num={}",ip_key,num);
 	}
 
 	/**
