@@ -29,6 +29,7 @@
 				</p>
 				<input type="submit" id="loginSubmitBtn" class="winloginbtn" value="登录"/>
 				<p class="last">还没有账号 <a href="$root_path/user/register">立即注册</a></p>
-			</form>			
+			</form>
+            <input type="text" class="textinput sortinput" name="imageCode" id="imgcode" style="display: none" value="" placeholder="请输入验证码" nullmsg="请输入验证码" errormsg="请输入4位验证码" autocomplete="off" />
 		</div>
 	</div>
