@@ -172,6 +172,8 @@ public class Constant {
 
 	public static final int LOGIN_COUNT_EXPIRETIME = 60;//3*60*60;//登录次数过期时间
 
+	public static final String LOGIN_IP_TIME_TEMP_ = "LOGIN_IP_TIME_TEMP_";
+
 	public static final int TOKEN_EXPIRE_TIME=3*60;//登录验证码失效时间
 
 

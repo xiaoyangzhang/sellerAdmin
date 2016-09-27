@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.cache.CacheManager;
+import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.sellerAdmin.validate.CodeUtil;
 import com.yimayhd.sellerAdmin.validate.ValidateCode;
 import com.yimayhd.user.session.manager.SessionHelper;
@@ -436,11 +437,39 @@ public class UserController extends BaseController {
      */
 	public void failUserLogin(HttpServletRequest request){
 		String ip_key = getLoginFqIpKey(request);
-		Object obj = cacheManager.getFormTair(ip_key);
-		int count = obj==null?0:(Integer)obj;
-		int num = cacheManager.incr(ip_key, 1 , count==0?Constant.LOGIN_COUNT_EXPIRETIME:-1);
-		log.info("ip_key={},num={}",ip_key,num);
+		int exp_time =setUserLoginIPTime(request);
+		int num= cacheManager.incr(ip_key, 1 , exp_time);
+		log.info("ip_key={},num={},exp_time={}",ip_key,num,exp_time);
 	}
+
+
+	/**
+	 * 登录IP 打标时间戳
+	 * @param request
+	 * @return
+     */
+	public int setUserLoginIPTime(HttpServletRequest request){
+		String key = getLoginIpTimeTempKey(request);
+		Object obj = cacheManager.getFormTair(key);
+		if(obj==null){
+			int exp_time = DateUtil.getCurrentTimeStamp()+Constant.LOGIN_COUNT_EXPIRETIME;
+			cacheManager.addToTair(key,exp_time,exp_time);
+		}
+
+		return (Integer)obj;
+	}
+
+	/**
+	 * 正确登录删除时间戳
+	 *
+	 * @param request
+     */
+	public void delUserLoginIPTime(HttpServletRequest request){
+		String key = getLoginIpTimeTempKey(request);
+		int time = DateUtil.getCurrentTimeStamp();
+		cacheManager.deleteFromTair(key);
+	}
+
 
 	/**
 	 * 是否弹出验证码 true:弹出;false 不弹出
@@ -453,7 +482,7 @@ public class UserController extends BaseController {
 		Object obj = cacheManager.getFormTair(ip_key);
 		int count = obj==null?0:(Integer)obj;
 		log.info("ip_key={},count={}",ip_key,count);
-		if(count>max_nm){
+		if(count>=max_nm){
 			log.info("此机器登录过于频繁,ip_key={},count={}",ip_key,count);
 			return true;
 		}
@@ -566,4 +595,21 @@ public class UserController extends BaseController {
 		log.info("登录ip={}",srcIp);
 		return Constant.LOGIN_FQ_IP_KEY_+srcIp;
 	}
+
+	/**
+	 * 登录时间戳 key
+	 * @param request
+	 * @return
+     */
+	public  String getLoginIpTimeTempKey(HttpServletRequest request){
+		String srcIp = request.getHeader(Constant.CDN_SRC_IP);//访问者ip
+		if(StringUtils.isBlank(srcIp)){
+			srcIp = request.getRemoteAddr();
+		}
+		log.info("登录ip={}",srcIp);
+		return Constant.LOGIN_IP_TIME_TEMP_+srcIp;
+	}
+
+
+
 }
