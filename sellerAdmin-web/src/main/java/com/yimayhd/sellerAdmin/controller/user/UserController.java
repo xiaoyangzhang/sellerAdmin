@@ -153,8 +153,9 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 //	@RequestMapping(value = "/login", headers = "Request-Channel=https")
-	public ModelAndView toLogin(Model model, String callback) {
+	public ModelAndView toLogin(Model model, String callback,HttpServletRequest request) {
 		model.addAttribute("callback", callback);
+		model.addAttribute("isPop", String.valueOf(checkPopVerifyCode(request)));
 		ModelAndView modelAndView = new ModelAndView("/system/user/login");
 		return modelAndView;
 	}
@@ -179,8 +180,7 @@ public class UserController extends BaseController {
 				result.setWebReturnCode(loginResult.getWebReturnCode());
 			}
 			failUserLogin(request);//登录失败记录,记录次数
-			map.put("flag",String.valueOf(checkPopVerifyCode(request)));
-			result.setValue(JSON.toJSONString(map));
+			result.setValue(String.valueOf(checkPopVerifyCode(request)));
 			return result ;
 		}
 
@@ -199,10 +199,8 @@ public class UserController extends BaseController {
 			targetUrl = UrlHelper.getUrl(rootPath, "/home");
 		}
 
-		map.put("flag",String.valueOf(checkPopVerifyCode(request)));
-		map.put("url",targetUrl);
-		//result.setValue(targetUrl);
-		result.setValue(JSON.toJSONString(map));
+		result.setValue(targetUrl);
+		//result.setValue(JSON.toJSONString(map));
 		return result;
 	}
 
