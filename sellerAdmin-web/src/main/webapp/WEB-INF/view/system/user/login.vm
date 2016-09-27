@@ -20,7 +20,6 @@
 				</p>
 				<input type='hidden' id='isPopImgCodeInput' value='$!{isPop}'/>
 				<p class="btngroup clearfix" id='isPopImgCodeP' style="display:none">
-					<input type="text" class="textinput sortinput" name="imageCode" id="imgcode" value="" placeholder="请输入验证码" nullmsg="请输入验证码" errormsg="请输入4位验证码" autocomplete="off"/>
 					<img src="$!{utilWebconfig.rootPath}/user/getPerfectImgCode" class="imgcode" width="152" height="48" onclick="this.src='$root_path/user/getPerfectImgCode?d='+Math.random();"/>
 					<span class="Validform_checktip"></span>
 				</p>
