@@ -21,6 +21,8 @@ public class LoginVo implements Serializable{
 
 	private String token;
 
+	private String imageCode;
+
 	public String getUsername() {
 		return username;
 	}
@@ -45,4 +47,11 @@ public class LoginVo implements Serializable{
 		this.token = token;
 	}
 
+	public String getImageCode() {
+		return imageCode;
+	}
+
+	public void setImageCode(String imageCode) {
+		this.imageCode = imageCode;
+	}
 }
