@@ -471,7 +471,7 @@ public class UserController extends BaseController {
 		Object obj = cacheManager.getFormTair(Constant.LOGIN_FQ_USER_KEY_+userId);
 		int count = obj==null?0:(Integer)obj;
 		//失效时间默认十分钟,再次频繁登录时间为-1
-		cacheManager.incr(Constant.LOGIN_FQ_USER_KEY_+userId, 1 , count==0?Constant.LOGIN_COUNT_EXPIRETIME:-1);
+		cacheManager.incrFree(Constant.LOGIN_FQ_USER_KEY_+userId, 1 , 0,count==0?Constant.LOGIN_COUNT_EXPIRETIME:-1);
 		log.info("userId={},count={}",userId,count);
 		if(count>max_nm){
 			log.info("此用户登录过于频繁,userId={},count={}",userId,count);
