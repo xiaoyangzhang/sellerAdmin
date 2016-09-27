@@ -172,6 +172,11 @@ public class UserController extends BaseController {
 			result.setWebReturnCode(checkResult.getWebReturnCode());
 			return result ;
 		}
+		/**需要验证码验证**/
+		if(checkPopVerifyCode(request)&&!getVerifyCode(request).equals(loginVo.getImageCode())){
+			result.setWebReturnCode(WebReturnCode.IMAGE_VERIFY_CODE_ERROR);
+			return result ;
+		}
 		LoginDTO loginDTO = UserConverter.toLoginDTO(loginVo);
 		WebResult<LoginResult> loginResult = userBiz.login(loginDTO);
 		if( loginResult == null || !loginResult.isSuccess() || loginResult.getValue() == null){
@@ -571,6 +576,21 @@ public class UserController extends BaseController {
 		String key = getVerifyCodeKey(token);
 		boolean addResult = cacheManager.addToTair(key, verifyCode, Constant.TOKEN_EXPIRE_TIME);
 		return addResult;
+	}
+
+	/**
+	 * 获取验证码
+	 * @param request
+	 * @return
+     */
+	public String getVerifyCode(HttpServletRequest request){
+		String token = SessionHelper.getTokenFromCookie(request, TokenType.VERIFY_CODE) ;
+		String key = getVerifyCodeKey(token);
+		Object obj = cacheManager.getFormTair(key);
+		if(obj==null){
+			return "";
+		}
+		return (String)obj;
 	}
 
 	/**
