@@ -213,7 +213,7 @@
 					newOrder.mainOrderPrice += +(parseFloat(son.son_order_real_price) * son.son_order_number).toFixed(2);
 				}
 			});
-
+			newOrder.mainOrderPrice=parseFloat(newOrder.mainOrderPrice).toFixed(2);
 			return newOrder;
 		}
 	};
