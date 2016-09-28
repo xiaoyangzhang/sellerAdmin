@@ -25,7 +25,11 @@ public class MainOrder {
     
     private int orderStatus;//订单状态
     
+    private String orderStatusStr;
+    
     private int orderType;//订单类型
+    
+    private String orderTypeStr;
 
     private UserDO user;
     
@@ -164,6 +168,22 @@ public class MainOrder {
 		this.itemPrice_ = itemPrice_;
 	}
 
+	public String getOrderStatusStr() {
+		return orderStatusStr;
+	}
+
+	public void setOrderStatusStr(String orderStatusStr) {
+		this.orderStatusStr = orderStatusStr;
+	}
+
+	public String getOrderTypeStr() {
+		return orderTypeStr;
+	}
+
+	public void setOrderTypeStr(String orderTypeStr) {
+		this.orderTypeStr = orderTypeStr;
+	}
+    
     public long getMainOrderTotalFee() {
         return mainOrderTotalFee;
     }

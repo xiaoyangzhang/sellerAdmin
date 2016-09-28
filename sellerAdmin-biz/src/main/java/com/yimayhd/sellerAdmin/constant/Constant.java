@@ -131,6 +131,13 @@ public class Constant {
 	 */
 	public static final int JX_ITEM_ROOT = 200;
 	public static final int LAYER_NUM = 5;
+	
+	public static final String WITHDRAWAL_ACCOUNT_BALANCE_IS_ZERO = "账户余额为0，不能提现";
+	
+	public static final String WITHDRAWAL_FAIL = "提现失败";
+	
+	public static final String WITHDRAWAL_COMPLETE_ACCOUNT_INFO = "您入驻时所填写的财务结算信息有误，请联系客服修改后重新提现。客服电话：4000-696-888";
+	
 	/**
 	 * 发布咨询服务类目id
 	 */

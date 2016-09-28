@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,8 +85,11 @@ public class MerchantConverter {
 		dto.setSaleLicenseNumber(vo.getSaleLicenseNumber());
 		dto.setTaxRegisterNumber(vo.getTaxRegisterNumber());
 		dto.setMerchantName(vo.getMerchantName());
-
-		
+		//2.0
+		dto.setAccountType(vo.getAccountType());
+		dto.setOpenerCard(vo.getOpenerCard());
+		dto.setSettlementCard(vo.getSettlementCard());
+		dto.setOpenerTel(vo.getOpenerTel());
 		dto.setMerchantQualifications(vo.getMerchantQualifications());
 		List<MerchantScopeDO> merchantScopes = new ArrayList<MerchantScopeDO>(); 
 		if (vo.getScopeIds() != null && vo.getScopeIds().length() > 0 ) {
@@ -157,7 +161,17 @@ public class MerchantConverter {
 		vo.setSaleLicenseNumber(examineInfoDTO.getSaleLicenseNumber());
 		vo.setTaxRegisterNumber(examineInfoDTO.getTaxRegisterNumber());
 		vo.setExaminStatus(examineInfoDTO.getExaminStatus());
-		
+//		if (StringUtils.isBlank(examineInfoDTO.getAccountType())) {
+//			
+//			vo.setAccountType("0");
+//		}else {
+			
+		vo.setAccountType(examineInfoDTO.getAccountType());
+		//}
+		vo.setOpenerCard(examineInfoDTO.getOpenerCard());
+		vo.setSettlementCard(examineInfoDTO.getSettlementCard());
+		vo.setOpenerTel(examineInfoDTO.getOpenerTel());
+
 		return vo;
 	}
 	

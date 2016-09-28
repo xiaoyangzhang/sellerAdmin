@@ -1,0 +1,60 @@
+
+#set($layout = "/layout/layout-jiuxiu.vm")
+
+<head>
+	#parse("layout/layout-meta.vm")
+	<title>已结算查询</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/payment.css">
+</head>
+<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/js/jquery.js"></script>
+
+<div class = "payment-right">
+    <div class="payment-info clearfix">
+        <ul>
+            <li class=" first on">结算查询</li>
+        </ul>
+    </div>
+   <form id="queryForm" action="$!utilWebconfig.getActionDefaultFontPath()/settlement/list" method="GET" role="form">
+   <div class="search-wrap">
+        <div class="date-box">
+            <p class="w84 fl lh34">结算日期：</p>
+            <input id="getstartime" class = "date-wrap fl" name="reqDateStart" title="开始时间" readonly="readonly" value="$!query.reqDateStart">
+            <span class="w26 fl lh34">至</span>
+            <input id="getendtime" class = "date-wrap fl" name="reqDateEnd" title="结束时间"   readonly="readonly" value="$!query.reqDateEnd">
+        </div>
+        <div class="order-number-box">
+            <p class="w84 fl lh34">结算单号：</p>
+           	<input type="text" class="statement-text" name="settlementId" value="$!query.settlementId"/>
+        </div>
+       <button type="submit" class="btn-search">查询</button>
+   </div>
+   <div class="table-box">
+        <table class="search-table mt10">
+            <thead>
+            <tr>
+                <td>结算单号</td>
+                <td>结算时间</td>
+                <td>支付金额</td>
+                <td>服务费</td>
+                <td>实际结算</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            #foreach($item in $pageVo.resultList)
+            <tr>
+                <td>$!item.settlementId</td>
+                <td>$!item.reqDate</td>
+                <td>$!item.tradeAmountYuan</td>
+                <td>$!item.serviceFeeYuan</td>
+                <td>$!item.settlementAmountYuan</td>
+                <td class="td-details"><a href="$!utilWebconfig.getActionDefaultFontPath()/settlement/detail?reqDate=$!item.reqDate&settlementId=$!item.settlementId">详情</a></td>
+            </tr>
+        	#end
+        </table>
+   </div>
+   #parse("/page_jiuniu.vm")
+   </form>
+</div>
+       
+#parse("layout/layout-js.vm")
+<script>seajs.use("payment");</script>	

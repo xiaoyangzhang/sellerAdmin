@@ -313,7 +313,7 @@ public class ApplyController extends BaseController {
 //			return judgeRest;
 //		}
 		
-		model.addAttribute("accountTypes", AccountType.values());
+		//model.addAttribute("accountTypes", AccountType.values());
 		model.addAttribute("examineInfo", talentBiz.getExamineInfo());
 		model.addAttribute("bankList", talentBiz.getBankList());
 		model.addAttribute("checkResultInfo",getCheckResultMsg(talentBiz.getCheckResult()));
@@ -551,7 +551,6 @@ public class ApplyController extends BaseController {
 				}
 			}
 		}
-		model.addAttribute("accountTypes", AccountType.values());
 		model.addAttribute("bankList", talentBiz.getBankList());
 		return "/system/seller/userdatafill_a";
 	}

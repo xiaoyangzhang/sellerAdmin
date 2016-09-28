@@ -45,6 +45,7 @@ import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.VoucherInfo;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderExtFeatureKey;
+import com.yimayhd.tradecenter.client.model.enums.BizOrderStatus;
 import com.yimayhd.tradecenter.client.model.enums.CloseOrderReason;
 import com.yimayhd.tradecenter.client.model.enums.FinishOrderSource;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
@@ -176,6 +177,19 @@ public class OrderServiceImpl implements OrderService {
 							.getBizOrder().getBuyerId());
 					mo.setUser(user);
 					
+					//订单状态str
+					for (BizOrderStatus bizOrderStatus : BizOrderStatus.values()) {
+			        	if(tcMainOrder.getBizOrder().getOrderStatus() == bizOrderStatus.getCode()){
+			        		mo.setOrderStatusStr(bizOrderStatus.name());
+			        	}
+					}
+			        //订单类型str
+			        for (OrderBizType orderBizType : OrderBizType.values()) {
+			        	if(tcMainOrder.getBizOrder().getOrderType() == orderBizType.getBizType()){
+			        		mo.setOrderTypeStr(orderBizType.name());
+			        	}
+					}
+					
 					//获取优惠劵优惠金额
 					VoucherInfo voucherInfo = BizOrderUtil.getVoucherInfo(tcMainOrder.getBizOrder().getBizOrderDO());
 					if(null!=voucherInfo){
@@ -217,12 +231,12 @@ public class OrderServiceImpl implements OrderService {
 		try {
 			TcSingleQueryResult tcSingleQueryResult = tcBizQueryServiceRef
 					.querySingle(id, orderQueryOption);
+			log.error("--------------------"+JSON.toJSONString(tcSingleQueryResult));
 			if (tcSingleQueryResult.isSuccess()) {
 				OrderDetails orderDetails = new OrderDetails();
 				TcMainOrder tcMainOrder = tcSingleQueryResult.getTcMainOrder();
 				MainOrder mainOrder = OrderConverter.orderVOConverter(tcMainOrder);
-				mainOrder = OrderConverter.mainOrderStatusConverter(mainOrder,
-						tcMainOrder);
+				mainOrder = OrderConverter.mainOrderStatusConverter(mainOrder, tcMainOrder);
 				//添加主订单原价
 				mainOrder.setItemPrice_(BizOrderUtil.getMainOrderTotalFee(tcSingleQueryResult.getTcMainOrder().getBizOrder().getBizOrderDO()));
 				//获取优惠劵优惠金额
@@ -234,7 +248,6 @@ public class OrderServiceImpl implements OrderService {
 				//获取使用的积分
 				mainOrder.setUserPointNum(BizOrderUtil.getUsePointNum(tcSingleQueryResult.getTcMainOrder().getBizOrder().getBizOrderDO()));
 				orderDetails.setMainOrder(mainOrder);
-				//FIXME 上面将tcMainOrder转成了MainOrder，这里又用MainOrder获取TcMainOrder？
 				//TcMainOrder tcMainOrder = mainOrder.getTcMainOrder();
 				TcBizOrder tcBizOrder = tcMainOrder.getBizOrder();
 
@@ -250,12 +263,13 @@ public class OrderServiceImpl implements OrderService {
 						orderDetails.setBuyerPhoneNum(buyer.getUnmaskMobile());// 明文
 					}
 					orderDetails.setSellerId(tcBizOrder.getSellerId());
-
 					// 付款方式
 					if (tcMainOrder.getPayChannel() != 0) {
 						orderDetails.setPayChannel(TcPayChannel.getPayChannel(
 								tcMainOrder.getPayChannel()).getDesc());
 					}
+//					int payChannel = BizOrderUtil.getPayChannel(tcBizOrder.getBizOrderDO());
+//					orderDetails.setPayChannel(TcPayChannel.getPayChannel(payChannel).getDesc());
 				}
 				// orderDetails.setTotalFee(tcMainOrder.getTotalFee());
 				orderDetails.setActualTotalFee(tcMainOrder.getTotalFee());

@@ -7,7 +7,10 @@ import com.yimayhd.commentcenter.client.result.ResultSupport;
 import com.yimayhd.ic.client.model.result.ICErrorCode;
 import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.membercenter.client.result.MemResultSupport;
+import com.yimayhd.pay.client.model.enums.ErrorCode;
 import com.yimayhd.sellerAdmin.base.BaseException;
+import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.exception.NoticeException;
 
 /**
  * Repo工具
@@ -152,6 +155,33 @@ public class RepoUtils {
 		} else if (!result.isSuccess()) {
 			log.error(RESULT_FAILURE, method, result.getErrorCode(), result.getErrorMsg());
 			throw new BaseException(prefix + result.getErrorMsg());
+		} else {
+			log.info(RESULT_SUCCESS, method);
+		}
+	}
+	
+	/**
+	 * PayCore服务返回结果的log
+	 * 
+	 * @param log
+	 * @param method
+	 * @param result
+	 */
+	public static void resultLog(Logger log, String method, com.yimayhd.pay.client.model.result.ResultSupport result) {
+		String prefix = "PayCore服务接口错误：";
+		if (result == null) {
+			log.error(RESULT_NULL, method);
+			throw new BaseException(prefix + "返回结果错误");
+		} else if (!result.isSuccess()) {
+			log.error(RESULT_FAILURE, method, result.getErrorCode(), result.getResultMsg());
+			ErrorCode errorCode = result.getErrorCode();
+            if(errorCode != null && errorCode.getCode() == ErrorCode.INVALID_ELE_ACCOUNT.getCode()){
+            	return;
+            }
+			if(errorCode != null && errorCode.getCode() == ErrorCode.NOT_VERIFY_ELE_ACCOUNT.getCode()){
+            	throw new NoticeException(Constant.WITHDRAWAL_COMPLETE_ACCOUNT_INFO);
+            }
+			throw new BaseException(prefix + result.getResultMsg());
 		} else {
 			log.info(RESULT_SUCCESS, method);
 		}

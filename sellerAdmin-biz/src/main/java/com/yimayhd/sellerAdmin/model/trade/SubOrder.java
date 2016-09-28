@@ -14,6 +14,10 @@ public class SubOrder {
     private String vTxt;
     //优惠后的金额(单价)
     private long itemPrice_;
+    
+    private String orderStatusStr;
+    
+    private String orderTypeStr;
 
     private long subOrderTotalFee;//子订单原价
 
@@ -90,6 +94,22 @@ public class SubOrder {
 		this.itemPrice_ = itemPrice_;
 	}
 
+	public String getOrderStatusStr() {
+		return orderStatusStr;
+	}
+
+	public void setOrderStatusStr(String orderStatusStr) {
+		this.orderStatusStr = orderStatusStr;
+	}
+
+	public String getOrderTypeStr() {
+		return orderTypeStr;
+	}
+
+	public void setOrderTypeStr(String orderTypeStr) {
+		this.orderTypeStr = orderTypeStr;
+	}
+    
     public long getSubOrderTotalFee() {
         return subOrderTotalFee;
     }
