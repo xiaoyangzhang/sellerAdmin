@@ -167,7 +167,7 @@
 					temp.push('<span class="f18">+</span>');
 				}
 
-				total += sonRealPrice;
+				total += +sonRealPrice;
 			}
 			temp.push('<span class="f18">=</span><span class="price f18">' + total + '</span><span class="f16">元</span>');
 			$("#real_pay").html(temp.join(''));
