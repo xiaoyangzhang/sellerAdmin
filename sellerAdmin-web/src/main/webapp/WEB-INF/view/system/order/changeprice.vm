@@ -113,9 +113,9 @@
 				var son_order_real_price = +sonOrder.son_order_real_price;
 				var son_order_number = +sonOrder.son_order_number;
 				if (index == sonOrderLength - 1) {
-					temp.push('<span class="f18">' + son_order_real_price * son_order_number + '</span>');
+					temp.push('<span class="f18">' + (son_order_real_price * son_order_number).toFixed(2) + '</span>');
 				} else {
-					temp.push('<span class="f18">' + son_order_real_price * son_order_number + '</span>')
+					temp.push('<span class="f18">' + (son_order_real_price * son_order_number).toFixed(2) + '</span>')
 					temp.push('<span class="f18">+</span>');
 				}
 			}
@@ -137,7 +137,7 @@
 				if (total == '' || $("#" + page.order.son_order_list[0].son_order_id).hasClass("error")) {
 					total = page.order.main_order_price;
 				} else {
-					total = parseFloat(total).toFixed(2) * page.order.son_order_list[0].son_order_number;
+					total = (parseFloat(total)* page.order.son_order_list[0].son_order_number).toFixed(2);
 				}
 
 				$("#real_pay").html('<span class="f16">买家实付：</span><span class="price f18">' + total + '</span><span class="f16">元</span>');
@@ -155,9 +155,9 @@
 				var sonRealPrice = 0;
 
 				if (newPrice == "" || hasError) {
-					sonRealPrice = parseFloat(sonOrder.son_order_real_price) * sonOrder.son_order_number;
+					sonRealPrice = (parseFloat(sonOrder.son_order_real_price) * sonOrder.son_order_number).toFixed(2);
 				} else {
-					sonRealPrice = parseFloat(newPrice) * sonOrder.son_order_number;
+					sonRealPrice = (parseFloat(newPrice) * sonOrder.son_order_number).toFixed(2);
 				}
 
 				if (index == sonOrderLength - 1) {
@@ -208,9 +208,9 @@
 						sonOrderNumber: son.son_order_number,
 						sonOrderPrice: parseFloat(newPrice)
 					});
-					newOrder.mainOrderPrice += parseFloat(newPrice) * son.son_order_number;
+					newOrder.mainOrderPrice += (parseFloat(newPrice) * son.son_order_number).toFixed(2);
 				} else {
-					newOrder.mainOrderPrice += parseFloat(son.son_order_real_price) * son.son_order_number;
+					newOrder.mainOrderPrice += (parseFloat(son.son_order_real_price) * son.son_order_number).toFixed(2);
 				}
 			});
 
