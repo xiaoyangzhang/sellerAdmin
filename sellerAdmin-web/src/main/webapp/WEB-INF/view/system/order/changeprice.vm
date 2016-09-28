@@ -208,9 +208,9 @@
 						sonOrderNumber: son.son_order_number,
 						sonOrderPrice: parseFloat(newPrice)
 					});
-					newOrder.mainOrderPrice += (parseFloat(newPrice) * son.son_order_number).toFixed(2);
+					newOrder.mainOrderPrice += +(parseFloat(newPrice) * son.son_order_number).toFixed(2);
 				} else {
-					newOrder.mainOrderPrice += (parseFloat(son.son_order_real_price) * son.son_order_number).toFixed(2);
+					newOrder.mainOrderPrice += +(parseFloat(son.son_order_real_price) * son.son_order_number).toFixed(2);
 				}
 			});
 
