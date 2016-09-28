@@ -1,226 +1,226 @@
 <head>
-    <title>订单列表</title>
-    #set($layout = "/layout/layout_non.vm") #parse("layout/layout-meta.vm") #parse("layout/layout-hidden.vm")
-    <meta charset="UTF-8">
-    <title>修改订单价格</title>
-    <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/changeprice.css">
+	<title>订单列表</title>
+	#set($layout = "/layout/layout_non.vm") #parse("layout/layout-meta.vm") #parse("layout/layout-hidden.vm")
+	<meta charset="UTF-8">
+	<title>修改订单价格</title>
+	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/changeprice.css">
 </head>
 <div id="page">
 </div>
 <script type="text/x-handlebars-template" id="tpl_change_price">
-    <div class="change-price-modal">
-        <div class="orgin-price">
-            <span class="f16">订单原价：</span>
-            <span class="price f18">{{main_order_price}}</span>
-            <span class="f16">元</span>
-        </div>
-        <table class="order-list">
-            <tr>
-                <th style="width:200px">商品名称</th>
-                <th style="width:100px">原价</th>
-                <th style="width:100px">数量</th>
-                <th style="width:100px">实付价</th>
-                <th style="width:120px">修改后价格</th>
-            </tr>
-            {{#each son_order_list}}
-            <tr>
-                <td class="name">{{son_order_product_name}}</td>
-                <td>{{son_order_price}}</td>
-                <td>{{son_order_number}}</td>
-                <td>{{son_order_real_price}}</td>
-                <td>
-                    <input class="input-text" id="{{son_order_id}}" placeholder="{{son_order_real_price}}" />
-                </td>
-            </tr>
-            {{/each}}
-        </table>
-        <div class="real-price">
-            <div class="right" id="real_pay">
-            </div>
-            <div class="yh-tips right" id="yh_tips">
-                店铺优惠**元已均摊到每个商品
-            </div>
-        </div>
-    </div>
+	<div class="change-price-modal">
+		<div class="orgin-price">
+			<span class="f16">订单原价：</span>
+			<span class="price f18">{{main_order_price}}</span>
+			<span class="f16">元</span>
+		</div>
+		<table class="order-list">
+			<tr>
+				<th style="width:200px">商品名称</th>
+				<th style="width:100px">原价</th>
+				<th style="width:100px">数量</th>
+				<th style="width:100px">实付价</th>
+				<th style="width:120px">修改后价格</th>
+			</tr>
+			{{#each son_order_list}}
+			<tr>
+				<td class="name">{{son_order_product_name}}</td>
+				<td>{{son_order_price}}</td>
+				<td>{{son_order_number}}</td>
+				<td>{{son_order_real_price}}</td>
+				<td>
+					<input class="input-text" id="{{son_order_id}}" placeholder="{{son_order_real_price}}" />
+				</td>
+			</tr>
+			{{/each}}
+		</table>
+		<div class="real-price">
+			<div class="right" id="real_pay">
+			</div>
+			<div class="yh-tips right" id="yh_tips">
+				店铺优惠**元已均摊到每个商品
+			</div>
+		</div>
+	</div>
 </script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/jquery.js?version=20160414"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/layer-v2.1/layer.js?version=20160414"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/handlebars.js"></script>
 <script>
-function getOrderId() {
-    var reg = new RegExp('(^|&)orderid=([^&]*)(&|$)', 'i');
-    var r = window.location.search.substr(1).match(reg);
-    if (r != null) {
-        return unescape(r[2]);
-    }
-    return null;
-}
-var page = {
-    init: function() {
-        page.renderPage();
-        page.attachEvent();
-    },
-    getOrderId: function() {
-        var reg = new RegExp('(^|&)orderid=([^&]*)(&|$)', 'i');
-        var r = window.location.search.substr(1).match(reg);
-        if (r != null) {
-            return unescape(r[2]);
-        }
-        return null;
-    },
-    renderPage: function() {
-        var orderid = page.getOrderId();
-        var order = parent.getOrderInfo(orderid);
-        page.order = order;
-        var template = Handlebars.compile($("#tpl_change_price").html());
-        $(template(page.order)).appendTo("#page");
-        page.formatRealPrice();
-    },
-    attachEvent: function() {
-        $(document).on("blur", ".input-text", function() {
-            var _this = $(this);
-            var val = _this.val().replace(/\s/g, '');
-            if (val.length > 0) {
-                _this.removeClass("error");
-                var reg = /^((0|(?!0)\d+)(\.\d{1,2})?)$/;
-                if (!reg.test(val)) {
-                    _this.addClass("error");
-                } else {
-                    _this.val(parseFloat(val).toFixed(2));
-                }
-            }
+	function getOrderId() {
+		var reg = new RegExp('(^|&)orderid=([^&]*)(&|$)', 'i');
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) {
+			return unescape(r[2]);
+		}
+		return null;
+	}
+	var page = {
+		init: function() {
+			page.renderPage();
+			page.attachEvent();
+		},
+		getOrderId: function() {
+			var reg = new RegExp('(^|&)orderid=([^&]*)(&|$)', 'i');
+			var r = window.location.search.substr(1).match(reg);
+			if (r != null) {
+				return unescape(r[2]);
+			}
+			return null;
+		},
+		renderPage: function() {
+			var orderid = page.getOrderId();
+			var order = parent.getOrderInfo(orderid);
+			page.order = order;
+			var template = Handlebars.compile($("#tpl_change_price").html());
+			$(template(page.order)).appendTo("#page");
+			page.formatRealPrice();
+		},
+		attachEvent: function() {
+			$(document).on("blur", ".input-text", function() {
+				var _this = $(this);
+				var val = _this.val().replace(/\s/g, '');
+				if (val.length > 0) {
+					_this.removeClass("error");
+					var reg = /^((0|(?!0)\d+)(\.\d{1,2})?)$/;
+					if (!reg.test(val)) {
+						_this.addClass("error");
+					} else {
+						_this.val(parseFloat(val).toFixed(2));
+					}
+				}
 
-            page.changeRealPrice();
-        });
-    },
-    formatRealPrice: function() {
-        if (page.order == null) {
-            return;
-        }
+				page.changeRealPrice();
+			});
+		},
+		formatRealPrice: function() {
+			if (page.order == null) {
+				return;
+			}
 
-        var temp = [];
-        temp.push('<span class="f16 ">买家实付：</span>');
-        var sonOrderLength = page.order.son_order_list.length;
-        if (sonOrderLength == 1) {
-            temp.push('<span class="price f18">' + page.order.main_order_price + '</span><span class="f16">元</span>');
-            $("#real_pay").html(temp.join(''));
-            return;
-        }
+			var temp = [];
+			temp.push('<span class="f16 ">买家实付：</span>');
+			var sonOrderLength = page.order.son_order_list.length;
+			if (sonOrderLength == 1) {
+				temp.push('<span class="price f18">' + page.order.main_order_price + '</span><span class="f16">元</span>');
+				$("#real_pay").html(temp.join(''));
+				return;
+			}
 
-        //temp.push("<span>买家实付：</span>");
-        for (var index = 0; index < sonOrderLength; index++) {
-            var sonOrder = page.order.son_order_list[index];
-            var son_order_real_price = +sonOrder.son_order_real_price;
-            var son_order_number = +sonOrder.son_order_number;
-            if (index == sonOrderLength - 1) {
-                temp.push('<span class="f18">' + son_order_real_price * son_order_number + '</span>');
-            } else {
-                temp.push('<span class="f18">' + son_order_real_price * son_order_number + '</span>')
-                temp.push('<span class="f18">+</span>');
-            }
-        }
-        temp.push('<span>=</span>');
-        temp.push('<span class="price f18">' + page.order.main_order_price + '</span><span>元</span>');
-        $("#real_pay").html(temp.join(''));
-    },
-    changeRealPrice: function() {
-        if (page.order == null) {
-            return;
-        }
+			//temp.push("<span>买家实付：</span>");
+			for (var index = 0; index < sonOrderLength; index++) {
+				var sonOrder = page.order.son_order_list[index];
+				var son_order_real_price = +sonOrder.son_order_real_price;
+				var son_order_number = +sonOrder.son_order_number;
+				if (index == sonOrderLength - 1) {
+					temp.push('<span class="f18">' + son_order_real_price * son_order_number + '</span>');
+				} else {
+					temp.push('<span class="f18">' + son_order_real_price * son_order_number + '</span>')
+					temp.push('<span class="f18">+</span>');
+				}
+			}
+			temp.push('<span>=</span>');
+			temp.push('<span class="price f18">' + page.order.main_order_price + '</span><span>元</span>');
+			$("#real_pay").html(temp.join(''));
+		},
+		changeRealPrice: function() {
+			if (page.order == null) {
+				return;
+			}
 
-        var temp = [];
-        var total = 0;
-        var sonOrderLength = page.order.son_order_list.length;
-        //单个子订单  处理
-        if (sonOrderLength == 1) {
-            total = $("#" + page.order.son_order_list[0].son_order_id).val();
-            if (total == '' || $("#" + page.order.son_order_list[0].son_order_id).hasClass("error")) {
-                total = page.order.main_order_price;
-            } else {
-                total = parseFloat(total).toFixed(2) * page.order.son_order_list[0].son_order_number;
-            }
+			var temp = [];
+			var total = 0;
+			var sonOrderLength = page.order.son_order_list.length;
+			//单个子订单  处理
+			if (sonOrderLength == 1) {
+				total = $("#" + page.order.son_order_list[0].son_order_id).val();
+				if (total == '' || $("#" + page.order.son_order_list[0].son_order_id).hasClass("error")) {
+					total = page.order.main_order_price;
+				} else {
+					total = parseFloat(total).toFixed(2) * page.order.son_order_list[0].son_order_number;
+				}
 
-            $("#real_pay").html('<span class="f16">买家实付：</span><span class="price f18">' + total + '</span><span class="f16">元</span>');
-            return;
-        }
+				$("#real_pay").html('<span class="f16">买家实付：</span><span class="price f18">' + total + '</span><span class="f16">元</span>');
+				return;
+			}
 
-        //多个子订单处理
-        temp.push('<span class="f16">买家实付：</span>');
-        for (var index = 0; index < sonOrderLength; index++) {
-            var sonOrder = page.order.son_order_list[index];
-            var input = $("#" + sonOrder.son_order_id);
-            var newPrice = input.val();
-            var hasError = input.hasClass("error");
+			//多个子订单处理
+			temp.push('<span class="f16">买家实付：</span>');
+			for (var index = 0; index < sonOrderLength; index++) {
+				var sonOrder = page.order.son_order_list[index];
+				var input = $("#" + sonOrder.son_order_id);
+				var newPrice = input.val();
+				var hasError = input.hasClass("error");
 
-            var sonRealPrice = 0;
+				var sonRealPrice = 0;
 
-            if (newPrice == "" || hasError) {
-                sonRealPrice = parseFloat(sonOrder.son_order_real_price);
-            } else {
-                sonRealPrice = parseFloat(newPrice) * sonOrder.son_order_number;
-            }
+				if (newPrice == "" || hasError) {
+					sonRealPrice = parseFloat(sonOrder.son_order_real_price) * sonOrder.son_order_number;
+				} else {
+					sonRealPrice = parseFloat(newPrice) * sonOrder.son_order_number;
+				}
 
-            if (index == sonOrderLength - 1) {
-                temp.push('<span class="f18">' + sonRealPrice + '</span>');
-            } else {
-                temp.push('<span class="f18">' + sonRealPrice + '</span>');
-                temp.push('<span class="f18">+</span>');
-            }
+				if (index == sonOrderLength - 1) {
+					temp.push('<span class="f18">' + sonRealPrice + '</span>');
+				} else {
+					temp.push('<span class="f18">' + sonRealPrice + '</span>');
+					temp.push('<span class="f18">+</span>');
+				}
 
-            total += sonRealPrice;
-        }
-        temp.push('<span class="f18">=</span><span class="price f18">' + total.toFixed(2) + '</span><span class="f16">元</span>');
-        $("#real_pay").html(temp.join(''));
-    },
-    isValid: function() {
-        var result = {
-            isValid: false,
-            msg: ""
-        };
+				total += sonRealPrice;
+			}
+			temp.push('<span class="f18">=</span><span class="price f18">' + total.toFixed(2) + '</span><span class="f16">元</span>');
+			$("#real_pay").html(temp.join(''));
+		},
+		isValid: function() {
+			var result = {
+				isValid: false,
+				msg: ""
+			};
 
-        if ($(".input-text.error").length > 0) {
-            result.msg = "请输入正确的修改后价格";
-            return result;
-        }
+			if ($(".input-text.error").length > 0) {
+				result.msg = "请输入正确的修改后价格";
+				return result;
+			}
 
-        $(".input-text").each(function() {
-            if ($(this).val() != "") {
-                result.isValid = true;
-                return;
-            }
-        });
-        if (!result.isValid) {
-            result.msg = "请至少输入一个修改后价格。";
-        }
-        return result;
-    },
-    getChangedResult: function() {
-        var newOrder = {};
-        newOrder.mainOrderId = page.order.main_order_id;
-        newOrder.mainOrderPrice = 0;
-        newOrder.orderSonModel = [];
-        $.each(page.order.son_order_list, function(i, son) {
-            var input = $("#" + son.son_order_id);
-            var newPrice = input.val();
-            if (newPrice.length > 0) {
-                newOrder.orderSonModel.push({
-                    sonOrderId: son.son_order_id,
-                    sonOrderNumber: son.son_order_number,
-                    sonOrderPrice: parseFloat(newPrice)
-                });
-                newOrder.mainOrderPrice += parseFloat(newPrice) * son.son_order_number;
-            } else {
-                newOrder.mainOrderPrice += parseFloat(son.son_order_real_price);
-            }
-        });
+			$(".input-text").each(function() {
+				if ($(this).val() != "") {
+					result.isValid = true;
+					return;
+				}
+			});
+			if (!result.isValid) {
+				result.msg = "请至少输入一个修改后价格。";
+			}
+			return result;
+		},
+		getChangedResult: function() {
+			var newOrder = {};
+			newOrder.mainOrderId = page.order.main_order_id;
+			newOrder.mainOrderPrice = 0;
+			newOrder.orderSonModel = [];
+			$.each(page.order.son_order_list, function(i, son) {
+				var input = $("#" + son.son_order_id);
+				var newPrice = input.val();
+				if (newPrice.length > 0) {
+					newOrder.orderSonModel.push({
+						sonOrderId: son.son_order_id,
+						sonOrderNumber: son.son_order_number,
+						sonOrderPrice: parseFloat(newPrice)
+					});
+					newOrder.mainOrderPrice += parseFloat(newPrice) * son.son_order_number;
+				} else {
+					newOrder.mainOrderPrice += parseFloat(son.son_order_real_price) * son.son_order_number;
+				}
+			});
 
-        return newOrder;
-    }
-};
-$(function() {
-    page.init();
-    var index = parent.layer.getFrameIndex(window.name);
-    parent.layer.iframeAuto(index);
-});
+			return newOrder;
+		}
+	};
+	$(function() {
+		page.init();
+		var index = parent.layer.getFrameIndex(window.name);
+		parent.layer.iframeAuto(index);
+	});
 </script>
 </body>
