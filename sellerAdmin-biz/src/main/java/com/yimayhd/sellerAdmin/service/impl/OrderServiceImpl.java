@@ -209,7 +209,7 @@ public class OrderServiceImpl implements OrderService {
 							.getSellerMemo(bizOrderDO));
 //					//添加主订单实付款
 //					mo.setItemPrice_(tcMainOrder.getBizOrder().getActualTotalFee());
-					log.info("订单总金额 order price:"+mo.getTcMainOrder().getBizOrder().getActualTotalFee());
+					//log.info("订单总金额 order price:"+mo.getTcMainOrder().getBizOrder().getActualTotalFee());
 					mainOrderList.add(mo);
 				}
 			}

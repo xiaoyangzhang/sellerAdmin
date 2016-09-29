@@ -206,7 +206,7 @@ public class OrderConverter {
         mainOrder.setMainOrderTotalFee(mainOrderTotalFee);
         long mainOrderTotalChangeFee  = BizOrderUtil.getActualAmountPaid(tcBizOrder.getBizOrderDO());//订单实际支付金额
         mainOrder.setMainOrderTotalChangeFee(mainOrderTotalChangeFee);
-        LOG.info("实收order price:"+mainOrderTotalChangeFee);
+        //LOG.info("实收order price:"+mainOrderTotalChangeFee);
 
         for (OrderBizType orderBizType : OrderBizType.values()) {
         	if(tcBizOrder.getOrderType() == orderBizType.getBizType()){
