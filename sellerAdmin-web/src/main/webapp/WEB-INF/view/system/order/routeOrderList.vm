@@ -186,13 +186,13 @@
                                       		#if($!order.value > 0) 
                                       			<span class="fullCut">满$!utilNum.moneyTransform($!order.requirement)<br/>减$!utilNum.moneyTransform($!order.value)</span>
                                       		#end
-                                           #* #if($!order.tcMainOrder.totalFee != $!order.mainOrderTotalChangeFee)*#
+                                            #if($!order.tcMainOrder.totalFee != $!order.mainOrderTotalChangeFee)
                                             <i class="questionPrice">
                                                 <div class="question-box">
                                                     实付金额与订单价格不符，订单价格¥$!utilNum.moneyTransform($!order.tcMainOrder.totalFee)
                                                 </div>
                                             </i>
-                                            #*#end*#
+                                            #end
                                     </div>
                                 </td>
                                 <td rowspan="$!size" class="middle">
