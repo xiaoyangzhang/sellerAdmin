@@ -54,7 +54,7 @@ public class SettlementController extends BaseController {
 		model.addAttribute("pageVo", pageVo);
 		
 		String reqDate = query.getReqDate();
-		int subIndexNum = 6;
+		int subIndexNum = 5;
 		if(StringUtils.isNotEmpty(reqDate) && reqDate.length() > subIndexNum){
 			String reqDateWithOutYear = reqDate.substring(subIndexNum, reqDate.length());
 			query.setReqDateWithOutYear(reqDateWithOutYear.replace("-", "月")+"日");
