@@ -22,7 +22,7 @@ public class ValidateCode {
     // 验证码字符个数
     private int codeCount = 5;
     // 验证码干扰线数
-    private int lineCount = 150;
+    private int lineCount = 100;
     // 验证码图片Buffer
     private BufferedImage buffImg = null;
 
