@@ -459,6 +459,7 @@ public class UserController extends BaseController {
 		if(obj==null){
 			int exp_time = DateUtil.getCurrentTimeStamp()+Constant.LOGIN_COUNT_EXPIRETIME;
 			cacheManager.addToTair(key,exp_time,exp_time);
+			return exp_time;
 		}
 
 		return (Integer)obj;
