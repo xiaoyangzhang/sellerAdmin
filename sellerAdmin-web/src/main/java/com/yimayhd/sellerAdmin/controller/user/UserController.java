@@ -610,9 +610,12 @@ public class UserController extends BaseController {
 	 */
 	public  String getLoginFqIpKey(HttpServletRequest request){
 		String srcIp = request.getHeader(Constant.CDN_SRC_IP);//访问者ip
+		log.info("srcIp1="+srcIp);
 		if(StringUtils.isBlank(srcIp)){
 			srcIp = request.getRemoteAddr();
+
 		}
+		log.info("srcIp2="+request.getRemoteAddr());
 		log.info("登录ip={}",srcIp);
 		return Constant.LOGIN_FQ_IP_KEY_+srcIp;
 	}
