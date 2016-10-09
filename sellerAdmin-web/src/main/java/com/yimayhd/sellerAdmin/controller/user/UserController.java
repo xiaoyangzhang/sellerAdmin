@@ -15,6 +15,7 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.cache.CacheManager;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.sellerAdmin.validate.CodeUtil;
+import com.yimayhd.sellerAdmin.validate.IPUtil;
 import com.yimayhd.sellerAdmin.validate.ValidateCode;
 import com.yimayhd.user.session.manager.SessionHelper;
 import com.yimayhd.user.session.manager.constant.SessionConstant;
@@ -608,15 +609,22 @@ public class UserController extends BaseController {
 	 * @param request
 	 * @return
 	 */
-	public  String getLoginFqIpKey(HttpServletRequest request){
-		String srcIp = request.getHeader(Constant.CDN_SRC_IP);//访问者ip
-		log.info("srcIp1="+srcIp);
-		if(StringUtils.isBlank(srcIp)){
-			srcIp = request.getRemoteAddr();
+	public  String getLoginFqIpKey(HttpServletRequest request)  {
+		String srcIp="";
+		try{
+			 srcIp = request.getHeader(Constant.CDN_SRC_IP);//访问者ip
+			log.info("srcIp1="+srcIp);
+			if(StringUtils.isBlank(srcIp)){
+				srcIp = request.getRemoteAddr();
 
+			}
+			log.info("srcIp2="+request.getRemoteAddr());
+			log.info("srcIp3="+ IPUtil.getIpAddr(request));
+			log.info("登录ip={}",srcIp);
+
+		}catch (Exception e){
+			log.error("获取IP信息异常,",e);
 		}
-		log.info("srcIp2="+request.getRemoteAddr());
-		log.info("登录ip={}",srcIp);
 		return Constant.LOGIN_FQ_IP_KEY_+srcIp;
 	}
 
