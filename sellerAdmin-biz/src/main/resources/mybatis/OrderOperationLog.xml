@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yimayhd.sellerAdmin.mapper.OrderOperationLogMapper" >
-  <resultMap id="BaseResultMap" type="com.yimayhd.sellerAdmin.mapper.data.OrderOperationLogDO" >
+  <resultMap id="BaseResultMap" type="com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogDO" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="biz_no" property="bizNo" jdbcType="BIGINT" />
     <result column="operation_id" property="operationId" jdbcType="BIGINT" />
@@ -48,7 +48,7 @@
     <include refid="query_clause" />
 
   </select>
-  <insert id="insertOrderOperationLogDO" parameterType="com.yimayhd.sellerAdmin.mapper.data.OrderOperationLogDO" >
+  <insert id="insertOrderOperationLogDO" parameterType="com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogDO" >
     INSERT INTO order_operation_log (
      biz_no,
      operation_id,

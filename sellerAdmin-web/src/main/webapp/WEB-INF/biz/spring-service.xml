@@ -75,4 +75,5 @@
 	<bean id="merchantInfoApi"  class="com.yimayhd.sellerAdmin.service.api.MerchantInfoApiImpl" />
 
 	<bean id="jiuxiuVoucherTemplateService" class="com.yimayhd.sellerAdmin.service.impl.JiuxiuVoucherTemplateServiceImpl" />
+	<bean id="orderOperationLogService" class="com.yimayhd.sellerAdmin.service.impl.OrderOperationLogServiceImpl" />
 </beans>

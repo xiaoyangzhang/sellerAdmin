@@ -6,8 +6,10 @@ import java.util.Date;
 /**
  * Created by wangdi on 16/10/10.
  */
-public class OrderOperationLogDTO implements Serializable {
-    private static final long serialVersionUID = 2333686619394070105L;
+public class OrderOperationLogDO implements Serializable {
+
+
+    private static final long serialVersionUID = -7548589720564552250L;
 
     private long id;
     private long bizNo;//'订单号'
@@ -17,6 +19,7 @@ public class OrderOperationLogDTO implements Serializable {
     private String desc;//'备注'
     private Date gmtCreate;
     private Date gmtModified;
+
 
     public long getId() {
         return id;

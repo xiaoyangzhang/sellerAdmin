@@ -1,12 +1,13 @@
 package com.yimayhd.sellerAdmin.dao;
 
 import com.yimayhd.sellerAdmin.mapper.OrderOperationLogMapper;
-import com.yimayhd.sellerAdmin.mapper.data.OrderOperationLogDO;
+import  com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogDO;;
 import com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,6 +59,7 @@ public class OrderOperationLogDao{
             logger.error("参数错误,orderOperationLogDO is null");
             return 0;
         }
+        orderOperationLogDO.setGmtCreate(new Date());
         return mapper.insertOrderOperationLogDO(orderOperationLogDO);
     }
 }

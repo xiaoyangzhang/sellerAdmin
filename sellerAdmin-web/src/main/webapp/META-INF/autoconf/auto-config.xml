@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<group name="mysql">
-		<property name="jdbc.url"			defaultValue="jdbc:mysql://192.168.1.157:3306/selleradmin?useUnicode=true&amp;amp;characterset=utf-8"			description="数据库链接url" />
+		<property name="jdbc.url"	   defaultValue="jdbc:mysql://192.168.1.157:3306/selleradmin?useUnicode=true&amp;amp;characterset=utf-8"			description="数据库链接url" />
 		<property name="jdbc.username" defaultValue="root"			description="数据库用户名" />
 		<property name="jdbc.password" defaultValue="123456"			description="数据库密码" />
 	</group>
