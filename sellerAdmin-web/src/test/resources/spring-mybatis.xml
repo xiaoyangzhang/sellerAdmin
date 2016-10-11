@@ -7,46 +7,37 @@
 	   xmlns:task="http://www.springframework.org/schema/task"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
+	<bean id="statFilter" class="com.alibaba.druid.filter.stat.StatFilter">
+		<property name="slowSqlMillis" value="10000" />
+		<property name="logSlowSql" value="true" />
+		<property name="mergeSql" value="true" />
+	</bean>
 
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		  destroy-method="close">
-		<!-- 基本属性 url、model、password -->
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="${jdbc.url}"/>
-		<property name="username" value="${jdbc.user}"/>
+		<property name="username" value="${jdbc.username}"/>
 		<property name="password" value="${jdbc.password}"/>
-		<!-- 配置初始化大小、最小、最大 -->
-		<property name="initialSize" value="1"/>
-		<property name="minIdle" value="1"/>
-		<property name="maxActive" value="20"/>
-		<!-- 配置获取连接等待超时的时间 -->
-		<property name="maxWait" value="120000"/>
-		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-		<property name="timeBetweenEvictionRunsMillis" value="60000"/>
-		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-		<property name="minEvictableIdleTimeMillis" value="300000"/>
-		<property name="validationQuery" value="SELECT 0 from dual"/>
-		<property name="testWhileIdle" value="true"/>
-		<property name="testOnBorrow" value="false"/>
-		<property name="testOnReturn" value="false"/>
-		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
-		<!--如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。分库分表较多的数据库，建议配置为false。-->
-		<property name="poolPreparedStatements" value="false"/>
-		<property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
-		<!-- 配置监控统计拦截的filters -->
-		<!-- <property name="filters" value="stat,wall"/> -->
-		<property name="filters" value="stat"/>
+		<property name="filters" value="config" />
+		<property name="connectionProperties" value="config.decrypt=false"/>
+		<property name="proxyFilters">
+			<list>
+				<ref bean="statFilter"/>
+			</list>
+		</property>
 	</bean>
 
 	<!-- 配置SqlSessionFactoryBean -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="mapperLocations" value="classpath*:mybatis/*.xml"/>
+		<property name="typeAliasesPackage" value="com.yimayhd.sellerAdmin.entity"/>
+		<property name="configLocation" value="classpath:mybatis-config.xml"/>
 	</bean>
 	<!-- 扫描所有Mapper接口文件-->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.yimayhd.sellerAdmin.mapper"/>
-		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
 	</bean>
 	<!-- 配置事务 -->
 	<bean id="transactionManager"
@@ -54,33 +45,43 @@
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
 
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
+		<constructor-arg index="0" ref="sqlSessionFactory"/>
+	</bean>
+
+
+	<bean id="transactionTemplate"  class="org.springframework.transaction.support.TransactionTemplate" >
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+
 	<!-- 定义事务通知(主要是针对指定事务管理器对应的事务实现配置事务参数) -->
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+	<!--<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<!-- 对选定的方法配置详细的事务属性 -->
-			<!-- 一次执行多次查询来统计某些信息，这时为了保证数据整体的一致性，要用只读事务 -->
+			&lt;!&ndash; 对选定的方法配置详细的事务属性 &ndash;&gt;
+			&lt;!&ndash; 一次执行多次查询来统计某些信息，这时为了保证数据整体的一致性，要用只读事务 &ndash;&gt;
 			<tx:method name="get*" read-only="true"/>
 
-			<!--<tx:method name="save*" rollback-for="Exception" propagation="REQUIRED"/>
+			&lt;!&ndash;<tx:method name="save*" rollback-for="Exception" propagation="REQUIRED"/>
 			<tx:method name="update*" rollback-for="Exception" propagation="REQUIRED"/>
 			<tx:method name="delete*" rollback-for="Exception" propagation="REQUIRED"/>
 			<tx:method name="insert*" rollback-for="Exception" propagation="REQUIRED"/>
 			<tx:method name="remove*" rollback-for="Exception" propagation="REQUIRED"/>
 			<tx:method name="modify*" rollback-for="Exception" propagation="REQUIRED"/>
 			<tx:method name="create*" rollback-for="Exception" propagation="REQUIRED"/>
-			<tx:method name="add*" rollback-for="Exception" propagation="REQUIRED"/>-->
+			<tx:method name="add*" rollback-for="Exception" propagation="REQUIRED"/>&ndash;&gt;
 
 			<tx:method name="*" propagation="SUPPORTS"/>
 		</tx:attributes>
 	</tx:advice>
-	<!--启用事务注解配置-->
+	&lt;!&ndash;启用事务注解配置&ndash;&gt;
 	<tx:annotation-driven transaction-manager="transactionManager"/>
-	<!-- 事务AOP配置 -->
+	&lt;!&ndash; 事务AOP配置 &ndash;&gt;
 	<aop:config>
-		<!--  声明事务切入点(配置哪些类的哪些方法参与事务) -->
+		&lt;!&ndash;  声明事务切入点(配置哪些类的哪些方法参与事务) &ndash;&gt;
 		<aop:pointcut id="AllServiceMethod"
 					  expression="execution(* com.yimayhd.sellerAdmin..*Impl.*(..))"/>
-		<!-- 通知器(把事务通知绑定到切入点) -->
+		&lt;!&ndash; 通知器(把事务通知绑定到切入点) &ndash;&gt;
 		<aop:advisor pointcut-ref="AllServiceMethod" advice-ref="txAdvice"/>
-	</aop:config>
+	</aop:config>-->
 </beans>

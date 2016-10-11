@@ -23,4 +23,5 @@
 	<bean id ="tagBiz" class="com.yimayhd.sellerAdmin.biz.TagBiz"/>
 	<bean id ="destinationBiz" class="com.yimayhd.sellerAdmin.biz.DestinationBiz"/>
 	<bean id ="publishItemBiz" class="com.yimayhd.sellerAdmin.biz.PublishItemBiz"/>
+	<bean id ="orderOperationLogManager" class="com.yimayhd.sellerAdmin.manager.OrderOperationLogManager"/>
 </beans>

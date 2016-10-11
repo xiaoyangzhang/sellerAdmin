@@ -12,7 +12,7 @@
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, biz_no, operation_id, status, content,desc, gmt_created, gmt_modified
+    `id`, `biz_no`, `operation_id`, `status`, `content`,`desc`, `gmt_created`, `gmt_modified`
   </sql>
   <sql id="query_clause">
     <where>
@@ -49,21 +49,20 @@
 
   </select>
   <insert id="insertOrderOperationLogDO" parameterType="com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogDO" >
-    INSERT INTO order_operation_log (
-     biz_no,
-     operation_id,
-     status,
-     content,
-     desc,
-     gmt_created,
-     gmt_modified)
+    INSERT INTO order_operation_log  (
+     `biz_no`,
+     `operation_id`,
+     `status`,
+     `content`,
+     `desc`,
+     `gmt_created`,
+     `gmt_modified`)
     VALUES (
       #{bizNo,jdbcType=BIGINT},
       #{operationId,jdbcType=BIGINT},
       #{status,jdbcType=INTEGER},
       #{content,jdbcType=VARCHAR},
       #{desc,jdbcType=VARCHAR},
-      #{appId,jdbcType=INTEGER},
       #{gmtCreated,jdbcType=TIMESTAMP},
       #{gmtModified,jdbcType=TIMESTAMP})
   </insert>

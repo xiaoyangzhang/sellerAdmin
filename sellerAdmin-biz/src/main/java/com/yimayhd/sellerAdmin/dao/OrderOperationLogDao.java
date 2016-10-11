@@ -59,7 +59,7 @@ public class OrderOperationLogDao{
             logger.error("参数错误,orderOperationLogDO is null");
             return 0;
         }
-        orderOperationLogDO.setGmtCreate(new Date());
+        orderOperationLogDO.setGmtCreated(new Date());
         return mapper.insertOrderOperationLogDO(orderOperationLogDO);
     }
 }
