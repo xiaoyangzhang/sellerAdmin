@@ -16,8 +16,6 @@
 		<module>sellerAdmin-api</module>
 		<module>sellerAdmin-biz</module>
 		<module>sellerAdmin-client</module>
-		<module>seller-test</module>
-
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
