@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.base.result; /**
+package com.yimayhd.sellerAdmin.client.result; /**
  *
  */
 
@@ -8,7 +8,7 @@ package com.yimayhd.sellerAdmin.base.result; /**
  * @param <T>
  */
 
-public class CallResult<T> extends SellerBaseDO  {
+public class SellerResult<T> extends SellerBaseResult  {
 
     public static final int CODE_FAILURE = -1;
     public static final int CODE_SUCCESS = 1;
@@ -22,7 +22,7 @@ public class CallResult<T> extends SellerBaseDO  {
 
     private String stringValue;
 
-    public CallResult(boolean isSuccess, int code, String msg, T resultObject){
+    public SellerResult(boolean isSuccess, int code, String msg, T resultObject){
         this.success = isSuccess;
         this.code = code;
         this.msg = msg;
@@ -30,29 +30,29 @@ public class CallResult<T> extends SellerBaseDO  {
     }
 
 
-    public static <T> CallResult<T> success(){
-        return new CallResult<T>(true,CODE_SUCCESS,"default success",null);
+    public static <T> SellerResult<T> success(){
+        return new SellerResult<T>(true,CODE_SUCCESS,"default success",null);
     }
 
-    public static <T> CallResult<T> success(T resultObject){
-        return new CallResult<T>(true,CODE_SUCCESS,"default success",resultObject);
+    public static <T> SellerResult<T> success(T resultObject){
+        return new SellerResult<T>(true,CODE_SUCCESS,"default success",resultObject);
     }
 
-    public static <T> CallResult<T> success(int code, String msg, T resultObject){
-        return new CallResult<T>(true,code,msg,resultObject);
+    public static <T> SellerResult<T> success(int code, String msg, T resultObject){
+        return new SellerResult<T>(true,code,msg,resultObject);
     }
 
-    public static <T> CallResult<T> failure(){
-        return new CallResult<T>(false,CODE_FAILURE,"default failure",null);
+    public static <T> SellerResult<T> failure(){
+        return new SellerResult<T>(false,CODE_FAILURE,"default failure",null);
     }
 
-    public static <T> CallResult<T> failure(String msg){
-        return new CallResult<T>(false,CODE_FAILURE,msg,null);
+    public static <T> SellerResult<T> failure(String msg){
+        return new SellerResult<T>(false,CODE_FAILURE,msg,null);
     }
 
 
-    public static <T> CallResult<T> failure(int code, String msg){
-        return new CallResult<T>(false,code,msg,null);
+    public static <T> SellerResult<T> failure(int code, String msg){
+        return new SellerResult<T>(false,code,msg,null);
     }
 
     @Override

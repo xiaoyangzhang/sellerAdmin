@@ -1,10 +1,10 @@
 package com.yimayhd.sellerAdmin.converter;
 
-import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogDTO;
+import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery;
+import com.yimayhd.sellerAdmin.client.result.SellerResult;
 import com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogDO;
-import com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogDTO;
-import com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cglib.beans.BeanCopier;
@@ -31,28 +31,28 @@ public class OrderOperationLogConverter {
         this.orderOperationLogDTO = orderOperationLogDTO;
     }
 
-    public WebResult checkQueryParam(){
+    public SellerResult checkQueryParam(){
         if(orderOperationLogQuery==null){
-            return WebResult.failure(WebReturnCode.PARAM_ERROR);
+            return SellerResult.failure(WebReturnCode.PARAM_ERROR.getErrorMsg());
         }
-        return WebResult.success(null);
+        return SellerResult.success(null);
     }
 
     /**
      * 添加记录 参数验证
      * @return
      */
-    public WebResult chekAddParam(){
+    public SellerResult chekAddParam(){
         if(orderOperationLogDTO==null){
-            return WebResult.failure(WebReturnCode.PARAM_ERROR);
+            return SellerResult.failure(WebReturnCode.PARAM_ERROR.getErrorMsg());
         }
         if(orderOperationLogDTO.getBizNo()==0){
-            return WebResult.failure(WebReturnCode.PARAM_ERROR,"订单编号不能为空");
+            return SellerResult.failure(WebReturnCode.PARAM_ERROR.getErrorCode(),"订单编号不能为空");
         }
         if(orderOperationLogDTO.getOperationId()==0){
-            return WebResult.failure(WebReturnCode.PARAM_ERROR,"操作人ID不能为空");
+            return SellerResult.failure(WebReturnCode.PARAM_ERROR.getErrorCode(),"操作人ID不能为空");
         }
-        return WebResult.success(null);
+        return SellerResult.success(null);
     }
 
     /**

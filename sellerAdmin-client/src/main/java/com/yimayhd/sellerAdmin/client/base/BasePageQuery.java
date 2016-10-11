@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.base;
+package com.yimayhd.sellerAdmin.client.base;
 
 import java.io.Serializable;
 

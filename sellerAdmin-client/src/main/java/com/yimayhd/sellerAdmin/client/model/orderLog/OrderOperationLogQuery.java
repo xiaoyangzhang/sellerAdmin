@@ -1,6 +1,7 @@
-package com.yimayhd.sellerAdmin.model.orderLog;
+package com.yimayhd.sellerAdmin.client.model.orderLog;
 
-import com.yimayhd.sellerAdmin.base.BasePageQuery;
+
+import com.yimayhd.sellerAdmin.client.base.BasePageQuery;
 
 import java.util.Date;
 

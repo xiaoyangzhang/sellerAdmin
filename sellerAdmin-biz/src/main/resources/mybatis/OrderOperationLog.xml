@@ -32,7 +32,7 @@
     </where>
   </sql>
   <!--查询列表-->
-  <select id="queryOrderOperationLogDOList" resultMap="BaseResultMap"  parameterType="com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogQuery" >
+  <select id="queryOrderOperationLogDOList" resultMap="BaseResultMap"  parameterType="com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery" >
     select
     <include refid="Base_Column_List" />
     from order_operation_log
@@ -41,7 +41,7 @@
     limit #{startRow},#{pageSize}
   </select>
   <!--查询列表总数-->
-  <select id="queryOrderOperationLogDOListCount" resultType="java.lang.Integer" parameterType="com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogQuery" >
+  <select id="queryOrderOperationLogDOListCount" resultType="java.lang.Integer" parameterType="com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery" >
     select
           count(*)
     from order_operation_log

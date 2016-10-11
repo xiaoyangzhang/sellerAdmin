@@ -251,7 +251,10 @@
 			<artifactId>gson</artifactId>
 			<version>1.6</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.yimayhd</groupId>
+			<artifactId>sellerAdmin-client</artifactId>
+		</dependency>
 
 	</dependencies>
 

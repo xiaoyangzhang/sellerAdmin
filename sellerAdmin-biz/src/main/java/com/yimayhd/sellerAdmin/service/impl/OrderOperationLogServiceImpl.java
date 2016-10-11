@@ -1,13 +1,13 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
-import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogDTO;
+import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery;
+import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogResult;
+import com.yimayhd.sellerAdmin.client.result.SellerResult;
+import com.yimayhd.sellerAdmin.client.service.OrderOperationLogService;
 import com.yimayhd.sellerAdmin.converter.OrderOperationLogConverter;
 import com.yimayhd.sellerAdmin.manager.OrderOperationLogManager;
-import com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogDTO;
-import com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogQuery;
-import com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogResult;
-import com.yimayhd.sellerAdmin.service.OrderOperationLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +28,10 @@ public class OrderOperationLogServiceImpl implements OrderOperationLogService {
      * @return
      */
     @Override
-    public WebResult<OrderOperationLogResult> queryOrderOperationLogDOList(OrderOperationLogQuery query) {
+    public SellerResult<OrderOperationLogResult> queryOrderOperationLogDOList(OrderOperationLogQuery query) {
         OrderOperationLogConverter converter = new OrderOperationLogConverter(query);
         OrderOperationLogResult result = new  OrderOperationLogResult();
-        WebResult chekResult = converter.checkQueryParam();
+        SellerResult chekResult = converter.checkQueryParam();
         if(!chekResult.isSuccess()){
             logger.error("参数错误,query is null");
             return chekResult;
@@ -46,9 +46,9 @@ public class OrderOperationLogServiceImpl implements OrderOperationLogService {
             result.setOrderOperationLogDTOList(logList);
         }catch (Exception e){
             logger.error("查询数据库失败",e);
-            return WebResult.failure(WebReturnCode.DB_ERROR);
+            return SellerResult.failure(WebReturnCode.DB_ERROR.getErrorMsg());
         }
-        return WebResult.success(result);
+        return SellerResult.success(result);
     }
 
     /**
@@ -57,15 +57,15 @@ public class OrderOperationLogServiceImpl implements OrderOperationLogService {
      * @return
      */
     @Override
-    public WebResult<Integer> queryOrderOperationLogDOListCount(OrderOperationLogQuery query) {
+    public SellerResult<Integer> queryOrderOperationLogDOListCount(OrderOperationLogQuery query) {
         Integer count = 0;
         try{
             count = orderOperationLogManager.queryOrderOperationLogDOListCount(query);
         }catch (Exception e){
             logger.error("查询数据库失败",e);
-            return WebResult.failure(WebReturnCode.DB_ERROR);
+            return SellerResult.failure(WebReturnCode.DB_ERROR.getErrorMsg());
         }
-        return WebResult.success(count);
+        return SellerResult.success(count);
     }
 
     /**
@@ -74,19 +74,19 @@ public class OrderOperationLogServiceImpl implements OrderOperationLogService {
      * @return
      */
     @Override
-    public WebResult<Boolean> insertOrderOperationLogDO(OrderOperationLogDTO orderOperationLogDTO) {
+    public SellerResult<Boolean> insertOrderOperationLogDO(OrderOperationLogDTO orderOperationLogDTO) {
         OrderOperationLogConverter converter = new OrderOperationLogConverter(orderOperationLogDTO);
-        WebResult chekResult = converter.chekAddParam();
+        SellerResult chekResult = converter.chekAddParam();
         if(!chekResult.isSuccess()){
-            logger.error("参数错误 ,msg={}",chekResult.getResultMsg());
+            logger.error("参数错误 ,msg={}",chekResult.getMsg());
             return chekResult;
         }
         try{
             orderOperationLogManager.insertOrderOperationLogDO(converter.doToDto(orderOperationLogDTO));
         }catch (Exception e){
             logger.error("插入数据库异常",e);
-            return WebResult.failure(WebReturnCode.DB_ERROR);
+            return SellerResult.failure(WebReturnCode.DB_ERROR.getErrorMsg());
         }
-        return WebResult.success(true);
+        return SellerResult.success(true);
     }
 }
