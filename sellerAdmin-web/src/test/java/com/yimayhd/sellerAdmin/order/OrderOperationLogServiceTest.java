@@ -4,10 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.BaseTest;
 import com.yimayhd.sellerAdmin.ServiceTest;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
-import com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogDTO;
-import com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogQuery;
-import com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogResult;
-import com.yimayhd.sellerAdmin.service.OrderOperationLogService;
+import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogDTO;
+import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery;
+import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogResult;
+import com.yimayhd.sellerAdmin.client.result.SellerResult;
+import com.yimayhd.sellerAdmin.client.service.OrderOperationLogService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,7 +23,7 @@ public class OrderOperationLogServiceTest extends ServiceTest {
     @Test
     public void queryOrderOperationLogDOList(){
         OrderOperationLogQuery query = new OrderOperationLogQuery();
-        WebResult<OrderOperationLogResult> result =  orderOperationLogService.queryOrderOperationLogDOList(query);
+        SellerResult<OrderOperationLogResult> result =  orderOperationLogService.queryOrderOperationLogDOList(query);
         System.out.println("---start---");
         System.out.println(JSON.toJSONString(result));
 
@@ -36,7 +37,7 @@ public class OrderOperationLogServiceTest extends ServiceTest {
         dto.setDesc("adfafa");
         dto.setOperationId(88080);
         dto.setStatus(1);
-        WebResult<Boolean> result =  orderOperationLogService.insertOrderOperationLogDO(dto);
+        SellerResult<Boolean> result =  orderOperationLogService.insertOrderOperationLogDO(dto);
         System.out.println("---start---");
         System.out.println(JSON.toJSONString(result));
 

@@ -26,10 +26,11 @@
     <!--tair-->
     <import resource="biz/spring-tair.xml"/>
     <!--service注入-->
-    <import resource="biz/spring-service.xml"/>
+
 
 
     <import resource="biz/application-dao.xml"/>
+    <import resource="biz/spring-service.xml"/>
     <import resource="biz/spring-session.xml"/>
 
     <import resource="biz/spring-manager.xml"/>
