@@ -17,10 +17,10 @@
   <sql id="query_clause">
     <where>
        1=1
-      <if test="operationId != null" >
+      <if test="operationId != 0" >
         AND operation_id = #{operationId,jdbcType=BIGINT}
       </if>
-      <if test="bizNo != null" >
+      <if test="bizNo != 0" >
         AND biz_no = #{bizNo,jdbcType=BIGINT}
       </if>
       <if test="gmtCreatedStart != null ">

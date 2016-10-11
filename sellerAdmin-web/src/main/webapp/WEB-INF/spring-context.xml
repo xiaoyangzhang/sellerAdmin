@@ -14,11 +14,10 @@
 
     <!--程序中获取配置文件信息-->
     <util:properties id="properties" location="WEB-INF/config.properties"/>
-    <!--dubbo-->
+    <!--加载数据源和事务配置-->
+    <import resource="biz/spring-mybatis.xml"/>
     <import resource="biz/spring-dubbo.xml"/>
     <import resource="biz/spring-consumer.xml"/>
-    <!--加载数据源和事务配置-->
-    <!--<import resource="biz/spring-mybatis.xml"/>-->
     <context:component-scan base-package="com.yimayhd.**.controller"/>
 
     <!--tfs-->
@@ -26,8 +25,6 @@
     <!--tair-->
     <import resource="biz/spring-tair.xml"/>
     <!--service注入-->
-
-
 
     <import resource="biz/application-dao.xml"/>
     <import resource="biz/spring-service.xml"/>
