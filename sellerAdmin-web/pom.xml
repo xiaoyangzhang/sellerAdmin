@@ -34,6 +34,10 @@
 		</dependency>
 		<dependency>
 			<groupId>com.yimayhd</groupId>
+			<artifactId>sellerAdmin-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.yimayhd</groupId>
 			<artifactId>commission-client</artifactId>
 		</dependency>
 		<dependency>
