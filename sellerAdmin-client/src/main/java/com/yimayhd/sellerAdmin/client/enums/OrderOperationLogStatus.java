@@ -3,7 +3,14 @@ package com.yimayhd.sellerAdmin.client.enums;
 public enum OrderOperationLogStatus {
 
 	FINISH(1,"已完成"),
-	CANCEL(2,"已取消");
+	CANCEL(2,"已取消"),
+
+	SUCCESS(10,"操作完成"),
+	FAIL(11,"操作失败"),
+	;
+
+
+
 	private int type;
 	private String name;
 	private OrderOperationLogStatus(int type,String name) {
