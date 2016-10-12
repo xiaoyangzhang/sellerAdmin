@@ -20,7 +20,6 @@ public class OrderOperationLogDO implements Serializable {
     private Date gmtCreated;
     private Date gmtModified;
 
-
     public long getId() {
         return id;
     }

@@ -20,7 +20,6 @@ public class OrderOperationLogQuery extends BasePageQuery {
 
     private Date gmtCreatedEnd;
 
-
     public long getOperationId() {
         return operationId;
     }
