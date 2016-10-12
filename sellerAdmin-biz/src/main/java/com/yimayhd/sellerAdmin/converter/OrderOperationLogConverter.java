@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.converter;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogDTO;
 import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery;
@@ -46,7 +47,7 @@ public class OrderOperationLogConverter {
         if(orderOperationLogDTO==null){
             return SellerResult.failure(WebReturnCode.PARAM_ERROR.getErrorMsg());
         }
-        if(orderOperationLogDTO.getBizNo()==0){
+        if(StringUtils.isBlank(orderOperationLogDTO.getBizNo())){
             return SellerResult.failure(WebReturnCode.PARAM_ERROR.getErrorCode(),"订单编号不能为空");
         }
         if(orderOperationLogDTO.getOperationId()==0){
