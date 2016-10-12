@@ -12,27 +12,28 @@ import java.util.Date;
 public class OrderOperationLogQuery extends BasePageQuery {
 
     private static final long serialVersionUID = -8196260883114296399L;
-    private Long operationId;
+    private long operationId;
 
-    private Long bizNo;
+    private String  bizNo;
 
     private Date gmtCreatedStart;
 
     private Date gmtCreatedEnd;
 
-    public Long getOperationId() {
+
+    public long getOperationId() {
         return operationId;
     }
 
-    public void setOperationId(Long operationId) {
+    public void setOperationId(long operationId) {
         this.operationId = operationId;
     }
 
-    public Long getBizNo() {
+    public String getBizNo() {
         return bizNo;
     }
 
-    public void setBizNo(Long bizNo) {
+    public void setBizNo(String bizNo) {
         this.bizNo = bizNo;
     }
 

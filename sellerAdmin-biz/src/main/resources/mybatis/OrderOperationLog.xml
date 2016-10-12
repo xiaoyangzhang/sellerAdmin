@@ -3,7 +3,7 @@
 <mapper namespace="com.yimayhd.sellerAdmin.mapper.OrderOperationLogMapper" >
   <resultMap id="BaseResultMap" type="com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogDO" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="biz_no" property="bizNo" jdbcType="BIGINT" />
+    <result column="biz_no" property="bizNo" jdbcType="VARCHAR" />
     <result column="operation_id" property="operationId" jdbcType="BIGINT" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="content" property="content" jdbcType="VARCHAR" />
@@ -20,8 +20,8 @@
       <if test="operationId != 0" >
         AND operation_id = #{operationId,jdbcType=BIGINT}
       </if>
-      <if test="bizNo != 0" >
-        AND biz_no = #{bizNo,jdbcType=BIGINT}
+      <if test="bizNo != null" >
+        AND biz_no = #{bizNo,jdbcType=VARCHAR}
       </if>
       <if test="gmtCreatedStart != null ">
         and gmt_created <![CDATA[>]]> #{gmtCreatedStart}
@@ -32,7 +32,7 @@
     </where>
   </sql>
   <!--查询列表-->
-  <select id="queryOrderOperationLogDOList" resultMap="BaseResultMap"  parameterType="com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery" >
+  <select id="queryOrderOperationLogDOList" resultMap="BaseResultMap"  parameterType="com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperaetionLogQuery" >
     select
     <include refid="Base_Column_List" />
     from order_operation_log
@@ -58,7 +58,7 @@
      `gmt_created`,
      `gmt_modified`)
     VALUES (
-      #{bizNo,jdbcType=BIGINT},
+      #{bizNo,jdbcType=VARCHAR},
       #{operationId,jdbcType=BIGINT},
       #{status,jdbcType=INTEGER},
       #{content,jdbcType=VARCHAR},

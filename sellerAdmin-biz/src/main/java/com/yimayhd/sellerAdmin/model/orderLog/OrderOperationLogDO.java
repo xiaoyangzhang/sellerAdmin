@@ -12,7 +12,7 @@ public class OrderOperationLogDO implements Serializable {
     private static final long serialVersionUID = -7548589720564552250L;
 
     private long id;
-    private long bizNo;//'订单号'
+    private String bizNo;//'业务号'
     private long operationId;//操作人id
     private int status;//'状态'
     private String content;//'修改内容'
@@ -29,11 +29,11 @@ public class OrderOperationLogDO implements Serializable {
         this.id = id;
     }
 
-    public long getBizNo() {
+    public String getBizNo() {
         return bizNo;
     }
 
-    public void setBizNo(long bizNo) {
+    public void setBizNo(String bizNo) {
         this.bizNo = bizNo;
     }
 
