@@ -32,7 +32,7 @@ public class OrderOperationLogServiceTest extends ServiceTest {
     @Test
     public void insertOrderOperationLogDO(){
         OrderOperationLogDTO dto =  new OrderOperationLogDTO();
-        dto.setBizNo(110);
+        dto.setBizNo("110;112");
         dto.setContent("ddddd");
         dto.setDesc("adfafa");
         dto.setOperationId(88080);
