@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogDTO;
 import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery;
@@ -29,6 +30,7 @@ public class OrderOperationLogServiceImpl implements OrderOperationLogService {
      */
     @Override
     public SellerResult<OrderOperationLogResult> queryOrderOperationLogDOList(OrderOperationLogQuery query) {
+        logger.info("queryOrderOperationLogDOList start ,param={}", JSON.toJSONString(query));
         OrderOperationLogConverter converter = new OrderOperationLogConverter(query);
         OrderOperationLogResult result = new  OrderOperationLogResult();
         SellerResult chekResult = converter.checkQueryParam();
