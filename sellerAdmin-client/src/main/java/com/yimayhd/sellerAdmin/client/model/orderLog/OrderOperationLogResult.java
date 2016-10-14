@@ -13,6 +13,9 @@ public class OrderOperationLogResult implements Serializable{
     private List<OrderOperationLogDTO> orderOperationLogDTOList;
     private int totalCount;
 
+    public OrderOperationLogResult(){
+
+    }
     public List<OrderOperationLogDTO> getOrderOperationLogDTOList() {
         return orderOperationLogDTOList;
     }
