@@ -1,6 +1,7 @@
 package com.yimayhd.sellerAdmin.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
 import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogDTO;
 import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery;
@@ -12,6 +13,7 @@ import com.yimayhd.sellerAdmin.manager.OrderOperationLogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jmx.export.annotation.ManagedAttribute;
 
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class OrderOperationLogServiceImpl implements OrderOperationLogService {
      * @return
      */
     @Override
+    @MethodLogger
     public SellerResult<OrderOperationLogResult> queryOrderOperationLogDOList(OrderOperationLogQuery query) {
         logger.info("queryOrderOperationLogDOList start ,param={}", JSON.toJSONString(query));
         OrderOperationLogConverter converter = new OrderOperationLogConverter(query);
@@ -46,6 +49,7 @@ public class OrderOperationLogServiceImpl implements OrderOperationLogService {
             List<OrderOperationLogDTO> logList = orderOperationLogManager.queryOrderOperationLogDOList(query);
             result.setTotalCount(count);
             result.setOrderOperationLogDTOList(logList);
+
         }catch (Exception e){
             logger.error("查询数据库失败",e);
             return SellerResult.failure(WebReturnCode.DB_ERROR.getErrorMsg());
