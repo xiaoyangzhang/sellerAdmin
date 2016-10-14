@@ -49,7 +49,7 @@ public class OrderOperationLogServiceImpl implements OrderOperationLogService {
             List<OrderOperationLogDTO> logList = orderOperationLogManager.queryOrderOperationLogDOList(query);
             result.setTotalCount(count);
             result.setOrderOperationLogDTOList(logList);
-
+            logger.info("queryOrderOperationLogDOList ,result={}",JSON.toJSONString(result));
         }catch (Exception e){
             logger.error("查询数据库失败",e);
             return SellerResult.failure(WebReturnCode.DB_ERROR.getErrorMsg());
