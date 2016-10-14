@@ -55,6 +55,7 @@ public class WebReturnCode implements Serializable {
 	public final static WebReturnCode NEW_OLD_PASSWORD_EQUAL = new WebReturnCode(24001019, "新旧密码相同");
 	public final static WebReturnCode SYSTEM_ERROR_MERCHANT_TALENT = new WebReturnCode(24001020, "服务器出现错误，请稍后重新登录");
 	public final static WebReturnCode NOT_FOUNT_MERCHANT = new WebReturnCode(24003007, "未找到该用户");
+	public final static WebReturnCode LOGIN_IP_FREQUENTF = new WebReturnCode(24001021, "IP频繁错误登录");
 
 	/***************************************** 商户相关 ********************************************************/
 	public static final WebReturnCode MERCHANT_BASIC_SAVE_FAILURE = new WebReturnCode(24002001, "商户基本信息保存失败");

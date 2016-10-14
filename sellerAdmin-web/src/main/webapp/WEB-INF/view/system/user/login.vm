@@ -18,12 +18,18 @@
 					<input type="password" class="textinput"  id="loginpwd" placeholder="请输入密码" datatype="*" nullmsg="请输入您的密码" autocomplete="off"/>
 					<span class="Validform_checktip"></span>
 				</p>
+				<input type='hidden' id='isPopImgCodeInput' value='$!{isPop}'/>
+				<p class="btngroup clearfix" id='isPopImgCodeP' style="display:none">
+					<img src="$!{utilWebconfig.rootPath}/user/getPerfectImgCode" class="imgcode" width="152" height="48" onclick="this.src='$root_path/user/getPerfectImgCode?d='+Math.random();"/>
+					<span class="Validform_checktip"></span>
+				</p>
 				<p class="first clearfix">
 					<label><input type="checkbox" class="saveuser"/>记住用户名</label>
 					<a href="$root_path/user/retrievePassword" target="_blank">忘记密码？</a>
 				</p>
 				<input type="submit" id="loginSubmitBtn" class="winloginbtn" value="登录"/>
 				<p class="last">还没有账号 <a href="$root_path/user/register">立即注册</a></p>
-			</form>			
+			</form>
+            <input type="text" class="textinput sortinput" name="imageCode" id="imgcode" style="display: none" value="" placeholder="请输入验证码" nullmsg="请输入验证码" errormsg="请输入4位验证码" autocomplete="off" />
 		</div>
 	</div>

@@ -122,6 +122,7 @@ public class PublishItemBiz {
 			return result;
 		}
 		try {
+			//FIXME user调用应该放在userRepo中
 			UserDO userDO = userServiceRef.getUserDOById(sellerId);
 			long option = userDO.getOptions();
 			boolean isTalentA = UserOptions.CERTIFICATED.has(option);

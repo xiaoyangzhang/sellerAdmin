@@ -184,6 +184,26 @@ public class CacheManager {
 			return 0;
 		}
 	}
+
+	/**
+	 * 计数器功能
+	 *
+	 * @param key
+	 * @param delta
+	 *            ： 自由步进值,自由过期时间
+	 * @return
+	 */
+
+	public int incrFree(String key, int delta, int defaultValue, int expireTime) {
+		Result<Integer> rs = tairManager.incr(namespace, key, delta, defaultValue, expireTime);
+		ResultCode rc = rs.getRc();
+		if (ResultCode.SUCCESS == rc) {
+			return rs.getValue();
+		} else {
+			log.error("tair inc fail !    key={}, delta={}, Result={}", key, JSON.toJSONString(rs));
+			return 0;
+		}
+	}
 	
 
 	public <T> Map<String, T> getBatchFormTair(List<String> keys) {

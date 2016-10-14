@@ -62,6 +62,7 @@ import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
 import org.yimayhd.sellerAdmin.SellerReturnCode;
+import sun.reflect.generics.reflectiveObjects.LazyReflectiveObjectGenerator;
 
 /**
  * 订单管理实现
@@ -138,8 +139,7 @@ public class OrderServiceImpl implements OrderService {
 		List<MainOrder> mainOrderList = new ArrayList<>();
 		long userId = 0;
 		if (StringUtils.isNotEmpty(orderListQuery.getBuyerPhone())) {
-			BaseResult<UserDO> result = userServiceRef
-					.getUserByMobile(orderListQuery.getBuyerPhone());
+			BaseResult<UserDO> result = userServiceRef.getUserByMobile(orderListQuery.getBuyerPhone());
 			if (result.getValue() != null) {
 				userId = result.getValue().getId();
 			} else {
@@ -149,8 +149,7 @@ public class OrderServiceImpl implements OrderService {
 		}
 		if (userId == 0
 				&& StringUtils.isNotEmpty(orderListQuery.getBuyerName())) {
-			BaseResult<List<UserDO>> result = userServiceRef
-					.getUserByNickname(orderListQuery.getBuyerName());
+			BaseResult<List<UserDO>> result = userServiceRef.getUserByNickname(orderListQuery.getBuyerName());
 			if (result.getValue() != null
 					&& !CollectionUtils.isEmpty(result.getValue())) {
 				List<UserDO> userDOList = result.getValue();
@@ -210,6 +209,7 @@ public class OrderServiceImpl implements OrderService {
 							.getSellerMemo(bizOrderDO));
 //					//添加主订单实付款
 //					mo.setItemPrice_(tcMainOrder.getBizOrder().getActualTotalFee());
+					//log.info("订单总金额 order price:"+mo.getTcMainOrder().getBizOrder().getActualTotalFee());
 					mainOrderList.add(mo);
 				}
 			}

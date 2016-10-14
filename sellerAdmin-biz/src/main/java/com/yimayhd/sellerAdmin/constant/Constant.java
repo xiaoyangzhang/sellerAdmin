@@ -170,6 +170,18 @@ public class Constant {
 	public static final String APP_JIUXIU_CHANNEL = "merchant";//商户后台渠道号
 
 	public static final String EXPRESS_COMPANY_REG="[A-Z\\u4e00-\\u9fa5]*";//中文,大写字母,大写字母+中文
-	
-	
+
+	public static final String LOGIN_FQ_IP_KEY_="LOGIN_FQ_IP_KEY_";//用户登录 ip 访问次数限制
+
+	public static final String LOGIN_FQ_USER_KEY_="LOGIN_FQ_USER_KEY_";//用户登录 userid 访问次数限制
+
+	public static final String CDN_SRC_IP = "Cdn-Src-Ip";//CDN ip
+
+	public static final int LOGIN_COUNT_EXPIRETIME = 3*60*60;//60;/登录次数过期时间
+
+	public static final String LOGIN_IP_TIME_TEMP_ = "LOGIN_IP_TIME_TEMP_";
+
+	public static final int TOKEN_EXPIRE_TIME=3*60;//登录验证码失效时间
+
+
 }

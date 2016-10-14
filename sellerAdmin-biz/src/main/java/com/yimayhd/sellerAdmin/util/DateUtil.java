@@ -1084,6 +1084,15 @@ public class DateUtil {
 		return (end.getTime() - begin.getTime()) / (24 * 60 * 60 * 1000);
 	}
 
+	/**
+	 * 获得当前时间秒数
+	 * @return
+	 */
+	public static int getCurrentTimeStamp(){
+		String timeStamp = Long.toString(System.currentTimeMillis()/1000);
+		return Integer.parseInt(timeStamp);
+	}
+
 	public static void main(String[] args) throws Exception {
 		System.out.println(dateToString(new Date(), "yyyy-MM-dd"));
 		Calendar calendar = Calendar.getInstance();
