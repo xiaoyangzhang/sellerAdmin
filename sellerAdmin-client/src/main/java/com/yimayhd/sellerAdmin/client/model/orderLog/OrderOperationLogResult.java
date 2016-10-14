@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class OrderOperationLogResult implements Serializable{
 
+    private static final long serialVersionUID = 2010315782335925922L;
     private List<OrderOperationLogDTO> orderOperationLogDTOList;
     private int totalCount;
 
@@ -28,5 +29,4 @@ public class OrderOperationLogResult implements Serializable{
         this.totalCount = totalCount;
     }
 
-        private static final long serialVersionUID = 6849283422903948418L;
 }
