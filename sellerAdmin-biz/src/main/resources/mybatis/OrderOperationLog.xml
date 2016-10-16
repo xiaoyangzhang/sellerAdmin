@@ -21,7 +21,7 @@
         AND operation_id = #{operationId,jdbcType=BIGINT}
       </if>
       <if test="bizNo != null" >
-        AND biz_no = #{bizNo,jdbcType=VARCHAR}
+        AND   biz_no LIKE CONCAT('%', #{bizNo}, '%')
       </if>
       <if test="gmtCreatedStart != null ">
         and gmt_created <![CDATA[>]]> #{gmtCreatedStart}
