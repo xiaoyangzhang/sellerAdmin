@@ -12,3 +12,4 @@ CREATE TABLE `selleradmin`.`order_operation_log` (
 	`gmt_modified` datetime DEFAULT NULL COMMENT '更新时间',
 	PRIMARY KEY (`id`)
 ) COMMENT='订单修改记录表';
+--test
