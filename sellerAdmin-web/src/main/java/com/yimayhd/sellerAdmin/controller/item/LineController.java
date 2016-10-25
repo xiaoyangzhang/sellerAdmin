@@ -182,6 +182,7 @@ public class LineController extends BaseLineController {
 			}
 			long itemId = gt.getBaseInfo().getItemId();
 			if (itemId > 0) {
+				//更新
 				List<Long> itemIds = new ArrayList<Long>();
 				itemIds.add(itemId);
 				ICResult<List<ItemDO>> itemQueryResult = itemQueryService.getItemByIds(itemIds);
@@ -194,6 +195,7 @@ public class LineController extends BaseLineController {
 				
 				
 			} else {
+				//添加
 				String key = Constant.APP+"_repeat_"+sessionManager.getUserId()+uuid;
 				boolean rs = cacheManager.addToTair(key, true , 2, 24*60*60);
 				if (!rs) {
