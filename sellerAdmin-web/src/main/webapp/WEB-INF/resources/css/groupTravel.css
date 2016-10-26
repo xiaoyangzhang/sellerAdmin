@@ -35,7 +35,6 @@
 .tripInfo .panel-body table td .flight .flightSelList{margin: 0 0 10px;font-size: 12px;}
 .tripInfo .panel-body table td .flight .flightSelList .label-info{margin-left: 10px;}
 /*商品管理-发布线路-价格信息*/
-.priceInfo{padding: 10px;}
 .priceInfo .tc-main .nav-tabs{border-bottom: none;}
 .priceInfo .tc-main .navCombo{background: #DCD9D9;}
 .priceInfo .tc-main .navCombo li{position: relative;}

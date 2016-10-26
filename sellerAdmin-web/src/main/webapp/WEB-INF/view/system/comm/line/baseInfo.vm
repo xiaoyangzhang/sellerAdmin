@@ -90,7 +90,17 @@
 				<div class="uploadbox clearfix">
                     <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file_string" />
                     <input type="hidden" class="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />	
-					<div class="imgbox">												
+					<div class="imgbox">
+                        <div class="imgbox" style="border: none;">
+                            <div class="dimg">
+                                <img src="http://192.168.1.209:7500/v1/tfs/T1jCDvByJT1RXrhCrK.jpg">
+                                <input type="hidden" class="picCode baseInfo-picCode" value="T1jCDvByJT1RXrhCrK.jpg">
+                            </div>
+                            <div class="upimgbtn">
+                                <a class="upl" style="display: none;">上传图片<input type="file" name="picfile" class="picfile"></a>
+                                <button class="del">删除图片</button>
+                            </div>
+                        </div>
 						<div class="dimg">
 							#if($baseInfo.picUrls && $baseInfo.picUrls.size() > 0)
 							<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(0)}">

@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.css">
         <link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/css/groupTravel.css?version=$!{utilWebconfig.getResourceVersion()}"/>
 		<link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/css/zui.min.css"/>
-		
+        <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/addtripproduct.css"/>
 		<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/old/css/addtravel.css"/>
 		<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/old/css/editer.css"/>
 		
@@ -19,6 +19,7 @@
         	.double-only{ime-mode:"disabled"}
         	.int-only{ime-mode:"disabled"}
         </style>
+
 		<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/js/jquery.js"></script>
 		<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/js/jquery.form.js"></script>
 		<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/layer/layer.js"></script>
@@ -32,6 +33,9 @@
         <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/moment.js" type="text/javascript"></script>
         <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/calendar-tool.js" type="text/javascript"></script>
         <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/input.js" type="text/javascript"></script>
+        <script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/sea.js"></script>
+        <script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+        <script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/config.js"></script>
         <!-- 富文本编辑 -->
         <!--
         <script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.config.js"></script>
@@ -83,7 +87,7 @@
                     #parse("/system/comm/line/routeInfo.vm")
                 </div>
                 <div class="tab-pane priceInfo" id="tab5">
-                    #parse("/system/comm/line/priceInfo.vm")
+                    #parse("/system/comm/line/priceCalendar.vm")
                 </div>
             	<div class="tab-pane" id="tab6" style="width: 96%;margin: 15px auto;">
 					#set($needKnow = $product.needKnow)
