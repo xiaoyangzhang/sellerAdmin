@@ -5,7 +5,7 @@
 
 	<artifactId>sellerAdmin</artifactId>
 	<packaging>pom</packaging>
-	<version>1.1.0-SNAPSHOT</version>
+	<version>1.1.1-SNAPSHOT</version>
 	<parent>
 		<groupId>com.yimayhd</groupId>
 		<artifactId>parent</artifactId>
@@ -15,6 +15,7 @@
 		<module>sellerAdmin-web</module>
 		<module>sellerAdmin-api</module>
 		<module>sellerAdmin-biz</module>
+		<module>sellerAdmin-client</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,7 +29,7 @@
 		<resourcecenter.client.version>2.1.3-SNAPSHOT</resourcecenter.client.version>
 		<membercenter.client.version>1.1.7-SNAPSHOT</membercenter.client.version>
 		<paycore.client.version>1.0.2-SNAPSHOT</paycore.client.version>
-		<tradecenter.client.version>1.3.0-SNAPSHOT</tradecenter.client.version>
+		<tradecenter.client.version>1.3.15-SNAPSHOT</tradecenter.client.version>
 		<comment.version>1.0.8-SNAPSHOT</comment.version>
 		<fhtd.version>0.1.0-SNAPSHOT</fhtd.version>
 		<logback.version>1.1.1</logback.version>
@@ -100,6 +101,11 @@
 			<dependency>
 				<groupId>com.yimayhd</groupId>
 				<artifactId>sellerAdmin-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.yimayhd</groupId>
+				<artifactId>sellerAdmin-client</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -824,6 +830,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 			</plugin>
+
+
 		</plugins>
 	</build>
 </project>

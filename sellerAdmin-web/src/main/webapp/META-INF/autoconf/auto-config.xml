@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-
-	<!--<group name="jdbc">
-		<property name="jdbc.driverClassName" defaultValue="com.mysql.jdbc.Driver" description="#数据库驱动" />
-		<property name="jdbc.url" defaultValue="jdbc:mysql://192.168.1.202:3306/seller_console?useUnicode=true&amp;characterEncoding=UTF-8" description="#" />
-		<property name="jdbc.user" defaultValue="root" description="#" />
-		<property name="jdbc.password" defaultValue="123456" description="#" />
-	</group>-->
+	<group name="mysql">
+		<property name="jdbc.url"	   defaultValue="jdbc:mysql://192.168.1.157:3306/selleradmin?useUnicode=true&amp;amp;characterset=utf-8"			description="数据库链接url" />
+		<property name="jdbc.username" defaultValue="root"			description="数据库用户名" />
+		<property name="jdbc.password" defaultValue="123456"			description="数据库密码" />
+	</group>
 	<group name="log">
 		<property name="sellerAdmin.logger.dir" defaultValue="/home/admin/logs/sellerAdmin" description="日志目录"/>
 	</group>
@@ -49,7 +47,7 @@
 	</group>
 
 	<group name="dubbo">
-		<property name="app.name" defaultValue="sellerAdmin" description="#" />
+		<property name="app.name" defaultValue="sellerAdmin" description="应用名称" />
 		<property name="dubbo.port" defaultValue="-1" description="#" />
 		<property name="dubbo.registry.url" defaultValue="192.168.1.147:2181" description="#" />
 		<property name="dubbo.retries" defaultValue="0" description="#" />

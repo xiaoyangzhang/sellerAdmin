@@ -3,16 +3,16 @@ package com.yimayhd.sellerAdmin.base.result; /**
  */
 
 
-import java.io.Serializable;
-
 /**
  * 返回参数模板
  * @param <T>
  */
 
 public class CallResult<T> extends SellerBaseDO  {
+
     public static final int CODE_FAILURE = -1;
     public static final int CODE_SUCCESS = 1;
+    private static final long serialVersionUID = 4417975132147336761L;
 
 
     private final boolean success;

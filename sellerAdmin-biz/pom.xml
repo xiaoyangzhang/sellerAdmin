@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>sellerAdmin</artifactId>
 		<groupId>com.yimayhd</groupId>
-		<version>1.1.0-SNAPSHOT</version>
+		<version>1.1.1-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
@@ -251,7 +251,10 @@
 			<artifactId>gson</artifactId>
 			<version>1.6</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.yimayhd</groupId>
+			<artifactId>sellerAdmin-client</artifactId>
+		</dependency>
 
 	</dependencies>
 

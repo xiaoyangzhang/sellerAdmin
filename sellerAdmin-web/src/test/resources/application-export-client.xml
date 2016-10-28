@@ -4,17 +4,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
        http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
        >
-
        <!-- dubbo服务 -->
-       <!--<bean id="snsCenterServiceExport" class="com.alibaba.dubbo.config.spring.ServiceBean">
-              <property name="interface" value="com.yimayhd.track.client.service.SnsCenterService"/>
-              <property name="ref" ref="snsCenterService"/>
+       <bean id="orderOperationLogServiceExport" class="com.alibaba.dubbo.config.spring.ServiceBean">
+              <property name="interface" value="com.yimayhd.sellerAdmin.client.service.OrderOperationLogService"/>
+              <property name="ref" ref="orderOperationLogService"/>
               <property name="application" ref="dubboApplicationConfig"/>
               <property name="registry" ref="dubboRegistryConfig"/>
               <property name="protocol" ref="dubboProtocolConfig"/>
               <property name="version" value="${export.dubbo.version}"/>
               <property name="timeout" value="${export.dubbo.timeout}"/>
               <property name="retries" value="${dubbo.retries}"/>
-       </bean>-->
+       </bean>
        
 </beans>

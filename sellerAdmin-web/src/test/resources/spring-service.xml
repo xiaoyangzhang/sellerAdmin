@@ -67,9 +67,13 @@
 	<!--景区商品管理-->
 	<bean id ="scenicManageService" class="com.yimayhd.sellerAdmin.service.hotelManage.impl.ScenicManageServiceImpl" />
 	<bean id="serviceTemplate" class="com.yimayhd.sellerAdmin.base.template.ServiceTemplateImpl" />
+	
+	<bean id ="accountService" class="com.yimayhd.sellerAdmin.service.impl.AccountServiceImpl" />
+	<bean id ="settlementService" class="com.yimayhd.sellerAdmin.service.impl.SettlementServiceImpl" />
 	<!-- 发布商品 -->
 	<bean id="publishItemApi"  class="com.yimayhd.sellerAdmin.service.api.PublishItemApiImpl" />
 	<bean id="merchantInfoApi"  class="com.yimayhd.sellerAdmin.service.api.MerchantInfoApiImpl" />
 
 	<bean id="jiuxiuVoucherTemplateService" class="com.yimayhd.sellerAdmin.service.impl.JiuxiuVoucherTemplateServiceImpl" />
+	<bean id="orderOperationLogService" class="com.yimayhd.sellerAdmin.service.impl.OrderOperationLogServiceImpl" />
 </beans>
