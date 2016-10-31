@@ -95,10 +95,6 @@
                 </div>
             </div>
         </div>
-        <div class="tc mb40">
-            <a href="javascript:;" class="btn btn-orange">返回上一页</a>
-            <a href="javascript:;" class="btn btn-orange ml20">全部提交</a>
-        </div>
     </form>
     <!-- 弹框套餐内容 start -->
     <div class="package-name mt20">
@@ -109,7 +105,6 @@
 </div>
 
 <script>
-    seajs.use("addtrip");
     function getPriceInfo() {
         var tcs = [];
         var updatedSKU = [];

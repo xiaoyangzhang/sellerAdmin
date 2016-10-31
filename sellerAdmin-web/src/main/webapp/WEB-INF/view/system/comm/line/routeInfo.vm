@@ -1,7 +1,7 @@
 <!--
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
 -->
-<div class="tripInfo">
+<div class="tripInfo clearfix">
 	<input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file_string" />
     <input type="hidden" class="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />
 	<ul id="day_tab" class="nav nav-tabs tripInfoNav">
@@ -11,7 +11,7 @@
 		</li>
 		#end
         <li class="day_btn">
-          <button class='btn btn-primary addDay'>添加1天</button>
+          <button class='btn btn-outline-orange addDay'>添加1天</button>
 		  <script type="text/javascript">
 		  	var dayId;
 			$(function() {
