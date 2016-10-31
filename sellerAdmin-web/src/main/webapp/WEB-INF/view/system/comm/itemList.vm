@@ -73,7 +73,7 @@
 	                            <button class="btn btn-default" type="button">景区名称：</button>
 	                        </span>
                             <span class="form-control search-item scenic-name choiceScenic">
-								!${query.scenicName}
+								$!{query.scenicName}
 							</span>
                             <i class="icon-close"></i>
                         </div>
@@ -82,7 +82,7 @@
 	                            <button class="btn btn-default" type="button">酒店名称：</button>
 	                        </span>
                             <span class="form-control search-item hotel-name choicehotel">
-								!${query.hotelName}
+								$!{query.hotelName}
 							</span>
                             <i class="icon-close"></i>
                         </div>
