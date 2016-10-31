@@ -21,8 +21,6 @@
 	<body>
         <div >
         	<form class="form-signin" id="itemListForm" action="$!utilWebconfig.getActionDefaultFontPath()/item/list" method="GET" role="form">
-                <input type="hidden" name="hotelId" value="0">
-                <input type="hidden" name="scenicId" value="0">
                 <input type="hidden"  name="outId" value="$!{query.outId}">
                 <input type="hidden"  name="outType" value="$!{query.outType}">
                 <div class="inputGroup whole info-bar clearfix">
@@ -68,12 +66,7 @@
                         <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
                         <input type="text" class='form-control form-date dateInp search-item' placeholder='' readonly name="endDate" value="$!utilDate.convertDateToString($query.endDate)">
                     </div>
-        			<div class="btn-group">
-                        <button type="submit" class="btn btn-primary form-submit">查询</button>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary form-clear">清空</button>
-                    </div>
+
                     <div class="fl">
                         <div class="input-group inpSingle">
                                 <span class="input-group-btn">
@@ -88,6 +81,12 @@
 	                        </span>
                             <span class="form-control search-item hotel-name choicehotel"></span>
                             <i class="icon-close"></i>
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary form-submit">查询</button>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary form-clear">清空</button>
                         </div>
                     </div>
                 </div>
@@ -257,7 +256,7 @@
 
 </script>
 <!--选择酒店搜索框 start-->
-<div class="searchbox">
+<div class="searchbox" style="display:none;">
     <table class="tb">
         <tr>
             <td class="tb-txt">酒店名称：</td>

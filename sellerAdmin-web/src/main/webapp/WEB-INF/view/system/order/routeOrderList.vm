@@ -14,7 +14,9 @@
 <div>
     <form class="form-signin" id="tradeListForm" name="tradeListForm"
           action="$!utilWebconfig.getActionDefaultFontPath()/order/list" method="GET" role="form">
-        <div class="inputGroup whole">
+        <input type="hidden"  name="outId" value="$!{query.outId}">
+        <input type="hidden"  name="outType" value="$!{query.outType}">
+        <div class="inputGroup whole clearfix">
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">订单编号</button>
@@ -95,11 +97,27 @@
                 <input type='checkbox' name="affiliatedAsk" value="$!orderListQuery.affiliatedAsk">需发票
             </div>
         *#
-            <div class="btn-group">
-                <button type="submit" class="btn btn-primary">查询</button>
-            </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary form-clear">清空</button>
+            <div class="fl">
+                <div class="input-group inpSingle">
+                                <span class="input-group-btn">
+	                            <button class="btn btn-default" type="button">景区名称：</button>
+	                        </span>
+                    <span class="form-control search-item scenic-name choiceScenic"></span>
+                    <i class="icon-close"></i>
+                </div>
+                <div class="input-group inpSingle">
+                                <span class="input-group-btn">
+	                            <button class="btn btn-default" type="button">酒店名称：</button>
+	                        </span>
+                    <span class="form-control search-item hotel-name choicehotel"></span>
+                    <i class="icon-close"></i>
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary form-submit">查询</button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary form-clear">清空</button>
+                </div>
             </div>
         </div>
     #*<div class="btnBottomMargin">
@@ -590,3 +608,45 @@
         return order;
     }
 </script>
+<!--选择酒店搜索框 start-->
+<div class="searchbox" style="display:none;">
+    <table class="tb">
+        <tr>
+            <td class="tb-txt">酒店名称：</td>
+            <td><input  type="text" class="inputxt hotelname"></td>
+            <td class="tb-txt">所在城市：</td>
+            <td>
+                <select id="province"><option value="0">-请选择省-</option></select>
+                <select id="city" class="ml10"><option value="0">-请选择市-</option></select>
+                <select id="area" class="ml10"><option value="0">-请选择区-</option></select>
+                <button class="search-btn">搜索</button>
+            </td>
+        </tr>
+    </table>
+    <img src="$!rs_path_jiuxiu/img/loading.gif" class='load_list'>
+    <div class="hotelist list"></div>
+</div>
+
+<script  type='text/temple' id='province-tpl'>
+	<option value="">-请选择省-</option>
+	<# for(var j=0; j<province.length; j++) { #>
+			<option value="<#= province[j].id#>"><#= province[j].name#></option>
+	<# } #>
+</script>
+<script  type='text/temple' id='city-tpl'>
+	<option value="">-请选择市-</option>
+	<# for(var j=0; j<city.length; j++) { #>
+			<option value="<#= city[j].id#>"><#= city[j].name#></option>
+	<# } #>
+</script>
+<script  type='text/temple' id='area-tpl'>
+	<option value="">-请选择区-</option>
+	<# for(var j=0; j<area.length; j++) { #>
+			<option value="<#= area[j].id#>"><#= area[j].name#></option>
+	<# } #>
+</script>
+<!--选择酒店搜索框 end-->
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
+<script>seajs.use("hotelandscenic");</script>
