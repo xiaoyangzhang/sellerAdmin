@@ -64,6 +64,8 @@ public class ItemConverter {
 			cal.add(Calendar.DATE, 1);
 			itemQryDTO.setEndDate(cal.getTime());
 		}
+		itemQryDTO.setOutId(query.getOutId());
+		itemQryDTO.setOutType(query.getOutType());
 		itemQryDTO.setPageNo(query.getPageNo());
 		itemQryDTO.setPageSize(query.getPageSize());
 		return itemQryDTO;

@@ -23,6 +23,8 @@
         	<form class="form-signin" id="itemListForm" action="$!utilWebconfig.getActionDefaultFontPath()/item/list" method="GET" role="form">
                 <input type="hidden" name="hotelId" value="0">
                 <input type="hidden" name="scenicId" value="0">
+                <input type="hidden"  name="outId" value="$!{query.outId}">
+                <input type="hidden"  name="outType" value="$!{query.outType}">
                 <div class="inputGroup whole info-bar clearfix">
                     <div class="input-group inpSingle">
                         <span class="input-group-btn">

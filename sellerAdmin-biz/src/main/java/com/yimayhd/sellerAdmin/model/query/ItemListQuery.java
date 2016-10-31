@@ -18,6 +18,8 @@ public class ItemListQuery extends BaseQuery {
 	private Integer status;// 状态
 	private Date BeginDate;// 发布开始时间
 	private Date endDate;// 发布结束时间
+	private long outId; // 景区酒店 资源id
+	private int outType;// 景区酒店资源类型
 
 	public String getName() {
 		return name;
@@ -65,5 +67,21 @@ public class ItemListQuery extends BaseQuery {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public long getOutId() {
+		return outId;
+	}
+
+	public void setOutId(long outId) {
+		this.outId = outId;
+	}
+
+	public int getOutType() {
+		return outType;
+	}
+
+	public void setOutType(int outType) {
+		this.outType = outType;
 	}
 }
