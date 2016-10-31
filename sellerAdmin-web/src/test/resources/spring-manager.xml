@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="gfTagBiz" class="com.yimayhd.gf.biz.GFTagBiz"/>
+	<bean id ="commissionBiz" class="com.yimayhd.commission.biz.CommissionBiz"/>
+	<bean id ="itemRebateBiz" class="com.yimayhd.commission.biz.ItemRebateBiz"/>
+	
+	
+	
+	
+	
+	
+
+	<bean id ="UserBiz" class="com.yimayhd.sellerAdmin.biz.UserBiz"/>
+	<bean id ="merchantBiz" class="com.yimayhd.sellerAdmin.biz.MerchantBiz"/>
+	<bean id ="talentBiz" class="com.yimayhd.sellerAdmin.biz.TalentBiz"/>
+	<bean id ="merchantApplyBiz" class="com.yimayhd.sellerAdmin.biz.MerchantApplyBiz"/>
+
+	<bean id ="userBiz" class="com.yimayhd.sellerAdmin.biz.UserBiz"/>
+	<bean id ="MenuBiz" class="com.yimayhd.sellerAdmin.biz.MenuBiz"/>
+	<bean id ="tagBiz" class="com.yimayhd.sellerAdmin.biz.TagBiz"/>
+	<bean id ="destinationBiz" class="com.yimayhd.sellerAdmin.biz.DestinationBiz"/>
+	<bean id ="publishItemBiz" class="com.yimayhd.sellerAdmin.biz.PublishItemBiz"/>
+	<bean id ="orderOperationLogManager" class="com.yimayhd.sellerAdmin.manager.OrderOperationLogManager"/>
+</beans>

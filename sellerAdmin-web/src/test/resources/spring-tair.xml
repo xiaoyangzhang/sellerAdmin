@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	
+	<bean id="tempDefaultTairManager" class="com.taobao.tair.impl.DefaultTairManager" init-method="init" destroy-method="close">
+		<property name="configServerList">
+			<list>
+				<value>${tair.configServer.main}</value>
+				<value>${tair.configServer.slave}</value>
+			</list>
+		</property>
+		<property name="groupName" value="${tair.groupName.temp}" />
+		<property name="timeout" value="${tair.timeout}" />
+	</bean>
+	<bean id="cacheManager" class="com.yimayhd.sellerAdmin.cache.CacheManager">
+		<property name="tairManager" ref="tempDefaultTairManager"/>
+		<property name="namespace" value="${tair.namespace}"></property>
+	</bean>
+	<bean id="menuCacheMananger" class="com.yimayhd.sellerAdmin.cache.MenuCacheMananger"></bean>
+</beans>

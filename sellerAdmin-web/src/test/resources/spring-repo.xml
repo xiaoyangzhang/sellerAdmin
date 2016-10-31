@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="gFTagRepo" class="com.yimayhd.gf.repo.GFTagRepo" />
+	<bean id="hotelRepo" class="com.yimayhd.sellerAdmin.repo.HotelRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.CommentRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.DestinationRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.CategoryRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.LineRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.RestaurantRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.ScenicRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.PictureRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.ResourceRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.ActivityRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.TravelKaRepo"></bean>
+	<bean class="com.yimayhd.sellerAdmin.repo.CityRepo"></bean>
+	<bean id="commissionRepo" class="com.yimayhd.commission.repo.CommissionRepo" />
+	<bean id="itemRebateRepo" class="com.yimayhd.commission.repo.ItemRebateRepo" />
+	<bean id="userRelationRepo" class="com.yimayhd.commission.repo.UserRelationRepo" />
+
+
+	<bean id="userRepo" class="com.yimayhd.sellerAdmin.repo.UserRepo" />
+	<bean id="hotelManageRepo" class="com.yimayhd.sellerAdmin.repo.HotelManageRepo" />
+	<bean id="scenicManageRepo" class="com.yimayhd.sellerAdmin.repo.ScenicManageRepo" />
+
+	<bean id="merchantRepo" class="com.yimayhd.sellerAdmin.repo.MerchantRepo" />
+
+	<bean id="menuRepo" class="com.yimayhd.sellerAdmin.repo.MenuRepo" />
+	<bean id="itemRepo" class="com.yimayhd.sellerAdmin.repo.ItemRepo" />
+	<bean id="talentRepo" class="com.yimayhd.sellerAdmin.repo.TalentRepo" />
+	<bean id="pictureTextRepo" class="com.yimayhd.sellerAdmin.repo.PictureTextRepo" />
+	<bean id="merchantApplyRepo" class="com.yimayhd.sellerAdmin.repo.MerchantApplyRepo" />
+	<bean id="draftRepo" class="com.yimayhd.sellerAdmin.repo.DraftRepo" />
+	
+	<bean id="accountRepo" class="com.yimayhd.sellerAdmin.repo.AccountRepo" />
+	<bean id="settlementRepo" class="com.yimayhd.sellerAdmin.repo.SettlementRepo" />
+	<bean id="jixiuVoucherRepo" class="com.yimayhd.sellerAdmin.repo.JixiuVoucherRepo" />
+
+	<bean id="publishItemRepo" class="com.yimayhd.sellerAdmin.repo.PublishItemRepo" />
+
+	<bean id="tcTradeServiceRepo" class="com.yimayhd.sellerAdmin.repo.TcTradeServiceRepo" />
+
+
+</beans>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+        >
+    <bean id="dubboApplicationConfig" class="com.alibaba.dubbo.config.ApplicationConfig">
+        <property name="name" value="${app.name}"/>
+    </bean>
+
+    <bean id="dubboRegistryConfig" class="com.alibaba.dubbo.config.RegistryConfig">
+        <property name="address" value="${dubbo.registry.url}"/>
+        <property name="protocol" value="zookeeper"/>
+    </bean>
+
+    <bean id="dubboProtocolConfig" class="com.alibaba.dubbo.config.ProtocolConfig">
+        <property name="port" value="${dubbo.port}"/>
+    </bean>
+    <!--<dubbo:monitor protocol="registry" />-->
+
+</beans>
