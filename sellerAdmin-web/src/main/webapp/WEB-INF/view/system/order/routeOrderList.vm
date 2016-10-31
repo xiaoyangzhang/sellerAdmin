@@ -18,7 +18,7 @@
         <input type="hidden"  name="outType" value="$!{query.outType}">
         <input type="hidden"  name="hotelName" value="$!{query.hotelName}">
         <input type="hidden"  name="scenicName" value="$!{query.scenicName}">
-        <div class="inputGroup whole clearfix">
+        <div class="inputGroup whole info-bar clearfix">
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">订单编号</button>
