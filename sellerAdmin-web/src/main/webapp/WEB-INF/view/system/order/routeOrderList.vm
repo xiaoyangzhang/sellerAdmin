@@ -16,6 +16,8 @@
           action="$!utilWebconfig.getActionDefaultFontPath()/order/list" method="GET" role="form">
         <input type="hidden"  name="outId" value="$!{query.outId}">
         <input type="hidden"  name="outType" value="$!{query.outType}">
+        <input type="hidden"  name="hotelName" value="$!{query.hotelName}">
+        <input type="hidden"  name="scenicName" value="$!{query.scenicName}">
         <div class="inputGroup whole clearfix">
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
@@ -99,17 +101,21 @@
         *#
             <div class="fl">
                 <div class="input-group inpSingle">
-                                <span class="input-group-btn">
-	                            <button class="btn btn-default" type="button">景区名称：</button>
-	                        </span>
-                    <span class="form-control search-item scenic-name choiceScenic"></span>
+                    <span class="input-group-btn">
+	                      <button class="btn btn-default" type="button">景区名称：</button>
+	                </span>
+                    <span class="form-control search-item scenic-name choiceScenic">
+                        $!{query.scenicName}
+					</span>
                     <i class="icon-close"></i>
                 </div>
                 <div class="input-group inpSingle">
-                                <span class="input-group-btn">
-	                            <button class="btn btn-default" type="button">酒店名称：</button>
-	                        </span>
-                    <span class="form-control search-item hotel-name choicehotel"></span>
+                     <span class="input-group-btn">
+	                     <button class="btn btn-default" type="button">酒店名称：</button>
+	                 </span>
+                    <span class="form-control search-item hotel-name choicehotel">
+                        $!{query.hotelName}
+					</span>
                     <i class="icon-close"></i>
                 </div>
                 <div class="btn-group">
