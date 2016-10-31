@@ -72,14 +72,18 @@
                                 <span class="input-group-btn">
 	                            <button class="btn btn-default" type="button">景区名称：</button>
 	                        </span>
-                            <span class="form-control search-item scenic-name choiceScenic"></span>
+                            <span class="form-control search-item scenic-name choiceScenic">
+								!${query.scenicName}
+							</span>
                             <i class="icon-close"></i>
                         </div>
                         <div class="input-group inpSingle">
                                 <span class="input-group-btn">
 	                            <button class="btn btn-default" type="button">酒店名称：</button>
 	                        </span>
-                            <span class="form-control search-item hotel-name choicehotel"></span>
+                            <span class="form-control search-item hotel-name choicehotel">
+								!${query.hotelName}
+							</span>
                             <i class="icon-close"></i>
                         </div>
                         <div class="btn-group">
