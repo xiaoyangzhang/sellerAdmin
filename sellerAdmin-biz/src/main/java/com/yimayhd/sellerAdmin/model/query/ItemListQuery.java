@@ -20,6 +20,10 @@ public class ItemListQuery extends BaseQuery {
 	private Date endDate;// 发布结束时间
 	private long outId; // 景区酒店 资源id
 	private int outType;// 景区酒店资源类型
+	private String hotelName;//酒店名称
+	private String scenicName;//景区名称
+
+
 
 	public String getName() {
 		return name;
@@ -83,5 +87,21 @@ public class ItemListQuery extends BaseQuery {
 
 	public void setOutType(int outType) {
 		this.outType = outType;
+	}
+
+	public String getHotelName() {
+		return hotelName;
+	}
+
+	public void setHotelName(String hotelName) {
+		this.hotelName = hotelName;
+	}
+
+	public String getScenicName() {
+		return scenicName;
+	}
+
+	public void setScenicName(String scenicName) {
+		this.scenicName = scenicName;
 	}
 }
