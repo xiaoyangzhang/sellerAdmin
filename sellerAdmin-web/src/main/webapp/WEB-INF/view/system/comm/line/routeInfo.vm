@@ -66,7 +66,7 @@
 				var tab = createDayTab(dayId);
 				var page = createDayPage(dayId);
 				$(".day_btn").before(tab);
-				$(".tab-content").append(page);
+				$(".tripInfo .tab-content").append(page);
 				tab.children("a").click();
 				show();
 			});
