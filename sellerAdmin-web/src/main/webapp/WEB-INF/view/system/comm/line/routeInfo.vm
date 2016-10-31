@@ -19,6 +19,13 @@
 				show();
         	});
 
+            $('.tab-content').on('click', '.day_tab',function(ev) {
+                $('.tab-content .day_tab').removeClass('active');
+                $(this).addClass('on');
+                $('.tab-content .tab-pane').hide();
+                $('.tab-content .tab-pane').eq($(this).index()).fadeIn();
+            });
+
 			$(document).delegate(".myTrash","click",function(){
 				var _this = $(this);
 				layer.confirm('确认删除该天的行程信息？', {icon: 3, title:'提示'}, function(index){
