@@ -21,13 +21,13 @@
         AND operation_id = #{operationId,jdbcType=BIGINT}
       </if>
       <if test="bizNo != null" >
-        AND   biz_no LIKE CONCAT('%', #{bizNo}, '%')
+        AND biz_no LIKE CONCAT('%',#{bizNo},'%')
       </if>
       <if test="gmtCreatedStart != null ">
-        and gmt_created <![CDATA[>=]]> #{gmtCreatedStart}
+        AND gmt_created <![CDATA[>=]]> #{gmtCreatedStart}
       </if>
       <if test="gmtCreatedEnd != null ">
-        and gmt_created <![CDATA[<=]]> #{gmtCreatedEnd}
+        AND gmt_created <![CDATA[<=]]> #{gmtCreatedEnd}
       </if>
     </where>
   </sql>
