@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.service.draft.DraftService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,7 @@ public class LineController extends BaseLineController {
 					initLinePropertyTypes(baseInfo.getCategoryId());
 				}
 				put("product", gt);
+				put("priceInfoJson", JSON.toJSONString(gt.getPriceInfo()));
 				put("isReadonly", baseInfo.getItemStatus() == ItemStatus.valid.getValue());
 				return "/system/comm/line/detail";
 			} else {

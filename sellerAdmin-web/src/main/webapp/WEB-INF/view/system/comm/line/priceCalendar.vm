@@ -1,6 +1,6 @@
 <div class="price-info">
     <form action="">
-        <input type ="hidden" id="priceInfo" name ="priceInfo" value ="$!{product.priceInfo}" />
+        <input type ="hidden" id ="priceInfoJson" name ="priceInfoJson" value ="$!{priceInfoJson}" />
         <div class="ml40 mt20">
             <label class="label">目前报名天数：</label>
             #if($product)
@@ -13,7 +13,6 @@
             #set($tcId = $velocityCount)
             <a>$tc</a>
         #end*#
-
         <div class="ml40 mt20 add-tc">
             <label class="label"><a href="javascript:;" class="btn btn-orange add-package">添加新套餐</a></label>
         </div>
