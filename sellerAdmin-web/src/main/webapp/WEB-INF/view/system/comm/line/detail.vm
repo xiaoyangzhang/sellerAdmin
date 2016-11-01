@@ -20,8 +20,8 @@
         	.int-only{ime-mode:"disabled"}
         </style>
 
-		<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/js/jquery.js"></script>
-		<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/js/jquery.form.js"></script>
+		<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/jquery.js"></script>
+		#*<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/js/jquery.form.js"></script>*#
 		<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/layer/layer.js"></script>
 		<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/js/addtravel.js"></script>
 		<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/js/upldf.js"></script>
