@@ -2,7 +2,7 @@ package com.yimayhd.sellerAdmin.dao;
 
 import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery;
 import com.yimayhd.sellerAdmin.mapper.OrderOperationLogMapper;
-import  com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogDO;;
+import com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogDO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
