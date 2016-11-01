@@ -1,6 +1,6 @@
 <div class="price-info">
     <form action="">
-        <input type ="hidden" id ="priceInfoJson" name ="priceInfoJson" value ="$!{priceInfoJson}" />
+        <input type ="hidden" id ="priceInfoJson" name ="priceInfoJson" value ='$!{priceInfoJson}' />
         <div class="ml40 mt20">
             <label class="label">目前报名天数：</label>
             #if($product)
