@@ -1,12 +1,21 @@
 <div class="price-info">
     <form action="">
+        <input type ="hidden" id ="priceInfo" name ="priceInfo" value ="$!{product.priceInfo}" />
         <div class="ml40 mt20">
             <label class="label">目前报名天数：</label>
-            <input type="text" class="day-limit inputxt" maxlength="4" placeholder="0">
+            #if($product)
+                <input type="text" class="day-limit inputxt" value="$!{product.priceInfo.limit}" maxlength="5">
+            #else
+                <input type="text" class="day-limit inputxt" maxlength="4" placeholder="0">
+            #end
         </div>
+        #foreach($tc in ${product.priceInfo.tcs})
+            #set($tcId = $velocityCount)
+            <a>$tc</a>
+        #end
+
         <div class="ml40 mt20 add-tc">
             <label class="label"><a href="javascript:;" class="btn btn-orange add-package">添加新套餐</a></label>
-        </div>
         <div class="mt20 tc-tab-content">
             <label class="label">套餐名称：</label>
             <input type="text" class="inputxt tc-name" placeholder="0">
