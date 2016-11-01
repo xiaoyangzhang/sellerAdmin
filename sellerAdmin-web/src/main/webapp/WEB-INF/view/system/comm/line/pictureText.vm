@@ -24,7 +24,7 @@
 			#end
 		#end
 	</div>
-	<div class="hd clearfix">
+	<div class="hd clearfix mt40">
 		<ul class="clearfix">
 			<li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
 			<li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
