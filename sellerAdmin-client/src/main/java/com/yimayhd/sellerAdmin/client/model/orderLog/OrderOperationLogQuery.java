@@ -1,6 +1,7 @@
 package com.yimayhd.sellerAdmin.client.model.orderLog;
 
 
+import com.yimayhd.fhtd.query.QueryUtil;
 import com.yimayhd.sellerAdmin.client.base.BasePageQuery;
 
 import java.util.Date;
@@ -30,6 +31,9 @@ public class OrderOperationLogQuery extends BasePageQuery {
 
     public String getBizNo() {
         return bizNo;
+    }
+    public String getBizNoLike() {
+    	return  QueryUtil.getQueryLikeParam(bizNo);
     }
 
     public void setBizNo(String bizNo) {
