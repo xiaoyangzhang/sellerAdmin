@@ -27,6 +27,10 @@
 			<groupId>com.yimayhd</groupId>
 			<artifactId>sellerAdmin-api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.yimayhd.fhtd</groupId>
+			<artifactId>fhtd</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>track-client</finalName>
