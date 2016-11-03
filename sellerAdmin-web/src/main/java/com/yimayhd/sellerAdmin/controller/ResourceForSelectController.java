@@ -117,7 +117,7 @@ public class ResourceForSelectController extends BaseController {
 //        } else {
 //            throw new BaseException("选择出发地失败");
 //        }
-        return "/system/resource/forselect/selectDeparts";
+        return "/system/resource/forSelect/selectDeparts";
     }
 
     /**
