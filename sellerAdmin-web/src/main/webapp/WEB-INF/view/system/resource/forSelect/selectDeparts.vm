@@ -87,7 +87,9 @@
 
             	});
 
-            })
+            });
+			document.domain='jiuxiulvxing.com';
+			alert(document.domain);
         </script>
     </body>
 </html>
