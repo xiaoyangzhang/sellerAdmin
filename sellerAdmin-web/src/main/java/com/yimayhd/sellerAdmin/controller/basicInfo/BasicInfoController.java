@@ -4,29 +4,6 @@ package com.yimayhd.sellerAdmin.controller.basicInfo;
  * 
  * @author zhangxy
  */
-import java.io.IOException;
-import java.util.*;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryDO;
-import com.yimayhd.membercenter.client.query.MerchantCategoryQueryDTO;
-import com.yimayhd.membercenter.client.service.examine.MerchantApplyService;
-import org.apache.commons.lang3.StringUtils;
-import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
-import com.yimayhd.membercenter.client.service.MerchantItemCategoryService;
-import com.yimayhd.sellerAdmin.enums.MerchantNameType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.client.domain.talent.TalentInfoDO;
@@ -36,6 +13,7 @@ import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.back.TalentInfoDealService;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
+import com.yimayhd.membercenter.client.service.examine.MerchantApplyService;
 import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
@@ -43,6 +21,7 @@ import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.biz.MerchantBiz;
 import com.yimayhd.sellerAdmin.biz.TalentBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.enums.MerchantNameType;
 import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
 import com.yimayhd.sellerAdmin.result.BizResult;
@@ -55,6 +34,25 @@ import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.SessionManager;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.*;
+
 @Controller
 @RequestMapping("/basicInfo")
 public class BasicInfoController extends BaseController {
@@ -66,7 +64,7 @@ public class BasicInfoController extends BaseController {
 	private TalentBiz talentBiz;
 	@Autowired
 	private MerchantBiz merchantBiz;
-	
+
 	@Autowired
 	private UserService userService;
 	
@@ -80,6 +78,13 @@ public class BasicInfoController extends BaseController {
 	private TalentInfoDealService talentInfoDealService;
 	@Resource
 	private MerchantApplyService merchantApplyService;
+//	@Autowired
+//	private ContractManager contractManager;
+@Autowired
+private VelocityConfigurer velocityConfig;
+
+	@Value("sellerAdmin.default_contract_date")
+	private String DEFAULT_CONTRACT_DATE;
 	
 
 	/**
@@ -118,6 +123,9 @@ public class BasicInfoController extends BaseController {
 				model.addAttribute("merchantPrincipalTel", meResult.getValue().getMerchantPrincipalTel());
 				model.addAttribute("serviceTel", meResult.getValue().getServiceTel());
 				model.addAttribute("merchantDesc", meResult.getValue().getTitle());
+
+				//todo if null set default time
+//				model.addAttribute("contractDate", meResult.getValue().getGmtCreated());
 				if (StringUtils.isBlank(meResult.getValue().getBackgroudImage()) || StringUtils.isBlank(meResult.getValue().getServiceTel()) || StringUtils.isBlank(meResult.getValue().getLogo()) ) {
 					return "/system/seller/merchant_head";
 				}
@@ -143,6 +151,26 @@ public class BasicInfoController extends BaseController {
 			return "/system/error/500";
 		}
 		
+	}
+
+	public String toContractDownloadPage(HttpServletRequest request, Model model) {
+		try {
+			UserDO user = sessionManager.getUser(request);
+			InfoQueryDTO info = new InfoQueryDTO();
+			info.setDomainId(Constant.DOMAIN_JIUXIU);
+			info.setSellerId(user.getId());
+			MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
+			if (merchantInfoResult != null || merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() == MerchantType.MERCHANT.getType()) {
+				BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(user.getId(), Constant.DOMAIN_JIUXIU);
+			} else if (merchantInfoResult != null || merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() == MerchantType.TALENT.getType()) {
+				WebResult<TalentInfoDTO> dtoResult = talentBiz.queryTalentInfoByUserId();
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 	
 	/**
