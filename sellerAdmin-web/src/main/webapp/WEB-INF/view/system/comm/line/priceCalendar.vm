@@ -1,6 +1,6 @@
 <div class="price-info">
     <form action="">
-        <input type ="hidden" id ="priceInfoJson" name ="priceInfoJson" value ="$!{priceInfoJson}" />
+        <input type ="hidden" id ="priceInfoJson" name ="priceInfoJson" value ='$!{priceInfoJson}' />
         <div class="ml40 mt20">
             <label class="label">目前报名天数：</label>
             #if($product)
@@ -96,6 +96,7 @@
                             <label>价格：</label>
                             <input type="text" class="price" maxlength="9">
                         </dd>
+                        #*<dd class="mt10"><input type="hidden" class="stock" maxlength="9" value="999"></dd>*#
                         <dd class="btn mt10">
                             <a class="setvl">确定</a>
                             <a class="clearvl">清除</a>
@@ -114,14 +115,36 @@
 </div>
 
 <script>
+   /* var  updatedSKU = [],
+         deletedSKU = [];*/
+    // 修改套餐
+    $(document).delegate(".tc-tab-content input","change",function(){
+        $('.add-tc .btn-outline').each(function(){
+            if($(this).hasClass('active')){
+                var skuId = $(this).attr("data-sku-id");
+                skuId && updatedSKU.push(skuId);
+            }
+        });
+    });
+
+    //删除套餐
+    /*$('.add-tc').on('click','.icon-close',function () {
+        var skuId = $(this).parent().attr("data-sku-id");
+        $(document).on('click','dialog .ok',function () {
+
+            alert('a')
+            return true;
+        });
+    });*/
+
     function getPriceInfo() {
         var tcs = [];
-        var updatedSKU = [];
-        var deletedSKU = [];
+
         $(".price-info .btn-outline").each(function(index,btn) {
             var _tc = JSON.parse($(btn).attr('data-tc'));
             tcs.push(_tc);
         });
+
         var result = {
             tcs: tcs,
             updatedSKU: updatedSKU,

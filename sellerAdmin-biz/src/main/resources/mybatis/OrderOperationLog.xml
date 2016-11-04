@@ -20,8 +20,8 @@
       <if test="operationId != 0" >
         AND operation_id = #{operationId,jdbcType=BIGINT}
       </if>
-      <if test="bizNo != null" >
-        AND biz_no LIKE CONCAT('%',#{bizNo},'%')
+      <if test="bizNoLike != null" >
+        AND biz_no LIKE CONCAT('%',  #{bizNoLike}, '%') ESCAPE '/'
       </if>
       <if test="gmtCreatedStart != null ">
         AND gmt_created <![CDATA[>=]]> #{gmtCreatedStart}

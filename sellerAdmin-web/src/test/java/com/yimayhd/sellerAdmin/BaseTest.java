@@ -16,7 +16,7 @@ import com.alibaba.fastjson.JSON;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring-context.xml")
-//@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/application.xml")
+//@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/spring-context.xml")
 public class BaseTest {
     public final Logger logger = LoggerFactory.getLogger(this.getClass());
 
