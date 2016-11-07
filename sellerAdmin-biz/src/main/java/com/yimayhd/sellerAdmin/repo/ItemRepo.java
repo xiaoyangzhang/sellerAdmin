@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.repo;
 import java.util.Arrays;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.service.item.ItemBizQueryService;
@@ -58,7 +59,8 @@ public class ItemRepo {
 		itemQryDTO.setDomains(Arrays.asList(Constant.DOMAIN_JIUXIU));
 		RepoUtils.requestLog(log, "itemBizQueryServiceRef.getItem", itemQryDTO);
 		ICPageResult<ItemInfo> pageResult = itemBizQueryServiceRef.getItem(itemQryDTO);
-		RepoUtils.resultLog(log, "itemBizQueryServiceRef.getItem", pageResult);
+		//RepoUtils.resultLog(log, "itemBizQueryServiceRef.getItem", pageResult);
+		log.info("itemBizQueryServiceRef.getItem--:"+ JSON.toJSONString(pageResult.getList()));
 		return pageResult;
 	}
 	public ItemResult getItemDetail(long sellerId, long itemId) {
