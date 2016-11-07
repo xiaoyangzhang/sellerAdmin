@@ -184,10 +184,10 @@ public class LoginController extends BaseController {
         if(meResult==null||!meResult.isSuccess()) {
             String url = UrlHelper.getUrl(WebResourceConfigUtil.getRootPath(), "/error/lackPermission");
         }
-        if (checkContractDate(meResult.getValue().getContractEndTime(), user.getId())) {
-            String renew = "1";
-            model.addAttribute("renewContract", renew);
-        }
+//        if (checkContractDate(meResult.getValue().getContractEndTime(), user.getId())) {
+//            String renew = "1";
+//            model.addAttribute("renewContract", renew);
+//        }
         model.addAttribute("menuList", haMenuDOList);
         model.addAttribute("userNickName", user.getNickname());
         return "/layout/layout";
