@@ -89,7 +89,7 @@
                                 <th data-col-class="text-center" data-width="310">商品信息</th>
         						<th data-width="100">目的地</th>
                                 <th data-col-class="text-center" data-width="90">类型</th>
-                                <th data-width="80">单价</th>
+                                <th data-col-class="text-center" data-width="110">单价</th>
         						<th data-col-class="text-center" data-width="70">状态</th>
         						<th data-type="date" data-width="100">发布时间</th>
         						<th data-col-class="text-center" data-width="70">操作</th>
@@ -122,7 +122,9 @@
                                 </td>
 		  						<td>$!item.destString</td>
         						<td>$!{utilItem.getItemTypeName($item.type)}</td>
-        						<td>￥$!{utilMoney.centToYuanMoneyFormat($item.price)}&nbsp;起</td>
+        						<td>￥$!{utilMoney.centToYuanMoneyFormat($item.price)}&nbsp;起
+                                    <div class="market-price">$!{utilMoney.centToYuanMoneyFormat($item.itemDO.originalPrice)}</div>
+								</td>
                                 <td>$!{utilItem.getItemStatusName($item.status)}</td>
         						<td>$!{utilDate.date2String($item.publishDate)}</td>
                                 <td>

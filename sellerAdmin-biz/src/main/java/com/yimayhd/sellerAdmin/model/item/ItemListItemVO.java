@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -24,6 +25,7 @@ public class ItemListItemVO {
 	private int type;
 	private long price;
 	private int status;
+
 	private Date publishDate;
 	private List<String> operates;
 
@@ -33,6 +35,7 @@ public class ItemListItemVO {
 	private ItemTicketVO itemTicketVO;//景区门票
 	private String payMode;//支付方式
 	private long categoryId;
+	private ItemDO itemDO;//商品信息
 
 	public long getId() {
 		return id;
@@ -184,5 +187,13 @@ public class ItemListItemVO {
 	public ItemListItemVO setCategoryId(long categoryId) {
 		this.categoryId = categoryId;
 		return this;
+	}
+
+	public ItemDO getItemDO() {
+		return itemDO;
+	}
+
+	public void setItemDO(ItemDO itemDO) {
+		this.itemDO = itemDO;
 	}
 }

@@ -68,6 +68,7 @@
                             <input class="priceY form-control" type="text" name="priceY" value="$!numberHelper.formatNumber($!commodity.price)" maxlength="9">元
                         </td>
                     </tr>
+
                     #if($!integralType == 1)
 	                    <tr>
 	                        <td><span class="red">*</span>最多可用积分</td>
