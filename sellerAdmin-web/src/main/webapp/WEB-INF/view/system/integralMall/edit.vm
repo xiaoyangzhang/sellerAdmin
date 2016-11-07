@@ -69,7 +69,7 @@
                     <tr>
                         <td>市场价</td>
                         <td>
-                            <input class="priceY form-control" type="text" name="originalPrice" value="$!numberHelper.formatNumber($!commodity.originalPrice)" maxlength="9">元
+                            <input class="priceY form-control" type="text" name="originalPriceStr" value="$!numberHelper.formatNumber($!commodity.originalPrice)" maxlength="9">元
                         </td>
                     </tr>
                     <tr>

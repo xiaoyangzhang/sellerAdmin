@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.model;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -66,7 +68,9 @@ public class ItemVO extends ItemDO {
 	private List<String>		itemMainPics;										// 商品图列表
 	private Double				longitudeVO;										// 经度
 	private Double				latitudeVO;											// 纬度
+
 	private long maxPoint;//最大可用积分
+	private String originalPriceStr;//划价
 
 	// 新增商品提交时调用
 	public static ItemDO getItemDO(ItemVO itemVO) throws Exception {
@@ -623,6 +627,19 @@ public class ItemVO extends ItemDO {
 		this.maxPoint = maxPoint;
 	}
 
+	public String getOriginalPriceStr() {
+		long d = super.getOriginalPrice();
+		if(d !=0){
+			DecimalFormat df = new DecimalFormat("0.##");
+			return df.format(d/100.00);
+		}
+		return originalPriceStr;
+	}
 
-	
+	public void setOriginalPriceStr(String originalPriceStr) {
+		this.originalPriceStr = originalPriceStr;
+		if(StringUtils.isNotBlank(originalPriceStr)){
+			super.setOriginalPrice(new BigDecimal(originalPriceStr).multiply(BigDecimal.valueOf(100)).longValue());
+		}
+	}
 }
