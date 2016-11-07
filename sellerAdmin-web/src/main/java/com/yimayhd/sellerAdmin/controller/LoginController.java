@@ -1,39 +1,55 @@
 package com.yimayhd.sellerAdmin.controller;
 
 
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.membercenter.client.domain.HaMenuDO;
+import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.query.InfoQueryDTO;
+import com.yimayhd.membercenter.client.result.MemResult;
+import com.yimayhd.membercenter.enums.MerchantType;
+import com.yimayhd.sellerAdmin.base.BaseController;
+import com.yimayhd.sellerAdmin.base.ResponseVo;
+import com.yimayhd.sellerAdmin.biz.MerchantBiz;
+import com.yimayhd.sellerAdmin.cache.CacheManager;
+import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.constant.ResponseStatus;
+import com.yimayhd.sellerAdmin.controller.loginout.vo.LoginoutVO;
+import com.yimayhd.sellerAdmin.helper.UrlHelper;
+import com.yimayhd.sellerAdmin.util.CalendarField;
+import com.yimayhd.sellerAdmin.util.DateUtil;
+import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
+import com.yimayhd.user.client.domain.MerchantDO;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.dto.LoginDTO;
+import com.yimayhd.user.client.result.BaseResult;
+import com.yimayhd.user.client.result.login.LoginResult;
+import com.yimayhd.user.client.service.MerchantService;
+import com.yimayhd.user.client.service.UserService;
+import com.yimayhd.user.session.manager.JsonResult;
+import com.yimayhd.user.session.manager.SessionManager;
+import com.yimayhd.user.session.manager.VerifyCodeManager;
 import net.pocrd.entity.AbstractReturnCode;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-import com.yimayhd.membercenter.client.domain.HaMenuDO;
-import com.yimayhd.sellerAdmin.base.BaseController;
-import com.yimayhd.sellerAdmin.base.ResponseVo;
-import com.yimayhd.sellerAdmin.constant.ResponseStatus;
-import com.yimayhd.sellerAdmin.controller.loginout.vo.LoginoutVO;
-import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.dto.LoginDTO;
-import com.yimayhd.user.client.result.login.LoginResult;
-import com.yimayhd.user.client.service.UserService;
-import com.yimayhd.user.session.manager.JsonResult;
-import com.yimayhd.user.session.manager.SessionManager;
-import com.yimayhd.user.session.manager.VerifyCodeManager;
- 
+import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 /**
  * Created by Administrator on 2015/10/23.
  */
@@ -55,6 +71,22 @@ public class LoginController extends BaseController {
     private SessionManager sessionManager;
 
 
+    @Autowired
+    private CacheManager cacheManager;
+
+    @Resource
+    private MerchantService merchantService;
+
+    @Autowired
+    private MerchantBiz merchantBiz;
+
+    @Value("{sellerAdmin.bufferDay}")
+    private String bufferDays;
+
+    @Value("sellerAdmin.default_contract_date")
+    private String DEFAULT_CONTRACT_DATE;
+
+    private long DAY = 86400;
 
     /**
      * 登录页面
@@ -67,12 +99,12 @@ public class LoginController extends BaseController {
         return "/login";
     }
 
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo login(LoginoutVO loginoutVO, HttpServletRequest request, HttpServletResponse response) {
         int errorCode = 0;
         ResponseVo responseVo = new ResponseVo();
-        if(StringUtils.isEmpty(loginoutVO.getUsername()) || StringUtils.isEmpty(loginoutVO.getPassword()) ){
+        if (StringUtils.isEmpty(loginoutVO.getUsername()) || StringUtils.isEmpty(loginoutVO.getPassword())) {
             responseVo.setStatus(ResponseStatus.INVALID_DATA.VALUE);
             responseVo.setMessage(ResponseStatus.INVALID_DATA.MESSAGE);
             return responseVo;
@@ -104,11 +136,11 @@ public class LoginController extends BaseController {
             return responseVo;
         }
     }
-    
-    @RequestMapping(value = "/logout",method = RequestMethod.GET)
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseVo logout(HttpServletRequest request,Model model) {
-    	sessionManager.removeToken(request);
+    public ResponseVo logout(HttpServletRequest request, Model model) {
+        sessionManager.removeToken(request);
         return new ResponseVo();
     }
 
@@ -118,7 +150,7 @@ public class LoginController extends BaseController {
     public JsonResult validateCode(LoginoutVO loginoutVO) {
         LOGGER.info("validateCode loginoutVO= {}", loginoutVO);
 
-        String verifyCode = loginoutVO.getVerifyCode() ;
+        String verifyCode = loginoutVO.getVerifyCode();
         boolean checkResult = verifyCodeManager.checkVerifyCode(verifyCode);
         if (!checkResult) {
             LOGGER.warn("loginoutVO.getVerifyCode() = {} is not correct", loginoutVO.getVerifyCode());
@@ -131,14 +163,31 @@ public class LoginController extends BaseController {
 
     /**
      * 登录后的成功页
+     *
      * @param model
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String toMain(Model model) throws Exception {
-    	UserDO user = sessionManager.getUser();
+        UserDO user = sessionManager.getUser();
         List<HaMenuDO> haMenuDOList = userService.getMenuListByUserId(user.getId());
+        InfoQueryDTO info = new InfoQueryDTO();
+        info.setDomainId(Constant.DOMAIN_JIUXIU);
+        info.setSellerId(user.getId());
+        MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
+        if (merchantInfoResult == null || !merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() != MerchantType.MERCHANT.getType()) {
+            String url = UrlHelper.getUrl(WebResourceConfigUtil.getRootPath(), "/error/lackPermission");
+        }
+
+        BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(user.getId(), Constant.DOMAIN_JIUXIU);
+        if(meResult==null||!meResult.isSuccess()) {
+            String url = UrlHelper.getUrl(WebResourceConfigUtil.getRootPath(), "/error/lackPermission");
+        }
+        if (checkContractDate(meResult.getValue().getContractEndTime(), user.getId())) {
+            String renew = "1";
+            model.addAttribute("renewContract", renew);
+        }
         model.addAttribute("menuList", haMenuDOList);
         model.addAttribute("userNickName", user.getNickname());
         return "/layout/layout";
@@ -161,8 +210,39 @@ public class LoginController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/user/noPower", method = RequestMethod.GET)
-    public String toNoPower(Model model,String urlName) throws Exception {
+    public String toNoPower(Model model, String urlName) throws Exception {
         model.addAttribute("message", "没有" + urlName + "权限，请联系管理员");
         return "/error";
+    }
+
+    public boolean checkContractDate(Date contractDate, long sellerId) {
+        String key = "CONTRACT_RENEW" + sellerId;
+        boolean result = false;
+        if (null == cacheManager.getFormTair(key)) {
+            int buffer;
+            try {
+                buffer = Integer.parseInt(bufferDays);
+            } catch (Exception e) {
+                buffer = 0;
+            }
+
+            contractDate = contractDate == null ? getDefaultDate() : contractDate;
+            result = contractDate.before(DateUtil.dateAdd(CalendarField.DAY, buffer, new Date()));
+            if (result) {
+                cacheManager.addToTair(key, DAY);
+            }
+        }
+        return result;
+    }
+
+    public Date getDefaultDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        try {
+            return sdf.parse(DEFAULT_CONTRACT_DATE);
+        } catch (ParseException e) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(2016, 12, 30);
+            return calendar.getTime();
+        }
     }
 }

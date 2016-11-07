@@ -250,6 +250,8 @@ public class OrderController extends BaseController {
 				list2.add(expressCodeRelationDO);
 			}else if (expressCodeRelationDO.getName().equals("EMS")) {
 				list2.add(expressCodeRelationDO);
+			}else if(expressCodeRelationDO.getName().equals("天天快递")){
+				list2.add(expressCodeRelationDO);
 			}
 		}
 		model.addAttribute("listExpress",list2);

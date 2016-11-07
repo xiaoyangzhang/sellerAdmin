@@ -255,11 +255,15 @@
 			<groupId>com.yimayhd</groupId>
 			<artifactId>sellerAdmin-client</artifactId>
 		</dependency>
-
+		<!--<dependency>-->
+			<!--<groupId>com.itextpdf</groupId>-->
+			<!--<artifactId>itextpdf</artifactId>-->
+		<!--</dependency>-->
+		<dependency>
+			<groupId>com.itextpdf.tool</groupId>
+			<artifactId>xmlworker-micmiu</artifactId>
+		</dependency>
 	</dependencies>
-
-
-
 	<build>
 		<finalName>sellerAdmin-biz</finalName>
 		<plugins>
