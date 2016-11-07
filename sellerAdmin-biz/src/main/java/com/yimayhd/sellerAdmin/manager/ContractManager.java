@@ -1,6 +1,6 @@
 package com.yimayhd.sellerAdmin.manager;
 
-//import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.DocumentException;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.MemberContractCodeDTO;
 import com.yimayhd.membercenter.enums.ContractType;
@@ -84,9 +84,9 @@ public class ContractManager {
             HtmlToPdfUtil.htmlToPdf(byteArrayInputStream, "/Users/liuxiaopeng/Documents/template2.pdf");
         } catch (IOException e) {
             e.printStackTrace();
-        } /*catch (DocumentException e) {
+        } catch (DocumentException e) {
             e.printStackTrace();
-        }*/
+        }
         return null;
     }
 
