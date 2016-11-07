@@ -630,8 +630,8 @@ public class ItemVO extends ItemDO {
 	public String getOriginalPriceStr() {
 		long d = super.getOriginalPrice();
 		if(d !=0){
-			DecimalFormat df = new DecimalFormat("0.##");
-			return df.format(d/100.00);
+			DecimalFormat df = new DecimalFormat("0.00");
+			return df.format(d * 0.01);
 		}
 		return originalPriceStr;
 	}
