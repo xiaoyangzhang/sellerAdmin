@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -78,6 +79,7 @@ public class ItemController extends BaseController {
         if (!result.isSuccess()) {
             throw new BaseException(result.getResultMsg());
         }
+        log.info("itemBizQueryServiceRef.getItem--contr:"+ JSON.toJSONString(result.getValue()));
         put("pageVo", result.getValue());
         put("itemTypeList", BizItemType.values());
         put("itemStatusList", BizItemStatus.values());
