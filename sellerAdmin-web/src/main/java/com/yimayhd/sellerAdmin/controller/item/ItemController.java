@@ -107,14 +107,6 @@ public class ItemController extends BaseController {
                 list = categoryDoTOVo(webResult.getValue().getChildren(), isTalentA || isTalentB);
             }
         } else {
-//            int categoryId = 0;
-//            try {
-//                categoryId = Integer.parseInt(cateId);
-//            } catch (Exception e){
-//                log.error("cateId={} is null", cateId);
-//                list = new ArrayList<>();
-//                return list;
-//            }
             // 查询某节点下的子节点
             WebResult<CategoryDO> webResult = categoryService.getCategoryById(Integer.parseInt(categoryId));
             if (null != webResult && webResult.getValue() != null) {
@@ -128,7 +120,6 @@ public class ItemController extends BaseController {
 		}
         
         List<CategoryDO> categoryList = getAllChildNode(categoryTreeResult.getValue(), new ArrayList<CategoryDO>());
-        //System.out.println(layerNum+"----------------------------------------");
       //  int layerNum2 = getLayerNum(categoryTreeResult.getValue(),0);
         if (!isTalentA && !isTalentB) { // 身份为商户时进行商品类目权限过滤
             List<CategoryVO> filteredList = new ArrayList<>();
@@ -150,13 +141,6 @@ public class ItemController extends BaseController {
             for (CategoryVO categoryVO : list) {
                 for (CategoryDO categoryDO : fillMerchantItemCategory) {
                     try {
-                       // CategoryDO categoryDO = categoryService.getCategoryDOById(merchantItemCategoryDO.getItemCategoryId());
-                       // while (categoryVO.getCategoryId() != categoryDO.getId()) { // 根据商户有权限的山品类目递归查找到根节点,如果所有类目都没权限,判断list集中和的下一个类目
-                          //  categoryDO = categoryService.getCategoryDOById(categoryDO.getParentId());
-//                            if (null == categoryDO) {
-//                                continue inner;
-//                            }
-//                        }
                         // 如果匹配到权限,加入新的集合中,并对list的下一个类目进行判断
                     	if (categoryVO.getCategoryId() == categoryDO.getId()) {
 							
@@ -190,13 +174,6 @@ public class ItemController extends BaseController {
             for (CategoryVO categoryVO : list) {
                 for (CategoryDO categoryDO : fillMerchantItemCategory) {
                     try {
-//                        CategoryDO categoryDO = categoryService.getCategoryDOById(id);
-//                        while (categoryVO.getCategoryId() != categoryDO.getId()) { // 根据商户有权限的山品类目递归查找到根节点,如果所有类目都没权限,判断list集中和的下一个类目
-//                            categoryDO = categoryService.getCategoryDOById(categoryDO.getParentId());
-//                            if (null == categoryDO) {
-//                                continue inner;
-//                            }
-//                        }
                         // 如果匹配到权限,加入新的集合中,并对list的下一个类目进行判断
                     	if (categoryVO.getCategoryId() == categoryDO.getId()) {
 							
