@@ -66,7 +66,6 @@ public class ItemVO extends ItemDO {
 	private List<String>		itemMainPics;										// 商品图列表
 	private Double				longitudeVO;										// 经度
 	private Double				latitudeVO;											// 纬度
-	
 	private long maxPoint;//最大可用积分
 
 	// 新增商品提交时调用

@@ -8,6 +8,7 @@ import com.yimayhd.ic.client.model.result.item.ItemResult;
  * Created by Administrator on 2015/12/19.
  */
 public class ItemResultVO extends ItemResult {
+    private static final long serialVersionUID = -5705818611128460062L;
     private ItemVO itemVO;
     private List<ItemSkuVO> itemSkuVOList;
     private CategoryVO categoryVO;
