@@ -21,6 +21,7 @@ public class SubOrder {
 
     private long subOrderTotalFee;//子订单原价
 
+    private long itemOriginalPrice;// 划价金额
     public SubOrder(){}
 
     public SubOrder(TcDetailOrder tcDetailOrder) {
@@ -116,5 +117,13 @@ public class SubOrder {
 
     public void setSubOrderTotalFee(long subOrderTotalFee) {
         this.subOrderTotalFee = subOrderTotalFee;
+    }
+
+    public long getItemOriginalPrice() {
+        return itemOriginalPrice;
+    }
+
+    public void setItemOriginalPrice(long itemOriginalPrice) {
+        this.itemOriginalPrice = itemOriginalPrice;
     }
 }

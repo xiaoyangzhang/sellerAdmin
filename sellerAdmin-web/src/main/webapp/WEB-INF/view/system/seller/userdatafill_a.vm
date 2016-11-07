@@ -519,7 +519,7 @@
 	<div class="private_tel" style="display:none">
 	<table><tr>
 			<td class="rigtxt"><label class="">开户人手机号：</label></td>
-			<td><input type="text" class="txt01" datatype="m" maxlength="11"    value="$!examineInfo.openerTel" id="openerTel_" name="openerTel" placeholder="银行预留手机号"  errormsg="请输入正确的手机号" ><span class="Validform_checktip"></span></td>
+			<td><input type="text" class="txt01" datatype="null_m" maxlength="11"    value="$!examineInfo.openerTel" id="openerTel_" name="openerTel" placeholder="银行预留手机号"  errormsg="请输入正确的手机号" ><span class="Validform_checktip"></span></td>
 	</tr></table>
 	</div>
 <script  type='text/temple' id='province-tpl'>
