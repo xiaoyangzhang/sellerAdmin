@@ -116,7 +116,7 @@ public class BasicInfoController extends BaseController {
             }
 
             //todo for test
-            String contractURL = contractManager.createContract(user.getId(), merchantInfoResult.getValue());
+//            String contractURL = contractManager.createContract(user.getId(), merchantInfoResult.getValue());
 
             //判断权限
             model.addAttribute("nickName", user.getNickname());
