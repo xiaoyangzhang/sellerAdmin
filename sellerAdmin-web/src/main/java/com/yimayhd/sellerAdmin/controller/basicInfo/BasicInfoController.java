@@ -1,7 +1,7 @@
 package com.yimayhd.sellerAdmin.controller.basicInfo;
 /**
  * 商家基本信息
- * 
+ *
  * @author zhangxy
  */
 
@@ -23,8 +23,11 @@ import com.yimayhd.sellerAdmin.biz.TalentBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.enums.MerchantNameType;
 import com.yimayhd.sellerAdmin.helper.UrlHelper;
+import com.yimayhd.sellerAdmin.manager.ContractManager;
 import com.yimayhd.sellerAdmin.model.TalentInfoVO;
 import com.yimayhd.sellerAdmin.result.BizResult;
+import com.yimayhd.sellerAdmin.util.CalendarField;
+import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 import com.yimayhd.sellerAdmin.vo.merchant.MerchantInfoVo;
 import com.yimayhd.user.client.domain.MerchantDO;
@@ -51,140 +54,165 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
 @RequestMapping("/basicInfo")
 public class BasicInfoController extends BaseController {
 
-	private Logger log = LoggerFactory.getLogger(getClass());
-	@Autowired
-	private SessionManager sessionManager;
-	@Autowired
-	private TalentBiz talentBiz;
-	@Autowired
-	private MerchantBiz merchantBiz;
+    private Logger log = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private SessionManager sessionManager;
+    @Autowired
+    private TalentBiz talentBiz;
+    @Autowired
+    private MerchantBiz merchantBiz;
 
-	@Autowired
-	private UserService userService;
-	
-	@Resource
-	private MerchantService merchantService;
-	
-	@Resource
-	private ExamineDealService examineDealService;
-	
-	@Resource
-	private TalentInfoDealService talentInfoDealService;
-	@Resource
-	private MerchantApplyService merchantApplyService;
-//	@Autowired
-//	private ContractManager contractManager;
-@Autowired
-private VelocityConfigurer velocityConfig;
+    @Autowired
+    private UserService userService;
 
-	@Value("sellerAdmin.default_contract_date")
-	private String DEFAULT_CONTRACT_DATE;
-	
+    @Resource
+    private MerchantService merchantService;
 
-	/**
-	 * 跳转到商户基本信息页面
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/merchant/toAddBasicPage")
-	public String toBusinessPage(Model model,HttpServletResponse response){
-		try {
-			UserDO user = sessionManager.getUser();
-			InfoQueryDTO info = new InfoQueryDTO();
-			info.setDomainId(Constant.DOMAIN_JIUXIU);
-			info.setSellerId(user.getId());
-			MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
-			if (merchantInfoResult == null || !merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() != MerchantType.MERCHANT.getType()) {
-				String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
-				response.sendRedirect(url);
-			}
-			//判断权限
-			model.addAttribute("nickName", user.getNickname());
-			BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(user.getId(), Constant.DOMAIN_JIUXIU);
-			if(meResult.isSuccess() && null != meResult.getValue()){
-				
-				model.addAttribute("id", meResult.getValue().getId());
-				model.addAttribute("sellerId", meResult.getValue().getSellerId());
-				model.addAttribute("name",meResult.getValue().getName());
-				model.addAttribute("address",meResult.getValue().getAddress());
-				model.addAttribute("merchantName",meResult.getValue().getName());
-				if(null != meResult.getValue().getBackgroudImage()){
-					model.addAttribute("ttImage", meResult.getValue().getBackgroudImage());
-				}
-				if(null != meResult.getValue().getLogo()){
-					model.addAttribute("dbImage", meResult.getValue().getLogo());
-				}
-				model.addAttribute("merchantPrincipalTel", meResult.getValue().getMerchantPrincipalTel());
-				model.addAttribute("serviceTel", meResult.getValue().getServiceTel());
-				model.addAttribute("merchantDesc", meResult.getValue().getTitle());
+    @Resource
+    private ExamineDealService examineDealService;
 
-				//todo if null set default time
+    @Resource
+    private TalentInfoDealService talentInfoDealService;
+    @Resource
+    private MerchantApplyService merchantApplyService;
+    @Autowired
+    private ContractManager contractManager;
+
+    @Autowired
+    private VelocityConfigurer velocityConfig;
+
+    @Value("sellerAdmin.default_contract_date")
+    private String DEFAULT_CONTRACT_DATE;
+
+    @Value("{sellerAdmin.bufferDay}")
+    private String bufferDays;
+
+
+    /**
+     * 跳转到商户基本信息页面
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/merchant/toAddBasicPage")
+    public String toBusinessPage(Model model, HttpServletResponse response) {
+        try {
+            UserDO user = sessionManager.getUser();
+            InfoQueryDTO info = new InfoQueryDTO();
+            info.setDomainId(Constant.DOMAIN_JIUXIU);
+            info.setSellerId(user.getId());
+            MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
+            if (merchantInfoResult == null || !merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() != MerchantType.MERCHANT.getType()) {
+                String url = UrlHelper.getUrl(WebResourceConfigUtil.getRootPath(), "/error/lackPermission");
+                response.sendRedirect(url);
+            }
+
+            //todo for test
+            String contractURL = contractManager.createContract(user.getId(), merchantInfoResult.getValue());
+
+            //判断权限
+            model.addAttribute("nickName", user.getNickname());
+            BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(user.getId(), Constant.DOMAIN_JIUXIU);
+            if (meResult.isSuccess() && null != meResult.getValue()) {
+
+                if (checkContractDate(meResult.getValue().getContractEndTime(), user.getId())) {
+                    String renew = "1";
+                    model.addAttribute("renewContract", renew);
+                }
+                model.addAttribute("renewDate", meResult.getValue().getContractEndTime());
+
+                model.addAttribute("id", meResult.getValue().getId());
+                model.addAttribute("sellerId", meResult.getValue().getSellerId());
+                model.addAttribute("name", meResult.getValue().getName());
+                model.addAttribute("address", meResult.getValue().getAddress());
+                model.addAttribute("merchantName", meResult.getValue().getName());
+                if (null != meResult.getValue().getBackgroudImage()) {
+                    model.addAttribute("ttImage", meResult.getValue().getBackgroudImage());
+                }
+                if (null != meResult.getValue().getLogo()) {
+                    model.addAttribute("dbImage", meResult.getValue().getLogo());
+                }
+                model.addAttribute("merchantPrincipalTel", meResult.getValue().getMerchantPrincipalTel());
+                model.addAttribute("serviceTel", meResult.getValue().getServiceTel());
+                model.addAttribute("merchantDesc", meResult.getValue().getTitle());
+
+                //todo if null set default time
 //				model.addAttribute("contractDate", meResult.getValue().getGmtCreated());
-				if (StringUtils.isBlank(meResult.getValue().getBackgroudImage()) || StringUtils.isBlank(meResult.getValue().getServiceTel()) || StringUtils.isBlank(meResult.getValue().getLogo()) ) {
-					return "/system/seller/merchant_head";
-				}
-				/**添加协议下载***/
-				Map<Integer,String> merchantNameTypeMap = new TreeMap<Integer,String>(new Comparator<Integer>() {
-					public int compare(Integer obj1, Integer obj2) {
-						// 降序排序
-						return obj2.compareTo(obj1);
-					}
-				});
-				merchantNameTypeMap.put(MerchantNameType.ALL_USER.getType(),MerchantNameType.ALL_USER.getScheme());
-				merchantNameTypeMap.put(MerchantNameType.TOUR_COR.getType(),MerchantNameType.TOUR_COR.getScheme());
-				merchantNameTypeMap.put(MerchantNameType.HOTEL.getType(),MerchantNameType.HOTEL.getScheme());
-				merchantNameTypeMap.put(MerchantNameType.SCENIC.getType(),MerchantNameType.SCENIC.getScheme());
-				merchantNameTypeMap.put(MerchantNameType.CITY_COR.getType(),MerchantNameType.CITY_COR.getScheme());
-				model.addAttribute("merchantNameTypeMap", merchantNameTypeMap);
-			}
+                if (StringUtils.isBlank(meResult.getValue().getBackgroudImage()) || StringUtils.isBlank(meResult.getValue().getServiceTel()) || StringUtils.isBlank(meResult.getValue().getLogo())) {
+                    return "/system/seller/merchant_head";
+                }
+                /**添加协议下载***/
+                Map<Integer, String> merchantNameTypeMap = new TreeMap<Integer, String>(new Comparator<Integer>() {
+                    public int compare(Integer obj1, Integer obj2) {
+                        // 降序排序
+                        return obj2.compareTo(obj1);
+                    }
+                });
+                merchantNameTypeMap.put(MerchantNameType.ALL_USER.getType(), MerchantNameType.ALL_USER.getScheme());
+                merchantNameTypeMap.put(MerchantNameType.TOUR_COR.getType(), MerchantNameType.TOUR_COR.getScheme());
+                merchantNameTypeMap.put(MerchantNameType.HOTEL.getType(), MerchantNameType.HOTEL.getScheme());
+                merchantNameTypeMap.put(MerchantNameType.SCENIC.getType(), MerchantNameType.SCENIC.getScheme());
+                merchantNameTypeMap.put(MerchantNameType.CITY_COR.getType(), MerchantNameType.CITY_COR.getScheme());
+                model.addAttribute("merchantNameTypeMap", merchantNameTypeMap);
+            }
 
-			//type
-			return "/system/seller/merchant";
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return "/system/error/500";
-		}
-		
-	}
+            //type
+            return "/system/seller/merchant";
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return "/system/error/500";
+        }
 
-	public String toContractDownloadPage(HttpServletRequest request, Model model) {
-		try {
-			UserDO user = sessionManager.getUser(request);
-			InfoQueryDTO info = new InfoQueryDTO();
-			info.setDomainId(Constant.DOMAIN_JIUXIU);
-			info.setSellerId(user.getId());
-			MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
-			if (merchantInfoResult != null || merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() == MerchantType.MERCHANT.getType()) {
-				BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(user.getId(), Constant.DOMAIN_JIUXIU);
-			} else if (merchantInfoResult != null || merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() == MerchantType.TALENT.getType()) {
-				WebResult<TalentInfoDTO> dtoResult = talentBiz.queryTalentInfoByUserId();
+    }
 
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    @RequestMapping(value = "/merchant/toContractDownloadPage")
+    public BizResult<String> toContractDownloadPage(HttpServletRequest request, Model model) {
+        BizResult<String> result = new BizResult<String>();
+        try {
+            UserDO user = sessionManager.getUser(request);
+            InfoQueryDTO info = new InfoQueryDTO();
+            info.setDomainId(Constant.DOMAIN_JIUXIU);
+            info.setSellerId(user.getId());
+            MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
+            if (merchantInfoResult != null || merchantInfoResult.isSuccess()) {
 
-		return null;
-	}
-	
-	/**
-	 * 保存商户基本信息
-	 * @param
-	 * @return
-	 */
-	@RequestMapping(value = "/merchant/saveBasic",method=RequestMethod.POST)
-	@ResponseBody
-	public BizResult<String> saveBusinessBasic(MerchantInfoVo basicInfo,HttpServletResponse response,HttpServletRequest request){
-		BizResult<String> result = new BizResult<String>();
-		UserDO user = sessionManager.getUser(request);
-		if (user != null && user.getId() != basicInfo.getSellerId()) {
-			
+                String contractURL = contractManager.createContract(user.getId(), merchantInfoResult.getValue());
+                result.setValue(contractURL);
+                return result;
+            }
+            result.setSuccess(false);
+            result.setMsg("生成合同发生异常!");
+            return result;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            result.setSuccess(false);
+            result.setMsg("生成合同发生异常!");
+            return result;
+        }
+
+    }
+
+    /**
+     * 保存商户基本信息
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/merchant/saveBasic", method = RequestMethod.POST)
+    @ResponseBody
+    public BizResult<String> saveBusinessBasic(MerchantInfoVo basicInfo, HttpServletResponse response, HttpServletRequest request) {
+        BizResult<String> result = new BizResult<String>();
+        UserDO user = sessionManager.getUser(request);
+        if (user != null && user.getId() != basicInfo.getSellerId()) {
+
 //			String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
 //			try {
 //				result.setSuccess(false);
@@ -193,138 +221,151 @@ private VelocityConfigurer velocityConfig;
 //			} catch (Exception e) {
 //				log.error("no authority to operate");
 //			}
-			result.setSuccess(false);
-			result.setMsg("对不起，请重新登录后再进行此操作");
-			return result;
-			
-		}
-		InfoQueryDTO info = new InfoQueryDTO();
-		info.setDomainId(Constant.DOMAIN_JIUXIU);
-		info.setSellerId(sessionManager.getUserId());
-		MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
-		if (merchantInfoResult == null || !merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() != MerchantType.MERCHANT.getType()) {
-			String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
-				result.setSuccess(false);
-				result.setValue(url);
-				return result;
-		}
-		UserDTO userDTO = new UserDTO();
-		userDTO.setId(sessionManager.getUserId());
-		userDTO.setNickname(basicInfo.getNickName());
+            result.setSuccess(false);
+            result.setMsg("对不起，请重新登录后再进行此操作");
+            return result;
 
-		 WebResultSupport updateUserResult = merchantBiz.updateUser(userDTO);
-		if (updateUserResult.isSuccess()) {
-			if (basicInfo.getId() == 0) {// 新增
-				WebResultSupport merChantResult = merchantBiz
-						.saveMerchant(basicInfo);
-				if (merChantResult == null || !merChantResult.isSuccess()) {
-					result.setSuccess(false);
-					result.setMsg(merChantResult.getResultMsg());
-					return result;
-				}
-				//return merChantResult;
-			} else {// 修改
-				WebResultSupport updateResult = merchantBiz
-						.updateMerchantInfo(basicInfo);
-				if (updateResult == null || !updateResult.isSuccess()) {
-					result.setSuccess(false);
-					result.setMsg(updateResult.getResultMsg());
-					return result;
-				}
-				//return updateResult;
-			}
-			return result;
-		} 
-		result.setSuccess(false);
-		result.setMsg(updateUserResult.getResultMsg());
-		return result;
-		
-	}
-	/**
-	 * 编辑达人基本信息
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value="/talent/toAddTalentInfo",method=RequestMethod.GET)
-	public String toAddTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model) {
-		
-	//	model.addAttribute("talentBiz", talentBiz);
-		model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
-		//try {
-		InfoQueryDTO info = new InfoQueryDTO();
-		info.setDomainId(Constant.DOMAIN_JIUXIU);
-		info.setSellerId(sessionManager.getUserId());
-		MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
-		if (merchantInfoResult == null || !merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() != MerchantType.TALENT.getType()) {
-			String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
-			try {
-				response.sendRedirect(url);
-			} catch (IOException e) {
-				log.error("merchantBiz.queryMerchantExamineInfoBySellerId param:InfoQueryDTO={} ,error:{}",JSON.toJSONString(info),e);
-			}
-		}
-		WebResult<TalentInfoDTO> dtoResult = talentBiz.queryTalentInfoByUserId();
-		if (dtoResult == null) {
-			return "/system/error/500";
-		}
-		if (dtoResult.isSuccess()) {
-			TalentInfoDTO talentInfoDTO = dtoResult.getValue();
-			if (talentInfoDTO == null || talentInfoDTO.getTalentInfoDO() == null) {
-				return "/system/error/500";
-			}
-			List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
-			if (pictures == null ) {
-				pictures = new ArrayList<String>();
-			}
-			//填充店铺头图集合
-			while (pictures.size() < Constant.TALENT_SHOP_PICNUM) {
-				pictures.add("");
-			}
-			model.addAttribute("talentInfo", talentInfoDTO);
-			TalentInfoDO talentInfoDO = talentInfoDTO.getTalentInfoDO();
-			if (StringUtils.isBlank(talentInfoDO.getAvatar()) || StringUtils.isBlank(talentInfoDO.getReallyName()) || StringUtils.isBlank(talentInfoDO.getServeDesc()) || 
-					talentInfoDO.getCityCode() <= 0 || talentInfoDO.getProvinceCode() <= 0 || talentInfoDO.getBirthday() == null || 
-					talentInfoDO.getGender() <= 0 || CollectionUtils.isEmpty(talentInfoDO.getPictures()) || 
-					CollectionUtils.isEmpty(talentInfoDO.getServiceTypes()) || talentInfoDTO.getPictureTextDTO() == null ) {
-				return "/system/talent/talent";
-			}
-		}
-		Map<Integer,String> merchantNameTypeMap = new TreeMap<Integer,String>(new Comparator<Integer>() {
-			public int compare(Integer obj1, Integer obj2) {
-				// 降序排序
-				return obj2.compareTo(obj1);
-			}
-		});
-		merchantNameTypeMap.put(MerchantNameType.ALL_USER.getType(),MerchantNameType.ALL_USER.getScheme());
-		merchantNameTypeMap.put(MerchantNameType.TOUR_COR.getType(),MerchantNameType.TOUR_COR.getScheme());
-		merchantNameTypeMap.put(MerchantNameType.HOTEL.getType(),MerchantNameType.HOTEL.getScheme());
-		merchantNameTypeMap.put(MerchantNameType.SCENIC.getType(),MerchantNameType.SCENIC.getScheme());
-		merchantNameTypeMap.put(MerchantNameType.CITY_COR.getType(),MerchantNameType.CITY_COR.getScheme());
-		model.addAttribute("merchantNameTypeMap", merchantNameTypeMap);
-		return "system/talent/eredar";
+        }
+        InfoQueryDTO info = new InfoQueryDTO();
+        info.setDomainId(Constant.DOMAIN_JIUXIU);
+        info.setSellerId(sessionManager.getUserId());
+        MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
+        if (merchantInfoResult == null || !merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() != MerchantType.MERCHANT.getType()) {
+            String url = UrlHelper.getUrl(WebResourceConfigUtil.getRootPath(), "/error/lackPermission");
+            result.setSuccess(false);
+            result.setValue(url);
+            return result;
+        }
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(sessionManager.getUserId());
+        userDTO.setNickname(basicInfo.getNickName());
+
+        WebResultSupport updateUserResult = merchantBiz.updateUser(userDTO);
+        if (updateUserResult.isSuccess()) {
+            if (basicInfo.getId() == 0) {// 新增
+                WebResultSupport merChantResult = merchantBiz
+                        .saveMerchant(basicInfo);
+                if (merChantResult == null || !merChantResult.isSuccess()) {
+                    result.setSuccess(false);
+                    result.setMsg(merChantResult.getResultMsg());
+                    return result;
+                }
+                //return merChantResult;
+            } else {// 修改
+                WebResultSupport updateResult = merchantBiz
+                        .updateMerchantInfo(basicInfo);
+                if (updateResult == null || !updateResult.isSuccess()) {
+                    result.setSuccess(false);
+                    result.setMsg(updateResult.getResultMsg());
+                    return result;
+                }
+                //return updateResult;
+            }
+            return result;
+        }
+        result.setSuccess(false);
+        result.setMsg(updateUserResult.getResultMsg());
+        return result;
+
+    }
+
+    /**
+     * 编辑达人基本信息
+     *
+     * @param request
+     * @param response
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/talent/toAddTalentInfo", method = RequestMethod.GET)
+    public String toAddTalentInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+        //	model.addAttribute("talentBiz", talentBiz);
+        model.addAttribute("serviceTypes", talentBiz.getServiceTypes());
+        //try {
+        InfoQueryDTO info = new InfoQueryDTO();
+        info.setDomainId(Constant.DOMAIN_JIUXIU);
+        long userId = sessionManager.getUserId();
+        info.setSellerId(userId);
+        MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
+        if (merchantInfoResult == null || !merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() != MerchantType.TALENT.getType()) {
+            String url = UrlHelper.getUrl(WebResourceConfigUtil.getRootPath(), "/error/lackPermission");
+            try {
+                response.sendRedirect(url);
+            } catch (IOException e) {
+                log.error("merchantBiz.queryMerchantExamineInfoBySellerId param:InfoQueryDTO={} ,error:{}", JSON.toJSONString(info), e);
+            }
+        }
+        WebResult<TalentInfoDTO> dtoResult = talentBiz.queryTalentInfoByUserId();
+        if (dtoResult == null) {
+            return "/system/error/500";
+        }
+        if (dtoResult.isSuccess()) {
+            TalentInfoDTO talentInfoDTO = dtoResult.getValue();
+            if (talentInfoDTO == null || talentInfoDTO.getTalentInfoDO() == null) {
+                return "/system/error/500";
+            }
+            BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(userId, Constant.DOMAIN_JIUXIU);
+
+            if (checkContractDate(meResult.getValue().getContractEndTime(), userId)) {
+                String renew = "1";
+                model.addAttribute("renewContract", renew);
+            }
+            model.addAttribute("renewDate", meResult.getValue().getContractEndTime());
+
+            List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
+            if (pictures == null) {
+                pictures = new ArrayList<String>();
+            }
+            //填充店铺头图集合
+            while (pictures.size() < Constant.TALENT_SHOP_PICNUM) {
+                pictures.add("");
+            }
+            model.addAttribute("talentInfo", talentInfoDTO);
+            TalentInfoDO talentInfoDO = talentInfoDTO.getTalentInfoDO();
+            if (StringUtils.isBlank(talentInfoDO.getAvatar()) || StringUtils.isBlank(talentInfoDO.getReallyName()) || StringUtils.isBlank(talentInfoDO.getServeDesc()) ||
+                    talentInfoDO.getCityCode() <= 0 || talentInfoDO.getProvinceCode() <= 0 || talentInfoDO.getBirthday() == null ||
+                    talentInfoDO.getGender() <= 0 || CollectionUtils.isEmpty(talentInfoDO.getPictures()) ||
+                    CollectionUtils.isEmpty(talentInfoDO.getServiceTypes()) || talentInfoDTO.getPictureTextDTO() == null) {
+                return "/system/talent/talent";
+            }
+        }
+        Map<Integer, String> merchantNameTypeMap = new TreeMap<Integer, String>(new Comparator<Integer>() {
+            public int compare(Integer obj1, Integer obj2) {
+                // 降序排序
+                return obj2.compareTo(obj1);
+            }
+        });
+        merchantNameTypeMap.put(MerchantNameType.ALL_USER.getType(), MerchantNameType.ALL_USER.getScheme());
+        merchantNameTypeMap.put(MerchantNameType.TOUR_COR.getType(), MerchantNameType.TOUR_COR.getScheme());
+        merchantNameTypeMap.put(MerchantNameType.HOTEL.getType(), MerchantNameType.HOTEL.getScheme());
+        merchantNameTypeMap.put(MerchantNameType.SCENIC.getType(), MerchantNameType.SCENIC.getScheme());
+        merchantNameTypeMap.put(MerchantNameType.CITY_COR.getType(), MerchantNameType.CITY_COR.getScheme());
+        model.addAttribute("merchantNameTypeMap", merchantNameTypeMap);
+        return "system/talent/eredar";
 //		} catch (Exception e) {
 //			log.error(e.getMessage(),e);
 //			return "system/talent/eredar";
 //		}
-		
-	}
-	/**
-	 * 保存达人基本信息
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @param vo 封装的达人基本信息对象
-	 * @return
-	 */
-	@RequestMapping(value="/talent/saveTalentInfo",method=RequestMethod.POST)
-	@ResponseBody
-	public BizResult<String> addTalentInfo(HttpServletRequest request,HttpServletResponse response,Model model,TalentInfoVO vo ){
-		BizResult<String> bizResult = new BizResult<>();
-		UserDO user = sessionManager.getUser(request);
-		if (user != null && user.getId() != vo.getId()) {
-			
+
+    }
+
+    /**
+     * 保存达人基本信息
+     *
+     * @param request
+     * @param response
+     * @param model
+     * @param vo       封装的达人基本信息对象
+     * @return
+     */
+    @RequestMapping(value = "/talent/saveTalentInfo", method = RequestMethod.POST)
+    @ResponseBody
+    public BizResult<String> addTalentInfo(HttpServletRequest request, HttpServletResponse response, Model model, TalentInfoVO vo) {
+        BizResult<String> bizResult = new BizResult<>();
+        UserDO user = sessionManager.getUser(request);
+        if (user != null && user.getId() != vo.getId()) {
+
 //			String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
 //			try {
 //				bizResult.setSuccess(false);
@@ -333,42 +374,69 @@ private VelocityConfigurer velocityConfig;
 //			} catch (Exception e) {
 //				log.error("no authority to operate");
 //			}
-			bizResult.setSuccess(false);
-			bizResult.setMsg("对不起，请重新登录后再进行此操作");
-			return bizResult;
-			
-		}
-		InfoQueryDTO info = new InfoQueryDTO();
-		info.setDomainId(Constant.DOMAIN_JIUXIU);
-		info.setSellerId(sessionManager.getUserId());
-		MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
-		if (merchantInfoResult == null || !merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() != MerchantType.TALENT.getType()) {
-			String url = UrlHelper.getUrl( WebResourceConfigUtil.getRootPath(), "/error/lackPermission") ;
-			try {
-				//request.getRequestDispatcher("/error/lackPermission").forward(request, response);
-				//response.sendRedirect(url);
-				bizResult.setSuccess(false);
-				bizResult.setValue(url);
-				return bizResult;
-			} catch (Exception e) {
-				log.error("merchantBiz.queryMerchantExamineInfoBySellerId param:InfoQueryDTO={} ,error:{}",JSON.toJSONString(info),e);
-			}
-		}
-		WebResult<Boolean> addTalentInfoResult = talentBiz.addTalentInfo(vo);
-		if (addTalentInfoResult == null) {
-			bizResult.init(false, -1, "保存失败");
-			return bizResult;
-		}
-		if (addTalentInfoResult.isSuccess()) {
-			bizResult.setValue("/toAddTalentInfo");
-		}
-		else {
-			bizResult.init(false, addTalentInfoResult.getErrorCode(),
-					addTalentInfoResult.getResultMsg());
-		}
-		return bizResult;
-		
-		
-	}
-	
+            bizResult.setSuccess(false);
+            bizResult.setMsg("对不起，请重新登录后再进行此操作");
+            return bizResult;
+
+        }
+        InfoQueryDTO info = new InfoQueryDTO();
+        info.setDomainId(Constant.DOMAIN_JIUXIU);
+        info.setSellerId(sessionManager.getUserId());
+        MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
+        if (merchantInfoResult == null || !merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() != MerchantType.TALENT.getType()) {
+            String url = UrlHelper.getUrl(WebResourceConfigUtil.getRootPath(), "/error/lackPermission");
+            try {
+                //request.getRequestDispatcher("/error/lackPermission").forward(request, response);
+                //response.sendRedirect(url);
+                bizResult.setSuccess(false);
+                bizResult.setValue(url);
+                return bizResult;
+            } catch (Exception e) {
+                log.error("merchantBiz.queryMerchantExamineInfoBySellerId param:InfoQueryDTO={} ,error:{}", JSON.toJSONString(info), e);
+            }
+        }
+        WebResult<Boolean> addTalentInfoResult = talentBiz.addTalentInfo(vo);
+        if (addTalentInfoResult == null) {
+            bizResult.init(false, -1, "保存失败");
+            return bizResult;
+        }
+        if (addTalentInfoResult.isSuccess()) {
+            bizResult.setValue("/toAddTalentInfo");
+        } else {
+            bizResult.init(false, addTalentInfoResult.getErrorCode(),
+                    addTalentInfoResult.getResultMsg());
+        }
+        return bizResult;
+
+
+    }
+
+    public boolean checkContractDate(Date contractDate, long sellerId) {
+        String key = "CONTRACT_RENEW" + sellerId;
+        boolean result = false;
+        int buffer;
+        try {
+            buffer = Integer.parseInt(bufferDays);
+        } catch (Exception e) {
+            buffer = 0;
+        }
+
+        contractDate = contractDate == null ? getDefaultDate() : contractDate;
+        result = contractDate.before(DateUtil.dateAdd(CalendarField.DAY, buffer, new Date()));
+
+
+        return result;
+    }
+
+    public Date getDefaultDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        try {
+            return sdf.parse(DEFAULT_CONTRACT_DATE);
+        } catch (ParseException e) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(2016, 12, 30);
+            return calendar.getTime();
+        }
+    }
+
 }

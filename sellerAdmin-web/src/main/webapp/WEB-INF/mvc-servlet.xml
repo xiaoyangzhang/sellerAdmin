@@ -9,9 +9,8 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
 	<context:property-placeholder location="WEB-INF/config.properties" file-encoding="utf-8" ignore-unresolvable="true"/>
-	
-    <!--启用spring的注解功能-->
-    <context:component-scan base-package="com.yimayhd.sellerAdmin.controller.**"/>
+
+
 
     <mvc:annotation-driven/>
 
@@ -19,11 +18,11 @@
     <!-- 配置js,css等静态文件直接映射到对应的文件夹，不被DispatcherServlet处理 -->
     <mvc:resources location="/WEB-INF/resources/" mapping="/resources/**" />
 
-    <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
-        <!-- 模板存放的路径 -->
-        <property name="resourceLoaderPath" value="/WEB-INF/view" />
-        <property name="configLocation" value="/WEB-INF/velocity.properties" />
-    </bean>
+	<bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<!-- 模板存放的路径 -->
+		<property name="resourceLoaderPath" value="/WEB-INF/view" />
+		<property name="configLocation" value="/WEB-INF/velocity.properties" />
+	</bean>
 
     <bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
         <property name="suffix" value=".vm" /><!-- 视图文件的后缀名 -->
@@ -60,6 +59,10 @@
             </list>
         </property>
     </bean>
+	<bean id ="contractManager" class="com.yimayhd.sellerAdmin.manager.ContractManager" />
+
+	<!--启用spring的注解功能-->
+	<context:component-scan base-package="com.yimayhd.sellerAdmin.controller.**"/>
 
 	<mvc:annotation-driven></mvc:annotation-driven>
 	<mvc:interceptors>

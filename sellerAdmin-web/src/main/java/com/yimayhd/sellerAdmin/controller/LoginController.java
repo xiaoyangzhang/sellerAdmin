@@ -18,9 +18,12 @@ import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.util.CalendarField;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
+import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.LoginDTO;
+import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.result.login.LoginResult;
+import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.client.service.UserService;
 import com.yimayhd.user.session.manager.JsonResult;
 import com.yimayhd.user.session.manager.SessionManager;
@@ -70,6 +73,9 @@ public class LoginController extends BaseController {
 
     @Autowired
     private CacheManager cacheManager;
+
+    @Resource
+    private MerchantService merchantService;
 
     @Autowired
     private MerchantBiz merchantBiz;
@@ -173,8 +179,12 @@ public class LoginController extends BaseController {
         if (merchantInfoResult == null || !merchantInfoResult.isSuccess() || merchantInfoResult.getValue().getType() != MerchantType.MERCHANT.getType()) {
             String url = UrlHelper.getUrl(WebResourceConfigUtil.getRootPath(), "/error/lackPermission");
         }
-        //todo
-        if (checkContractDate(merchantInfoResult.getValue().getCreateDate(), user.getId())) {
+
+        BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(user.getId(), Constant.DOMAIN_JIUXIU);
+        if(meResult==null||!meResult.isSuccess()) {
+            String url = UrlHelper.getUrl(WebResourceConfigUtil.getRootPath(), "/error/lackPermission");
+        }
+        if (checkContractDate(meResult.getValue().getContractEndTime(), user.getId())) {
             String renew = "1";
             model.addAttribute("renewContract", renew);
         }
