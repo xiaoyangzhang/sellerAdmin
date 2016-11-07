@@ -67,7 +67,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="red">*</span>市场价</td>
+                        <td>市场价</td>
                         <td>
                             <input class="priceY form-control" type="text" name="originalPrice" value="$!numberHelper.formatNumber($!commodity.originalPrice)" maxlength="9">元
                         </td>
