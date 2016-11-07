@@ -6,7 +6,7 @@
             #if($product)
                 <input type="text" class="day-limit inputxt" value="$!{product.priceInfo.limit}" maxlength="5">
             #else
-                <input type="text" class="day-limit inputxt" maxlength="4" placeholder="0">
+                <input type="text" class="day-limit inputxt" maxlength="4" value="1">
             #end
         </div>
        #* #foreach($tc in ${product.priceInfo.tcs})
