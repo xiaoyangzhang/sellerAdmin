@@ -120,7 +120,7 @@
 			#end
 			<textarea class="need-know-item-value" rows="5" placeholder="">$!content</textarea>
 			<div class="word-num"><span class="num-a">0</span>/<span class="num-b">2000字</span></div>
-			<span class=""ic-example>点击可查看样例哦</span>
+			<span class="ic-example">点击可查看样例哦</span>
 			#if(!$utilItem.isAboardLine($itemType))
 			<div class="text-example" style="display: none;">
 				1、本产品不接受  __________  岁以上的客人预订，不接受非大陆籍客人预订，敬请谅解！<br />
