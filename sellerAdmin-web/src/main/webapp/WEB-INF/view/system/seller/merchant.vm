@@ -12,7 +12,12 @@
 	<!-- 面包屑 -->
 			<div class = "eredar-info clearfix">
 				<ul>
-					<li class = " first on">基本信息</li>
+					<li class = "first on">基本信息</li>
+                    <li class="expire">
+                        <label>合约到期:</label>
+                        <span>$!renewDate</span>
+                        <a class="btn-renew">申请续签</a>
+                    </li>
 				</ul>
 			</div>
 			<form class="registerform" method="post" autocomplete="off" action="">
@@ -108,7 +113,7 @@
 			<div class = "eredar-list merchant-list2">
 				<button id="save">保存</button>
 			</div>
-<input type="hidden" name="renewContract" value="$!renewContract">
-<input type="hidden" name="renewDate" value="$!renewDate">
+<input type="hidden" name="renewContract" id="renewContract" value="$!renewContract">
+<input type="hidden" name="renewDate" id="renewDate" value="$!renewDate">
 	#parse("layout/layout-js.vm")
 	<script>seajs.use("merchant");</script>	
