@@ -448,6 +448,7 @@ public class CommodityServiceImpl implements CommodityService {
 			// 商品编码
 			itemDB.setCode(itemVO.getCode());
 
+			log.info("updatePublishCommonItem--:"+JSON.toJSONString(commonItemPublishDTO));
 			ItemPubResult itemPubResult = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
 			if (null == itemPubResult) {
 				log.error("ItemPublishService.publishCommonItem result is null and parame: "
