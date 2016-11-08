@@ -233,7 +233,7 @@ public class OrderServiceImpl implements OrderService {
 		try {
 			TcSingleQueryResult tcSingleQueryResult = tcBizQueryServiceRef
 					.querySingle(id, orderQueryOption);
-			log.error("--------------------"+JSON.toJSONString(tcSingleQueryResult));
+			//log.error("--------------------"+JSON.toJSONString(tcSingleQueryResult));
 			if (tcSingleQueryResult.isSuccess()) {
 				OrderDetails orderDetails = new OrderDetails();
 				TcMainOrder tcMainOrder = tcSingleQueryResult.getTcMainOrder();
@@ -299,7 +299,7 @@ public class OrderServiceImpl implements OrderService {
 				return orderDetails;
 			}
 		} catch (Exception e) {
-			log.error("public OrderDetails getOrderById(long id);" + e);
+			log.error("public OrderDetails getOrderById(long id);" , e);
 			return null;
 		}
 		return null;

@@ -20,6 +20,7 @@ import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebResultSupport;
 import com.yimayhd.sellerAdmin.biz.MerchantBiz;
 import com.yimayhd.sellerAdmin.biz.TalentBiz;
+import com.yimayhd.sellerAdmin.cache.CacheManager;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.enums.MerchantNameType;
 import com.yimayhd.sellerAdmin.helper.UrlHelper;
@@ -48,6 +49,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 
 import javax.annotation.Resource;
@@ -89,11 +91,19 @@ public class BasicInfoController extends BaseController {
     @Autowired
     private VelocityConfigurer velocityConfig;
 
-    @Value("sellerAdmin.default_contract_date")
+    @Autowired
+    private CacheManager cacheManager;
+
+    @Value("${sellerAdmin.default_contract_date}")
     private String DEFAULT_CONTRACT_DATE;
 
-    @Value("{sellerAdmin.bufferDay}")
+    @Value("${sellerAdmin.bufferDay}")
     private String bufferDays;
+
+    @Value("${sellerAdmin.tfsRootPath}")
+    private String TFS_ROOT_PATH;
+
+    private long DAY = 86400;
 
 
     /**
@@ -115,19 +125,18 @@ public class BasicInfoController extends BaseController {
                 response.sendRedirect(url);
             }
 
-            //todo for test
-//            String contractURL = contractManager.createContract(user.getId(), merchantInfoResult.getValue());
-
             //判断权限
             model.addAttribute("nickName", user.getNickname());
             BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(user.getId(), Constant.DOMAIN_JIUXIU);
             if (meResult.isSuccess() && null != meResult.getValue()) {
 
-                if (checkContractDate(meResult.getValue().getContractEndTime(), user.getId())) {
-                    String renew = "1";
-                    model.addAttribute("renewContract", renew);
+                Date contractEndDate = meResult.getValue().getContractEndTime()==null?getDefaultDate():meResult.getValue().getContractEndTime();
+                String renew = "1";
+                if (checkContractDate(contractEndDate, user.getId())) {
+                    renew = "2";
                 }
-                model.addAttribute("renewDate", meResult.getValue().getContractEndTime());
+                model.addAttribute("renewContract", renew);
+                model.addAttribute("renewDate", contractEndDate);
 
                 model.addAttribute("id", meResult.getValue().getId());
                 model.addAttribute("sellerId", meResult.getValue().getSellerId());
@@ -144,8 +153,6 @@ public class BasicInfoController extends BaseController {
                 model.addAttribute("serviceTel", meResult.getValue().getServiceTel());
                 model.addAttribute("merchantDesc", meResult.getValue().getTitle());
 
-                //todo if null set default time
-//				model.addAttribute("contractDate", meResult.getValue().getGmtCreated());
                 if (StringUtils.isBlank(meResult.getValue().getBackgroudImage()) || StringUtils.isBlank(meResult.getValue().getServiceTel()) || StringUtils.isBlank(meResult.getValue().getLogo())) {
                     return "/system/seller/merchant_head";
                 }
@@ -173,18 +180,34 @@ public class BasicInfoController extends BaseController {
 
     }
 
-    @RequestMapping(value = "/merchant/toContractDownloadPage")
-    public BizResult<String> toContractDownloadPage(HttpServletRequest request, Model model) {
+    @RequestMapping(value = "/contractRenewDate", method =RequestMethod.GET)
+    public ModelAndView toContractRenewDate() {
+        UserDO user = sessionManager.getUser();
+        BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(user.getId(), Constant.DOMAIN_JIUXIU);
+        if (meResult.isSuccess() && null != meResult.getValue()) {
+            ModelAndView modelAndView = new ModelAndView("/system/contract/contractRenew");
+            Date contractEndDate = meResult.getValue().getContractEndTime() == null ? getDefaultDate() : meResult.getValue().getContractEndTime();
+            modelAndView.addObject("renewDate", contractEndDate);
+//            modelAndView.addAttribute("renewDate", contractEndDate);
+            modelAndView.addObject("sellerId", user.getId());
+            return modelAndView;
+        }else {
+            ModelAndView modelAndView = new ModelAndView("/system/contract/contractRenew");
+            return modelAndView;
+        }
+    }
+    @RequestMapping(value = "/toContractDownloadPage", method = RequestMethod.POST)
+    @ResponseBody
+    public BizResult<String> toContractDownloadPage(long sellerId, Date renewDate) {
         BizResult<String> result = new BizResult<String>();
         try {
-            UserDO user = sessionManager.getUser(request);
             InfoQueryDTO info = new InfoQueryDTO();
             info.setDomainId(Constant.DOMAIN_JIUXIU);
-            info.setSellerId(user.getId());
+            info.setSellerId(sellerId);
             MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
             if (merchantInfoResult != null || merchantInfoResult.isSuccess()) {
-
-                String contractURL = contractManager.createContract(user.getId(), merchantInfoResult.getValue());
+                renewDate = renewDate==null?getDefaultDate():renewDate;
+                String contractURL = TFS_ROOT_PATH+contractManager.createContract(sellerId, merchantInfoResult.getValue(), renewDate);
                 result.setValue(contractURL);
                 return result;
             }
@@ -307,12 +330,13 @@ public class BasicInfoController extends BaseController {
             }
             BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(userId, Constant.DOMAIN_JIUXIU);
 
-            if (checkContractDate(meResult.getValue().getContractEndTime(), userId)) {
-                String renew = "1";
-                model.addAttribute("renewContract", renew);
+            Date contractEndDate = meResult.getValue().getContractEndTime()==null?getDefaultDate():meResult.getValue().getContractEndTime();
+            String renew = "1";
+            if (checkContractDate(contractEndDate, userId)) {
+                renew = "2";
             }
-            model.addAttribute("renewDate", meResult.getValue().getContractEndTime());
-
+            model.addAttribute("renewContract", renew);
+            model.addAttribute("renewDate", contractEndDate);
             List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
             if (pictures == null) {
                 pictures = new ArrayList<String>();
@@ -414,17 +438,20 @@ public class BasicInfoController extends BaseController {
     public boolean checkContractDate(Date contractDate, long sellerId) {
         String key = "CONTRACT_RENEW" + sellerId;
         boolean result = false;
-        int buffer;
-        try {
-            buffer = Integer.parseInt(bufferDays);
-        } catch (Exception e) {
-            buffer = 0;
+        if (null == cacheManager.getFormTair(key)) {
+            int buffer;
+            try {
+                buffer = Integer.parseInt(bufferDays);
+            } catch (Exception e) {
+                buffer = 0;
+            }
+
+            contractDate = contractDate == null ? getDefaultDate() : contractDate;
+            result = contractDate.before(DateUtil.dateAdd(CalendarField.DAY, buffer, new Date()));
+            if (result) {
+                cacheManager.addToTair(key, DAY);
+            }
         }
-
-        contractDate = contractDate == null ? getDefaultDate() : contractDate;
-        result = contractDate.before(DateUtil.dateAdd(CalendarField.DAY, buffer, new Date()));
-
-
         return result;
     }
 
@@ -433,6 +460,7 @@ public class BasicInfoController extends BaseController {
         try {
             return sdf.parse(DEFAULT_CONTRACT_DATE);
         } catch (ParseException e) {
+            log.error("basicinfo getDefaultDate is error, exception={}",e);
             Calendar calendar = Calendar.getInstance();
             calendar.set(2016, 12, 30);
             return calendar.getTime();

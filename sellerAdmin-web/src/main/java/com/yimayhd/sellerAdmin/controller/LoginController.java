@@ -184,10 +184,10 @@ public class LoginController extends BaseController {
         if(meResult==null||!meResult.isSuccess()) {
             String url = UrlHelper.getUrl(WebResourceConfigUtil.getRootPath(), "/error/lackPermission");
         }
-        if (checkContractDate(meResult.getValue().getContractEndTime(), user.getId())) {
-            String renew = "1";
-            model.addAttribute("renewContract", renew);
-        }
+//        if (checkContractDate(meResult.getValue().getContractEndTime(), user.getId())) {
+//            String renew = "1";
+//            model.addAttribute("renewContract", renew);
+//        }
         model.addAttribute("menuList", haMenuDOList);
         model.addAttribute("userNickName", user.getNickname());
         return "/layout/layout";
@@ -215,34 +215,4 @@ public class LoginController extends BaseController {
         return "/error";
     }
 
-    public boolean checkContractDate(Date contractDate, long sellerId) {
-        String key = "CONTRACT_RENEW" + sellerId;
-        boolean result = false;
-        if (null == cacheManager.getFormTair(key)) {
-            int buffer;
-            try {
-                buffer = Integer.parseInt(bufferDays);
-            } catch (Exception e) {
-                buffer = 0;
-            }
-
-            contractDate = contractDate == null ? getDefaultDate() : contractDate;
-            result = contractDate.before(DateUtil.dateAdd(CalendarField.DAY, buffer, new Date()));
-            if (result) {
-                cacheManager.addToTair(key, DAY);
-            }
-        }
-        return result;
-    }
-
-    public Date getDefaultDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        try {
-            return sdf.parse(DEFAULT_CONTRACT_DATE);
-        } catch (ParseException e) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(2016, 12, 30);
-            return calendar.getTime();
-        }
-    }
 }

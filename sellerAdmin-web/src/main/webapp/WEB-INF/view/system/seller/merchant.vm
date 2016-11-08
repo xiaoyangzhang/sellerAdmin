@@ -108,5 +108,7 @@
 			<div class = "eredar-list merchant-list2">
 				<button id="save">保存</button>
 			</div>
+<input type="hidden" name="renewContract" value="$!renewContract">
+<input type="hidden" name="renewDate" value="$!renewDate">
 	#parse("layout/layout-js.vm")
 	<script>seajs.use("merchant");</script>	

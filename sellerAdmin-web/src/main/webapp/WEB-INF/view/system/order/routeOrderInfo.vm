@@ -222,6 +222,8 @@
                         <div class="order-price real-price">
                             $!utilNum.moneyTransform($!subOrder.itemPrice_)
                         </div>
+                        <div class="market-price">#if($!subOrder.itemOriginalPrice!=0) $!utilNum.moneyTransform($!subOrder.itemOriginalPrice) #end
+                       </div>
                     </td>
                     <td>
                         <div class="order-number">

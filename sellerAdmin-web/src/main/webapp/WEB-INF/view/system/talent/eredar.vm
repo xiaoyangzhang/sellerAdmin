@@ -233,6 +233,8 @@
 			</table>
 		</form>
 		<button type= "button" class = "saveBtn" id = "saveBtnEredar" data-imgnum="15">保存</button>
+        <input type="hidden" name="renewContract" value="$!renewContract">
+        <input type="hidden" name="renewDate" value="$!renewDate">
 	</div>
 	<div class = "eredar-list eredar-list2">
 	</div>

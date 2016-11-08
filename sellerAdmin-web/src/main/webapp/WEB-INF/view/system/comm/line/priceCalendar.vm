@@ -2,11 +2,11 @@
     <form action="">
         <input type ="hidden" id ="priceInfoJson" name ="priceInfoJson" value ='$!{priceInfoJson}' />
         <div class="ml40 mt20">
-            <label class="label">目前报名天数：</label>
+            <label class="label">提前报名天数：</label>
             #if($product)
                 <input type="text" class="day-limit inputxt" value="$!{product.priceInfo.limit}" maxlength="5">
             #else
-                <input type="text" class="day-limit inputxt" maxlength="4" placeholder="0">
+                <input type="text" class="day-limit inputxt" maxlength="4" value="1">
             #end
         </div>
        #* #foreach($tc in ${product.priceInfo.tcs})
@@ -104,6 +104,7 @@
                     </dl>
                 </div>
             </div>
+            <div class="ml30"><span class="red">*</span> 按住Ctrl键，可实现多选日期；按住Shift键，可实现选择时间段。</div>
         </div>
     </form>
     <!-- 弹框套餐内容 start -->

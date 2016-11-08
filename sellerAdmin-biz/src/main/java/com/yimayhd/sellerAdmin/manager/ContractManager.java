@@ -1,6 +1,5 @@
 package com.yimayhd.sellerAdmin.manager;
 
-import com.itextpdf.text.DocumentException;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.dto.MemberContractCodeDTO;
 import com.yimayhd.membercenter.enums.ContractType;
@@ -8,6 +7,7 @@ import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.sellerAdmin.domain.ContractPDFDomain;
 import com.yimayhd.sellerAdmin.enums.MerchantParentCategoryMappingEnum;
 import com.yimayhd.sellerAdmin.repo.MemberContractRepo;
+import com.yimayhd.sellerAdmin.service.TfsService;
 import com.yimayhd.sellerAdmin.util.HtmlToPdfUtil;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -16,9 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import java.io.File;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -32,35 +33,39 @@ public class ContractManager {
     @Autowired
     private VelocityConfigurer velocityConfig;
 
+    @Autowired
+    private TfsService tfsService;
+
     private String templatePrefix = "/contracttemplate/";
 
     private String templateSubfix = "ContractTemplate.vm";
 
-    public String createContract(long sellerId, ExamineInfoDTO examineInfoDTO) {
+    public String createContract(long sellerId, ExamineInfoDTO examineInfoDTO, Date renewDate) {
 
         MemberContractCodeDTO memberContractCodeDTO = new MemberContractCodeDTO();
         memberContractCodeDTO.setSellerId(sellerId);
+        memberContractCodeDTO.setRenewDate(renewDate);
         if (examineInfoDTO.getType() == MerchantType.TALENT.getType()) {
             memberContractCodeDTO.setContractType(ContractType.DAREN);
         } else {
             memberContractCodeDTO.setContractType(MerchantParentCategoryMappingEnum.getByCategory(examineInfoDTO.getMerchantCategoryId()).getContractType());
         }
-//        memberContractCodeDTO.setContractType(MerchantParentCategoryMappingEnum.getByCategory(3).getContractType());
-//        String contractCode = memberContractRepo.getCode(memberContractCodeDTO);
-        String contractCode = "123";
+        memberContractCodeDTO.setContractType(MerchantParentCategoryMappingEnum.getByCategory(3).getContractType());
+        String contractCode = memberContractRepo.getCode(memberContractCodeDTO);
         ContractPDFDomain contractPDFDomain = new ContractPDFDomain();
         contractPDFDomain.setCode(contractCode);
         contractPDFDomain.setMerchantName(examineInfoDTO.getSellerName());
         contractPDFDomain.setAccountName(examineInfoDTO.getFinanceOpenName());
         contractPDFDomain.setAccountNo(examineInfoDTO.getAccountNum());
-        contractPDFDomain.setAccountBank(examineInfoDTO.getFinanceOpenBankName() + examineInfoDTO.getAccountBankProvince() + examineInfoDTO.getAccountBankCity() + examineInfoDTO.getAccountBankName());
+        contractPDFDomain.setAccountBank(examineInfoDTO.getFinanceOpenBankName()+examineInfoDTO.getAccountBankName());
         Date d = new Date();
-        contractPDFDomain.setYear(d.getYear() + "");
-        contractPDFDomain.setMonth(d.getMonth() + "");
-        contractPDFDomain.setDay(d.getDay() + "");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String dStr = sdf.format(d);
+        contractPDFDomain.setYear(dStr.substring(0,4));
+        contractPDFDomain.setMonth(dStr.substring(4,6));
+        contractPDFDomain.setDay(dStr.substring(6,8));
 
-        create(contractPDFDomain, templatePrefix + memberContractCodeDTO.getContractType().getName() + templateSubfix);
-        return null;
+        return create(contractPDFDomain, templatePrefix + memberContractCodeDTO.getContractType().getName() + templateSubfix);
     }
 
     public String create(ContractPDFDomain contractPDFDomain, String templateUrl) {
@@ -79,13 +84,15 @@ public class ContractManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        File file = new File(contractPDFDomain.getCode() + ".pdf");
         try {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(str.getBytes("UTF-8"));
-            HtmlToPdfUtil.htmlToPdf(byteArrayInputStream, "/Users/liuxiaopeng/Documents/template2.pdf");
-        } catch (IOException e) {
+            HtmlToPdfUtil.htmlToPdf(byteArrayInputStream, file.getPath());
+            return tfsService.uploadToTFS(file.getPath());
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (DocumentException e) {
-            e.printStackTrace();
+        } finally {
+            file.delete();
         }
         return null;
     }
