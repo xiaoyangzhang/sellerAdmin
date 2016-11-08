@@ -57,7 +57,7 @@ public class ContractManager {
         contractPDFDomain.setMerchantName(examineInfoDTO.getSellerName());
         contractPDFDomain.setAccountName(examineInfoDTO.getFinanceOpenName());
         contractPDFDomain.setAccountNo(examineInfoDTO.getAccountNum());
-        contractPDFDomain.setAccountBank(examineInfoDTO.getFinanceOpenBankName() + examineInfoDTO.getAccountBankProvince() + examineInfoDTO.getAccountBankCity() + examineInfoDTO.getAccountBankName());
+        contractPDFDomain.setAccountBank(examineInfoDTO.getFinanceOpenBankName()+examineInfoDTO.getAccountBankName());
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String dStr = sdf.format(d);
