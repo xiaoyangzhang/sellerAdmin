@@ -136,7 +136,7 @@ public class BasicInfoController extends BaseController {
                     renew = "2";
                 }
                 model.addAttribute("renewContract", renew);
-                model.addAttribute("renewDate", contractEndDate);
+                model.addAttribute("renewDate", getShowDate(contractEndDate));
 
                 model.addAttribute("id", meResult.getValue().getId());
                 model.addAttribute("sellerId", meResult.getValue().getSellerId());
@@ -187,8 +187,8 @@ public class BasicInfoController extends BaseController {
         if (meResult.isSuccess() && null != meResult.getValue()) {
             ModelAndView modelAndView = new ModelAndView("/system/contract/contractRenew");
             Date contractEndDate = meResult.getValue().getContractEndTime() == null ? getDefaultDate() : meResult.getValue().getContractEndTime();
-            modelAndView.addObject("renewDate", contractEndDate);
-//            modelAndView.addAttribute("renewDate", contractEndDate);
+
+            modelAndView.addObject("renewDate", getShowDate(contractEndDate));
             modelAndView.addObject("sellerId", user.getId());
             return modelAndView;
         }else {
@@ -336,7 +336,7 @@ public class BasicInfoController extends BaseController {
                 renew = "2";
             }
             model.addAttribute("renewContract", renew);
-            model.addAttribute("renewDate", contractEndDate);
+            model.addAttribute("renewDate", getShowDate(contractEndDate));
             List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
             if (pictures == null) {
                 pictures = new ArrayList<String>();
@@ -465,6 +465,11 @@ public class BasicInfoController extends BaseController {
             calendar.set(2016, 12, 30);
             return calendar.getTime();
         }
+    }
+
+    public String getShowDate(Date d) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(d);
     }
 
 }
