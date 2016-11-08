@@ -1,20 +1,21 @@
-#set($layout = "/layout/layout-jiuxiu-home.vm")
 
 <head>
 	#parse("layout/layout-meta.vm")
 	<title>基本信息</title>
-	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/merchant2.1.css">
+    <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/base.css">
+    <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/common.css">
+    <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/agreement.css">
 </head>
+
+
 <!-- 面包屑 -->
 
 <!-- 主体部分 -->
 <div class="comwidth clearfix" id="eredar">
 	
 	<!-- 内容区域 -->
-	<div class="eredar-right">
         <input type="hidden" name="sellerId"  value="$!sellerId"/>
 
-        <div class = "eredar-right">
             <h3>下载协议：</h3>
             <p class="agreement-p">2017年九休旅行续签协议，您可通过以下阅读续签协议详细内容。签署续签协议，请您点击下载协议按钮，将协议下载到本地，并采用彩色打印
                 2份，一份为甲方，一份为乙方，加盖您公司的红章或鲜章并签字。签署完成后邮寄一份到九休旅行。</p>
@@ -29,14 +30,11 @@
                 <a class="agremt-view">预览</a>
             </div>
         </div>
+
         <input type="hidden" name="renewDate" value="$!renewDate">
 
-	</div>
-</div>
 
 #parse("layout/layout-js.vm")
-<script type="text/javascript" src="../../src/js/sea.js"></script>
-<script type="text/javascript" src="../../src/js/seajs-preload.js"></script>
-<script type="text/javascript" src="../../src/js/config.js"></script>
+
 <script>seajs.use("agreement");</script>
 
