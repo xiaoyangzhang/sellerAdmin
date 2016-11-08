@@ -411,6 +411,8 @@ public class CommodityServiceImpl implements CommodityService {
 			itemDB.setDescription(itemVO.getDescription());
 			// 价格
 			itemDB.setPrice(NumUtil.doubleToLong(itemVO.getPriceY()));
+			//市场价
+			itemDB.setOriginalPrice(itemVO.getOriginalPrice());
 			// 商品库存
 			itemDB.setStockNum(itemVO.getStockNum());
 			// 商品图片
