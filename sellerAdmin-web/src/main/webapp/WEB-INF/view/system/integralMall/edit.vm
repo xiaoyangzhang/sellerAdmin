@@ -424,20 +424,20 @@
 
         //sku
         if(!skuTableShowFlag){
-            if(!$('.priceY').val() || !/^\d{1,6}(\.\d{1,2})?$|^[1-9]\d{0,5}$/.test($('.priceY').val())){
+            if(!$('.priceY').val() || !/^\d{1,6}(\.\d{1,2})?$|^[1-9]\d{0,5}$/.test($.trim($('.priceY').val()))){
                 return '商品售价为数字，最大六位整数，可带两位小数';
             }
-            if(!$('.original-price').val() || !/^\d{1,6}(\.\d{1,2})?$|^[1-9]\d{0,5}$/.test($('.original-price').val())){
+            if(!$('.original-price').val() || !/^\d{1,6}(\.\d{1,2})?$|^[1-9]\d{0,5}$/.test($.trim($('.original-price').val()))){
                 return '市场价为数字，最大六位整数，可带两位小数';
             }
-            if(!/^[1-9]\d*$/.test($('.maxPoint').val())) {
+            if(!/^[1-9]\d*$/.test($.trim($('.maxPoint').val()))) {
 	            return '请输入正确的积分';
 	        }
 	        if($('.maxPoint').val() < 100) {
 		            return '积分必须大于100';
 	        }
-	        var priceY_ = Math.ceil(parseFloat($('.priceY').val()) * 100);
-        	var maxPoint_ = parseInt($('.maxPoint').val());
+	        var priceY_ = Math.ceil(parseFloat($.trim($('.priceY').val())) * 100);
+        	var maxPoint_ = parseInt($.trim($('.maxPoint').val()));
             if(priceY_ < maxPoint_){
             	return '最多可用积分不得超过商品售价';
             }
