@@ -197,6 +197,7 @@ public class BasicInfoController extends BaseController {
         }
     }
     @RequestMapping(value = "/toContractDownloadPage", method = RequestMethod.POST)
+    @ResponseBody
     public BizResult<String> toContractDownloadPage(long sellerId, Date renewDate) {
         BizResult<String> result = new BizResult<String>();
         try {
