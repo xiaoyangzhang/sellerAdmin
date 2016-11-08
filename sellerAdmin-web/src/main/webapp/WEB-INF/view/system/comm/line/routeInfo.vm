@@ -67,7 +67,7 @@
 				var page = createDayPage(dayId);
 				$(".day_btn").before(tab);
 				$(".tripInfo .tab-content").append(page);
-				tab.children("a").click();
+				tab.click();
 				show();
 			});
 			//重新计算day_tab显示天数
