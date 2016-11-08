@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
@@ -234,6 +235,7 @@ public class OrderController extends BaseController {
 	@RequestMapping(value = "/sendGoodsSearch", method = RequestMethod.GET)
 	public String sendGoodsSearch(Model model,long bizOrderId){
 		List<ExpressCodeRelationDO> list = orderService.selectAllExpressCode();//查询物流公司接口
+		log.info("sendGoodsSearch--:"+ JSON.toJSONString(list));
 		List<ExpressCodeRelationDO> list2 = new ArrayList<ExpressCodeRelationDO>();
 		for (ExpressCodeRelationDO expressCodeRelationDO : list) {
 			if(expressCodeRelationDO.getName().contains("顺丰速运")){
