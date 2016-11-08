@@ -86,7 +86,7 @@
         				<thead>
                             <tr>
                                 <th data-col-class="text-center" data-width="80">编号</th>
-                                <th data-col-class="text-center" data-width="310">商品信息</th>
+                                <th data-col-class="text-center" data-width="290">商品信息</th>
         						<th data-width="100">目的地</th>
                                 <th data-col-class="text-center" data-width="90">类型</th>
                                 <th data-col-class="text-center" data-width="110">单价</th>
