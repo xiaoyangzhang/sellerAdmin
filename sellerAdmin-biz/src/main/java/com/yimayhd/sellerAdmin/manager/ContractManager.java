@@ -12,13 +12,12 @@ import com.yimayhd.sellerAdmin.util.HtmlToPdfUtil;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.StringWriter;
-import java.io.Writer;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -32,6 +31,9 @@ public class ContractManager {
 
     @Autowired
     private VelocityConfigurer velocityConfig;
+
+    private static final Logger logger = LoggerFactory.getLogger("ContractManager");
+
 
     @Autowired
     private TfsService tfsService;
@@ -57,18 +59,51 @@ public class ContractManager {
         contractPDFDomain.setMerchantName(examineInfoDTO.getSellerName());
         contractPDFDomain.setAccountName(examineInfoDTO.getFinanceOpenName());
         contractPDFDomain.setAccountNo(examineInfoDTO.getAccountNum());
-        contractPDFDomain.setAccountBank(examineInfoDTO.getFinanceOpenBankName()+examineInfoDTO.getAccountBankName());
+        contractPDFDomain.setAccountBank(examineInfoDTO.getFinanceOpenBankName() + examineInfoDTO.getAccountBankName());
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String dStr = sdf.format(d);
-        contractPDFDomain.setYear(dStr.substring(0,4));
-        contractPDFDomain.setMonth(dStr.substring(4,6));
-        contractPDFDomain.setDay(dStr.substring(6,8));
+        contractPDFDomain.setYear(dStr.substring(0, 4));
+        contractPDFDomain.setMonth(dStr.substring(4, 6));
+        contractPDFDomain.setDay(dStr.substring(6, 8));
+
+        try {
+            return tfsService.uploadToTFS(create(contractPDFDomain, templatePrefix + memberContractCodeDTO.getContractType().getName() + templateSubfix).getPath());
+        } catch (Exception e) {
+            logger.error("createContract has exception={}", e);
+            return null;
+        }
+    }
+
+    public File downloadContract(long sellerId, ExamineInfoDTO examineInfoDTO, Date renewDate) {
+
+        MemberContractCodeDTO memberContractCodeDTO = new MemberContractCodeDTO();
+        memberContractCodeDTO.setSellerId(sellerId);
+        memberContractCodeDTO.setRenewDate(renewDate);
+        if (examineInfoDTO.getType() == MerchantType.TALENT.getType()) {
+            memberContractCodeDTO.setContractType(ContractType.DAREN);
+        } else {
+            memberContractCodeDTO.setContractType(MerchantParentCategoryMappingEnum.getByCategory(examineInfoDTO.getMerchantCategoryId()).getContractType());
+        }
+        memberContractCodeDTO.setContractType(MerchantParentCategoryMappingEnum.getByCategory(3).getContractType());
+        String contractCode = memberContractRepo.getCode(memberContractCodeDTO);
+        ContractPDFDomain contractPDFDomain = new ContractPDFDomain();
+        contractPDFDomain.setCode(contractCode);
+        contractPDFDomain.setMerchantName(examineInfoDTO.getSellerName());
+        contractPDFDomain.setAccountName(examineInfoDTO.getFinanceOpenName());
+        contractPDFDomain.setAccountNo(examineInfoDTO.getAccountNum());
+        contractPDFDomain.setAccountBank(examineInfoDTO.getFinanceOpenBankName() + examineInfoDTO.getAccountBankName());
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String dStr = sdf.format(d);
+        contractPDFDomain.setYear(dStr.substring(0, 4));
+        contractPDFDomain.setMonth(dStr.substring(4, 6));
+        contractPDFDomain.setDay(dStr.substring(6, 8));
 
         return create(contractPDFDomain, templatePrefix + memberContractCodeDTO.getContractType().getName() + templateSubfix);
     }
 
-    public String create(ContractPDFDomain contractPDFDomain, String templateUrl) {
+    public File create(ContractPDFDomain contractPDFDomain, String templateUrl) {
 
         VelocityEngine velocityEngine = velocityConfig.getVelocityEngine();
         Template template = velocityEngine.getTemplate(templateUrl, "UTF-8");
@@ -88,7 +123,7 @@ public class ContractManager {
         try {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(str.getBytes("UTF-8"));
             HtmlToPdfUtil.htmlToPdf(byteArrayInputStream, file.getPath());
-            return tfsService.uploadToTFS(file.getPath());
+            return file;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
