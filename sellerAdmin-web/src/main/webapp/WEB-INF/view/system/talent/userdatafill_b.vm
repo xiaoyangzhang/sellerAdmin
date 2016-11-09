@@ -158,8 +158,8 @@
 									<td><input class="inptxt" datatype="card" maxlength="18"    value="$!examineInfo.openerCard" id="openerCard_" name="openerCard" nullmsg="请输入身份证号" errormsg="请输入正确的身份证信息" ></td>
 							</tr>
 							<tr class="openerTel_">
-									<td class="tbtxt w280"><label class="bred">*</label><span>开户人手机号：</span></td>
-									<td><input class="inptxt" datatype="m" maxlength="11"    value="$!examineInfo.openerTel" id="openerTel_" name="openerTel" placeholder="银行预留手机号" nullmsg="请输入手机号" errormsg="请输入正确的手机号" ></td>
+									<td class="tbtxt w280"><span>开户人手机号：</span></td>
+									<td><input class="inptxt" datatype="null_m" maxlength="11"    value="$!examineInfo.openerTel" id="openerTel_" name="openerTel" placeholder="银行预留手机号" nullmsg="请输入手机号" errormsg="请输入正确的手机号" ></td>
 							</tr>
 							#elseif($examineInfo.accountType == "2") 
 							<tr class="settlementCard_">
@@ -208,8 +208,8 @@
 	</div>
 	<div class="private_tel" style="display:none">
 	<table><tr>
-			<td class="tbtxt w280"><label class="bred">*</label><span>开户人手机号：</span></td>
-			<td><input class="inptxt" datatype="m" maxlength="11"    value="$!examineInfo.openerTel" id="openerTel_" name="openerTel" placeholder="银行预留手机号" nullmsg="请输入手机号" errormsg="请输入正确的手机号 "><span class="Validform_checktip"></span></td>
+			<td class="tbtxt w280"><span>开户人手机号：</span></td>
+			<td><input class="inptxt" datatype="null_m" maxlength="11"    value="$!examineInfo.openerTel" id="openerTel_" name="openerTel" placeholder="银行预留手机号"  errormsg="请输入正确的手机号 "><span class="Validform_checktip"></span></td>
 	</tr></table>
 	</div>
 	<script  type='text/temple' id='province-tpl'>
