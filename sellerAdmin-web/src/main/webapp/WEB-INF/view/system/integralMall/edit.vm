@@ -424,10 +424,10 @@
 
         //sku
         if(!skuTableShowFlag){
-            if(!$('.priceY').val() || !/^\d{1,6}(\.\d{1,2})?$|^[1-9]\d{0,5}$/.test($.trim($('.priceY').val()))){
+            if(!$.trim($('.priceY').val()) || !/^\d{1,6}(\.\d{1,2})?$|^[1-9]\d{0,5}$/.test($.trim($('.priceY').val()))){
                 return '商品售价为数字，最大六位整数，可带两位小数';
             }
-            if($('.original-price').val() && !/^\d{1,6}(\.\d{1,2})?$|^[1-9]\d{0,5}$/.test($.trim($('.original-price').val()))){
+            if($.trim($('.original-price').val()) && !/^\d{1,6}(\.\d{1,2})?$|^[1-9]\d{0,5}$/.test($.trim($('.original-price').val()))){
                 return '市场价为数字，最大六位整数，可带两位小数';
             }
             if(!/^[1-9]\d*$/.test($.trim($('.maxPoint').val()))) {
