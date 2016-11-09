@@ -132,11 +132,18 @@ public class BasicInfoController extends BaseController {
 
                 Date contractEndDate = meResult.getValue().getContractEndTime()==null?getDefaultDate():meResult.getValue().getContractEndTime();
                 String renew = "1";
-                if (checkContractDate(contractEndDate, user.getId())) {
+                String dayRenew = "1";
+                if (checkDayContractDate(contractEndDate, user.getId())) {
+                    dayRenew = "2";
+                }
+
+                if(checkContractDate(contractEndDate)) {
                     renew = "2";
                 }
                 model.addAttribute("renewContract", renew);
+                model.addAttribute("renewDayContract", dayRenew);
                 model.addAttribute("renewDate", getShowDate(contractEndDate));
+//                String contractURL = TFS_ROOT_PATH+contractManager.createContract(user.getId(), merchantInfoResult.getValue(), contractEndDate);
 
                 model.addAttribute("id", meResult.getValue().getId());
                 model.addAttribute("sellerId", meResult.getValue().getSellerId());
@@ -332,10 +339,16 @@ public class BasicInfoController extends BaseController {
 
             Date contractEndDate = meResult.getValue().getContractEndTime()==null?getDefaultDate():meResult.getValue().getContractEndTime();
             String renew = "1";
-            if (checkContractDate(contractEndDate, userId)) {
+            String dayRenew = "1";
+            if (checkDayContractDate(contractEndDate, userId)) {
+                dayRenew = "2";
+            }
+
+            if(checkContractDate(contractEndDate)) {
                 renew = "2";
             }
             model.addAttribute("renewContract", renew);
+            model.addAttribute("renewDayContract", dayRenew);
             model.addAttribute("renewDate", getShowDate(contractEndDate));
             List<String> pictures = talentInfoDTO.getTalentInfoDO().getPictures();
             if (pictures == null) {
@@ -435,10 +448,24 @@ public class BasicInfoController extends BaseController {
 
     }
 
-    public boolean checkContractDate(Date contractDate, long sellerId) {
+    public boolean checkContractDate(Date contractDate) {
+        int buffer;
+        try {
+            buffer = Integer.parseInt(bufferDays);
+        } catch (Exception e) {
+            buffer = 0;
+        }
+
+        contractDate = contractDate == null ? getDefaultDate() : contractDate;
+        return contractDate.before(DateUtil.dateAdd(CalendarField.DAY, buffer, new Date()));
+
+    }
+
+    public boolean checkDayContractDate(Date contractDate, long sellerId) {
         String key = "CONTRACT_RENEW" + sellerId;
         boolean result = false;
         if (null == cacheManager.getFormTair(key)) {
+
             int buffer;
             try {
                 buffer = Integer.parseInt(bufferDays);
