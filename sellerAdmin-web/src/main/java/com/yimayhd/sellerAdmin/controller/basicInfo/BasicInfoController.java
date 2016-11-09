@@ -55,7 +55,7 @@ import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -130,14 +130,14 @@ public class BasicInfoController extends BaseController {
             BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(user.getId(), Constant.DOMAIN_JIUXIU);
             if (meResult.isSuccess() && null != meResult.getValue()) {
 
-                Date contractEndDate = meResult.getValue().getContractEndTime()==null?getDefaultDate():meResult.getValue().getContractEndTime();
+                Date contractEndDate = meResult.getValue().getContractEndTime() == null ? getDefaultDate() : meResult.getValue().getContractEndTime();
                 String renew = "1";
                 String dayRenew = "1";
                 if (checkDayContractDate(contractEndDate, user.getId())) {
                     dayRenew = "2";
                 }
 
-                if(checkContractDate(contractEndDate)) {
+                if (checkContractDate(contractEndDate)) {
                     renew = "2";
                 }
                 model.addAttribute("renewContract", renew);
@@ -187,7 +187,7 @@ public class BasicInfoController extends BaseController {
 
     }
 
-    @RequestMapping(value = "/contractRenewDate", method =RequestMethod.GET)
+    @RequestMapping(value = "/contractRenewDate", method = RequestMethod.GET)
     public ModelAndView toContractRenewDate() {
         UserDO user = sessionManager.getUser();
         BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(user.getId(), Constant.DOMAIN_JIUXIU);
@@ -198,11 +198,12 @@ public class BasicInfoController extends BaseController {
             modelAndView.addObject("renewDate", getShowDate(contractEndDate));
             modelAndView.addObject("sellerId", user.getId());
             return modelAndView;
-        }else {
+        } else {
             ModelAndView modelAndView = new ModelAndView("/system/contract/contractRenew");
             return modelAndView;
         }
     }
+
     @RequestMapping(value = "/toContractDownloadPage", method = RequestMethod.POST)
     @ResponseBody
     public BizResult<String> toContractDownloadPage(long sellerId, Date renewDate) {
@@ -213,8 +214,8 @@ public class BasicInfoController extends BaseController {
             info.setSellerId(sellerId);
             MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
             if (merchantInfoResult != null || merchantInfoResult.isSuccess()) {
-                renewDate = renewDate==null?getDefaultDate():renewDate;
-                String contractURL = TFS_ROOT_PATH+contractManager.createContract(sellerId, merchantInfoResult.getValue(), renewDate);
+                renewDate = renewDate == null ? getDefaultDate() : renewDate;
+                String contractURL = TFS_ROOT_PATH + contractManager.createContract(sellerId, merchantInfoResult.getValue(), renewDate);
                 result.setValue(contractURL);
                 return result;
             }
@@ -226,6 +227,46 @@ public class BasicInfoController extends BaseController {
             result.setSuccess(false);
             result.setMsg("生成合同发生异常!");
             return result;
+        }
+
+    }
+
+    @RequestMapping(value = "/contractDownload", method = RequestMethod.GET)
+    public HttpServletResponse contractDownload(long sellerId, Date renewDate, HttpServletResponse response) {
+        try {
+            InfoQueryDTO info = new InfoQueryDTO();
+            info.setDomainId(Constant.DOMAIN_JIUXIU);
+            info.setSellerId(sellerId);
+            MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
+            if (merchantInfoResult != null || merchantInfoResult.isSuccess()) {
+                renewDate = renewDate == null ? getDefaultDate() : renewDate;
+                OutputStream toClient;
+                File file = contractManager.downloadContract(sellerId, merchantInfoResult.getValue(), renewDate);
+                try {
+                    FileInputStream fileInputStream = new FileInputStream(file);
+                    byte[] buffer = new byte[fileInputStream.available()];
+                    fileInputStream.read(buffer);
+                    fileInputStream.close();
+                    // 清空response
+                    response.reset();
+                    // 设置response的Header
+                    response.addHeader("Content-Disposition", "attachment;filename=" + new String("九休旅行续签协议.pdf".getBytes("UTF-8"), "ISO_8859_1"));
+                    response.addHeader("Content-Length", "" + file.length());
+                    toClient = new BufferedOutputStream(response.getOutputStream());
+                    response.setContentType("application/octet-stream");
+                    toClient.write(buffer);
+                    toClient.flush();
+                    toClient.close();
+                } finally {
+                    file.delete();
+                }
+
+            }
+
+            return response;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return response;
         }
 
     }
@@ -337,14 +378,14 @@ public class BasicInfoController extends BaseController {
             }
             BaseResult<MerchantDO> meResult = merchantService.getMerchantBySellerId(userId, Constant.DOMAIN_JIUXIU);
 
-            Date contractEndDate = meResult.getValue().getContractEndTime()==null?getDefaultDate():meResult.getValue().getContractEndTime();
+            Date contractEndDate = meResult.getValue().getContractEndTime() == null ? getDefaultDate() : meResult.getValue().getContractEndTime();
             String renew = "1";
             String dayRenew = "1";
             if (checkDayContractDate(contractEndDate, userId)) {
                 dayRenew = "2";
             }
 
-            if(checkContractDate(contractEndDate)) {
+            if (checkContractDate(contractEndDate)) {
                 renew = "2";
             }
             model.addAttribute("renewContract", renew);
@@ -487,9 +528,9 @@ public class BasicInfoController extends BaseController {
         try {
             return sdf.parse(DEFAULT_CONTRACT_DATE);
         } catch (ParseException e) {
-            log.error("basicinfo getDefaultDate is error, exception={}",e);
+            log.error("basicinfo getDefaultDate is error, exception={}", e);
             Calendar calendar = Calendar.getInstance();
-            calendar.set(2016, 12, 30);
+            calendar.set(2016, 12, 31);
             return calendar.getTime();
         }
     }
