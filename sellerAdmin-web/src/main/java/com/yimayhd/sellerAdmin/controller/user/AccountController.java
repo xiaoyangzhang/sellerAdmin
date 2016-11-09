@@ -1,9 +1,23 @@
 package com.yimayhd.sellerAdmin.controller.user;
 
 
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.pay.client.model.enums.msg.VerifyCodeType;
+import com.yimayhd.pay.client.model.param.eleaccount.password.SettingSellerPayPwdDTO;
+import com.yimayhd.pay.client.model.param.eleaccount.verify.VerifySellerAdminDTO;
+import com.yimayhd.pay.client.model.param.verifycode.VerifyCodeDTO;
+import com.yimayhd.pay.client.model.result.ResultSupport;
+import com.yimayhd.pay.client.model.result.eleaccount.VerifySellerAdminResult;
+import com.yimayhd.sellerAdmin.error.BizErrorCode;
+import com.yimayhd.sellerAdmin.repo.AccountRepo;
+import com.yimayhd.sellerAdmin.util.PhoneUtil;
+import com.yimayhd.user.session.manager.SessionHelper;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
@@ -38,7 +52,7 @@ import com.yimayhd.user.client.dto.ChangePasswordDTO;
 import com.yimayhd.user.session.manager.SessionManager;
 
 /**
- * 
+ *
  * @author wzf
  *
  */
@@ -52,14 +66,16 @@ public class AccountController extends BaseController {
 	private SessionManager sessionManager;
 	@Autowired
 	private AccountService accountService;
-	
+	@Autowired
+	private AccountRepo accountRepo;
+
 	@Value("${sellerAdmin.rootPath}")
 	private String rootPath;
-	@RequestMapping(value = "/modifyPassword", method = RequestMethod.GET) 
+	@RequestMapping(value = "/modifyPassword", method = RequestMethod.GET)
 	public ModelAndView modifyPassword(HttpServletRequest request, HttpServletResponse response) {
 		return new ModelAndView("/system/user/modifyPassword");
 	}
-	
+
 	@RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
 	@ResponseBody
 	public WebResult<String> modifyPassword(HttpServletRequest request, ModifyPasswordVo modifyPasswordVo) {
@@ -71,7 +87,7 @@ public class AccountController extends BaseController {
 		}
 		long userId = sessionManager.getUserId(request);
 		ChangePasswordDTO changePasswordDTO = UserConverter.toModifyPasswordDTO(modifyPasswordVo, userId);
-		
+
 		WebResultSupport modifyResult = userBiz.modifyPassword(changePasswordDTO);
 		if( modifyResult == null || !modifyResult.isSuccess() ){
 			if( modifyResult == null ){
@@ -85,52 +101,56 @@ public class AccountController extends BaseController {
 		result.setValue(url);
 		return result;
 	}
-	
-	@RequestMapping(value = "/modifyPasswordSuccess", method = RequestMethod.GET) 
+
+	@RequestMapping(value = "/modifyPasswordSuccess", method = RequestMethod.GET)
 	public ModelAndView modifyPasswordSuccess(HttpServletRequest request, HttpServletResponse response) {
 		return new ModelAndView("/system/user/modifyPasswordSuccess");
 	}
-	
+
 	/**
 	 * 我的钱包
 	 */
-	@RequestMapping(value = "/toMyWallet", method = RequestMethod.GET) 
+	@RequestMapping(value = "/toMyWallet", method = RequestMethod.GET)
 	public ModelAndView toMyWallet(Model model) throws Exception {
-		
-		
+
+
 		long userId = sessionManager.getUserId();
 		EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
 		if(accountInfo.getStatus() == EleAccountStatus.NOT_VERIFIED.getStatus()){
 			accountInfo.setTipMessage(Constant.WITHDRAWAL_COMPLETE_ACCOUNT_INFO);
 		}
-		
-		model.addAttribute("accountInfo", accountInfo);
-		model.addAttribute("ACCOUNT_NOT_VERIFIED", EleAccountStatus.NOT_VERIFIED.getStatus());
-		return new ModelAndView("/system/account/myWallet");
+		if (accountInfo.isExistPayPwd()) {
+			model.addAttribute("accountInfo", accountInfo);
+			model.addAttribute("ACCOUNT_NOT_VERIFIED", EleAccountStatus.NOT_VERIFIED.getStatus());
+			return new ModelAndView("/system/account/myWallet");
+		}else {
+			model.addAttribute("mobileKey", accountInfo.getMobilePhone());
+			return new ModelAndView("/system/account/initPayPassword");
+		}
 	}
-	
+
 	/**
 	 * 到提现页面
 	 */
-	@RequestMapping(value = "/toWithdrawal", method = RequestMethod.GET) 
+	@RequestMapping(value = "/toWithdrawal", method = RequestMethod.GET)
 	public ModelAndView toWithdrawal(Model model) throws Exception {
 		long userId = sessionManager.getUserId();
 		EleAccountInfoVO accountInfo = this.judgeAccountStatus(userId);
 		model.addAttribute("accountInfo", accountInfo);
 		return new ModelAndView("/system/account/withdrawal");
 	}
-	
+
 	/**
 	 * 提现
 	 */
-	@RequestMapping(value = "/withdrawal", method = RequestMethod.POST) 
+	@RequestMapping(value = "/withdrawal", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo withdrawal(Model model){
 		try {
-			
+
 			long userId = sessionManager.getUserId();
 			EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
-			
+
 			WithdrawalVO vo = new WithdrawalVO();
 			vo.setUserId(userId);
 			vo.setWithdrawalAmount(accountInfo.getAccountBalance());
@@ -138,7 +158,7 @@ public class AccountController extends BaseController {
 			if(accountInfo.getAccountBalance() <= 0 ){
 				throw new NoticeException(Constant.WITHDRAWAL_ACCOUNT_BALANCE_IS_ZERO);
 			}
-			
+
 			accountService.withdrawal(vo);
 			return ResponseVo.success();
 		} catch (Exception e) {
@@ -146,26 +166,26 @@ public class AccountController extends BaseController {
 			return ResponseVo.error(e);
 		}
 	}
-	
+
 	/**
 	 * 提现结果
 	 */
-	@RequestMapping(value = "/withdrawalResult", method = RequestMethod.GET) 
+	@RequestMapping(value = "/withdrawalResult", method = RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView withdrawalResult(Model model){
 		return new ModelAndView("/system/account/withdrawalResult");
 	}
-	
+
 	/**
 	 * 收支明细
 	 */
-	@RequestMapping(value = "/billDetail", method = RequestMethod.GET) 
+	@RequestMapping(value = "/billDetail", method = RequestMethod.GET)
 	public ModelAndView billDetail(Model model, AccountQuery query) throws Exception {
 		long userId = sessionManager.getUserId();
-		
+
 		//如果账户未认证，则抛出异常
 		this.judgeAccountStatus(userId);
-		
+
 		PageVO<EleAccountBillVO> pageVo = accountService.queryEleAccBillDetail(query, userId);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("query", query);
@@ -173,12 +193,119 @@ public class AccountController extends BaseController {
 		model.addAttribute("SETTLEMENT", TransType.SETTLEMENT.getType());
 		return new ModelAndView("/system/account/billDetail");
 	}
-	
+
 	private EleAccountInfoVO judgeAccountStatus(long userId) throws Exception {
 		EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
 		if(accountInfo.getStatus() == EleAccountStatus.NOT_VERIFIED.getStatus()){
 			throw new NoticeException(Constant.WITHDRAWAL_COMPLETE_ACCOUNT_INFO);
 		}
 		return accountInfo;
+	}
+
+	/**
+	 * 设置支付密码 发送短信
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/sendMessage", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public String sendMessage(Model model) throws Exception {
+		Map<String,Object> map=new HashMap<>();
+		VerifyCodeDTO dto=new VerifyCodeDTO();
+		try {
+			dto.setUserId(sessionManager.getUserId());
+			dto.setVerifyCodeType(VerifyCodeType.VERIFY_SELLER_ADMIN.getType());
+			ResultSupport resultSupport=accountRepo.sendVerifyCode(dto);
+			if (!resultSupport.isSuccess()){
+				map.put("code",resultSupport.getResultCode());
+				map.put("msg",resultSupport.getResultMsg());
+			}
+		}catch (Exception e){
+			map.put("code",BizErrorCode.SYSTEM_ERROR.getCode());
+			map.put("msg",e.getMessage());
+		}
+		return JSON.toJSONString(map);
+	}
+
+	/**
+	 * 验证短信验证码
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/verifyCode", produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public String verifyCode(Model model)  {
+		Map<String, Object> map = new HashMap<>();
+		String code = get("verifyCode");
+		if (StringUtils.isBlank(code)) {
+			map.put("code", BizErrorCode.PARAMS_NO_FULL.getCode());
+			map.put("msg", BizErrorCode.PARAMS_NO_FULL.getMsg());
+			return JSON.toJSONString(map);
+		}
+		try {
+			VerifySellerAdminDTO dto = new VerifySellerAdminDTO();
+			dto.setUserId(sessionManager.getUserId());
+			dto.setVerifyCode(code);
+			VerifySellerAdminResult result = accountRepo.verifySellerAdmin(dto);
+			if (!result.isSuccess()) {
+				map.put("code", result.getResultCode());
+				map.put("msg", result.getResultMsg());
+			}
+			SessionHelper.getRequest().getSession().setAttribute(sessionManager.getUserId() + "", result.getVerifyIdentityCode());
+		}catch (Exception e){
+			map.put("code", BizErrorCode.SYSTEM_ERROR.getCode());
+			map.put("msg", BizErrorCode.SYSTEM_ERROR.getMsg()+":"+e.getMessage());
+		}
+		return JSON.toJSONString(map);
+	}
+
+	/**
+	 * 设置支付密码
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/settPayPwd" , method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	public String settingSellerPayPwd() throws Exception{
+		Map<String, Object> map = new HashMap<>();
+		SettingSellerPayPwdDTO dto = new SettingSellerPayPwdDTO();
+		try {
+			String payPwd = get("payPwd");
+			if (StringUtils.isBlank(payPwd)) {
+				map.put("code", BizErrorCode.PARAMS_NO_FULL.getCode());
+				map.put("msg", BizErrorCode.PARAMS_NO_FULL.getMsg());
+				return JSON.toJSONString(map);
+			}
+			Object verifyIdentityCode = SessionHelper.getRequest().getSession().getAttribute(sessionManager.getUserId() + "");
+			if (verifyIdentityCode == null) {
+				map.put("code", "002");
+				map.put("msg", "身份认证已失效");
+				return JSON.toJSONString(map);
+			}
+			dto.setPayPwd(payPwd);
+			dto.setUserId(sessionManager.getUserId());
+			dto.setVerifyIdentityCode(verifyIdentityCode.toString());
+			ResultSupport resultSupport = accountRepo.settingSellerPayPwd(dto);
+			SessionHelper.getRequest().getSession().removeAttribute(sessionManager.getUserId() + "");
+			if (!resultSupport.isSuccess()) {
+				map.put("code", resultSupport.getResultCode());
+				map.put("msg", resultSupport.getResultMsg());
+			}
+		}catch (Exception e){
+			map.put("code", BizErrorCode.SYSTEM_ERROR.getCode());
+			map.put("msg", BizErrorCode.SYSTEM_ERROR.getMsg()+":"+e.getMessage());
+		}
+		return JSON.toJSONString(map);
+	}
+
+	@RequestMapping(value = "/toFindPayPwd" )
+	public ModelAndView toFindPayPwd(Model model) throws Exception{
+		long userId = sessionManager.getUserId();
+		EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
+		if(accountInfo.getStatus() == EleAccountStatus.NOT_VERIFIED.getStatus()){
+			accountInfo.setTipMessage(Constant.WITHDRAWAL_COMPLETE_ACCOUNT_INFO);
+		}
+		model.addAttribute("mobileKey", accountInfo.getMobilePhone());
+		return new ModelAndView("/system/account/findPayPassword");
 	}
 }

@@ -1,5 +1,10 @@
 package com.yimayhd.sellerAdmin.repo;
 
+import com.yimayhd.pay.client.model.param.eleaccount.password.SettingSellerPayPwdDTO;
+import com.yimayhd.pay.client.model.param.eleaccount.verify.VerifySellerAdminDTO;
+import com.yimayhd.pay.client.model.param.verifycode.VerifyCodeDTO;
+import com.yimayhd.pay.client.model.result.eleaccount.VerifySellerAdminResult;
+import com.yimayhd.pay.client.service.verifycode.VerifyCodeService;
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -33,10 +38,12 @@ public class AccountRepo {
 	
 	@Resource
 	private EleAccBillService eleAccBillServiceRef;
-	
+
+	@Resource
+	private VerifyCodeService verifyCodeServiceRef;
 	/**
      * 查询电子账户的信息
-     * @param eleAccountSingleQuery
+     * @param query
      * @return
      */
 	public EleAccountInfoResult querySingleEleAccount(EleAccountSingleQuery query){
@@ -48,7 +55,7 @@ public class AccountRepo {
     
     /**
      * 账户提现
-     * @param withdrawalDTO
+     * @param dto
      * @return
      */
 	public ResultSupport withdrawal(WithdrawalDTO dto){
@@ -60,13 +67,49 @@ public class AccountRepo {
     
     /**
      * 用户收支明细的查询
-     * @param eleAccBillDetailQuery
+     * @param query
      * @return
      */
 	public PayPageResultDTO<EleAccountBillDTO> queryEleAccBillDetail(EleAccBillDetailQuery query){
 		RepoUtils.requestLog(log, "eleAccBillServiceRef.queryEleAccBillDetail", query);
 		PayPageResultDTO<EleAccountBillDTO> result = eleAccBillServiceRef.queryEleAccBillDetail(query);
 		RepoUtils.resultLog(log, "eleAccBillServiceRef.queryEleAccBillDetail", result);
+		return result;
+	}
+
+	/**
+	 * 支付密码修改 发送验证码
+	 * @param dto
+	 * @return
+	 */
+	public ResultSupport sendVerifyCode(VerifyCodeDTO dto){
+		RepoUtils.requestLog(log, "eleAccHandlerServiceRef.sendVerifyCode", dto);
+		ResultSupport result = verifyCodeServiceRef.sendVerifyCode(dto);
+		log.info("eleAccHandlerServiceRef.sendVerifyCode:{}", com.alibaba.fastjson.JSON.toJSONString(result));
+		return result;
+	}
+
+	/**
+	 * 验证验证码是否正确的方法
+	 * @param dto
+	 * @return
+	 */
+	public VerifySellerAdminResult verifySellerAdmin(VerifySellerAdminDTO dto){
+		RepoUtils.requestLog(log, "eleAccHandlerServiceRef.verifySellerAdmin", dto);
+		VerifySellerAdminResult result=eleAccInfoServiceRef.verifySellerAdmin(dto);
+		log.info("eleAccHandlerServiceRef.sendVerifyCode:{}", com.alibaba.fastjson.JSON.toJSONString(result));
+		return result;
+	}
+
+	/**
+	 *
+	 * @param dto
+	 * @return
+	 */
+	public ResultSupport settingSellerPayPwd(SettingSellerPayPwdDTO dto){
+		RepoUtils.requestLog(log, "eleAccHandlerServiceRef.settingSellerPayPwd", dto);
+		ResultSupport result=eleAccInfoServiceRef.settingSellerPayPwd(dto);
+		log.info("eleAccHandlerServiceRef.sendVerifyCode:{}", com.alibaba.fastjson.JSON.toJSONString(result));
 		return result;
 	}
 }
