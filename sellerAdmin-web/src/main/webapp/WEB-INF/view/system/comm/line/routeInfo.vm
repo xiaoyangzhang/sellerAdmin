@@ -90,7 +90,7 @@
 				var title = $("<div class='panel trip-title'></div>");
                 title.append($("<div class='panel-heading travelPanel'><span class='tripAddSp'><i class='red'>*</i>行程标题</span></div>"));
                 var title_content = $("<div class='panel-body trip-title-content'></div>");
-				title_content.append($("<input type='text' class='form-control trip-title-text' id='day_"+dayId+"_trip_title' maxlength='38'/><span class='limit'>38字</span>"));
+				title_content.append($("<input type='text' class='form-control textarea-count trip-title-text' id='day_"+dayId+"_trip_title' maxlength='38'/><span class='limit'>38字</span>"));
                 title.append(title_content);	
 				page.append(title);
 				// 行程描述
