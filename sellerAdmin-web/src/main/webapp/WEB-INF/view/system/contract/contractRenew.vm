@@ -7,20 +7,21 @@
 </head>
 <!-- 面包屑 -->
 <!-- 主体部分 -->
-    <!-- 内容区域 -->
-    <input type="hidden" name="sellerId" value="$!sellerId" />
-    <h3>下载协议：</h3>
-    <p class="agreement-p">2017年九休旅行续签协议，您可通过以下阅读续签协议详细内容。签署续签协议，请您点击下载协议按钮，将协议下载到本地，并采用彩色打印 2份，一份为甲方，一份为乙方，加盖您公司的红章或鲜章并签字。签署完成后邮寄一份到九休旅行。
-    </p>
-    <div class="step-container"></div>
-    <div class="adress">
-        <label>邮寄地址：云南省昆明市盘龙区桃源街39号 电子商务创业园2-17号</label><br>
-        <label>高祺皓    13116230532</label>
-    </div>
-    <div class="agremt">
-        <label class="agremt-name">九休旅行续签协议.pdf</label><br>
-        <a class="agremt-btn" target="_blank" href="/jiuxiu.pdf">下载协议</a><br>
-        <a class="agremt-view">预览</a>
-    </div>
-<input type="hidden" name="renewDate" value="$!renewDate"> #parse("layout/layout-js.vm")
+<!-- 内容区域 -->
+<input type="hidden" name="sellerId" id="sellerId" value="$!sellerId" />
+<h3>下载协议：</h3>
+<p class="agreement-p">2017年九休旅行续签协议，您可通过以下阅读续签协议详细内容。签署续签协议，请您点击下载协议按钮，将协议下载到本地，并采用彩色打印 2份，一份为甲方，一份为乙方，加盖您公司的红章或鲜章并签字。签署完成后邮寄一份到九休旅行。
+</p>
+<div class="step-container"></div>
+<div class="adress">
+    <label>邮寄地址：云南省昆明市盘龙区桃源街39号 电子商务创业园2-17号</label><br>
+    <label>高祺皓    13116230532</label>
+</div>
+<div class="agremt">
+    <label class="agremt-name">九休旅行续签协议.pdf</label><br>
+    <a class="agremt-btn" href="javascript:void(0);">下载协议</a><br>
+    <a class="agremt-view" href="javascript:void(0);">预览</a>
+</div>
+<input type="hidden" name="renewDate" id="renewDate" value="$!renewDate"> 
+#parse("layout/layout-js.vm")
 <script>seajs.use("agreement");</script>
