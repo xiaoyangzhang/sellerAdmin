@@ -15,7 +15,7 @@
 				#set($content = $needKnowItems.get(0).content)
 				#set($length = $content.length())
 			#end
-			<textarea class="need-know-item-value" rows="5" placeholder="">$!content</textarea>
+			<textarea class="textarea-count need-know-item-value" rows="5" placeholder="">$!content</textarea>
 			<div class="word-num"><span class="num-a">0</span>/<span class="num-b">2000字</span></div>
 			<span class="ic-example">点击可查看样例哦</span>
 			#if(!$utilItem.isAboardLine($itemType))
@@ -51,7 +51,7 @@
 				#set($content = $needKnowItems.get(1).content)
 				#set($length = $content.length())
 			#end
-			<textarea class="need-know-item-value" rows="5" placeholder="">$!content</textarea>
+			<textarea class="textarea-count need-know-item-value" rows="5" placeholder="">$!content</textarea>
 			<div class="word-num"><span class="num-a">0</span>/<span class="num-b">500字</span></div>
 			<span class="ic-example">点击可查看样例哦</span>
 			#if(!$utilItem.isAboardLine($itemType))
@@ -92,7 +92,7 @@
 				#set($content = $needKnowItems.get(2).content)
 				#set($length = $content.length())
 			#end
-			<textarea class="need-know-item-value" rows="5" placeholder="">$!content</textarea>
+			<textarea class="textarea-count need-know-item-value" rows="5" placeholder="">$!content</textarea>
 			<div class="word-num"><span class="num-a">0</span>/<span class="num-b">2000字</span></div>
 			<span class="ic-example">点击可查看样例哦</span>
 			#if($utilItem.isAboardLine($itemType))
@@ -118,7 +118,7 @@
 				#set($content = $needKnowItems.get(2).content)
 				#set($length = $content.length())
 			#end
-			<textarea class="need-know-item-value" rows="5" placeholder="">$!content</textarea>
+			<textarea class="textarea-count need-know-item-value" rows="5" placeholder="">$!content</textarea>
 			<div class="word-num"><span class="num-a">0</span>/<span class="num-b">2000字</span></div>
 			<span class="ic-example">点击可查看样例哦</span>
 			#if(!$utilItem.isAboardLine($itemType))
