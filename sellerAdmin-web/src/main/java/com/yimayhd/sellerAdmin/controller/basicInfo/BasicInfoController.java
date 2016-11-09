@@ -250,7 +250,7 @@ public class BasicInfoController extends BaseController {
                     // 清空response
                     response.reset();
                     // 设置response的Header
-                    response.addHeader("Content-Disposition", "attachment;filename=" + new String("九休旅行续签协议"));
+                    response.addHeader("Content-Disposition", "attachment;filename=" + new String("九休旅行续签协议.pdf".getBytes("UTF-8"), "ISO_8859_1"));
                     response.addHeader("Content-Length", "" + file.length());
                     toClient = new BufferedOutputStream(response.getOutputStream());
                     response.setContentType("application/octet-stream");
