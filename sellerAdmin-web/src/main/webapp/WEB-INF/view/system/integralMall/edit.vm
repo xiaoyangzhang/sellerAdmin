@@ -436,7 +436,7 @@
 	        if($('.maxPoint').val() < 100) {
 		            return '积分必须大于100';
 	        }
-            if($.trim($('.original-price').val()) < $.trim($('.priceY').val())){
+            if(Number($.trim($('.original-price').val())) < Number($.trim($('.priceY').val()))){
                 return '市场价必须大于商品售价';
             }
 	        var priceY_ = Math.ceil(parseFloat($.trim($('.priceY').val())) * 100);
