@@ -66,12 +66,14 @@ public class ContractManager {
         contractPDFDomain.setYear(dStr.substring(0, 4));
         contractPDFDomain.setMonth(dStr.substring(4, 6));
         contractPDFDomain.setDay(dStr.substring(6, 8));
-
+        File file = create(contractPDFDomain, templatePrefix + memberContractCodeDTO.getContractType().getName() + templateSubfix);
         try {
-            return tfsService.uploadToTFS(create(contractPDFDomain, templatePrefix + memberContractCodeDTO.getContractType().getName() + templateSubfix).getPath());
+            return tfsService.uploadToTFS(file.getPath());
         } catch (Exception e) {
             logger.error("createContract has exception={}", e);
             return null;
+        } finally {
+            file.delete();
         }
     }
 
@@ -126,7 +128,6 @@ public class ContractManager {
             return file;
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
             file.delete();
         }
         return null;

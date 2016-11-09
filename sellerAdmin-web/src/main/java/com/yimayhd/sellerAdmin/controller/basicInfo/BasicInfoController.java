@@ -240,21 +240,27 @@ public class BasicInfoController extends BaseController {
             MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
             if (merchantInfoResult != null || merchantInfoResult.isSuccess()) {
                 renewDate = renewDate == null ? getDefaultDate() : renewDate;
+                OutputStream toClient;
                 File file = contractManager.downloadContract(sellerId, merchantInfoResult.getValue(), renewDate);
-                FileInputStream fileInputStream = new FileInputStream(file);
-                byte[] buffer = new byte[fileInputStream.available()];
-                fileInputStream.read(buffer);
-                fileInputStream.close();
-                // 清空response
-                response.reset();
-                // 设置response的Header
-                response.addHeader("Content-Disposition", "attachment;filename=" + new String("九休旅行续签协议"));
-                response.addHeader("Content-Length", "" + file.length());
-                OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
-                response.setContentType("application/octet-stream");
-                toClient.write(buffer);
-                toClient.flush();
-                toClient.close();
+                try {
+                    FileInputStream fileInputStream = new FileInputStream(file);
+                    byte[] buffer = new byte[fileInputStream.available()];
+                    fileInputStream.read(buffer);
+                    fileInputStream.close();
+                    // 清空response
+                    response.reset();
+                    // 设置response的Header
+                    response.addHeader("Content-Disposition", "attachment;filename=" + new String("九休旅行续签协议"));
+                    response.addHeader("Content-Length", "" + file.length());
+                    toClient = new BufferedOutputStream(response.getOutputStream());
+                    response.setContentType("application/octet-stream");
+                    toClient.write(buffer);
+                    toClient.flush();
+                    toClient.close();
+                } finally {
+                    file.delete();
+                }
+
             }
 
             return response;
