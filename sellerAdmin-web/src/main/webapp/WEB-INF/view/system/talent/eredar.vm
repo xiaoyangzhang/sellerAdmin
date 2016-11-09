@@ -3,6 +3,7 @@
 	#parse("layout/layout-meta.vm")
 	<title>基本信息</title>
 	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/eredar.css">
+    <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/agreement.css">
 </head>
 
 	<div class = "eredar-info clearfix">
@@ -244,8 +245,8 @@
 			</table>
 		</form>
 		<button type= "button" class = "saveBtn" id = "saveBtnEredar" data-imgnum="15">保存</button>
-        <input type="hidden" name="renewContract" value="$!renewContract">
-        <input type="hidden" name="renewDate" value="$!renewDate">
+        <input type="hidden" name="renewContract" id="renewContract"  value="$!renewContract">
+        <input type="hidden" name="renewDate" id="renewDate" value="$!renewDate">
         <input type="hidden" name="renewDayContract" id="renewDayContract" value="$!renewDayContract">
 
 	</div>
