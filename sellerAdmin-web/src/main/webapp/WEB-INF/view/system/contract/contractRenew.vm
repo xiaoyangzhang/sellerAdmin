@@ -19,7 +19,7 @@
 </div>
 <div class="agremt">
     <label class="agremt-name">九休旅行续签协议.pdf</label><br>
-    <a class="agremt-btn" href="javascript:void(0);">下载协议</a><br>
+    <a class="agremt-btn" href="$!root_path/basicInfo/contractDownload?sellerId=$!sellerId&renewDate=$!renewDate">下载协议</a><br>
     <a class="agremt-view" href="javascript:void(0);">预览</a>
 </div>
 <input type="hidden" name="renewDate" id="renewDate" value="$!renewDate"> 
