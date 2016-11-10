@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.service.draft.DraftService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ import com.yimayhd.sellerAdmin.service.item.LineService;
 
 /**
  * 线路商品
- * 
+ *
  * @author yebin 2015年11月23日
  *
  */
@@ -52,14 +53,14 @@ public class LineController extends BaseLineController {
 	private CacheManager cacheManager ;
 	@Autowired
 	private ItemQueryService itemQueryService;
-    @Autowired
-    private MerchantItemCategoryService merchantItemCategoryService;
+	@Autowired
+	private MerchantItemCategoryService merchantItemCategoryService;
 
 	@Autowired
 	private DraftService draftService;
 	/**
 	 * 详细信息页
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 * @throws Exception
@@ -78,6 +79,8 @@ public class LineController extends BaseLineController {
 					initLinePropertyTypes(baseInfo.getCategoryId());
 				}
 				put("product", gt);
+				put("priceInfoJson", JSON.toJSONString(gt.getPriceInfo()));
+				//log.info("priceInfo="+JSON.toJSONString(gt.getPriceInfo()));
 				put("isReadonly", baseInfo.getItemStatus() == ItemStatus.valid.getValue());
 				return "/system/comm/line/detail";
 			} else {
@@ -90,7 +93,7 @@ public class LineController extends BaseLineController {
 
 	/**
 	 * 详细信息页
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 * @throws Exception
@@ -109,6 +112,7 @@ public class LineController extends BaseLineController {
 					initLinePropertyTypes(baseInfo.getCategoryId());
 				}
 				put("product", gt);
+				put("priceInfoJson", JSON.toJSONString(gt.getPriceInfo()));
 				put("isReadonly", true);
 				return "/system/comm/line/detail";
 			} else {
@@ -121,18 +125,18 @@ public class LineController extends BaseLineController {
 
 	/**
 	 * 创建跟团游
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/category/{categoryId}/create/", method = RequestMethod.GET)
 	public String create(Model model,@PathVariable(value = "categoryId") long categoryId) throws Exception {
 		long sellerId = getCurrentUserId();
-		 /**categoryId 权限验证**/
-        MemResultSupport memResultSupport =merchantItemCategoryService.checkCategoryPrivilege(Constant.DOMAIN_JIUXIU, categoryId, sellerId);
-        if(!memResultSupport.isSuccess()){
-        	 return "/system/error/lackPermission";
-        }
+		/**categoryId 权限验证**/
+		MemResultSupport memResultSupport =merchantItemCategoryService.checkCategoryPrivilege(Constant.DOMAIN_JIUXIU, categoryId, sellerId);
+		if(!memResultSupport.isSuccess()){
+			return "/system/error/lackPermission";
+		}
 		initBaseInfo();
 		initLinePropertyTypes(categoryId);
 		put("lineType", LineType.TOUR_LINE);
@@ -143,7 +147,7 @@ public class LineController extends BaseLineController {
 
 	/**
 	 * 批量录入
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -155,7 +159,7 @@ public class LineController extends BaseLineController {
 
 	/**
 	 * 保存
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -167,12 +171,12 @@ public class LineController extends BaseLineController {
 				log.warn("未登录");
 				return WebOperateResult.failure(WebReturnCode.USER_NOT_FOUND);
 			}
-			
+
 			if (StringUtils.isBlank(json)) {
 				log.warn("json is null");
 				return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
 			}
-			
+
 			json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
 			WebCheckResult checkLine = LineChecker.checkLine(gt);
@@ -182,18 +186,20 @@ public class LineController extends BaseLineController {
 			}
 			long itemId = gt.getBaseInfo().getItemId();
 			if (itemId > 0) {
+				//更新
 				List<Long> itemIds = new ArrayList<Long>();
 				itemIds.add(itemId);
 				ICResult<List<ItemDO>> itemQueryResult = itemQueryService.getItemByIds(itemIds);
 				if(itemQueryResult.getModule() != null && itemQueryResult.getModule().size() > 0 && itemQueryResult.getModule().get(0).getSellerId() != sellerId) {
-					
+
 					log.warn("不支持的操作");
 					return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
 				}
 				return  commLineService.update(sellerId, gt);
-				
-				
+
+
 			} else {
+				//添加
 				String key = Constant.APP+"_repeat_"+sessionManager.getUserId()+uuid;
 				boolean rs = cacheManager.addToTair(key, true , 2, 24*60*60);
 				if (!rs) {
@@ -211,7 +217,7 @@ public class LineController extends BaseLineController {
 			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, e.getMessage());
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(Integer.parseInt("100011111111"));
 	}
