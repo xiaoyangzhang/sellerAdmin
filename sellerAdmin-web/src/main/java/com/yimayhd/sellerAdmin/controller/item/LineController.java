@@ -176,7 +176,7 @@ public class LineController extends BaseLineController {
 				log.warn("json is null");
 				return WebOperateResult.failure(WebReturnCode.PARAM_ERROR);
 			}
-
+			log.info("price_info_json save:"+json);
 			json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
 			WebCheckResult checkLine = LineChecker.checkLine(gt);
