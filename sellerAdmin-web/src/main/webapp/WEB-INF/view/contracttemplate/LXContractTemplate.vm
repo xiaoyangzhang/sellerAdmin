@@ -370,8 +370,9 @@
                     </p>
                     <p style="line-height:26pt; margin:0pt;position:relative;"><span style="font-family:宋体; font-size:12pt; font-weight:bold">(盖章)：</span>
                     
-                    <img src="$!resourcePath/img/gz.png" width="125" height="125" style="position:absolute; z-index:0;left:60pt;top:-20pt;"
-                    />
+                    </p>
+                    <p style="line-height:26pt; margin:0pt;position:relative;">
+                    <img src="$!resourcePath/img/gz.png" width="125" height="125" style="position:absolute; z-index:0;left:60pt;top:-20pt;"/>
                     </p>
                     <p style="line-height:26pt; margin:0pt; text-align:center"><span style="font-family:宋体; font-size:12pt; font-weight:bold">&#xa0;</span></p>
                 </td>
