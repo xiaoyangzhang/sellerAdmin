@@ -276,7 +276,7 @@
             	});
 
             })
-
+            document.domain='jiuxiulvxing.com';
         </script>
     </body>
 </html>
