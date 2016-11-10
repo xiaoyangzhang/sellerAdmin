@@ -21,6 +21,7 @@ table{width: 100%;}
 
 .inputGroup{min-height: 30px;border: 1px solid #d5d5d5;padding: 10px;margin-bottom: 10px;}
 .inpSingle{margin-bottom: 10px;width: 32%;float: left;margin-right: 1%;}
+.inpSingle .icon-close{ cursor: pointer; position:absolute; z-index: 2; top:12px; right:10px; width:10px; height:10px; background: url('../img/icon-close.png') no-repeat}
 @media (min-width: 800px){
     .inpSingle{width: 32%;float: left;margin-right: 1%;}
 }

@@ -15,7 +15,7 @@
 #set( $test = $utilWebconfig.isTestMode())
 #if( $test )
 	<!-- 测试模式下旧样式的src路径 -->
-	#set( $rs_js_css_path_admin = $!rs_path_admin+"/src" )
+	#set( $rs_js_css_path_admin = $!rs_path_admin+"/res/src" )
 	<!-- 测试模式下的src路径 -->
 	#set( $rs_js_css_path_jiuxiu = $!rs_path_jiuxiu+"/res/src" )
 #else
