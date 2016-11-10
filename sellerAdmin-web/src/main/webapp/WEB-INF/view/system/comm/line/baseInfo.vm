@@ -90,7 +90,7 @@
 				<div class="uploadbox clearfix">
                     <input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file_string" />
                     <input type="hidden" class="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />	
-					<div class="imgbox">
+					<div class="imgbox">												
 						<div class="dimg">
 							#if($baseInfo.picUrls && $baseInfo.picUrls.size() > 0)
 							<img src="$!{utilWebconfig.getTfsRootPath()}$!{baseInfo.picUrls.get(0)}">

@@ -1,7 +1,7 @@
 <!--
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
 -->
-<div class="tripInfo clearfix">
+<div class="tripInfo">
 	<input type="hidden" class="uplUrl" value="$!{utilWebconfig.getActionDefaultFontPath()}/upload/file_string" />
     <input type="hidden" class="imgUrl" value="$!{utilWebconfig.getTfsRootPath()}" />
 	<ul id="day_tab" class="nav nav-tabs tripInfoNav">
@@ -11,20 +11,13 @@
 		</li>
 		#end
         <li class="day_btn">
-          <button class='btn btn-outline-orange addDay'>添加1天</button>
+          <button class='btn btn-primary addDay'>添加1天</button>
 		  <script type="text/javascript">
 		  	var dayId;
 			$(function() {
         		dayId = $(".day_tab").length;
 				show();
         	});
-
-            $('.tab-content').on('click', '.day_tab',function(ev) {
-                $('.tab-content .day_tab').removeClass('active');
-                $(this).addClass('on');
-                $('.tab-content .tab-pane').hide();
-                $('.tab-content .tab-pane').eq($(this).index()).fadeIn();
-            });
 
 			$(document).delegate(".myTrash","click",function(){
 				var _this = $(this);
@@ -66,8 +59,8 @@
 				var tab = createDayTab(dayId);
 				var page = createDayPage(dayId);
 				$(".day_btn").before(tab);
-				$(".tripInfo .tab-content").append(page);
-				tab.click();
+				$(".tab-content").append(page);
+				tab.children("a").click();
 				show();
 			});
 			//重新计算day_tab显示天数
@@ -90,7 +83,7 @@
 				var title = $("<div class='panel trip-title'></div>");
                 title.append($("<div class='panel-heading travelPanel'><span class='tripAddSp'><i class='red'>*</i>行程标题</span></div>"));
                 var title_content = $("<div class='panel-body trip-title-content'></div>");
-				title_content.append($("<input type='text' class='form-control textarea-count trip-title-text' id='day_"+dayId+"_trip_title' maxlength='38'/><span class='limit'>38字</span>"));
+				title_content.append($("<input type='text' class='form-control trip-title-text' id='day_"+dayId+"_trip_title' maxlength='38'/><span class='limit'>38字</span>"));
                 title.append(title_content);	
 				page.append(title);
 				// 行程描述
