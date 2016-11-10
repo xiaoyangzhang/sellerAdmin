@@ -1,11 +1,14 @@
 <div id="editers">
-	<div class="editer-tip">
-    	<p><b>编辑小助手：</b></p>
-    	<p>1、点击页面下方的“添加文本”/“上传图片”按钮，可新添加文本段或图片</p>
-    	<p>2、点击“上移”和“下移”，可调整文本段和图片之间的顺序</p>
-    	<p>3、最多添加20段图片或文字</p>
-		<p>4、图片大小不能超过3M，格式为JPG,JPEG,PNG,建议尺寸：690*330</p>
-    </div>
+	<dl class="editer-tip">
+    	<dt>编辑小助手：</dt>
+		<dd>
+            <p>1、点击页面下方的“添加文本”/“上传图片”按钮，可新添加文本段或图片</p>
+            <p class="mt10">2、点击“上移”和“下移”，可调整文本段和图片之间的顺序</p>
+            <p class="mt10">3、最多添加20段图片或文字</p>
+            <p class="mt10">4、图片大小不能超过3M，格式为JPG,JPEG,PNG,建议尺寸：690*330</p>
+		</dd>
+
+    <dl/>
 	<div class="bd">
 		#foreach($pictureTextItem in $pictureText.pictureTextItems)
 			#if($pictureTextItem.type.equalsIgnoreCase('text'))
@@ -21,7 +24,7 @@
 			#end
 		#end
 	</div>
-	<div class="hd clearfix">
+	<div class="hd clearfix mt40">
 		<ul class="clearfix">
 			<li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
 			<li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
