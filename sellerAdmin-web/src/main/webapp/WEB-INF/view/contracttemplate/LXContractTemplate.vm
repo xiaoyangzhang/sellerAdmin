@@ -368,11 +368,11 @@
                     </p>
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt; font-weight:bold">&#xa0;</span>
                     </p>
-                    <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt; font-weight:bold">(盖章)：</span>
-                    </p>
-                    <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt; font-weight:bold">&#xa0;</span>
-                    </p><img src="$!resourcePath/img/gz.png" width="119" height="119" style="-aw-left-pos:74.2pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:-68.25pt; -aw-wrap-type:none; margin-left:74.2pt; margin-top:-68.25pt; position:absolute; z-index:0"
+                    <p style="line-height:26pt; margin:0pt;position:relative;"><span style="font-family:宋体; font-size:12pt; font-weight:bold">(盖章)：</span>
+                    
+                    <img src="$!resourcePath/img/gz.png" width="125" height="125" style="position:absolute; z-index:0;left:60pt;top:-20pt;"
                     />
+                    </p>
                     <p style="line-height:26pt; margin:0pt; text-align:center"><span style="font-family:宋体; font-size:12pt; font-weight:bold">&#xa0;</span></p>
                 </td>
             </tr>
