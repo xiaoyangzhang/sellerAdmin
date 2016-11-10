@@ -6,7 +6,8 @@ import com.yimayhd.sellerAdmin.base.BaseQuery;
  * Created by Administrator on 2015/10/27.
  */
 public class OrderListQuery extends BaseQuery {
-    private String orderNO;//订单编号
+	private static final long serialVersionUID = 2911545482500153296L;
+	private String orderNO;//订单编号
     private String orderStat;//订单状态
     private String buyerPhone;//买家手机号
     private String buyerName;//买家昵称
@@ -18,7 +19,10 @@ public class OrderListQuery extends BaseQuery {
 	private Integer domain; //1000--b2c、1100--gf;
 	private int itemType;//商品类型
 	private long sellerId;
-	
+	private long outId; // 景区酒店 资源id
+	private int outType;// 景区酒店资源类型
+	private String hotelName;//酒店名称
+	private String scenicName;//景区名称
 	private String assesmentType;//评价状态
 
 
@@ -115,6 +119,37 @@ public class OrderListQuery extends BaseQuery {
 	public void setAssesmentType(String assesmentType) {
 		this.assesmentType = assesmentType;
 	}
-	
-	
+
+	public String getScenicName() {
+		return scenicName;
+	}
+
+	public void setScenicName(String scenicName) {
+		this.scenicName = scenicName;
+	}
+
+	public long getOutId() {
+
+		return outId;
+	}
+
+	public void setOutId(long outId) {
+		this.outId = outId;
+	}
+
+	public int getOutType() {
+		return outType;
+	}
+
+	public void setOutType(int outType) {
+		this.outType = outType;
+	}
+
+	public String getHotelName() {
+		return hotelName;
+	}
+
+	public void setHotelName(String hotelName) {
+		this.hotelName = hotelName;
+	}
 }
