@@ -362,17 +362,15 @@
                     </p>
                 </td>
                 <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:240pt;">
-                    <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt; font-weight:bold">乙方：</span><span style="font-family:宋体; font-size:12pt; font-weight:bold">北京九休</span>
-                        <span
-                            style="font-family:宋体; font-size:12pt; font-weight:bold">信息科技有限公司</span>
+                    <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt; font-weight:bold">乙方：</span><span style="font-family:宋体; font-size:12pt; font-weight:bold">北京九休信息科技有限公司</span>
                     </p>
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt; font-weight:bold">&#xa0;</span>
                     </p>
                     <p style="line-height:26pt; margin:0pt;position:relative;"><span style="font-family:宋体; font-size:12pt; font-weight:bold">(盖章)：</span>
                     
                     </p>
-                    <p style="line-height:26pt; margin:0pt;position:relative;">
-                    <img src="$!resourcePath/img/gz.png" width="125" height="125" style="position:absolute; z-index:0;left:60pt;top:-20pt;"/>
+                    <p style="line-height:26pt; margin:0pt;position:relative;"><span style="font-family:宋体; font-size:12pt; font-weight:bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <img src="$!resourcePath/img/gz.png" width="125" height="125" style="position:absolute; z-index:0;left:100pt;top:-20pt;"/>
                     </p>
                     <p style="line-height:26pt; margin:0pt; text-align:center"><span style="font-family:宋体; font-size:12pt; font-weight:bold">&#xa0;</span></p>
                 </td>
@@ -405,23 +403,19 @@
             </tr>
             <tr>
                 <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:240pt;">
-                    <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">财务联系人：  </span></p>
+                    <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">财务联系人：</span></p>
                 </td>
                 <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:240pt;">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">财务联系人：</span><span style="font-family:宋体; font-size:12pt">齐爱华</span>
-                        <span
-                            style="font-family:宋体; font-size:12pt">  </span>
                     </p>
                 </td>
             </tr>
             <tr>
                 <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:240pt;">
-                    <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">传真：  </span></p>
+                    <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">传真：</span></p>
                 </td>
                 <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:240pt;">
-                    <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">传真：</span><span style="font-family:宋体; font-size:12pt">010</span>
-                        <span
-                            style="font-family:宋体; font-size:12pt">-57076675-690</span><span style="font-family:宋体; font-size:12pt">  </span></p>
+                    <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">传真：</span><span style="font-family:宋体; font-size:12pt">010-57076675-690</span></p>
                 </td>
             </tr>
             <tr>
@@ -445,9 +439,7 @@
                     </p>
                 </td>
                 <td style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:192pt;">
-                    <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">账户名:</span><span style="font-family:宋体; font-size:12pt"> 北京</span>
-                        <span
-                            style="font-family:宋体; font-size:12pt">九休信息科技有限公</span><span style="font-family:宋体; font-size:12pt">司</span><span style="font-family:宋体; font-size:12pt">   </span></p>
+                    <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">账户名:</span><span style="font-family:宋体; font-size:12pt"> 北京九休信息科技有限公司</span></p>
                 </td>
             </tr>
             <tr>
@@ -463,9 +455,7 @@
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">开户行：$!pdfDomain.accountBank</span></p>
                 </td>
                 <td style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:192pt;">
-                    <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">开户行：</span><span style="font-family:宋体; font-size:12pt">工商银行</span>
-                        <span
-                            style="font-family:宋体; font-size:12pt">北京和平里安贞支行</span>
+                    <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">开户行：</span><span style="font-family:宋体; font-size:12pt">工商银行北京和平里安贞支行</span>
                     </p>
                 </td>
             </tr>
