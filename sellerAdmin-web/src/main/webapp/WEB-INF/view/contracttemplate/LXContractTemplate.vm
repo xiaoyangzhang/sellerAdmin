@@ -353,7 +353,7 @@
         <p style="line-height:26pt; margin:0pt; text-indent:20pt"><span style="font-family:宋体; font-size:12pt; font-weight:bold">本页为签署页，无正文</span></p>
         <table cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin:20pt">
             <tr style="height:181.2pt">
-                <td colspan="2" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:218.25pt">
+                <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:218.25pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt; font-weight:bold">甲方：</span>
                     </p>
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt; font-weight:bold">&#xa0;</span>
@@ -361,7 +361,7 @@
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt; font-weight:bold">(盖章)：</span>
                     </p>
                 </td>
-                <td colspan="2" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:238.25pt">
+                <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:238.25pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt; font-weight:bold">乙方：</span><span style="font-family:宋体; font-size:12pt; font-weight:bold">北京九休</span>
                         <span
                             style="font-family:宋体; font-size:12pt; font-weight:bold">信息科技有限公司</span>
@@ -377,36 +377,36 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:238.25pt">
+                <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:238.25pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">签约日期：$!pdfDomain.year年   $!pdfDomain.month月   $!pdfDomain.day日</span></p>
                 </td>
-                <td colspan="2" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:238.25pt">
+                <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:238.25pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">签约日期：$!pdfDomain.year年   $!pdfDomain.month月   $!pdfDomain.day日</span></p>
                 </td>
             </tr>
             <tr>
-                <td colspan="2" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:238.25pt">
+                <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:238.25pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">授权代表（签名）：   </span>
                     </p>
                 </td>
-                <td colspan="2" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:238.25pt">
+                <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:238.25pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">授权代表（签名）：   </span>
                     </p>
                 </td>
             </tr>
             <tr>
-                <td colspan="2" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:238.25pt">
+                <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:238.25pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">业务联系人：</span></p>
                 </td>
-                <td colspan="2" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:238.25pt">
+                <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:238.25pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">业务联系人：</span></p>
                 </td>
             </tr>
             <tr>
-                <td colspan="2" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:238.25pt">
+                <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:238.25pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">财务联系人：  </span></p>
                 </td>
-                <td colspan="2" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:238.25pt">
+                <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:238.25pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">财务联系人：</span><span style="font-family:宋体; font-size:12pt">齐爱华</span>
                         <span
                             style="font-family:宋体; font-size:12pt">  </span>
@@ -414,54 +414,54 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:238.25pt">
+                <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:238.25pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">传真：  </span></p>
                 </td>
-                <td colspan="2" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:238.25pt">
+                <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:238.25pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">传真：</span><span style="font-family:宋体; font-size:12pt">010</span>
                         <span
                             style="font-family:宋体; font-size:12pt">-57076675-690</span><span style="font-family:宋体; font-size:12pt">  </span></p>
                 </td>
             </tr>
             <tr>
-                <td colspan="2" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:238.25pt">
+                <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:238.25pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">地址：</span></p>
                 </td>
-                <td colspan="2" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:238.25pt">
+                <td colspan="2" style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:238.25pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">地址：</span><span style="font-family:宋体; font-size:12pt">北京市朝阳区望京街10号望京SOHO塔3-B座38层</span></p>
                 </td>
             </tr>
             <tr>
-                <td rowspan="3" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:middle; width:37.15pt">
+                <td rowspan="3" style="border:0.25pt solid #000; padding:5pt; vertical-align:middle; width:35.15pt">
                     <p style="line-height:26pt; margin:0pt; text-align:center"><span style="font-family:宋体; font-size:12pt">甲方账户信息</span>
                     </p>
                 </td>
-                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:190.3pt">
+                <td style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:190.3pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">账户名: $!pdfDomain.accountName </span></p>
                 </td>
-                <td rowspan="3" style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:middle; width:36.15pt">
+                <td rowspan="3" style="border:0.25pt solid #000; padding:5pt; vertical-align:middle; width:36.15pt">
                     <p style="line-height:26pt; margin:0pt; text-align:center"><span style="font-family:宋体; font-size:12pt">乙方账户信息</span>
                     </p>
                 </td>
-                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:191.3pt">
+                <td style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:191.3pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">账户名:</span><span style="font-family:宋体; font-size:12pt"> 北京</span>
                         <span
                             style="font-family:宋体; font-size:12pt">九休信息科技有限公</span><span style="font-family:宋体; font-size:12pt">司</span><span style="font-family:宋体; font-size:12pt">   </span></p>
                 </td>
             </tr>
             <tr>
-                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:190.3pt">
+                <td style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:190.3pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">账号：$!pdfDomain.accountNo</span></p>
                 </td>
-                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:191.3pt">
+                <td style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:191.3pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">账号：</span><span style="font-family:宋体; font-size:12pt">0200064809024643310</span></p>
                 </td>
             </tr>
             <tr>
-                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:190.3pt">
+                <td style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:190.3pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">开户行：$!pdfDomain.accountBank</span></p>
                 </td>
-                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.25pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.25pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.25pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.25pt; padding:5pt; vertical-align:top; width:191.3pt">
+                <td style="border:0.25pt solid #000; padding:5pt; vertical-align:top; width:191.3pt">
                     <p style="line-height:26pt; margin:0pt"><span style="font-family:宋体; font-size:12pt">开户行：</span><span style="font-family:宋体; font-size:12pt">工商银行</span>
                         <span
                             style="font-family:宋体; font-size:12pt">北京和平里安贞支行</span>
