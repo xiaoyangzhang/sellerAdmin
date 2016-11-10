@@ -56,7 +56,6 @@ public class ContractManager {
         } else {
             memberContractCodeDTO.setContractType(MerchantParentCategoryMappingEnum.getByCategory(examineInfoDTO.getMerchantCategoryId()).getContractType());
         }
-        memberContractCodeDTO.setContractType(MerchantParentCategoryMappingEnum.getByCategory(3).getContractType());
         String contractCode = memberContractRepo.getCode(memberContractCodeDTO);
         ContractPDFDomain contractPDFDomain = new ContractPDFDomain();
         contractPDFDomain.setCode(contractCode);
@@ -91,7 +90,6 @@ public class ContractManager {
         } else {
             memberContractCodeDTO.setContractType(MerchantParentCategoryMappingEnum.getByCategory(examineInfoDTO.getMerchantCategoryId()).getContractType());
         }
-        memberContractCodeDTO.setContractType(MerchantParentCategoryMappingEnum.getByCategory(3).getContractType());
         String contractCode = memberContractRepo.getCode(memberContractCodeDTO);
         ContractPDFDomain contractPDFDomain = new ContractPDFDomain();
         contractPDFDomain.setCode(contractCode);
