@@ -15,6 +15,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 
 import java.io.*;
@@ -37,6 +38,9 @@ public class ContractManager {
 
     @Autowired
     private TfsService tfsService;
+
+    @Value("${resource.path.jiuxiu}")
+    private String RESOURCE_PATH;
 
     private String templatePrefix = "/contracttemplate/";
 
@@ -111,6 +115,7 @@ public class ContractManager {
         Template template = velocityEngine.getTemplate(templateUrl, "UTF-8");
         VelocityContext velocityContext = new VelocityContext();
         velocityContext.put("pdfDomain", contractPDFDomain);
+        velocityContext.put("resourcePath", RESOURCE_PATH);
         String str = "";
         try {
             Writer writer = new StringWriter();
