@@ -633,13 +633,13 @@ public class ItemVO extends ItemDO {
 			DecimalFormat df = new DecimalFormat("0.00");
 			return df.format(d * 0.01);
 		}
-		return originalPriceStr;
+		return originalPriceStr.trim();
 	}
 
 	public void setOriginalPriceStr(String originalPriceStr) {
 		this.originalPriceStr = originalPriceStr;
 		if(StringUtils.isNotBlank(originalPriceStr)){
-			super.setOriginalPrice(new BigDecimal(originalPriceStr).multiply(BigDecimal.valueOf(100)).longValue());
+			super.setOriginalPrice(new BigDecimal(originalPriceStr.trim()).multiply(BigDecimal.valueOf(100)).longValue());
 		}
 	}
 }
