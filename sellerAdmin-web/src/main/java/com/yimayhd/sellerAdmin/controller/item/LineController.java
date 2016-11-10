@@ -178,6 +178,7 @@ public class LineController extends BaseLineController {
 			}
 			
 			json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
+			log.info("price_info_json :"+json);
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
 			WebCheckResult checkLine = LineChecker.checkLine(gt);
 			if (!checkLine.isSuccess()) {

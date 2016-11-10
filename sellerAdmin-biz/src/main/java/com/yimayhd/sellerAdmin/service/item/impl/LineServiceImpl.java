@@ -260,6 +260,7 @@ public class LineServiceImpl implements LineService {
 
             //FIXME
             LinePubUpdateDTO linePublishDTOForUpdate = LineConverter.toLinePublishDTOForUpdate(sellerId, line);
+            log.info("price_info_json update :"+JSON.toJSONString(linePublishDTOForUpdate));
             LinePublishResult publishLine=lineRepo.updateLine(linePublishDTOForUpdate);
 
             //删除多余的itemsku
@@ -342,6 +343,7 @@ public class LineServiceImpl implements LineService {
 //			convertToIcSubjcet(line);
 
             LinePubAddDTO linePublishDTOForSave = LineConverter.toLinePublishDTOForSave(sellerId, line);
+            log.info("price_info_json save :"+JSON.toJSONString(linePublishDTOForSave));
             LinePublishResult publishLine = lineRepo.saveLine(linePublishDTOForSave);
             long itemId = publishLine.getItemId();
             if (itemId > 0) {
