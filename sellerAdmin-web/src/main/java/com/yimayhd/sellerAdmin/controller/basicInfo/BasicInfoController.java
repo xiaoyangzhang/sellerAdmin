@@ -498,7 +498,7 @@ public class BasicInfoController extends BaseController {
         }
 
         contractDate = contractDate == null ? getDefaultDate() : contractDate;
-        return contractDate.before(DateUtil.dateAdd(CalendarField.DAY, buffer, new Date()));
+        return DateUtil.dateAdd(CalendarField.DAY, buffer, new Date()).before(contractDate);
 
     }
 
@@ -515,7 +515,7 @@ public class BasicInfoController extends BaseController {
             }
 
             contractDate = contractDate == null ? getDefaultDate() : contractDate;
-            result = contractDate.before(DateUtil.dateAdd(CalendarField.DAY, buffer, new Date()));
+            result = DateUtil.dateAdd(CalendarField.DAY, buffer, new Date()).before(contractDate);
             if (result) {
                 cacheManager.addToTair(key, DAY);
             }
