@@ -5,50 +5,62 @@
 #set( $locations = ["我的钱包", "提现"] )
 
 <head>
-	#parse("layout/layout-meta.vm")
-	<title>提现</title>
-	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/payment.css">
+    #parse("layout/layout-meta.vm")
+    <title>提现</title>
+    <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/payment.css">
+    <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/jquery.js" type="text/javascript"></script>
 </head>
 
 <!-- 面包屑 -->
-<div class = "" id = "eredar">
-    <div class = "payment-right">
-        <div class="payment-info clearfix">
-            <ul>
-                <li class=" first on w82">提现</li>
-            </ul>
-        </div>
-        <div class="payment-info-box">
-            <div class="payment-bank-info">
-                <p class="w445"><span class="fl">账户名称：<i>$!{accountInfo.openAccName}</i></span><span class="fr">* 仅支持提现到结算账户</span></p>
-                <p>账户号码：<i>$!{accountInfo.openAcctNo}</i></p>
-                <p>开&ensp;户&ensp;行：<i>$!{accountInfo.openBankName}</i></p>
-            </div>
-            <div class="payment-balance">
-                <p class="w445"><span class="fl">可提现余额：<i>$!{accountInfo.accountBalanceYuan}</i>元</span><span class="fr">* 仅支持全额提现</span></p>
-            </div>
-        </div>
-        <a href="javascript:;" class="submit btn-withdrawal">确认提交</a>
+<div class = "payment-right">
+    <div class="payment-info clearfix">
+        <ul>
+            <li class=" first on w82">提现</li>
+        </ul>
     </div>
+    <div class="payment-info-box">
+        <div class="payment-bank-info">
+            <p class="w445"><span class="fl">企业名称：<i>$!{accountInfo.openAccName}</i></span><span class="fr">* 仅支持提现到公司对公户</span></p>
+            <p>对公账户：<i>$!{accountInfo.openAcctNo}</i></p>
+            <p>开&ensp;户&ensp;行：<i>$!{accountInfo.openBankName}</i></p>
+        </div>
+        <div class="payment-balance">
+            <p class="w445"><span class="fl">可提现余额：<i>$!{accountInfo.accountBalanceYuan}</i>元</span><span class="fr">* 对公提现仅支持全额提现</span></p>
+        </div>
+    </div>
+    <a href="javascirpt:;" class="submit btn-withdrawal">确认提交</a>
 </div>
 <table id="bill">
     <tr>
-        <td class="field">提现余额：</td>
-        <td><span>$!{accountInfo.accountBalanceYuan}</span>元</td>
+        <td class="field">企业名称：</td>
+        <td>$!{accountInfo.openAccName}<label>* 仅支持提现到公司对公户</label></td>
     </tr>
     <tr>
-        <td class="field">账户名称：</td>
-        <td>$!{accountInfo.openAccName}</td>
-    </tr>
-    <tr>
-        <td class="field">账户号码：</td>
+        <td class="field">对公账户：</td>
         <td>$!{accountInfo.openAcctNo}</td>
     </tr>
     <tr>
         <td class="field">开 户 行：</td>
         <td>$!{accountInfo.openBankName}</td>
     </tr>
+    <tr>
+        <td class="field">可提现余额：</td>
+        <td><span>$!{accountInfo.accountBalanceYuan}</span>元<label>* 仅支持提现到公司对公户</label></td>
+    </tr>
 </table>
+<div class = "payment-right enter-password-section" id="enterPasswordSection">
+    <div class="payment-info clearfix">
+        <ul>
+            <li class="first on">请输入您的支付密码</li>
+        </ul>
+    </div>
+    <div class="payment-info-box enter-password-box">
+        <input id="enterPasswordInput" type="password" name="enterPasswordInput">
+        <p>九休支付保障您的支付安全！</p>
+    </div>
+    <a href="javascirpt:;" class="submit btn-submitpassword" id="enterPasswordBtn">确认</a>
+</div>
 
 #parse("layout/layout-js.vm")
-<script>seajs.use("payment");</script>	
+<script>seajs.use("payment");</script>
+##<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/md.payment.js" type="text/javascript"></script>

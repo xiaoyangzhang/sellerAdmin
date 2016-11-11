@@ -66,6 +66,12 @@ public class AccountServiceImpl implements AccountService {
 		
 		return result.isSuccess();
 	}
+	@Override
+	public ResultSupport withdrawalByPwd(WithdrawalVO withdrawalVO)throws Exception{
+		WithdrawalDTO dto = WithdrawalVO.getWithdrawalDTO(withdrawalVO);
+		ResultSupport result = accountRepo.withdrawal(dto);
+		return result;
+	}
 
 	@Override
 	public PageVO<EleAccountBillVO> queryEleAccBillDetail(AccountQuery query, long userId) throws Exception {

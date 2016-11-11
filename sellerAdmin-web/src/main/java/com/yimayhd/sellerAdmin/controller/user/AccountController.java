@@ -147,20 +147,27 @@ public class AccountController extends BaseController {
 	@ResponseBody
 	public ResponseVo withdrawal(Model model){
 		try {
-
+			ResponseVo responseVo=new ResponseVo();
 			long userId = sessionManager.getUserId();
+			String payPwd=get("password");
 			EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
 
 			WithdrawalVO vo = new WithdrawalVO();
 			vo.setUserId(userId);
 			vo.setWithdrawalAmount(accountInfo.getAccountBalance());
+			vo.setPayPwd(payPwd);
 			vo.setEleAccountType(EleAccountType.UNION_ELE_ACCOUNT.getType());
 			if(accountInfo.getAccountBalance() <= 0 ){
 				throw new NoticeException(Constant.WITHDRAWAL_ACCOUNT_BALANCE_IS_ZERO);
 			}
+			//Constant.WITHDRAWAL_FAIL
 
-			accountService.withdrawal(vo);
-			return ResponseVo.success();
+			ResultSupport support=accountService.withdrawalByPwd(vo);
+			if (!support.isSuccess()){
+				responseVo.setStatus(support.getErrorCode().getCode());
+				responseVo.setMessage(support.getResultMsg());
+			}
+			return responseVo;
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return ResponseVo.error(e);
