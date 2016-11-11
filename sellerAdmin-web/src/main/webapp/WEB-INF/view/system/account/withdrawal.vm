@@ -63,4 +63,3 @@
 
 #parse("layout/layout-js.vm")
 <script>seajs.use("payment");</script>
-##<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/md.payment.js" type="text/javascript"></script>
