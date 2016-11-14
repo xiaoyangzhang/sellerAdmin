@@ -66,7 +66,7 @@
                             <input class="priceY form-control" type="text" name="priceY" value="$!numberHelper.formatNumber($!commodity.price)" maxlength="9">元
                         </td>
                     </tr>
-                    #if($!cType==0)
+                    #if(!$cType||$!cType==1)
                     <tr>
                         <td>市场价</td>
                         <td>
