@@ -68,6 +68,12 @@
                             <input class="priceY form-control" type="text" name="priceY" value="$!numberHelper.formatNumber($!commodity.price)" maxlength="9">元
                         </td>
                     </tr>
+                    <tr>
+                        <td>市场价</td>
+                        <td>
+                            <input class="original-price form-control" type="text" name="originalPriceStr" value="#if($!commodity.originalPrice!=0)$!numberHelper.formatNumber($!commodity.originalPrice)#end" maxlength="9">元
+                        </td>
+                    </tr>
 
                     #if($!integralType == 1)
 	                    <tr>
