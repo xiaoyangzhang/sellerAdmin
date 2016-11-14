@@ -1093,6 +1093,21 @@ public class DateUtil {
 		return Integer.parseInt(timeStamp);
 	}
 
+	public static String getShowDate(Date d) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(d);
+	}
+
+	public static Date getDefaultDate(String date) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+		try {
+			return simpleDateFormat.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return new Date();
+		}
+	}
+
 	public static void main(String[] args) throws Exception {
 		System.out.println(dateToString(new Date(), "yyyy-MM-dd"));
 		Calendar calendar = Calendar.getInstance();
