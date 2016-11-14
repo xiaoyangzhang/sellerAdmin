@@ -432,6 +432,12 @@
             if(!$('.priceY').val() || !/^\d{1,6}(\.\d{1,2})?$|^[1-9]\d{0,5}$/.test($('.priceY').val())){
                 return '商品售价为数字，最大六位整数，可带两位小数';
             }
+            if($.trim($('.original-price').val()) && !/^\d{1,6}(\.\d{1,2})?$|^[1-9]\d{0,5}$/.test($.trim($('.original-price').val()))){
+                return '市场价为数字，最大六位整数，可带两位小数';
+            }
+            if($.trim($('.original-price').val()) && Number($.trim($('.original-price').val())) <= Number($.trim($('.priceY').val()))){
+                return '市场价必须大于商品售价';
+            }
             var reg = $('.maxPoint').attr("reg");
             if(reg){
             	if(!/^[1-9]\d*$/.test($('.maxPoint').val())) {
@@ -440,9 +446,6 @@
 		        if($('.maxPoint').val() < 100) {
 		            return '积分必须大于100';
 		        }
-            }
-            if($.trim($('.original-price').val()) && Number($.trim($('.original-price').val())) <= Number($.trim($('.priceY').val()))){
-                return '市场价必须大于商品售价';
             }
             var priceY_ = Math.ceil(parseFloat($('.priceY').val()) * 100);
         	var maxPoint_ = parseInt($('.maxPoint').val());
