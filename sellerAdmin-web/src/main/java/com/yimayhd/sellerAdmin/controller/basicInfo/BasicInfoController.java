@@ -499,9 +499,9 @@ public class BasicInfoController extends BaseController {
 
         contractDate = contractDate == null ? DateUtil.getDefaultDate(DEFAULT_CONTRACT_DATE) : contractDate;
         if(buffer>0) {
-            return DateUtil.dateAdd(CalendarField.DAY, buffer, new Date()).after(contractDate);
+            return !DateUtil.dateAdd(CalendarField.DAY, buffer, new Date()).before(contractDate);
         } else {
-            return (DateUtil.getDefaultDate(DEFAULT_CONTRACT_DATE)).after(contractDate);
+            return !(DateUtil.getDefaultDate(DEFAULT_CONTRACT_DATE)).before(contractDate);
         }
 
     }
@@ -520,9 +520,9 @@ public class BasicInfoController extends BaseController {
 
             contractDate = contractDate == null ? DateUtil.getDefaultDate(DEFAULT_CONTRACT_DATE) : contractDate;
             if(buffer>0) {
-                result = DateUtil.dateAdd(CalendarField.DAY, buffer, new Date()).after(contractDate);
+                result = !DateUtil.dateAdd(CalendarField.DAY, buffer, new Date()).before(contractDate);
             } else {
-                result = (DateUtil.getDefaultDate(DEFAULT_CONTRACT_DATE)).after(contractDate);
+                result = !(DateUtil.getDefaultDate(DEFAULT_CONTRACT_DATE)).before(contractDate);
             }
 
             if (result) {
