@@ -25,6 +25,7 @@ public class ItemListQuery extends BaseQuery {
 
 
 
+
 	public String getName() {
 		return name;
 	}
@@ -104,4 +105,5 @@ public class ItemListQuery extends BaseQuery {
 	public void setScenicName(String scenicName) {
 		this.scenicName = scenicName;
 	}
+
 }

@@ -142,7 +142,8 @@ public class IntegralMallController extends BaseController {
 		}else{
 			return "/system/error/lackPermission";
 		}
-		
+		model.addAttribute("cType", result.getValue().getType());
+		//log.info(JSON.toJSONString("----cType:"+result.getValue().getType()));
 		model.addAttribute("category", itemResultVO.getCategoryVO());
 		model.addAttribute("commodity", itemResultVO.getItemVO());
 		model.addAttribute("itemSkuList", itemResultVO.getItemSkuVOList());

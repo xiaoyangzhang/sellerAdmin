@@ -56,7 +56,6 @@ public class ContractManager {
         } else {
             memberContractCodeDTO.setContractType(MerchantParentCategoryMappingEnum.getByCategory(examineInfoDTO.getMerchantCategoryId()).getContractType());
         }
-        memberContractCodeDTO.setContractType(MerchantParentCategoryMappingEnum.getByCategory(3).getContractType());
         String contractCode = memberContractRepo.getCode(memberContractCodeDTO);
         ContractPDFDomain contractPDFDomain = new ContractPDFDomain();
         contractPDFDomain.setCode(contractCode);
@@ -91,7 +90,6 @@ public class ContractManager {
         } else {
             memberContractCodeDTO.setContractType(MerchantParentCategoryMappingEnum.getByCategory(examineInfoDTO.getMerchantCategoryId()).getContractType());
         }
-        memberContractCodeDTO.setContractType(MerchantParentCategoryMappingEnum.getByCategory(3).getContractType());
         String contractCode = memberContractRepo.getCode(memberContractCodeDTO);
         ContractPDFDomain contractPDFDomain = new ContractPDFDomain();
         contractPDFDomain.setCode(contractCode);
@@ -113,27 +111,45 @@ public class ContractManager {
 
         VelocityEngine velocityEngine = velocityConfig.getVelocityEngine();
         Template template = velocityEngine.getTemplate(templateUrl, "UTF-8");
+        Template template1 = velocityEngine.getTemplate(templatePrefix+"Template.vm", "UTF-8");
         VelocityContext velocityContext = new VelocityContext();
         velocityContext.put("pdfDomain", contractPDFDomain);
         velocityContext.put("resourcePath", RESOURCE_PATH);
         String str = "";
+        String str1 = "";
         try {
             Writer writer = new StringWriter();
             template.merge(velocityContext, writer);
             writer.flush();
             str = writer.toString();
             writer.close();
+
+            //template
+            Writer writer1 = new StringWriter();
+            template1.merge(velocityContext, writer1);
+            writer1.flush();
+            str1 = writer1.toString();
+            writer1.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
         File file = new File(contractPDFDomain.getCode() + ".pdf");
+        File fileContent = new File(contractPDFDomain.getCode() + "content.pdf");
+        File fileTable = new File(contractPDFDomain.getCode() + "table.pdf");
         try {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(str.getBytes("UTF-8"));
-            HtmlToPdfUtil.htmlToPdf(byteArrayInputStream, file.getPath());
+            HtmlToPdfUtil.htmlToPdf(byteArrayInputStream, fileContent.getPath());
+            ByteArrayInputStream byteArrayInputStream1 = new ByteArrayInputStream(str1.getBytes("UTF-8"));
+            HtmlToPdfUtil.htmlToPdf(byteArrayInputStream1, fileTable.getPath());
+            String[] files = new String[]{fileContent.getPath(),fileTable.getPath()};
+            HtmlToPdfUtil.mergePdfFiles(files, file.getPath());
             return file;
         } catch (Exception e) {
             e.printStackTrace();
             file.delete();
+        }finally {
+            fileContent.delete();
+            fileTable.delete();
         }
         return null;
     }
