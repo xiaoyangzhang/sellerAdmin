@@ -239,7 +239,7 @@ public class BasicInfoController extends BaseController {
             info.setSellerId(sellerId);
             MemResult<ExamineInfoDTO> merchantInfoResult = merchantBiz.queryMerchantExamineInfoBySellerId(info);
             if (merchantInfoResult != null || merchantInfoResult.isSuccess()) {
-                renewDate = renewDate == null ? getDefaultDate() : renewDate;
+                renewDate = renewDate == null ? DateUtil.getDefaultDate(DEFAULT_CONTRACT_DATE) : renewDate;
                 OutputStream toClient;
                 File file = contractManager.downloadContract(sellerId, merchantInfoResult.getValue(), renewDate);
                 try {
