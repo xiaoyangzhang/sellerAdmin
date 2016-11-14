@@ -25,7 +25,7 @@ public class CategoryRepo {
 	@Autowired
 	private CategoryService categoryServiceRef;
 
-	@MethodLogger
+	@MethodLogger(isPrintResult=false)
 	public CategoryDO getCategoryById(long id) {
 //		RepoUtils.requestLog(log, "categoryServiceRef.getCategory", id);
 		CategoryResult categoryResult = categoryServiceRef.getCategory(id);
