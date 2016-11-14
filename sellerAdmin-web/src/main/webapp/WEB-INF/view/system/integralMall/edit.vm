@@ -66,12 +66,16 @@
                             <input class="priceY form-control" type="text" name="priceY" value="$!numberHelper.formatNumber($!commodity.price)" maxlength="9">元
                         </td>
                     </tr>
+                    #if($!cType==0)
                     <tr>
                         <td>市场价</td>
                         <td>
                             <input class="original-price form-control" type="text" name="originalPriceStr" value="#if($!commodity.originalPrice!=0)$!numberHelper.formatNumber($!commodity.originalPrice)#end" maxlength="9">元
                         </td>
                     </tr>
+                    #end
+
+
                     <tr>
                         <td><span class="red">*</span>最多可用积分</td>
                         <td>
