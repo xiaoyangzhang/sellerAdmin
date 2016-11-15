@@ -86,7 +86,7 @@ public class MerchantApplyRepo {
 	}
 	public MemResult<List<MerchantScopeDO>> getMerchantScopes(MerchantScopeQuery merchantQuery) {
 		
-		return businessScopeService.queryMerchantScope(merchantQuery);
+		return businessScopeService.queryMerchantScopes(merchantQuery);
 	}
 	
 	public MemResult<List<MerchantQualificationDO>> getMerchantQualification(QualificationQueryDTO qualificationQueryDTO) {
