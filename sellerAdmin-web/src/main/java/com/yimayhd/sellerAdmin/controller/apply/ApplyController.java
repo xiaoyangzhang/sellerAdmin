@@ -41,7 +41,6 @@ import com.yimayhd.sellerAdmin.biz.MerchantApplyBiz;
 import com.yimayhd.sellerAdmin.biz.MerchantBiz;
 import com.yimayhd.sellerAdmin.biz.TalentBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
-import com.yimayhd.sellerAdmin.enums.AccountType;
 import com.yimayhd.sellerAdmin.model.ExamineInfoVO;
 import com.yimayhd.sellerAdmin.model.QualificationVO;
 import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
@@ -61,12 +60,6 @@ public class ApplyController extends BaseController {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private SessionManager sessionManager;
-	
-	@Autowired
-	private MerchantBiz merchantBiz;
-	
-	@Autowired
-	private UserService userService;
 	
 	@Resource
 	private MerchantService merchantService;

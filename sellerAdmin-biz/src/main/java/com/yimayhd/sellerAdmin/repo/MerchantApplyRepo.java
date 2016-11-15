@@ -20,6 +20,7 @@ import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
 import com.yimayhd.membercenter.client.query.BusinessScopeQueryDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.query.MerchantCategoryQueryDTO;
+import com.yimayhd.membercenter.client.query.MerchantScopeQuery;
 import com.yimayhd.membercenter.client.query.QualificationQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.BusinessScopeService;
@@ -83,9 +84,9 @@ public class MerchantApplyRepo {
 		
 		return qualificationService.getQualification(queryDTO);
 	}
-	public MemResult<List<MerchantScopeDO>> getMerchantScope(BusinessScopeQueryDTO queryDTO) {
+	public MemResult<List<MerchantScopeDO>> getMerchantScopes(MerchantScopeQuery merchantQuery) {
 		
-		return businessScopeService.getMerchantScope(queryDTO);
+		return businessScopeService.queryMerchantScope(merchantQuery);
 	}
 	
 	public MemResult<List<MerchantQualificationDO>> getMerchantQualification(QualificationQueryDTO qualificationQueryDTO) {
