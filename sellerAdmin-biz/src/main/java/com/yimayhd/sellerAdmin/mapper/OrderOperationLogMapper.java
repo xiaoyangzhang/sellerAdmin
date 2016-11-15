@@ -1,6 +1,6 @@
 package com.yimayhd.sellerAdmin.mapper;
 
-import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery;
+import com.yimayhd.sellerAdmin.client.model.OrderOperationLogQuery;
 import com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogDO;
 
 import java.util.List;

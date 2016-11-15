@@ -1,9 +1,9 @@
 package com.yimayhd.sellerAdmin.client.service;
 
 
-import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogDTO;
-import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery;
-import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogResult;
+import com.yimayhd.sellerAdmin.client.model.OrderOperationLogDTO;
+import com.yimayhd.sellerAdmin.client.model.OrderOperationLogQuery;
+import com.yimayhd.sellerAdmin.client.model.OrderOperationLogResult;
 import com.yimayhd.sellerAdmin.client.result.SellerResult;
 
 /**

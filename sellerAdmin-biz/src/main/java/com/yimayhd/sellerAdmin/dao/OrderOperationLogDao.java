@@ -1,6 +1,6 @@
 package com.yimayhd.sellerAdmin.dao;
 
-import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery;
+import com.yimayhd.sellerAdmin.client.model.OrderOperationLogQuery;
 import com.yimayhd.sellerAdmin.mapper.OrderOperationLogMapper;
 import com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogDO;
 import org.slf4j.Logger;
