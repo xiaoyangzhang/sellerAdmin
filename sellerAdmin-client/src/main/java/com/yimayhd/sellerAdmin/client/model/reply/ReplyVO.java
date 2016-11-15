@@ -8,6 +8,7 @@ import java.util.Date;
  */
 public class ReplyVO implements Serializable {
     private static final long serialVersionUID = -2448181062692430426L;
+
     private long id;
 
     private int domain;
