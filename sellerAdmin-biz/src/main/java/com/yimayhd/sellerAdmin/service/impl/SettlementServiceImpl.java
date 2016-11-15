@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,35 @@ public class SettlementServiceImpl implements SettlementService {
 	@Autowired
 	private SettlementRepo settlementRepo;
 
+	/**
+	 * 结算单查询 参数校验
+	 * @param query
+	 * @return
+	 */
+	private boolean checkSettlParams(SettlementQuery query){
+		if(!StringUtils.isBlank(query.getSellerId())){
+			try{
+				Long.parseLong(query.getSellerId());
+			}catch (Exception e){
+				return false;
+			}
+		}
+		if (!StringUtils.isBlank(query.getSettlementId())){
+			try{
+				Long.parseLong(query.getSellerId());
+			}catch (Exception e){
+				return false;
+			}
+		}
+		return true;
+	}
 	@Override
 	public PageVO<SettlementVO> queryMerchantSettlements(SettlementQuery query, long userId) throws Exception {
-		
+
+		if (!checkSettlParams(query)){
+			log.error("queryMerchantSettlements.queryMerchantSettlements--settlementRepo.queryMerchantSettlements params error and parame: {}", JSON.toJSONString(query));
+			return new PageVO<SettlementVO>(query.getPageNo(), query.getPageSize(), 0,  new ArrayList<SettlementVO>());
+		}
 		com.yimayhd.pay.client.model.query.settlement.SettlementQuery queryDO = SettlementQuery.getSettlementQuery(query, userId);
 		PayPageResultDTO<SettlementDTO> result = settlementRepo.queryMerchantSettlements(queryDO);
 		if(null == result){
