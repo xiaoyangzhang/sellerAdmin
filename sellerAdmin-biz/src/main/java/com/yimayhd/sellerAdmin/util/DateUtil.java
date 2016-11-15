@@ -1099,7 +1099,7 @@ public class DateUtil {
 	}
 
 	public static Date getDefaultDate(String date) {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
 		try {
 			return simpleDateFormat.parse(date);
 		} catch (ParseException e) {
@@ -1108,7 +1108,31 @@ public class DateUtil {
 		}
 	}
 
+	/**
+	 * 当前日期加一天
+	 * <li>
+	 * Calendar对日期运算有性能问题，这个接口不能用于高并发情况下
+	 *
+	 * @return
+	 */
+	public static int getAfterDate() {
+		Date date = new Date();
+		return (int) ((getTimesnight().getTime()-date.getTime()) / 1000);
+
+	}
+
+	// 获得当天24点时间
+	public static Date getTimesnight() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 24);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		return  cal.getTime();
+	}
+
 	public static void main(String[] args) throws Exception {
+		getAfterDate();
 		System.out.println(dateToString(new Date(), "yyyy-MM-dd"));
 		Calendar calendar = Calendar.getInstance();
 		Calendar calendar2 = Calendar.getInstance();

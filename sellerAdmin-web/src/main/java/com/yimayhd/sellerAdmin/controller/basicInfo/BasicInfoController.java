@@ -501,7 +501,9 @@ public class BasicInfoController extends BaseController {
         if(buffer>0) {
             return !DateUtil.dateAdd(CalendarField.DAY, buffer, new Date()).before(contractDate);
         } else {
-            return !(DateUtil.getDefaultDate(DEFAULT_CONTRACT_DATE)).before(contractDate);
+//            return !(DateUtil.getDefaultDate(DEFAULT_CONTRACT_DATE)).before(contractDate);
+            // 因产品对于1231后的合同如何处理还未给出需求,所以目前都是粗暴的将20170101000000前的合同认为未续约
+            return contractDate.before(tempProcess());
         }
 
     }
@@ -522,15 +524,25 @@ public class BasicInfoController extends BaseController {
             if(buffer>0) {
                 result = !DateUtil.dateAdd(CalendarField.DAY, buffer, new Date()).before(contractDate);
             } else {
-                result = !(DateUtil.getDefaultDate(DEFAULT_CONTRACT_DATE)).before(contractDate);
+//                result = !(DateUtil.getDefaultDate(DEFAULT_CONTRACT_DATE)).before(contractDate);
+                // 因产品对于1231后的合同如何处理还未给出需求,所以目前都是粗暴的将20170101000000前的合同认为未续约
+                result = contractDate.before(tempProcess());
             }
 
             if (result) {
-                Date currentDate = new Date();
-                Date expirDate = DateUtil.dateAdd(CalendarField.DAY, buffer, currentDate);
-                cacheManager.addToTair(key, expirDate.getTime()-contractDate.getTime());
+                cacheManager.addToTair(key, 1, DateUtil.getAfterDate());
             }
         }
         return result;
+    }
+
+    public Date tempProcess() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+        try {
+            return simpleDateFormat.parse("20170101000000");
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return new Date();
+        }
     }
 }
