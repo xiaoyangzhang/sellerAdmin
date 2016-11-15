@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.repo;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComRateDO;
 import com.yimayhd.commentcenter.client.dto.RateReployDTO;
 import com.yimayhd.commentcenter.client.result.BaseResult;
@@ -25,11 +26,13 @@ public class ComRateRepo {
      * @return
      */
     public SellerResult<ComRateDO> addRateReploy(RateReployDTO rateReployDTO){
+        log.info("addRateReploy repo ,rateReployDTO="+ JSON.toJSONString(rateReployDTO));
         try{
             BaseResult<ComRateDO> callResult =  comRateServiceRef.addRateReploy(rateReployDTO);
             if(callResult==null||!callResult.isSuccess()){
                 return SellerResult.failure(WebReturnCode.REMOTE_CALL_FAILED.getErrorCode(),callResult.getResultMsg());
             }
+            log.info("addRateReploy repo result ,callResult="+ JSON.toJSONString(callResult));
             return SellerResult.success(callResult.getValue());
         }catch (Exception e){
             log.error("addRateReploy repo exception ",e);
