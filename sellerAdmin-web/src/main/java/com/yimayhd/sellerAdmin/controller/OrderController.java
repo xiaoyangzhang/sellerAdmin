@@ -10,10 +10,15 @@ import javax.servlet.http.HttpServletResponse;
 import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.client.model.reply.ReplyQuery;
+import com.yimayhd.sellerAdmin.client.model.reply.ReplyVO;
+import com.yimayhd.sellerAdmin.client.result.SellerResult;
+import com.yimayhd.sellerAdmin.client.service.AppraiseMessageReplyService;
 import com.yimayhd.sellerAdmin.constant.Constant;
 
 import com.yimayhd.sellerAdmin.model.order.OrderPriceQuery;
 import com.yimayhd.sellerAdmin.model.order.OrderPrizeDTO;
+import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +66,8 @@ public class OrderController extends BaseController {
 	private static final Logger LOG = LoggerFactory.getLogger(OrderController.class);
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private AppraiseMessageReplyService appraiseMessageReplyService;
 
 	/**
 	 * 退款
@@ -343,8 +350,18 @@ public class OrderController extends BaseController {
 		return "/system/order/changeprice";
 	}
 
-
-
+	@RequestMapping(value = "/setUpReplyMsg",method = RequestMethod.POST)
+	@ResponseBody
+	public SellerResult<String> setUpReplyMsg(Model model, ReplyQuery replyQuery) throws Exception{
+		SellerResult<ReplyVO> callResult  = appraiseMessageReplyService.addAppraiseMessageReply(replyQuery);
+		if(callResult==null||!callResult.isSuccess()){
+			log.error("评价回复失败,errMsg={}",callResult.getMsg());
+			return SellerResult.failure(callResult.getMsg());
+		}
+		ReplyVO replyVO = callResult.getResultObject();
+		String json = CommonJsonUtil.objectToJson(replyVO,ReplyVO.class);
+		return SellerResult.success(json);
+	}
 
 
 
