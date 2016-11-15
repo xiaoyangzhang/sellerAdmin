@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
@@ -353,6 +354,7 @@ public class OrderController extends BaseController {
 	@RequestMapping(value = "/setUpReplyMsg",method = RequestMethod.POST)
 	@ResponseBody
 	public SellerResult<String> setUpReplyMsg(Model model, ReplyQuery replyQuery) throws Exception{
+		log.info("setUpReplyMsg start param="+ JSON.toJSONString(replyQuery));
 		SellerResult<ReplyVO> callResult  = appraiseMessageReplyService.addAppraiseMessageReply(replyQuery);
 		if(callResult==null||!callResult.isSuccess()){
 			log.error("评价回复失败,errMsg={}",callResult.getMsg());
