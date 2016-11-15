@@ -67,8 +67,8 @@
                 </table>
                 <div class="setvalue fr">
                     <h2>价格设置</h2>
-                    <dl data-pTxt="成" class="adult">
-                        <dt>成人：</dt>
+                    <dl>
+                        <dt data-pTxt="成">成人：</dt>
                         <dd class="mt10">
                             <span class="bred">*</span>
                             <label>价格：</label>
@@ -79,9 +79,7 @@
                             <label>库存：</label>
                             <input type="text" class="stock" maxlength="9">
                         </dd>
-                    </dl>
-                    <dl data-pTxt="儿" class="child">
-                        <dt class="mt10">儿童：</dt>
+                        <dt data-pTxt="儿" class="mt10">儿童：</dt>
                         <dd class="mt10">
                             <span class="bred">*</span>
                             <label>价格：</label>
@@ -92,16 +90,13 @@
                             <label>库存：</label>
                             <input type="text" class="stock" maxlength="9">
                         </dd>
-                      </dl>
-                      <dl data-pTxt="单房差" class="diff">
-                        <dt  class="mt10">单房差：</dt>
+                        <dt data-pTxt="单房差" class="mt10">单房差：</dt>
                         <dd class="mt10">
                             <span class="bred">*</span>
                             <label>价格：</label>
                             <input type="text" class="price" maxlength="9">
                         </dd>
-                      </dl>
-                       <dl>
+                        #*<dd class="mt10"><input type="hidden" class="stock" maxlength="9" value="999"></dd>*#
                         <dd class="btn mt10">
                             <a class="setvl">确定</a>
                             <a class="clearvl">清除</a>
