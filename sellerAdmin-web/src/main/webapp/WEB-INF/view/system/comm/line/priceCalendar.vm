@@ -148,18 +148,18 @@
 
         var modifySkuIds=getUpdateAndDeleteSkuIds();
         console.dir(modifySkuIds);
-        var result = {
+        /*var result = {
              tcs: tcs,
              updatedSKU: modifySkuIds.updatedSKU,
              deletedSKU: modifySkuIds.deletedSKU,
              limit: $(".day-limit").val() || 0
-         };
-         /*var result = {
+         };*/
+         var result = {
             tcs: tcs,
-            updatedSKU: [],
-            deletedSKU: [],
+            updatedSKU: updatedSKU,
+            deletedSKU: deletedSKU,
             limit: $(".day-limit").val() || 0
-        };*/
+        };
         return result;
     }
 
