@@ -197,7 +197,7 @@ public class LineController extends BaseLineController {
 					log.warn("不支持的操作");
 					return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
 				}
-				return  commLineService.update(sellerId, gt);
+				return  commLineService.update(sellerId, filterPriceJson(gt));
 
 
 			} else {
@@ -265,7 +265,7 @@ public class LineController extends BaseLineController {
 		if(!CollectionUtils.isEmpty(deletedSKU)){
 			newLineVO.getPriceInfo().setDeletedSKU(deletedSKU);
 		}
-
+		log.info("price_info_json filterPriceJson update :"+JSON.toJSONString(newLineVO.getPriceInfo()));
 		return newLineVO;
 	}
 
