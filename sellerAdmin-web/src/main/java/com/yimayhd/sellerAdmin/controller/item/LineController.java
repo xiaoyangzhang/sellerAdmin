@@ -298,6 +298,7 @@ public class LineController extends BaseLineController {
 		Map<Long,String> map = new HashMap<Long,String>();
 		List<PackageInfo> tcs = priceInfoVO.getTcs();
 		for(PackageInfo tc :tcs){//套餐
+			String tcName=tc.getName();
 			for(PackageMonth month :tc.getMonths()){//月
 				for(PackageDay day: month.getDays()){//日
 					for(PackageBlock block :day.getBlocks()){//sku信息
@@ -305,7 +306,7 @@ public class LineController extends BaseLineController {
 							log.info("新增skuId不过滤,price="+block.getPrice());
 							continue;
 						}
-						map.put(block.getSkuId(),block.getPrice()+"_"+block.getStock());//金额加数量
+						map.put(block.getSkuId(),tcName+"_"+block.getPrice()+"_"+block.getStock());//金额加数量
 					}
 				}
 			}
