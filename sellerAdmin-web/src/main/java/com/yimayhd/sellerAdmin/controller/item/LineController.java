@@ -248,7 +248,9 @@ public class LineController extends BaseLineController {
 		try{
 			PriceInfoVO oldPriceInfoVO = JSONObject.parseObject(oldPriceInfoJson, PriceInfoVO.class);
 			Map<Long,String> oldMap = getTcsMap(oldPriceInfoVO);//原有数据
+			log.info("price_info_json oldMap={}",JSON.toJSONString(oldMap));
 			Map<Long,String> newMap = getTcsMap(newPriceInfoVO);//新数据
+			log.info("price_info_json newMap={}",JSON.toJSONString(newMap));
 			if(oldMap.isEmpty()){
 				log.error("oldMap error ,价格日志信息异常 oldMap={}",JSON.toJSONString(oldMap));
 				return newLineVO;
