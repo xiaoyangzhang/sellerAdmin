@@ -225,7 +225,7 @@ public class LineController extends BaseLineController {
 	 * @param newLineVO
 	 * @return
      */
-	public LineVO filterPriceJson(LineVO newLineVO ) throws Exception{
+	public LineVO filterPriceJson(LineVO newLineVO ) {
 
 		long itemId = newLineVO.getBaseInfo().getItemId();
 		if(itemId==0){
@@ -242,32 +242,40 @@ public class LineController extends BaseLineController {
 		PriceInfoVO newPriceInfoVO = newLineVO.getPriceInfo();
 		log.info("price_info_json newPriceInfoVO :"+JSON.toJSONString(newPriceInfoVO));
 		String oldPriceInfoJson = (String)obj;
-		PriceInfoVO oldPriceInfoVO = JSONObject.parseObject(oldPriceInfoJson, PriceInfoVO.class);
-		Map<Long,String> oldMap = getTcsMap(oldPriceInfoVO);//原有数据
-		Map<Long,String> newMap = getTcsMap(newPriceInfoVO);//新数据
-		if(oldMap==null||newMap==null){
-			log.error("价格日志信息异常 oldMap={},newMap={}",JSON.toJSONString(oldMap),JSON.toJSONString(newMap));
-		}
-		//遍历现有更新sku集合
-		Set<Long> updatedSKU = new HashSet<>();
-		Set<Long> deletedSKU = new HashSet<>();
-		/**开始过滤skuid*/
-		for(Map.Entry<Long,String> newEntry:newMap.entrySet()){
-			//新旧数据都有sku,并且价格库存都一致
-			if(oldMap.containsKey(newEntry.getKey())){
-				oldMap.remove(newEntry.getKey());
-				newMap.remove(newEntry.getKey());
-				if(!newEntry.getValue().equals(oldMap.get(newEntry.getKey()))){
-					updatedSKU.add(newEntry.getKey());
+		log.info("price_info_json oldPriceInfoVO :"+oldPriceInfoJson);
+		try{
+			PriceInfoVO oldPriceInfoVO = JSONObject.parseObject(oldPriceInfoJson, PriceInfoVO.class);
+			Map<Long,String> oldMap = getTcsMap(oldPriceInfoVO);//原有数据
+			Map<Long,String> newMap = getTcsMap(newPriceInfoVO);//新数据
+			if(oldMap.isEmpty()){
+				log.error("oldMap error ,价格日志信息异常 oldMap={}",JSON.toJSONString(oldMap));
+				return newLineVO;
+			}
+			//遍历现有更新sku集合
+			Set<Long> updatedSKU = new HashSet<Long>();
+			Set<Long> deletedSKU = new HashSet<Long>();
+			/**开始过滤skuid*/
+			if(!newMap.isEmpty()){// 相当于清空所有套餐信息
+				for(Map.Entry<Long,String> newEntry:newMap.entrySet()){
+					//新旧数据都有sku,并且价格库存都一致
+					if(oldMap.containsKey(newEntry.getKey())){
+						oldMap.remove(newEntry.getKey());
+						newMap.remove(newEntry.getKey());
+						if(!newEntry.getValue().equals(oldMap.get(newEntry.getKey()))){
+							updatedSKU.add(newEntry.getKey());
+						}
+					}
 				}
 			}
-		}
-		deletedSKU.addAll(oldMap.keySet());
-		if(!CollectionUtils.isEmpty(updatedSKU)){
-			newLineVO.getPriceInfo().setUpdatedSKU(updatedSKU);
-		}
-		if(!CollectionUtils.isEmpty(deletedSKU)){
-			newLineVO.getPriceInfo().setDeletedSKU(deletedSKU);
+			deletedSKU.addAll(oldMap.keySet());
+			if(!CollectionUtils.isEmpty(updatedSKU)){
+				newLineVO.getPriceInfo().setUpdatedSKU(updatedSKU);
+			}
+			if(!CollectionUtils.isEmpty(deletedSKU)){
+				newLineVO.getPriceInfo().setDeletedSKU(deletedSKU);
+			}
+		}catch (Exception e){
+			log.error("价格信息处理异常",e);
 		}
 		log.info("price_info_json filterPriceJson update :"+JSON.toJSONString(newLineVO.getPriceInfo()));
 		return newLineVO;
@@ -282,7 +290,7 @@ public class LineController extends BaseLineController {
 		if(priceInfoVO==null){
 			return null;
 		}
-		Map<Long,String> map = new HashMap<>();
+		Map<Long,String> map = new HashMap<Long,String>();
 		List<PackageInfo> tcs = priceInfoVO.getTcs();
 		for(PackageInfo tc :tcs){//套餐
 			for(PackageMonth month :tc.getMonths()){//月
@@ -298,6 +306,7 @@ public class LineController extends BaseLineController {
 			}
 		}
 		if (map.keySet().size()==0){
+			log.info("priceInfoVO 没有可处理数据");
 			return null;
 		}
 		return map;
