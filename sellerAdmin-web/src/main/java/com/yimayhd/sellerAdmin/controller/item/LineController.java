@@ -255,6 +255,7 @@ public class LineController extends BaseLineController {
 				return newLineVO;
 			}
 			//遍历现有更新sku集合
+			List<Long> skuIds = new ArrayList<Long>();
 
 			/**开始过滤skuid*/
 			if(!newMap.isEmpty()){// 相当于清空所有套餐信息
@@ -264,9 +265,15 @@ public class LineController extends BaseLineController {
 						if(!newEntry.getValue().equals(oldMap.get(newEntry.getKey()))){
 							updatedSKU.add(newEntry.getKey());
 						}
-						oldMap.remove(newEntry.getKey());
-						newMap.remove(newEntry.getKey());
+						skuIds.add(newEntry.getKey());
 					}
+				}
+			}
+			if(skuIds.size()>0){
+				for(Long skuId:skuIds){
+					oldMap.remove(skuId);
+					newMap.remove(skuId);
+					log.info("price_info_json map skuId={}",skuId);
 				}
 			}
 			deletedSKU.addAll(oldMap.keySet());
