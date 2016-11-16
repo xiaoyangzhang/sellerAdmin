@@ -17,7 +17,7 @@
 			.chse a:active{background:#bbb;}
 			.chse a.clk{cursor:pointer;}
 			.chse a.onsel{background: #FFAF00;color: #000000;}
-			.a_link{display:inline-block;margin:0 20px 20px;background:#bbb;cursor:pointer;width:100px;heigth:24px;line-height:24px;text-align:center;color:#fff;font-size:14px;text-decoration:none;}
+			.a_link{display:inline-block;margin:0 20px 20px;background:#bbb;cursor:pointer;width:100px;heigth:24px;line-height:24px;text-align:center;color:#000;font-size:14px;text-decoration:none;}
 		</style>
         <link href="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
         <link rel="stylesheet" href="$!{utilWebconfig.getStaticResourcesPath()}/resources/css/groupTravel.css?version=$!{utilWebconfig.getResourceVersion()}"/>
