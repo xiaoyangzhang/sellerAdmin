@@ -166,7 +166,7 @@ public class LineController extends BaseLineController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/save")
-	public @ResponseBody WebResultSupport save(String json,String uuid, String draftId) {
+	public @ResponseBody WebResultSupport save(String json,String uuid, String draftId) throws Exception{
 		try {
 			long sellerId = getCurrentUserId();
 			if (sellerId <= 0) {
@@ -225,7 +225,7 @@ public class LineController extends BaseLineController {
 	 * @param newLineVO
 	 * @return
      */
-	public LineVO filterPriceJson(LineVO newLineVO ){
+	public LineVO filterPriceJson(LineVO newLineVO ) throws Exception{
 
 		long itemId = newLineVO.getBaseInfo().getItemId();
 		if(itemId==0){
@@ -274,7 +274,7 @@ public class LineController extends BaseLineController {
 	 * @param priceInfoVO
 	 * @return
      */
-	public Map<Long,String> getTcsMap(PriceInfoVO priceInfoVO){
+	public Map<Long,String> getTcsMap(PriceInfoVO priceInfoVO) throws Exception{
 		if(priceInfoVO==null){
 			return null;
 		}
