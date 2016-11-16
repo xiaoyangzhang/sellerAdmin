@@ -239,8 +239,7 @@ public class LineController extends BaseLineController {
 		}
 		Set<Long> updatedSKU = new HashSet<Long>();
 		Set<Long> deletedSKU = new HashSet<Long>();
-		newLineVO.getPriceInfo().setDeletedSKU(deletedSKU);
-		newLineVO.getPriceInfo().setUpdatedSKU(updatedSKU);
+
 		PriceInfoVO newPriceInfoVO = newLineVO.getPriceInfo();
 		log.info("price_info_json newPriceInfoVO :"+JSON.toJSONString(newPriceInfoVO));
 		String oldPriceInfoJson = (String)obj;
@@ -262,21 +261,17 @@ public class LineController extends BaseLineController {
 				for(Map.Entry<Long,String> newEntry:newMap.entrySet()){
 					//新旧数据都有sku,并且价格库存都一致
 					if(oldMap.containsKey(newEntry.getKey())){
-						oldMap.remove(newEntry.getKey());
-						newMap.remove(newEntry.getKey());
 						if(!newEntry.getValue().equals(oldMap.get(newEntry.getKey()))){
 							updatedSKU.add(newEntry.getKey());
 						}
+						oldMap.remove(newEntry.getKey());
+						newMap.remove(newEntry.getKey());
 					}
 				}
 			}
 			deletedSKU.addAll(oldMap.keySet());
-			if(!CollectionUtils.isEmpty(updatedSKU)){
-				newLineVO.getPriceInfo().setUpdatedSKU(updatedSKU);
-			}
-			if(!CollectionUtils.isEmpty(deletedSKU)){
-				newLineVO.getPriceInfo().setDeletedSKU(deletedSKU);
-			}
+			newLineVO.getPriceInfo().setDeletedSKU(deletedSKU);
+			newLineVO.getPriceInfo().setUpdatedSKU(updatedSKU);
 		}catch (Exception e){
 			log.error("价格信息处理异常",e);
 		}
