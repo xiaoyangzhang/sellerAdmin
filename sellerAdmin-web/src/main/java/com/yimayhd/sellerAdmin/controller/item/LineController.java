@@ -237,8 +237,10 @@ public class LineController extends BaseLineController {
 			log.error("编辑状态-原始价格信息不能为空,itemId="+itemId);
 			return null;
 		}
-		newLineVO.getPriceInfo().setDeletedSKU(null);
-		newLineVO.getPriceInfo().setUpdatedSKU(null);
+		Set<Long> updatedSKU = new HashSet<Long>();
+		Set<Long> deletedSKU = new HashSet<Long>();
+		newLineVO.getPriceInfo().setDeletedSKU(deletedSKU);
+		newLineVO.getPriceInfo().setUpdatedSKU(updatedSKU);
 		PriceInfoVO newPriceInfoVO = newLineVO.getPriceInfo();
 		log.info("price_info_json newPriceInfoVO :"+JSON.toJSONString(newPriceInfoVO));
 		String oldPriceInfoJson = (String)obj;
@@ -252,8 +254,7 @@ public class LineController extends BaseLineController {
 				return newLineVO;
 			}
 			//遍历现有更新sku集合
-			Set<Long> updatedSKU = new HashSet<Long>();
-			Set<Long> deletedSKU = new HashSet<Long>();
+
 			/**开始过滤skuid*/
 			if(!newMap.isEmpty()){// 相当于清空所有套餐信息
 				for(Map.Entry<Long,String> newEntry:newMap.entrySet()){
