@@ -79,7 +79,7 @@ public class LineController extends BaseLineController {
 					initLinePropertyTypes(baseInfo.getCategoryId());
 				}
 				String priceInfoJson = JSON.toJSONString(gt.getPriceInfo());
-				cacheManager.addToTair(Constant.ITEM_ID_+id, priceInfoJson,0);
+				cacheManager.addToTair(Constant.ITEM_ID_+sellerId+id, priceInfoJson,0);
 				put("product", gt);
 				put("priceInfoJson", priceInfoJson);
 				//log.info("priceInfo="+JSON.toJSONString(gt.getPriceInfo()));
@@ -197,7 +197,7 @@ public class LineController extends BaseLineController {
 					log.warn("不支持的操作");
 					return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
 				}
-				return  commLineService.update(sellerId, filterPriceJson(gt));
+				return  commLineService.update(sellerId, filterPriceJson(gt,sellerId));
 
 
 			} else {
@@ -225,14 +225,14 @@ public class LineController extends BaseLineController {
 	 * @param newLineVO
 	 * @return
      */
-	public LineVO filterPriceJson(LineVO newLineVO ) {
+	public LineVO filterPriceJson(LineVO newLineVO ,long sellerId) {
 
 		long itemId = newLineVO.getBaseInfo().getItemId();
 		if(itemId==0){
 			log.error("商品 itemId 不能为空");
 			return null;
 		}
-		Object  obj =  cacheManager.getFormTair(Constant.ITEM_ID_+itemId);
+		Object  obj =  cacheManager.getFormTair(Constant.ITEM_ID_+sellerId+itemId);
 		if(obj==null){
 			log.error("编辑状态-原始价格信息不能为空,itemId="+itemId);
 			return null;
