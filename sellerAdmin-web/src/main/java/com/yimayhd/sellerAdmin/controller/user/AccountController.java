@@ -119,14 +119,9 @@ public class AccountController extends BaseController {
 		if(accountInfo.getStatus() == EleAccountStatus.NOT_VERIFIED.getStatus()){
 			accountInfo.setTipMessage(Constant.WITHDRAWAL_COMPLETE_ACCOUNT_INFO);
 		}
-		if (accountInfo.isExistPayPwd()) {
-			model.addAttribute("accountInfo", accountInfo);
-			model.addAttribute("ACCOUNT_NOT_VERIFIED", EleAccountStatus.NOT_VERIFIED.getStatus());
-			return new ModelAndView("/system/account/myWallet");
-		}else {
-			model.addAttribute("mobileKey", accountInfo.getMobilePhone());
-			return new ModelAndView("/system/account/initPayPassword");
-		}
+		model.addAttribute("accountInfo", accountInfo);
+		model.addAttribute("ACCOUNT_NOT_VERIFIED", EleAccountStatus.NOT_VERIFIED.getStatus());
+		return new ModelAndView("/system/account/myWallet");
 	}
 
 	/**
@@ -135,9 +130,17 @@ public class AccountController extends BaseController {
 	@RequestMapping(value = "/toWithdrawal", method = RequestMethod.GET)
 	public ModelAndView toWithdrawal(Model model) throws Exception {
 		long userId = sessionManager.getUserId();
-		EleAccountInfoVO accountInfo = this.judgeAccountStatus(userId);
-		model.addAttribute("accountInfo", accountInfo);
-		return new ModelAndView("/system/account/withdrawal");
+		EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
+		if(accountInfo.getStatus() == EleAccountStatus.NOT_VERIFIED.getStatus()){
+			accountInfo.setTipMessage(Constant.WITHDRAWAL_COMPLETE_ACCOUNT_INFO);
+		}
+		if (accountInfo.isExistPayPwd()) {
+			model.addAttribute("accountInfo", accountInfo);
+			return new ModelAndView("/system/account/withdrawal");
+		}else {
+			model.addAttribute("mobileKey", accountRepo.getUserPhone(userId));
+			return new ModelAndView("/system/account/initPayPassword");
+		}
 	}
 
 	/**
@@ -308,11 +311,7 @@ public class AccountController extends BaseController {
 	@RequestMapping(value = "/toFindPayPwd" )
 	public ModelAndView toFindPayPwd(Model model) throws Exception{
 		long userId = sessionManager.getUserId();
-		EleAccountInfoVO accountInfo = accountService.querySingleEleAccount(userId);
-		if(accountInfo.getStatus() == EleAccountStatus.NOT_VERIFIED.getStatus()){
-			accountInfo.setTipMessage(Constant.WITHDRAWAL_COMPLETE_ACCOUNT_INFO);
-		}
-		model.addAttribute("mobileKey", accountInfo.getMobilePhone());
+		model.addAttribute("mobileKey", accountRepo.getUserPhone(userId));
 		return new ModelAndView("/system/account/findPayPassword");
 	}
 }

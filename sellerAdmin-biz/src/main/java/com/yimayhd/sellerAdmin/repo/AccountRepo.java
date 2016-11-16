@@ -5,6 +5,11 @@ import com.yimayhd.pay.client.model.param.eleaccount.verify.VerifySellerAdminDTO
 import com.yimayhd.pay.client.model.param.verifycode.VerifyCodeDTO;
 import com.yimayhd.pay.client.model.result.eleaccount.VerifySellerAdminResult;
 import com.yimayhd.pay.client.service.verifycode.VerifyCodeService;
+import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.util.PhoneUtil;
+import com.yimayhd.user.client.domain.MerchantDO;
+import com.yimayhd.user.client.result.BaseResult;
+import com.yimayhd.user.client.service.SellerService;
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -41,6 +46,19 @@ public class AccountRepo {
 
 	@Resource
 	private VerifyCodeService verifyCodeServiceRef;
+
+	@Resource
+	private SellerService sellerServiceRef;
+
+	public String getUserPhone(long userId){
+		RepoUtils.requestLog(log, "eleAccInfoServiceRef.getUserPhone", userId);
+		BaseResult<MerchantDO> result= sellerServiceRef.getMerchantBySellerId(userId, Constant.DOMAIN_JIUXIU);
+		RepoUtils.requestLog(log, "eleAccInfoServiceRef.getUserPhone result phone=", result);
+		if (result.isSuccess()){
+			return PhoneUtil.mask(result.getValue().getMerchantPrincipalTel());
+		}
+		return "";
+	}
 	/**
      * 查询电子账户的信息
      * @param query
