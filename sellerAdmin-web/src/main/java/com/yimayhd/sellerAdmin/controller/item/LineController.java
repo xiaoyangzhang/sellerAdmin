@@ -240,10 +240,14 @@ public class LineController extends BaseLineController {
 		newLineVO.getPriceInfo().setDeletedSKU(null);
 		newLineVO.getPriceInfo().setUpdatedSKU(null);
 		PriceInfoVO newPriceInfoVO = newLineVO.getPriceInfo();
+		log.info("price_info_json newPriceInfoVO :"+JSON.toJSONString(newPriceInfoVO));
 		String oldPriceInfoJson = (String)obj;
-		PriceInfoVO oldPriceInfoVO = (PriceInfoVO) JSONObject.parseObject(oldPriceInfoJson, PriceInfoVO.class);
+		PriceInfoVO oldPriceInfoVO = JSONObject.parseObject(oldPriceInfoJson, PriceInfoVO.class);
 		Map<Long,String> oldMap = getTcsMap(oldPriceInfoVO);//原有数据
 		Map<Long,String> newMap = getTcsMap(newPriceInfoVO);//新数据
+		if(oldMap==null||newMap==null){
+			log.error("价格日志信息异常 oldMap={},newMap={}",JSON.toJSONString(oldMap),JSON.toJSONString(newMap));
+		}
 		//遍历现有更新sku集合
 		Set<Long> updatedSKU = new HashSet<>();
 		Set<Long> deletedSKU = new HashSet<>();
@@ -293,7 +297,9 @@ public class LineController extends BaseLineController {
 				}
 			}
 		}
-
+		if (map.keySet().size()==0){
+			return null;
+		}
 		return map;
 	}
 
