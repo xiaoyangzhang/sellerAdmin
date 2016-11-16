@@ -241,9 +241,9 @@ public class LineController extends BaseLineController {
 		Set<Long> deletedSKU = new HashSet<Long>();
 
 		PriceInfoVO newPriceInfoVO = newLineVO.getPriceInfo();
-		log.info("price_info_json newPriceInfoVO :"+JSON.toJSONString(newPriceInfoVO));
+		log.info("price_info_json filterPriceJson newPriceInfoVO :"+JSON.toJSONString(newPriceInfoVO));
 		String oldPriceInfoJson = (String)obj;
-		log.info("price_info_json oldPriceInfoVO :"+oldPriceInfoJson);
+		log.info("price_info_json filterPriceJson oldPriceInfoVO :"+oldPriceInfoJson);
 		try{
 			PriceInfoVO oldPriceInfoVO = JSONObject.parseObject(oldPriceInfoJson, PriceInfoVO.class);
 			Map<Long,String> oldMap = getTcsMap(oldPriceInfoVO);//原有数据
