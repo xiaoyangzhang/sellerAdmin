@@ -1,11 +1,11 @@
 package com.yimayhd.sellerAdmin.controller.item;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.sellerAdmin.model.line.price.*;
 import com.yimayhd.sellerAdmin.service.draft.DraftService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -78,8 +78,10 @@ public class LineController extends BaseLineController {
 				if (baseInfo != null) {
 					initLinePropertyTypes(baseInfo.getCategoryId());
 				}
+				String priceInfoJson = JSON.toJSONString(gt.getPriceInfo());
+				cacheManager.addToTair(Constant.ITEM_ID_+sellerId+id, priceInfoJson,0);
 				put("product", gt);
-				put("priceInfoJson", JSON.toJSONString(gt.getPriceInfo()));
+				put("priceInfoJson", priceInfoJson);
 				//log.info("priceInfo="+JSON.toJSONString(gt.getPriceInfo()));
 				put("isReadonly", baseInfo.getItemStatus() == ItemStatus.valid.getValue());
 				return "/system/comm/line/detail";
@@ -164,7 +166,7 @@ public class LineController extends BaseLineController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/save")
-	public @ResponseBody WebResultSupport save(String json,String uuid, String draftId) {
+	public @ResponseBody WebResultSupport save(String json,String uuid, String draftId) throws Exception{
 		try {
 			long sellerId = getCurrentUserId();
 			if (sellerId <= 0) {
@@ -195,7 +197,7 @@ public class LineController extends BaseLineController {
 					log.warn("不支持的操作");
 					return WebOperateResult.failure(WebReturnCode.PARAM_ERROR, "unsupported operate");
 				}
-				return  commLineService.update(sellerId, gt);
+				return  commLineService.update(sellerId, filterPriceJson(gt,sellerId));
 
 
 			} else {
@@ -216,6 +218,103 @@ public class LineController extends BaseLineController {
 			log.error(e.getMessage(), e);
 			return WebOperateResult.failure(WebReturnCode.SYSTEM_ERROR, e.getMessage());
 		}
+	}
+
+	/**
+	 * 过滤线路updateSku信息
+	 * @param newLineVO
+	 * @return
+     */
+	public LineVO filterPriceJson(LineVO newLineVO ,long sellerId) {
+
+		long itemId = newLineVO.getBaseInfo().getItemId();
+		if(itemId==0){
+			log.error("商品 itemId 不能为空");
+			return null;
+		}
+		Object  obj =  cacheManager.getFormTair(Constant.ITEM_ID_+sellerId+itemId);
+		if(obj==null){
+			log.error("编辑状态-原始价格信息不能为空,itemId="+itemId);
+			return null;
+		}
+		Set<Long> updatedSKU = new HashSet<Long>();
+		Set<Long> deletedSKU = new HashSet<Long>();
+
+		PriceInfoVO newPriceInfoVO = newLineVO.getPriceInfo();
+		log.info("price_info_json filterPriceJson newPriceInfoVO :"+JSON.toJSONString(newPriceInfoVO));
+		String oldPriceInfoJson = (String)obj;
+		log.info("price_info_json filterPriceJson oldPriceInfoVO :"+oldPriceInfoJson);
+		try{
+			PriceInfoVO oldPriceInfoVO = JSONObject.parseObject(oldPriceInfoJson, PriceInfoVO.class);
+			Map<Long,String> oldMap = getTcsMap(oldPriceInfoVO);//原有数据
+			log.info("price_info_json map oldMap={}",JSON.toJSONString(oldMap));
+			Map<Long,String> newMap = getTcsMap(newPriceInfoVO);//新数据
+			log.info("price_info_json map newMap={}",JSON.toJSONString(newMap));
+			if(oldMap.isEmpty()){
+				log.error("oldMap error ,价格日志信息异常 oldMap={}",JSON.toJSONString(oldMap));
+				return newLineVO;
+			}
+			//遍历现有更新sku集合
+			List<Long> skuIds = new ArrayList<Long>();
+
+			/**开始过滤skuid*/
+			if(!newMap.isEmpty()){// 相当于清空所有套餐信息
+				for(Map.Entry<Long,String> newEntry:newMap.entrySet()){
+					//新旧数据都有sku,并且价格库存都一致
+					if(oldMap.containsKey(newEntry.getKey())){
+						if(!newEntry.getValue().equals(oldMap.get(newEntry.getKey()))){
+							updatedSKU.add(newEntry.getKey());
+						}
+						skuIds.add(newEntry.getKey());
+					}
+				}
+			}
+			if(skuIds.size()>0){
+				for(Long skuId:skuIds){
+					oldMap.remove(skuId);
+					newMap.remove(skuId);
+					log.info("price_info_json map skuId={}",skuId);
+				}
+			}
+			deletedSKU.addAll(oldMap.keySet());
+			newLineVO.getPriceInfo().setDeletedSKU(deletedSKU);
+			newLineVO.getPriceInfo().setUpdatedSKU(updatedSKU);
+		}catch (Exception e){
+			log.error("价格信息处理异常",e);
+		}
+		log.info("price_info_json filterPriceJson update :"+JSON.toJSONString(newLineVO.getPriceInfo()));
+		return newLineVO;
+	}
+
+	/**
+	 * 获取套餐sku集合
+	 * @param priceInfoVO
+	 * @return
+     */
+	public Map<Long,String> getTcsMap(PriceInfoVO priceInfoVO) throws Exception{
+		if(priceInfoVO==null){
+			return null;
+		}
+		Map<Long,String> map = new HashMap<Long,String>();
+		List<PackageInfo> tcs = priceInfoVO.getTcs();
+		for(PackageInfo tc :tcs){//套餐
+			for(PackageMonth month :tc.getMonths()){//月
+				for(PackageDay day: month.getDays()){//日
+					for(PackageBlock block :day.getBlocks()){//sku信息
+						if(block.getSkuId()==0){
+							log.info("新增skuId不过滤,price="+block.getPrice());
+							continue;
+						}
+						map.put(block.getSkuId(),block.getPrice()+"_"+block.getStock());//金额加数量
+					}
+				}
+			}
+		}
+		if (map.keySet().size()==0){
+			log.info("priceInfoVO 没有可处理数据");
+			return null;
+		}
+		return map;
 	}
 
 	public static void main(String[] args) {

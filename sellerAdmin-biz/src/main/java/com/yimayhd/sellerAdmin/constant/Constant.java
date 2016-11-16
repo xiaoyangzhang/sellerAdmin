@@ -183,5 +183,8 @@ public class Constant {
 
 	public static final int TOKEN_EXPIRE_TIME=3*60;//登录验证码失效时间
 
+	public static final String ITEM_ID_="ITEM_ID_";//商品ID
+	
+
 
 }
