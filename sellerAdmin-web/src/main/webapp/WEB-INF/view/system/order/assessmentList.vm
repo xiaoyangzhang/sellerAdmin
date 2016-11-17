@@ -24,6 +24,7 @@
 					<button type="button" class = "delBtn">清空</button>
 				<p>
 			</div>
+    </form>
        	<div class = "reviewReslut">
 			<div class ="rewiewID reW">
 				<p>查询结果</p>
@@ -86,10 +87,6 @@
                             </div>
 						#end
 
-
-
-
-
 					</dl>
 				</div>
 			#end
@@ -97,7 +94,7 @@
     #*分页*#
         #parse("/page.vm")
         #pageStyle("tradeListForm")
-    </form>
+
 
  <!-- 尾部结束 -->
 #parse("layout/layout-js.vm")
