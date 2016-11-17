@@ -81,7 +81,8 @@
                             <div class="reply-content" id="$!assessment.id">
                                 <div>
                                     <p>$!assessment.backContent</p>
-									<label>2016-5-26 22:22:11</label>
+									<label>$!date.format(
+										'yyyy-MM-dd HH:mm:ss',$!assessment.backTime)</label>
                                 </div>
                                 <i>编辑</i>
                             </div>
