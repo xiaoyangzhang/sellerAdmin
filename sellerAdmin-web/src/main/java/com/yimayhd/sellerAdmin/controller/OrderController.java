@@ -362,6 +362,7 @@ public class OrderController extends BaseController {
 		}
 		ReplyVO replyVO = callResult.getResultObject();
 		String json = CommonJsonUtil.objectToJson(replyVO,ReplyVO.class);
+		log.info("setUpReplyMsg result:"+json);
 		return SellerResult.success(json);
 	}
 
