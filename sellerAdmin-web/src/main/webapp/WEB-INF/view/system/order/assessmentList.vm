@@ -68,6 +68,28 @@
 							<img>
 						</div>
 						<p class = "infotime">$!date.format('yyyy-MM-dd HH:mm:ss',$!assessment.gmtCreated)</p>
+						#if(!$assessment.backContent)
+                            <div class="reply-edit" id="$!assessment.id">
+                                <div>
+                                    <textarea>买家很喜欢，快来回复一下！</textarea>
+                                    <span>0/200</span>
+                                </div>
+                                <button class='replay'>回复</button>
+                            </div>
+						#else
+                            <div class="reply-content" id="$!assessment.id">
+                                <div>
+                                    <p>$!assessment.backContent</p>
+									<label>2016-5-26 22:22:11</label>
+                                </div>
+                                <button>编辑</button>
+                            </div>
+						#end
+
+
+
+
+
 					</dl>
 				</div>
 			#end
