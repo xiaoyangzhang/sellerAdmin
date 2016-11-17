@@ -24,7 +24,7 @@
 					<button type="button" class = "delBtn">清空</button>
 				<p>
 			</div>
-    </form>
+
        	<div class = "reviewReslut">
 			<div class ="rewiewID reW">
 				<p>查询结果</p>
@@ -75,7 +75,7 @@
                                     <textarea>买家很喜欢，快来回复一下！</textarea>
                                     <span>0/200</span>
                                 </div>
-                                <button class='replay'>回复</button>
+                                <i class='replay'>回复</i>
                             </div>
 						#else
                             <div class="reply-content" id="$!assessment.id">
@@ -83,7 +83,7 @@
                                     <p>$!assessment.backContent</p>
 									<label>2016-5-26 22:22:11</label>
                                 </div>
-                                <button>编辑</button>
+                                <i>编辑</i>
                             </div>
 						#end
 
@@ -94,7 +94,7 @@
     #*分页*#
         #parse("/page.vm")
         #pageStyle("tradeListForm")
-
+    </form>
 
  <!-- 尾部结束 -->
 #parse("layout/layout-js.vm")
