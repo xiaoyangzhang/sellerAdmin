@@ -37,7 +37,7 @@ public class ReplyConverter {
         if(replyQuery.getId()==0){
             return SellerResult.failure(WebReturnCode.PARAM_ERROR.getErrorCode(),"回复pid不能为空");
         }
-        if(StringUtils.isNotBlank(replyQuery.getBackContent())){
+        if(StringUtils.isBlank(replyQuery.getBackContent())){
             return SellerResult.failure(WebReturnCode.PARAM_ERROR.getErrorCode(),"回复内容不能为空");
         }
         return  SellerResult.success();
