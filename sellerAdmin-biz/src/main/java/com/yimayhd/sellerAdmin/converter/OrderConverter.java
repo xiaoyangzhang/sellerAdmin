@@ -377,6 +377,7 @@ public class OrderConverter {
     
     public static JXComRateResult changeComRateToJX(ComRateResult comRateResult){
     	JXComRateResult jxresult = new JXComRateResult();
+        jxresult.setId(comRateResult.getId());
     	jxresult.setOrderId(comRateResult.getOrderId());
     	jxresult.setItemId(comRateResult.getItemId());
     	jxresult.setScore(comRateResult.getScore());
@@ -386,6 +387,8 @@ public class OrderConverter {
     	jxresult.setPicUrls(comRateResult.getPicUrls());
     	jxresult.setGmtCreated(comRateResult.getGmtCreated());
     	jxresult.setUserId(comRateResult.getUserId());
+        jxresult.setBackContent(comRateResult.getBackContent());
+        jxresult.setBackTime(comRateResult.getBackTime());
     	return jxresult;
     }
 }

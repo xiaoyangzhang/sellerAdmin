@@ -355,6 +355,12 @@ public class OrderController extends BaseController {
 	@ResponseBody
 	public SellerResult<String> setUpReplyMsg(Model model, ReplyQuery replyQuery) throws Exception{
 		log.info("setUpReplyMsg start param="+ JSON.toJSONString(replyQuery));
+		long sellerId = getCurrentUserId();
+		if(sellerId==0){
+			log.error("商家id不能为空");
+			return SellerResult.failure("商家id不能为空");
+		}
+		replyQuery.setSellerId(sellerId);
 		SellerResult<ReplyVO> callResult  = appraiseMessageReplyService.addAppraiseMessageReply(replyQuery);
 		if(callResult==null||!callResult.isSuccess()){
 			log.error("评价回复失败,errMsg={}",callResult.getMsg());
