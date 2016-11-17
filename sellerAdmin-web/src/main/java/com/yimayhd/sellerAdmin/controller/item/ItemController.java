@@ -94,103 +94,29 @@ public class ItemController extends BaseController {
 
     @ResponseBody
     @RequestMapping(value = "/getcate")
-    public List<CategoryVO> getcate(HttpServletRequest request,String categoryId) {
+    public List<CategoryVO> getcate(HttpServletRequest request,Long categoryId) {
         // 判断是否是达人
         UserDO user = sessionManager.getUser(request);
-        long option = user.getOptions();
-        boolean isTalentA = UserOptions.CERTIFICATED.has(option);
-        boolean isTalentB = UserOptions.USER_TALENT.has(option);
+    	long option = user.getOptions();
+    	boolean isTalentA = UserOptions.CERTIFICATED.has(option);
+    	boolean isTalentB = UserOptions.USER_TALENT.has(option);
+        boolean isTalent = isTalentA || isTalentB ;
         
-       // String cateId = get("categoryId");
-        List<CategoryVO> list = null;
-        if (StringUtils.isBlank(categoryId)) {
-            WebResult<CategoryDO> webResult = categoryService.getCategoryByDomainId(Constant.DOMAIN_JIUXIU);
-            if (null != webResult && webResult.getValue() != null) {
-                list = categoryDoTOVo(webResult.getValue().getChildren(), isTalentA || isTalentB);
-            }
-        } else {
-            // 查询某节点下的子节点
-            WebResult<CategoryDO> webResult = categoryService.getCategoryById(Integer.parseInt(categoryId));
-            if (null != webResult && webResult.getValue() != null) {
-                list = categoryDoTOVo(webResult.getValue().getChildren(), false);
-            }
-        }
-        WebResult<CategoryDO> categoryTreeResult = categoryService.getCategoryTreeByDomainId(Constant.DOMAIN_JIUXIU);
-        if (categoryTreeResult == null || !categoryTreeResult.isSuccess() || categoryTreeResult.getValue() == null) {
-        	 list = new ArrayList<>();
-        	 return list;
-		}
+        long selectCategoryId = categoryId == null ? 0 : categoryId.longValue() ;
         
-        List<CategoryDO> categoryList = getAllChildNode(categoryTreeResult.getValue(), new ArrayList<CategoryDO>());
-      //  int layerNum2 = getLayerNum(categoryTreeResult.getValue(),0);
-        if (!isTalentA && !isTalentB) { // 身份为商户时进行商品类目权限过滤
-            List<CategoryVO> filteredList = new ArrayList<>();
-            MemResult<List<MerchantItemCategoryDO>> merchantItemCategoryResult = merchantItemCategoryService.findMerchantItemCategoriesBySellerId(Constant.DOMAIN_JIUXIU, user.getId());
-            List<CategoryDO> categoryOfMerchantList = new ArrayList<CategoryDO>();
-            List<MerchantItemCategoryDO> merchantItemCategoryList = merchantItemCategoryResult.getValue();
-            for (int i = 0; i < categoryList.size(); i++) {
-				for (int j = 0; j < merchantItemCategoryList.size(); j++) {
-					if (categoryList.get(i).getId() == merchantItemCategoryList.get(j).getItemCategoryId() ) {
-						categoryOfMerchantList.add(categoryList.get(i));
-					}
-				}
-			}
-            
-            //Set itemCategoryIds 
-            //for  categoryTreeResult
-            
-            Set<CategoryDO> fillMerchantItemCategory = fillMerchantItemCategory(categoryList, categoryOfMerchantList,layerNum);
-            for (CategoryVO categoryVO : list) {
-                for (CategoryDO categoryDO : fillMerchantItemCategory) {
-                    try {
-                        // 如果匹配到权限,加入新的集合中,并对list的下一个类目进行判断
-                    	if (categoryVO.getCategoryId() == categoryDO.getId()) {
-							
-                    		filteredList.add(categoryVO);
-						}else {
-							
-							continue ;
-						}
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            return filteredList;
-        } else {
-            List<CategoryVO> filteredList = new ArrayList<>();
-            List<Long> idList = new ArrayList<>();
-            idList.add(204L);
-            idList.add(205L);
-            idList.add(207L);
-            List<CategoryDO> categoryOfMerchantList = new ArrayList<CategoryDO>();
-            for (CategoryDO categoryDO : categoryList) {
-				for (Long id : idList) {
-					if (categoryDO.getId() == id) {
-						categoryOfMerchantList.add(categoryDO);
-						
-					}
-				}
-			}
-            Set<CategoryDO> fillMerchantItemCategory = fillMerchantItemCategory(categoryList, categoryOfMerchantList,layerNum);
-            for (CategoryVO categoryVO : list) {
-                for (CategoryDO categoryDO : fillMerchantItemCategory) {
-                    try {
-                        // 如果匹配到权限,加入新的集合中,并对list的下一个类目进行判断
-                    	if (categoryVO.getCategoryId() == categoryDO.getId()) {
-							
-                    		filteredList.add(categoryVO);
-						}else {
-							
-							continue ;
-						}
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            return filteredList;
+        List<CategoryDO> categoryDOs = null ;
+        if( isTalent ){
+        	//达人
+        	List<Long> accessCategoryIds = new ArrayList<>();
+        	accessCategoryIds.add(204L);
+        	accessCategoryIds.add(205L);
+        	accessCategoryIds.add(207L);
+        	categoryDOs = categoryService.getTalentCategories(selectCategoryId, accessCategoryIds, Constant.DOMAIN_JIUXIU);
+        }else{
+        	//商户
+        	categoryDOs = categoryService.getUserItemCategories(user.getId(), selectCategoryId, Constant.DOMAIN_JIUXIU) ;
         }
+        return categoryDoTOVo(categoryDOs, isTalent);
     }
 //    
 //    @ResponseBody

@@ -9,6 +9,31 @@ import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 
 public class CategoryHelper {
 	
+	public static List<CategoryDO> getCategories(List<CategoryDO> categories, List<Long> accessCategoryIds){
+		if( CollectionUtils.isEmpty(categories) || CollectionUtils.isEmpty(accessCategoryIds) ){
+			return null;
+		}
+		List<CategoryDO> accessCategories = new ArrayList<>() ;
+		for( CategoryDO categoryDO : categories ){
+			long id = categoryDO.getId() ;
+			boolean leaf = categoryDO.getLeaf() ;
+			if( !leaf ){
+				//非叶子类目
+				List<CategoryDO> children = categoryDO.getChildren() ;
+				List<CategoryDO> accessChildren = getCategories(children, accessCategoryIds);
+				if( !CollectionUtils.isEmpty(accessChildren)) {
+					accessCategories.add(categoryDO);
+				}
+			}else{
+				//叶子类目
+				if( accessCategoryIds.contains(id) ){
+					accessCategories.add(categoryDO);
+				}
+			}
+		}
+		return accessCategories ;
+	}
+	
 	
 	
 	
@@ -88,115 +113,5 @@ public class CategoryHelper {
 		}
 		return nodeIds ;
 	}
-//	
-//	/**
-//	 * 适用于平铺的类目结构
-//	 * @param categoryDOs
-//	 * @param accessCategoryIds
-//	 * @param currentCategoryId
-//	 * @return
-//	 */
-//	public static List<CategoryDO> getCategories(List<CategoryDO> categoryDOs, List<Long> accessCategoryIds, long currentCategoryId){
-//		if( CollectionUtils.isEmpty(categoryDOs) || CollectionUtils.isEmpty(accessCategoryIds) ){
-//			return null;
-//		}
-//		
-//		List<CategoryDO> list = new ArrayList<>() ;
-//		Map<Long, CategoryDO> map = mapCategories(categoryDOs);
-//		for( Long accessCategoryId : accessCategoryIds ){
-//			CategoryDO parent = map.get(accessCategoryId);
-//			if( parent != null ){
-//				long id = parent.getId() ;
-//				if( currentCategoryId == id ){
-//					
-//				}else{
-//					
-//				}
-//				long grantParentId = parent.getParentId() ;
-//			}
-//		}
-////		List<CategoryDO> children = getChildrenCategory(categoryDOs, currentCategoryId);
-////		for( CategoryDO child : children ){
-////			List<Long> leaftNodeIds = getCategoryLeaftNodeIds(child);
-////			if( !CollectionUtils.isEmpty(leaftNodeIds) ){
-////				for( Long nodeId : leaftNodeIds ){
-////					if( accessCategoryIds.contains(nodeId) ){
-////						list.add(child);
-////						break;
-////					}
-////				}
-////			}
-////			
-////		}
-//		return list ;
-//	}
-//	
-//	
-//	public static CategoryDO getTargetCategory(Map<Long, CategoryDO> map, long curentCategoryId){
-//		if( map == null ){
-//			return null;
-//		}
-//		
-//	}
-//	
-//	
-//	
-//	
-//	public static boolean isChildCategory(List<CategoryDO> categoryDOs, long currentCategoryId){
-//		if( CollectionUtils.isEmpty(categoryDOs) ){
-//			return false ;
-//		}
-//		for( CategoryDO categoryDO : categoryDOs ){
-//			if( currentCategoryId == categoryDO.getParentId() ){
-//				return true;
-//			}
-//		}
-//		return true ;
-//	}
-//	 
-//	
-////	public static List<CategoryDO> getChildrenCategory(List<CategoryDO> categoryDOs, long currentCategoryId){
-////		if( CollectionUtils.isEmpty(categoryDOs) ){
-////			return null ;
-////		}
-////		List<CategoryDO> nodes = new ArrayList<CategoryDO>() ;
-////		for( CategoryDO categoryDO : categoryDOs ){
-////			if( currentCategoryId == categoryDO.getParentId() ){
-////				nodes.add(categoryDO);
-////			}
-////		}
-////		return nodes ;
-////	}
-//	
-//	public static Map<Long, CategoryDO> mapCategories(List<CategoryDO> categoryDOs){
-//		if( CollectionUtils.isEmpty(categoryDOs) ){
-//			return null ;
-//		}
-//		Map<Long, CategoryDO> map = new HashMap<>() ;
-//		for( CategoryDO categoryDO : categoryDOs ){
-//			long parentId = categoryDO.getParentId() ;
-//			CategoryDO parent = null;
-//			if( parentId > 0 ){
-//				parent = getCategory(categoryDOs, parentId);
-//			}
-//			map.put(categoryDO.getId(), parent);
-//		}
-//		return map ;
-//	}
-//	
-//	
-//	public static CategoryDO getCategory(List<CategoryDO> categoryDOs, long categoryId){
-//		if( CollectionUtils.isEmpty(categoryDOs) ){
-//			return null;
-//		}
-//		for( CategoryDO categoryDO : categoryDOs ){
-//			long cId = categoryDO.getId() ;
-//			if( cId == categoryId ){
-//				return categoryDO ;
-//			}
-//		}
-//		return null;
-//	}
-//	
 	
 }

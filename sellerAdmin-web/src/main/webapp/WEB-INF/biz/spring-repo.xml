@@ -42,6 +42,7 @@
 
 	<bean id="tcTradeServiceRepo" class="com.yimayhd.sellerAdmin.repo.TcTradeServiceRepo" />
 	<bean id="memberContractRepo" class="com.yimayhd.sellerAdmin.repo.MemberContractRepo" />
+	<bean id="merchantItemCategoryRepo" class="com.yimayhd.sellerAdmin.repo.MerchantItemCategoryRepo" />
 
 
 </beans>
