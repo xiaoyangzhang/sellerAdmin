@@ -6,9 +6,11 @@ import com.yimayhd.membercenter.enums.ContractType;
 import com.yimayhd.membercenter.enums.MerchantType;
 import com.yimayhd.sellerAdmin.domain.ContractPDFDomain;
 import com.yimayhd.sellerAdmin.enums.MerchantParentCategoryMappingEnum;
+import com.yimayhd.sellerAdmin.repo.CityRepo;
 import com.yimayhd.sellerAdmin.repo.MemberContractRepo;
 import com.yimayhd.sellerAdmin.service.TfsService;
 import com.yimayhd.sellerAdmin.util.HtmlToPdfUtil;
+import com.yimayhd.user.client.dto.CityDTO;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -20,7 +22,10 @@ import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by liuxiaopeng on 16/11/1.
@@ -32,6 +37,9 @@ public class ContractManager {
 
     @Autowired
     private VelocityConfigurer velocityConfig;
+
+    @Autowired
+    private CityRepo cityRepo;
 
     private static final Logger logger = LoggerFactory.getLogger("ContractManager");
 
@@ -62,9 +70,7 @@ public class ContractManager {
         contractPDFDomain.setMerchantName(examineInfoDTO.getSellerName());
         contractPDFDomain.setAccountName(examineInfoDTO.getFinanceOpenName());
         contractPDFDomain.setAccountNo(examineInfoDTO.getAccountNum());
-        String accountBankProvince = examineInfoDTO.getAccountBankProvince();
-        String accountBankCity = examineInfoDTO.getAccountBankCity().equals(accountBankProvince)?"":examineInfoDTO.getAccountBankCity();
-        contractPDFDomain.setAccountBank(examineInfoDTO.getFinanceOpenBankName() + accountBankProvince + accountBankCity + examineInfoDTO.getAccountBankName());
+        contractPDFDomain.setAccountBank(getBankShow(examineInfoDTO));
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String dStr = sdf.format(d);
@@ -98,9 +104,7 @@ public class ContractManager {
         contractPDFDomain.setMerchantName(examineInfoDTO.getSellerName());
         contractPDFDomain.setAccountName(examineInfoDTO.getFinanceOpenName());
         contractPDFDomain.setAccountNo(examineInfoDTO.getAccountNum());
-        String accountBankProvince = examineInfoDTO.getAccountBankProvince();
-        String accountBankCity = examineInfoDTO.getAccountBankCity().equals(accountBankProvince)?"":examineInfoDTO.getAccountBankCity();
-        contractPDFDomain.setAccountBank(examineInfoDTO.getFinanceOpenBankName() + accountBankProvince + accountBankCity + examineInfoDTO.getAccountBankName());
+        contractPDFDomain.setAccountBank(getBankShow(examineInfoDTO));
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String dStr = sdf.format(d);
@@ -185,6 +189,19 @@ public class ContractManager {
 //        }
 //        return null;
 //    }
+
+    private String getBankShow(ExamineInfoDTO examineInfoDTO) {
+        List<String> citys = new ArrayList<>();
+        String city = examineInfoDTO.getAccountBankCityCode();
+        String prov = examineInfoDTO.getAccountBankProvinceCode();
+        citys.add(prov);
+        citys.add(city);
+        Map<String, CityDTO> mapResult = cityRepo.getCitiesByCodes(citys);
+        String accountBankProvince = mapResult.get(prov).getName();
+        String accountBankCity = mapResult.get(city).getName();
+        accountBankCity = accountBankCity.equals(accountBankProvince)?"":accountBankCity;
+        return examineInfoDTO.getFinanceOpenBankName() + accountBankProvince + accountBankCity + examineInfoDTO.getAccountBankName();
+    }
 
     public static void main(String[] args) {
         ContractManager contractManager = new ContractManager();
