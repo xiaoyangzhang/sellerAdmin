@@ -80,9 +80,9 @@ public class LineController extends BaseLineController {
 				}
 				String priceInfoJson = JSON.toJSONString(gt.getPriceInfo());
 				cacheManager.addToTair(Constant.ITEM_ID_+sellerId+id, priceInfoJson,0);
+				log.info("priceInfo="+priceInfoJson);
 				put("product", gt);
 				put("priceInfoJson", priceInfoJson);
-				//log.info("priceInfo="+JSON.toJSONString(gt.getPriceInfo()));
 				put("isReadonly", baseInfo.getItemStatus() == ItemStatus.valid.getValue());
 				return "/system/comm/line/detail";
 			} else {
@@ -113,6 +113,7 @@ public class LineController extends BaseLineController {
 				if (baseInfo != null) {
 					initLinePropertyTypes(baseInfo.getCategoryId());
 				}
+				log.info("priceInfo="+JSON.toJSONString(gt.getPriceInfo()));
 				put("product", gt);
 				put("priceInfoJson", JSON.toJSONString(gt.getPriceInfo()));
 				put("isReadonly", true);
