@@ -87,6 +87,7 @@
                     <input type="hidden" name="itemSkuVOStr" id="itemSkuVOStr" value="$!esc.html($!commodity.itemSkuVOStr)">
                     <input type="hidden" name="pictureTextVOStr" id="pictureTextVOStr" value="">
                     <input class="picUrlsVal" type="hidden" name="itemMainPics" value="$!esc.html($!commodity.ItemMainPics)">
+                    <input type ="hidden" id ="itemStatus" value ="$!commodity.status" />
                     #*<tr>
                         <td><span class="red">*</span>减库存方式</td>
                         <td>

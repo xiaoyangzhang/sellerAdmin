@@ -42,6 +42,7 @@
 	<body>
 		<input type ="hidden" id ="uuid" name ="uuid" value ="$!UUID" />
 		<input type ="hidden" id ="draftId" name ="draftId" value ="$!draftId" />
+		<input type ="hidden" id ="itemStatus" value ="$!product.baseInfo.itemStatus" />
 		<input type ="hidden" id ="draftSubType" name ="draftId" value ="$!draftSubType" />
 		<div class="tab-container">	
             <ul class="nav nav-tabs">
