@@ -101,6 +101,9 @@
             <div class="btn-group">
                 <button type="button" class="btn btn-primary form-clear">清空</button>
             </div>
+            <div class="btn-group">
+                <button type="button" class="btn exportBtn">导出</button>
+            </div>
         </div>
     #*<div class="btnBottomMargin">
         <button type="button" class="btn btn-primary" btnType="1">批量完成</button>
@@ -249,6 +252,7 @@
                 </tbody>
                     #end
             </table>
+            <input id="exportSize" type="hidden" value="${pageVo.totalCount}">
         </div>
     #*分页*#
         #parse("/page.vm")
@@ -327,6 +331,23 @@
             });
 
     $(function () {
+
+        $('.exportBtn').click(function(){
+            if($('.startDate').val() && $('.endDate').val()){
+                if($('.startDate').val() > $('.endDate').val()){
+                    $('.endDate').parent().parent().append('<label id="phone-error" class="error" for="phone">结束日期必须大于开始日期!</label>');
+                    return false;
+                }
+
+            }
+            if($("#tradeListForm").valid()){
+                if($("#exportSize").attr('value') > 0){
+                    window.location = actionDefaultPath + '/order/export?' + $("#tradeListForm").serialize();
+                }else{
+                    layer.msg('没有可导出的记录',{icon:5,time:2000});
+                }
+            }
+        });
         $('.finish').each(function () {
             $(this).click(function () {
                 $.post('$!utilWebconfig.getActionDefaultFontPath()' + '/order/buyerConfirmGoods/', {'orderId': $(this).attr('orderId')}, function (data) {
