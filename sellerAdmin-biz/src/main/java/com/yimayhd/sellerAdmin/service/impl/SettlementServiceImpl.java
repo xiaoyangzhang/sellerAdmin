@@ -39,14 +39,14 @@ public class SettlementServiceImpl implements SettlementService {
 	 * @return
 	 */
 	private boolean checkSettlParams(SettlementQuery query){
-		if(!StringUtils.isBlank(query.getSellerId())){
+		if(StringUtils.isNotEmpty(query.getSellerId())){
 			try{
 				Long.parseLong(query.getSellerId());
 			}catch (Exception e){
 				return false;
 			}
 		}
-		if (!StringUtils.isBlank(query.getSettlementId())){
+		if (StringUtils.isNotEmpty(query.getSettlementId())){
 			try{
 				Long.parseLong(query.getSellerId());
 			}catch (Exception e){
