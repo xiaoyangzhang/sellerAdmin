@@ -31,7 +31,9 @@ public class ItemUtil {
             operates.add(ItemOperate.DELETE.name());
         } else if (ItemStatus.valid.getValue() == status) {
             operates.add(ItemOperate.VIEW.name());
+            operates.add(ItemOperate.EDIT.name());
             operates.add(ItemOperate.UNSHELVE.name());
+
         }
         return operates;
     }
