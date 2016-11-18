@@ -128,7 +128,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<CategoryDO> getUserItemCategories(long sellerId, long categoryId, int domainId) {
-		List<MerchantItemCategoryDO> merchantItemCategoryDOs = merchantItemCategoryRepo.getMerchantItemCaetgoryList(domainId, sellerId);
+		List<MerchantItemCategoryDO> merchantItemCategoryDOs = merchantItemCategoryRepo.getMerchantItemCaetgories(domainId, sellerId);
 		if( CollectionUtils.isEmpty( merchantItemCategoryDOs ) ){
 			return null ;
 		}
