@@ -166,11 +166,11 @@ public class UserController extends BaseController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
-	@MethodLogger
 	public WebResult<String> login(LoginVo loginVo, String callback, HttpServletResponse response, HttpServletRequest request) {
 		try {
+			log.info("--start login--");
 			WebResult<String> result = new WebResult<String>();
-			Map<String,String> map = new HashMap<String,String>();
+			//Map<String,String> map = new HashMap<String,String>();
 			WebResultSupport checkResult = UserChecker.checkLogin(loginVo);
 			if( !checkResult.isSuccess() ){
                 result.setWebReturnCode(checkResult.getWebReturnCode());
