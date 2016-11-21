@@ -215,8 +215,8 @@ public class BizOrderExportDomain implements Serializable{
         this.commodityId = commodityId;
     }
 
-    public long getUnitPrice() {
-        return unitPrice;
+    public double getUnitPrice() {
+        return unitPrice*0.01;
     }
 
     public void setUnitPrice(long unitPrice) {
@@ -263,32 +263,32 @@ public class BizOrderExportDomain implements Serializable{
         this.bizOrderType = bizOrderType;
     }
 
-    public long getItemPrice() {
-        return itemPrice;
+    public double getItemPrice() {
+        return itemPrice*0.01;
     }
 
     public void setItemPrice(long itemPrice) {
         this.itemPrice = itemPrice;
     }
 
-    public long getDiscount() {
-        return discount;
+    public double getDiscount() {
+        return discount*0.01;
     }
 
     public void setDiscount(long discount) {
         this.discount = discount;
     }
 
-    public long getBizOrderTotalPrice() {
-        return bizOrderTotalPrice;
+    public double getBizOrderTotalPrice() {
+        return bizOrderTotalPrice*0.01;
     }
 
     public void setBizOrderTotalPrice(long bizOrderTotalPrice) {
         this.bizOrderTotalPrice = bizOrderTotalPrice;
     }
 
-    public long getRealCollection() {
-        return realCollection;
+    public double getRealCollection() {
+        return realCollection*0.01;
     }
 
     public void setRealCollection(long realCollection) {
