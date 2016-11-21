@@ -17,12 +17,12 @@
 	<!-- 测试模式下旧样式的src路径 -->
 	#set( $rs_js_css_path_admin = $!rs_path_admin+"/src" )
 	<!-- 测试模式下的src路径 -->
-	#set( $rs_js_css_path_jiuxiu = $!rs_path_jiuxiu+"/src" )
+	#set( $rs_js_css_path_jiuxiu = $!rs_path_jiuxiu+"/res/src" )
 #else
 	<!-- 正式模式下旧样式的src路径 -->
 	#set( $rs_js_css_path_admin = $!rs_path_admin+"/dest" )
 	<!-- 正式模式下的src路径 -->
-	#set( $rs_js_css_path_jiuxiu = $!rs_path_jiuxiu+"/dist" )
+	#set( $rs_js_css_path_jiuxiu = $!rs_path_jiuxiu+"/src" )
 #end
 
 <!-- tfs路径 -->

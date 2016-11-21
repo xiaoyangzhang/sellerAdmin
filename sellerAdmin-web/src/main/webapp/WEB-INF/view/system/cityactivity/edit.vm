@@ -11,7 +11,7 @@
 
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/calendar-tool.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/layerModal.js" type="text/javascript"></script>
-<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/js/zui.min.js" type="text/javascript" ></script>
+##<script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/js/zui.min.js" type="text/javascript" ></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/moment.js" type="text/javascript"></script>
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/js/calendar-tool.js" type="text/javascript"></script>
@@ -55,6 +55,7 @@
 		<input type ="hidden" id ="draftId" name ="draftId" value ="$!draftId" />
 		<input type ="hidden" id ="draftSubType" name ="draftId" value ="$!itemType" />
         <input type ="hidden" id ="itemStatus" value ="$!item.status" />
+        <input type ="hidden" id ="itemType" value ="cityActivity" />
         <div class="tab-content">
             <div class="tab-pane active" id="tab1">
                 #parse("/system/cityactivity/baseInfo.vm")
@@ -380,3 +381,4 @@
 });
 </script>
 <script type="text/javascript" src="$!rs_js_css_path_jiuxiu/old/js/editer.js"></script>
+<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/module/md.item.updatePictureText.js"></script>

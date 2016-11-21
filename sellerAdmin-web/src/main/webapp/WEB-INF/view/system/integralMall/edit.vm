@@ -84,6 +84,7 @@
                     <input type="hidden" name="pictureTextVOStr" id="pictureTextVOStr" value="">
                     <input class="picUrlsVal" type="hidden" name="itemMainPics" value="$!esc.html($!commodity.ItemMainPics)">
                     <input type ="hidden" id ="itemStatus" value ="$!commodity.status" />
+                    <input type ="hidden" id ="itemType" value ="integralMall" />
                     #*<tr>
                         <td><span class="red">*</span>减库存方式</td>
                         <td>
@@ -793,3 +794,5 @@
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/js/zui.min.js"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/layer-v2.1/layer.js"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/module/md.item.updatePictureText.js"></script>
