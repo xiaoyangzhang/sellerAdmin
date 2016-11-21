@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.sellerAdmin.cache.CacheManager;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.sellerAdmin.validate.CodeUtil;
@@ -55,11 +54,11 @@ import com.yimayhd.user.session.manager.SessionManager;
 import com.yimayhd.user.session.manager.VerifyCodeManager;
 
 /**
- * 
+ *
  * ClassName: LoginController <br/>
  * Description: 用户相关 . <br/>
  * date: 2016年2月15日 下午2:14:54 <br/>
- * 
+ *
  * @author zhangjian
  * @version
  */
@@ -78,11 +77,11 @@ public class UserController extends BaseController {
 	private UserService userService;
 	@Autowired
 	private CacheManager cacheManager ;
-	
+
 	@Value("${sellerAdmin.rootPath}")
 	private String rootPath;
-	
-	
+
+
 	@RequestMapping(value = "/register", method =RequestMethod.GET)
 	public ModelAndView toRegister() {
 		ModelAndView modelAndView = new ModelAndView("/system/user/register");
@@ -94,7 +93,7 @@ public class UserController extends BaseController {
 		WebResult<String> rs = new WebResult<String>();
 		//选中会员
 		if (registerVo.getVIP()) {
-			
+
 			String url = UrlHelper.getUrl(rootPath, "/user/developing") ;
 //			try {
 //				response.sendRedirect(url);
@@ -128,7 +127,7 @@ public class UserController extends BaseController {
 			rs.setWebReturnCode(loginResult.getWebReturnCode());
 			return rs ;
 		}
-		String token = loginResult.getValue().getToken() ; 
+		String token = loginResult.getValue().getToken() ;
 		String url = UrlHelper.getUrl(rootPath, "/user/registerSuccess") ;
 		// 登录成功后跳转
 		rs.setValue(url);
@@ -137,7 +136,7 @@ public class UserController extends BaseController {
 		setCookies(response,request, token);
 		return rs;
 	}
-	
+
 	@RequestMapping(value="/registerSuccess", method = RequestMethod.GET)
 	public ModelAndView toRegisterSuccess(Model model) {
 		String loginUrl = UrlHelper.getUrl(rootPath, "/home");
@@ -152,8 +151,8 @@ public class UserController extends BaseController {
 		ModelAndView modelAndView = new ModelAndView("/system/user/developing");
 		return modelAndView;
 	}
-	
-	
+
+
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 //	@RequestMapping(value = "/login", headers = "Request-Channel=https")
 	public ModelAndView toLogin(Model model, String callback,HttpServletRequest request) {
@@ -167,57 +166,49 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
 	public WebResult<String> login(LoginVo loginVo, String callback, HttpServletResponse response, HttpServletRequest request) {
-		try {
-			log.info("--start login--");
-			WebResult<String> result = new WebResult<String>();
-			//Map<String,String> map = new HashMap<String,String>();
-			WebResultSupport checkResult = UserChecker.checkLogin(loginVo);
-			if( !checkResult.isSuccess() ){
-                result.setWebReturnCode(checkResult.getWebReturnCode());
-                return result ;
-            }
-			/**需要验证码验证**/
-			if(checkPopVerifyCode(request)&&!getVerifyCode(request).equals(loginVo.getImageCode())){
-                result.setWebReturnCode(WebReturnCode.IMAGE_VERIFY_CODE_ERROR);
-                return result ;
-            }
-			LoginDTO loginDTO = UserConverter.toLoginDTO(loginVo);
-			WebResult<LoginResult> loginResult = userBiz.login(loginDTO);
-			if( loginResult == null || !loginResult.isSuccess() || loginResult.getValue() == null){
-                if( loginResult == null ){
-                    result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
-                }else{
-                    result.setWebReturnCode(loginResult.getWebReturnCode());
-                }
-                failUserLogin(request);//登录失败记录,记录次数
-                result.setValue(String.valueOf(checkPopVerifyCode(request)));
-                return result ;
-            }
-
-			LoginResult loginResultValue = loginResult.getValue();
-			long userId = loginResultValue.getValue().getId();
-			String token = loginResultValue.getToken();
-			//SessionHelper.setCookies(response, token);
-			setCookies(response,request, token);
-			String targetUrl = null ;
-//		String returnUrl = get("callback");
-			String returnUrl = callback;
-			if( StringUtils.isNotBlank(returnUrl) ){
-                targetUrl = returnUrl ;
-            }else{
-                //判断用户身份，进入申请认证页面
-                targetUrl = UrlHelper.getUrl(rootPath, "/home");
-            }
-			log.info("login--callback:"+callback);
-			result.setValue(targetUrl);
-			log.info("login--targetUrl:"+targetUrl);
-			//result.setValue(JSON.toJSONString(map));
-			return result;
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error("login error", e);
-			return null;
+		WebResult<String> result = new WebResult<String>();
+		Map<String,String> map = new HashMap<String,String>();
+		WebResultSupport checkResult = UserChecker.checkLogin(loginVo);
+		if( !checkResult.isSuccess() ){
+			result.setWebReturnCode(checkResult.getWebReturnCode());
+			return result ;
 		}
+		/**需要验证码验证**/
+		if(checkPopVerifyCode(request)&&!getVerifyCode(request).equals(loginVo.getImageCode())){
+			result.setWebReturnCode(WebReturnCode.IMAGE_VERIFY_CODE_ERROR);
+			return result ;
+		}
+		LoginDTO loginDTO = UserConverter.toLoginDTO(loginVo);
+		WebResult<LoginResult> loginResult = userBiz.login(loginDTO);
+		if( loginResult == null || !loginResult.isSuccess() || loginResult.getValue() == null){
+			if( loginResult == null ){
+				result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+			}else{
+				result.setWebReturnCode(loginResult.getWebReturnCode());
+			}
+			failUserLogin(request);//登录失败记录,记录次数
+			result.setValue(String.valueOf(checkPopVerifyCode(request)));
+			return result ;
+		}
+
+		LoginResult loginResultValue = loginResult.getValue();
+		long userId = loginResultValue.getValue().getId();
+		String token = loginResultValue.getToken();
+		//SessionHelper.setCookies(response, token);
+		setCookies(response,request, token);
+		String targetUrl = null ;
+//		String returnUrl = get("callback");
+		String returnUrl = callback;
+		if( StringUtils.isNotBlank(returnUrl) ){
+			targetUrl = returnUrl ;
+		}else{
+			//判断用户身份，进入申请认证页面
+			targetUrl = UrlHelper.getUrl(rootPath, "/home");
+		}
+
+		result.setValue(targetUrl);
+		//result.setValue(JSON.toJSONString(map));
+		return result;
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -254,8 +245,8 @@ public class UserController extends BaseController {
 		result = userBiz.sendRetrievePasswordVerifyCode(username);
 		return result;
 	}
-	
-	
+
+
 //	@RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
 //	@ResponseBody
 //	public WebResult<String> modifyPassword(HttpServletRequest request, ModifyPasswordVo modifyPasswordVo) {
@@ -267,7 +258,7 @@ public class UserController extends BaseController {
 //		}
 //		long userId = sessionManager.getUserId(request);
 //		ChangePasswordDTO changePasswordDTO = UserConverter.toModifyPasswordDTO(modifyPasswordVo, userId);
-//		
+//
 //		WebResultSupport modifyResult = userBiz.modifyPassword(changePasswordDTO);
 //		if( modifyResult == null || !modifyResult.isSuccess() ){
 //			if( modifyResult == null ){
@@ -281,19 +272,19 @@ public class UserController extends BaseController {
 //		result.setValue(url);
 //		return result;
 //	}
-//	@RequestMapping(value = "/modifyPasswordSuccess", method = RequestMethod.GET) 
+//	@RequestMapping(value = "/modifyPasswordSuccess", method = RequestMethod.GET)
 //	@SessionChecker
 //	public ModelAndView modifyPasswordSuccess(HttpServletRequest request, HttpServletResponse response) {
 //		return new ModelAndView("/system/user/modifyPasswordSuccess");
 //	}
-//	
+//
 
 	@RequestMapping(value="/retrievePassword", method = RequestMethod.GET)
 	public ModelAndView toLostPassword() {
 		ModelAndView modelAndView = new ModelAndView("/system/user/retrievePassword");
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value = "/retrievePassword", method = RequestMethod.POST)
 	@ResponseBody
 	public WebResult<String> retrievePassword(RetrievePasswordVo retrievePasswordVo) {
@@ -303,7 +294,7 @@ public class UserController extends BaseController {
 			result.setWebReturnCode(checkFeedBack.getWebReturnCode());
 			return result;
 		}
-		
+
 		RevivePasswordDTO revivePasswordDTO = UserConverter.toRevivePasswordDTO(retrievePasswordVo);
 		WebResultSupport retrieveResult = userBiz.retrievePassword(revivePasswordDTO);
 		if( retrieveResult == null ){
@@ -316,7 +307,7 @@ public class UserController extends BaseController {
 		}
 		return result;
 	}
-	
+
 	@RequestMapping(value="/retrievePasswordSuccess", method = RequestMethod.GET)
 	public ModelAndView toRetrievePasswordSuccess(Model model) {
 		String loginUrl = UrlHelper.getUrl(rootPath, "/user/login");
@@ -342,9 +333,9 @@ public class UserController extends BaseController {
 	@RequestMapping(value= "/chargeUserNickName")
 	public WebResultSupport chargeUserNickName(String nickName){
 		WebResultSupport webResult = new WebResultSupport();
-			
+
 	    BaseResult<List<UserDO>> result = userService.getUserByNickname(nickName.trim());
-	   
+
 	    if(result.isSuccess()){
 	    	if(result.getValue().size()<1){
 	    		webResult.isSuccess();
@@ -356,11 +347,11 @@ public class UserController extends BaseController {
 		}
 		return webResult;
 	}
-	
+
 	/**
 	 * @param mobile
-	 * 此接口已移到 palace 项目下 UserController 
-	 * @author hongfei.guo 	2016-07-11 
+	 * 此接口已移到 palace 项目下 UserController
+	 * @author hongfei.guo 	2016-07-11
 	 * @return
 	 */
 	/**
@@ -376,7 +367,7 @@ public class UserController extends BaseController {
 
 	private static final String TOKEN_SERVER = "token";
 	private static final String TOKEN_CLIENT = "token2";
-	
+
 	private void setCookies(HttpServletResponse response, HttpServletRequest request, String token) {
 		if (StringUtils.isBlank(token)) {
 			return;
@@ -400,7 +391,7 @@ public class UserController extends BaseController {
 		response.addCookie(cookie);
 		response.addCookie(cookie2);
 	}
-	
+
 	private void cleanCookies(HttpServletResponse response) {
 		Cookie cookie = new Cookie(TOKEN_SERVER, null);
 		cookie.setDomain(WebResourceConfigUtil.getDomain());
@@ -452,14 +443,9 @@ public class UserController extends BaseController {
      */
 	public void failUserLogin(HttpServletRequest request){
 		String ip_key = getLoginFqIpKey(request);
-		try{
-			int exp_time =setUserLoginIPTime(request);
-			int num= cacheManager.incr(ip_key, 1 , exp_time);
-			log.info("ip_key={},num={},exp_time={}",ip_key,num,exp_time);
-		}catch (Exception e){
-			log.error("cacheManager exception",e);
-		}
-
+		int exp_time =setUserLoginIPTime(request);
+		int num= cacheManager.incr(ip_key, 1 , exp_time);
+		log.info("ip_key={},num={},exp_time={}",ip_key,num,exp_time);
 	}
 
 
