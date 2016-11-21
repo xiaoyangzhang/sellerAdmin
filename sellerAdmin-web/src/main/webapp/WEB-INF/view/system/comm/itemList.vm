@@ -148,9 +148,8 @@
                                 </td>
 		  						<td>$!item.destString</td>
         						<td>$!{utilItem.getItemTypeName($item.type)}</td>
-        						<td>￥$!{utilMoney.centToYuanMoneyFormat($item.price)}&nbsp;起
-                                    <div class="market-price">#if($!item.itemDO.originalPrice!=0)  $!{utilMoney.centToYuanMoneyFormat($!item.itemDO.originalPrice)} #end</div>
-
+        						<td item-type="$!item.type" >￥$!{utilMoney.centToYuanMoneyFormat($item.price)}&nbsp;起
+									<div class="market-price">#if($!item.itemDO.originalPrice!=0&&$!item.type!=4)  ￥$!{utilMoney.centToYuanMoneyFormat($!item.itemDO.originalPrice)} #end</div>
 								</td>
                                 <td>$!{utilItem.getItemStatusName($item.status)}</td>
         						<td>$!{utilDate.date2String($item.publishDate)}</td>
