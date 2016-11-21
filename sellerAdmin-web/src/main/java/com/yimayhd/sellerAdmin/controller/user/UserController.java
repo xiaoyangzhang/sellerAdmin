@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.sellerAdmin.cache.CacheManager;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.sellerAdmin.validate.CodeUtil;
@@ -166,49 +167,56 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
 	public WebResult<String> login(LoginVo loginVo, String callback, HttpServletResponse response, HttpServletRequest request) {
-		WebResult<String> result = new WebResult<String>();
-		Map<String,String> map = new HashMap<String,String>();
-		WebResultSupport checkResult = UserChecker.checkLogin(loginVo);
-		if( !checkResult.isSuccess() ){
-			result.setWebReturnCode(checkResult.getWebReturnCode());
-			return result ;
-		}
-		/**需要验证码验证**/
-		if(checkPopVerifyCode(request)&&!getVerifyCode(request).equals(loginVo.getImageCode())){
-			result.setWebReturnCode(WebReturnCode.IMAGE_VERIFY_CODE_ERROR);
-			return result ;
-		}
-		LoginDTO loginDTO = UserConverter.toLoginDTO(loginVo);
-		WebResult<LoginResult> loginResult = userBiz.login(loginDTO);
-		if( loginResult == null || !loginResult.isSuccess() || loginResult.getValue() == null){
-			if( loginResult == null ){
-				result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
-			}else{
-				result.setWebReturnCode(loginResult.getWebReturnCode());
-			}
-			failUserLogin(request);//登录失败记录,记录次数
-			result.setValue(String.valueOf(checkPopVerifyCode(request)));
-			return result ;
-		}
+		try {
+			log.info("--start login--");
+			WebResult<String> result = new WebResult<String>();
+			//Map<String,String> map = new HashMap<String,String>();
+			WebResultSupport checkResult = UserChecker.checkLogin(loginVo);
+			if( !checkResult.isSuccess() ){
+                result.setWebReturnCode(checkResult.getWebReturnCode());
+                return result ;
+            }
+			/**需要验证码验证**/
+			if(checkPopVerifyCode(request)&&!getVerifyCode(request).equals(loginVo.getImageCode())){
+                result.setWebReturnCode(WebReturnCode.IMAGE_VERIFY_CODE_ERROR);
+                return result ;
+            }
+			LoginDTO loginDTO = UserConverter.toLoginDTO(loginVo);
+			WebResult<LoginResult> loginResult = userBiz.login(loginDTO);
+			if( loginResult == null || !loginResult.isSuccess() || loginResult.getValue() == null){
+                if( loginResult == null ){
+                    result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+                }else{
+                    result.setWebReturnCode(loginResult.getWebReturnCode());
+                }
+                failUserLogin(request);//登录失败记录,记录次数
+                result.setValue(String.valueOf(checkPopVerifyCode(request)));
+                return result ;
+            }
 
-		LoginResult loginResultValue = loginResult.getValue();
-		long userId = loginResultValue.getValue().getId();
-		String token = loginResultValue.getToken();
-		//SessionHelper.setCookies(response, token);
-		setCookies(response,request, token);
-		String targetUrl = null ;
+			LoginResult loginResultValue = loginResult.getValue();
+			long userId = loginResultValue.getValue().getId();
+			String token = loginResultValue.getToken();
+			//SessionHelper.setCookies(response, token);
+			setCookies(response,request, token);
+			String targetUrl = null ;
 //		String returnUrl = get("callback");
-		String returnUrl = callback;
-		if( StringUtils.isNotBlank(returnUrl) ){
-			targetUrl = returnUrl ;
-		}else{
-			//判断用户身份，进入申请认证页面
-			targetUrl = UrlHelper.getUrl(rootPath, "/home");
-		}
+			String returnUrl = callback;
+			if( StringUtils.isNotBlank(returnUrl) ){
+                targetUrl = returnUrl ;
+            }else{
+                //判断用户身份，进入申请认证页面
+                targetUrl = UrlHelper.getUrl(rootPath, "/home");
+            }
 
-		result.setValue(targetUrl);
-		//result.setValue(JSON.toJSONString(map));
-		return result;
+			result.setValue(targetUrl);
+			//result.setValue(JSON.toJSONString(map));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("login error", e);
+			return null;
+		}
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -443,9 +451,14 @@ public class UserController extends BaseController {
      */
 	public void failUserLogin(HttpServletRequest request){
 		String ip_key = getLoginFqIpKey(request);
-		int exp_time =setUserLoginIPTime(request);
-		int num= cacheManager.incr(ip_key, 1 , exp_time);
-		log.info("ip_key={},num={},exp_time={}",ip_key,num,exp_time);
+		try{
+			int exp_time =setUserLoginIPTime(request);
+			int num= cacheManager.incr(ip_key, 1 , exp_time);
+			log.info("ip_key={},num={},exp_time={}",ip_key,num,exp_time);
+		}catch (Exception e){
+			log.error("cacheManager exception",e);
+		}
+
 	}
 
 
