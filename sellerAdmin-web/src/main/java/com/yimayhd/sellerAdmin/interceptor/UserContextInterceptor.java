@@ -67,12 +67,12 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
                 } else {
                     menus = menuCacheMananger.getUserMenus(userId);
                     menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
-                     logger.error("method={}  pathInfo={} menu={}  uri={}",method, pathInfo, JSON.toJSONString(menu) , request.getRequestURI());
-                    if (RequestMethod.GET.name().equalsIgnoreCase(method) && menu == null && pathInfo != null && !pathInfo.toLowerCase().contains("home")) {
+                    logger.error("method={}  pathInfo={} menu={}  uri={}",method, pathInfo, JSON.toJSONString(menu) , request.getRequestURI());
+                   /* if (RequestMethod.GET.name().equalsIgnoreCase(method) && menu == null && pathInfo != null && !pathInfo.toLowerCase().contains("home")) {
                         String url = UrlHelper.getUrl(rootPath, "/error/lackPermission");
                         response.sendRedirect(url);
                         return false;
-                    }
+                    }*/
                 }
                 request.setAttribute("menus", menus);
                 request.setAttribute("currentMenu", menu);
@@ -80,7 +80,7 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
                 // 非登陆状态的时候，清空token
                 SessionHelper.cleanCookies(response);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error("uri={},e={}", request.getRequestURI(), e);
             return false;
         }
