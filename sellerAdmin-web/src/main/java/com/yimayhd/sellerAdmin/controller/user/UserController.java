@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.sellerAdmin.cache.CacheManager;
 import com.yimayhd.sellerAdmin.util.DateUtil;
 import com.yimayhd.sellerAdmin.validate.CodeUtil;
@@ -165,6 +166,7 @@ public class UserController extends BaseController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
+	@MethodLogger
 	public WebResult<String> login(LoginVo loginVo, String callback, HttpServletResponse response, HttpServletRequest request) {
 		WebResult<String> result = new WebResult<String>();
 		Map<String,String> map = new HashMap<String,String>();

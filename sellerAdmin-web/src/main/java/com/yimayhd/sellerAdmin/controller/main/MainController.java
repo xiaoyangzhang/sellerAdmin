@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.controller.main;
 import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class MainController {
 	private SessionManager sessionManager;
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	@MethodLogger
 	public ModelAndView home(HttpServletRequest request, Boolean home, Model model){
 		logger.info("home={}",home);
 
