@@ -1,6 +1,5 @@
 package com.yimayhd.sellerAdmin.interceptor;
 
-import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.sellerAdmin.biz.MenuBiz;
 import com.yimayhd.sellerAdmin.biz.helper.MenuHelper;
 import com.yimayhd.sellerAdmin.cache.MenuCacheMananger;
@@ -52,10 +51,10 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
                 request.setAttribute(SessionConstant.REQ_ATTR_USER, userDO);
                 long userId = userDO.getId();
                 String pathInfo = request.getServletPath();
-              //  String servletInfo = request.getServletPath();
+                //  String servletInfo = request.getServletPath();
                 String method = request.getMethod();
                 //			System.err.println(pathInfo);
-                //			menuBiz.cacheUserMenus2Tair(userId);
+                menuBiz.cacheUserMenus2Tair(userId);
                 List<MenuVO> menus = null;
                 MenuVO menu = null;
                 if (WebResourceConfigUtil.isTestMode()) {
