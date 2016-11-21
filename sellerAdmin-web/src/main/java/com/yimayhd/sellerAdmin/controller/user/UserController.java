@@ -451,9 +451,14 @@ public class UserController extends BaseController {
      */
 	public void failUserLogin(HttpServletRequest request){
 		String ip_key = getLoginFqIpKey(request);
-		int exp_time =setUserLoginIPTime(request);
-		int num= cacheManager.incr(ip_key, 1 , exp_time);
-		log.info("ip_key={},num={},exp_time={}",ip_key,num,exp_time);
+		try{
+			int exp_time =setUserLoginIPTime(request);
+			int num= cacheManager.incr(ip_key, 1 , exp_time);
+			log.info("ip_key={},num={},exp_time={}",ip_key,num,exp_time);
+		}catch (Exception e){
+			log.error("cacheManager exception",e);
+		}
+
 	}
 
 
