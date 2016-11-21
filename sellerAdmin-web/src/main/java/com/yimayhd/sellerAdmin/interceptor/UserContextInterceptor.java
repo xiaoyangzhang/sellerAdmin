@@ -42,7 +42,6 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
     private String rootPath;
 
     @Override
-    @MethodLogger
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
 
@@ -52,7 +51,8 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
                 request.setAttribute(SessionConstant.REQ_ATTR_USERID, userDO.getId());
                 request.setAttribute(SessionConstant.REQ_ATTR_USER, userDO);
                 long userId = userDO.getId();
-                String pathInfo = request.getPathInfo();
+                String pathInfo = request.getServletPath();
+              //  String servletInfo = request.getServletPath();
                 String method = request.getMethod();
                 //			System.err.println(pathInfo);
                 //			menuBiz.cacheUserMenus2Tair(userId);

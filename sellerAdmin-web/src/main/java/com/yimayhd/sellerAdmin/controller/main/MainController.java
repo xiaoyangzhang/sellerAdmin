@@ -1,9 +1,8 @@
 package com.yimayhd.sellerAdmin.controller.main;
 
-import javax.servlet.http.HttpServletRequest;
-
-import com.alibaba.fastjson.JSON;
-import com.yimayhd.fhtd.logger.annot.MethodLogger;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.enums.UserOptions;
+import com.yimayhd.user.session.manager.SessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.enums.UserOptions;
-import com.yimayhd.user.session.manager.SessionManager;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class MainController {
