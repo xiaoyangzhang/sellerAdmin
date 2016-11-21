@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.interceptor;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.biz.MenuBiz;
 import com.yimayhd.sellerAdmin.biz.helper.MenuHelper;
 import com.yimayhd.sellerAdmin.cache.MenuCacheMananger;
@@ -66,7 +67,7 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
                 } else {
                     menus = menuCacheMananger.getUserMenus(userId);
                     menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
-                    // logger.error("method={}  pathInfo={} menu={}  uri={}",method, pathInfo, JSON.toJSONString(menu) , request.getRequestURI());
+                     logger.error("method={}  pathInfo={} menu={}  uri={}",method, pathInfo, JSON.toJSONString(menu) , request.getRequestURI());
                     if (RequestMethod.GET.name().equalsIgnoreCase(method) && menu == null && pathInfo != null && !pathInfo.toLowerCase().contains("home")) {
                         String url = UrlHelper.getUrl(rootPath, "/error/lackPermission");
                         response.sendRedirect(url);
