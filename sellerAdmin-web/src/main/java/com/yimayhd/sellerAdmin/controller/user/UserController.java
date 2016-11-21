@@ -208,8 +208,9 @@ public class UserController extends BaseController {
                 //判断用户身份，进入申请认证页面
                 targetUrl = UrlHelper.getUrl(rootPath, "/home");
             }
-
+			log.info("login--callback:"+callback);
 			result.setValue(targetUrl);
+			log.info("login--targetUrl:"+targetUrl);
 			//result.setValue(JSON.toJSONString(map));
 			return result;
 		} catch (Exception e) {
