@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,7 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 	private String rootPath;
 	
 	@Override
+	@MethodLogger
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
@@ -65,8 +67,13 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 			}
 			else {
 				menus = menuCacheMananger.getUserMenus(userId);
-				menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
-				
+				try {
+					menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
+				} catch (Exception e) {
+					e.printStackTrace();
+					logger.error("MenuHelper error={}", e);
+				}
+
 				if(RequestMethod.GET.name().equalsIgnoreCase(method)  && menu == null  && !pathInfo.toLowerCase().contains("home") ){
 					String url = UrlHelper.getUrl( rootPath, "/error/lackPermission") ;
 					response.sendRedirect(url);
