@@ -168,49 +168,54 @@ public class UserController extends BaseController {
 	@ResponseBody
 	@MethodLogger
 	public WebResult<String> login(LoginVo loginVo, String callback, HttpServletResponse response, HttpServletRequest request) {
-		WebResult<String> result = new WebResult<String>();
-		Map<String,String> map = new HashMap<String,String>();
-		WebResultSupport checkResult = UserChecker.checkLogin(loginVo);
-		if( !checkResult.isSuccess() ){
-			result.setWebReturnCode(checkResult.getWebReturnCode());
-			return result ;
-		}
-		/**需要验证码验证**/
-		if(checkPopVerifyCode(request)&&!getVerifyCode(request).equals(loginVo.getImageCode())){
-			result.setWebReturnCode(WebReturnCode.IMAGE_VERIFY_CODE_ERROR);
-			return result ;
-		}
-		LoginDTO loginDTO = UserConverter.toLoginDTO(loginVo);
-		WebResult<LoginResult> loginResult = userBiz.login(loginDTO);
-		if( loginResult == null || !loginResult.isSuccess() || loginResult.getValue() == null){
-			if( loginResult == null ){
-				result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
-			}else{
-				result.setWebReturnCode(loginResult.getWebReturnCode());
-			}
-			failUserLogin(request);//登录失败记录,记录次数
-			result.setValue(String.valueOf(checkPopVerifyCode(request)));
-			return result ;
-		}
+		try {
+			WebResult<String> result = new WebResult<String>();
+			Map<String,String> map = new HashMap<String,String>();
+			WebResultSupport checkResult = UserChecker.checkLogin(loginVo);
+			if( !checkResult.isSuccess() ){
+                result.setWebReturnCode(checkResult.getWebReturnCode());
+                return result ;
+            }
+			/**需要验证码验证**/
+			if(checkPopVerifyCode(request)&&!getVerifyCode(request).equals(loginVo.getImageCode())){
+                result.setWebReturnCode(WebReturnCode.IMAGE_VERIFY_CODE_ERROR);
+                return result ;
+            }
+			LoginDTO loginDTO = UserConverter.toLoginDTO(loginVo);
+			WebResult<LoginResult> loginResult = userBiz.login(loginDTO);
+			if( loginResult == null || !loginResult.isSuccess() || loginResult.getValue() == null){
+                if( loginResult == null ){
+                    result.setWebReturnCode(WebReturnCode.SYSTEM_ERROR);
+                }else{
+                    result.setWebReturnCode(loginResult.getWebReturnCode());
+                }
+                failUserLogin(request);//登录失败记录,记录次数
+                result.setValue(String.valueOf(checkPopVerifyCode(request)));
+                return result ;
+            }
 
-		LoginResult loginResultValue = loginResult.getValue();
-		long userId = loginResultValue.getValue().getId();
-		String token = loginResultValue.getToken();
-		//SessionHelper.setCookies(response, token);
-		setCookies(response,request, token);
-		String targetUrl = null ;
+			LoginResult loginResultValue = loginResult.getValue();
+			long userId = loginResultValue.getValue().getId();
+			String token = loginResultValue.getToken();
+			//SessionHelper.setCookies(response, token);
+			setCookies(response,request, token);
+			String targetUrl = null ;
 //		String returnUrl = get("callback");
-		String returnUrl = callback;
-		if( StringUtils.isNotBlank(returnUrl) ){
-			targetUrl = returnUrl ;
-		}else{
-			//判断用户身份，进入申请认证页面
-			targetUrl = UrlHelper.getUrl(rootPath, "/home");
-		}
+			String returnUrl = callback;
+			if( StringUtils.isNotBlank(returnUrl) ){
+                targetUrl = returnUrl ;
+            }else{
+                //判断用户身份，进入申请认证页面
+                targetUrl = UrlHelper.getUrl(rootPath, "/home");
+            }
 
-		result.setValue(targetUrl);
-		//result.setValue(JSON.toJSONString(map));
-		return result;
+			result.setValue(targetUrl);
+			//result.setValue(JSON.toJSONString(map));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("login error", e);
+		}
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
