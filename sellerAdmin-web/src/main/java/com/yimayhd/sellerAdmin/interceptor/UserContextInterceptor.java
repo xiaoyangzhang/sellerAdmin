@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.biz.MenuBiz;
 import com.yimayhd.sellerAdmin.biz.helper.MenuHelper;
 import com.yimayhd.sellerAdmin.cache.MenuCacheMananger;
-import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.vo.menu.MenuVO;
 import com.yimayhd.sellerAdmin.repo.MenuRepo;
 import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
@@ -16,12 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 public class UserContextInterceptor extends HandlerInterceptorAdapter {
@@ -67,8 +64,8 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
                 } else {
                     menus = menuCacheMananger.getUserMenus(userId);
                     menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
-                    logger.error("method={}  pathInfo={} menu={}  uri={}",method, pathInfo, JSON.toJSONString(menu) , request.getRequestURI());
-                   /* if (RequestMethod.GET.name().equalsIgnoreCase(method) && menu == null && pathInfo != null && !pathInfo.toLowerCase().contains("home")) {
+                    logger.error("method={}  pathInfo={} menu={}  uri={}", method, pathInfo, JSON.toJSONString(menu), request.getRequestURI());
+                 /*   if (RequestMethod.GET.name().equalsIgnoreCase(method) && menu == null && pathInfo != null && !pathInfo.toLowerCase().contains("home")) {
                         String url = UrlHelper.getUrl(rootPath, "/error/lackPermission");
                         response.sendRedirect(url);
                         return false;
