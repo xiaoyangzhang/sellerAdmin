@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +74,7 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 					e.printStackTrace();
 					logger.error("MenuHelper error={}", e);
 				}
-				logger.error("pathInfo={}",pathInfo);
+				logger.error("method={}  pathInfo={} menu={}  uri={}",method, pathInfo, JSON.toJSONString(menu) , request.getRequestURI());
 				if(RequestMethod.GET.name().equalsIgnoreCase(method)  && menu == null  && !pathInfo.toLowerCase().contains("home") ){
 					String url = UrlHelper.getUrl( rootPath, "/error/lackPermission") ;
 					response.sendRedirect(url);
