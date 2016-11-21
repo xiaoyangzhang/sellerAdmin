@@ -24,20 +24,16 @@ public class MainController {
 	private SessionManager sessionManager;
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	@MethodLogger
 	public ModelAndView home(HttpServletRequest request, Boolean home, Model model){
-		logger.info("home={}",home);
 
 		if(  home != null && home ){
 			return new ModelAndView("/system/home/home");
 		}
 		
 		UserDO user = sessionManager.getUser(request);
-		logger.info("user={}", JSON.toJSONString(user));
 		long option = user.getOptions() ;
 		boolean isTalent = UserOptions.CERTIFICATED.has(option) ;
 		boolean isMerchant = UserOptions.COMMERCIAL_TENANT.has(option) ;
-		logger.info("isTalent={},isMerchant={}", JSON.toJSONString(isTalent),JSON.toJSONString(isMerchant));
 		if( !isTalent && !isMerchant ){
 			//不是达人、也不是商户
 			return new ModelAndView("redirect:/apply/toChoosePage");
