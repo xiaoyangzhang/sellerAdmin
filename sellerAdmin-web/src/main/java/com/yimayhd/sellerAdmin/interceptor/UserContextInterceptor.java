@@ -82,6 +82,7 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
             }
         } catch (IOException e) {
             logger.error("uri={},e={}", request.getRequestURI(), e);
+            return false;
         }
         return true;
 
