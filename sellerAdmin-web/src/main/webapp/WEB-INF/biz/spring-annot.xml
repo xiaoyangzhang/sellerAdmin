@@ -15,12 +15,12 @@
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>
     
-
+	<!-- 
     <bean id="methodLoggerInterceptor" class="com.yimayhd.fhtd.logger.MethodLoggerInterceptor"/>
 
     <aop:config>
         <aop:pointcut id="methodLogger" expression="@annotation(com.yimayhd.fhtd.logger.annot.MethodLogger)"/>
         <aop:advisor advice-ref="methodLoggerInterceptor" pointcut-ref="methodLogger"/>
     </aop:config>
-   
+	 -->
 </beans>
