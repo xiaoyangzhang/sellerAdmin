@@ -73,7 +73,7 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 					e.printStackTrace();
 					logger.error("MenuHelper error={}", e);
 				}
-
+				logger.error("pathInfo={}",pathInfo);
 				if(RequestMethod.GET.name().equalsIgnoreCase(method)  && menu == null  && !pathInfo.toLowerCase().contains("home") ){
 					String url = UrlHelper.getUrl( rootPath, "/error/lackPermission") ;
 					response.sendRedirect(url);
