@@ -65,6 +65,8 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
                 menus = menuRepo.getUserMenus(userId, true);
                 //menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
             }*/
+           // List<MenuVO> menus2 = menuRepo.getUserMenus(userId, false);
+
             menus = menuRepo.getUserMenus(userId, true);
             //menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
             menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);

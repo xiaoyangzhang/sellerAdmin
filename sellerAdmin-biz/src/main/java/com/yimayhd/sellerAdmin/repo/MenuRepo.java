@@ -84,7 +84,7 @@ public class MenuRepo {
 			//userMenuQuery.setDomain(Constant.DOMAIN_JIUXIU);
 			userMenuQuery.setProjectCode(HaMenuProjectCode.SEELER.getCode());
 			UserMenuOptionDTO dto = new UserMenuOptionDTO();
-			dto.setContainUrl(false);
+			dto.setContainUrl(true);
 			boolean queryResult = userPermissionService.catchUserMenu(userMenuQuery, dto);
 
 			return queryResult;
