@@ -79,7 +79,7 @@ public class AccountRepo {
 	public ResultSupport withdrawal(WithdrawalDTO dto){
 		RepoUtils.requestLog(log, "eleAccHandlerServiceRef.withdrawal", dto);
 		ResultSupport result = eleAccHandlerServiceRef.withdrawal(dto);
-		RepoUtils.resultLog(log, "eleAccHandlerServiceRef.withdrawal", result);
+		log.info("eleAccHandlerServiceRef.withdrawal", result);
 		return result;
 	}
     
