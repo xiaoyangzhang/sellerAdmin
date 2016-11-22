@@ -217,7 +217,7 @@
                         <div class="order-price">
                             $!utilNum.moneyTransform($!subOrder.tcDetailOrder.itemPrice)
                         </div>
-                        <div class="market-price">#if($!subOrder.itemOriginalPrice!=0) $!utilNum.moneyTransform($!subOrder.itemOriginalPrice) #end
+                        <div class="market-price">#if($!subOrder.itemOriginalPrice!=0 && $!order.mainOrder.orderTypeStr != 'SPOTS') $!utilNum.moneyTransform($!subOrder.itemOriginalPrice) #end
                         </div>
                     </td>
                     <td>
