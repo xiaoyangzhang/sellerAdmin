@@ -3,10 +3,10 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
 	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-<context-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>/WEB-INF/application.xml</param-value>
-  </context-param>
+<!--<context-param>-->
+    <!--<param-name>contextConfigLocation</param-name>-->
+    <!--<param-value>/WEB-INF/application.xml</param-value>-->
+  <!--</context-param>-->
 	<!--spring上下文监听器 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -117,12 +117,12 @@
 	
 	<!-- 出错页面定义 -->
 	<error-page>
-	    <error-code>404</error-code>  
+	    <error-code>404</error-code>
 	    <location>/error/404</location>
 	</error-page>
-	<error-page>   
-        <error-code>500</error-code>   
-        <location>/error/500</location>   
+	<error-page>
+        <error-code>500</error-code>
+        <location>/error/500</location>
     </error-page>
 
 

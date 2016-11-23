@@ -1,24 +1,20 @@
 package com.yimayhd.sellerAdmin.service.api;
 
-import net.pocrd.dubboext.DubboExtProperty;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.yimayhd.sellerAdmin.SellerReturnCode;
-import org.yimayhd.sellerAdmin.api.MerchantInfoApi;
-import org.yimayhd.sellerAdmin.entity.merchant.HomePage;
-import org.yimayhd.sellerAdmin.entity.merchant.MerchantDesc;
-import org.yimayhd.sellerAdmin.entity.merchant.MerchantInfo;
-import org.yimayhd.sellerAdmin.entity.merchant.Qualification;
-
-import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.membercenter.client.query.QualificationQueryDTO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.biz.MerchantBiz;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.MerchantVO;
 import com.yimayhd.user.client.domain.MerchantDO;
+import net.pocrd.dubboext.DubboExtProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.yimayhd.sellerAdmin.SellerReturnCode;
+import org.yimayhd.sellerAdmin.api.MerchantInfoApi;
+import org.yimayhd.sellerAdmin.entity.merchant.MerchantDesc;
+import org.yimayhd.sellerAdmin.entity.merchant.MerchantInfo;
+import org.yimayhd.sellerAdmin.entity.merchant.Qualification;
 
 public class MerchantInfoApiImpl implements MerchantInfoApi {
 

@@ -177,6 +177,9 @@
                     </td>
                 </tr>
             </table>
+            <input type="hidden" name="renewContract" value="$!renewContract">
+            <input type="hidden" name="renewDate" value="$!renewDate">
+            <input type="hidden" name="renewDayContract" id="renewDayContract" value="$!renewDayContract">
         </div>
     </form>
 </div>

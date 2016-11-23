@@ -102,6 +102,7 @@ public class LineServiceImpl implements LineService {
             LineVO lineVO = LineConverter.toLineVO(lineResult, picTextResult, themes, toCityVO(departTags),
                     destinationBiz.toCityVODestWithTags(destTags, DestinationOutType.GROUP_LINE.getCode()));
             lineVO.getBaseInfo().setAllDeparts(allDeparts);
+            log.info("item edit info ,lineVO={}", JSON.toJSONString(lineVO));
             return WebResult.success(lineVO);
         } catch (Exception e) {
             log.error("Params: id=" + itemId);
@@ -259,6 +260,7 @@ public class LineServiceImpl implements LineService {
 
             //FIXME
             LinePubUpdateDTO linePublishDTOForUpdate = LineConverter.toLinePublishDTOForUpdate(sellerId, line);
+            log.info("price_info_json update :"+JSON.toJSONString(linePublishDTOForUpdate));
             LinePublishResult publishLine=lineRepo.updateLine(linePublishDTOForUpdate);
 
             //删除多余的itemsku
@@ -341,6 +343,7 @@ public class LineServiceImpl implements LineService {
 //			convertToIcSubjcet(line);
 
             LinePubAddDTO linePublishDTOForSave = LineConverter.toLinePublishDTOForSave(sellerId, line);
+            log.info("price_info_json save :"+JSON.toJSONString(linePublishDTOForSave));
             LinePublishResult publishLine = lineRepo.saveLine(linePublishDTOForSave);
             long itemId = publishLine.getItemId();
             if (itemId > 0) {
