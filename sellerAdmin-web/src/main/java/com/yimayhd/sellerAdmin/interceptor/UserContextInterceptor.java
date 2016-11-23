@@ -1,12 +1,12 @@
 package com.yimayhd.sellerAdmin.interceptor;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.biz.MenuBiz;
 import com.yimayhd.sellerAdmin.biz.helper.MenuHelper;
 import com.yimayhd.sellerAdmin.cache.MenuCacheMananger;
 import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.vo.menu.MenuVO;
 import com.yimayhd.sellerAdmin.repo.MenuRepo;
-import com.yimayhd.sellerAdmin.util.WebResourceConfigUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.session.manager.SessionHelper;
 import com.yimayhd.user.session.manager.SessionManager;
@@ -20,6 +20,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
 
 public class UserContextInterceptor extends HandlerInterceptorAdapter {
@@ -65,17 +66,19 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
                 menus = menuRepo.getUserMenus(userId, true);
                 //menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
             }*/
-           // List<MenuVO> menus2 = menuRepo.getUserMenus(userId, false);
+            // List<MenuVO> menus2 = menuRepo.getUserMenus(userId, false);
 
+            HashMap<String, MenuVO> allMenus = menuCacheMananger.getAllMenus();
+            MenuVO checkMenu = MenuHelper.checkMenu(allMenus, pathInfo);
             menus = menuRepo.getUserMenus(userId, true);
             //menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
             menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
-           /* if (RequestMethod.GET.name().equalsIgnoreCase(method) && menu == null && !pathInfo.toLowerCase().contains("home")) {
-                logger.error("lackPermission userId={}, method={}  pathInfo={}  uri={}", userDO.getId(), method, pathInfo,  request.getRequestURI());
+            if (checkMenu != null && RequestMethod.GET.name().equalsIgnoreCase(method) && menu == null && !pathInfo.toLowerCase().contains("home")) {
+                logger.error("lackPermission userId={}, method={}  pathInfo={}  uri={},checkMenu={}", userDO.getId(), method, pathInfo, request.getRequestURI(), JSON.toJSONString(checkMenu));
                 String url = UrlHelper.getUrl(rootPath, "/error/lackPermission");
                 response.sendRedirect(url);
                 return false;
-            }*/
+            }
             request.setAttribute("menus", menus);
             request.setAttribute("currentMenu", menu);
         } else {

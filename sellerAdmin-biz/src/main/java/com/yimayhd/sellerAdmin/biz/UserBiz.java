@@ -56,6 +56,7 @@ public class UserBiz {
 			//权限整合
 			try {
 				menuRepo.cacheMenuListByUserId(result.getValue().getToken());
+				menuBiz.cacheAllMenusToTair();
 			} catch (Exception e) {
 				LOGGER.error("cacheMenuListByUserId  getUser(token) failed  token={}",result);
 			}
