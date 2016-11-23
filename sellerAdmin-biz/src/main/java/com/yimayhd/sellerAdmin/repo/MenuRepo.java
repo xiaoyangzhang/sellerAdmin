@@ -94,7 +94,7 @@ public class MenuRepo {
 		}
 	}
 
-	public List<MenuVO> getUserMenus(long userId,boolean fromCatch) {
+	public List<MenuVO> getUserMenus(long userId,boolean fromCatch ,boolean merge) {
 		List<HaMenuDO> menuDOs = null;
 		try {
 			if(fromCatch){
@@ -109,9 +109,12 @@ public class MenuRepo {
 		if (!CollectionUtils.isEmpty(menuDOs)) {
 			List<MenuVO> menus = MenuConverter.do2MenuVOs(menuDOs);
 //		System.err.println(JSON.toJSONString(menus));
-			//分组
-			ArrayList<MenuVO> ms = MenuHelper.mergeMenus(menus);
-			return ms;
+			if(merge) {
+				//分组
+				ArrayList<MenuVO> ms = MenuHelper.mergeMenus(menus);
+				return ms;
+			}
+			return menus;
 		} else {
 			return null;
 		}

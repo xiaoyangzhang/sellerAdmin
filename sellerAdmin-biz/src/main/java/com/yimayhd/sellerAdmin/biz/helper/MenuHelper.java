@@ -80,6 +80,23 @@ public class MenuHelper {
 		}
 		return null;
 	}
+	public static MenuVO checkMenu(List<MenuVO> userMenus, String pathUrl) {
+		if (userMenus == null || userMenus.size() <= 0 || StringUtils.isBlank(pathUrl)) {
+			return null;
+		}
+		String path = pathUrl;
+		path = updateUrl(path);
+		for (MenuVO userMenu : userMenus) {
+			boolean match = matcher.match(userMenu.getUrl(), path);
+			if (match) {
+				HaMenuRequestType type = HaMenuRequestType.getRequestType(userMenu.getRequestType());
+				if (HaMenuRequestType.ALL == type || HaMenuRequestType.GET == type) {
+					return userMenu;
+				}
+			}
+		}
+		return null;
+	}
 	public static HashMap<String, MenuVO> mapMenus(List<MenuVO> menus){
 		if( CollectionUtils.isEmpty(menus) ){
 			return null;
@@ -126,7 +143,7 @@ public class MenuHelper {
 		}
 		ArrayList<MenuVO> list = new ArrayList<MenuVO>();
 		Map<Long, List<MenuVO>> map = groupMenus(menus);
-		System.err.println("111="+JSON.toJSONString(map)+"\n\n");
+		//System.err.println("111="+JSON.toJSONString(map)+"\n\n");
 		for( MenuVO menu: menus ){
 			if( !menu.hasParent() ){
 				long menuId = menu.getId() ;

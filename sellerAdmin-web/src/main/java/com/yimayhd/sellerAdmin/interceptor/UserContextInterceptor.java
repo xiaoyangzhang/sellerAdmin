@@ -8,6 +8,7 @@ import com.yimayhd.sellerAdmin.helper.UrlHelper;
 import com.yimayhd.sellerAdmin.model.vo.menu.MenuVO;
 import com.yimayhd.sellerAdmin.repo.MenuRepo;
 import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.enums.UserOptions;
 import com.yimayhd.user.session.manager.SessionHelper;
 import com.yimayhd.user.session.manager.SessionManager;
 import com.yimayhd.user.session.manager.constant.SessionConstant;
@@ -46,6 +47,10 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 
         UserDO userDO = sessionManager.getUser(request);
         if (userDO != null) {
+    /*        long option = userDO.getOptions();
+            boolean COMMERCIAL_TENANT = UserOptions.COMMERCIAL_TENANT.has(option);
+            boolean USER_TALENT = UserOptions.USER_TALENT.has(option);
+            boolean COMMON_TELENT = UserOptions.COMMON_TELENT.has(option);*/
             request.setAttribute(SessionConstant.REQ_ATTR_USERID, userDO.getId());
             request.setAttribute(SessionConstant.REQ_ATTR_USER, userDO);
             long userId = userDO.getId();
@@ -70,15 +75,16 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
 
             HashMap<String, MenuVO> allMenus = menuCacheMananger.getAllMenus();
             MenuVO checkMenu = MenuHelper.checkMenu(allMenus, pathInfo);
-            menus = menuRepo.getUserMenus(userId, true);
+            List<MenuVO> userMenus = menuRepo.getUserMenus(userId, true, false);
             //menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
-            menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
+            menu = MenuHelper.checkMenu(userMenus, pathInfo);
             if (checkMenu != null && RequestMethod.GET.name().equalsIgnoreCase(method) && menu == null && !pathInfo.toLowerCase().contains("home")) {
                 logger.error("lackPermission userId={}, method={}  pathInfo={}  uri={},checkMenu={}", userDO.getId(), method, pathInfo, request.getRequestURI(), JSON.toJSONString(checkMenu));
                 String url = UrlHelper.getUrl(rootPath, "/error/lackPermission");
                 response.sendRedirect(url);
                 return false;
             }
+            menus = menuRepo.getUserMenus(userId, true, true);
             request.setAttribute("menus", menus);
             request.setAttribute("currentMenu", menu);
         } else {
