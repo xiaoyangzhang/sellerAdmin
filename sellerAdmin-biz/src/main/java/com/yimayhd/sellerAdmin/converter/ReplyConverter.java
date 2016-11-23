@@ -61,7 +61,7 @@ public class ReplyConverter {
             return null;
         }
         try{
-            voCopier.copy(comRateDO,voCopier,null);
+            voCopier.copy(comRateDO,vo,null);
         }catch (Exception e){
             logger.error("bean copy fail",e);
             return null;
