@@ -484,7 +484,12 @@ public class UserController extends BaseController {
 	 * @return
      */
 	public boolean checkPopVerifyCode(HttpServletRequest request){
-		int max_nm = Integer.valueOf(WebResourceConfigUtil.getLoginCheckIPCount()) ;
+		int max_nm = 0 ;
+		try{
+			max_nm=Integer.valueOf(WebResourceConfigUtil.getLoginCheckIPCount());
+		}catch (Exception e){
+			max_nm=0;
+		}
 		String ip_key = getLoginFqIpKey(request);
 		Object obj = cacheManager.getFormTair(ip_key);
 		int count = obj==null?0:(Integer)obj;
