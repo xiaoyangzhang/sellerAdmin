@@ -21,14 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SettlementRepo {
 	private Logger log = LoggerFactory.getLogger(getClass());
 
-<<<<<<< HEAD
+
 	@Resource
 	private SettlementQueryService settlementQueryServiceRef;
-=======
-	@Autowired
-	private QuerySettlementService querySettlementServiceRef;
 
->>>>>>> master
+
 	
 	/**
      * 查询某个商户所有结算信息
