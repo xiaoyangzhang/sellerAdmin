@@ -73,8 +73,10 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
             }*/
             // List<MenuVO> menus2 = menuRepo.getUserMenus(userId, false);
 
+            //系统所有type=1的菜单
             HashMap<String, MenuVO> allMenus = menuCacheMananger.getAllMenus();
             MenuVO checkMenu = MenuHelper.checkMenu(allMenus, pathInfo);
+            //用户所有菜单
             List<MenuVO> userMenus = menuRepo.getUserMenus(userId, true, false);
             //menu = MenuHelper.getSelectedMenu(menus, pathInfo, method);
             menu = MenuHelper.checkMenu(userMenus, pathInfo);
@@ -84,6 +86,7 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
                 response.sendRedirect(url);
                 return false;
             }
+            //要显示的菜单
             menus = menuRepo.getUserMenus(userId, true, true);
             request.setAttribute("menus", menus);
             request.setAttribute("currentMenu", menu);
