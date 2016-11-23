@@ -14,7 +14,10 @@ public enum ExpressCompanyEnum {
     shunfeng(4,"shunfeng", "顺丰速运"),
     yuantong(5,"yuantong", "圆通速递"),
     yunda(6,"yunda", "韵达快递"),
-    zhongtong(7,"zhongtong", "中通快递");
+    zhongtong(7,"zhongtong", "中通快递"),
+    tiantian(8,"tiantian", "天天快递"),
+
+    ;
 
     private static final Map<String, ExpressCompanyEnum> codeMap = new HashMap<String, ExpressCompanyEnum>((int)(ExpressCompanyEnum.values().length/0.75)+1);
 

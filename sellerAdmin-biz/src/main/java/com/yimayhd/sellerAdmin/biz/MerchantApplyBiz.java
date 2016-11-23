@@ -19,9 +19,11 @@ import com.yimayhd.membercenter.client.domain.merchant.MerchantCategoryScopeDO;
 import com.yimayhd.membercenter.client.domain.merchant.MerchantQualificationDO;
 import com.yimayhd.membercenter.client.domain.merchant.QualificationDO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.enums.MerchantScopeStatus;
 import com.yimayhd.membercenter.client.query.BusinessScopeQueryDTO;
 import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.query.MerchantCategoryQueryDTO;
+import com.yimayhd.membercenter.client.query.MerchantScopeQuery;
 import com.yimayhd.membercenter.client.query.QualificationQueryDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.enums.ExamineType;
@@ -290,15 +292,26 @@ public class MerchantApplyBiz {
 	}
 	public WebResult<List<MerchantScopeDO>> getMerchantScope(ExamineInfoDTO examineInfoDTO) {
 		WebResult<List<MerchantScopeDO>> result = new WebResult<List<MerchantScopeDO>>();
-		BusinessScopeQueryDTO queryDTO = new BusinessScopeQueryDTO();
-		queryDTO.setDomainId(examineInfoDTO.getDomainId());
-		queryDTO.setSellerId(examineInfoDTO.getSellerId());
-		MemResult<List<MerchantScopeDO>> queryResult = merchantApplyRepo.getMerchantScope(queryDTO);
+		MerchantScopeQuery merchantScopeQuery = new MerchantScopeQuery();
+		merchantScopeQuery.setDomainId(examineInfoDTO.getDomainId());
+		merchantScopeQuery.setSellerId(examineInfoDTO.getSellerId());
+		merchantScopeQuery.setStatus(MerchantScopeStatus.ACTIVE.getStatus()); 
+		MemResult<List<MerchantScopeDO>> queryResult = merchantApplyRepo.getMerchantScopes(merchantScopeQuery);
 		if (queryResult == null || !queryResult.isSuccess() || queryResult.getValue() == null) {
 			result.setWebReturnCode(WebReturnCode.QUERY_MERCHANT_SCOPE_FAILED);
 			return result;
 		}
 		result.setValue(queryResult.getValue());
+//		WebResult<List<MerchantScopeDO>> result = new WebResult<List<MerchantScopeDO>>();
+//		BusinessScopeQueryDTO queryDTO = new BusinessScopeQueryDTO();
+//		queryDTO.setDomainId(examineInfoDTO.getDomainId());
+//		queryDTO.setSellerId(examineInfoDTO.getSellerId());
+//		MemResult<List<MerchantScopeDO>> queryResult = merchantApplyRepo.getMerchantScope(queryDTO);
+//		if (queryResult == null || !queryResult.isSuccess() || queryResult.getValue() == null) {
+//			result.setWebReturnCode(WebReturnCode.QUERY_MERCHANT_SCOPE_FAILED);
+//			return result;
+//		}
+//		result.setValue(queryResult.getValue());
 		return result;
 	}
 	

@@ -84,6 +84,7 @@ public class UserContextInterceptor extends HandlerInterceptorAdapter {
         } else {
             // 非登陆状态的时候，清空token
             SessionHelper.cleanCookies(response);
+
         }
         return true;
 

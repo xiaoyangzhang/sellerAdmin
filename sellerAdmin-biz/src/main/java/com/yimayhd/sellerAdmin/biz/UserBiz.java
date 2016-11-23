@@ -52,7 +52,7 @@ public class UserBiz {
 				&& result.getValue() != null
 				&& result.getValue().getValue() != null) {
 			long userId = result.getValue().getValue().getId();
-			//menuBiz.cacheUserMenus2Tair(userId);
+			menuBiz.cacheUserMenus2Tair(userId);
 			//权限整合
 			try {
 				menuRepo.cacheMenuListByUserId(result.getValue().getToken());

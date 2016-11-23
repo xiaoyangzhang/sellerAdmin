@@ -94,7 +94,7 @@ public class WebResourceConfigUtil {
 
 	public static boolean isTestMode() {
 		String env = ResourceConfig.getInstance().getValueByKey(ENV);
-		if (Constant.ENV_PROD.equalsIgnoreCase(env)) {
+		if (Constant.ENV_PROD.equalsIgnoreCase(env) || Constant.ENV_PRE.equalsIgnoreCase(env) ) {
 			return false;
 		}
 		return true;

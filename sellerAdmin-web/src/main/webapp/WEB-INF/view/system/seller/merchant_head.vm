@@ -97,6 +97,10 @@
 		<div class="eredar-button">
 			<button id="save">保存</button>
 		</div>
+        <input type="hidden" name="renewContract" id="renewContract" value="$!renewContract">
+        <input type="hidden" name="renewDayContract" id="renewDayContract" value="$!renewDayContract">
+        <input type="hidden" name="renewDate" id="renewDate" value="$!renewDate">
+
 	</div>
 </div>
 

@@ -313,6 +313,8 @@ public class OrderConverter {
                 
                 long subOrderTotalFee =BizOrderUtil.getSubOrderTotalFee(tcDetailOrder.getBizOrder().getBizOrderDO());//子订单原价
                 subOrder.setSubOrderTotalFee(subOrderTotalFee);
+                long itemOriginalPrice =  BizOrderUtil.getItemOriginalPrice(tcDetailOrder.getBizOrder().getBizOrderDO());//划价金额
+                subOrder.setItemOriginalPrice(itemOriginalPrice);
                 subOrderList.add(subOrder);
             }
             return new MainOrder(tcMainOrder,subOrderList);

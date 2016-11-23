@@ -250,7 +250,7 @@ public class DraftController extends BaseDraftController {
 
                 // 线路商品信息
                 put("product", gt);
-
+                put("priceInfoJson", JSON.toJSONString(gt.getPriceInfo()));
                 // 草稿id信息
                 put("draftId", id);
                 model.addAttribute("UUID", UUID.randomUUID().toString());
