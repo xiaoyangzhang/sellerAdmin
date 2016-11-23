@@ -14,7 +14,8 @@
 <div>
     <form class="form-signin" id="tradeListForm" name="tradeListForm"
           action="$!utilWebconfig.getActionDefaultFontPath()/order/list" method="GET" role="form">
-        <div class="inputGroup whole">
+
+        <div class="inputGroup whole info-bar clearfix">
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">订单编号</button>
@@ -88,6 +89,12 @@
 	                <option value="2" #if($!orderListQuery.assesmentType == '2') selected #end>已评价</option>
 	            </select>
             </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary form-submit">查询</button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary form-clear">清空</button>
+            </div>
         #*
             <div class="input-group inpSingle">
                 <button class="btn btn-default" type="button">附属要求</button>
@@ -95,12 +102,6 @@
                 <input type='checkbox' name="affiliatedAsk" value="$!orderListQuery.affiliatedAsk">需发票
             </div>
         *#
-            <div class="btn-group">
-                <button type="submit" class="btn btn-primary">查询</button>
-            </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary form-clear">清空</button>
-            </div>
         </div>
     #*<div class="btnBottomMargin">
         <button type="button" class="btn btn-primary" btnType="1">批量完成</button>

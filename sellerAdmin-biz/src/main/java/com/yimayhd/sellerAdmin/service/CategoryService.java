@@ -66,7 +66,25 @@ public interface CategoryService {
 	 * @return
 	 * @throws
 	 */
-	WebResult<CategoryDO> getCategoryById(int parentId);
+	WebResult<CategoryDO> getCategoryById(long parentId);
+	
+	/**
+	 * 查询子类目
+	 * @param categoryId
+	 * @param domainId
+	 * @return
+	 */
+	List<CategoryDO> getChildrenCategories(long categoryId, int domainId);
+	/**
+	 * 查询用户可访问的商品类目
+	 * @param sellerId
+	 * @param categoryId
+	 * @param domainId
+	 * @return
+	 */
+	List<CategoryDO> getUserItemCategories(long sellerId, long categoryId, int domainId);
+	
+	List<CategoryDO> getTalentCategories(long selectedCategoryId, List<Long> accessCategoryIds, int domainId);
 	/**
 	 * 
 	* created by zhangxy

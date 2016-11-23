@@ -21,4 +21,6 @@ public interface TfsService {
 	 * @throws Exception
 	 */
 	String readHtml5(String code) throws Exception;
+
+	String uploadToTFS(String fileName) throws Exception;
 }

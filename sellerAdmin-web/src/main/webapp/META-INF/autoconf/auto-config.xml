@@ -43,6 +43,8 @@
 		<property name="consult.catetory.id" defaultValue="241" description="" />
 		<property name="login.check.ip.count" defaultValue="1" description="登录ip最大访问次数" />
 		<property name="login.check.user.count" defaultValue="3" description="登录userid最大访问次数" />
+		<property name="sellerAdmin.bufferDay" defaultValue="30" description="续约缓冲时间" />
+		<property name="sellerAdmin.default_contract_date" defaultValue="20161231" description="默认合同到期时间" />
 
 	</group>
 

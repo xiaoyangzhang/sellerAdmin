@@ -3,16 +3,29 @@
 <head>
 	#parse("layout/layout-meta.vm")
 	<title>基本信息</title>
-	<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/merchant.css">
+	<!--<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/merchant.css">-->
 </head>
 
 <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/jquery-ui-1.10.4.custom.css">
 <link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/merchant.css">
+<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/css/agreement.css">
 
 	<!-- 面包屑 -->
 			<div class = "eredar-info clearfix">
 				<ul>
-					<li class = " first on">基本信息</li>
+					<li class = "first on">基本信息</li>
+                    #if($!renewContract == "2")
+                    <li class="expire over">
+                        <label>合约到期:</label>
+                        <span>$!renewDate</span>
+                        <a class="btn-renew" href="$!root_path/basicInfo/contractRenewDate">申请续签</a>
+                    </li>
+                    #else
+                    <li class="expire">
+                        <label>合约到期:</label>
+                        <span>$!renewDate</span>
+                    </li>
+                    #end
 				</ul>
 			</div>
 			<form class="registerform" method="post" autocomplete="off" action="">
@@ -108,5 +121,8 @@
 			<div class = "eredar-list merchant-list2">
 				<button id="save">保存</button>
 			</div>
+<input type="hidden" name="renewContract" id="renewContract" value="$!renewContract">
+<input type="hidden" name="renewDayContract" id="renewDayContract" value="$!renewDayContract">
+<input type="hidden" name="renewDate" id="renewDate" value="$!renewDate">
 	#parse("layout/layout-js.vm")
 	<script>seajs.use("merchant");</script>	

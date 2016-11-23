@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.service.draft.DraftService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,8 @@ public class LineController extends BaseLineController {
 					initLinePropertyTypes(baseInfo.getCategoryId());
 				}
 				put("product", gt);
+				put("priceInfoJson", JSON.toJSONString(gt.getPriceInfo()));
+				//log.info("priceInfo="+JSON.toJSONString(gt.getPriceInfo()));
 				put("isReadonly", baseInfo.getItemStatus() == ItemStatus.valid.getValue());
 				return "/system/comm/line/detail";
 			} else {
@@ -109,6 +112,7 @@ public class LineController extends BaseLineController {
 					initLinePropertyTypes(baseInfo.getCategoryId());
 				}
 				put("product", gt);
+				put("priceInfoJson", JSON.toJSONString(gt.getPriceInfo()));
 				put("isReadonly", true);
 				return "/system/comm/line/detail";
 			} else {
@@ -174,6 +178,7 @@ public class LineController extends BaseLineController {
 			}
 			
 			json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
+			log.info("price_info_json :"+json);
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
 			WebCheckResult checkLine = LineChecker.checkLine(gt);
 			if (!checkLine.isSuccess()) {
@@ -182,6 +187,7 @@ public class LineController extends BaseLineController {
 			}
 			long itemId = gt.getBaseInfo().getItemId();
 			if (itemId > 0) {
+				//更新
 				List<Long> itemIds = new ArrayList<Long>();
 				itemIds.add(itemId);
 				ICResult<List<ItemDO>> itemQueryResult = itemQueryService.getItemByIds(itemIds);
@@ -194,6 +200,7 @@ public class LineController extends BaseLineController {
 				
 				
 			} else {
+				//添加
 				String key = Constant.APP+"_repeat_"+sessionManager.getUserId()+uuid;
 				boolean rs = cacheManager.addToTair(key, true , 2, 24*60*60);
 				if (!rs) {
