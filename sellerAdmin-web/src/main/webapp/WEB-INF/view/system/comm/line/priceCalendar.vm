@@ -146,15 +146,7 @@
             tcs.push(_tc);
         });
 
-        var modifySkuIds=getUpdateAndDeleteSkuIds();
-        console.dir(modifySkuIds);
-        /*var result = {
-             tcs: tcs,
-             updatedSKU: modifySkuIds.updatedSKU,
-             deletedSKU: modifySkuIds.deletedSKU,
-             limit: $(".day-limit").val() || 0
-         };*/
-         var result = {
+        var result = {
             tcs: tcs,
             updatedSKU: updatedSKU,
             deletedSKU: deletedSKU,
@@ -163,64 +155,4 @@
         return result;
     }
 
-    function getUpdateAndDeleteSkuIds(){
-        var originSkuIds=getSkuIds($('#priceInfoJson').val());
-
-        if(originSkuIds.length==0){
-            return {
-                updatedSKU:[],
-                deletedSKU:[]
-            };
-        }
-
-        var newSkuIdStr='';
-        $(".price-info .btn-outline").each(function(index,btn) {
-            newSkuIdStr+=$(btn).attr('data-tc');
-        });
-
-        var newSkuIds=getSkuIds(newSkuIdStr);
-        if(newSkuIds.length==0){
-            return {
-                updatedSKU:[],
-                deletedSKU:originSkuIds
-            };
-        }
-
-        var deleteSkuIds=[];
-        for(var index=0;index<=originSkuIds.length-1;index++){
-            var sku=originSkuIds[index];
-           
-            if(!existsSku(newSkuIds,sku)){
-                deleteSkuIds.push(sku);
-            }
-        }
-
-        return {
-            updatedSKU:newSkuIds,
-            deletedSKU:deleteSkuIds
-        };
-    }
-    function existsSku(arr,sku){
-        for(var i=0;i<=arr.length-1;i++){
-                if(arr[i]==sku){
-                    return true;
-                }
-            }
-        return false;
-    }
-
-     function getSkuIds (jsonStr) {
-            var arr = (jsonStr || '').match(/\"skuId\":[1-9][0-9]*/g);
-
-            if (arr == null) {
-                return [];
-            }
-
-            var skuIds = [];
-            for (var index = 0; index <= arr.length - 1; index++) {
-                var sku = arr[index];
-                skuIds.push(sku.split(':')[1]);
-            }
-            return skuIds;
-    }
 </script>

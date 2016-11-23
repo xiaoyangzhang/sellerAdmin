@@ -72,5 +72,13 @@ public class TfsServiceImpl implements TfsService {
 		}
 		return content;
 	}
-	
+
+	@Override
+	public String uploadToTFS(String fileName) throws Exception {
+		if(StringUtils.isEmpty(fileName)) {
+			return null;
+		}
+		return tfsManager.saveLargeFile(fileName, null, "pdf");
+	}
+
 }
