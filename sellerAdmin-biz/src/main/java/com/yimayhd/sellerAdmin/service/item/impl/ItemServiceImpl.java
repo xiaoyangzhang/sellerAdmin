@@ -128,6 +128,8 @@ public class ItemServiceImpl implements ItemService {
                     icPageResult.getTotalCount(), resultList);
             return WebResult.success(pageVO);
         } catch (Exception e) {
+        	//FIXME 打error日志
+        	log.error("getItemList  sellerId={}, query={}",sellerId, JSON.toJSONString(query), e );
             log.warn("Params: sellerId=" + sellerId);
             log.warn("Params: query=" + JSON.toJSONString(query));
             log.warn("ItemService.getItemList error", e);
