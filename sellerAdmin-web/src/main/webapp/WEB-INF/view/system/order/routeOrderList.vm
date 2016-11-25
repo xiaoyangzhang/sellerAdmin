@@ -89,12 +89,6 @@
 	                <option value="2" #if($!orderListQuery.assesmentType == '2') selected #end>已评价</option>
 	            </select>
             </div>
-            <div class="btn-group">
-                <button type="submit" class="btn btn-primary form-submit">查询</button>
-            </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary form-clear">清空</button>
-            </div>
         #*
             <div class="input-group inpSingle">
                 <button class="btn btn-default" type="button">附属要求</button>
@@ -109,7 +103,7 @@
                 <button type="button" class="btn btn-primary form-clear">清空</button>
             </div>
             <div class="btn-group">
-                <button type="button" class="btn exportBtn">导出</button>
+                <button type="button" class="btn btn-primary exportBtn">导出</button>
             </div>
         </div>
     #*<div class="btnBottomMargin">
