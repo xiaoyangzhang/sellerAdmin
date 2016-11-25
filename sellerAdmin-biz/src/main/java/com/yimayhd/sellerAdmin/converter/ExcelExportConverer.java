@@ -48,7 +48,7 @@ public class ExcelExportConverer {
             bizOrderExportDomain.setItemNum(subOrder.getTcDetailOrder().getBizOrder().getBuyAmount());
             bizOrderExportDomain.setItemType(subOrder.getOrderTypeStr());
             bizOrderExportDomain.setBuyerName(mainOrder.getUser().getName());
-            bizOrderExportDomain.setBuyerTel(mainOrder.getUser().getMobileNo());
+            bizOrderExportDomain.setBuyerTel(mainOrder.getUser().getUnmaskMobile());
             bizOrderExportDomain.setBizOrderType(subOrder.getOrderStatusStr());
             bizOrderExportDomain.setItemPrice(subOrder.getItemPrice_());
             bizOrderExportDomain.setDiscount(mainOrder.getValue());
