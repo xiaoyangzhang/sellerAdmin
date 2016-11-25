@@ -48,7 +48,7 @@ public class SettlementServiceImpl implements SettlementService {
 		}
 		if (StringUtils.isNotEmpty(query.getSettlementId())){
 			try{
-				Long.parseLong(query.getSellerId());
+				Long.parseLong(query.getSettlementId());
 			}catch (Exception e){
 				return false;
 			}
