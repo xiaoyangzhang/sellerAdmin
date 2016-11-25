@@ -184,6 +184,8 @@ public class OrderController extends BaseController {
 		long sellerId = sessionManager.getUserId();
 		orderListQuery.setSellerId(sellerId);
 		orderListQuery.setDomain(Constant.DOMAIN_JIUXIU);
+		orderListQuery.setPageNo(0);
+		orderListQuery.setPageSize(Integer.MAX_VALUE);
 		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
 
 		List<MainOrder> bizOrderExportVOList = pageVo.getResultList();
