@@ -81,7 +81,6 @@ public class LineController extends BaseLineController {
 				put("product", gt);
 				put("isReadonly", false);
 				put("priceInfoJson", JSON.toJSONString(gt.getPriceInfo()));
-				put("isReadonly", baseInfo.getItemStatus() == ItemStatus.valid.getValue());
 				return "/system/comm/line/detail";
 			} else {
 				throw new BaseException(result.getResultMsg());
