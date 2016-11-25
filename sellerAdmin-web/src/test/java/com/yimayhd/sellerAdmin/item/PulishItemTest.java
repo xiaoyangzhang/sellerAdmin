@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.bouncycastle.crypto.tls.HashAlgorithm;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.yimayhd.sellerAdmin.api.PublishItemApi;
