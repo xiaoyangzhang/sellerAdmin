@@ -111,7 +111,7 @@
 	
 	<!-- 下架弹出层 -->
 	<div class = "outcoupon" id = "tip_get">
-		<p class = "first">上架后，在投放期限内用户即可领取是否确上架？</p>
+		<p class = "first">上架后，在投放期限内用户即可领取是否确认上架？</p>
 		<p class = "btn_coupon"><a class = "out_surebtn" id = "get_sure">确定</a><a class = "out_clearbtn  get_del">取消</a></p>
 		<img src = "$!rs_path_jiuxiu/img/close.png" class = "out_delete get_del"/>
 		<input type="hidden" id="put_voucherId"/>
