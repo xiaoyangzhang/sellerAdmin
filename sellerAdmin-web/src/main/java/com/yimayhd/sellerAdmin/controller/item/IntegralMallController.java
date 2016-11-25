@@ -3,6 +3,7 @@ package com.yimayhd.sellerAdmin.controller.item;
 import java.util.List;
 import java.util.UUID;
 
+import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +89,7 @@ public class IntegralMallController extends BaseController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addCommon(Model model, ItemVO itemVO,String uuid) throws Exception {
+		log.info("addCommon--start--:"+ JSON.toJSONString(itemVO));
 		long sellerId = sessionManager.getUserId();
 		//是否有发积分商品权限
 		MemResult<MerchantItemCategoryDO> result = categoryService.getMerchantItemCategory(Constant.DOMAIN_JIUXIU, itemVO.getCategoryId(), sellerId);
@@ -140,7 +142,8 @@ public class IntegralMallController extends BaseController {
 		}else{
 			return "/system/error/lackPermission";
 		}
-		
+		model.addAttribute("cType", result.getValue().getType());
+		//log.info(JSON.toJSONString("----cType:"+result.getValue().getType()));
 		model.addAttribute("category", itemResultVO.getCategoryVO());
 		model.addAttribute("commodity", itemResultVO.getItemVO());
 		model.addAttribute("itemSkuList", itemResultVO.getItemSkuVOList());

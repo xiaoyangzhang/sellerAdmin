@@ -1,7 +1,10 @@
 package com.yimayhd.sellerAdmin.controller.main;
 
-import javax.servlet.http.HttpServletRequest;
-
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.enums.UserOptions;
+import com.yimayhd.user.session.manager.SessionManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,17 +12,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.enums.UserOptions;
-import com.yimayhd.user.session.manager.SessionManager;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class MainController {
+	private static final Logger logger = LoggerFactory.getLogger("MainController");
 	@Autowired
 	private SessionManager sessionManager;
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView home(HttpServletRequest request, Boolean home, Model model){
+
 		if(  home != null && home ){
 			return new ModelAndView("/system/home/home");
 		}

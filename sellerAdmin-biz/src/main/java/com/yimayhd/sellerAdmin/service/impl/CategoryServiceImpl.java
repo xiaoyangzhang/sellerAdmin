@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 
 import com.yimayhd.ic.client.model.domain.item.CategoryDO;
 import com.yimayhd.ic.client.model.result.item.CategoryQryResult;
@@ -14,10 +15,12 @@ import com.yimayhd.membercenter.client.domain.merchant.MerchantItemCategoryDO;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
-import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.biz.helper.CategoryHelper;
+import com.yimayhd.sellerAdmin.biz.helper.MerchantItemCategoryHelper;
 import com.yimayhd.sellerAdmin.model.CategoryVO;
 import com.yimayhd.sellerAdmin.repo.CategoryRepo;
 import com.yimayhd.sellerAdmin.repo.ItemRepo;
+import com.yimayhd.sellerAdmin.repo.MerchantItemCategoryRepo;
 import com.yimayhd.sellerAdmin.service.CategoryService;
 import com.yimayhd.sellerAdmin.util.RepoUtils;
 
@@ -32,6 +35,8 @@ public class CategoryServiceImpl implements CategoryService {
 	private CategoryRepo categoryRepo;
 	@Autowired
 	private ItemRepo itemRepo;
+	@Autowired
+	private MerchantItemCategoryRepo merchantItemCategoryRepo ;
 
 	@Override
 	public List<CategoryDO> getCategoryDOList() {
@@ -95,9 +100,9 @@ public class CategoryServiceImpl implements CategoryService {
 		ret.setValue(categoryDO);
 		return ret;
 	}
-
+	
 	@Override
-	public WebResult<CategoryDO> getCategoryById(int parentId) {
+	public WebResult<CategoryDO> getCategoryById(long parentId) {
 		WebResult<CategoryDO> ret = new WebResult<CategoryDO>();
 		CategoryDO categoryDO = categoryRepo.getCategoryById(parentId);
 		if( null == categoryDO ){
@@ -105,6 +110,37 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		ret.setValue(categoryDO);
 		return ret;
+	}
+
+	@Override
+	public List<CategoryDO> getChildrenCategories(long categoryId, int domainId) {
+		CategoryDO categoryDO = null ;
+		if( categoryId == 0 ){
+			categoryDO = categoryRepo.getCategoryByDomainId(domainId);
+		}else{
+			categoryDO = categoryRepo.getCategoryById(categoryId);
+		}
+		if( categoryDO == null ){
+			return null;
+		}
+		return categoryDO.getChildren() ;
+	}
+
+	@Override
+	public List<CategoryDO> getUserItemCategories(long sellerId, long categoryId, int domainId) {
+		List<MerchantItemCategoryDO> merchantItemCategoryDOs = merchantItemCategoryRepo.getMerchantItemCaetgories(domainId, sellerId);
+		if( CollectionUtils.isEmpty( merchantItemCategoryDOs ) ){
+			return null ;
+		}
+		List<CategoryDO> categoryDOs = getChildrenCategories(categoryId, domainId);
+		List<Long> accessCategoryIds = MerchantItemCategoryHelper.getItemCategoryIds(merchantItemCategoryDOs);
+		return CategoryHelper.getCategories(categoryDOs, accessCategoryIds);
+	}
+
+	@Override
+	public List<CategoryDO> getTalentCategories(long selectedCategoryId, List<Long> accessCategoryIds, int domainId) {
+		List<CategoryDO> categoryDOs = getChildrenCategories(selectedCategoryId, domainId);
+		return CategoryHelper.getCategories(categoryDOs, accessCategoryIds);
 	}
 
 	@Override

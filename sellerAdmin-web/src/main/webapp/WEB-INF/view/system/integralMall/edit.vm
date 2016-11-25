@@ -61,11 +61,19 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="red">*</span>商品价格</td>
+                        <td><span class="red">*</span>商品售价</td>
                         <td>
                             <input class="priceY form-control" type="text" name="priceY" value="$!numberHelper.formatNumber($!commodity.price)" maxlength="9">元
                         </td>
                     </tr>
+                    <tr>
+                        <td>市场价</td>
+                        <td>
+                            <input class="original-price form-control" type="text" name="originalPriceStr" value="#if($!commodity.originalPrice!=0)$!numberHelper.formatNumber($!commodity.originalPrice)#end" maxlength="9">元
+                        </td>
+                    </tr>
+
+
                     <tr>
                         <td><span class="red">*</span>最多可用积分</td>
                         <td>
@@ -84,6 +92,7 @@
                     <input type="hidden" name="pictureTextVOStr" id="pictureTextVOStr" value="">
                     <input class="picUrlsVal" type="hidden" name="itemMainPics" value="$!esc.html($!commodity.ItemMainPics)">
                     <input type ="hidden" id ="itemStatus" value ="$!commodity.status" />
+                    <input type ="hidden" id ="itemType" value ="integralMall" />
                     #*<tr>
                         <td><span class="red">*</span>减库存方式</td>
                         <td>
@@ -419,19 +428,26 @@
 
         //sku
         if(!skuTableShowFlag){
-            if(!$('.priceY').val() || !/^\d{1,6}(\.\d{1,2})?$|^[1-9]\d{0,5}$/.test($('.priceY').val())){
-                return '价格为数字，最大六位整数，可带两位小数';
+            if(!$.trim($('.priceY').val()) || !/^\d{1,6}(\.\d{1,2})?$|^[1-9]\d{0,5}$/.test($.trim($('.priceY').val()))){
+                return '商品售价为数字，最大六位整数，可带两位小数';
             }
-            if(!/^[1-9]\d*$/.test($('.maxPoint').val())) {
+            if($.trim($('.original-price').val()) && !/^\d{1,6}(\.\d{1,2})?$|^[1-9]\d{0,5}$/.test($.trim($('.original-price').val()))){
+                return '市场价为数字，最大六位整数，可带两位小数';
+            }
+            if($.trim($('.original-price').val()) && Number($.trim($('.original-price').val())) <= Number($.trim($('.priceY').val()))){
+                return '市场价必须大于商品售价';
+            }
+            if(!/^[1-9]\d*$/.test($.trim($('.maxPoint').val()))) {
 	            return '请输入正确的积分';
 	        }
 	        if($('.maxPoint').val() < 100) {
 		            return '积分必须大于100';
 	        }
-	        var priceY_ = Math.ceil(parseFloat($('.priceY').val()) * 100);
-        	var maxPoint_ = parseInt($('.maxPoint').val());
+
+	        var priceY_ = Math.ceil(parseFloat($.trim($('.priceY').val())) * 100);
+        	var maxPoint_ = parseInt($.trim($('.maxPoint').val()));
             if(priceY_ < maxPoint_){
-            	return '最多可用积分不得超过商品价格';
+            	return '最多可用积分不得超过商品售价';
             }
             if(!$('.stockNum').val() || !/^(0|[1-9]\d{0,5})$/.test($('.stockNum').val())){
                 return '库存为正整数，最大六位整数';
@@ -793,3 +809,5 @@
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/js/zui.min.js"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/layer-v2.1/layer.js"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/module/md.item.updatePictureText.js"></script>

@@ -411,6 +411,8 @@ public class CommodityServiceImpl implements CommodityService {
 			itemDB.setDescription(itemVO.getDescription());
 			// 价格
 			itemDB.setPrice(NumUtil.doubleToLong(itemVO.getPriceY()));
+			//市场价
+			itemDB.setOriginalPrice(itemVO.getOriginalPrice());
 			// 商品库存
 			itemDB.setStockNum(itemVO.getStockNum());
 			// 商品图片
@@ -448,6 +450,7 @@ public class CommodityServiceImpl implements CommodityService {
 			// 商品编码
 			itemDB.setCode(itemVO.getCode());
 
+			log.info("updatePublishCommonItem--:"+JSON.toJSONString(commonItemPublishDTO));
 			ItemPubResult itemPubResult = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
 			if (null == itemPubResult) {
 				log.error("ItemPublishService.publishCommonItem result is null and parame: "

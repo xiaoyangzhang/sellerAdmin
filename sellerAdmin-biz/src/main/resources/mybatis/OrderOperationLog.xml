@@ -24,10 +24,10 @@
         AND biz_no LIKE CONCAT('%',  #{bizNoLike}, '%') ESCAPE '/'
       </if>
       <if test="gmtCreatedStart != null ">
-        and gmt_created <![CDATA[>=]]> #{gmtCreatedStart}
+        AND gmt_created <![CDATA[>=]]> #{gmtCreatedStart}
       </if>
       <if test="gmtCreatedEnd != null ">
-        and gmt_created <![CDATA[<=]]> #{gmtCreatedEnd}
+        AND gmt_created <![CDATA[<=]]> #{gmtCreatedEnd}
       </if>
     </where>
   </sql>
