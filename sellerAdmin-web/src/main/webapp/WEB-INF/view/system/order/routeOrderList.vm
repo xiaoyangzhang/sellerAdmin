@@ -349,7 +349,7 @@
             }
             if($("#tradeListForm").valid()){
                 if($("#exportSize").attr('value') > 0){
-                    window.location = actionDefaultPath + '/order/export?' + $("#tradeListForm").serialize();
+                    window.open(actionDefaultPath + '/order/export?' + $("#tradeListForm").serialize());
                 }else{
                     layer.msg('没有可导出的记录',{icon:5,time:2000});
                 }

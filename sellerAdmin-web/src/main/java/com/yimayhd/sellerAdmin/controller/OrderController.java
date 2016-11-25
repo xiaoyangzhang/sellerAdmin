@@ -182,17 +182,6 @@ public class OrderController extends BaseController {
 	@RequestMapping(value = "/export", method = RequestMethod.GET)
 	public void orderListExport(HttpServletRequest request,HttpServletResponse response,OrderListQuery orderListQuery) throws Exception {
 		long sellerId = sessionManager.getUserId();
-		//long sellerId = 1;
-		//初始化和未填日期的时候，默认最近两个月
-		if(org.apache.commons.lang.StringUtils.isBlank(orderListQuery.getEndDate())){
-			orderListQuery.setEndDate(DateUtil.dateToString(new Date(), "yyyy-MM-dd"));
-		}
-		if(org.apache.commons.lang.StringUtils.isBlank(orderListQuery.getBeginDate())){
-			orderListQuery.setBeginDate(DateUtil.getMonthAgo(new Date(), MONTH));
-		}
-		if(DAY < DateUtil.daySubtraction(orderListQuery.getBeginDate(),orderListQuery.getEndDate())){
-			throw new NoticeException("导出日期不能超过两个月");
-		}
 		orderListQuery.setSellerId(sellerId);
 		orderListQuery.setDomain(Constant.DOMAIN_JIUXIU);
 		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
