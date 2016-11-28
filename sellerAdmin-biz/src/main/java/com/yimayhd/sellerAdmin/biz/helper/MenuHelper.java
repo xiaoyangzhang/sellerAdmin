@@ -1,19 +1,14 @@
 package com.yimayhd.sellerAdmin.biz.helper;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.AntPathMatcher;
-
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.client.enums.HaMenuRequestType;
-import com.yimayhd.membercenter.client.enums.HaMenuType;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.model.vo.menu.MenuVO;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.AntPathMatcher;
+
+import java.util.*;
 
 public class MenuHelper {
 	public static String updateUrl(String url){
@@ -64,6 +59,44 @@ public class MenuHelper {
 		return null;
 	}
 
+	public static MenuVO checkMenu(HashMap<String, MenuVO> allMenus, String pathUrl) {
+		if (allMenus == null || allMenus.size() <= 0 || StringUtils.isBlank(pathUrl)) {
+			return null;
+		}
+		String path = pathUrl;
+		path = updateUrl(path);
+		Set<Map.Entry<String, MenuVO>> allKey = allMenus.entrySet();
+		for (Map.Entry<String, MenuVO> entry : allKey) {
+			String key = entry.getKey();
+			MenuVO menuVO = entry.getValue();
+
+			boolean match = matcher.match(key, path);
+			if (match) {
+				HaMenuRequestType type = HaMenuRequestType.getRequestType(menuVO.getRequestType());
+				if (HaMenuRequestType.ALL == type || HaMenuRequestType.GET == type) {
+					return menuVO;
+				}
+			}
+		}
+		return null;
+	}
+	public static MenuVO checkMenu(List<MenuVO> userMenus, String pathUrl) {
+		if (userMenus == null || userMenus.size() <= 0 || StringUtils.isBlank(pathUrl)) {
+			return null;
+		}
+		String path = pathUrl;
+		path = updateUrl(path);
+		for (MenuVO userMenu : userMenus) {
+			boolean match = matcher.match(userMenu.getUrl(), path);
+			if (match) {
+				HaMenuRequestType type = HaMenuRequestType.getRequestType(userMenu.getRequestType());
+				if (HaMenuRequestType.ALL == type || HaMenuRequestType.GET == type) {
+					return userMenu;
+				}
+			}
+		}
+		return null;
+	}
 	public static HashMap<String, MenuVO> mapMenus(List<MenuVO> menus){
 		if( CollectionUtils.isEmpty(menus) ){
 			return null;
@@ -110,7 +143,7 @@ public class MenuHelper {
 		}
 		ArrayList<MenuVO> list = new ArrayList<MenuVO>();
 		Map<Long, List<MenuVO>> map = groupMenus(menus);
-		System.err.println("111="+JSON.toJSONString(map)+"\n\n");
+		//System.err.println("111="+JSON.toJSONString(map)+"\n\n");
 		for( MenuVO menu: menus ){
 			if( !menu.hasParent() ){
 				long menuId = menu.getId() ;
