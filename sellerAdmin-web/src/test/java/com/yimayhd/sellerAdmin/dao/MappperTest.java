@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yimayhd.sellerAdmin.BaseTest;
-import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery;
+import com.yimayhd.sellerAdmin.client.model.OrderOperationLogQuery;
 import com.yimayhd.sellerAdmin.mapper.OrderOperationLogMapper;
 import com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogDO;
 

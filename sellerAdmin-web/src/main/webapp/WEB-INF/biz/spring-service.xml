@@ -76,4 +76,7 @@
 
 	<bean id="jiuxiuVoucherTemplateService" class="com.yimayhd.sellerAdmin.service.impl.JiuxiuVoucherTemplateServiceImpl" />
 	<bean id="orderOperationLogService" class="com.yimayhd.sellerAdmin.service.impl.OrderOperationLogServiceImpl" />
+	<!-- 评价回复-->
+	<bean id="appraiseMessageReplyService" class="com.yimayhd.sellerAdmin.service.reply.AppraiseMessageReplyServiceImpl" />
+
 </beans>

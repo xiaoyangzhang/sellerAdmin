@@ -728,6 +728,12 @@
 				<groupId>com.itextpdf.tool</groupId>
 				<artifactId>xmlworker-micmiu</artifactId>
 				<version>1.2.1-SNAPSHOT</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.bouncycastle</groupId>
+						<artifactId>bctsp-jdk16</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
