@@ -2,8 +2,8 @@ package com.yimayhd.sellerAdmin.converter;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
-import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogDTO;
-import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery;
+import com.yimayhd.sellerAdmin.client.model.OrderOperationLogDTO;
+import com.yimayhd.sellerAdmin.client.model.OrderOperationLogQuery;
 import com.yimayhd.sellerAdmin.client.result.SellerResult;
 import com.yimayhd.sellerAdmin.model.orderLog.OrderOperationLogDO;
 import org.slf4j.Logger;

@@ -81,10 +81,10 @@ public class MenuRepo {
 		if (userDO != null) {
 			UserMenuQuery userMenuQuery = new UserMenuQuery();
 			userMenuQuery.setUserId(userDO.getId());
-			userMenuQuery.setDomain(Constant.DOMAIN_JIUXIU);
-			userMenuQuery.setProjectCode(HaMenuProjectCode.PALACE.getCode());
+			//userMenuQuery.setDomain(Constant.DOMAIN_JIUXIU);
+			userMenuQuery.setProjectCode(HaMenuProjectCode.SEELER.getCode());
 			UserMenuOptionDTO dto = new UserMenuOptionDTO();
-			dto.setContainUrl(false);
+			dto.setContainUrl(true);
 			boolean queryResult = userPermissionService.catchUserMenu(userMenuQuery, dto);
 
 			return queryResult;
@@ -94,10 +94,14 @@ public class MenuRepo {
 		}
 	}
 
-	public List<MenuVO> getUserMenus(long userId) {
+	public List<MenuVO> getUserMenus(long userId,boolean fromCatch ,boolean merge) {
 		List<HaMenuDO> menuDOs = null;
 		try {
-			menuDOs =getMenuListByUserId(userId).getValue();
+			if(fromCatch){
+				menuDOs = getMenuListByUserIdFromCatch(userId).getValue();
+			}else {
+				menuDOs = getMenuListByUserId(userId).getValue();
+			}
 		} catch (Exception e) {
 			logger.error("getUserMenus   failed  userId={}", userId);
 		}
@@ -105,11 +109,34 @@ public class MenuRepo {
 		if (!CollectionUtils.isEmpty(menuDOs)) {
 			List<MenuVO> menus = MenuConverter.do2MenuVOs(menuDOs);
 //		System.err.println(JSON.toJSONString(menus));
-			//分组
-			ArrayList<MenuVO> ms = MenuHelper.mergeMenus(menus);
-			return ms;
+			if(merge) {
+				//分组
+				ArrayList<MenuVO> ms = MenuHelper.mergeMenus(menus);
+				return ms;
+			}
+			return menus;
 		} else {
 			return null;
 		}
+	}
+
+
+	public WebResult<List<HaMenuDO>> getMenuListByUserIdFromCatch(long userId){
+		WebResult<List<HaMenuDO>> result = new WebResult<List<HaMenuDO>>();
+		UserMenuQuery userMenuQuery = new UserMenuQuery();
+		userMenuQuery.setUserId(userId);
+		//userMenuQuery.setDomain(Constant.DOMAIN_JIUXIU);
+		userMenuQuery.setProjectCode(HaMenuProjectCode.SEELER.getCode());
+		UserMenuOptionDTO dto = new UserMenuOptionDTO();
+		dto.setContainUrl(true);
+		MemPageResult<HaMenuDO> queryResult = userPermissionService.getMenuListByUserIdFromCatch(userMenuQuery,dto);
+		if (queryResult == null || !queryResult.isSuccess() ) {
+			logger.error("getMenuListByUserId failed  userId={}, Result={}",userId, JSON.toJSONString(queryResult));
+			result.setWebReturnCode(WebReturnCode.REMOTE_CALL_FAILED);
+			return result ;
+		}
+		List<HaMenuDO> menus = queryResult.getList();
+		result.setValue(menus);
+		return result ;
 	}
 }

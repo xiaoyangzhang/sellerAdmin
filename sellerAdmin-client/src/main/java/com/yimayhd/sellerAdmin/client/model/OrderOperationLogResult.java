@@ -1,4 +1,4 @@
-package com.yimayhd.sellerAdmin.client.model.orderLog;
+package com.yimayhd.sellerAdmin.client.model;
 
 
 import java.io.Serializable;
