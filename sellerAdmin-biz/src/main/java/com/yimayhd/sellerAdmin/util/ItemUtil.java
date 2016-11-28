@@ -17,7 +17,7 @@ import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
  * @author yebinL
  */
 public class ItemUtil {
-    public static List<String> getItemOperates(int ItemType, int status) {
+    public static List<String> getItemOperates(int itemtype, int status) {
         List<String> operates = new ArrayList<String>();
         if (ItemStatus.create.getValue() == status) {
             operates.add(ItemOperate.VIEW.name());
@@ -29,11 +29,13 @@ public class ItemUtil {
             operates.add(ItemOperate.EDIT.name());
             operates.add(ItemOperate.SHELVE.name());
             operates.add(ItemOperate.DELETE.name());
-        } else if (ItemStatus.valid.getValue() == status) {
+        } else if (ItemStatus.valid.getValue() == status&&(itemtype==ItemType.FREE_LINE.getValue()||itemtype==ItemType.FREE_LINE_ABOARD.getValue()||itemtype==ItemType.TOUR_LINE.getValue()||itemtype==ItemType.TOUR_LINE_ABOARD.getValue()||itemtype==ItemType.CITY_ACTIVITY.getValue()||itemtype==ItemType.POINT_MALL.getValue()||itemtype==ItemType.NORMAL.getValue())) {
             operates.add(ItemOperate.VIEW.name());
             operates.add(ItemOperate.EDIT.name());
             operates.add(ItemOperate.UNSHELVE.name());
-
+        } else {
+            operates.add(ItemOperate.VIEW.name());
+            operates.add(ItemOperate.UNSHELVE.name());
         }
         return operates;
     }

@@ -1,5 +1,6 @@
 package com.yimayhd.sellerAdmin.converter;
 
+import com.yimayhd.sellerAdmin.enums.BizItemExportType;
 import com.yimayhd.sellerAdmin.enums.CertificatesType;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.SubOrder;
@@ -46,7 +47,7 @@ public class ExcelExportConverer {
             bizOrderExportDomain.setCommodityName(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getItemTitle());
             bizOrderExportDomain.setUnitPrice(subOrder.getItemPrice_());
             bizOrderExportDomain.setItemNum(subOrder.getTcDetailOrder().getBizOrder().getBuyAmount());
-            bizOrderExportDomain.setItemType(subOrder.getOrderTypeStr());
+            bizOrderExportDomain.setItemType(BizItemExportType.get(subOrder.getOrderTypeStr()).getShowText());
             bizOrderExportDomain.setBuyerName(mainOrder.getUser().getName());
             bizOrderExportDomain.setBuyerTel(mainOrder.getUser().getUnmaskMobile());
             bizOrderExportDomain.setBizOrderType(subOrder.getOrderStatusStr());
