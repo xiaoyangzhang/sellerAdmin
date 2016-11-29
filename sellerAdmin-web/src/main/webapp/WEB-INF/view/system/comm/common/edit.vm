@@ -19,6 +19,7 @@
         <div class="gradeID">
                 <table class="table tab-productdetail">
                     <input type="hidden" name="categoryId" value="$!category.id">
+                    <input type="hidden" value="$!isReadonly">
                     <input type="hidden" name="rootCategoryId" value="$!category.parent.id">
                     #*是否有发布积分商品的权限*#
                     <input type="hidden" name="integralType" value="$!integralType">

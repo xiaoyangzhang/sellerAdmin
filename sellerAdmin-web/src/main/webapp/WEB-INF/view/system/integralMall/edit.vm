@@ -18,6 +18,7 @@
     	<input type ="hidden" id ="uuid" name ="uuid" value ="$!UUID" />
         <div class="gradeID">
                 <table class="table tab-productdetail itemControl">
+                    <input type="hidden" id="isReadonly" value="$!isReadonly">
                     <input type="hidden" name="categoryId" value="$!category.id">
                     <input type="hidden" name="rootCategoryId" value="$!category.parent.id">
                     #*商品类型，此页面全是普通商品发布 新增的时候需要，修改的时候不更新此字段*#
