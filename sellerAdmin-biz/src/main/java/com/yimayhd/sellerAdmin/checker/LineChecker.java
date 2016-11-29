@@ -235,7 +235,7 @@ public class LineChecker {
 		}
 		List<PackageInfo> tcs = priceInfo.getTcs();
 		if (CollectionUtils.isEmpty(tcs)) {
-			return WebCheckResult.error("线路套餐不能为空");
+			return WebCheckResult.error("线路套餐不能为空，请下架后重新编辑");
 		} else if (tcs.size() > 20) {
 			return WebCheckResult.error("线路套餐不能超过20个");
 		} else {
