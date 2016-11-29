@@ -137,7 +137,7 @@
         var tcs = [];
 
         $(".price-info .btn-outline").each(function(index,btn) {
-            var _tc = JSON.parse($(btn).attr('data-tc'));
+            var _tc = $(btn).attr('data-tc') && JSON.parse($(btn).attr('data-tc'));
             tcs.push(_tc);
         });
 
