@@ -134,7 +134,8 @@
     });*/
 
     function getPriceInfo() {
-        var tcs = [],window.isPriceInfo = true,name = '';
+        var tcs = [],name = '';
+        window.isPriceInfo = true;
 
         $(".price-info .btn-outline").each(function(index,btn) {
             var _tc = $(btn).attr('data-tc') && JSON.parse($(btn).attr('data-tc'));
