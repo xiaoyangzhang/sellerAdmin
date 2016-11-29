@@ -70,29 +70,24 @@
                     <dl>
                         <dt data-pTxt="成">成人：</dt>
                         <dd class="mt10">
-                            <span class="bred">*</span>
                             <label>价格：</label>
                             <input type="text" class="price" maxlength="9">
                         </dd>
                         <dd class="mt10">
-                            <span class="bred">*</span>
                             <label>库存：</label>
                             <input type="text" class="stock" maxlength="9">
                         </dd>
                         <dt data-pTxt="儿" class="mt10">儿童：</dt>
                         <dd class="mt10">
-                            <span class="bred">*</span>
                             <label>价格：</label>
                             <input type="text" class="price" maxlength="9">
                         </dd>
                         <dd class="mt10">
-                            <span class="bred">*</span>
                             <label>库存：</label>
                             <input type="text" class="stock" maxlength="9">
                         </dd>
                         <dt data-pTxt="单房差" class="mt10">单房差：</dt>
                         <dd class="mt10">
-                            <span class="bred">*</span>
                             <label>价格：</label>
                             <input type="text" class="price" maxlength="9">
                         </dd>
