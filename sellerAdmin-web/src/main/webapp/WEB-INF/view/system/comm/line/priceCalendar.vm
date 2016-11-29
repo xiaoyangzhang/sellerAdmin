@@ -137,7 +137,6 @@
     function getPriceInfo() {
         var tcs = [],name = '';
 
-
         $(".price-info .btn-outline").each(function(index,btn) {
             var _tc = $(btn).attr('data-tc') && JSON.parse($(btn).attr('data-tc'));
             if(_tc){

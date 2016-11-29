@@ -104,6 +104,9 @@ $(".save").click(function(){
 		layer.msg(errmsg,{icon:2,time:1500});
 		return false;   		
 	};
+	if(!window.isPriceInfo){
+	    return false;
+    }
 	//前端验证end-------
     var result = {
         baseInfo:getBaseInfo(),
