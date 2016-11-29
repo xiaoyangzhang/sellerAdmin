@@ -33,6 +33,8 @@
 		</div><br>
 		#parse("layout/base-js.vm")
         <script>
+            document.domain='jiuxiulvxing.com';
+            
             function getSelected() {
                 var result = [];
             	$(".ck:checked").each(function(){
@@ -274,9 +276,7 @@
             			}
             		}
             	});
-
-            })
-            document.domain='jiuxiulvxing.com';
+            });
         </script>
     </body>
 </html>

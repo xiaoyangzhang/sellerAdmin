@@ -42,5 +42,6 @@
 
 	<bean id="tcTradeServiceRepo" class="com.yimayhd.sellerAdmin.repo.TcTradeServiceRepo" />
 
+	<bean id="comRateRepo" class="com.yimayhd.sellerAdmin.repo.ComRateRepo" />
 
 </beans>

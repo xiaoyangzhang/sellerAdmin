@@ -1,12 +1,10 @@
 package com.yimayhd.sellerAdmin.order;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.sellerAdmin.BaseTest;
 import com.yimayhd.sellerAdmin.ServiceTest;
-import com.yimayhd.sellerAdmin.base.result.WebResult;
-import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogDTO;
-import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery;
-import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogResult;
+import com.yimayhd.sellerAdmin.client.model.OrderOperationLogDTO;
+import com.yimayhd.sellerAdmin.client.model.OrderOperationLogQuery;
+import com.yimayhd.sellerAdmin.client.model.OrderOperationLogResult;
 import com.yimayhd.sellerAdmin.client.result.SellerResult;
 import com.yimayhd.sellerAdmin.client.service.OrderOperationLogService;
 import org.junit.Test;

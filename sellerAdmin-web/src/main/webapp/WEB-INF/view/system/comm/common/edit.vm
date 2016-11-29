@@ -63,11 +63,18 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="red">*</span>商品价格</td>
+                        <td><span class="red">*</span>商品售价</td>
                         <td>
                             <input class="priceY form-control" type="text" name="priceY" value="$!numberHelper.formatNumber($!commodity.price)" maxlength="9">元
                         </td>
                     </tr>
+                    <tr>
+                        <td>市场价</td>
+                        <td>
+                            <input class="original-price form-control" type="text" name="originalPriceStr" value="#if($!commodity.originalPrice!=0)$!numberHelper.formatNumber($!commodity.originalPrice)#end" maxlength="9">元
+                        </td>
+                    </tr>
+
                     #if($!integralType == 1)
 	                    <tr>
 	                        <td><span class="red">*</span>最多可用积分</td>
@@ -423,7 +430,13 @@
         //sku
         if(!skuTableShowFlag){
             if(!$('.priceY').val() || !/^\d{1,6}(\.\d{1,2})?$|^[1-9]\d{0,5}$/.test($('.priceY').val())){
-                return '价格为数字，最大六位整数，可带两位小数';
+                return '商品售价为数字，最大六位整数，可带两位小数';
+            }
+            if($.trim($('.original-price').val()) && !/^\d{1,6}(\.\d{1,2})?$|^[1-9]\d{0,5}$/.test($.trim($('.original-price').val()))){
+                return '市场价为数字，最大六位整数，可带两位小数';
+            }
+            if($.trim($('.original-price').val()) && Number($.trim($('.original-price').val())) <= Number($.trim($('.priceY').val()))){
+                return '市场价必须大于商品售价';
             }
             var reg = $('.maxPoint').attr("reg");
             if(reg){
@@ -437,7 +450,7 @@
             var priceY_ = Math.ceil(parseFloat($('.priceY').val()) * 100);
         	var maxPoint_ = parseInt($('.maxPoint').val());
             if(priceY_ < maxPoint_){
-            	return '最多可用积分不得超过商品价格';
+            	return '最多可用积分不得超过商品售价';
             }
             if(!$('.stockNum').val() || !/^(0|[1-9]\d{0,5})$/.test($('.stockNum').val())){
                 return '库存为正整数，最大六位整数';

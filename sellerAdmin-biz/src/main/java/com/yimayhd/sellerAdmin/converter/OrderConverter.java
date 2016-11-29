@@ -18,7 +18,6 @@ import com.yimayhd.tradecenter.client.util.SkuUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.bouncycastle.jcajce.provider.asymmetric.dsa.DSASigner.stdDSA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -313,6 +312,8 @@ public class OrderConverter {
                 
                 long subOrderTotalFee =BizOrderUtil.getSubOrderTotalFee(tcDetailOrder.getBizOrder().getBizOrderDO());//子订单原价
                 subOrder.setSubOrderTotalFee(subOrderTotalFee);
+                long itemOriginalPrice =  BizOrderUtil.getItemOriginalPrice(tcDetailOrder.getBizOrder().getBizOrderDO());//划价金额
+                subOrder.setItemOriginalPrice(itemOriginalPrice);
                 subOrderList.add(subOrder);
             }
             return new MainOrder(tcMainOrder,subOrderList);
@@ -377,6 +378,7 @@ public class OrderConverter {
     
     public static JXComRateResult changeComRateToJX(ComRateResult comRateResult){
     	JXComRateResult jxresult = new JXComRateResult();
+        jxresult.setId(comRateResult.getId());
     	jxresult.setOrderId(comRateResult.getOrderId());
     	jxresult.setItemId(comRateResult.getItemId());
     	jxresult.setScore(comRateResult.getScore());
@@ -386,6 +388,8 @@ public class OrderConverter {
     	jxresult.setPicUrls(comRateResult.getPicUrls());
     	jxresult.setGmtCreated(comRateResult.getGmtCreated());
     	jxresult.setUserId(comRateResult.getUserId());
+        jxresult.setBackContent(comRateResult.getBackContent());
+        jxresult.setBackTime(comRateResult.getBackTime());
     	return jxresult;
     }
 }

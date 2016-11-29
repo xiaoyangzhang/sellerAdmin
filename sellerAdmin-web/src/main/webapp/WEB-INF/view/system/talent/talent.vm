@@ -164,7 +164,7 @@
                             <div class="hd clearfix">
                                 <ul class="clearfix">
                                     <li><a href="javascript:void(0)" class="addtext">+添加文本</a></li>
-                                    <li><a href="javascript:void(0)" class="addpic">+添加图片</a></li>
+                                    <li><a href="javascript:void(0)" class="addpic" data-imgnum="15">+添加图片</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -173,10 +173,13 @@
                 <tr>
                     <td></td>
                     <td>
-                        <button type="button" class="saveBtn" id="saveBtnEredar">保存</button>
+                        <button type="button" class="saveBtn" id="saveBtnEredar" data-imgnum="15">保存</button>
                     </td>
                 </tr>
             </table>
+            <input type="hidden" name="renewContract" value="$!renewContract">
+            <input type="hidden" name="renewDate" value="$!renewDate">
+            <input type="hidden" name="renewDayContract" id="renewDayContract" value="$!renewDayContract">
         </div>
     </form>
 </div>

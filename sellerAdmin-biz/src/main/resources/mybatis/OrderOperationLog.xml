@@ -24,15 +24,15 @@
         AND biz_no LIKE CONCAT('%',  #{bizNoLike}, '%') ESCAPE '/'
       </if>
       <if test="gmtCreatedStart != null ">
-        and gmt_created <![CDATA[>=]]> #{gmtCreatedStart}
+        AND gmt_created <![CDATA[>=]]> #{gmtCreatedStart}
       </if>
       <if test="gmtCreatedEnd != null ">
-        and gmt_created <![CDATA[<=]]> #{gmtCreatedEnd}
+        AND gmt_created <![CDATA[<=]]> #{gmtCreatedEnd}
       </if>
     </where>
   </sql>
   <!--查询列表-->
-  <select id="queryOrderOperationLogDOList" resultMap="BaseResultMap"  parameterType="com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery" >
+  <select id="queryOrderOperationLogDOList" resultMap="BaseResultMap"  parameterType="com.yimayhd.sellerAdmin.client.model.OrderOperationLogQuery" >
     select
     <include refid="Base_Column_List" />
     from order_operation_log
@@ -41,7 +41,7 @@
     limit #{startRow},#{pageSize}
   </select>
   <!--查询列表总数-->
-  <select id="queryOrderOperationLogDOListCount" resultType="java.lang.Integer" parameterType="com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery" >
+  <select id="queryOrderOperationLogDOListCount" resultType="java.lang.Integer" parameterType="com.yimayhd.sellerAdmin.client.model.OrderOperationLogQuery" >
     select
           count(*)
     from order_operation_log

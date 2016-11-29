@@ -15,15 +15,15 @@
 .baseInfoApply table td{border: 1px solid #d5d5d5;padding: 10px !important;text-align: center;}
 /*商品管理-发布线路-行程信息*/
 .tripInfo{padding: 10px;position: relative;}
-.tripInfo .tripInfoNav{position: absolute;width: 150px;height: 533px;background: #9C9898;overflow: auto;text-align: center;padding: 10px;z-index: 100;}
+.tripInfo .tripInfoNav{position: absolute;width: 170px;height: 533px;background: #f9f9f9;overflow: auto;text-align: center;padding: 10px;z-index: 100;}
 .tripInfo .tripInfoNav li{float: none;position: relative;}
 .tripInfo .tripInfoNav li .icon-trash{position: absolute;right: 10px;top: 9px;font-size: 18px;cursor: pointer;}
 .tripInfo .tripInfoNav li.day_tab{margin-bottom: 5px;}
 .tripInfo .tripInfoNav li.day_tab.active a{background: #FFFFFF;}
-.tripInfo .tripInfoNav li.day_tab a{background: #CAC4C4;border-radius: 5px;}
-.tripInfo .tripInfoNav li.day_tab a:hover{background: #EBE8E8;}
+.tripInfo .tripInfoNav li.day_tab a{border:1px solid #f0f0f0;}
+.tripInfo .tripInfoNav li.day_tab a:hover{border-color:#ed6c44;}
 .tripInfo .tripInfoNav li.day_btn{margin-top: 15px;}
-.tripInfo .tab-content{margin-left: 180px;}
+.tripInfo .tab-content{margin-left: 190px;}
 .tripInfo .travelPanel i{margin-top: 5px;font-size: 20px;margin-right: 5px;}
 .tripInfo .travelPanel .tripAddSp{display: inline-block;font-size: 18px;font-weight: bold;}
 .tripInfo .travelPanelDe{line-height: 30px;}
@@ -35,7 +35,6 @@
 .tripInfo .panel-body table td .flight .flightSelList{margin: 0 0 10px;font-size: 12px;}
 .tripInfo .panel-body table td .flight .flightSelList .label-info{margin-left: 10px;}
 /*商品管理-发布线路-价格信息*/
-.priceInfo{padding: 10px;}
 .priceInfo .tc-main .nav-tabs{border-bottom: none;}
 .priceInfo .tc-main .navCombo{background: #DCD9D9;}
 .priceInfo .tc-main .navCombo li{position: relative;}

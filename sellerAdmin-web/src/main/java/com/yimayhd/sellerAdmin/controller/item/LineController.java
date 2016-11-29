@@ -5,7 +5,6 @@ import java.util.*;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.sellerAdmin.model.line.price.*;
 import com.yimayhd.sellerAdmin.service.draft.DraftService;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -80,9 +79,9 @@ public class LineController extends BaseLineController {
 				}
 				String priceInfoJson = JSON.toJSONString(gt.getPriceInfo());
 				cacheManager.addToTair(Constant.ITEM_ID_+sellerId+id, priceInfoJson,0);
+				log.info("priceInfo="+priceInfoJson);
 				put("product", gt);
 				put("priceInfoJson", priceInfoJson);
-				//log.info("priceInfo="+JSON.toJSONString(gt.getPriceInfo()));
 				put("isReadonly", baseInfo.getItemStatus() == ItemStatus.valid.getValue());
 				return "/system/comm/line/detail";
 			} else {
@@ -113,6 +112,7 @@ public class LineController extends BaseLineController {
 				if (baseInfo != null) {
 					initLinePropertyTypes(baseInfo.getCategoryId());
 				}
+				log.info("priceInfo="+JSON.toJSONString(gt.getPriceInfo()));
 				put("product", gt);
 				put("priceInfoJson", JSON.toJSONString(gt.getPriceInfo()));
 				put("isReadonly", true);
@@ -180,6 +180,7 @@ public class LineController extends BaseLineController {
 			}
 			log.info("price_info_json save:"+json);
 			json = json.replaceAll("\\s*\\\"\\s*", "\\\"");
+			log.info("price_info_json :"+json);
 			LineVO gt = (LineVO) JSONObject.parseObject(json, LineVO.class);
 			WebCheckResult checkLine = LineChecker.checkLine(gt);
 			if (!checkLine.isSuccess()) {
@@ -298,6 +299,7 @@ public class LineController extends BaseLineController {
 		Map<Long,String> map = new HashMap<Long,String>();
 		List<PackageInfo> tcs = priceInfoVO.getTcs();
 		for(PackageInfo tc :tcs){//套餐
+			String tcName=tc.getName();
 			for(PackageMonth month :tc.getMonths()){//月
 				for(PackageDay day: month.getDays()){//日
 					for(PackageBlock block :day.getBlocks()){//sku信息
@@ -305,7 +307,7 @@ public class LineController extends BaseLineController {
 							log.info("新增skuId不过滤,price="+block.getPrice());
 							continue;
 						}
-						map.put(block.getSkuId(),block.getPrice()+"_"+block.getStock());//金额加数量
+						map.put(block.getSkuId(),tcName+"_"+block.getPrice()+"_"+block.getStock());//金额加数量
 					}
 				}
 			}

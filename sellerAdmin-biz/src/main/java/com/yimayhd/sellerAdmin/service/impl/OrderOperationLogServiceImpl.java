@@ -3,9 +3,9 @@ package com.yimayhd.sellerAdmin.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
-import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogDTO;
-import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery;
-import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogResult;
+import com.yimayhd.sellerAdmin.client.model.OrderOperationLogDTO;
+import com.yimayhd.sellerAdmin.client.model.OrderOperationLogQuery;
+import com.yimayhd.sellerAdmin.client.model.OrderOperationLogResult;
 import com.yimayhd.sellerAdmin.client.result.SellerResult;
 import com.yimayhd.sellerAdmin.client.service.OrderOperationLogService;
 import com.yimayhd.sellerAdmin.converter.OrderOperationLogConverter;
@@ -13,7 +13,6 @@ import com.yimayhd.sellerAdmin.manager.OrderOperationLogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jmx.export.annotation.ManagedAttribute;
 
 import java.util.List;
 

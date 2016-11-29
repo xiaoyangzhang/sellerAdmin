@@ -102,6 +102,7 @@ public class LineServiceImpl implements LineService {
             LineVO lineVO = LineConverter.toLineVO(lineResult, picTextResult, themes, toCityVO(departTags),
                     destinationBiz.toCityVODestWithTags(destTags, DestinationOutType.GROUP_LINE.getCode()));
             lineVO.getBaseInfo().setAllDeparts(allDeparts);
+            log.info("item edit info ,lineVO={}", JSON.toJSONString(lineVO));
             return WebResult.success(lineVO);
         } catch (Exception e) {
             log.error("Params: id=" + itemId);

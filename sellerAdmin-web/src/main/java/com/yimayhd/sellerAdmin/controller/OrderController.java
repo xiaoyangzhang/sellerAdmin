@@ -7,13 +7,19 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.client.model.reply.ReplyQuery;
+import com.yimayhd.sellerAdmin.client.model.reply.ReplyVO;
+import com.yimayhd.sellerAdmin.client.result.SellerResult;
+import com.yimayhd.sellerAdmin.client.service.AppraiseMessageReplyService;
 import com.yimayhd.sellerAdmin.constant.Constant;
 
 import com.yimayhd.sellerAdmin.model.order.OrderPriceQuery;
 import com.yimayhd.sellerAdmin.model.order.OrderPrizeDTO;
+import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +67,8 @@ public class OrderController extends BaseController {
 	private static final Logger LOG = LoggerFactory.getLogger(OrderController.class);
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private AppraiseMessageReplyService appraiseMessageReplyService;
 
 	/**
 	 * 退款
@@ -234,6 +242,7 @@ public class OrderController extends BaseController {
 	@RequestMapping(value = "/sendGoodsSearch", method = RequestMethod.GET)
 	public String sendGoodsSearch(Model model,long bizOrderId){
 		List<ExpressCodeRelationDO> list = orderService.selectAllExpressCode();//查询物流公司接口
+		//log.info("sendGoodsSearch--:"+ JSON.toJSONString(list));
 		List<ExpressCodeRelationDO> list2 = new ArrayList<ExpressCodeRelationDO>();
 		for (ExpressCodeRelationDO expressCodeRelationDO : list) {
 			if(expressCodeRelationDO.getName().contains("顺丰速运")){
@@ -249,6 +258,8 @@ public class OrderController extends BaseController {
 			}else if (expressCodeRelationDO.getName().contains("百世汇通")) {
 				list2.add(expressCodeRelationDO);
 			}else if (expressCodeRelationDO.getName().equals("EMS")) {
+				list2.add(expressCodeRelationDO);
+			}else if(expressCodeRelationDO.getName().equals("天天快递")){
 				list2.add(expressCodeRelationDO);
 			}
 		}
@@ -343,8 +354,26 @@ public class OrderController extends BaseController {
 		return "/system/order/changeprice";
 	}
 
-
-
+	@RequestMapping(value = "/setUpReplyMsg",method = RequestMethod.POST)
+	@ResponseBody
+	public SellerResult<String> setUpReplyMsg(Model model, ReplyQuery replyQuery) throws Exception{
+		log.info("setUpReplyMsg start param="+ JSON.toJSONString(replyQuery));
+		long sellerId = getCurrentUserId();
+		if(sellerId==0){
+			log.error("商家id不能为空");
+			return SellerResult.failure("商家id不能为空");
+		}
+		replyQuery.setSellerId(sellerId);
+		SellerResult<ReplyVO> callResult  = appraiseMessageReplyService.addAppraiseMessageReply(replyQuery);
+		if(callResult==null||!callResult.isSuccess()){
+			log.error("评价回复失败,errMsg={}",callResult.getMsg());
+			return SellerResult.failure(callResult.getMsg());
+		}
+		ReplyVO replyVO = callResult.getResultObject();
+		String json = CommonJsonUtil.objectToJson(replyVO,ReplyVO.class);
+		log.info("setUpReplyMsg result:"+json);
+		return SellerResult.success(json);
+	}
 
 
 
