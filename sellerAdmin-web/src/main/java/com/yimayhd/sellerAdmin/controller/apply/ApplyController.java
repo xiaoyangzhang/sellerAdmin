@@ -785,7 +785,7 @@ public class ApplyController extends BaseController {
 			String tfsFileName = "";
 			if (99 == fileType) {
 				newFileName = new String("九休开放平台总则.pdf".getBytes("UTF-8"),"ISO-8859-1");
-				tfsFileName = "T1oCAvByJT1R4oIErK";
+				tfsFileName = "T1TDJTByJT1R4oIErK";
 			}else if (4 == fileType) {
 				newFileName = new String("九休开放平台酒店管理规定.pdf".getBytes("UTF-8"),"ISO-8859-1");
 				tfsFileName = "T1.XZTByCT1R4oIErK";
