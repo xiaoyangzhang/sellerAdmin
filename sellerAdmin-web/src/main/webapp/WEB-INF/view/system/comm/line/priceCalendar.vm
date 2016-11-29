@@ -138,10 +138,7 @@
 
         $(".price-info .btn-outline").each(function(index,btn) {
             var _tc = $(btn).attr('data-tc') && JSON.parse($(btn).attr('data-tc'));
-            if(!_tc){
-                name = $(btn).text();
-                layer.msg(name+'数据不能为空',{icon:2});
-            }else{
+            if(_tc){
                 tcs.push(_tc);
             }
 
