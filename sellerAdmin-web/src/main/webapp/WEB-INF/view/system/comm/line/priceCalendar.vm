@@ -142,7 +142,6 @@
                 isTrue = false;
                 name = $(btn).text();
                 layer.msg(name+'数据不能为空',{icon:2});
-                return false;
             }else{
                 tcs.push(_tc);
             }
