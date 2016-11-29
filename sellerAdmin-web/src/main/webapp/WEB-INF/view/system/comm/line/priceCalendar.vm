@@ -134,12 +134,16 @@
     });*/
 
     function getPriceInfo() {
-        var tcs = [],isTrue = true,name = '';
+        var tcs = [],window.isPriceInfo = true,name = '';
 
         $(".price-info .btn-outline").each(function(index,btn) {
             var _tc = $(btn).attr('data-tc') && JSON.parse($(btn).attr('data-tc'));
             if(_tc){
                 tcs.push(_tc);
+            }else{
+                name = $(btn).text();
+                layer.msg(name+'数据不能为空！',{icon:2,time:1500});
+                isPriceInfo = false;
             }
 
         });
