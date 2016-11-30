@@ -20,8 +20,8 @@
     </div>
     <div class="payment-info-box">
         <div class="payment-bank-info">
-            <p class="w445"><span class="fl">企业名称：<i>$!{accountInfo.openAccName}</i></span><span class="fr">* 仅支持提现到公司对公户</span></p>
-            <p>对公账户：<i>$!{accountInfo.openAcctNo}</i></p>
+            <p class="w445"><span class="fl">开户名称：<i>$!{accountInfo.openAccName}</i></span><span class="fr"><!--* 仅支持提现到公司对公户--></span></p>
+            <p>银行账户：<i>$!{accountInfo.openAcctNo}</i></p>
             <p>开&ensp;户&ensp;行：<i>$!{accountInfo.openBankName}</i></p>
         </div>
         <div class="payment-balance">
