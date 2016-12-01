@@ -112,6 +112,7 @@ public class CityActivityManageController extends BaseController {
 		model.addAttribute("itemType",ItemType.CITY_ACTIVITY.getValue());
 		model.addAttribute("UUID",UUID.randomUUID().toString());
         put("isDraft", true);
+        model.addAttribute("isReadonly", false);
 
         return "/system/cityactivity/edit";
 	}
@@ -153,6 +154,7 @@ public class CityActivityManageController extends BaseController {
     	model.addAttribute("itemType",ItemType.CITY_ACTIVITY.getValue());
         model.addAttribute("pictureText", itemVO.getPictureTextVO());
         model.addAttribute("needKnow", itemVO.getNeedKnowVO());
+        model.addAttribute("isReadonly", false);
 
         return "/system/cityactivity/edit";
     }

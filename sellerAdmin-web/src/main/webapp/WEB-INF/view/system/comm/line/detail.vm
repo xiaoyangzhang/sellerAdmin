@@ -15,7 +15,6 @@
 		<link rel="stylesheet" href="$!rs_js_css_path_jiuxiu/old/css/editer.css"/>
 		
         <style type="text/css">
-        	//禁用输入法
         	.double-only{ime-mode:"disabled"}
         	.int-only{ime-mode:"disabled"}
         </style>
@@ -41,7 +40,10 @@
 	</head>
 	<body>
 		<input type ="hidden" id ="uuid" name ="uuid" value ="$!UUID" />
+		<input type ="hidden" id ="isReadonly" value ="$!isReadonly" />
 		<input type ="hidden" id ="draftId" name ="draftId" value ="$!draftId" />
+		<input type ="hidden" id ="itemStatus" value ="$!product.baseInfo.itemStatus" />
+		<input type ="hidden" id ="itemType" value ="line" />
 		<input type ="hidden" id ="draftSubType" name ="draftId" value ="$!draftSubType" />
 		<div class="tab-container">	
             <ul class="nav nav-tabs">
@@ -263,3 +265,5 @@ $(".savedraft").click(function(){
 	 
 });
 </script>
+
+<script type="text/javascript" src="$!rs_js_css_path_jiuxiu/js/module/md.item.updatePictureText.js"></script>
