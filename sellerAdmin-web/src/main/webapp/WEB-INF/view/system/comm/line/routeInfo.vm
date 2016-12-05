@@ -21,7 +21,7 @@
 
             $('.tab-content').on('click', '.day_tab',function(ev) {
                 $('.tab-content .day_tab').removeClass('active');
-                $(this).addClass('on');
+                $(this).addClass('active');
                 $('.tab-content .tab-pane').hide();
                 $('.tab-content .tab-pane').eq($(this).index()).fadeIn();
             });
