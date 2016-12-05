@@ -104,6 +104,7 @@ $(".save").click(function(){
 		layer.msg(errmsg,{icon:2,time:1500});
 		return false;   		
 	};
+
 	//前端验证end-------
     var result = {
         baseInfo:getBaseInfo(),
@@ -115,6 +116,9 @@ $(".save").click(function(){
         priceInfo:getPriceInfo(),
 		needKnow:getNeedKnow()
     };
+    if(!window.isPriceInfo){
+        return false;
+    }
 	console.log(JSON.stringify(result.baseInfo));
 	console.log(JSON.stringify(result.pictureText));
 	#if($utilItem.isFreeLine($itemType))

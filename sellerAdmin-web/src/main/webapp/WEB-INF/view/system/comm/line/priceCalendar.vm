@@ -70,29 +70,24 @@
                     <dl>
                         <dt data-pTxt="成">成人：</dt>
                         <dd class="mt10">
-                            <span class="bred">*</span>
                             <label>价格：</label>
                             <input type="text" class="price" maxlength="9">
                         </dd>
                         <dd class="mt10">
-                            <span class="bred">*</span>
                             <label>库存：</label>
                             <input type="text" class="stock" maxlength="9">
                         </dd>
                         <dt data-pTxt="儿" class="mt10">儿童：</dt>
                         <dd class="mt10">
-                            <span class="bred">*</span>
                             <label>价格：</label>
                             <input type="text" class="price" maxlength="9">
                         </dd>
                         <dd class="mt10">
-                            <span class="bred">*</span>
                             <label>库存：</label>
                             <input type="text" class="stock" maxlength="9">
                         </dd>
                         <dt data-pTxt="单房差" class="mt10">单房差：</dt>
                         <dd class="mt10">
-                            <span class="bred">*</span>
                             <label>价格：</label>
                             <input type="text" class="price" maxlength="9">
                         </dd>
@@ -118,6 +113,7 @@
 <script>
    /* var  updatedSKU = [],
          deletedSKU = [];*/
+
     // 修改套餐
     $(document).delegate(".tc-tab-content input","change",function(){
         $('.add-tc .btn-outline').each(function(){
@@ -139,11 +135,18 @@
     });*/
 
     function getPriceInfo() {
-        var tcs = [];
-
+        var tcs = [],name = '';
+        window.isPriceInfo = true;
         $(".price-info .btn-outline").each(function(index,btn) {
-            var _tc = JSON.parse($(btn).attr('data-tc'));
-            tcs.push(_tc);
+            var _tc = $(btn).attr('data-tc') && JSON.parse($(btn).attr('data-tc'));
+            if(_tc){
+                tcs.push(_tc);
+            }else{
+                name = $(btn).text();
+                layer.msg(name+'数据不能为空！',{icon:2,time:1500});
+                window.isPriceInfo = false;
+            }
+
         });
 
         var result = {
