@@ -17,10 +17,18 @@ import com.yimayhd.sellerAdmin.client.result.SellerResult;
 import com.yimayhd.sellerAdmin.client.service.AppraiseMessageReplyService;
 import com.yimayhd.sellerAdmin.constant.Constant;
 
+import com.yimayhd.sellerAdmin.converter.ExcelExportConverer;
+import com.yimayhd.sellerAdmin.exception.NoticeException;
+import com.yimayhd.sellerAdmin.model.BizOrderVO;
 import com.yimayhd.sellerAdmin.model.order.OrderPriceQuery;
 import com.yimayhd.sellerAdmin.model.order.OrderPrizeDTO;
+import com.yimayhd.sellerAdmin.model.query.TradeListQuery;
+import com.yimayhd.sellerAdmin.util.excel.JxlFor2003;
+import com.yimayhd.sellerAdmin.util.excel.domain.BizOrderExportDomain;
+import org.apache.commons.collections.CollectionUtils;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +77,9 @@ public class OrderController extends BaseController {
 	private OrderService orderService;
 	@Autowired
 	private AppraiseMessageReplyService appraiseMessageReplyService;
+
+	private final static int MONTH = -2;
+	private final static int DAY = 62;
 
 	/**
 	 * 退款
@@ -169,6 +180,57 @@ public class OrderController extends BaseController {
 			model.addAttribute("orderTypeList", OrderSearchType.values());
 		}
 		return "/system/order/routeOrderList";
+	}
+
+	/**
+	 * 导出交易列表
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/export", method = RequestMethod.GET)
+	public void orderListExport(HttpServletRequest request,HttpServletResponse response,OrderListQuery orderListQuery) throws Exception {
+		long sellerId = sessionManager.getUserId();
+		orderListQuery.setSellerId(sellerId);
+		orderListQuery.setDomain(Constant.DOMAIN_JIUXIU);
+		orderListQuery.setPageNo(0);
+		orderListQuery.setPageSize(Integer.MAX_VALUE);
+		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
+
+		List<MainOrder> bizOrderExportVOList = pageVo.getResultList();
+		if(CollectionUtils.isNotEmpty(bizOrderExportVOList)) {
+
+            List<BizOrderExportDomain> bizOrderExportDomains = ExcelExportConverer.exportOrderList(bizOrderExportVOList);
+            List<BasicNameValuePair> headList = new ArrayList<BasicNameValuePair>();
+			headList.add(new BasicNameValuePair("bizOrderId", "订单编号"));
+			headList.add(new BasicNameValuePair("parentBizOrderId", "父订单编号"));
+			headList.add(new BasicNameValuePair("commodityName", "商品名称"));
+			headList.add(new BasicNameValuePair("commodityId", "商品id"));
+			headList.add(new BasicNameValuePair("unitPrice", "单价"));
+			headList.add(new BasicNameValuePair("itemNum", "数量"));
+			headList.add(new BasicNameValuePair("itemType", "类型"));
+			headList.add(new BasicNameValuePair("buyerName", "买家昵称"));
+			headList.add(new BasicNameValuePair("buyerTel", "买家手机号"));
+			headList.add(new BasicNameValuePair("bizOrderType", "订单状态"));
+			headList.add(new BasicNameValuePair("itemPrice", "商品价格"));
+			headList.add(new BasicNameValuePair("discount", "已优惠"));
+			headList.add(new BasicNameValuePair("bizOrderTotalPrice", "订单总价"));
+			headList.add(new BasicNameValuePair("realCollection", "实收款"));
+			headList.add(new BasicNameValuePair("payScore", "支付积分"));
+			headList.add(new BasicNameValuePair("bizOrderCreateTime", "创建订单时间"));
+			headList.add(new BasicNameValuePair("bizOrderPayTime", "支付订单时间"));
+			headList.add(new BasicNameValuePair("buyerNotes", "买家备注"));
+			headList.add(new BasicNameValuePair("consigneeName", "收货人姓名"));
+			headList.add(new BasicNameValuePair("consigneeTel", "收货人手机号码"));
+			headList.add(new BasicNameValuePair("receivingProvince", "收货省"));
+			headList.add(new BasicNameValuePair("receivingCity", "收货市"));
+			headList.add(new BasicNameValuePair("receivingArea", "收货地区"));
+			headList.add(new BasicNameValuePair("receivingAdress", "收货详细地址"));
+			headList.add(new BasicNameValuePair("contactsName", "联系人姓名"));
+			headList.add(new BasicNameValuePair("contactsTel", "联系人手机"));
+			headList.add(new BasicNameValuePair("contactsEmail", "联系人邮箱"));
+			headList.add(new BasicNameValuePair("travelListStr", "游客信息"));
+			headList.add(new BasicNameValuePair("closeBizReason", "关单原因"));
+			JxlFor2003.exportExcel(response, "交易记录.xls", bizOrderExportDomains, headList);
+		}
 	}
 	
 	/**

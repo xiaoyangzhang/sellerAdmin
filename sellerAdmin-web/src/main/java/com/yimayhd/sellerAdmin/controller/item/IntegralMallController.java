@@ -148,7 +148,7 @@ public class IntegralMallController extends BaseController {
 		model.addAttribute("commodity", itemResultVO.getItemVO());
 		model.addAttribute("itemSkuList", itemResultVO.getItemSkuVOList());
 		model.addAttribute("pictureText", itemResultVO.getItemVO().getPictureTextVO());
-		model.addAttribute("isReadonly", itemResultVO.getItemVO().getStatus() == ItemStatus.valid.getValue());
+		model.addAttribute("isReadonly", false);
 		model.addAttribute("numberHelper",new NumberFormatHelper() );
 		return "/system/integralMall/edit";
 	}
