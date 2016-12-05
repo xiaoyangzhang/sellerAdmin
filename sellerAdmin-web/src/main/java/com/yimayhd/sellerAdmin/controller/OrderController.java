@@ -25,6 +25,8 @@ import com.yimayhd.sellerAdmin.model.order.OrderPrizeDTO;
 import com.yimayhd.sellerAdmin.model.query.TradeListQuery;
 import com.yimayhd.sellerAdmin.util.excel.JxlFor2003;
 import com.yimayhd.sellerAdmin.util.excel.domain.BizOrderExportDomain;
+import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
+import com.yimayhd.tradecenter.client.model.result.order.metaq.OrderInfoTO;
 import org.apache.commons.collections.CollectionUtils;
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -193,12 +195,8 @@ public class OrderController extends BaseController {
 		orderListQuery.setDomain(Constant.DOMAIN_JIUXIU);
 		orderListQuery.setPageNo(0);
 		orderListQuery.setPageSize(Integer.MAX_VALUE);
-		PageVO<MainOrder> pageVo = orderService.getOrderList(orderListQuery);
-
-		List<MainOrder> bizOrderExportVOList = pageVo.getResultList();
-		if(CollectionUtils.isNotEmpty(bizOrderExportVOList)) {
-
-            List<BizOrderExportDomain> bizOrderExportDomains = ExcelExportConverer.exportOrderList(bizOrderExportVOList);
+		List<BizOrderExportDomain> bizOrderExportDomains = orderService.exportOrderList(orderListQuery);
+		if(CollectionUtils.isNotEmpty(bizOrderExportDomains)) {
             List<BasicNameValuePair> headList = new ArrayList<BasicNameValuePair>();
 			headList.add(new BasicNameValuePair("bizOrderId", "订单编号"));
 			headList.add(new BasicNameValuePair("parentBizOrderId", "父订单编号"));
