@@ -23,7 +23,7 @@
                 $('.tab-content .day_tab').removeClass('active');
                 $(this).addClass('active');
                 $('.tab-content .tab-pane').hide();
-                $('.tab-content .tab-pane').eq($(this).index()).fadeIn();
+                $('.tab-content .tab-pane').eq($(this).index()).show();
             });
 
 			$(document).delegate(".myTrash","click",function(){
@@ -48,6 +48,7 @@
 	                    $(tabConId).remove();
 						$(".tripInfo .tab-content .tab-pane:first").addClass("active");
 					}
+                    $(tabConId).prev().show();
 					if(_this.parent().prev().length != 0){
 	                    _this.parent().prev().addClass("active");
 	                    _this.parent().remove();
