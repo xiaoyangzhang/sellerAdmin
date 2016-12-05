@@ -44,8 +44,8 @@
         <property name="version" value="${consumer.dubbo.paycore.version}"/>
     </bean>
     
-    <bean id="querySettlementServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
-        <property name="interface" value="com.yimayhd.pay.client.service.settlement.QuerySettlementService"/>
+    <bean id="settlementQueryServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.pay.client.service.settlement.SettlementQueryService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
 		<property name="timeout" value="${consumer.dubbo.timeout}"/>
@@ -53,4 +53,25 @@
         <property name="retries" value="${dubbo.retries}"/>
         <property name="version" value="${consumer.dubbo.paycore.version}"/>
     </bean>
+
+    <bean id="verifyCodeServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.pay.client.service.verifycode.VerifyCodeService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+        <property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
+        <property name="version" value="${consumer.dubbo.paycore.version}"/>
+    </bean>
+
+    <bean id="sellerServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.user.client.service.SellerService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+        <property name="check" value="${consumer.dubbo.check}"/>
+        <property name="retries" value="${dubbo.retries}"/>
+        <property name="version" value="${consumer.dubbo.user.version}"/>
+    </bean>
+
 </beans>

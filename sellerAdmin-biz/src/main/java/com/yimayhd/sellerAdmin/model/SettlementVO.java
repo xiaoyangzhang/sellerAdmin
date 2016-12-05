@@ -26,7 +26,7 @@ public class SettlementVO extends SettlementDTO{
 		SettlementVO vo = new SettlementVO();
         BeanUtils.copyProperties(dto, vo);
         //分转元
-        vo.setTradeAmountYuan(NumUtil.moneyTransformDouble(vo.getTradeAmount()));
+        vo.setTradeAmountYuan(NumUtil.moneyTransformDouble(vo.getActualAmount()));
         vo.setServiceFeeYuan(NumUtil.moneyTransformDouble(vo.getServiceFee()));
         vo.setSettlementAmountYuan(NumUtil.moneyTransformDouble(vo.getSettlementAmount()));
         return vo;
