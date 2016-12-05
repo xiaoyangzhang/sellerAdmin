@@ -11,6 +11,7 @@ import com.yimayhd.tradecenter.client.model.domain.order.PayOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.tradecenter.client.model.result.order.metaq.OrderInfoTO;
+import com.yimayhd.user.client.domain.UserDO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,6 +37,7 @@ public class ExcelExportConverer {
                 bizOrderExportDomain.setContactsTel(contactUserInfo.getContactPhone());
                 bizOrderExportDomain.setContactsEmail(contactUserInfo.getContactEmail());
             }
+            UserDO userDO = mainOrder.getUser();
             bizOrderExportDomain.setBizOrderId(subOrder.getTcDetailOrder().getBizOrder().getBizOrderId());
             bizOrderExportDomain.setParentBizOrderId(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getBizOrderId());
             bizOrderExportDomain.setCommodityId(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getItemId());
@@ -43,8 +45,11 @@ public class ExcelExportConverer {
             bizOrderExportDomain.setUnitPrice(subOrder.getItemPrice_());
             bizOrderExportDomain.setItemNum(subOrder.getTcDetailOrder().getBizOrder().getBuyAmount());
             bizOrderExportDomain.setItemType(BizItemExportType.get(subOrder.getOrderTypeStr()).getShowText());
-            bizOrderExportDomain.setBuyerName(mainOrder.getUser().getName());
-            bizOrderExportDomain.setBuyerTel(mainOrder.getUser().getUnmaskMobile());
+            if(null!=userDO) {
+                bizOrderExportDomain.setBuyerName(userDO.getName());
+                bizOrderExportDomain.setBuyerTel(userDO.getUnmaskMobile());
+            }
+
             bizOrderExportDomain.setBizOrderType(getStatusStr(subOrder.getOrderStatusStr(), subOrder.getOrderTypeStr()));
             bizOrderExportDomain.setItemPrice(subOrder.getItemPrice_());
             bizOrderExportDomain.setDiscount(mainOrder.getValue());
