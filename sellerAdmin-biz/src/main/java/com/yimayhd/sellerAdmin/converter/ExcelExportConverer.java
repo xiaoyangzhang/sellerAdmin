@@ -33,7 +33,7 @@ public class ExcelExportConverer {
                 bizOrderExportDomain.setConsigneeTel(logisticsOrderDO.getMobilePhone());
                 bizOrderExportDomain.setReceivingProvince(logisticsOrderDO.getProv());
                 bizOrderExportDomain.setReceivingCity(logisticsOrderDO.getCity());
-                bizOrderExportDomain.setReceivingAdress(logisticsOrderDO.getArea());
+                bizOrderExportDomain.setReceivingArea(logisticsOrderDO.getArea());
                 bizOrderExportDomain.setReceivingAdress(logisticsOrderDO.getAddress());
             }
             if(null!=contactUserInfo) {
