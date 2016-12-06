@@ -4,10 +4,7 @@ import com.yimayhd.sellerAdmin.enums.*;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.SubOrder;
 import com.yimayhd.sellerAdmin.util.excel.domain.BizOrderExportDomain;
-import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
-import com.yimayhd.tradecenter.client.model.domain.order.LgOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
-import com.yimayhd.tradecenter.client.model.domain.order.PayOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.tradecenter.client.model.result.order.metaq.OrderInfoTO;
@@ -46,7 +43,7 @@ public class ExcelExportConverer {
             bizOrderExportDomain.setItemNum(subOrder.getTcDetailOrder().getBizOrder().getBuyAmount());
             bizOrderExportDomain.setItemType(BizItemExportType.get(subOrder.getOrderTypeStr()).getShowText());
             if(null!=userDO) {
-                bizOrderExportDomain.setBuyerName(userDO.getName());
+                bizOrderExportDomain.setBuyerName(userDO.getNickname());
                 bizOrderExportDomain.setBuyerTel(userDO.getUnmaskMobile());
             }
 
@@ -57,8 +54,10 @@ public class ExcelExportConverer {
             bizOrderExportDomain.setRealCollection(subOrder.getSubOrderTotalFee());
             bizOrderExportDomain.setPayScore(mainOrder.getUserPointNum());
             bizOrderExportDomain.setBizOrderCreateTime(new Date(subOrder.getTcDetailOrder().getBizOrder().getCreateTime()));
-            bizOrderExportDomain.setBizOrderPayTime(new Date(subOrder.getTcDetailOrder().getBizOrder().getPayTime()));
+            bizOrderExportDomain.setBizOrderPayTime(0==subOrder.getTcDetailOrder().getBizOrder().getPayTime()?null:new Date(subOrder.getTcDetailOrder().getBizOrder().getPayTime()));
             bizOrderExportDomain.setBuyerNotes(tcMainOrder.getOtherInfo());
+            bizOrderExportDomain.setSellerNotes(tcMainOrder.getSellerMemo());
+            bizOrderExportDomain.setCloseBizReason(tcMainOrder.getCloseReason());
 
             String tradeInfos = new String();
             List<ContactUser> contactUsers = tcMainOrder.getTouristList();

@@ -216,6 +216,7 @@ public class OrderController extends BaseController {
 			headList.add(new BasicNameValuePair("bizOrderCreateTime", "创建订单时间"));
 			headList.add(new BasicNameValuePair("bizOrderPayTime", "支付订单时间"));
 			headList.add(new BasicNameValuePair("buyerNotes", "买家备注"));
+			headList.add(new BasicNameValuePair("sellerNotes", "卖家备注"));
 			headList.add(new BasicNameValuePair("consigneeName", "收货人姓名"));
 			headList.add(new BasicNameValuePair("consigneeTel", "收货人手机号码"));
 			headList.add(new BasicNameValuePair("receivingProvince", "收货省"));

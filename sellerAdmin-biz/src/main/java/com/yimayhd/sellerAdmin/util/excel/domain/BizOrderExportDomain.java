@@ -101,6 +101,11 @@ public class BizOrderExportDomain implements Serializable{
     private String buyerNotes;
 
     /**
+     * 买家备注
+     */
+    private String sellerNotes;
+
+    /**
      * 收货人姓名
      */
     private String consigneeName;
@@ -437,5 +442,13 @@ public class BizOrderExportDomain implements Serializable{
 
     public void setCloseBizReason(String closeBizReason) {
         this.closeBizReason = closeBizReason;
+    }
+
+    public String getSellerNotes() {
+        return sellerNotes;
+    }
+
+    public void setSellerNotes(String sellerNotes) {
+        this.sellerNotes = sellerNotes;
     }
 }
