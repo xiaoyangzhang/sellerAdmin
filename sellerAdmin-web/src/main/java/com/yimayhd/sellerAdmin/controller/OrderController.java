@@ -201,6 +201,7 @@ public class OrderController extends BaseController {
 			headList.add(new BasicNameValuePair("bizOrderId", "订单编号"));
 			headList.add(new BasicNameValuePair("parentBizOrderId", "父订单编号"));
 			headList.add(new BasicNameValuePair("commodityName", "商品名称"));
+			headList.add(new BasicNameValuePair("resourceName", "资源名称"));
 			headList.add(new BasicNameValuePair("commodityId", "商品id"));
 			headList.add(new BasicNameValuePair("unitPrice", "单价"));
 			headList.add(new BasicNameValuePair("itemNum", "数量"));

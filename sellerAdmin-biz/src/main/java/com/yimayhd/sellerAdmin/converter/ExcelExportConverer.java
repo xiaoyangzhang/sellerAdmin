@@ -22,7 +22,6 @@ public class ExcelExportConverer {
     public static List<BizOrderExportDomain> exportOrder(MainOrder mainOrder, List<OrderInfoTO> orders) {
 
         TcMainOrder tcMainOrder = mainOrder.getTcMainOrder();
-
         ContactUser contactUserInfo = mainOrder.getTcMainOrder().getContactInfo();
         List<BizOrderExportDomain> bizOrderExportDomains = new ArrayList<>();
 
@@ -39,6 +38,7 @@ public class ExcelExportConverer {
             bizOrderExportDomain.setParentBizOrderId(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getBizOrderId());
             bizOrderExportDomain.setCommodityId(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getItemId());
             bizOrderExportDomain.setCommodityName(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getItemTitle());
+            bizOrderExportDomain.setResourceName(getResourceNameStr(tcMainOrder,subOrder.getOrderTypeStr()));
             bizOrderExportDomain.setUnitPrice(subOrder.getItemPrice_());
             bizOrderExportDomain.setItemNum(subOrder.getTcDetailOrder().getBizOrder().getBuyAmount());
             bizOrderExportDomain.setItemType(BizItemExportType.get(subOrder.getOrderTypeStr()).getShowText());
@@ -62,6 +62,7 @@ public class ExcelExportConverer {
             String tradeInfos = new String();
             List<ContactUser> contactUsers = tcMainOrder.getTouristList();
             if(null!=contactUsers) {
+                int i =1;
                 for (ContactUser contactUser : contactUsers) {
                     String cardType;
                     try {
@@ -69,7 +70,11 @@ public class ExcelExportConverer {
                     } catch (Exception e) {
                         cardType = CertificatesType.CARD.getDesc();
                     }
-                    tradeInfos = "游客姓名:" + contactUser.getContactName() + ",手机号:" + contactUser.getContactPhone() + ",证件类型:" + cardType + ",证件号:" + contactUser.getCertificatesNum();
+                    String contractName = contactUser.getContactName()==null?"空":contactUser.getContactName();
+                    String contractPhone = contactUser.getContactPhone()==null?"空":contactUser.getContactPhone();
+                    String contractNum = contactUser.getCertificatesNum()==null?"空":contactUser.getCertificatesNum();
+                    tradeInfos = tradeInfos + i + ".游客姓名:" + contractName + ",手机号:" + contractPhone + ",证件类型:" + cardType + ",证件号:" + contractNum + ";";
+                    i++;
                 }
                 bizOrderExportDomain.setTravelListStr(tradeInfos);
             }
@@ -107,6 +112,16 @@ public class ExcelExportConverer {
             return BizHotelStatusType.get(status).getText();
         }
         return "";
+    }
+
+    private static String getResourceNameStr(TcMainOrder tcMainOrder, String itemType) {
+
+       if(itemType.equals("SPOTS")) {
+            return tcMainOrder.getScenicTitle();
+       } else if(itemType.equals("HOTEL")||itemType.equals("HOTEL_OFFLINE")) {
+            return tcMainOrder.getHotelTitle();
+       }
+       return "";
     }
 
 

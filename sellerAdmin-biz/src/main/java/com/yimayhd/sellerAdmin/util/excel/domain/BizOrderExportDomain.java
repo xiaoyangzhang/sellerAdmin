@@ -26,6 +26,11 @@ public class BizOrderExportDomain implements Serializable{
     private String commodityName;
 
     /**
+     * 资源名称
+     */
+    private String resourceName;
+
+    /**
      * 商品id
      */
     private long commodityId;
@@ -450,5 +455,13 @@ public class BizOrderExportDomain implements Serializable{
 
     public void setSellerNotes(String sellerNotes) {
         this.sellerNotes = sellerNotes;
+    }
+
+    public String getResourceName() {
+        return resourceName;
+    }
+
+    public void setResourceName(String resourceName) {
+        this.resourceName = resourceName;
     }
 }
