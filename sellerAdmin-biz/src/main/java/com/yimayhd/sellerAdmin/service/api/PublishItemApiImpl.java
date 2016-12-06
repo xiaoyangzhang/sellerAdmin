@@ -31,8 +31,8 @@ public class PublishItemApiImpl implements PublishItemApi  {
 	private PublishItemBiz publishItemBiz;
 	@Override
 	public boolean publishService(int appId, int domainId,
-			long deviceId, long userId, int versionCode,
-			PublishServiceDO publishServiceDO) {
+								  long deviceId, long userId, int versionCode,
+								  PublishServiceDO publishServiceDO) {
 		if (userId <= 0 || publishServiceDO == null) {
 			log.error("params:userId={},PublishServiceDO={}",userId,JSON.toJSONString(publishServiceDO));
 			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
@@ -41,7 +41,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 		WebResult<Boolean> result = null;
 		try {
 			if (publishServiceDO.id <= 0) {
-				
+
 				result = publishItemBiz.addItem(publishServiceDO,userId);
 			}else if (publishServiceDO.id > 0) {
 				result = publishItemBiz.updateItem(publishServiceDO,userId);
@@ -64,17 +64,21 @@ public class PublishItemApiImpl implements PublishItemApi  {
 
 	@Override
 	public ItemApiResult getItemList(int appId, int domainId,
-			long deviceId, long userId, int versionCode,
-			 ItemQueryParam itemQueryParam) {
-		//log.info("ItemApiResult.getItemList============================");
-
+									 long deviceId, long userId, int versionCode,
+									 ItemQueryParam itemQueryParam) {
+		log.info("params:userId={},ItemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
+		boolean checkResult = checkWhiteList(appId,domainId,deviceId,userId,versionCode);
+		if (!checkResult) {
+			DubboExtProperty.setErrorCode(SellerReturnCode.NO_AUTHORITY_ERROR);
+			return null;
+		}
 		if (userId <= 0 || itemQueryParam == null || itemQueryParam.pageNo <= 0 || itemQueryParam.pageSize <= 0) {
 			log.error("params:userId={},itemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
 			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
 			return null;
 		}
 		try {
-			ItemCategoryQuery itemCategoryQuery = new ItemCategoryQuery(); 
+			ItemCategoryQuery itemCategoryQuery = new ItemCategoryQuery();
 			itemCategoryQuery.setSellerId(userId);
 			itemCategoryQuery.setItemQueryParam(itemQueryParam);
 			itemCategoryQuery.setCategoryId(Integer.parseInt(WebResourceConfigUtil.getConsultCategory()));
@@ -97,7 +101,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 
 	@Override
 	public ItemApiResult getItemDetailInfo(int appId, int domainId,
-			long deviceId, long userId, int versionCode, ItemQueryParam itemQueryParam) {
+										   long deviceId, long userId, int versionCode, ItemQueryParam itemQueryParam) {
 		if (userId <= 0 || itemQueryParam == null || itemQueryParam.id <= 0) {
 			log.error("params:userId={},ItemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
 			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
@@ -112,7 +116,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 				log.error("params:userId={},ItemQueryParam={},result:{}",userId,JSON.toJSONString(itemQueryParam),JSON.toJSONString(itemApiResult));
 				DubboExtProperty.setErrorCode(SellerReturnCode.SYSTEM_ERROR);
 				return null;
-				
+
 			}
 			return itemApiResult;
 		} catch (Exception e) {
@@ -123,8 +127,8 @@ public class PublishItemApiImpl implements PublishItemApi  {
 
 	@Override
 	public boolean checkWhiteList(int appId, int domainId, long deviceId,
-			long userId, int versionCode) {
-		//log.info("--------------------------------------------------");
+								  long userId, int versionCode) {
+		log.info("params:userId={}",userId);
 		if (userId <= 0 || domainId <= 0) {
 			log.error("params:userId={},domainId={}",userId,domainId);
 			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
@@ -135,9 +139,9 @@ public class PublishItemApiImpl implements PublishItemApi  {
 			query.setDomainId(domainId);
 			query.setSellerId(userId);
 			WebResult<Boolean> checkResult = publishItemBiz.checkWhiteList(query);
-			//log.info("--------------------------------------------------"+JSON.toJSONString(checkResult));
+			log.info("result:{}"+JSON.toJSONString(checkResult));
 			if (checkResult == null || !checkResult.isSuccess()) {
-				
+
 				return false;
 			}
 			return true;
@@ -149,7 +153,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 
 	@Override
 	public boolean updateState(int appId, int domainId, long deviceId,
-			long userId, int versionCode, ItemQueryParam itemQueryParam) {
+							   long userId, int versionCode, ItemQueryParam itemQueryParam) {
 		log.info("param:userId={},ItemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
 		if (userId <= 0 || itemQueryParam == null || itemQueryParam.id <= 0 || itemQueryParam.state <2) {
 			log.error("params:userId={},ItemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
@@ -170,7 +174,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 				return false;
 			}
 			log.info("result:{}",JSON.toJSONString(updateStateResult));
-			
+
 			return true;
 		} catch (Exception e) {
 			log.error("param:ItemQueryParam={},error:{}",JSON.toJSONString(itemQueryParam),e);
@@ -180,8 +184,8 @@ public class PublishItemApiImpl implements PublishItemApi  {
 
 	@Override
 	public PublishServiceDO getPublishItemInfo(int appId, int domainId,
-			long deviceId, long userId, int versionCode,/*long itemId,long categoryId*/ItemQueryParam itemQueryParam) {
-		
+											   long deviceId, long userId, int versionCode,/*long itemId,long categoryId*/ItemQueryParam itemQueryParam) {
+
 		//log.error("----------------------------------------------------------------------------------------");
 		log.info("param:ItemQueryParam={}",JSON.toJSONString(itemQueryParam));
 		if (userId <= 0 || itemQueryParam == null || itemQueryParam.id <= 0 || itemQueryParam.categoryId <= 0) {
@@ -200,7 +204,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 			if (itemApiResult == null ) {
 				log.error("params:userId={},ItemQueryParam={},result:{}",userId,JSON.toJSONString(itemQueryParam),JSON.toJSONString(itemApiResult));
 				return null;
-				
+
 			}
 			return itemApiResult.itemDetail.itemManagement.publishServiceDO;
 		} catch (Exception e) {
@@ -211,7 +215,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 
 	@Override
 	public ConsultCategoryInfo getConsultItemProperties(int appId, int domainId,
-			long deviceId, long userId, int versionCode) {
+														long deviceId, long userId, int versionCode) {
 		log.error("----------------------------------------------------------------");
 		try {
 			ConsultCategoryInfo consultItemProperties = publishItemBiz.getConsultItemProperties();

@@ -43,4 +43,6 @@ public class SellerReturnCode extends AbstractReturnCode implements Serializable
     public static final  SellerReturnCode QUERY_MERCHANT_QUALIFICATION_ERROR = new SellerReturnCode(QUERY_MERCHANT_QUALIFICATION_ERROR_C, "获取该店铺资质信息失败");
     public static final int QUERY_PROPERTY_ERROR_C = 24005012;
     public static final SellerReturnCode QUERY_PROPERTY_ERROR = new SellerReturnCode(QUERY_PROPERTY_ERROR_C, "获取属性失败");
+ public static final int NO_AUTHORITY_ERROR_C = 24005013;
+    public static final SellerReturnCode NO_AUTHORITY_ERROR = new SellerReturnCode(QUERY_PROPERTY_ERROR_C, "对不起，您没有权限");
 }
