@@ -35,7 +35,7 @@ public class ExcelExportConverer {
             }
             UserDO userDO = mainOrder.getUser();
             bizOrderExportDomain.setBizOrderId(subOrder.getTcDetailOrder().getBizOrder().getBizOrderId());
-            bizOrderExportDomain.setParentBizOrderId(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getBizOrderId());
+            bizOrderExportDomain.setParentBizOrderId(subOrder.getTcDetailOrder().getParentId());
             bizOrderExportDomain.setCommodityId(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getItemId());
             bizOrderExportDomain.setCommodityName(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getItemTitle());
             bizOrderExportDomain.setResourceName(getResourceNameStr(tcMainOrder,subOrder.getOrderTypeStr()));
