@@ -194,7 +194,7 @@ public class OrderController extends BaseController {
 		orderListQuery.setSellerId(sellerId);
 		orderListQuery.setDomain(Constant.DOMAIN_JIUXIU);
 		orderListQuery.setPageNo(0);
-		orderListQuery.setPageSize(Integer.MAX_VALUE);
+		orderListQuery.setPageSize(1000);
 		List<BizOrderExportDomain> bizOrderExportDomains = orderService.exportOrderList(orderListQuery);
 		if(CollectionUtils.isNotEmpty(bizOrderExportDomains)) {
             List<BasicNameValuePair> headList = new ArrayList<BasicNameValuePair>();
