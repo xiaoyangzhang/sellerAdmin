@@ -17,6 +17,7 @@ import com.yimayhd.sellerAdmin.util.excel.domain.BizOrderExportDomain;
 import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
 import com.yimayhd.tradecenter.client.model.param.order.UpdateBizOrderExtFeatureDTO;
 import com.yimayhd.tradecenter.client.model.result.order.TcSingleQueryResult;
+import com.yimayhd.tradecenter.client.model.result.order.metaq.OrderInfoTO;
 
 /**
  * 订单服务接口
@@ -46,7 +47,7 @@ public interface OrderService {
 	 * @return
 	 * @throws Exception
 	 */
-	List<BizOrderExportDomain> exportOrderList(OrderListQuery orderListQuery) throws Exception;
+	List<BizOrderExportDomain> exportOrderList(OrderListQuery orderListQuery, List<OrderInfoTO> orderInfoTOList, List<MainOrder> mainOrderList) throws Exception;
 
 
 

@@ -52,7 +52,11 @@ public class ExcelExportConverer {
             bizOrderExportDomain.setDiscount(mainOrder.getValue());
             bizOrderExportDomain.setBizOrderTotalPrice(subOrder.getItemPrice_()*subOrder.getTcDetailOrder().getBizOrder().getBuyAmount());
             try {
-                bizOrderExportDomain.setRealCollection(Long.parseLong(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.ACTUAL_AMOUNT_PAID)));
+                if(null==subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.ACTUAL_AMOUNT_PAID)) {
+                    bizOrderExportDomain.setRealCollection(Long.parseLong(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.SUB_ORDER_ACTUAL_FEE)));
+                } else {
+                    bizOrderExportDomain.setRealCollection(Long.parseLong(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.ACTUAL_AMOUNT_PAID)));
+                }
             } catch (NumberFormatException e) {
                 bizOrderExportDomain.setRealCollection(subOrder.getTcDetailOrder().getBizOrder().getActualTotalFee());
             }

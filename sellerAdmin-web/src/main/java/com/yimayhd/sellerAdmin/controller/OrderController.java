@@ -194,8 +194,10 @@ public class OrderController extends BaseController {
 		orderListQuery.setSellerId(sellerId);
 		orderListQuery.setDomain(Constant.DOMAIN_JIUXIU);
 		orderListQuery.setPageNo(0);
-		orderListQuery.setPageSize(800);
-		List<BizOrderExportDomain> bizOrderExportDomains = orderService.exportOrderList(orderListQuery);
+		orderListQuery.setPageSize(10);
+		List<OrderInfoTO> orderInfoTOList = new ArrayList<>();
+		List<MainOrder> mainOrderList = new ArrayList<>();
+		List<BizOrderExportDomain> bizOrderExportDomains = orderService.exportOrderList(orderListQuery, orderInfoTOList, mainOrderList);
 		if(CollectionUtils.isNotEmpty(bizOrderExportDomains)) {
             List<BasicNameValuePair> headList = new ArrayList<BasicNameValuePair>();
 			headList.add(new BasicNameValuePair("bizOrderId", "订单编号"));
@@ -210,7 +212,7 @@ public class OrderController extends BaseController {
 			headList.add(new BasicNameValuePair("buyerTel", "买家手机号"));
 			headList.add(new BasicNameValuePair("bizOrderType", "订单状态"));
 			headList.add(new BasicNameValuePair("discount", "已优惠"));
-			headList.add(new BasicNameValuePair("bizOrderTotalPrice", "订单总价"));
+//			headList.add(new BasicNameValuePair("bizOrderTotalPrice", "订单总价"));
 			headList.add(new BasicNameValuePair("realCollection", "实收款"));
 			headList.add(new BasicNameValuePair("payScore", "支付积分"));
 			headList.add(new BasicNameValuePair("bizOrderCreateTime", "创建订单时间"));

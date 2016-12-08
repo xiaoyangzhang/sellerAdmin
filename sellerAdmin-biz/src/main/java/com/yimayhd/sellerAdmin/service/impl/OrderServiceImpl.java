@@ -231,9 +231,10 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<BizOrderExportDomain> exportOrderList(OrderListQuery orderListQuery) throws Exception {
+	public List<BizOrderExportDomain> exportOrderList(OrderListQuery orderListQuery, List<OrderInfoTO> orderInfoTOList, List<MainOrder> mainOrderList) throws Exception {
 		PageVO<MainOrder> pageVOs =  getOrderList(orderListQuery);
 		List<MainOrder> mainOrders = pageVOs.getResultList();
+		mainOrderList.addAll(mainOrders);
 		List<Long> bizIds = new ArrayList<>();
 		for (MainOrder mainOrder : mainOrders) {
 			for (SubOrder subOrder : mainOrder.getSubOrderList()) {
@@ -243,7 +244,13 @@ public class OrderServiceImpl implements OrderService {
 		OrderQueryOption orderQueryOption = new OrderQueryOption();
 		orderQueryOption.setAll();
 		List<OrderInfoTO> orderInfoTOS = tcTradeServiceRepo.getOrderInfo(bizIds, orderQueryOption);
-		return ExcelExportConverer.exportOrderList(mainOrders, orderInfoTOS);
+		orderInfoTOList.addAll(orderInfoTOS);
+		if(pageVOs.getPaginator().getPageSize()*pageVOs.getPaginator().getPage()<pageVOs.getPaginator().getTotalItems()) {
+			orderListQuery.setPageNo(pageVOs.getPaginator().getPage()+1);
+			return exportOrderList(orderListQuery, orderInfoTOList, mainOrderList);
+		} else {
+			return ExcelExportConverer.exportOrderList(mainOrderList, orderInfoTOList);
+		}
 	}
 
 	@Override
