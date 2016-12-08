@@ -51,15 +51,20 @@ public class ExcelExportConverer {
             bizOrderExportDomain.setBizOrderType(getStatusStr(subOrder.getOrderStatusStr(), subOrder.getOrderTypeStr()));
             bizOrderExportDomain.setDiscount(mainOrder.getValue());
             bizOrderExportDomain.setBizOrderTotalPrice(subOrder.getItemPrice_()*subOrder.getTcDetailOrder().getBizOrder().getBuyAmount());
-            try {
-                if(null==subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.ACTUAL_AMOUNT_PAID)) {
-                    bizOrderExportDomain.setRealCollection(Long.parseLong(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.SUB_ORDER_ACTUAL_FEE)));
-                } else {
-                    bizOrderExportDomain.setRealCollection(Long.parseLong(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.ACTUAL_AMOUNT_PAID)));
+            if(subOrder.getOrderStatusStr().equals("WAITING_PAY")||"CANCEL".equals(subOrder.getOrderStatusStr())) {
+                bizOrderExportDomain.setRealCollection(0);
+            } else {
+                try {
+                    if(null==subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.ACTUAL_AMOUNT_PAID)) {
+                        bizOrderExportDomain.setRealCollection(Long.parseLong(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.SUB_ORDER_ACTUAL_FEE)));
+                    } else {
+                        bizOrderExportDomain.setRealCollection(Long.parseLong(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.ACTUAL_AMOUNT_PAID)));
+                    }
+                } catch (NumberFormatException e) {
+                    bizOrderExportDomain.setRealCollection(subOrder.getTcDetailOrder().getBizOrder().getActualTotalFee());
                 }
-            } catch (NumberFormatException e) {
-                bizOrderExportDomain.setRealCollection(subOrder.getTcDetailOrder().getBizOrder().getActualTotalFee());
             }
+
             try {
                 bizOrderExportDomain.setPayScore(Long.parseLong(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.USE_POINT_NUM)));
             } catch (NumberFormatException e) {

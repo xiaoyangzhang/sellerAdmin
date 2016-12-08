@@ -1,6 +1,9 @@
 package com.yimayhd.sellerAdmin.util.excel.domain;
 
+import com.yimayhd.sellerAdmin.util.NumUtil;
+
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -225,8 +228,8 @@ public class BizOrderExportDomain implements Serializable{
         this.commodityId = commodityId;
     }
 
-    public double getUnitPrice() {
-        return unitPrice*0.01;
+    public String getUnitPrice() {
+        return NumUtil.moneyTransform(unitPrice);
     }
 
     public void setUnitPrice(long unitPrice) {
@@ -273,32 +276,32 @@ public class BizOrderExportDomain implements Serializable{
         this.bizOrderType = bizOrderType;
     }
 
-    public double getItemPrice() {
-        return itemPrice*0.01;
+    public String getItemPrice() {
+        return NumUtil.moneyTransform(itemPrice);
     }
 
     public void setItemPrice(long itemPrice) {
         this.itemPrice = itemPrice;
     }
 
-    public double getDiscount() {
-        return discount*0.01;
+    public String getDiscount() {
+        return NumUtil.moneyTransform(discount);
     }
 
     public void setDiscount(long discount) {
         this.discount = discount;
     }
 
-    public double getBizOrderTotalPrice() {
-        return bizOrderTotalPrice*0.01;
+    public String getBizOrderTotalPrice() {
+        return NumUtil.moneyTransform(bizOrderTotalPrice);
     }
 
     public void setBizOrderTotalPrice(long bizOrderTotalPrice) {
         this.bizOrderTotalPrice = bizOrderTotalPrice;
     }
 
-    public double getRealCollection() {
-        return realCollection*0.01;
+    public String getRealCollection() {
+        return NumUtil.moneyTransform(realCollection);
     }
 
     public void setRealCollection(long realCollection) {
