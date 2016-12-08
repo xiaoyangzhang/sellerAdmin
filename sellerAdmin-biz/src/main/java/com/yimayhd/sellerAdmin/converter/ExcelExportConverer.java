@@ -39,7 +39,7 @@ public class ExcelExportConverer {
             bizOrderExportDomain.setCommodityId(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getItemId());
             bizOrderExportDomain.setCommodityName(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getItemTitle());
             bizOrderExportDomain.setResourceName(getResourceNameStr(tcMainOrder,subOrder.getOrderTypeStr()));
-            bizOrderExportDomain.setUnitPrice(subOrder.getItemPrice_());
+            bizOrderExportDomain.setUnitPrice(subOrder.getTcDetailOrder().getItemPrice());
             bizOrderExportDomain.setItemNum(subOrder.getTcDetailOrder().getBizOrder().getBuyAmount());
             bizOrderExportDomain.setItemType(BizItemExportType.get(subOrder.getOrderTypeStr()).getShowText());
             if(null!=userDO) {
@@ -48,10 +48,9 @@ public class ExcelExportConverer {
             }
 
             bizOrderExportDomain.setBizOrderType(getStatusStr(subOrder.getOrderStatusStr(), subOrder.getOrderTypeStr()));
-            bizOrderExportDomain.setItemPrice(subOrder.getItemPrice_());
             bizOrderExportDomain.setDiscount(mainOrder.getValue());
-            bizOrderExportDomain.setBizOrderTotalPrice(subOrder.getSubOrderTotalFee());
-            bizOrderExportDomain.setRealCollection(subOrder.getSubOrderTotalFee());
+            bizOrderExportDomain.setBizOrderTotalPrice(subOrder.getItemPrice_());
+            bizOrderExportDomain.setRealCollection(subOrder.getTcDetailOrder().getBizOrder().getActualTotalFee());
             bizOrderExportDomain.setPayScore(mainOrder.getUserPointNum());
             bizOrderExportDomain.setBizOrderCreateTime(new Date(subOrder.getTcDetailOrder().getBizOrder().getCreateTime()));
             bizOrderExportDomain.setBizOrderPayTime(0==subOrder.getTcDetailOrder().getBizOrder().getPayTime()?null:new Date(subOrder.getTcDetailOrder().getBizOrder().getPayTime()));

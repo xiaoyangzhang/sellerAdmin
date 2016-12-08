@@ -209,7 +209,6 @@ public class OrderController extends BaseController {
 			headList.add(new BasicNameValuePair("buyerName", "买家昵称"));
 			headList.add(new BasicNameValuePair("buyerTel", "买家手机号"));
 			headList.add(new BasicNameValuePair("bizOrderType", "订单状态"));
-			headList.add(new BasicNameValuePair("itemPrice", "商品价格"));
 			headList.add(new BasicNameValuePair("discount", "已优惠"));
 			headList.add(new BasicNameValuePair("bizOrderTotalPrice", "订单总价"));
 			headList.add(new BasicNameValuePair("realCollection", "实收款"));
