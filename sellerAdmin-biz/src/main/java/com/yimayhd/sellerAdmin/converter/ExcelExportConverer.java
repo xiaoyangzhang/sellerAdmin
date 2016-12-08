@@ -6,6 +6,7 @@ import com.yimayhd.sellerAdmin.model.trade.SubOrder;
 import com.yimayhd.sellerAdmin.util.excel.domain.BizOrderExportDomain;
 import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
+import com.yimayhd.tradecenter.client.model.enums.BizOrderFeatureKey;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.tradecenter.client.model.result.order.metaq.OrderInfoTO;
 import com.yimayhd.user.client.domain.UserDO;
@@ -49,9 +50,13 @@ public class ExcelExportConverer {
 
             bizOrderExportDomain.setBizOrderType(getStatusStr(subOrder.getOrderStatusStr(), subOrder.getOrderTypeStr()));
             bizOrderExportDomain.setDiscount(mainOrder.getValue());
-            bizOrderExportDomain.setBizOrderTotalPrice(subOrder.getItemPrice_());
+            bizOrderExportDomain.setBizOrderTotalPrice(subOrder.getItemPrice_()*subOrder.getTcDetailOrder().getBizOrder().getBuyAmount());
             bizOrderExportDomain.setRealCollection(subOrder.getTcDetailOrder().getBizOrder().getActualTotalFee());
-            bizOrderExportDomain.setPayScore(mainOrder.getUserPointNum());
+            try {
+                bizOrderExportDomain.setPayScore(Long.parseLong(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.USE_POINT_NUM)));
+            } catch (NumberFormatException e) {
+                bizOrderExportDomain.setPayScore(0);
+            }
             bizOrderExportDomain.setBizOrderCreateTime(new Date(subOrder.getTcDetailOrder().getBizOrder().getCreateTime()));
             bizOrderExportDomain.setBizOrderPayTime(0==subOrder.getTcDetailOrder().getBizOrder().getPayTime()?null:new Date(subOrder.getTcDetailOrder().getBizOrder().getPayTime()));
             bizOrderExportDomain.setBuyerNotes(tcMainOrder.getOtherInfo());
