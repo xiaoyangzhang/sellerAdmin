@@ -64,6 +64,7 @@ public class PublishItemApiImpl implements PublishItemApi  {
 
 	@Override
 	public ItemApiResult getItemList(int appId, int domainId,
+<<<<<<< HEAD
 									 long deviceId, long userId, int versionCode,
 									 ItemQueryParam itemQueryParam) {
 		log.info("params:userId={},ItemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
@@ -72,6 +73,12 @@ public class PublishItemApiImpl implements PublishItemApi  {
 			DubboExtProperty.setErrorCode(SellerReturnCode.NO_AUTHORITY_ERROR);
 			return null;
 		}
+=======
+			long deviceId, long userId, int versionCode,
+			 ItemQueryParam itemQueryParam) {
+		log.info("params:userId={},ItemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
+		boolean checkResult = checkWhiteList(appId,domainId,deviceId,userId,versionCode);
+>>>>>>> master
 		if (userId <= 0 || itemQueryParam == null || itemQueryParam.pageNo <= 0 || itemQueryParam.pageSize <= 0) {
 			log.error("params:userId={},itemQueryParam={}",userId,JSON.toJSONString(itemQueryParam));
 			DubboExtProperty.setErrorCode(SellerReturnCode.PRAM_ERROR);
@@ -127,7 +134,11 @@ public class PublishItemApiImpl implements PublishItemApi  {
 
 	@Override
 	public boolean checkWhiteList(int appId, int domainId, long deviceId,
+<<<<<<< HEAD
 								  long userId, int versionCode) {
+=======
+			long userId, int versionCode) {
+>>>>>>> master
 		log.info("params:userId={}",userId);
 		if (userId <= 0 || domainId <= 0) {
 			log.error("params:userId={},domainId={}",userId,domainId);

@@ -106,7 +106,7 @@ public abstract class ExcelFactory {
     public static void exportExcel(HttpServletResponse response,String fileName, List<?> list,List<BasicNameValuePair> headList, boolean isMerge)throws Exception{
         response.setContentType("application/msexcel");
         OutputStream os = null;
-        String name = new String(fileName.getBytes("GBK"), "ISO8859_1");
+        String name = new String(fileName.getBytes("UTF-8"), "ISO8859_1");
         response.setHeader("Content-disposition", "attachment;filename=\"" + name + "\"");
         os = response.getOutputStream();
         getFactoryByFileName(fileName).list2Excel(os, list,headList, isMerge);
