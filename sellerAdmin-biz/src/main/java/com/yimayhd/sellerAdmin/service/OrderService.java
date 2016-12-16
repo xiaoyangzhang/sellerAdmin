@@ -13,9 +13,11 @@ import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
 import com.yimayhd.sellerAdmin.model.trade.JXComRateResult;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
+import com.yimayhd.sellerAdmin.util.excel.domain.BizOrderExportDomain;
 import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
 import com.yimayhd.tradecenter.client.model.param.order.UpdateBizOrderExtFeatureDTO;
 import com.yimayhd.tradecenter.client.model.result.order.TcSingleQueryResult;
+import com.yimayhd.tradecenter.client.model.result.order.metaq.OrderInfoTO;
 
 /**
  * 订单服务接口
@@ -39,6 +41,14 @@ public interface OrderService {
 	 * @throws Exception
 	 */
 	PageVO<MainOrder> getOrderList(OrderListQuery orderListQuery) throws Exception;
+
+	/**
+	 * 获取订单列表
+	 * @return
+	 * @throws Exception
+	 */
+	List<BizOrderExportDomain> exportOrderList(OrderListQuery orderListQuery, List<OrderInfoTO> orderInfoTOList, List<MainOrder> mainOrderList) throws Exception;
+
 
 
 	boolean buyerConfirmGoods(long id);

@@ -28,7 +28,7 @@
             <tr>
                 <td>$!item.bizOrderId</td>
                 <td>$!item.tradeFinishedTime</td>
-                <td>$!item.tradeAmountYuan</td>
+                <td>$!item.actualAmountYuan</td>
             </tr>
         	#end
         </table>

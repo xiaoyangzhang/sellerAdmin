@@ -7,14 +7,18 @@ import java.util.Map;
 
 import com.yimayhd.sellerAdmin.base.result.WebResult;
 import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.converter.ExcelExportConverer;
 import com.yimayhd.sellerAdmin.converter.OrderPriceConverter;
 import com.yimayhd.sellerAdmin.model.HotelManage.SupplierCalendarTemplate;
 import com.yimayhd.sellerAdmin.model.order.OrderPriceJsonTemplate;
 import com.yimayhd.sellerAdmin.model.order.OrderPriceQuery;
 import com.yimayhd.sellerAdmin.model.order.OrderPrizeDTO;
+import com.yimayhd.sellerAdmin.model.trade.SubOrder;
 import com.yimayhd.sellerAdmin.repo.TcTradeServiceRepo;
+import com.yimayhd.sellerAdmin.util.excel.domain.BizOrderExportDomain;
 import com.yimayhd.tradecenter.client.model.param.order.*;
 import com.yimayhd.tradecenter.client.model.result.order.*;
+import com.yimayhd.tradecenter.client.model.result.order.metaq.OrderInfoTO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -224,6 +228,29 @@ public class OrderServiceImpl implements OrderService {
 			return orderPageVO;
 		}
 
+	}
+
+	@Override
+	public List<BizOrderExportDomain> exportOrderList(OrderListQuery orderListQuery, List<OrderInfoTO> orderInfoTOList, List<MainOrder> mainOrderList) throws Exception {
+		PageVO<MainOrder> pageVOs =  getOrderList(orderListQuery);
+		List<MainOrder> mainOrders = pageVOs.getResultList();
+		mainOrderList.addAll(mainOrders);
+		List<Long> bizIds = new ArrayList<>();
+		for (MainOrder mainOrder : mainOrders) {
+			for (SubOrder subOrder : mainOrder.getSubOrderList()) {
+				bizIds.add(subOrder.getTcDetailOrder().getBizOrder().getBizOrderId());
+			}
+		}
+		OrderQueryOption orderQueryOption = new OrderQueryOption();
+		orderQueryOption.setAll();
+		List<OrderInfoTO> orderInfoTOS = tcTradeServiceRepo.getOrderInfo(bizIds, orderQueryOption);
+		orderInfoTOList.addAll(orderInfoTOS);
+		if(pageVOs.getPaginator().getPageSize()*pageVOs.getPaginator().getPage()<pageVOs.getPaginator().getTotalItems()) {
+			orderListQuery.setPageNo(pageVOs.getPaginator().getPage()+1);
+			return exportOrderList(orderListQuery, orderInfoTOList, mainOrderList);
+		} else {
+			return ExcelExportConverer.exportOrderList(mainOrderList, orderInfoTOList);
+		}
 	}
 
 	@Override

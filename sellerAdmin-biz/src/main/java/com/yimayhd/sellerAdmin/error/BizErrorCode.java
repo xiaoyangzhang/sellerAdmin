@@ -1,5 +1,7 @@
 package com.yimayhd.sellerAdmin.error;
 
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 /**
  * 业务异常
  * 
@@ -7,7 +9,9 @@ package com.yimayhd.sellerAdmin.error;
  *
  */
 public enum BizErrorCode {
-	ParametersValidateError(1,"参数验证失败");
+	ParametersValidateError(1,"参数验证失败"),
+	PARAMS_NO_FULL(2,"参数不完整"),
+	SYSTEM_ERROR(999,"系统错误");
 	private int code;
 	private String msg;
 
