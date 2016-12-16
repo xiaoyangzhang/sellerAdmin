@@ -313,8 +313,9 @@ public class LineController extends BaseLineController {
 			}
 		}
 		if (map.keySet().size()==0){
+			/**特殊情况:只有一个套餐时,删除套餐,再次新增.原有历史套餐sukuid应该全部清除掉,即原skuid 与0(新增skuid=0)对比*/
 			log.info("priceInfoVO 没有可处理数据");
-			return null;
+			return new HashMap<Long,String>();
 		}
 		return map;
 	}
