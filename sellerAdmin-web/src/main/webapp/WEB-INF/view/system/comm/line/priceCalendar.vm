@@ -18,7 +18,7 @@
         </div>
         <div class="mt20 tc-tab-content">
             <label class="label">套餐名称：</label>
-            <input type="text" class="inputxt tc-name" placeholder="0">
+            <input type="text" class="inputxt tc-name" placeholder="0" maxlength="20">
             <div class="clearfix datepicker mt20">
                 <input type="hidden" class="rds" value="120">
                 <table class="fl">
