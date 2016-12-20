@@ -135,7 +135,6 @@ $(".save").click(function(){
 	};
 	var uuid = $("#uuid").val();
     var url = "$!{utilWebconfig.getActionDefaultFontPath()}/line/save?uuid="+uuid;
-    $(".save").text('提交中...').prop('disabled',true);
     $.post(url,params,function(data){
 		if(data.success) {
 			layer.alert('保存成功', {
