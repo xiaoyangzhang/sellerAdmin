@@ -129,15 +129,20 @@
             <div class="contacts">
                 <div>物流信息</div>
                 <table class="table table-hover">
-                    <tr>
-                        <td>物流公司：</td>
-                       #* <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.expressCompany</td>*#
-                        <td>$!order.mainOrder.expressCompanyName</td>
-                    </tr>
-                    <tr>
-                        <td>运单编号：</td>
-                        <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.expressNo</td>
-                    </tr>
+	                <tr>
+	                    <td>包裹号</td>
+	                    <td>商品</td>
+	                    <td>物流公司</td>
+	                    <td>物流编号</td>
+	                </tr>
+                	#foreach($!ec in $!order.mainOrder.tcMainOrder.packLgDetailList)
+	                	<tr>
+	                        <td>包裹$!velocityCount</td>
+	                        <td>$!ec.itemTitle</td>
+	                        <td>$!ec.expressCompany</td>
+	                        <td>$!ec.expressNo</td>
+	                    </tr>
+                	#end
                 </table>
             </div>
             <br><br>
@@ -244,6 +249,13 @@
                             #elseif($!order.mainOrder.orderTypeStr == 'HOTEL' || $!order.mainOrder.orderTypeStr == 'HOTEL_OFFLINE')
                                 #ORDER_BIZ_STATUS_HOTEL($order.mainOrder.orderStatusStr)
                             #end
+                        </div>
+                        <div class="">
+                        	 #if($subOrder.orderStatusStr == 'FINISH')
+                                    <button type="button" class="btn btn-mini btn-link assessment"
+                                          data-target="#affirmModal" orderId="$!subOrder.bizOrderId">查看评价
+                                    </button>
+                             #end
                         </div>
                     </td>
                 </tr>

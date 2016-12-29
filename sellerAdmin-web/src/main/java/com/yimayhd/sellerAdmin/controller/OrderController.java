@@ -7,32 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.alibaba.fastjson.JSON;
-import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
-import com.yimayhd.sellerAdmin.base.result.WebResult;
-import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
-import com.yimayhd.sellerAdmin.client.model.reply.ReplyQuery;
-import com.yimayhd.sellerAdmin.client.model.reply.ReplyVO;
-import com.yimayhd.sellerAdmin.client.result.SellerResult;
-import com.yimayhd.sellerAdmin.client.service.AppraiseMessageReplyService;
-import com.yimayhd.sellerAdmin.constant.Constant;
-import com.yimayhd.sellerAdmin.converter.ExcelExportConverer;
-import com.yimayhd.sellerAdmin.exception.NoticeException;
-import com.yimayhd.sellerAdmin.model.BizOrderVO;
-import com.yimayhd.sellerAdmin.model.OrderListVO;
-import com.yimayhd.sellerAdmin.model.order.OrderPriceQuery;
-import com.yimayhd.sellerAdmin.model.order.OrderPrizeDTO;
-import com.yimayhd.sellerAdmin.model.query.TradeListQuery;
-import com.yimayhd.sellerAdmin.util.excel.JxlFor2003;
-import com.yimayhd.sellerAdmin.util.excel.domain.BizOrderExportDomain;
-import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
-import com.yimayhd.tradecenter.client.model.result.order.metaq.OrderInfoTO;
-
 import org.apache.commons.collections.CollectionUtils;
-
-import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
-import com.yimayhd.sellerAdmin.util.StringUtil;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
@@ -45,30 +20,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
 import com.yimayhd.sellerAdmin.base.BaseController;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.ResponseVo;
+import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.base.result.WebReturnCode;
+import com.yimayhd.sellerAdmin.client.model.reply.ReplyQuery;
+import com.yimayhd.sellerAdmin.client.model.reply.ReplyVO;
+import com.yimayhd.sellerAdmin.client.result.SellerResult;
+import com.yimayhd.sellerAdmin.client.service.AppraiseMessageReplyService;
+import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.constant.ResponseStatus;
-import com.yimayhd.sellerAdmin.enums.BizItemType;
 import com.yimayhd.sellerAdmin.enums.OrderSearchType;
+import com.yimayhd.sellerAdmin.model.OrderListVO;
+import com.yimayhd.sellerAdmin.model.order.OrderPriceQuery;
+import com.yimayhd.sellerAdmin.model.order.OrderPrizeDTO;
 import com.yimayhd.sellerAdmin.model.query.AssessmentListQuery;
 import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
 import com.yimayhd.sellerAdmin.model.trade.JXComRateResult;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
 import com.yimayhd.sellerAdmin.service.OrderService;
+import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
 import com.yimayhd.sellerAdmin.util.DateUtil;
-import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
-import com.yimayhd.tradecenter.client.model.enums.BizOrderExtFeatureKey;
+import com.yimayhd.sellerAdmin.util.StringUtil;
+import com.yimayhd.sellerAdmin.util.excel.JxlFor2003;
+import com.yimayhd.sellerAdmin.util.excel.domain.BizOrderExportDomain;
 import com.yimayhd.tradecenter.client.model.enums.FinishOrderSource;
-import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
+import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
 import com.yimayhd.tradecenter.client.model.param.order.SellerBatchSendGoodsDTO;
 import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
-import com.yimayhd.tradecenter.client.model.param.order.UpdateBizOrderExtFeatureDTO;
-import com.yimayhd.tradecenter.client.model.result.ResultSupport;
 import com.yimayhd.tradecenter.client.model.result.order.TcSingleQueryResult;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
-import com.yimayhd.tradecenter.client.service.trade.TcTradeService;
+import com.yimayhd.tradecenter.client.model.result.order.metaq.OrderInfoTO;
 
 
 /**

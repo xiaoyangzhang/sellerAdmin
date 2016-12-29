@@ -4,13 +4,16 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.yimayhd.commentcenter.client.dto.RatePageListDTO;
 import com.yimayhd.commentcenter.client.result.ComRateResult;
 import com.yimayhd.ic.client.model.enums.PropertyType;
+import com.yimayhd.lgcenter.client.domain.ExpressVO;
 import com.yimayhd.sellerAdmin.constant.Constant;
 import com.yimayhd.sellerAdmin.enums.ExpressCompanyEnum;
 import com.yimayhd.sellerAdmin.util.MatcherUtil;
+import com.yimayhd.tradecenter.client.model.result.order.PackLgDetailResult;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
@@ -188,6 +191,11 @@ public class OrderConverter {
         return orderQueryDTO;
     }
 
+    public static MainOrder mainOrderPackageConverter(MainOrder mainOrder,List<PackLgDetailResult> packLgDetailList){
+    	mainOrder.getTcMainOrder().setPackLgDetailList(packLgDetailList);
+    	return mainOrder;
+    }
+    
     public static MainOrder mainOrderStatusConverter(MainOrder mainOrder,TcMainOrder tcMainOrder) {
         TcBizOrder tcBizOrder = tcMainOrder.getBizOrder();
 

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.pocrd.dubboext.DubboExtProperty;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,8 @@ import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
+import com.yimayhd.lgcenter.client.domain.ExpressVO;
+import com.yimayhd.lgcenter.client.query.ExpressQuery;
 import com.yimayhd.lgcenter.client.service.LgService;
 import com.yimayhd.sellerAdmin.base.BaseException;
 import com.yimayhd.sellerAdmin.base.PageVO;
@@ -68,6 +72,8 @@ import com.yimayhd.tradecenter.client.model.result.ResultSupport;
 import com.yimayhd.tradecenter.client.model.result.order.BatchBizQueryResult;
 import com.yimayhd.tradecenter.client.model.result.order.BuyerConfirmGoodsResult;
 import com.yimayhd.tradecenter.client.model.result.order.OrderChangePriceResult;
+import com.yimayhd.tradecenter.client.model.result.order.PackLgDetailResult;
+import com.yimayhd.tradecenter.client.model.result.order.PackLgResult;
 import com.yimayhd.tradecenter.client.model.result.order.SellerConfirmCheckInResult;
 import com.yimayhd.tradecenter.client.model.result.order.SellerSendGoodsResult;
 import com.yimayhd.tradecenter.client.model.result.order.SingleQueryResult;
@@ -75,6 +81,7 @@ import com.yimayhd.tradecenter.client.model.result.order.TcSingleQueryResult;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.tradecenter.client.model.result.order.metaq.OrderInfoTO;
+import com.yimayhd.tradecenter.client.service.serve.TcPackageService;
 import com.yimayhd.tradecenter.client.service.trade.TcBizQueryService;
 import com.yimayhd.tradecenter.client.service.trade.TcQueryService;
 import com.yimayhd.tradecenter.client.service.trade.TcTradeService;
@@ -99,6 +106,8 @@ public class OrderServiceImpl implements OrderService {
 	private UserService userServiceRef;
 	@Autowired
 	private TcBizQueryService tcBizQueryServiceRef;
+	@Autowired
+	private TcPackageService tcPackageService;
 	@Autowired
 	private ComRateService comRateServiceRef;
 	@Autowired
@@ -246,10 +255,20 @@ public class OrderServiceImpl implements OrderService {
 			TcSingleQueryResult tcSingleQueryResult = tcBizQueryServiceRef.querySingle(id, orderQueryOption);
 			// log.error("--------------------"+JSON.toJSONString(tcSingleQueryResult));
 			if (tcSingleQueryResult.isSuccess()) {
+				
+				//查询包裹信息
+			    PackLgResult packLgResult = tcPackageService.selectPackageListByOrderId(id);
+			    if( packLgResult == null 
+			    		|| !packLgResult.isSuccess() 
+			    		|| CollectionUtils.isEmpty(packLgResult.getPackLgDetailList()) ){
+			    	return null;
+			    }
 				OrderDetails orderDetails = new OrderDetails();
 				TcMainOrder tcMainOrder = tcSingleQueryResult.getTcMainOrder();
 				MainOrder mainOrder = OrderConverter.orderVOConverter(tcMainOrder);
 				mainOrder = OrderConverter.mainOrderStatusConverter(mainOrder, tcMainOrder);
+				//物流包裹信息
+				mainOrder = OrderConverter.mainOrderPackageConverter(mainOrder,packLgResult.getPackLgDetailList());
 				// 添加主订单原价
 				mainOrder.setItemPrice_(BizOrderUtil.getMainOrderTotalFee(tcSingleQueryResult.getTcMainOrder().getBizOrder().getBizOrderDO()));
 				// 获取优惠劵优惠金额

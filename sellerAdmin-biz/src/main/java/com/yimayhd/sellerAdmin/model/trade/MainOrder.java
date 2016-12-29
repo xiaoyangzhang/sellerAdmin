@@ -49,7 +49,7 @@ public class MainOrder {
 
     private long mainOrderTotalChangeFee;//异常流订单实付金额
 
-
+    
 
 	public int getOrderType() {
 		return orderType;

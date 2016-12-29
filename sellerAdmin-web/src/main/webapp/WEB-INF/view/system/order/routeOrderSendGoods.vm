@@ -6,7 +6,7 @@
             <select id="choosewlId" style="width:300px">
                 <option value ="0">请选择</option>
                 #foreach($!ec in $!listExpress)
-                    <option value ="$!ec.tcCode">$!ec.name</option>
+                    <option value ="$!ec.name">$!ec.name</option>
                 #end
                 </select>
         </div>
