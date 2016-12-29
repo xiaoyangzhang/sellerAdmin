@@ -2,10 +2,10 @@ package com.yimayhd.sellerAdmin.service;
 
 import java.util.List;
 
-import com.yimayhd.commentcenter.client.result.ComRateResult;
 import com.yimayhd.lgcenter.client.domain.ExpressCodeRelationDO;
 import com.yimayhd.sellerAdmin.base.PageVO;
 import com.yimayhd.sellerAdmin.base.result.WebResult;
+import com.yimayhd.sellerAdmin.model.OrderListVO;
 import com.yimayhd.sellerAdmin.model.order.OrderPriceQuery;
 import com.yimayhd.sellerAdmin.model.order.OrderPrizeDTO;
 import com.yimayhd.sellerAdmin.model.query.AssessmentListQuery;
@@ -14,8 +14,9 @@ import com.yimayhd.sellerAdmin.model.trade.JXComRateResult;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
 import com.yimayhd.sellerAdmin.util.excel.domain.BizOrderExportDomain;
+import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
+import com.yimayhd.tradecenter.client.model.param.order.SellerBatchSendGoodsDTO;
 import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
-import com.yimayhd.tradecenter.client.model.param.order.UpdateBizOrderExtFeatureDTO;
 import com.yimayhd.tradecenter.client.model.result.order.TcSingleQueryResult;
 import com.yimayhd.tradecenter.client.model.result.order.metaq.OrderInfoTO;
 
@@ -35,6 +36,15 @@ public interface OrderService {
 	 */
 	OrderDetails getOrderById(long id) throws Exception;
 
+	
+	/**
+	 * 根据主订单id获取子订单列表
+	 * @parameter
+	 * @return
+	 * @throws
+	 */
+	List<OrderListVO> getOrderListByMainOrderId(long bizOrderId, OrderQueryOption orderQueryOption);
+	
 	/**
 	 * 获取订单列表
 	 * @return
@@ -90,6 +100,13 @@ public interface OrderService {
 	 */
 	boolean sendGoods(SellerSendGoodsDTO sg);
 	
+	/**
+	 * 批量发货
+	 * @parameter
+	 * @return
+	 * @throws
+	 */
+	boolean batchSendGoods(SellerBatchSendGoodsDTO sellerBatchSendGoodsDTO);
 	/**
 	 * 查看物流公司
 	 * @return

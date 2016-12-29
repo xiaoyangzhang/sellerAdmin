@@ -16,10 +16,10 @@ import com.yimayhd.sellerAdmin.client.model.reply.ReplyVO;
 import com.yimayhd.sellerAdmin.client.result.SellerResult;
 import com.yimayhd.sellerAdmin.client.service.AppraiseMessageReplyService;
 import com.yimayhd.sellerAdmin.constant.Constant;
-
 import com.yimayhd.sellerAdmin.converter.ExcelExportConverer;
 import com.yimayhd.sellerAdmin.exception.NoticeException;
 import com.yimayhd.sellerAdmin.model.BizOrderVO;
+import com.yimayhd.sellerAdmin.model.OrderListVO;
 import com.yimayhd.sellerAdmin.model.order.OrderPriceQuery;
 import com.yimayhd.sellerAdmin.model.order.OrderPrizeDTO;
 import com.yimayhd.sellerAdmin.model.query.TradeListQuery;
@@ -27,8 +27,12 @@ import com.yimayhd.sellerAdmin.util.excel.JxlFor2003;
 import com.yimayhd.sellerAdmin.util.excel.domain.BizOrderExportDomain;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryOption;
 import com.yimayhd.tradecenter.client.model.result.order.metaq.OrderInfoTO;
+
 import org.apache.commons.collections.CollectionUtils;
+
 import com.yimayhd.sellerAdmin.util.CommonJsonUtil;
+import com.yimayhd.sellerAdmin.util.StringUtil;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
@@ -54,9 +58,11 @@ import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.OrderDetails;
 import com.yimayhd.sellerAdmin.service.OrderService;
 import com.yimayhd.sellerAdmin.util.DateUtil;
+import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderExtFeatureKey;
 import com.yimayhd.tradecenter.client.model.enums.FinishOrderSource;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
+import com.yimayhd.tradecenter.client.model.param.order.SellerBatchSendGoodsDTO;
 import com.yimayhd.tradecenter.client.model.param.order.SellerSendGoodsDTO;
 import com.yimayhd.tradecenter.client.model.param.order.UpdateBizOrderExtFeatureDTO;
 import com.yimayhd.tradecenter.client.model.result.ResultSupport;
@@ -296,6 +302,49 @@ public class OrderController extends BaseController {
 		return new ResponseVo(ResponseStatus.ERROR);
 		
 	}
+	
+	/**
+	 * 查询子订单列表
+	 * @param model
+	 * @param bizOrderId
+	 * @return
+	 */
+	@RequestMapping(value = "/sendGoodsList", method = RequestMethod.GET)
+	public String sendGoodsList(Model model,long bizOrderId){
+		if( bizOrderId <= 0 ){
+			return null;
+		}
+		OrderQueryOption opt = new OrderQueryOption();
+		opt.setNeedDetailOrder(true);
+		//获取子订单列表
+		List<OrderListVO> orderListByMainOrderId = orderService.getOrderListByMainOrderId(bizOrderId, opt);
+		
+		List<ExpressCodeRelationDO> list = orderService.selectAllExpressCode();//查询物流公司接口
+		List<ExpressCodeRelationDO> expressList = new ArrayList<ExpressCodeRelationDO>();
+		for (ExpressCodeRelationDO expressCodeRelationDO : list) {
+			if(expressCodeRelationDO.getName().contains("顺丰速运")){
+				expressList.add(expressCodeRelationDO);
+			}else if (expressCodeRelationDO.getName().contains("圆通")) {
+				expressList.add(expressCodeRelationDO);
+			}else if (expressCodeRelationDO.getName().contains("韵达快递")) {
+				expressList.add(expressCodeRelationDO);
+			}else if (expressCodeRelationDO.getName().contains("申通快递")) {
+				expressList.add(expressCodeRelationDO);
+			}else if (expressCodeRelationDO.getName().contains("中通快递")) {
+				expressList.add(expressCodeRelationDO);
+			}else if (expressCodeRelationDO.getName().contains("百世汇通")) {
+				expressList.add(expressCodeRelationDO);
+			}else if (expressCodeRelationDO.getName().equals("EMS")) {
+				expressList.add(expressCodeRelationDO);
+			}else if(expressCodeRelationDO.getName().equals("天天快递")){
+				expressList.add(expressCodeRelationDO);
+			}
+		}
+		model.addAttribute("expressList",expressList);
+		model.addAttribute("orderList",orderListByMainOrderId);
+		return "/system/order/sendGoodsList";
+	}
+	
 	/**
 	 * 查询物流公司
 	 * @param model
@@ -331,6 +380,55 @@ public class OrderController extends BaseController {
 		return "/system/order/routeOrderSendGoods";
 	}
 	
+	
+	/**
+	 * 批量发货
+	 * @param bizOrderId
+	 * @param expressCompany
+	 * @param expressNo
+	 * @return
+	 */
+	@RequestMapping(value = "/batchsendGoods", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo batchsendGoods(long mainOrderId, String bizOrderIds,String expressCompany,String expressNo){
+		if( mainOrderId <= 0 
+				|| StringUtils.isBlank(bizOrderIds) 
+				|| StringUtils.isEmpty(expressCompany) 
+				|| StringUtils.isEmpty(expressNo)){
+			return new ResponseVo(ResponseStatus.INVALID_DATA);
+		}
+		List<Long> bizOrderIdList = StringUtil.stringTOList(bizOrderIds);
+		if(CollectionUtils.isEmpty(bizOrderIdList)){
+			return new ResponseVo(ResponseStatus.INVALID_DATA);
+		}
+		try {
+			//权限校验
+			for(long bizeOrderId : bizOrderIdList){
+				TcSingleQueryResult result = orderService.searchOrderById(bizeOrderId);
+				if(result == null || !result.isSuccess() || null==result.getTcMainOrder()){
+					return new ResponseVo(ResponseStatus.NOT_FOUND);
+				}
+				TcBizOrder bizOrder = result.getTcMainOrder().getBizOrder();
+				if (null == bizOrder) {
+					return new ResponseVo(ResponseStatus.NOT_FOUND);
+				}
+				if(bizOrder.getSellerId() != sessionManager.getUserId()){
+					return new ResponseVo(ResponseStatus.PARAM_ERROR);
+				}
+			}
+			
+			SellerBatchSendGoodsDTO sellerBatchSendGoodsDTO = new SellerBatchSendGoodsDTO();
+			sellerBatchSendGoodsDTO.setMainOrderId(mainOrderId);
+			sellerBatchSendGoodsDTO.setExpressCompany(expressCompany);
+			sellerBatchSendGoodsDTO.setExpressNo(expressNo);
+			sellerBatchSendGoodsDTO.setBizOrderId(bizOrderIdList);
+			boolean flag = orderService.batchSendGoods(sellerBatchSendGoodsDTO);
+			return new ResponseVo(flag);
+		}catch(Exception e){
+			LOG.error("batchsendGoods is error !!! bizOrderIds={};expressCompany={};expressNo={}",bizOrderIds,expressCompany,expressNo);
+			return new ResponseVo(false);
+		}
+	}
 	/**
 	 * 发货
 	 * @param bizOrderId

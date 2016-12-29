@@ -472,7 +472,7 @@
                 shadeClose: true,
                 maxmin: true,
                 area: ['800px', '230px'],
-                content: '$!utilWebconfig.getActionDefaultFontPath()/order/sendGoodsSearch?bizOrderId='+bizOrderId,
+                content: '$!utilWebconfig.getActionDefaultFontPath()/order/sendGoodsList?bizOrderId='+bizOrderId,
                 yes: function(index){
 					var dilog_iframe = $($(".layui-layer-content iframe")[0].contentWindow.document);
 
@@ -490,9 +490,13 @@
                         layer.alert("物流单号由10-20位字母或数字组成");
                         return ;
 					}
-
-                    $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/order/sendGoods/',
-							{'bizOrderId':bizOrderId,'expressCompany':wlgs,'expressNo':wldh} ,function(data){
+					var mainOrderId = $(".sendGoods").attr("orderId");
+					var bizOrderIds=""; 
+					dilog_iframe.find("input[name='subChecked2']:checked").each(function(){ 
+						bizOrderIds+=$(this).val()+","; 
+					}) 
+                    $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/order/batchsendGoods/',
+							{'mainOrderId':mainOrderId,'bizOrderIds':bizOrderIds,'expressCompany':wlgs,'expressNo':wldh} ,function(data){
                         if(data.status == 200){
                             layer.msg('操作成功', {
 		        				icon : 1,

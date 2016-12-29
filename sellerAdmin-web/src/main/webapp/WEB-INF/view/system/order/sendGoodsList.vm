@@ -1,0 +1,43 @@
+
+<head>
+    <title>发货</title>
+</head>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/jquery.js" type="text/javascript"></script>
+#set($layout="layout/blank2.vm")
+    <div class="goods-item-box">
+        <ul>
+            <li>
+                <label>
+                    <input class="allChecked" type="checkbox" name="allChecked">全选
+                </label>
+            </li>
+             #foreach($!ec in $!orderList)
+            <li class="w50">
+              <input class="subChecked" name="subChecked2" value="$!ec.bizOrderId" type="checkbox" #if($!ec.orderStatus == 'SHIPPING') disabled="disabled" #end>
+              <label #if($!ec.orderStatus == 'SHIPPING') style="color:#CCCCCC" #end>
+                    $!ec.itemTitle
+              </label>
+              <label>
+               		#if($!ec.orderStatus == 'SHIPPING')<label #if($!ec.orderStatus == 'SHIPPING') style="color:#CCCCCC" #end>已发货</label>#end
+              </label>
+            </li>
+             #end
+            <li>物流公司：
+                 <select id="choosewlId" style="width:300px">
+                <option value ="0">请选择</option>
+                #foreach($!ec in $!expressList)
+                    <option value ="$!ec.tcCode">$!ec.name</option>
+                #end
+                </select>
+            </li>
+            <li>物流单号：
+                <input type="text" id="wldhId" value="" placeholder="10-20位字母或数字组成">
+            </li>
+        </ul>
+    </div>
+    <script>
+    //全选
+    $('.allChecked').click(function () {
+       $("input[name='subChecked2'][disabled != 'disabled']").prop('checked', $(this).prop('checked'));
+    })
+    </script>
