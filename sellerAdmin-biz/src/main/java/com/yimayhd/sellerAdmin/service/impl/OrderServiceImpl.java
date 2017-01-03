@@ -604,6 +604,18 @@ public class OrderServiceImpl implements OrderService {
 					}
 					orderList.add(orderListVO);
 				}
+			}else {
+				OrderListVO orderListVO = new OrderListVO();
+				orderListVO.setBizOrderId(orderDO.getBizOrderId());
+				orderListVO.setBuyerId(orderDO.getBuyerId());
+				orderListVO.setItemTitle(orderDO.getItemTitle());
+				orderListVO.setSellerId(orderDO.getSellerId());
+
+				BizOrderStatus bizOrder = BizOrderStatusConvert.getBizOrderStatus(LogisticsStatus.getByStatus(orderDO.getLogisticsStatus()), PayStatus.getByStatus(orderDO.getPayStatus()));
+				if (bizOrder != null) {
+					orderListVO.setOrderStatus(bizOrder.name());
+				}
+				orderList.add(orderListVO);
 			}
 		} catch (Exception e) {
 			log.error(" getOrderListByMainOrderId exception param={},{}", e, bizOrderId, JSON.toJSONString(orderQueryOption));
