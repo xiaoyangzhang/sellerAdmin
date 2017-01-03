@@ -259,8 +259,7 @@ public class OrderServiceImpl implements OrderService {
 				//查询包裹信息
 			    PackLgResult packLgResult = tcPackageService.selectPackageListByOrderId(id);
 			    if( packLgResult == null 
-			    		|| !packLgResult.isSuccess() 
-			    		|| CollectionUtils.isEmpty(packLgResult.getPackLgDetailList()) ){
+			    		|| !packLgResult.isSuccess() ){
 			    	return null;
 			    }
 				OrderDetails orderDetails = new OrderDetails();
