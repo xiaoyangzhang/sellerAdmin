@@ -618,11 +618,13 @@
            	 	超时自动收货
            	 #end
         </span>
-        <span>
-           	 <button type="button" class="btn btn-primary assessment"
-                	data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">查看评价
-        	 </button>
-        </span>
+	        #if($!order.mainOrder.orderTypeStr != 'NORMAL')
+		        <span>
+			         <button type="button" class="btn btn-primary assessment"
+			                	data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">查看评价
+			        </button>
+		        </span>
+	        #end
     #elseif($type == 'CANCEL')
         <span>
         	已取消;
@@ -675,11 +677,13 @@
         <span>
            	 完成时间：#if($!order.mainOrder.tcMainOrder.completionTime > 0)$!date.format('yyyy-MM-dd HH:mm:ss',$!order.mainOrder.tcMainOrder.completionTime)#end
         </span>
-        <span>
-           	 <button type="button" class="btn btn-primary assessment"
-                	data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">查看评价
-        	 </button>
-        </span>
+         #if($!order.mainOrder.tcMainOrder.orderTypeStr != 'NORMAL')
+	        <span>
+		         <button type="button" class="btn btn-primary assessment"
+		                	data-target="#affirmModal" orderId="$!order.mainOrder.tcMainOrder.bizOrder.bizOrderId">查看评价
+		         </button>
+	        </span>
+         #end
     #elseif($type == 'CANCEL')
         <span>
             	已取消;
