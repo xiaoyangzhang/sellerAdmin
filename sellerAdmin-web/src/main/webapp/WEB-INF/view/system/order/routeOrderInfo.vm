@@ -459,8 +459,13 @@
                             return ;
                         }
 
-                        $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/order/sendGoods/',
-                                {'bizOrderId':bizOrderId,'expressCompany':wlgs,'expressNo':wldh} ,function(data){
+						var mainOrderId = $(".sendGoods").attr("orderId");
+							var bizOrderIds=""; 
+							dilog_iframe.find("input[name='subChecked2']:checked").each(function(){ 
+								bizOrderIds+=$(this).val()+","; 
+						}) 
+                        $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/order/batchsendGoods/',
+                                {'mainOrderId':mainOrderId,'bizOrderIds':bizOrderIds,'expressCompany':wlgs,'expressNo':wldh} ,function(data){
                                     if(data.status == 200){
                                         layer.msg('操作成功', {
                                             icon : 1,

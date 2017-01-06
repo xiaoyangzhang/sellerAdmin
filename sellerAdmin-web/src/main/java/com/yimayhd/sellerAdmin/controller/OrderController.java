@@ -339,6 +339,12 @@ public class OrderController extends BaseController {
 	 */
 	@RequestMapping(value = "/sendGoodsSearch", method = RequestMethod.GET)
 	public String sendGoodsSearch(Model model,long bizOrderId){
+		
+		OrderQueryOption opt = new OrderQueryOption();
+		opt.setNeedDetailOrder(true);
+		//获取子订单列表
+		List<OrderListVO> orderListByMainOrderId = orderService.getOrderListByMainOrderId(bizOrderId, opt);
+		
 		List<ExpressCodeRelationDO> list = orderService.selectAllExpressCode();//查询物流公司接口
 		//log.info("sendGoodsSearch--:"+ JSON.toJSONString(list));
 		List<ExpressCodeRelationDO> list2 = new ArrayList<ExpressCodeRelationDO>();
@@ -361,7 +367,8 @@ public class OrderController extends BaseController {
 				list2.add(expressCodeRelationDO);
 			}
 		}
-		model.addAttribute("listExpress",list2);
+		model.addAttribute("orderList",orderListByMainOrderId);
+		model.addAttribute("expressList",list2);
 		model.addAttribute("bizOrderId",bizOrderId);
 		return "/system/order/routeOrderSendGoods";
 	}
