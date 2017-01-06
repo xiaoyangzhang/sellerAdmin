@@ -482,6 +482,15 @@
                     var wlgs= dilog_iframe.find("#choosewlId option:selected").val();
                     var wldh = dilog_iframe.find("#wldhId").val();
 
+					var mainOrderId = $(".sendGoods").attr("orderId");
+					var bizOrderIds=""; 
+					dilog_iframe.find("input[name='subChecked2']:checked").each(function(){ 
+						bizOrderIds+=$(this).val()+","; 
+					}) 
+					if("" == bizOrderIds || null == bizOrderIds ){
+					  layer.alert("请选择订单");
+                      return ;
+					}
 					if("" == wlgs || null == wlgs || "0"==wlgs){
                         layer.alert("请选择物流公司");
                         return ;
@@ -492,11 +501,7 @@
                         layer.alert("物流单号由10-20位字母或数字组成");
                         return ;
 					}
-					var mainOrderId = $(".sendGoods").attr("orderId");
-					var bizOrderIds=""; 
-					dilog_iframe.find("input[name='subChecked2']:checked").each(function(){ 
-						bizOrderIds+=$(this).val()+","; 
-					}) 
+					
                     $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/order/batchsendGoods/',
 							{'mainOrderId':mainOrderId,'bizOrderIds':bizOrderIds,'expressCompany':wlgs,'expressNo':wldh} ,function(data){
                         if(data.status == 200){

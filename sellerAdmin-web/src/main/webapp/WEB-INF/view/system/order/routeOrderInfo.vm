@@ -125,7 +125,7 @@
     <br><br>
 ##如果是特产商品并且是已发货、已完成，则显示发货信息
     #if($order.mainOrder.orderType == 200)
-        #if($order.mainOrder.orderStatus == 6 || $order.mainOrder.orderStatus == 10)
+      
             <div class="contacts">
                 <div>物流信息</div>
                 <table class="table table-hover">
@@ -146,7 +146,6 @@
                 </table>
             </div>
             <br><br>
-        #end
     #else
         <!-- 游客信息 -->
         <div class="turistInfo">
@@ -238,16 +237,16 @@
                     </td>
                     <td>
                         <div class="">
-                            #if($!order.mainOrder.orderTypeStr == 'TOUR_LINE' || $!order.mainOrder.orderTypeStr == 'FREE_LINE'
-                            || $!order.mainOrder.orderTypeStr == 'CITY_ACTIVITY'
-                            || $!order.mainOrder.orderTypeStr == 'TOUR_LINE_ABOARD' || $!order.mainOrder.orderTypeStr == 'FREE_LINE_ABOARD')
-                         		#ORDER_BIZ_STATUS_LINE($order.mainOrder.orderStatusStr)
-                         	#elseif($!order.mainOrder.orderTypeStr == 'NORMAL')
-                                #ORDER_BIZ_STATUS_NORMAL($order.mainOrder.orderStatusStr)
-                            #elseif($!order.mainOrder.orderTypeStr == 'SPOTS')
-                                #ORDER_BIZ_STATUS_SPOTS($order.mainOrder.orderStatusStr)
-                            #elseif($!order.mainOrder.orderTypeStr == 'HOTEL' || $!order.mainOrder.orderTypeStr == 'HOTEL_OFFLINE')
-                                #ORDER_BIZ_STATUS_HOTEL($order.mainOrder.orderStatusStr)
+                            #if($!subOrder.orderTypeStr == 'TOUR_LINE' || $!subOrder.orderTypeStr == 'FREE_LINE'
+                            || $!subOrder.orderTypeStr == 'CITY_ACTIVITY'
+                            || $!subOrder.orderTypeStr == 'TOUR_LINE_ABOARD' || $!subOrder.orderTypeStr == 'FREE_LINE_ABOARD')
+                         		#ORDER_BIZ_STATUS_LINE($subOrder.orderStatusStr)
+                         	#elseif($!subOrder.orderTypeStr == 'NORMAL')
+                                #ORDER_BIZ_STATUS_NORMAL($subOrder.orderStatusStr)
+                            #elseif($!subOrder.orderTypeStr == 'SPOTS')
+                                #ORDER_BIZ_STATUS_SPOTS($subOrder.orderStatusStr)
+                            #elseif($!subOrder.orderTypeStr == 'HOTEL' || $!subOrder.orderTypeStr == 'HOTEL_OFFLINE')
+                                #ORDER_BIZ_STATUS_HOTEL($subOrder.orderStatusStr)
                             #end
                         </div>
                         #if($!order.mainOrder.orderTypeStr == 'NORMAL')
@@ -452,6 +451,15 @@
                         var wlgs= dilog_iframe.find("#choosewlId option:selected").val();
                         var wldh = dilog_iframe.find("#wldhId").val();
 
+						var mainOrderId = $(".sendGoods").attr("orderId");
+							var bizOrderIds=""; 
+							dilog_iframe.find("input[name='subChecked2']:checked").each(function(){ 
+								bizOrderIds+=$(this).val()+","; 
+						}) 
+						if("" == bizOrderIds || null == bizOrderIds ){
+						  layer.alert("请选择订单");
+	                      return ;
+						}
                         if("" == wlgs || null == wlgs || "0"==wlgs){
                             layer.alert("请选择物流公司");
                             return ;
@@ -463,11 +471,6 @@
                             return ;
                         }
 
-						var mainOrderId = $(".sendGoods").attr("orderId");
-							var bizOrderIds=""; 
-							dilog_iframe.find("input[name='subChecked2']:checked").each(function(){ 
-								bizOrderIds+=$(this).val()+","; 
-						}) 
                         $.post('$!utilWebconfig.getActionDefaultFontPath()'+'/order/batchsendGoods/',
                                 {'mainOrderId':mainOrderId,'bizOrderIds':bizOrderIds,'expressCompany':wlgs,'expressNo':wldh} ,function(data){
                                     if(data.status == 200){

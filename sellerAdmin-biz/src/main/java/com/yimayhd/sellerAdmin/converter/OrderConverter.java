@@ -292,13 +292,14 @@ public class OrderConverter {
                 }
                 //订单状态str
 				for (BizOrderStatus bizOrderStatus : BizOrderStatus.values()) {
-		        	if(tcMainOrder.getBizOrder().getOrderStatus() == bizOrderStatus.getCode()){
+		        	if(tcDetailOrder.getBizOrder().getOrderStatus() == bizOrderStatus.getCode()){
 		        		subOrder.setOrderStatusStr(bizOrderStatus.name());
+		        		break;
 		        	}
 				}
 		        //订单类型str
 		        for (OrderBizType orderBizType : OrderBizType.values()) {
-		        	if(tcMainOrder.getBizOrder().getOrderType() == orderBizType.getBizType()){
+		        	if(tcDetailOrder.getBizOrder().getOrderType() == orderBizType.getBizType()){
 		        		subOrder.setOrderTypeStr(orderBizType.name());
 		        	}
 				}
