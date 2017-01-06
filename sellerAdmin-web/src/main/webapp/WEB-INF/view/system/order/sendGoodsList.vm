@@ -8,28 +8,32 @@
         <ul>
             <li>
                 <label>
-                    <input class="allChecked" type="checkbox" name="allChecked">全选
+                    <input class="allChecked" type="checkbox" name="allChecked">  全选
                 </label>
             </li>
+            <br/>
              #foreach($!ec in $!orderList)
-            <li class="w50">
-              <input class="subChecked" name="subChecked2" value="$!ec.bizOrderId" type="checkbox" #if($!ec.orderStatus == 'SHIPPING') disabled="disabled" #end>
-              <label #if($!ec.orderStatus == 'SHIPPING') style="color:#CCCCCC" #end>
-                    $!ec.itemTitle
-              </label>
-              <label>
-               		#if($!ec.orderStatus == 'SHIPPING')<label #if($!ec.orderStatus == 'SHIPPING') style="color:#CCCCCC" #end>已发货</label>#end
-              </label>
-            </li>
+	            <li class="w50">
+	              <input class="subChecked" name="subChecked2" value="$!ec.bizOrderId" type="checkbox" #if($!ec.orderStatus == 'SHIPPING') disabled="disabled" #end>
+	              <label #if($!ec.orderStatus == 'SHIPPING') style="color:#CCCCCC" #end>
+	                    $!ec.itemTitle
+	              </label>
+	              <label>
+	               		#if($!ec.orderStatus == 'SHIPPING')<label #if($!ec.orderStatus == 'SHIPPING') style="color:#CCCCCC" #end>已发货</label>#end
+	              </label>
+	            </li>
+             	<br/>
              #end
+            
             <li>物流公司：
-                 <select id="choosewlId" style="width:300px">
+                 <select id="choosewlId" style="width:173px">
                 <option value ="0">请选择</option>
                 #foreach($!ec in $!expressList)
                     <option value ="$!ec.tcCode">$!ec.name</option>
                 #end
                 </select>
             </li>
+            <br/>
             <li>物流单号：
                 <input type="text" id="wldhId" value="" placeholder="10-20位字母或数字组成">
             </li>
