@@ -87,25 +87,25 @@
     <!-- 联系人信息 -->
     <div class="contacts">
         #if($order.mainOrder.orderType == 200)
-            <div>收货人信息</div>
-            <table class="table table-hover">
-                <tr>
-                    <td>序号</td>
-                    <td>姓名</td>
-                    <td>手机号</td>
-                    <td>邮编</td>
-                    <td>所在地区</td>
-                    <td>详细地址</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.fullName</td>
-                    <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.mobilePhone</td>
-                    <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.post</td>
-                    <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.prov $!order.mainOrder.tcMainOrder.logisticsOrderDO.city $!order.mainOrder.tcMainOrder.logisticsOrderDO.area</td>
-                    <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.address</td>
-                </tr>
-            </table>
+	            <div>收货人信息</div>
+	            <table class="table table-hover">
+	                <tr>
+	                    <td>序号</td>
+	                    <td>姓名</td>
+	                    <td>手机号</td>
+	                    <td>邮编</td>
+	                    <td>所在地区</td>
+	                    <td>详细地址</td>
+	                </tr>
+	                <tr>
+	                    <td>1</td>
+	                    <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.fullName</td>
+	                    <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.mobilePhone</td>
+	                    <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.post</td>
+	                    <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.prov $!order.mainOrder.tcMainOrder.logisticsOrderDO.city $!order.mainOrder.tcMainOrder.logisticsOrderDO.area</td>
+	                    <td>$!order.mainOrder.tcMainOrder.logisticsOrderDO.address</td>
+	                </tr>
+	            </table>
         #else
             <div>联系人信息</div>
             <table class="table table-hover">
@@ -125,7 +125,7 @@
     <br><br>
 ##如果是特产商品并且是已发货、已完成，则显示发货信息
     #if($order.mainOrder.orderType == 200)
-      
+       #if($order.mainOrder.hasExpress == "AVAILABLE")
             <div class="contacts">
                 <div>物流信息</div>
                 <table class="table table-hover">
@@ -146,6 +146,7 @@
                 </table>
             </div>
             <br><br>
+        #end
     #else
         <!-- 游客信息 -->
         <div class="turistInfo">

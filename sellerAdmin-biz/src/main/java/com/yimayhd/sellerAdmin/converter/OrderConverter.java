@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.yimayhd.commentcenter.client.dto.RatePageListDTO;
+import com.yimayhd.commentcenter.client.enums.BaseStatus;
 import com.yimayhd.commentcenter.client.result.ComRateResult;
 import com.yimayhd.ic.client.model.enums.PropertyType;
 import com.yimayhd.sellerAdmin.constant.Constant;
@@ -178,6 +180,12 @@ public class OrderConverter {
     }
 
     public static MainOrder mainOrderPackageConverter(MainOrder mainOrder,List<PackLgDetailResult> packLgDetailList){
+    	//用来设置物流栏是否展示
+    	if( !CollectionUtils.isEmpty(packLgDetailList) ){
+    	 	mainOrder.setHasExpress(BaseStatus.AVAILABLE.name());
+    	}else {
+    		mainOrder.setHasExpress(BaseStatus.DELETED.name() );
+    	}
     	mainOrder.getTcMainOrder().setPackLgDetailList(packLgDetailList);
     	return mainOrder;
     }

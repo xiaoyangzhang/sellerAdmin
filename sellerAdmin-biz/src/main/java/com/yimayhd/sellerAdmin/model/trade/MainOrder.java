@@ -2,7 +2,6 @@ package com.yimayhd.sellerAdmin.model.trade;
 
 import java.util.List;
 
-import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.user.client.domain.UserDO;
@@ -49,7 +48,15 @@ public class MainOrder {
 
     private long mainOrderTotalChangeFee;//异常流订单实付金额
 
-    
+    private String hasExpress;//是否展示物流信息   YES:是    NO:否
+
+	public String getHasExpress() {
+		return hasExpress;
+	}
+
+	public void setHasExpress(String hasExpress) {
+		this.hasExpress = hasExpress;
+	}
 
 	public int getOrderType() {
 		return orderType;
