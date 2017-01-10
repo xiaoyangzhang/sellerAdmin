@@ -254,7 +254,7 @@
 	                        #if($!order.mainOrder.orderStatusStr == 'FINISH')
 		                        <div class="">
 		                                    <button type="button" class="btn btn-mini btn-link assessment"
-		                                          data-target="#affirmModal" orderId="$!subOrder.bizOrderId">查看评价
+		                                          data-target="#affirmModal" orderId="$subOrder.tcDetailOrder.bizOrder.bizOrderId">查看评价
 		                                    </button>
 		                        </div>
 	                         #end
