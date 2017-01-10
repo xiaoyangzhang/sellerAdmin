@@ -29,7 +29,7 @@
                  <select id="choosewlId" style="width:173px">
                 <option value ="0">请选择</option>
                 #foreach($!ec in $!expressList)
-                    <option value ="$!ec.tcCode">$!ec.name</option>
+                    <option value ="$!ec.name">$!ec.name</option>
                 #end
                 </select>
             </li>
