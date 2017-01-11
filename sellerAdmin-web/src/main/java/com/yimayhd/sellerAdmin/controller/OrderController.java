@@ -414,7 +414,7 @@ public class OrderController extends BaseController {
 			sellerBatchSendGoodsDTO.setMainOrderId(mainOrderId);
 			sellerBatchSendGoodsDTO.setExpressCompany(expressCompany);
 			sellerBatchSendGoodsDTO.setExpressNo(expressNo);
-			sellerBatchSendGoodsDTO.setBizOrderId(bizOrderIdList);
+			sellerBatchSendGoodsDTO.setBizOrderIds(bizOrderIdList);
 			boolean flag = orderService.batchSendGoods(sellerBatchSendGoodsDTO);
 			return new ResponseVo(flag);
 		}catch(Exception e){
