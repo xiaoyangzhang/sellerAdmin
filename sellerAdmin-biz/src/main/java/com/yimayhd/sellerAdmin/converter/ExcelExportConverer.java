@@ -116,6 +116,9 @@ public class ExcelExportConverer {
     
     private static String getStatusStr(String status, String itemType) {
 
+        if(status==null||itemType==null) {
+            return "";
+        }
         if(itemType.equals("TOUR_LINE") || itemType.equals("FREE_LINE")
                 || itemType.equals("CITY_ACTIVITY")
                 || itemType.equals("TOUR_LINE_ABOARD") || itemType.equals("FREE_LINE_ABOARD")) {
@@ -126,8 +129,9 @@ public class ExcelExportConverer {
             return BizJingQuStatusType.get(status).getText();
         } else if(itemType.equals("HOTEL")||itemType.equals("HOTEL_OFFLINE")) {
             return BizHotelStatusType.get(status).getText();
+        } else {
+            return "";
         }
-        return "";
     }
 
     private static String getResourceNameStr(TcMainOrder tcMainOrder, String itemType) {
