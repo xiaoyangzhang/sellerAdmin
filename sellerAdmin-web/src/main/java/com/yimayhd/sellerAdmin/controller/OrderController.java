@@ -418,7 +418,7 @@ public class OrderController extends BaseController {
 			boolean flag = orderService.batchSendGoods(sellerBatchSendGoodsDTO);
 			return new ResponseVo(flag);
 		}catch(Exception e){
-			LOG.error("batchsendGoods is error !!! bizOrderIds={};expressCompany={};expressNo={}",bizOrderIds,expressCompany,expressNo);
+			LOG.error("batchsendGoods is error !!! bizOrderIds={};expressCompany={};expressNo={}",e,bizOrderIds,expressCompany,expressNo);
 			return new ResponseVo(false);
 		}
 	}
