@@ -50,7 +50,7 @@ public class ExcelExportConverer {
             bizOrderExportDomain.setBizOrderType(subOrder.getOrderTypeStr()==null?"":getStatusStr(subOrder.getOrderStatusStr(), subOrder.getOrderTypeStr()));
             bizOrderExportDomain.setDiscount(mainOrder.getValue());
             bizOrderExportDomain.setBizOrderTotalPrice(subOrder.getItemPrice_()*subOrder.getTcDetailOrder().getBizOrder().getBuyAmount());
-            if(subOrder.getOrderStatusStr().equals("WAITING_PAY")||"CANCEL".equals(subOrder.getOrderStatusStr())) {
+            if(subOrder.getOrderStatusStr()!=null&&(subOrder.getOrderStatusStr().equals("WAITING_PAY")||"CANCEL".equals(subOrder.getOrderStatusStr()))) {
                 bizOrderExportDomain.setRealCollection(0);
             } else {
                 try {
