@@ -23,6 +23,7 @@ import com.yimayhd.sellerAdmin.model.trade.JXComRateResult;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.SubOrder;
 import com.yimayhd.sellerAdmin.util.DateUtil;
+import com.yimayhd.sellerAdmin.util.ExpressUtils;
 import com.yimayhd.sellerAdmin.util.MatcherUtil;
 import com.yimayhd.tradecenter.client.model.domain.order.SkuInfo;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderStatus;
@@ -185,6 +186,18 @@ public class OrderConverter {
     	 	mainOrder.setHasExpress(BaseStatus.AVAILABLE.name());
     	}else {
     		mainOrder.setHasExpress(BaseStatus.DELETED.name() );
+    	}
+    	List<PackLgDetailResult> packLgDetail = new ArrayList<PackLgDetailResult>();
+    	if(!CollectionUtils.isEmpty(packLgDetailList)){
+    		for(PackLgDetailResult packLgDetailResult : packLgDetailList){
+    			String expressNameByCode = ExpressUtils.getExpressNameByCode(packLgDetailResult.getExpressCompany());
+    			if(!StringUtils.isBlank(expressNameByCode)){
+    				packLgDetailResult.setExpressCompany(expressNameByCode);
+    			}else {
+    				packLgDetailResult.setExpressCompany(packLgDetailResult.getExpressCompany());
+    			}
+    			packLgDetail.add(packLgDetailResult);
+    		}
     	}
     	mainOrder.getTcMainOrder().setPackLgDetailList(packLgDetailList);
     	return mainOrder;

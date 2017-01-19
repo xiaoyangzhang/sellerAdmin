@@ -309,20 +309,28 @@ public class OrderController extends BaseController {
 		List<ExpressCodeRelationDO> expressList = new ArrayList<ExpressCodeRelationDO>();
 		for (ExpressCodeRelationDO expressCodeRelationDO : list) {
 			if(expressCodeRelationDO.getName().contains("顺丰速运")){
+				System.out.println("===========顺丰速运============="+ JSON.toJSONString(expressCodeRelationDO) + "=========================");
 				expressList.add(expressCodeRelationDO);
 			}else if (expressCodeRelationDO.getName().contains("圆通")) {
+				System.out.println("===========圆通============="+ JSON.toJSONString(expressCodeRelationDO) + "=========================");
 				expressList.add(expressCodeRelationDO);
 			}else if (expressCodeRelationDO.getName().contains("韵达快递")) {
+				System.out.println("===========韵达快递============="+ JSON.toJSONString(expressCodeRelationDO) + "=========================");
 				expressList.add(expressCodeRelationDO);
 			}else if (expressCodeRelationDO.getName().contains("申通快递")) {
+				System.out.println("===========申通快递============="+ JSON.toJSONString(expressCodeRelationDO) + "=========================");
 				expressList.add(expressCodeRelationDO);
 			}else if (expressCodeRelationDO.getName().contains("中通快递")) {
+				System.out.println("===========中通快递============="+ JSON.toJSONString(expressCodeRelationDO) + "=========================");
 				expressList.add(expressCodeRelationDO);
 			}else if (expressCodeRelationDO.getName().contains("百世汇通")) {
+				System.out.println("===========百世汇通============="+ JSON.toJSONString(expressCodeRelationDO) + "=========================");
 				expressList.add(expressCodeRelationDO);
 			}else if (expressCodeRelationDO.getName().equals("EMS")) {
+				System.out.println("===========EMS============="+ JSON.toJSONString(expressCodeRelationDO) + "=========================");
 				expressList.add(expressCodeRelationDO);
 			}else if(expressCodeRelationDO.getName().equals("天天快递")){
+				System.out.println("===========天天快递============="+ JSON.toJSONString(expressCodeRelationDO) + "=========================");
 				expressList.add(expressCodeRelationDO);
 			}
 		}
