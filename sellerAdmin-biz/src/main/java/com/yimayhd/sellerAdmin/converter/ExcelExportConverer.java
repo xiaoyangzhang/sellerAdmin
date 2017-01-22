@@ -65,7 +65,8 @@ public class ExcelExportConverer {
             }
 
             try {
-                bizOrderExportDomain.setPayScore(Long.parseLong(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.USE_POINT_NUM)));
+                String count = subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.USE_POINT_NUM)==null?mainOrder.getTcMainOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.USE_POINT_NUM):subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.USE_POINT_NUM);
+                bizOrderExportDomain.setPayScore(Long.parseLong(count));
             } catch (NumberFormatException e) {
                 bizOrderExportDomain.setPayScore(0);
             }
