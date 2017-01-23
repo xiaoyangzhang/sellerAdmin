@@ -12,7 +12,7 @@
               <property name="registry" ref="dubboRegistryConfig"/>
               <property name="protocol" ref="dubboProtocolConfig"/>
               <property name="version" value="${export.dubbo.version}"/>
-              <property name="timeout" value="${export.dubbo.timeout}"/>
+              <property name="timeout" value="${consumer.dubbo.timeout}"/>
               <property name="retries" value="${dubbo.retries}"/>
 
        </bean>

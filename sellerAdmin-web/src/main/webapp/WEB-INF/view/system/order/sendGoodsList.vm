@@ -1,3 +1,4 @@
+
 <head>
     <title>发货</title>
 </head>
@@ -21,8 +22,9 @@
 	               		#if($!ec.orderStatus == 'SHIPPING')<label #if($!ec.orderStatus == 'SHIPPING') style="color:#CCCCCC" #end>已发货</label>#end
 	              </label>
 	            </li>
-           	 <br/>
+             	<br/>
              #end
+            
             <li>物流公司：
                  <select id="choosewlId" style="width:173px">
                 <option value ="0">请选择</option>

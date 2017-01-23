@@ -47,10 +47,10 @@ public class ExcelExportConverer {
                 bizOrderExportDomain.setBuyerTel(userDO.getUnmaskMobile());
             }
 
-            bizOrderExportDomain.setBizOrderType(getStatusStr(subOrder.getOrderStatusStr(), subOrder.getOrderTypeStr()));
+            bizOrderExportDomain.setBizOrderType(subOrder.getOrderTypeStr()==null?"":getStatusStr(subOrder.getOrderStatusStr(), subOrder.getOrderTypeStr()));
             bizOrderExportDomain.setDiscount(mainOrder.getValue());
             bizOrderExportDomain.setBizOrderTotalPrice(subOrder.getItemPrice_()*subOrder.getTcDetailOrder().getBizOrder().getBuyAmount());
-            if(subOrder.getOrderStatusStr().equals("WAITING_PAY")||"CANCEL".equals(subOrder.getOrderStatusStr())) {
+            if(subOrder.getOrderStatusStr()!=null&&(subOrder.getOrderStatusStr().equals("WAITING_PAY")||"CANCEL".equals(subOrder.getOrderStatusStr()))) {
                 bizOrderExportDomain.setRealCollection(0);
             } else {
                 try {
@@ -65,7 +65,8 @@ public class ExcelExportConverer {
             }
 
             try {
-                bizOrderExportDomain.setPayScore(Long.parseLong(subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.USE_POINT_NUM)));
+                String count = subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.USE_POINT_NUM)==null?mainOrder.getTcMainOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.USE_POINT_NUM):subOrder.getTcDetailOrder().getBizOrder().getBizOrderDO().getFeature(BizOrderFeatureKey.USE_POINT_NUM);
+                bizOrderExportDomain.setPayScore(Long.parseLong(count));
             } catch (NumberFormatException e) {
                 bizOrderExportDomain.setPayScore(0);
             }
@@ -116,6 +117,9 @@ public class ExcelExportConverer {
     
     private static String getStatusStr(String status, String itemType) {
 
+        if(status==null||itemType==null) {
+            return "";
+        }
         if(itemType.equals("TOUR_LINE") || itemType.equals("FREE_LINE")
                 || itemType.equals("CITY_ACTIVITY")
                 || itemType.equals("TOUR_LINE_ABOARD") || itemType.equals("FREE_LINE_ABOARD")) {
@@ -126,8 +130,9 @@ public class ExcelExportConverer {
             return BizJingQuStatusType.get(status).getText();
         } else if(itemType.equals("HOTEL")||itemType.equals("HOTEL_OFFLINE")) {
             return BizHotelStatusType.get(status).getText();
+        } else {
+            return "";
         }
-        return "";
     }
 
     private static String getResourceNameStr(TcMainOrder tcMainOrder, String itemType) {

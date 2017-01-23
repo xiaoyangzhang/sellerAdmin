@@ -5,46 +5,38 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.yimayhd.commentcenter.client.dto.RatePageListDTO;
-import com.yimayhd.commentcenter.client.result.ComRateResult;
-import com.yimayhd.ic.client.model.enums.PropertyType;
-import com.yimayhd.sellerAdmin.constant.Constant;
-import com.yimayhd.sellerAdmin.enums.ExpressCompanyEnum;
-import com.yimayhd.sellerAdmin.util.MatcherUtil;
-import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
-import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
-import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
-import com.yimayhd.tradecenter.client.util.SkuUtils;
-
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
 
-import com.yimayhd.sellerAdmin.base.BaseException;
-import com.yimayhd.sellerAdmin.model.enums.OrderActionStatus;
-import com.yimayhd.sellerAdmin.model.enums.OrderShowStatus;
+import com.yimayhd.commentcenter.client.dto.RatePageListDTO;
+import com.yimayhd.commentcenter.client.enums.BaseStatus;
+import com.yimayhd.commentcenter.client.result.ComRateResult;
+import com.yimayhd.ic.client.model.enums.PropertyType;
+import com.yimayhd.sellerAdmin.constant.Constant;
+import com.yimayhd.sellerAdmin.enums.ExpressCompanyEnum;
 import com.yimayhd.sellerAdmin.model.query.AssessmentListQuery;
 import com.yimayhd.sellerAdmin.model.query.OrderListQuery;
 import com.yimayhd.sellerAdmin.model.trade.JXComRateResult;
 import com.yimayhd.sellerAdmin.model.trade.MainOrder;
 import com.yimayhd.sellerAdmin.model.trade.SubOrder;
-import com.yimayhd.sellerAdmin.util.DateFormat;
 import com.yimayhd.sellerAdmin.util.DateUtil;
-import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.sellerAdmin.util.ExpressUtils;
+import com.yimayhd.sellerAdmin.util.MatcherUtil;
 import com.yimayhd.tradecenter.client.model.domain.order.SkuInfo;
-import com.yimayhd.tradecenter.client.model.domain.order.SkuPropertyInfo;
 import com.yimayhd.tradecenter.client.model.enums.BizOrderStatus;
-import com.yimayhd.tradecenter.client.model.enums.LogisticsStatus;
 import com.yimayhd.tradecenter.client.model.enums.MainDetailStatus;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
-import com.yimayhd.tradecenter.client.model.enums.OrderStatus;
-import com.yimayhd.tradecenter.client.model.enums.PayStatus;
 import com.yimayhd.tradecenter.client.model.enums.RateStatus;
-import com.yimayhd.tradecenter.client.model.enums.RefundStatus;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
+import com.yimayhd.tradecenter.client.model.result.order.PackLgDetailResult;
+import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
+import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
+import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
+import com.yimayhd.tradecenter.client.util.SkuUtils;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.result.BaseResult;
 
@@ -188,6 +180,29 @@ public class OrderConverter {
         return orderQueryDTO;
     }
 
+    public static MainOrder mainOrderPackageConverter(MainOrder mainOrder,List<PackLgDetailResult> packLgDetailList){
+    	//用来设置物流栏是否展示
+    	if( !CollectionUtils.isEmpty(packLgDetailList) ){
+    	 	mainOrder.setHasExpress(BaseStatus.AVAILABLE.name());
+    	}else {
+    		mainOrder.setHasExpress(BaseStatus.DELETED.name() );
+    	}
+    	List<PackLgDetailResult> packLgDetail = new ArrayList<PackLgDetailResult>();
+    	if(!CollectionUtils.isEmpty(packLgDetailList)){
+    		for(PackLgDetailResult packLgDetailResult : packLgDetailList){
+    			String expressNameByCode = ExpressUtils.getExpressNameByCode(packLgDetailResult.getExpressCompany());
+    			if(!StringUtils.isBlank(expressNameByCode)){
+    				packLgDetailResult.setExpressCompany(expressNameByCode);
+    			}else {
+    				packLgDetailResult.setExpressCompany(packLgDetailResult.getExpressCompany());
+    			}
+    			packLgDetail.add(packLgDetailResult);
+    		}
+    	}
+    	mainOrder.getTcMainOrder().setPackLgDetailList(packLgDetailList);
+    	return mainOrder;
+    }
+    
     public static MainOrder mainOrderStatusConverter(MainOrder mainOrder,TcMainOrder tcMainOrder) {
         TcBizOrder tcBizOrder = tcMainOrder.getBizOrder();
 
@@ -298,13 +313,14 @@ public class OrderConverter {
                 }
                 //订单状态str
 				for (BizOrderStatus bizOrderStatus : BizOrderStatus.values()) {
-		        	if(tcMainOrder.getBizOrder().getOrderStatus() == bizOrderStatus.getCode()){
+		        	if(tcDetailOrder.getBizOrder().getOrderStatus() == bizOrderStatus.getCode()){
 		        		subOrder.setOrderStatusStr(bizOrderStatus.name());
+		        		break;
 		        	}
 				}
 		        //订单类型str
 		        for (OrderBizType orderBizType : OrderBizType.values()) {
-		        	if(tcMainOrder.getBizOrder().getOrderType() == orderBizType.getBizType()){
+		        	if(tcDetailOrder.getBizOrder().getOrderType() == orderBizType.getBizType()){
 		        		subOrder.setOrderTypeStr(orderBizType.name());
 		        	}
 				}
